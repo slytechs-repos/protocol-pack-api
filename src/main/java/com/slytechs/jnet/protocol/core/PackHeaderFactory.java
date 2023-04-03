@@ -1,0 +1,94 @@
+/*
+ * Sly Technologies Free License
+ * 
+ * Copyright 2023 Sly Technologies Inc.
+ *
+ * Licensed under the Sly Technologies Free License (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.slytechs.com/free-license-text
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+package com.slytechs.jnet.protocol.core;
+
+import static com.slytechs.jnet.protocol.HeaderId.*;
+
+import com.slytechs.jnet.protocol.HeaderInfo;
+import com.slytechs.jnet.protocol.HeaderId;
+import com.slytechs.jnet.protocol.constants.CoreHeaderInfo;
+import com.slytechs.jnet.protocol.constants.PackInfo;
+import com.slytechs.jnet.protocol.packet.Header;
+import com.slytechs.jnet.protocol.packet.HeaderFactory;
+
+/**
+ * @author Sly Technologies Inc
+ * @author repos@slytechs.com
+ * @author Mark Bednarczyk
+ *
+ */
+public class PackHeaderFactory implements HeaderFactory {
+
+	private static class LazySupplier {
+		private static final LazySupplier EMPTY = new LazySupplier(null) {
+
+			/**
+			 * @see com.slytechs.jnet.protocol.packet.PackHeaderFactory.LazySupplier#get()
+			 */
+			@Override
+			Header get() {
+				return null;
+			}
+
+		};
+
+		private Header allocatedHeader;
+		private final HeaderInfo info;
+
+		LazySupplier(HeaderInfo info) {
+			this.info = info;
+		}
+
+		Header get() {
+			if (allocatedHeader == null)
+				this.allocatedHeader = info.newHeaderInstance();
+
+			return allocatedHeader;
+		}
+
+	}
+
+	private static final LazySupplier[] table = new LazySupplier[PROTO_MAX_ORDINALS];
+
+	static {
+
+		/* Initialize entire table even for out of range values for quick lookups */
+		for (int i = 0; i < table.length; i++)
+			table[i] = LazySupplier.EMPTY;
+
+		CoreHeaderInfo[] core = CoreHeaderInfo.values();
+		for (int i = 0; i < core.length; i++)
+			table[i] = new LazySupplier(core[i]);
+
+	}
+
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.HeaderFactory#get(int)
+	 */
+	@Override
+	public Header get(int id) {
+		int pack = HeaderId.decodePackId(id);
+		int ordinal = HeaderId.decodeIdOrdinal(id);
+
+		if (pack != PackInfo.PACK_ID_CORE)
+			return null;
+
+		return table[ordinal].get();
+	}
+
+}
