@@ -20,6 +20,7 @@ package com.slytechs.jnet.protocol.packet.meta;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +57,10 @@ public final class MetaHeader
 
 		this.fields = elements.stream().filter(MetaField::isField).toList();
 		this.attributes = elements.stream().filter(MetaField::isAttribute).toList();
+		this.elementMap = new HashMap<>();
+
+		fields.forEach(e -> elementMap.put(e.name(), e));
+		attributes.forEach(e -> elementMap.put(e.name(), e));
 	}
 
 	public MetaHeader(Packet packet, Header header) {

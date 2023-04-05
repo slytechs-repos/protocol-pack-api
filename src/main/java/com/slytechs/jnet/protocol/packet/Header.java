@@ -132,7 +132,7 @@ public abstract class Header extends MemoryBinding {
 	 */
 	@Override
 	public String toString() {
-		return toString(Detail.LOW);
+		return toString(Detail.MEDIUM);
 	}
 
 	public String toString(Detail detail) {

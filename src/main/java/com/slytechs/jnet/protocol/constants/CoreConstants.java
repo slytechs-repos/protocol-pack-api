@@ -41,7 +41,7 @@ public final class CoreConstants {
 	public static final int ETHER_FIELD_SRC            = 6;
 	public static final int ETHER_FIELD_DST_LEN        = 6;
 	public static final int ETHER_FIELD_SRC_LEN        = 6;
-	public static final int ETHER_FIELD_LEN_TYPE       = 12;
+	public static final int ETHER_FIELD_LEN_TYPE       = 2;
 	public static final int ETHER_MIN_VALUE_FOR_TYPE   = 0x600;
 	public static final int ETHER_TYPE_IPv4            = 0x0800;
 	public static final int ETHER_TYPE_IPv6            = 0x86DD;

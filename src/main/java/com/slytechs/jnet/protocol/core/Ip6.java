@@ -26,7 +26,7 @@ import com.slytechs.jnet.protocol.constants.CoreHeaderInfo;
  */
 public class Ip6 extends Ip<Ip6Option> {
 
-	public static final int ID = CoreHeaderInfo.CORE_ID_ICMPv6;
+	public static final int ID = CoreHeaderInfo.CORE_ID_IPv6;
 
 	/**
 	 * @param id

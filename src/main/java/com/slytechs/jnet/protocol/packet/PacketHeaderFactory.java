@@ -21,8 +21,8 @@ import static com.slytechs.jnet.protocol.HeaderId.*;
 
 import java.util.function.Supplier;
 
-import com.slytechs.jnet.protocol.HeaderInfo;
 import com.slytechs.jnet.protocol.HeaderId;
+import com.slytechs.jnet.protocol.HeaderInfo;
 import com.slytechs.jnet.protocol.constants.PackInfo;
 
 /**
@@ -56,7 +56,7 @@ class PackHeaderFactory implements HeaderFactory {
 		@Override
 		public Header get() {
 			if (header == null)
-				info.newHeaderInstance();
+				header = info.newHeaderInstance();
 
 			return header;
 		}

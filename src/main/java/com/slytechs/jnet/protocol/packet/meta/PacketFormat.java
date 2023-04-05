@@ -241,16 +241,25 @@ public final class PacketFormat extends MetaFormat {
 		var args = super.buildDisplayArgs(element, element, displayFormat);
 		displayFormat = super.rewriteDisplayArgs(displayFormat);
 
-		var summaryLine = displayFormat.formatted(args);
+		try {
+			var summaryLine = displayFormat.formatted(args);
 
-		toAppendTo
+			toAppendTo
 //				.append(" ****** ")
 //				.append(" + ")
-				.append(summaryLine)
+					.append(summaryLine)
 //				.append(" ******")
-				.append("\n");
+					.append("\n");
 
-		return toAppendTo;
+			return toAppendTo;
+		} catch (Throwable e) {
+			toAppendTo
+					.append("ERROR: %s".formatted(e.getMessage()));
+
+//			return toAppendTo;
+			
+			throw new IllegalStateException(display.label(), e);
+		}
 	}
 
 	/**

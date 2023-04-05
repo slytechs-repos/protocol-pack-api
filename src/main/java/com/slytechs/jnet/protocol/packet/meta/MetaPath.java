@@ -145,7 +145,7 @@ public final class MetaPath implements Iterable<String> {
 		if (isLast(offset))
 			return domain.findKey(last());
 
-		MetaDomain childDomain = domain.findDomain(stack[offset + 1]);
+		MetaDomain childDomain = domain.findDomain(stack[offset]);
 		if (childDomain == null)
 			return Optional.empty();
 

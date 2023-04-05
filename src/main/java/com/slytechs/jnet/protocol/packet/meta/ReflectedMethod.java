@@ -59,12 +59,12 @@ class ReflectedMethod extends ReflectedMember {
 
 	private static ReflectedMethod parseMethod(Method method, JsonObject jsonFields) {
 		String name = method.getName();
-		
+
 		JsonObject field = null;
 		if (jsonFields != null)
 			field = jsonFields.getJsonObject(name);
 
-		var container = MetaInfo.parse(method, name, jsonFields.getJsonObject(name));
+		var container = MetaInfo.parse(method, name, field);
 		return new ReflectedMethod(method, container);
 	}
 

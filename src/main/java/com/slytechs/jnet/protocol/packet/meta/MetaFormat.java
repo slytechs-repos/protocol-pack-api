@@ -127,7 +127,8 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 				selected = field;
 
 			if (fieldName != null && !fieldName.isBlank())
-				selected = new MetaPath(fieldName).searchForField(domain)
+				selected = new MetaPath(fieldName)
+				.searchForField(domain)
 						.orElse(null);
 			else if (element instanceof MetaField field) {
 				fieldName = field.name();

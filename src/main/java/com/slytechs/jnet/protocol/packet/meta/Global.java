@@ -24,7 +24,7 @@ class Global extends MapMetaContext {
 	static final Global GLOBAL_STATIC_CTX = new Global();
 
 	public Global() {
-		super(GLOBAL_STATIC_CTX, "Global", 100);
+		super("Global", 100);
 	}
 
 	public static Global get() {

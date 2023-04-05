@@ -192,17 +192,17 @@ class TestMetaHeader {
 	void testPacketHexdumps() throws NotFound, JsonException {
 		PacketFormat format = new PacketFormat(Detail.LOW);
 
-		Ethernet eth = packet.getHeader(new Ethernet());
-		Payload payload = packet.getHeader(new Payload());
+//		Ethernet eth = packet.getHeader(new Ethernet());
+//		Payload payload = packet.getHeader(new Payload());
 
 		System.out.println("Dump entire packet:");
 		System.out.println(format.formatHexdump(packet));
-
-		System.out.println("Dump Ethernet header only:");
-		System.out.println(format.formatHexdump(eth));
-
-		System.out.println("Dump Payload.data field:");
-		System.out.println(format.formatHexdump(new MetaHeader(format, payload).getField("data")));
+//
+//		System.out.println("Dump Ethernet header only:");
+//		System.out.println(format.formatHexdump(eth));
+//
+//		System.out.println("Dump Payload.data field:");
+//		System.out.println(format.formatHexdump(new MetaHeader(format, payload).getField("data")));
 
 	}
 }
