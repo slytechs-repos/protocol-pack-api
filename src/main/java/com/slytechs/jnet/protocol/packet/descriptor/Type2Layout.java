@@ -22,6 +22,8 @@ import static com.slytechs.jnet.runtime.internal.layout.BinaryLayout.*;
 import com.slytechs.jnet.runtime.internal.layout.BinaryLayout;
 import com.slytechs.jnet.runtime.internal.layout.BitField;
 import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Int16;
+import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Int32;
+import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Int64;
 
 /**
  * @author Sly Technologies Inc
@@ -31,39 +33,73 @@ import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Int16;
  */
 public enum Type2Layout implements BitField.Proxy {
 
-	CAPLEN("bitmask"),
-	COLOR1("bitmask"),
-	COLOR2("bitmask"),
-	HASH24("bitmask"),
-	HASH_TYPE("bitmask"),
-	HASH32("bitmask"),
+	TIMESTAMP("timestamp"),
+	CAPLEN("caplen"),
+	COLOR1("color1"),
+	COLOR2("color2"),
+	HASH24("hash24"),
+	WIRELEN("wirelen"),
+	L2_TYPE("l2_type"),
+	RX_PORT("rx_port"),
+	TX_PORT("tx_port"),
+	HASH_TYPE("hash_type"),
+	TX_NOW("tx_now"),
+	TX_IGNORE("tx_ignore"),
+	TX_CRC_OVERRIDE("tx_crc_override"),
+	TX_SET_CLOCK("tx_set_clock"),
+	RECORD_COUNT("record_count"),
 	BITMASK("bitmask"),
-	L2_TYPE("bitmask"),
-	RX_PORT("bitmask"),
-	TX_PORT("bitmask"),
-	TIMESTAMP("bitmask"),
-	TX_CRC_OVERRIDE("bitmask"),
-	TX_IGNORE("bitmask"),
-	TX_NOW("bitmask"),
-	TX_SET_CLOCK("bitmask"),
-	WIRELEN("bitmask"),
-	RECORD_COUNT("bitmask"),
-	ARRAY("bitmask"),;
+	RECORD("record"),
+	HASH32("hash32"),
+	ARRAY("array"),
+
+	;
 
 	private static class Struct {
 		private static final BinaryLayout TYPE2_STRUCT = unionLayout(
+				/* length: 24-184 bytes */
 				structLayout(
-						Int16.BITS_16.withName("udp.srcport"),
-						Int16.BITS_16.withName("udp.dstport"),
-						Int16.BITS_16.withName("udp.length"),
-						Int16.BITS_16.withName("udp.checksum")));
+
+						/* Word0&1 */
+						Int64.BITS_64.withName("timestamp"),
+
+						/* Word2 */
+						Int16.BITS_16.withName("caplen"),
+						Int16.BITS_08.withName("rx_port"),
+						Int16.BITS_08.withName("tx_port"),
+
+						/* Word3 */
+						Int16.BITS_16.withName("wirelen"),
+						Int16.BITS_01.withName("tx_now"),
+						Int16.BITS_01.withName("tx_ignore"),
+						Int16.BITS_01.withName("tx_crc_override"),
+						Int16.BITS_01.withName("tx_set_clock"),
+						Int16.BITS_04.withName("l2_type"),
+						Int16.BITS_03.withName("color1"),
+						Int16.BITS_05.withName("record_count"),
+
+						/* Word4 */
+						unionLayout(
+								Int32.BITS_32.withName("hash32"),
+								Int32.BITS_32.withName("color2"),
+								structLayout(
+										Int32.BITS_24.withName("hash24"),
+										Int32.BITS_05.withName("hash_type"))),
+
+						/* Word5 */
+						Int32.BITS_32.withName("bitmask"),
+
+						/* Word6-38 */
+						sequenceLayout(32, Int32.BITS_32).withName("record")
+
+				),
+				sequenceLayout(32 + 6, Int32.BITS_32).withName("array")
+
+		);
 	}
 
 	private final BitField field;
 
-	/**
-	 * 
-	 */
 	Type2Layout(String path) {
 		this.field = Struct.TYPE2_STRUCT.bitField(path);
 	}
@@ -76,54 +112,20 @@ public enum Type2Layout implements BitField.Proxy {
 		return field;
 	}
 
-	/**
-	 * @param captureLength
-	 * @param rxPort
-	 * @param txPort
-	 * @return
-	 */
 	public static int encodeWord2BE(int captureLength, int rxPort, int txPort) {
 		throw new UnsupportedOperationException("not implemented yet");
 	}
 
-	/**
-	 * @param captureLength
-	 * @param rxPort
-	 * @param txPort
-	 * @return
-	 */
 	public static int encodeWord2LE(int captureLength, int rxPort, int txPort) {
 		throw new UnsupportedOperationException("not implemented yet");
 	}
 
-	/**
-	 * @param wireLength
-	 * @param txNow
-	 * @param txIgnore
-	 * @param txCrcOverride
-	 * @param txSetClock
-	 * @param l2Type
-	 * @param i
-	 * @param recordCount
-	 * @return
-	 */
 	public static int encodeWord3BE(int wireLength, int txNow, int txIgnore, int txCrcOverride, int txSetClock,
 			int l2Type, int i,
 			int recordCount) {
 		throw new UnsupportedOperationException("not implemented yet");
 	}
 
-	/**
-	 * @param wireLength
-	 * @param txNow
-	 * @param txIgnore
-	 * @param txCrcOverride
-	 * @param txSetClock
-	 * @param l2Type
-	 * @param i
-	 * @param recordCount
-	 * @return
-	 */
 	public static int encodeWord3LE(int wireLength, int txNow, int txIgnore, int txCrcOverride, int txSetClock,
 			int l2Type, int i,
 			int recordCount) {

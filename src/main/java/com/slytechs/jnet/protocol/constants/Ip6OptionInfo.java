@@ -19,8 +19,8 @@ package com.slytechs.jnet.protocol.constants;
 
 import static com.slytechs.jnet.protocol.constants.PackInfo.*;
 
-import com.slytechs.jnet.protocol.HeaderSupplier;
 import com.slytechs.jnet.protocol.HeaderId;
+import com.slytechs.jnet.protocol.HeaderSupplier;
 import com.slytechs.jnet.protocol.core.Ip6Option.Ip6AuthenticationOption;
 import com.slytechs.jnet.protocol.core.Ip6Option.Ip6DestinationOption;
 import com.slytechs.jnet.protocol.core.Ip6Option.Ip6HopByHopOption;
@@ -76,7 +76,7 @@ public enum Ip6OptionInfo implements IpOptionInfo {
 	public static final int IPv6_OPTION_TYPE_FRAGMENT_LEN   = 8;
 	// @formatter:on
 
-	private static final int[] MAP_TABLE = new int[Byte.MAX_VALUE];
+	private static final int[] MAP_TABLE = new int[256];
 
 	static {
 		for (Ip6OptionInfo opt : values())

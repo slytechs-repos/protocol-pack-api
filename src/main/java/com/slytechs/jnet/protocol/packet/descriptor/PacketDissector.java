@@ -32,7 +32,7 @@ import com.slytechs.jnet.protocol.constants.PacketDescriptorType;
 public interface PacketDissector {
 
 	static PacketDissector dissector(PacketDescriptorType type) {
-		throw new UnsupportedOperationException();
+		return javaDissector(type);
 	}
 
 	static PacketDissector javaDissector(PacketDescriptorType type) {
@@ -40,7 +40,8 @@ public interface PacketDissector {
 		return switch (type) {
 		case TYPE2 -> new JavaDissectorType2();
 
-		default -> throw new UnsupportedOperationException("Not implemented yet, dissector [%s]".formatted(type.name()));
+		default -> throw new UnsupportedOperationException("Not implemented yet, dissector [%s]".formatted(type
+				.name()));
 		};
 
 	}
