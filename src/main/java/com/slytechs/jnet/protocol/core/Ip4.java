@@ -24,7 +24,7 @@ import com.slytechs.jnet.protocol.constants.CoreHeaderInfo;
 import com.slytechs.jnet.protocol.constants.Ip4Flag;
 import com.slytechs.jnet.protocol.constants.IpType;
 import com.slytechs.jnet.protocol.packet.Packet;
-import com.slytechs.jnet.protocol.packet.format.Display;
+import com.slytechs.jnet.protocol.packet.meta.Display;
 import com.slytechs.jnet.protocol.packet.meta.Meta;
 import com.slytechs.jnet.protocol.packet.meta.Meta.MetaType;
 import com.slytechs.jnet.protocol.packet.meta.MetaResource;

@@ -20,8 +20,6 @@ package com.slytechs.jnet.protocol.packet.meta;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
-import com.slytechs.jnet.protocol.packet.format.Display;
-import com.slytechs.jnet.protocol.packet.format.Displays;
 import com.slytechs.jnet.runtime.util.Detail;
 
 /**
