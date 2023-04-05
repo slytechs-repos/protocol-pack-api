@@ -140,6 +140,7 @@ public abstract class Header extends MemoryBinding {
 			return formatter.format(this, detail);
 
 		return switch (detail) {
+		case NONE -> "";
 		case LOW -> name();
 
 		case MEDIUM -> "%s [offset=%d, length=%d]"

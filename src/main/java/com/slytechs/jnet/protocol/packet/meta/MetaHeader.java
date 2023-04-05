@@ -47,7 +47,7 @@ public final class MetaHeader
 	private final List<MetaField> elements;
 	private volatile Map<String, MetaField> elementMap;
 
-	private MetaHeader(MetaDomain domain, Header target, ReflectedClass reflectedClass, MetaPacket parent) {
+	private MetaHeader(MetaDomain domain, Header target, ReflectedClass reflectedClass) {
 		super(domain, reflectedClass);
 		this.header = target;
 		this.elements = Arrays.stream(reflectedClass.getFields())
@@ -58,26 +58,20 @@ public final class MetaHeader
 		this.attributes = elements.stream().filter(MetaField::isAttribute).toList();
 	}
 
-	public MetaHeader(Header header) {
-		this(new MapMetaContext(header.name(), 1), header);
-	}
-
 	public MetaHeader(Packet packet, Header header) {
-		this(new MetaPacket(packet), header);
+		this(MetaContext.newRoot(), new MetaPacket(packet), header);
 	}
 
-	public MetaHeader(MetaPacket packet, Header header) {
-		this(packet, packet, header);
-	}
-	public MetaHeader(MetaDomain domain, Header header) {
-	}
-
-	public MetaHeader(MetaDomain domain, MetaPacket packet, Header header) {
-		this(domain, header, MetaDomain.global(header.getClass(), ReflectedClass::parse), packet);
+	public MetaHeader(MetaDomain ctx, MetaPacket packet, Header header) {
+		this(ctx,
+				header,
+				Global.compute(header.getClass(), ReflectedClass::parse));
 	}
 
-	public MetaHeader(MetaDomain domain, Header header) {
-		this(domain, header, MetaDomain.global(header.getClass(), ReflectedClass::parse), null);
+	public MetaHeader(MetaDomain ctx, Header header) {
+		this(ctx,
+				header,
+				Global.compute(header.getClass(), ReflectedClass::parse));
 	}
 
 	public MetaHeader getExtension(String name) {
@@ -151,19 +145,6 @@ public final class MetaHeader
 		return elements.size();
 	}
 
-	/**
-	 * @see com.slytechs.jnet.protocol.packet.meta.MetaElement#searchForField(com.slytechs.jnet.protocol.packet.meta.MetaPath)
-	 */
-	@Override
-	public Optional<MetaField> searchForField(MetaPath path) {
-		if (path.size() != 1)
-			return Optional.empty();
-
-		String name = path.stack(0);
-
-		return findField(name);
-	}
-
 	public ByteBuffer buffer() {
 		return header.buffer();
 	}
@@ -174,5 +155,24 @@ public final class MetaHeader
 
 	public int length() {
 		return header.length();
+	}
+
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findKey(java.lang.Object)
+	 */
+	@Override
+	public <K, V> Optional<V> findKey(K key) {
+		if (key instanceof String name)
+			return Optional.ofNullable((V) elementMap.get(name));
+
+		return Optional.empty();
+	}
+
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findDomain(java.lang.String)
+	 */
+	@Override
+	public MetaDomain findDomain(String name) {
+		return (MetaDomain) findKey(name).orElse(null);
 	}
 }

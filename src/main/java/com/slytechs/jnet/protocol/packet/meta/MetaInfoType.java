@@ -19,14 +19,4 @@ package com.slytechs.jnet.protocol.packet.meta;
 
 public interface MetaInfoType {
 
-	public class MetaInfoFactory {
-		public MetaInfoFactory() {
-			throw new UnsupportedOperationException();
-		}
-
-		<T extends MetaInfoType> T getMetaInfo(Class<T> lookupType) {
-			return null;
-		}
-	}
-
 }

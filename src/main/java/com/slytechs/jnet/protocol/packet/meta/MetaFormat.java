@@ -21,7 +21,6 @@ import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
 import java.util.ArrayList;
-import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -128,7 +127,7 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 				selected = field;
 
 			if (fieldName != null && !fieldName.isBlank())
-				selected = domain.searchForField(new MetaPath(fieldName))
+				selected = new MetaPath(fieldName).searchForField(domain)
 						.orElse(null);
 			else if (element instanceof MetaField field) {
 				fieldName = field.name();
@@ -168,28 +167,4 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 		return list.toArray();
 	}
 
-	/**
-	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#searchForDomain(com.slytechs.jnet.protocol.packet.meta.MetaPath)
-	 */
-	@Override
-	public MetaContext searchForDomain(MetaPath path) {
-		return context.searchForDomain(path);
-	}
-
-	/**
-	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#searchForField(com.slytechs.jnet.protocol.packet.meta.MetaPath)
-	 */
-	@Override
-	public Optional<MetaField> searchForField(MetaPath path) {
-		return context.searchForField(path);
-	}
-
-	/**
-	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#searchFor(com.slytechs.jnet.protocol.packet.meta.MetaPath,
-	 *      java.lang.Object, java.lang.Class)
-	 */
-	@Override
-	public <K, V> Optional<V> searchFor(MetaPath domain, K key, Class<V> valueType) {
-		return context.searchFor(domain, key, valueType);
-	}
 }

@@ -20,8 +20,26 @@ package com.slytechs.jnet.protocol.packet.meta;
 import java.util.Optional;
 import java.util.function.Function;
 
-import com.slytechs.jnet.protocol.packet.meta.AbstractMetaContext.Global;
-
+/**
+ * A meta domain. A domain is a namespace which may contains ATV pairs. A
+ * Packet's domain space contains packet attributes and its protocol headers. A
+ * header's domain contains header attributes and header's fields. Even a
+ * header's field is a domain containing various attributes and access to the
+ * field's value.
+ * <p>
+ * On the other end there are domains that are pure maps or list based. Finally
+ * domains are linked in a hierarchy which can be queried for values either
+ * using a {@code MetaPath} or in cannonical dot notation ie
+ * {@code "Ip4.version"}.
+ * </p>
+ * <p>
+ * Other usage for domains is to attach analysis information. Since domains are
+ * implemented by meta contexts, the context can be used to group information
+ * across may packets, streams and other analysis collections. A GUI based
+ * application can use domain/contexts to create complex data models to be
+ * displayed in a GUI across many packets.
+ * </p>
+ */
 public interface MetaDomain {
 
 	public static MapMetaContext getGlobalDomain() {
@@ -36,11 +54,16 @@ public interface MetaDomain {
 		return getGlobalDomain().getOrCompute(key, func);
 	}
 
-	MetaContext searchForDomain(MetaPath path);
+	String name();
 
-	Optional<MetaField> searchForField(MetaPath path);
+	MetaDomain parent();
 
-	<K, V> Optional<V> searchFor(K key, Class<V> valueType);
-	
-	<K, V> Optional<V> searchFor(MetaPath domain, K key, Class<V> valueType);
+	<K, V> Optional<V> findKey(K key);
+
+	MetaDomain findDomain(String name);
+
+	default Optional<MetaField> searchForField(MetaPath path) {
+		return path.searchForField(this);
+	}
+
 }

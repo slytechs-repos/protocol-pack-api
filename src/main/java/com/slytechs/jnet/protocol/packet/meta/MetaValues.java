@@ -37,7 +37,7 @@ class MetaValues {
 		if (array.length == 16)
 			return HexStrings.toIp6String(array);
 
-		return HexStrings.toHexDump(array, 0, array.length);
+		return HexStrings.toHexString(array, 0, array.length);
 	}
 
 	static String auto(Object target) {

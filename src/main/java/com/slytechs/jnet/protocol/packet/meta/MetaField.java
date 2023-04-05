@@ -95,15 +95,30 @@ public final class MetaField extends MetaElement {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.packet.meta.MetaElement#searchForField(com.slytechs.jnet.protocol.packet.meta.MetaPath)
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#parent()
 	 */
 	@Override
-	public Optional<MetaField> searchForField(MetaPath path) {
-		if (path.size() == 1 && name().equals(path.stack(0)))
-			return Optional.of(this);
-		
-		return header.searchForField(path);
-			
+	public MetaDomain parent() {
+		throw new UnsupportedOperationException("not implemented yet");
+	}
+
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findKey(java.lang.Object)
+	 */
+	@Override
+	public <K, V> Optional<V> findKey(K key) {
+		if (name().equals(key))
+			return Optional.of((V) this);
+
+		return Optional.empty();
+	}
+
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findDomain(java.lang.String)
+	 */
+	@Override
+	public MetaDomain findDomain(String name) {
+		return null;
 	}
 
 }

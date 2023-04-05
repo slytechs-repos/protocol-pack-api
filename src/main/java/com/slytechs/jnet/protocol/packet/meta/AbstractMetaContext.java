@@ -18,7 +18,6 @@
 package com.slytechs.jnet.protocol.packet.meta;
 
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author Sly Technologies Inc
@@ -26,35 +25,7 @@ import java.util.Optional;
  * @author Mark Bednarczyk
  *
  */
-public class AbstractMetaContext implements MetaDomain, MetaContext {
-	static class Global extends MapMetaContext {
-
-		static final MapMetaContext GLOBAL_STATIC_CTX = new Global();
-
-		public Global() {
-			super(GLOBAL_STATIC_CTX, "Global");
-		}
-
-		/**
-		 * @see com.slytechs.jnet.protocol.packet.meta.AbstractMetaContext#searchForDomain(com.slytechs.jnet.protocol.packet.meta.MetaPath)
-		 */
-		@Override
-		public MetaContext searchForDomain(MetaPath path) {
-			return null; // We're at the top
-		}
-
-		/**
-		 * @see com.slytechs.jnet.protocol.packet.meta.AbstractMetaContext#searchForField(com.slytechs.jnet.protocol.packet.meta.MetaPath)
-		 */
-		@Override
-		public Optional<MetaField> searchForField(MetaPath path) {
-			if (path.size() == 1)
-				return Optional.ofNullable(getField(path.toStringLast()));
-
-			return Optional.empty();
-		}
-	}
-
+public abstract class AbstractMetaContext implements MetaDomain, MetaContext {
 	private final MetaContext parent;
 	private final String name;
 
@@ -62,7 +33,7 @@ public class AbstractMetaContext implements MetaDomain, MetaContext {
 		this.parent = Objects.requireNonNull(parent, "parent domain");
 		this.name = name;
 
-		if (name.equals(GLOBAL_DOMAINNAME))
+		if (name.equals(MetaPath.GLOBAL_DOMAINNAME))
 			throw new IllegalArgumentException("reserved context name [%s]"
 					.formatted(name));
 	}
@@ -70,56 +41,23 @@ public class AbstractMetaContext implements MetaDomain, MetaContext {
 	protected AbstractMetaContext(String name) {
 
 		this.name = name;
-		this.parent = name.equals(GLOBAL_DOMAINNAME)
+		this.parent = name.equals(MetaPath.GLOBAL_DOMAINNAME)
 				? null
 				: MetaDomain.getGlobalDomain();
 
-		if ((getClass() != Global.class) && (name.equals(GLOBAL_DOMAINNAME)))
+		if ((getClass() != Global.class) && (name.equals(MetaPath.GLOBAL_DOMAINNAME)))
 			throw new IllegalArgumentException("reserved context name [%s]"
 					.formatted(name));
 	}
 
+	@Override
 	public final String name() {
 		return name;
 	}
 
+	@Override
 	public final MetaDomain parent() {
 		return parent;
-	}
-
-	/**
-	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#searchForDomain(com.slytechs.jnet.protocol.packet.meta.MetaPath)
-	 */
-	@Override
-	public MetaContext searchForDomain(MetaPath path) {
-		if (path.match(GLOBAL_DOMAINNAME))
-			return MetaDomain.getGlobalDomain();
-
-		if (path.isUp())
-			return parent.searchForDomain(path.pop());
-
-		return (path.size() == 1) && path.matchFirst(name())
-				? this
-				: parent.searchForDomain(path);
-	}
-
-	/**
-	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#searchForField(com.slytechs.jnet.protocol.packet.meta.MetaPath)
-	 */
-	@Override
-	public Optional<MetaField> searchForField(MetaPath path) {
-
-		assert getClass() != Global.class && parent != null;
-
-		if (path.match(GLOBAL_DOMAINNAME))
-			return MetaDomain.getGlobalDomain().searchForField(path.pop());
-
-		if (path.isUp())
-			return parent.searchForDomain(path.pop()).searchForField(path.pop());
-
-		return parent
-				.searchForDomain(path)
-				.searchForField(path.last());
 	}
 
 	/**
@@ -137,12 +75,4 @@ public class AbstractMetaContext implements MetaDomain, MetaContext {
 				+ "]";
 	}
 
-	/**
-	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#searchFor(java.lang.Object,
-	 *      Class)
-	 */
-	@Override
-	public <K, V> Optional<V> searchFor(K key, Class<V> valueType) {
-		return Optional.empty();
-	}
 }

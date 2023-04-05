@@ -18,6 +18,7 @@
 package com.slytechs.jnet.protocol.packet.meta;
 
 import java.util.Iterator;
+import java.util.Optional;
 
 /**
  * @author Sly Technologies Inc
@@ -27,8 +28,9 @@ import java.util.Iterator;
  */
 public final class MetaPath implements Iterable<String> {
 
-	public static final String ROOT_PATH = ".";
-	public static final String UP_PATH = "..";
+	public static final String GLOBAL_DOMAINNAME = "$$";
+	public static final String ROOT_NAME = "$";
+	public static final String UP_NAME = "..";
 
 	private final int offset;
 	private final String path;
@@ -40,6 +42,7 @@ public final class MetaPath implements Iterable<String> {
 		this.offset = 0;
 	}
 
+	@SuppressWarnings("unused")
 	private MetaPath(String path, String[] stack, int offset) {
 		this.path = path;
 		this.stack = stack;
@@ -80,8 +83,8 @@ public final class MetaPath implements Iterable<String> {
 		return stack[index];
 	}
 
-	public boolean match(String name) {
-		return path.equals(name);
+	public boolean match(String name, int offset) {
+		return stack[offset].equals(name);
 	}
 
 	public boolean match(int index, String name) {
@@ -91,35 +94,23 @@ public final class MetaPath implements Iterable<String> {
 		return stack[offset + index].equals(name);
 	}
 
-	public boolean matchFirst(String name) {
-		return match(0, name);
-	}
-
 	public boolean matchLast(String name) {
 		return match(stack.length - 1, name);
 	}
 
-	public MetaPath pop() {
-		return new MetaPath(path, stack, offset + 1);
+	private boolean isUp(int offset) {
+		return match(offset, UP_NAME);
 	}
 
-	public boolean isUp() {
-		return matchFirst(UP_PATH);
-	}
-
-	public boolean isRoot() {
-		return matchFirst(ROOT_PATH);
+	private boolean isLast(int offset) {
+		return ((stack.length - 1) == offset);
 	}
 
 	public int size() {
 		return stack.length - offset;
 	}
 
-	public MetaPath last() {
-		return new MetaPath(path, stack, stack.length - 1);
-	}
-
-	public String toStringLast() {
+	private String last() {
 		return stack[stack.length - 1];
 	}
 
@@ -128,5 +119,37 @@ public final class MetaPath implements Iterable<String> {
 	 */
 	public boolean isEmpty() {
 		return size() == 0;
+	}
+
+	public Optional<MetaField> searchForField(MetaDomain domain) {
+		return search(domain);
+	}
+
+	public <V> Optional<V> search(MetaDomain domain) {
+		return search(domain, this.offset);
+	}
+
+	private <K, V> Optional<V> search(MetaDomain domain, int offset) {
+		if (offset >= stack.length)
+			return Optional.empty();
+
+		if (domain == null)
+			return Optional.empty();
+
+		if (match(GLOBAL_DOMAINNAME, offset))
+			return search(MetaDomain.getGlobalDomain(), offset + 1);
+
+		if (isUp(offset))
+			return search(domain.parent(), offset + 1);
+
+		if (isLast(offset))
+			return domain.findKey(last());
+
+		MetaDomain childDomain = domain.findDomain(stack[offset + 1]);
+		if (childDomain == null)
+			return Optional.empty();
+
+		return search(childDomain, offset + 1);
+
 	}
 }

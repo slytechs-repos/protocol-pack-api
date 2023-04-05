@@ -17,8 +17,6 @@
  */
 package com.slytechs.jnet.protocol.packet.meta;
 
-import java.util.Optional;
-
 import com.slytechs.jnet.protocol.packet.meta.Meta.MetaType;
 import com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped;
 
@@ -31,18 +29,10 @@ import com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped;
 public abstract class MetaElement
 		implements Comparable<MetaElement>, MetaDomain {
 
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		String className = getClass().getSimpleName();
-		return className
-				+ " [name=" + name() + "]";
-	}
-
 	protected final ReflectedComponent meta;
+
 	private final MetaType metaType;
+
 	private final MetaDomain domain;
 
 	protected MetaElement(MetaDomain domain, ReflectedComponent metaContainer) {
@@ -55,32 +45,8 @@ public abstract class MetaElement
 			this.domain = domain;
 	}
 
-	public final String name() {
-		return meta.name();
-	}
-
 	public final String abbr() {
 		return meta.abbr();
-	}
-
-	public final String note() {
-		return meta.note();
-	}
-
-	public final int ordinal() {
-		return meta.ordinal();
-	}
-
-	public final MetaType metaType() {
-		return metaType;
-	}
-
-	public final boolean isField() {
-		return (metaType == MetaType.FIELD);
-	}
-
-	public final boolean isAttribute() {
-		return (metaType == MetaType.ATTRIBUTE);
 	}
 
 	/**
@@ -95,30 +61,47 @@ public abstract class MetaElement
 		return meta.getMetaType(type);
 	}
 
-	/**
-	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#searchForDomain(com.slytechs.jnet.protocol.packet.meta.MetaPath)
-	 */
+	public final boolean isAttribute() {
+		return (metaType == MetaType.ATTRIBUTE);
+	}
+
+	public final boolean isField() {
+		return (metaType == MetaType.FIELD);
+	}
+
+	public final MetaType metaType() {
+		return metaType;
+	}
+
 	@Override
-	public MetaContext searchForDomain(MetaPath path) {
-		throw new UnsupportedOperationException();
+	public final String name() {
+		return meta.name();
+	}
+
+	public final String note() {
+		return meta.note();
+	}
+
+	public final int ordinal() {
+		return meta.ordinal();
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#searchForField(com.slytechs.jnet.protocol.packet.meta.MetaPath)
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#parent()
 	 */
 	@Override
-	public Optional<MetaField> searchForField(MetaPath path) {
-		throw new UnsupportedOperationException();
-
+	public MetaDomain parent() {
+		return domain.parent();
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#searchFor(MetaPath,
-	 *      java.lang.Object, Class)
+	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public <K, V> Optional<V> searchFor(MetaPath domain, K key, Class<V> valueType) {
-		throw new UnsupportedOperationException();
+	public String toString() {
+		String className = getClass().getSimpleName();
+		return className
+				+ " [name=" + name() + "]";
 	}
 
 }

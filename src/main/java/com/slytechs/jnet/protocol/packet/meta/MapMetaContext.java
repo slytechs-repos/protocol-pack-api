@@ -19,6 +19,7 @@ package com.slytechs.jnet.protocol.packet.meta;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped;
 
@@ -90,5 +91,25 @@ public class MapMetaContext
 	@Override
 	public int size() {
 		return map.size();
+	}
+
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findKey(java.lang.Object)
+	 */
+	@Override
+	public <K, V> Optional<V> findKey(K key) {
+		return get(key);
+	}
+
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findDomain(java.lang.String)
+	 */
+	@Override
+	public MetaDomain findDomain(String name) {
+		Object obj = get(name);
+		if (obj instanceof MetaDomain domain)
+			return domain;
+
+		return null;
 	}
 }

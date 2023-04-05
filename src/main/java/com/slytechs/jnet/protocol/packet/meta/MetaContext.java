@@ -66,30 +66,29 @@ public interface MetaContext extends MetaDomain {
 				return new Proxy() {
 
 					@Override
-					public MetaContext searchForDomain(MetaPath path) {
-						return parent.searchForDomain(path);
-					}
-
-					@Override
-					public Optional<MetaField> searchForField(MetaPath path) {
-						return parent.searchForField(path);
-					}
-
-					@Override
 					public MetaMapped getProxy() {
 						return proxy;
 					}
 
 					@Override
-					public <K, V> Optional<V> searchFor(MetaPath domain, K key, Class<V> valueType) {
-						return parent.searchFor(null, key, null);
+					public String name() {
+						return getProxy().name();
 					}
 
 					@Override
-					public <K, V> Optional<V> searchFor(K key, Class<V> valueType) {
-						return parent.searchFor(key, valueType);
+					public MetaDomain parent() {
+						return getProxy().parent();
 					}
 
+					@Override
+					public <K, V> Optional<V> findKey(K key) {
+						return getProxy().findKey(key);
+					}
+
+					@Override
+					public MetaDomain findDomain(String name) {
+						return getProxy().findDomain(name);
+					}
 				};
 			}
 
@@ -164,7 +163,7 @@ public interface MetaContext extends MetaDomain {
 		default MetaField getField(String name) {
 			return get(name);
 		}
-		
+
 		default Optional<MetaField> findField(String name) {
 			return Optional.ofNullable(getField(name));
 		}
@@ -191,10 +190,13 @@ public interface MetaContext extends MetaDomain {
 		int size();
 	}
 
-	String GLOBAL_DOMAINNAME = "global";
+	static MetaContext newRoot() {
+		return new MapMetaContext(Global.get(), MetaPath.ROOT_NAME, 1);
+	}
 
 	@SuppressWarnings("unchecked")
 	default <T extends MetaContext> T cast() {
 		return (T) this;
 	}
+
 }

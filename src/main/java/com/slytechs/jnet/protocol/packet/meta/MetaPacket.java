@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import com.slytechs.jnet.protocol.packet.Frame;
 import com.slytechs.jnet.protocol.packet.Header;
 import com.slytechs.jnet.protocol.packet.HeaderFactory;
+import com.slytechs.jnet.protocol.packet.HeaderNotFound;
 import com.slytechs.jnet.protocol.packet.Packet;
 import com.slytechs.jnet.protocol.packet.Payload;
 import com.slytechs.jnet.protocol.packet.descriptor.CompactDescriptor;
@@ -52,26 +53,30 @@ public final class MetaPacket
 		this(new MapMetaContext("packet", 1), packet);
 	}
 
-	public MetaPacket(MetaDomain domain, Packet packet) {
-		super(domain, MetaDomain.global(Packet.class, ReflectedClass::parse));
+	public MetaPacket(MetaDomain ctx, Packet packet) {
+		super(ctx, Global.compute(Packet.class, ReflectedClass::parse));
 		this.packet = packet;
 
-		headers.add(new MetaHeader(domain, packet.getHeader(new Frame(), 0)));
+		try {
+			headers.add(new MetaHeader(ctx, this, packet.getHeader(new Frame(), 0)));
 
-		long[] compactArray = packet.descriptor().listHeaders();
-		for (long cp : compactArray) {
-			int id = CompactDescriptor.decodeId(cp);
-			Header header = headerFactory.get(id);
-			packet.getHeader(header, 0);
+			long[] compactArray = packet.descriptor().listHeaders();
+			for (long cp : compactArray) {
+				int id = CompactDescriptor.decodeId(cp);
+				Header header = headerFactory.get(id);
+				packet.getHeader(header, 0);
 
-			MetaHeader metaHdr = new MetaHeader(domain, header);
+				MetaHeader metaHdr = new MetaHeader(ctx, this, header);
 
-			headers.add(metaHdr);
+				headers.add(metaHdr);
+			}
+
+			this.lastHeader = headers.get(headers.size() - 1);
+
+			headers.add(new MetaHeader(ctx, this, packet.getHeader(new Payload(), 0)));
+		} catch (HeaderNotFound e) {
+			throw new IllegalStateException(e);
 		}
-
-		this.lastHeader = headers.get(headers.size() - 1);
-
-		headers.add(new MetaHeader(domain, packet.getHeader(new Payload(), 0)));
 	}
 
 	public Object getTarget() {
@@ -129,25 +134,6 @@ public final class MetaPacket
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.packet.meta.MetaElement#searchForField(com.slytechs.jnet.protocol.packet.meta.MetaPath)
-	 */
-	@Override
-	public Optional<MetaField> searchForField(MetaPath path) {
-		if (path.isEmpty())
-			return Optional.empty();
-
-		String name = path.stack(0);
-
-		if (path.size() == 1)
-			return findField(name);
-
-		Optional<MetaHeader> header = findHeader(name);
-
-		return header
-				.flatMap(hdr -> hdr.searchForField(path.pop()));
-	}
-
-	/**
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -168,5 +154,35 @@ public final class MetaPacket
 
 	public ByteBuffer buffer() {
 		return packet.buffer();
+	}
+
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#parent()
+	 */
+	@Override
+	public MetaDomain parent() {
+		throw new UnsupportedOperationException("not implemented yet");
+	}
+
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findKey(java.lang.Object)
+	 */
+	@Override
+	public <K, V> Optional<V> findKey(K key) {
+		return listHeaders().stream()
+				.filter(h -> h.name().equals(key))
+				.map(h -> (V) h)
+				.findAny();
+	}
+
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findDomain(java.lang.String)
+	 */
+	@Override
+	public MetaDomain findDomain(String name) {
+		return listHeaders().stream()
+				.filter(h -> h.name().equals(name))
+				.findAny()
+				.orElse(null);
 	}
 }

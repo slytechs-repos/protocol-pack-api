@@ -60,11 +60,7 @@ module com.slytechs.jnet.protocol.core {
 	exports com.slytechs.jnet.runtime.util.format;
 	exports com.slytechs.jnet.runtime.resource;
 	exports com.slytechs.jnet.runtime.util.json;
-	exports com.slytechs.jnet.protocol.packet.descriptor to
-			com.slytechs.jnet.jnetpcap.pro,
-			com.slytechs.jnet.jnetpcap.examples,
-			org.jnet.examples,
-			org.jnet.tests;
+	exports com.slytechs.jnet.protocol.packet.descriptor;
 
 	requires java.logging;
 

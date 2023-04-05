@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet.meta2;
+package com.slytechs.jnet.protocol.packet.meta;
 
 /**
  * @author Sly Technologies Inc

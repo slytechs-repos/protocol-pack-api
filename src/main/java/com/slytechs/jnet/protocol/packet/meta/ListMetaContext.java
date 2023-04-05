@@ -18,6 +18,7 @@
 package com.slytechs.jnet.protocol.packet.meta;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.function.IntFunction;
 
 import com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaIndexed;
@@ -113,6 +114,30 @@ public class ListMetaContext extends AbstractMetaContext implements MetaIndexed 
 
 		for (int i = 0; i < remaining; i++)
 			append(func.apply(start + i));
+	}
+
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findKey(java.lang.Object)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public <K, V> Optional<V> findKey(K key) {
+		if (key instanceof Number index)
+			return Optional.ofNullable((V) list.get(index.intValue()));
+
+		return Optional.empty();
+	}
+
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findDomain(java.lang.String)
+	 */
+	@Override
+	public MetaDomain findDomain(String name) {
+		return list.stream()
+				.filter(v -> v instanceof MetaDomain domain && domain.name().equals(name))
+				.map(v -> (MetaDomain) v)
+				.findAny()
+				.orElse(null);
 	}
 
 }

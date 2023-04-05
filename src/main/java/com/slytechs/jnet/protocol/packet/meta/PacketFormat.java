@@ -50,8 +50,10 @@ public final class PacketFormat extends MetaFormat {
 	public PacketFormat(MetaDomain domain, Detail detail) {
 		super(domain, detail);
 
-		this.fieldLine = domain.searchFor(null, HEADER_LINE_FORMAT_ATTRIBUTE, String.class)
-				.orElse(DEFAULT_LINE_FORMAT);
+		this.fieldLine = DEFAULT_LINE_FORMAT;
+
+//		this.fieldLine = domain.searchFor(null, HEADER_LINE_FORMAT_ATTRIBUTE, String.class)
+//				.orElse(DEFAULT_LINE_FORMAT);
 	}
 
 	/**
@@ -252,11 +254,35 @@ public final class PacketFormat extends MetaFormat {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#searchFor(java.lang.Object, java.lang.Class)
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#name()
 	 */
 	@Override
-	public <K, V> Optional<V> searchFor(K key, Class<V> valueType) {
-		throw new UnsupportedOperationException("not implemented yet");
+	public String name() {
+		return "";
+	}
+
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#parent()
+	 */
+	@Override
+	public MetaDomain parent() {
+		return Global.get();
+	}
+
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findKey(java.lang.Object)
+	 */
+	@Override
+	public <K, V> Optional<V> findKey(K key) {
+		return Optional.empty();
+	}
+
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findDomain(java.lang.String)
+	 */
+	@Override
+	public MetaDomain findDomain(String name) {
+		return null;
 	}
 
 }

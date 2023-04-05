@@ -17,23 +17,21 @@
  */
 package com.slytechs.jnet.protocol.packet.meta;
 
-import static java.lang.annotation.ElementType.*;
-import static java.lang.annotation.RetentionPolicy.*;
+import java.util.function.Function;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+class Global extends MapMetaContext {
 
-/**
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
- * @author Mark Bednarczyk
- *
- */
-@Documented
-@Retention(RUNTIME)
-@Target({
-		METHOD })
-public @interface MetaValueResolverRepeatable {
-	Resolver[] value();
+	static final Global GLOBAL_STATIC_CTX = new Global();
+
+	public Global() {
+		super(GLOBAL_STATIC_CTX, "Global", 100);
+	}
+
+	public static Global get() {
+		return GLOBAL_STATIC_CTX;
+	}
+
+	public static <K, V> V compute(K key, Function<K, V> func) {
+		return get().getOrCompute(key, func);
+	}
 }
