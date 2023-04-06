@@ -1,0 +1,61 @@
+{
+	"meta": {
+		"name": "Packet",
+		"abbr": "Pkt"
+	},
+	"field": {
+		"timestamp": {
+			"meta": 2,
+			"display": {
+				"LOW": {
+					"value": "%{:R}s",
+					"label": "timestamp"
+				},
+				"MEDIUM": {
+					"value": "%{:R}s [%{}016X]"
+				},
+				"HIGH": {
+					"value": "%{:R}s [%{}016X] (%{}d)"
+				}
+			},
+			"resolver": [
+				"TIMESTAMP_IN_PCAP_MICRO",
+				"TIMESTAMP_UNIT"
+			]
+		},
+		"wireLength": {
+			"meta": 3,
+			"display": {
+				"LOW": {
+					"value": "%{}d",
+					"label": "wirelen"
+				},
+				"MEDIUM": {
+					"value": "%{},d bytes",
+					"label": "wirelen"
+				},
+				"HIGH": {
+					"value": "%{},d bytes",
+					"label": "wire length"
+				}
+			}
+		},
+		"captureLength": {
+			"meta": 4,
+			"display": {
+				"LOW": {
+					"value": "%{}d",
+					"label": "caplen"
+				},
+				"MEDIUM": {
+					"value": "%{},d bytes",
+					"label": "caplen"
+				},
+				"HIGH": {
+					"value": "%{},d bytes",
+					"label": "captured length"
+				}
+			}
+		}
+	}
+}

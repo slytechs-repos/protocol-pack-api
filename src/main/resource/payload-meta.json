@@ -1,0 +1,16 @@
+{
+	"display": "Payload offset=%{offset},d (0x%{offset}X), length=%{length},d ",
+	"meta": {
+		"name": "Data"
+	},
+	"field": {
+		"data": {
+			"display": {
+				"DEFAULT": {
+					"label": "HEXDUMP",
+					"value": "%50s  %16s"
+				}
+			}
+		}
+	}
+}
