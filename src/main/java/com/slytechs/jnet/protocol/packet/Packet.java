@@ -43,7 +43,7 @@ import com.slytechs.jnet.runtime.util.HexStrings;
 @MetaResource("packet-meta.json")
 public final class Packet
 		extends MemoryBinding
-		implements HasHeader, Cloneable {
+		implements HasHeader, Cloneable, AutoCloseable {
 
 	public static final int MAX_PACKET_LENGTH = 1538;
 
@@ -131,6 +131,7 @@ public final class Packet
 		return clone;
 	}
 
+	@Override
 	public void close() {
 		unbind();
 	}
