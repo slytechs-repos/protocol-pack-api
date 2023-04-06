@@ -15,9 +15,13 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.runtime.util.json;
+package com.slytechs.jnet.runtime.internal.json;
 
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.Objects;
 
 /**
  * @author Sly Technologies Inc
@@ -25,35 +29,20 @@ import java.util.List;
  * @author Mark Bednarczyk
  *
  */
-public interface JsonArray extends JsonStructure, Iterable<JsonValue> {
+public final class Json {
 
-	void clear();
+	public static JsonBuilderFactory createBuilderFactory() {
+		return new JsonBuilderFactory();
+	}
 
-	boolean getBoolean(int index);
+	public static JsonReader createReader(InputStream in) {
+		return createReader(new InputStreamReader(Objects.requireNonNull(in, "in")));
+	}
 
-	boolean getBoolean(int index, boolean defaultValue);
+	public static JsonReader createReader(Reader reader) {
+		return new ReaderImpl(new BufferedReader(Objects.requireNonNull(reader, "reader")));
+	}
 
-	int getInt(int index);
-
-	int getInt(int index, int defaultValue);
-
-	JsonArray getJsonArray(int index);
-
-	JsonNumber getJsonNumber(int index);
-
-	JsonObject getJsonObject(int index);
-
-	JsonString getJsonString(int index);
-
-	String getString(int index);
-
-	String getString(int index, String defaultValue);
-
-	<T extends JsonValue> List<T> getValuesAs(Class<T> clazz);
-
-	boolean isEmpty();
-
-	boolean isNull(int index);
-
-	int size();
+	private Json() {
+	}
 }

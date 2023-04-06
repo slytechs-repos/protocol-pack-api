@@ -15,34 +15,29 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.runtime.util.json;
+package com.slytechs.jnet.runtime.internal.json;
 
-import java.util.HashMap;
-import java.util.Map;
+/**
+ * @author Sly Technologies Inc
+ * @author repos@slytechs.com
+ * @author Mark Bednarczyk
+ *
+ */
+public interface JsonValue {
 
-public final class JsonObjectBuilder {
-
-	private Map<String, JsonValue> map = new HashMap<>();
-
-	public JsonObjectBuilder add(String key, String value) {
-		map.put(key, new StringImpl(value));
-
-		return this;
+	public enum ValueType {
+		ARRAY,
+		FALSE,
+		NULL,
+		NUMBER,
+		OBJECT,
+		STRING,
+		TRUE
 	}
 
-	public JsonObjectBuilder add(String key, Number value) {
-		map.put(key, new NumberImpl(value));
+	JsonValue NULL = new JsonNullImpl();
+	JsonValue FALSE = new JsonBooleanImpl("false");
+	JsonValue TRUE = new JsonBooleanImpl("true");
 
-		return this;
-	}
-
-	public JsonObjectBuilder add(String key, JsonValue value) {
-		map.put(key, value);
-
-		return this;
-	}
-
-	public JsonObject build() {
-		return new ObjectImpl(map);
-	}
+	ValueType getValueType();
 }

@@ -22,6 +22,7 @@ import java.nio.ByteBuffer;
 
 import com.slytechs.jnet.protocol.constants.L2FrameType;
 import com.slytechs.jnet.protocol.constants.PacketDescriptorType;
+import com.slytechs.jnet.runtime.time.TimestampSource;
 
 /**
  * @author Sly Technologies Inc
@@ -50,13 +51,20 @@ public interface PacketDissector {
 		throw new UnsupportedOperationException();
 	}
 
+	default int dissectPacket(ByteBuffer buffer) {
+		int caplen = buffer.remaining();
+		long timestamp = TimestampSource.system().timestamp();
+
+		return dissectPacket(buffer, timestamp, caplen, caplen);
+	}
+
 	int dissectPacket(ByteBuffer buffer, long timestamp, int caplen, int wirelen);
 
-	int writeDescriptor(ByteBuffer buffer);
+	boolean isNative();
 
 	PacketDissector reset();
 
 	PacketDissector setDatalinkType(L2FrameType l2Type) throws ProtocolException;
 
-	boolean isNative();
+	int writeDescriptor(ByteBuffer buffer);
 }

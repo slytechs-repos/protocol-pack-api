@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.runtime.util.json;
+package com.slytechs.jnet.runtime.internal.json;
 
 /**
  * @author Sly Technologies Inc
@@ -23,6 +23,15 @@ package com.slytechs.jnet.runtime.util.json;
  * @author Mark Bednarczyk
  *
  */
-public interface JsonStructure extends JsonValue {
+public interface JsonReader extends AutoCloseable {
+
+	@Override
+	void close() throws JsonException;
+
+	JsonStructure read() throws JsonException;
+
+	JsonArray readArray() throws JsonException;
+
+	JsonObject readObject() throws JsonException;
 
 }

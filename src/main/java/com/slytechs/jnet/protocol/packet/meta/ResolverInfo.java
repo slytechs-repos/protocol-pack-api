@@ -20,7 +20,7 @@ package com.slytechs.jnet.protocol.packet.meta;
 import java.lang.reflect.AnnotatedElement;
 
 import com.slytechs.jnet.protocol.packet.meta.MetaValue.ValueResolver;
-import com.slytechs.jnet.runtime.util.json.JsonArray;
+import com.slytechs.jnet.runtime.internal.json.JsonArray;
 
 /**
  * @author Sly Technologies Inc

@@ -19,9 +19,9 @@ package com.slytechs.jnet.protocol.packet.meta;
 
 import java.util.function.Function;
 
+import com.slytechs.jnet.runtime.internal.json.JsonObject;
+import com.slytechs.jnet.runtime.internal.json.JsonString;
 import com.slytechs.jnet.runtime.util.Detail;
-import com.slytechs.jnet.runtime.util.json.JsonObject;
-import com.slytechs.jnet.runtime.util.json.JsonString;
 
 /**
  * @author Sly Technologies Inc

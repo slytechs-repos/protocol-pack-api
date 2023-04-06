@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.runtime.util.json;
+package com.slytechs.jnet.runtime.internal.json;
 
 /**
  * @author Sly Technologies Inc
@@ -23,7 +23,9 @@ package com.slytechs.jnet.runtime.util.json;
  * @author Mark Bednarczyk
  *
  */
-public interface JsonString extends JsonValue {
+public interface JsonNumber extends JsonValue {
 
-	String getString();
+	int intValue();
+
+	long longValue();
 }

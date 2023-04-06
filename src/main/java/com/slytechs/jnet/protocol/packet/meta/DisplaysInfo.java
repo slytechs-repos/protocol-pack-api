@@ -23,12 +23,12 @@ import java.util.Arrays;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import com.slytechs.jnet.runtime.internal.json.JsonObject;
+import com.slytechs.jnet.runtime.internal.json.JsonObjectBuilder;
+import com.slytechs.jnet.runtime.internal.json.JsonValue;
+import com.slytechs.jnet.runtime.internal.json.JsonValue.ValueType;
 import com.slytechs.jnet.runtime.util.Detail;
 import com.slytechs.jnet.runtime.util.Enums;
-import com.slytechs.jnet.runtime.util.json.JsonObject;
-import com.slytechs.jnet.runtime.util.json.JsonObjectBuilder;
-import com.slytechs.jnet.runtime.util.json.JsonValue;
-import com.slytechs.jnet.runtime.util.json.JsonValue.ValueType;
 
 /**
  * @author Sly Technologies Inc

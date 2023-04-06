@@ -17,6 +17,8 @@
  */
 package com.slytechs.jnet.protocol.core;
 
+import com.slytechs.jnet.runtime.util.HexStrings;
+
 /**
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
@@ -38,6 +40,14 @@ public class MacAddress {
 	 */
 	public static String toOuiString(byte[] destination) {
 		throw new UnsupportedOperationException("not implemented yet");
+	}
+
+	/**
+	 * @param address
+	 * @return
+	 */
+	public static String toString(byte[] address) {
+		return HexStrings.toMacString(address);
 	}
 
 }

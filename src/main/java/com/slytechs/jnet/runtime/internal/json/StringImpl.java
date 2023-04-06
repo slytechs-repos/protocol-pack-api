@@ -15,13 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.runtime.util.json;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.Objects;
+package com.slytechs.jnet.runtime.internal.json;
 
 /**
  * @author Sly Technologies Inc
@@ -29,20 +23,35 @@ import java.util.Objects;
  * @author Mark Bednarczyk
  *
  */
-public final class Json {
+class StringImpl implements JsonString {
 
-	public static JsonBuilderFactory createBuilderFactory() {
-		return new JsonBuilderFactory();
+	private final String str;
+
+	/**
+	 * @param readQuotedToken
+	 */
+	public StringImpl(String str) {
+		this.str = str;
 	}
 
-	public static JsonReader createReader(InputStream in) {
-		return createReader(new InputStreamReader(Objects.requireNonNull(in, "in")));
+	/**
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonString#getString()
+	 */
+	@Override
+	public String getString() {
+		return str;
 	}
 
-	public static JsonReader createReader(Reader reader) {
-		return new ReaderImpl(new BufferedReader(Objects.requireNonNull(reader, "reader")));
+	@Override
+	public String toString() {
+		return "\"%s\"".formatted(str);
 	}
 
-	private Json() {
+	/**
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonValue#getValueType()
+	 */
+	@Override
+	public ValueType getValueType() {
+		return ValueType.STRING;
 	}
 }

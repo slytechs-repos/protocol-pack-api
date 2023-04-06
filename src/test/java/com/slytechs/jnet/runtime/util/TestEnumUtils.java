@@ -15,25 +15,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.slytechs.jnet.runtime.resource;
+package com.slytechs.jnet.runtime.util;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
+import com.slytechs.jnet.runtime.util.Enums;
 
 /**
- * The Class BindingException.
- *
- * @author Sly Technologies
+ * @author Sly Technologies Inc
  * @author repos@slytechs.com
+ * @author mark
+ *
  */
-public class BindingException extends RuntimeException {
-	
-	/**
-	 * Instantiates a new binding exception.
-	 *
-	 * @param msg the msg
-	 */
-	public BindingException(String msg) {
-		super(msg);
+class TestEnumUtils {
+
+	@Test
+	void replaceDollarSignAsDot() {
+		String src = "HLEN$BYTES";
+		String result = Enums.toDotName(src);
+		String expected = "hlen_bytes";
+
+		assertEquals(expected, result);
+
 	}
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -3389422447027941144L;
+	@Test
+	void toLowerCaseWithUnderscores() {
+		String src = "HLEN_BYTES";
+		String result = Enums.toDotName(src);
+		String expected = "hlen.bytes";
+
+		assertEquals(expected, result);
+
+	}
+
 }

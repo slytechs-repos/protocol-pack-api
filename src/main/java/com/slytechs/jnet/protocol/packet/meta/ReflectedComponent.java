@@ -20,7 +20,7 @@ package com.slytechs.jnet.protocol.packet.meta;
 import java.lang.reflect.Member;
 import java.lang.reflect.Modifier;
 
-import com.slytechs.jnet.runtime.util.json.JsonValue.ValueType;
+import com.slytechs.jnet.runtime.internal.json.JsonValue.ValueType;
 
 /**
  * @author Sly Technologies Inc

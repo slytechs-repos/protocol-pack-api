@@ -15,7 +15,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.runtime.util.json;
+package com.slytechs.jnet.runtime.internal.json;
+
+import java.util.List;
 
 /**
  * @author Sly Technologies Inc
@@ -23,43 +25,35 @@ package com.slytechs.jnet.runtime.util.json;
  * @author Mark Bednarczyk
  *
  */
-class NumberImpl implements JsonNumber {
+public interface JsonArray extends JsonStructure, Iterable<JsonValue> {
 
-	private final Number v;
+	void clear();
 
-	/**
-	 * @param v
-	 */
-	public NumberImpl(Number v) {
-		this.v = v;
-	}
+	boolean getBoolean(int index);
 
-	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonNumber#intValue()
-	 */
-	@Override
-	public int intValue() {
-		return v.intValue();
-	}
+	boolean getBoolean(int index, boolean defaultValue);
 
-	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonNumber#longValue()
-	 */
-	@Override
-	public long longValue() {
-		return v.longValue();
-	}
+	int getInt(int index);
 
-	@Override
-	public String toString() {
-		return v.toString();
-	}
+	int getInt(int index, int defaultValue);
 
-	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonValue#getValueType()
-	 */
-	@Override
-	public ValueType getValueType() {
-		return ValueType.NUMBER;
-	}
+	JsonArray getJsonArray(int index);
+
+	JsonNumber getJsonNumber(int index);
+
+	JsonObject getJsonObject(int index);
+
+	JsonString getJsonString(int index);
+
+	String getString(int index);
+
+	String getString(int index, String defaultValue);
+
+	<T extends JsonValue> List<T> getValuesAs(Class<T> clazz);
+
+	boolean isEmpty();
+
+	boolean isNull(int index);
+
+	int size();
 }

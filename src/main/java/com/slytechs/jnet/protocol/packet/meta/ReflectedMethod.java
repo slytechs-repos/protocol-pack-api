@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import com.slytechs.jnet.runtime.util.json.JsonObject;
+import com.slytechs.jnet.runtime.internal.json.JsonObject;
 
 /**
  * @author Sly Technologies Inc

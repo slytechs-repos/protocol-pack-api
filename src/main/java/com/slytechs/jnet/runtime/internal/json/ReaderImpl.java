@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.runtime.util.json;
+package com.slytechs.jnet.runtime.internal.json;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -35,7 +35,7 @@ class ReaderImpl implements JsonReader {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonReader#close()
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonReader#close()
 	 */
 	@Override
 	public void close() throws JsonException {
@@ -47,7 +47,7 @@ class ReaderImpl implements JsonReader {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonReader#read()
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonReader#read()
 	 */
 	@Override
 	public JsonStructure read() throws JsonException {
@@ -55,7 +55,7 @@ class ReaderImpl implements JsonReader {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonReader#readArray()
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonReader#readArray()
 	 */
 	@Override
 	public JsonArray readArray() throws JsonException {
@@ -80,7 +80,7 @@ class ReaderImpl implements JsonReader {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonReader#readObject()
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonReader#readObject()
 	 */
 	@Override
 	public JsonObject readObject() throws JsonException {

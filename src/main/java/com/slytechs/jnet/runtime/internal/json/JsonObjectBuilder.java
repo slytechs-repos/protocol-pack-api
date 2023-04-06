@@ -15,23 +15,34 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.runtime.util.json;
+package com.slytechs.jnet.runtime.internal.json;
 
-/**
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
- * @author Mark Bednarczyk
- *
- */
-public interface JsonReader extends AutoCloseable {
+import java.util.HashMap;
+import java.util.Map;
 
-	@Override
-	void close() throws JsonException;
+public final class JsonObjectBuilder {
 
-	JsonStructure read() throws JsonException;
+	private Map<String, JsonValue> map = new HashMap<>();
 
-	JsonArray readArray() throws JsonException;
+	public JsonObjectBuilder add(String key, String value) {
+		map.put(key, new StringImpl(value));
 
-	JsonObject readObject() throws JsonException;
+		return this;
+	}
 
+	public JsonObjectBuilder add(String key, Number value) {
+		map.put(key, new NumberImpl(value));
+
+		return this;
+	}
+
+	public JsonObjectBuilder add(String key, JsonValue value) {
+		map.put(key, value);
+
+		return this;
+	}
+
+	public JsonObject build() {
+		return new ObjectImpl(map);
+	}
 }

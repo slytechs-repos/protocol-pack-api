@@ -15,10 +15,14 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.runtime.util.json;
+package com.slytechs.jnet.runtime.internal.json;
 
-public class JsonBuilderFactory {
-	public JsonObjectBuilder createObjectBuilder() {
-		return new JsonObjectBuilder();
-	}
+/**
+ * @author Sly Technologies Inc
+ * @author repos@slytechs.com
+ * @author Mark Bednarczyk
+ *
+ */
+public interface JsonStructure extends JsonValue {
+
 }

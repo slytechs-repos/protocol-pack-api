@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.runtime.util.json;
+package com.slytechs.jnet.runtime.internal.json;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -52,7 +52,7 @@ class ObjectImpl implements JsonObject {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonObject#get(java.lang.String)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonObject#get(java.lang.String)
 	 */
 	@Override
 	public JsonValue get(String name) {
@@ -79,7 +79,7 @@ class ObjectImpl implements JsonObject {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonObject#getInt(java.lang.String)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonObject#getInt(java.lang.String)
 	 */
 	@Override
 	public int getInt(String name) {
@@ -87,7 +87,7 @@ class ObjectImpl implements JsonObject {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonObject#getInt(java.lang.String,
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonObject#getInt(java.lang.String,
 	 *      int)
 	 */
 	@Override
@@ -100,7 +100,7 @@ class ObjectImpl implements JsonObject {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonObject#getJsonArray(java.lang.String)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonObject#getJsonArray(java.lang.String)
 	 */
 	@Override
 	public JsonArray getJsonArray(String name) {
@@ -108,7 +108,7 @@ class ObjectImpl implements JsonObject {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonObject#getJsonNumber(java.lang.String)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonObject#getJsonNumber(java.lang.String)
 	 */
 	@Override
 	public JsonNumber getJsonNumber(String name) {
@@ -116,7 +116,7 @@ class ObjectImpl implements JsonObject {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonObject#getJsonObject(java.lang.String)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonObject#getJsonObject(java.lang.String)
 	 */
 	@Override
 	public JsonObject getJsonObject(String name) {
@@ -124,7 +124,7 @@ class ObjectImpl implements JsonObject {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonObject#getJsonString(java.lang.String)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonObject#getJsonString(java.lang.String)
 	 */
 	@Override
 	public JsonString getJsonString(String name) {
@@ -141,7 +141,7 @@ class ObjectImpl implements JsonObject {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonObject#getString(java.lang.String)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonObject#getString(java.lang.String)
 	 */
 	@Override
 	public String getString(String name) {
@@ -149,7 +149,7 @@ class ObjectImpl implements JsonObject {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonObject#getString(java.lang.String,
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonObject#getString(java.lang.String,
 	 *      java.lang.String)
 	 */
 	@Override
@@ -162,7 +162,7 @@ class ObjectImpl implements JsonObject {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonValue#getValueType()
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonValue#getValueType()
 	 */
 	@Override
 	public ValueType getValueType() {
@@ -175,7 +175,7 @@ class ObjectImpl implements JsonObject {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonObject#isNull(java.lang.String)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonObject#isNull(java.lang.String)
 	 */
 	@Override
 	public boolean isNull(String name) {
@@ -214,7 +214,7 @@ class ObjectImpl implements JsonObject {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonObject#isPresent(java.lang.String)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonObject#isPresent(java.lang.String)
 	 */
 	@Override
 	public boolean isPresent(String name) {

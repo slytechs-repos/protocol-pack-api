@@ -15,34 +15,33 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.runtime.util.json;
+package com.slytechs.jnet.runtime.internal.json;
 
-import java.util.ArrayList;
-import java.util.List;
+/**
+ * @author Sly Technologies Inc
+ * @author repos@slytechs.com
+ * @author Mark Bednarczyk
+ *
+ */
+class JsonNullImpl implements JsonValue {
 
-public final class JsonArrayBuilder {
-
-	private final List<JsonValue> list = new ArrayList<>();
-
-	public JsonArrayBuilder add(String value) {
-		list.add(new StringImpl(value));
-
-		return this;
+	public JsonNullImpl() {
 	}
 
-	public JsonArrayBuilder add(Number value) {
-		list.add(new NumberImpl(value));
-
-		return this;
+	@Override
+	public String toString() {
+		return "null";
 	}
 
-	public JsonArrayBuilder add(JsonValue value) {
-		list.add(value);
-
-		return this;
+	public boolean isNull() {
+		return true;
 	}
 
-	public JsonArray build() {
-		return new ArrayImpl(list);
+	/**
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonValue#getValueType()
+	 */
+	@Override
+	public ValueType getValueType() {
+		return ValueType.NULL;
 	}
 }

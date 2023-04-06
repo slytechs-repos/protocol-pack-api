@@ -21,10 +21,10 @@ import java.lang.reflect.AnnotatedElement;
 
 import com.slytechs.jnet.protocol.packet.meta.Meta.Formatter;
 import com.slytechs.jnet.protocol.packet.meta.Meta.MetaType;
-import com.slytechs.jnet.runtime.util.json.JsonObject;
-import com.slytechs.jnet.runtime.util.json.JsonObjectBuilder;
-import com.slytechs.jnet.runtime.util.json.JsonValue;
-import com.slytechs.jnet.runtime.util.json.JsonValue.ValueType;
+import com.slytechs.jnet.runtime.internal.json.JsonObject;
+import com.slytechs.jnet.runtime.internal.json.JsonObjectBuilder;
+import com.slytechs.jnet.runtime.internal.json.JsonValue;
+import com.slytechs.jnet.runtime.internal.json.JsonValue.ValueType;
 
 /**
  * @author Sly Technologies Inc

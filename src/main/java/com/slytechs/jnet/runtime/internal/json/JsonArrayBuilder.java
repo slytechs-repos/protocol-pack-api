@@ -15,22 +15,34 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet.meta;
+package com.slytechs.jnet.runtime.internal.json;
 
-import java.lang.reflect.AnnotatedElement;
+import java.util.ArrayList;
+import java.util.List;
 
-import com.slytechs.jnet.runtime.internal.json.JsonObject;
+public final class JsonArrayBuilder {
 
-public class MetaInfoFactory {
-	private final AnnotatedElement element;
-	private final JsonObject jsonDefaults;
+	private final List<JsonValue> list = new ArrayList<>();
 
-	public MetaInfoFactory(AnnotatedElement element, String name, JsonObject jsonDefaults) {
-		this.element = element;
-		this.jsonDefaults = jsonDefaults;
+	public JsonArrayBuilder add(String value) {
+		list.add(new StringImpl(value));
+
+		return this;
 	}
 
-	public <T extends MetaInfoType> T getMetaInfo(Class<T> lookupType) {
-		return null;
+	public JsonArrayBuilder add(Number value) {
+		list.add(new NumberImpl(value));
+
+		return this;
+	}
+
+	public JsonArrayBuilder add(JsonValue value) {
+		list.add(value);
+
+		return this;
+	}
+
+	public JsonArray build() {
+		return new ArrayImpl(list);
 	}
 }

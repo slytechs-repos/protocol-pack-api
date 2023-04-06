@@ -27,10 +27,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.slytechs.jnet.runtime.util.json.Json;
-import com.slytechs.jnet.runtime.util.json.JsonException;
-import com.slytechs.jnet.runtime.util.json.JsonObject;
-import com.slytechs.jnet.runtime.util.json.JsonReader;
+import com.slytechs.jnet.runtime.internal.json.Json;
+import com.slytechs.jnet.runtime.internal.json.JsonException;
+import com.slytechs.jnet.runtime.internal.json.JsonObject;
+import com.slytechs.jnet.runtime.internal.json.JsonReader;
 
 /**
  * @author Sly Technologies Inc

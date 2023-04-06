@@ -36,10 +36,10 @@ import com.slytechs.jnet.protocol.packet.Packet;
 import com.slytechs.jnet.protocol.packet.Payload;
 import com.slytechs.jnet.protocol.packet.descriptor.PacketDissector;
 import com.slytechs.jnet.protocol.packet.descriptor.Type2Descriptor;
+import com.slytechs.jnet.runtime.internal.json.JsonException;
 import com.slytechs.jnet.runtime.util.Detail;
 import com.slytechs.jnet.runtime.util.HexStrings;
 import com.slytechs.jnet.runtime.util.NotFound;
-import com.slytechs.jnet.runtime.util.json.JsonException;
 
 /**
  * @author Sly Technologies Inc

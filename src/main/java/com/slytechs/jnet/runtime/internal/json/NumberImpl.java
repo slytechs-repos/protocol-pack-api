@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.runtime.util.json;
+package com.slytechs.jnet.runtime.internal.json;
 
 /**
  * @author Sly Technologies Inc
@@ -23,41 +23,43 @@ package com.slytechs.jnet.runtime.util.json;
  * @author Mark Bednarczyk
  *
  */
-class JsonBooleanImpl implements JsonValue {
+class NumberImpl implements JsonNumber {
 
-	private final String value;
-	private final ValueType type;
+	private final Number v;
 
-	public JsonBooleanImpl(String value) {
-		this.value = value;
+	/**
+	 * @param v
+	 */
+	public NumberImpl(Number v) {
+		this.v = v;
+	}
 
-		this.type = switch (value) {
+	/**
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonNumber#intValue()
+	 */
+	@Override
+	public int intValue() {
+		return v.intValue();
+	}
 
-		case "true" -> ValueType.TRUE;
-		case "false" -> ValueType.FALSE;
-
-		default -> throw new IllegalStateException("invalid value for json constant " + value);
-		};
+	/**
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonNumber#longValue()
+	 */
+	@Override
+	public long longValue() {
+		return v.longValue();
 	}
 
 	@Override
 	public String toString() {
-		return value;
-	}
-
-	public boolean isTrue() {
-		return type == ValueType.TRUE;
-	}
-
-	public boolean isFalse() {
-		return type == ValueType.FALSE;
+		return v.toString();
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonValue#getValueType()
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonValue#getValueType()
 	 */
 	@Override
 	public ValueType getValueType() {
-		return type;
+		return ValueType.NUMBER;
 	}
 }

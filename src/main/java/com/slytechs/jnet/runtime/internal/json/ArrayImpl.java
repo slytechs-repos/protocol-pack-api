@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.runtime.util.json;
+package com.slytechs.jnet.runtime.internal.json;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -52,7 +52,7 @@ class ArrayImpl implements JsonArray {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonValue#getValueType()
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonValue#getValueType()
 	 */
 	@Override
 	public ValueType getValueType() {
@@ -68,7 +68,7 @@ class ArrayImpl implements JsonArray {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonArray#getBoolean(int)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonArray#getBoolean(int)
 	 */
 	@Override
 	public boolean getBoolean(int index) {
@@ -76,7 +76,7 @@ class ArrayImpl implements JsonArray {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonArray#getBoolean(int, boolean)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonArray#getBoolean(int, boolean)
 	 */
 	@Override
 	public boolean getBoolean(int index, boolean defaultValue) {
@@ -88,7 +88,7 @@ class ArrayImpl implements JsonArray {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonArray#getInt(int)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonArray#getInt(int)
 	 */
 	@Override
 	public int getInt(int index) {
@@ -96,7 +96,7 @@ class ArrayImpl implements JsonArray {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonArray#getInt(int, int)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonArray#getInt(int, int)
 	 */
 	@Override
 	public int getInt(int index, int defaultValue) {
@@ -108,7 +108,7 @@ class ArrayImpl implements JsonArray {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonArray#getString(int)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonArray#getString(int)
 	 */
 	@Override
 	public String getString(int index) {
@@ -116,7 +116,7 @@ class ArrayImpl implements JsonArray {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonArray#getString(int,
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonArray#getString(int,
 	 *      java.lang.String)
 	 */
 	@Override
@@ -129,7 +129,7 @@ class ArrayImpl implements JsonArray {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonArray#getJsonArray(int)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonArray#getJsonArray(int)
 	 */
 	@Override
 	public JsonArray getJsonArray(int index) {
@@ -137,7 +137,7 @@ class ArrayImpl implements JsonArray {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonArray#getJsonNumber(int)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonArray#getJsonNumber(int)
 	 */
 	@Override
 	public JsonNumber getJsonNumber(int index) {
@@ -145,7 +145,7 @@ class ArrayImpl implements JsonArray {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonArray#getJsonObject(int)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonArray#getJsonObject(int)
 	 */
 	@Override
 	public JsonObject getJsonObject(int index) {
@@ -153,7 +153,7 @@ class ArrayImpl implements JsonArray {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonArray#getJsonString(int)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonArray#getJsonString(int)
 	 */
 	@Override
 	public JsonString getJsonString(int index) {
@@ -174,7 +174,7 @@ class ArrayImpl implements JsonArray {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonArray#isNull(int)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonArray#isNull(int)
 	 */
 	@Override
 	public boolean isNull(int index) {
@@ -182,7 +182,7 @@ class ArrayImpl implements JsonArray {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonArray#size()
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonArray#size()
 	 */
 	@Override
 	public int size() {
@@ -190,7 +190,7 @@ class ArrayImpl implements JsonArray {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonArray#isEmpty()
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonArray#isEmpty()
 	 */
 	@Override
 	public boolean isEmpty() {
@@ -198,7 +198,7 @@ class ArrayImpl implements JsonArray {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonArray#clear()
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonArray#clear()
 	 */
 	@Override
 	public void clear() {
@@ -206,7 +206,7 @@ class ArrayImpl implements JsonArray {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.json.JsonArray#getValuesAs(java.lang.Class)
+	 * @see com.slytechs.jnet.runtime.internal.json.JsonArray#getValuesAs(java.lang.Class)
 	 */
 	@SuppressWarnings({ "unchecked",
 			"rawtypes" })

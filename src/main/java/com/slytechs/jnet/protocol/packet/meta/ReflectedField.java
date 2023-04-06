@@ -22,7 +22,7 @@ import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.slytechs.jnet.runtime.util.json.JsonObject;
+import com.slytechs.jnet.runtime.internal.json.JsonObject;
 
 /**
  * @author Sly Technologies Inc

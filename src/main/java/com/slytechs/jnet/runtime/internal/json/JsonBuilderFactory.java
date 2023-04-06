@@ -15,29 +15,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.runtime.util.json;
+package com.slytechs.jnet.runtime.internal.json;
 
-/**
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
- * @author Mark Bednarczyk
- *
- */
-public interface JsonValue {
-
-	public enum ValueType {
-		ARRAY,
-		FALSE,
-		NULL,
-		NUMBER,
-		OBJECT,
-		STRING,
-		TRUE
+public class JsonBuilderFactory {
+	public JsonObjectBuilder createObjectBuilder() {
+		return new JsonObjectBuilder();
 	}
-
-	JsonValue NULL = new JsonNullImpl();
-	JsonValue FALSE = new JsonBooleanImpl("false");
-	JsonValue TRUE = new JsonBooleanImpl("true");
-
-	ValueType getValueType();
 }
