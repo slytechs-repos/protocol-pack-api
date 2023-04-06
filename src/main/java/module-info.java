@@ -48,22 +48,6 @@ module com.slytechs.jnet.protocol.core {
 	exports com.slytechs.jnet.protocol.packet.meta;
 	exports com.slytechs.jnet.protocol.packet.descriptor;
 
-	/* Private API */
-	exports com.slytechs.jnet.runtime.internal;
-	exports com.slytechs.jnet.runtime.internal.layout;
-	exports com.slytechs.jnet.runtime.internal.foreign;
-	exports com.slytechs.jnet.runtime.internal.concurrent;
-	exports com.slytechs.jnet.runtime.internal.json to
-			com.slytechs.jnet.protocol.web;
-
-	/* Public API */
-	exports com.slytechs.jnet.runtime.util;
-	exports com.slytechs.jnet.runtime.util.function;
-	exports com.slytechs.jnet.runtime.util.format;
-	exports com.slytechs.jnet.runtime.time;
-	exports com.slytechs.jnet.runtime.resource;
-
 	requires java.logging;
-
-	uses java.util.spi.ResourceBundleProvider;
+	requires transitive com.slytechs.jnet.runtime;
 }
