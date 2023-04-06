@@ -19,12 +19,14 @@ package com.slytechs.jnet.protocol.core;
 
 import com.slytechs.jnet.protocol.constants.CoreHeaderInfo;
 import com.slytechs.jnet.protocol.packet.Header;
+import com.slytechs.jnet.protocol.packet.meta.Meta;
 
 /**
  * 
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
+@Meta
 public class Udp extends Header {
 
 	public static final int ID = CoreHeaderInfo.CORE_ID_UDP;
@@ -46,6 +48,7 @@ public class Udp extends Header {
 	 *
 	 * @return the int
 	 */
+	@Meta
 	public int dstPort() {
 		return UdpStruct.DST_PORT.getUnsignedShort(buffer());
 	}
@@ -55,6 +58,7 @@ public class Udp extends Header {
 	}
 
 	@Override
+	@Meta
 	public int length() {
 		return UdpStruct.LENGTH.getUnsignedShort(buffer());
 	}
@@ -63,6 +67,7 @@ public class Udp extends Header {
 		UdpStruct.LENGTH.setInt(length, buffer());
 	}
 
+	@Meta
 	public int srcPort() {
 		return UdpStruct.SRC_PORT.getUnsignedShort(buffer());
 	}

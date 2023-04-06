@@ -20,13 +20,11 @@ package com.slytechs.jnet.protocol.packet.meta;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.*;
 
-import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import com.slytechs.jnet.protocol.packet.meta.MetaValue.ValueFormatter;
 
-@Documented
 @Retention(RUNTIME)
 @Target({ TYPE,
 		METHOD,
