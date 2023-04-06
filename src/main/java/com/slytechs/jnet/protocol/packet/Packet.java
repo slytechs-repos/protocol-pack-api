@@ -175,6 +175,8 @@ public final class Packet
 	 */
 	@Override
 	public <T extends Header> T peekHeader(T header, int depth) {
+		header.unbind();
+		
 		int id = header.id();
 
 		if (id == CoreHeaderInfo.CORE_ID_PAYLOAD && (header instanceof Payload payload)) {

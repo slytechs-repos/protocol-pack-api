@@ -196,7 +196,7 @@ public final class CoreConstants {
 
 	/* Descriptor TCP constants */
 	public static final int TCP_HEADER_LEN = 20;
-	public static final int TCP_FIELD_IHL = 0;
+	public static final int TCP_FIELD_IHL = 12;
 	public static final int TCP_OPTION_FIELD_KIND = 0;
 	public static final int TCP_OPTION_FIELD_LENGTH = 1;
 	public static final int TCP_OPTION_KIND_EOL = 0;

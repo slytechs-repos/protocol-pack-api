@@ -95,6 +95,9 @@ public class MemoryBinding implements Cloneable {
 	public final ByteBuffer buffer() {
 		if (buffer == null)
 			throw new IllegalStateException("no binding!");
+		
+		if (buffer.limit() == 0)
+			throw new IllegalStateException("empty binding! " + buffer);
 
 		return buffer;
 	}
