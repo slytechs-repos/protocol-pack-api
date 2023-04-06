@@ -79,14 +79,14 @@ public final class PacketFormat extends MetaFormat {
 		var label = display.label(meta);
 		var displayFormat = display.value();
 
-		if (label.equals("HEXDUMP"))
-			return formatHexdump(field, toAppendTo);
+		try {
+			if (label.equals("HEXDUMP"))
+				return formatHexdump(field, toAppendTo);
 
-		var valueArgs = buildDisplayArgs(field.getParentHeader(), field, displayFormat);
-		displayFormat = super.rewriteDisplayArgs(displayFormat);
+			var valueArgs = buildDisplayArgs(field.getParentHeader(), field, displayFormat);
+			displayFormat = super.rewriteDisplayArgs(displayFormat);
 //		System.out.printf("formatField:: displayFormat=%s%n", displayFormat);
 
-		try {
 			var labelComponent = label;
 			var valueComponent = displayFormat.formatted(valueArgs);
 			var line = fieldLine.formatted(labelComponent, valueComponent);
@@ -95,9 +95,10 @@ public final class PacketFormat extends MetaFormat {
 
 			return toAppendTo;
 		} catch (Throwable e) {
-			throw new IllegalStateException("Field '%s.%s': %s"
-					.formatted(field.getParentHeader().name(), field.name(), e
-							.getMessage()));
+			throw e;
+//			throw new IllegalStateException("Field '%s.%s': %s"
+//					.formatted(field.getParentHeader().name(), field.name(), e
+//							.getMessage()));
 		}
 	}
 
@@ -257,7 +258,7 @@ public final class PacketFormat extends MetaFormat {
 					.append("ERROR: %s".formatted(e.getMessage()));
 
 //			return toAppendTo;
-			
+
 			throw new IllegalStateException(display.label(), e);
 		}
 	}

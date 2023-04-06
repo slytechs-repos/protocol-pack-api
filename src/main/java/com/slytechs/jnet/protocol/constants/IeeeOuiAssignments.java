@@ -325,10 +325,10 @@ public final class IeeeOuiAssignments {
 	}
 
 	public static String formatPrefixMacWithOuiName(Object obj) {
-		throw new UnsupportedOperationException();
+		return "IeeOui:: format";
 	}
 
 	public static String resolveMacOuiDescription(Object obj) {
-		throw new UnsupportedOperationException();
+		return "IeeOui:: resolve";
 	}
 }

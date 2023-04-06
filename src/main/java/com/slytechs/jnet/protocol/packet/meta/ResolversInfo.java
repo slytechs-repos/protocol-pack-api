@@ -37,7 +37,7 @@ public record ResolversInfo(ValueResolver... resolvers) implements MetaInfoType 
 	static ResolversInfo parse(AnnotatedElement element, String name, JsonObject jsonDefaults) {
 		JsonValue jsonValue = null;
 		if (jsonDefaults != null)
-			jsonValue = jsonDefaults.get("resolvers");
+			jsonValue = jsonDefaults.get("resolver");
 
 		if (jsonValue != null)
 			return parseJson(jsonValue);

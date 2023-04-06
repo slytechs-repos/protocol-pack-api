@@ -52,7 +52,7 @@ public final class MetaHeader
 		super(domain, reflectedClass);
 		this.header = target;
 		this.elements = Arrays.stream(reflectedClass.getFields())
-				.map(reflectedMember -> new MetaField(domain, header, this, reflectedMember))
+				.map(reflectedMember -> new MetaField(this, reflectedMember))
 				.collect(Collectors.toList());
 
 		this.fields = elements.stream().filter(MetaField::isField).toList();

@@ -39,4 +39,8 @@ public abstract class ReflectedMember extends ReflectedComponent {
 
 	protected abstract Member getMember();
 
+	@Override
+	public String toString() {
+		return getMember().toString();
+	}
 }

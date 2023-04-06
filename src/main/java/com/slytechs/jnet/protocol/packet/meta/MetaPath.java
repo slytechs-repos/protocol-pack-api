@@ -142,8 +142,13 @@ public final class MetaPath implements Iterable<String> {
 		if (isUp(offset))
 			return search(domain.parent(), offset + 1);
 
-		if (isLast(offset))
-			return domain.findKey(last());
+		if (isLast(offset)) {
+			Optional<V> field = domain.findKey(last());
+			if (field.isPresent())
+				return field;
+
+			return search(domain.parent(), offset);
+		}
 
 		MetaDomain childDomain = domain.findDomain(stack[offset]);
 		if (childDomain == null)

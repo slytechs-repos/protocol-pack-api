@@ -50,7 +50,7 @@ class ReflectedClass extends ReflectedComponent {
 		if (res != null) {
 			try {
 				jsonConf = readMetaResource(res.value());
-				jsonFields = jsonConf.getJsonObject("fields");
+				jsonFields = jsonConf.getJsonObject("field");
 
 			} catch (JsonException e) {
 				LOGGER.log(Level.WARNING, "unable to load meta resource [%s]"

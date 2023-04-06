@@ -38,12 +38,11 @@ public final class MetaField extends MetaElement {
 	private final Object target;
 
 	/**
-	 * @param domain
 	 * @param memberInfo
 	 */
-	MetaField(MetaDomain domain, Object target, MetaHeader header, ReflectedMember memberInfo) {
-		super(domain, memberInfo);
-		this.target = target;
+	MetaField(MetaHeader header, ReflectedMember memberInfo) {
+		super(header, memberInfo);
+		this.target = header.getTarget();
 		this.header = header;
 		this.member = memberInfo;
 		memberInfo.getMetaType(MetaInfo.class).metaType();
@@ -92,14 +91,6 @@ public final class MetaField extends MetaElement {
 			return "";
 
 		return resolvers[resolverIndex].resolveValue(get());
-	}
-
-	/**
-	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#parent()
-	 */
-	@Override
-	public MetaDomain parent() {
-		throw new UnsupportedOperationException("not implemented yet");
 	}
 
 	/**

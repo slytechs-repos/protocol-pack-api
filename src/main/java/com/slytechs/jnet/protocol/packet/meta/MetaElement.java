@@ -33,16 +33,16 @@ public abstract class MetaElement
 
 	private final MetaType metaType;
 
-	private final MetaDomain domain;
+	private final MetaDomain parent;
 
-	protected MetaElement(MetaDomain domain, ReflectedComponent metaContainer) {
+	protected MetaElement(MetaDomain parent, ReflectedComponent metaContainer) {
 		this.meta = metaContainer;
 		this.metaType = metaContainer.getMetaType(MetaInfo.class).metaType();
 
 		if (this instanceof MetaMapped mapped) {
-			this.domain = MetaMapped.Proxy.of(domain, mapped);
+			this.parent = MetaMapped.Proxy.of(parent, mapped);
 		} else
-			this.domain = domain;
+			this.parent = parent;
 	}
 
 	public final String abbr() {
@@ -91,7 +91,7 @@ public abstract class MetaElement
 	 */
 	@Override
 	public MetaDomain parent() {
-		return domain.parent();
+		return parent;
 	}
 
 	/**

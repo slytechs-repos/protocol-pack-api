@@ -21,6 +21,7 @@ import java.util.function.Function;
 
 import com.slytechs.jnet.runtime.util.Detail;
 import com.slytechs.jnet.runtime.util.json.JsonObject;
+import com.slytechs.jnet.runtime.util.json.JsonString;
 
 /**
  * @author Sly Technologies Inc
@@ -53,8 +54,17 @@ public record DisplayInfo(String value, String label, Detail detail) implements 
 
 	public static DisplayInfo parseJson(JsonObject jsonDisplay, Detail detail,
 			Function<Detail, DisplayInfo> defaultDisplay) {
+
 		if (jsonDisplay == null)
 			return defaultDisplay.apply(detail);
+
+		if (jsonDisplay.get("DEFAULT") instanceof JsonString jsonValue) {
+			return new DisplayInfo(jsonValue.getString(), "", detail);
+		}
+
+		if (jsonDisplay.get("DEFAULT") instanceof JsonObject jsonDef) {
+			jsonDisplay = jsonDef;
+		}
 
 		String value = jsonDisplay.getString("value", null);
 		String label = jsonDisplay.getString("label", "");
