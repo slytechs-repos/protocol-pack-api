@@ -27,27 +27,54 @@ import java.util.regex.Pattern;
 import com.slytechs.jnet.runtime.util.Detail;
 
 /**
+ * The Class MetaFormat.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public abstract class MetaFormat extends Format implements MetaDomain {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -4307770938567017464L;
+	
+	/** The context. */
 	private final MetaDomain context;
+	
+	/** The detail. */
 	private final Detail detail;
 
+	/**
+	 * Instantiates a new meta format.
+	 *
+	 * @param context the context
+	 * @param detail  the detail
+	 */
 	protected MetaFormat(MetaDomain context, Detail detail) {
 		this.context = context;
 		this.detail = detail;
 
 	}
 
+	/**
+	 * Format.
+	 *
+	 * @param obj    the obj
+	 * @param detail the detail
+	 * @return the string
+	 */
 	public final String format(Object obj, Detail detail) {
 		return format(obj, new StringBuilder(), detail).toString();
 	}
 
+	/**
+	 * Format.
+	 *
+	 * @param obj        the obj
+	 * @param toAppendTo the to append to
+	 * @param detail     the detail
+	 * @return the string builder
+	 */
 	public final StringBuilder format(Object obj, StringBuilder toAppendTo, Detail detail) {
 		obj = convertToMetaIfPossible(obj);
 
@@ -60,6 +87,12 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 	}
 
 	/**
+	 * Format.
+	 *
+	 * @param obj        the obj
+	 * @param toAppendTo the to append to
+	 * @param pos        the pos
+	 * @return the string buffer
 	 * @see java.text.Format#format(java.lang.Object, java.lang.StringBuffer,
 	 *      java.text.FieldPosition)
 	 */
@@ -76,6 +109,11 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 	}
 
 	/**
+	 * Parses the object.
+	 *
+	 * @param source the source
+	 * @param pos    the pos
+	 * @return the object
 	 * @see java.text.Format#parseObject(java.lang.String, java.text.ParsePosition)
 	 */
 	@Override
@@ -84,11 +122,27 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 				.formatted(source));
 	}
 
+	/**
+	 * Convert to meta if possible.
+	 *
+	 * @param obj the obj
+	 * @return the object
+	 */
 	protected abstract Object convertToMetaIfPossible(Object obj);
 
+	/**
+	 * Format meta.
+	 *
+	 * @param element    the element
+	 * @param toAppendTo the to append to
+	 * @param detail     the detail
+	 * @return the string builder
+	 */
 	public abstract StringBuilder formatMeta(MetaElement element, StringBuilder toAppendTo, Detail detail);
 
 	/**
+	 * Gets the context.
+	 *
 	 * @return the context
 	 */
 	public final MetaDomain getContext() {
@@ -96,20 +150,37 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 	}
 
 	/**
+	 * Gets the detail.
+	 *
 	 * @return the detail
 	 */
 	public final Detail getDetail() {
 		return detail;
 	}
 
+	/** The Constant DISPLAY_ATTRIBUTE_PATTERN. */
 	private static final Pattern DISPLAY_ATTRIBUTE_PATTERN = Pattern.compile(""
 			+ "%\\{([\\w.]*):?([VFR]?[12345]*)\\}" // F=Formatted, R=Resolved
 			+ "");
 
+	/**
+	 * Rewrite display args.
+	 *
+	 * @param summaryFormat the summary format
+	 * @return the string
+	 */
 	protected String rewriteDisplayArgs(String summaryFormat) {
 		return DISPLAY_ATTRIBUTE_PATTERN.matcher(summaryFormat).replaceAll("%");
 	}
 
+	/**
+	 * Builds the display args.
+	 *
+	 * @param domain        the domain
+	 * @param element       the element
+	 * @param summaryFormat the summary format
+	 * @return the object[]
+	 */
 	protected Object[] buildDisplayArgs(MetaDomain domain, MetaElement element, String summaryFormat) {
 		Matcher matcher = DISPLAY_ATTRIBUTE_PATTERN.matcher(summaryFormat);
 		var list = new ArrayList<>();

@@ -28,10 +28,11 @@ import java.lang.annotation.Target;
 import com.slytechs.jnet.runtime.util.Detail;
 
 /**
+ * The Interface Display.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 @Documented
 @Repeatable(Displays.class)
@@ -64,8 +65,18 @@ public @interface Display {
 	 */
 	String value() default "";
 
+	/**
+	 * Label.
+	 *
+	 * @return the string
+	 */
 	String label() default "";
 
+	/**
+	 * Detail.
+	 *
+	 * @return the detail
+	 */
 	Detail detail() default Detail.HIGH;
 
 }

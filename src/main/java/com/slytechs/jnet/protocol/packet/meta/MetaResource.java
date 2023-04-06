@@ -27,13 +27,20 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RUNTIME)
 @Target({ TYPE })
+
 /**
+ * The Interface MetaResource.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public @interface MetaResource {
 
+	/**
+	 * Value.
+	 *
+	 * @return the string
+	 */
 	String value() default "";
 }

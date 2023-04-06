@@ -19,11 +19,26 @@ package com.slytechs.jnet.protocol.packet;
 
 import com.slytechs.jnet.protocol.HeaderInfo;
 
+/**
+ * The Interface HeaderExtensionInfo.
+ */
 public interface HeaderExtensionInfo extends HeaderInfo {
+	
+	/** The empty array. */
 	HeaderExtensionInfo[] EMPTY_ARRAY = new HeaderExtensionInfo[0];
 
+	/**
+	 * Gets the extension abbr.
+	 *
+	 * @return the extension abbr
+	 */
 	String getExtensionAbbr();
 
+	/**
+	 * Gets the parent header id.
+	 *
+	 * @return the parent header id
+	 */
 	int getParentHeaderId();
 
 }

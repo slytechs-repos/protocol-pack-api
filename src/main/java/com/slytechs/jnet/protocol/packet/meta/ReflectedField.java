@@ -25,13 +25,21 @@ import java.util.List;
 import com.slytechs.jnet.runtime.internal.json.JsonObject;
 
 /**
+ * The Class ReflectedField.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 class ReflectedField extends ReflectedMember {
 
+	/**
+	 * Parses the.
+	 *
+	 * @param cl         the cl
+	 * @param jsonFields the json fields
+	 * @return the reflected field[]
+	 */
 	public static ReflectedField[] parse(Class<?> cl, JsonObject jsonFields) {
 		var list = new ArrayList<ReflectedField>();
 
@@ -40,6 +48,13 @@ class ReflectedField extends ReflectedMember {
 		return list.toArray(ReflectedField[]::new);
 	}
 
+	/**
+	 * Parses the fields recursively.
+	 *
+	 * @param cl         the cl
+	 * @param list       the list
+	 * @param jsonFields the json fields
+	 */
 	public static void parseFieldsRecursively(Class<?> cl, List<ReflectedField> list, JsonObject jsonFields) {
 		if (cl.getSuperclass() == Object.class)
 			return;
@@ -53,6 +68,13 @@ class ReflectedField extends ReflectedMember {
 
 	}
 
+	/**
+	 * Parses the field.
+	 *
+	 * @param field      the field
+	 * @param jsonFields the json fields
+	 * @return the reflected field
+	 */
 	private static ReflectedField parseField(Field field, JsonObject jsonFields) {
 		String name = field.getName();
 		var container = MetaInfo.parse(field, name, jsonFields);
@@ -60,24 +82,36 @@ class ReflectedField extends ReflectedMember {
 		return new ReflectedField(field, container);
 	}
 
+	/** The field. */
 	private final Field field;
 
 	/**
-	 * @param f
-	 * @param field
-	 * @param ordinal
-	 * @param parent
-	 * 
+	 * Instantiates a new reflected field.
+	 *
+	 * @param field         the field
+	 * @param metaContainer the meta container
 	 */
 	private ReflectedField(Field field, MetaInfo metaContainer) {
 		super(metaContainer);
 		this.field = field;
 	}
 
+	/**
+	 * Gets the field.
+	 *
+	 * @return the field
+	 */
 	public Field getField() {
 		return field;
 	}
 
+	/**
+	 * Gets the value.
+	 *
+	 * @param <T>    the generic type
+	 * @param target the target
+	 * @return the value
+	 */
 	@SuppressWarnings("unchecked")
 	public <T> T getValue(Object target) {
 
@@ -91,6 +125,12 @@ class ReflectedField extends ReflectedMember {
 		}
 	}
 
+	/**
+	 * Sets the value.
+	 *
+	 * @param target   the target
+	 * @param newValue the new value
+	 */
 	public void setValue(Object target, Object newValue) {
 		try {
 			if (isStatic(field))
@@ -104,7 +144,7 @@ class ReflectedField extends ReflectedMember {
 	}
 
 	/**
-	 * @return
+	 * @see com.slytechs.jnet.protocol.packet.meta.ReflectedMember#getValueType()
 	 */
 	@Override
 	public Class<?> getValueType() {
@@ -112,6 +152,12 @@ class ReflectedField extends ReflectedMember {
 	}
 
 	/**
+	 * Gets the value.
+	 *
+	 * @param <T>    the generic type
+	 * @param target the target
+	 * @param args   the args
+	 * @return the value
 	 * @see com.slytechs.jnet.protocol.packet.meta.ReflectedComponent#getValue(java.lang.Object,
 	 *      java.lang.Object[])
 	 */
@@ -121,6 +167,10 @@ class ReflectedField extends ReflectedMember {
 	}
 
 	/**
+	 * Sets the value.
+	 *
+	 * @param target the target
+	 * @param args   the args
 	 * @see com.slytechs.jnet.protocol.packet.meta.ReflectedComponent#setValue(java.lang.Object,
 	 *      java.lang.Object[])
 	 */
@@ -130,6 +180,9 @@ class ReflectedField extends ReflectedMember {
 	}
 
 	/**
+	 * Gets the member.
+	 *
+	 * @return the member
 	 * @see com.slytechs.jnet.protocol.packet.meta.ReflectedMember#getMember()
 	 */
 	@Override

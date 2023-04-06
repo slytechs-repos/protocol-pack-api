@@ -17,6 +17,9 @@
  */
 package com.slytechs.jnet.protocol.packet.meta;
 
+/**
+ * The Interface MetaInfoType.
+ */
 public interface MetaInfoType {
 
 }

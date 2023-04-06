@@ -18,19 +18,46 @@
 package com.slytechs.jnet.protocol.packet;
 
 /**
+ * The Interface HeaderLookup.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public interface HeaderLookup {
 
+	/**
+	 * Checks if is header extension supported.
+	 *
+	 * @return true, if is header extension supported
+	 */
 	boolean isHeaderExtensionSupported();
 
+	/**
+	 * List headers.
+	 *
+	 * @return the long[]
+	 */
 	long[] listHeaders();
 
+	/**
+	 * Lookup header.
+	 *
+	 * @param id    the id
+	 * @param depth the depth
+	 * @return the long
+	 */
 	long lookupHeader(int id, int depth);
 
+	/**
+	 * Lookup header extension.
+	 *
+	 * @param headerId        the header id
+	 * @param extId           the ext id
+	 * @param depth           the depth
+	 * @param recordIndexHint the record index hint
+	 * @return the long
+	 */
 	long lookupHeaderExtension(int headerId, int extId, int depth, int recordIndexHint);
 
 }

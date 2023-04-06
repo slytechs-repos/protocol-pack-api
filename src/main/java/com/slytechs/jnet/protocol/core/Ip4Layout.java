@@ -1,19 +1,19 @@
 /*
- * Apache License, Version 2.0
+ * Sly Technologies Free License
  * 
- * Copyright 2013-2022 Sly Technologies Inc.
+ * Copyright 2023 Sly Technologies Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Sly Technologies Free License (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- *   
+ * http://www.slytechs.com/free-license-text
+ * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.slytechs.jnet.protocol.core;
 
@@ -29,37 +29,95 @@ import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Int32be;
 import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Int8;
 import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Padding;
 
+/**
+ * The Enum Ip4Layout.
+ */
 public enum Ip4Layout implements EnumBitField<Ip4Layout> {
+	
+	/** The version. */
 	VERSION(Struct.IP4_STRUCT, "ip.version"),
+	
+	/** The hdr len. */
 	HDR_LEN(Struct.IP4_STRUCT, "ip.hdr_len"),
+	
+	/** The dsfield. */
 	DSFIELD(Struct.IP4_STRUCT, "ip.dsfield"),
+	
+	/** The dsfield dscp. */
 	DSFIELD_DSCP(Struct.IP4_STRUCT, "ip.dsfield.dscp"),
+	
+	/** The dsfield dscp select. */
 	DSFIELD_DSCP_SELECT(Struct.IP4_STRUCT, "ip.dsfield.dscp.select"),
+	
+	/** The dsfield dscp code. */
 	DSFIELD_DSCP_CODE(Struct.IP4_STRUCT, "ip.dsfield.dscp.code"),
+	
+	/** The dsfield ecn. */
 	DSFIELD_ECN(Struct.IP4_STRUCT, "ip.dsfield.ecn"),
+	
+	/** The total length. */
 	TOTAL_LENGTH(Struct.IP4_STRUCT, "ip.len"),
+	
+	/** The id. */
 	ID(Struct.IP4_STRUCT, "ip.id", "0x%x (%1$d)"),
+	
+	/** The flags. */
 	FLAGS(Struct.IP4_STRUCT, "ip.flags"),
+	
+	/** The flags nibble. */
 	FLAGS_NIBBLE(Struct.IP4_STRUCT, "ip.flags_nibble"),
+	
+	/** The flags byte. */
 	FLAGS_BYTE(Struct.IP4_STRUCT, "ip.flags_byte"),
+	
+	/** The flags rb. */
 	FLAGS_RB(Struct.IP4_STRUCT, "ip.flags.rb"),
+	
+	/** The flags df. */
 	FLAGS_DF(Struct.IP4_STRUCT, "ip.flags.df"),
+	
+	/** The flags mf. */
 	FLAGS_MF(Struct.IP4_STRUCT, "ip.flags.mf"),
+	
+	/** The frag offset. */
 	FRAG_OFFSET(Struct.IP4_STRUCT, "ip.frag_offset"),
+	
+	/** The ttl. */
 	TTL(Struct.IP4_STRUCT, "ip.ttl"),
+	
+	/** The proto. */
 	PROTO(Struct.IP4_STRUCT, "ip.proto"),
+	
+	/** The checksum. */
 	CHECKSUM(Struct.IP4_STRUCT, "ip.checksum"),
+	
+	/** The src. */
 	SRC(Struct.IP4_STRUCT, "ip.src"),
+	
+	/** The dst. */
 	DST(Struct.IP4_STRUCT, "ip.dst"),
 
+	/** The header word0. */
 	HEADER_WORD0(Struct.IP4_STRUCT, "ip.word0", "%08X"),
+	
+	/** The header word1. */
 	HEADER_WORD1(Struct.IP4_STRUCT, "ip.word1", "%08X"),
+	
+	/** The header word2. */
 	HEADER_WORD2(Struct.IP4_STRUCT, "ip.word2", "%08X"),
+	
+	/** The header word3. */
 	HEADER_WORD3(Struct.IP4_STRUCT, "ip.word3", "%08X"),
+	
+	/** The header word4. */
 	HEADER_WORD4(Struct.IP4_STRUCT, "ip.word4", "%08X");
 
+	/**
+	 * The Class Struct.
+	 */
 	private static class Struct {
 
+		/** The Constant IP4_STRUCT. */
 		private static final BinaryLayout IP4_STRUCT = structLayout(
 
 				/* Word0 - 31:00 */
@@ -153,23 +211,47 @@ public enum Ip4Layout implements EnumBitField<Ip4Layout> {
 
 	}
 
+	/** The Constant SRC_BYTES. */
 	public static final ArrayField SRC_BYTES = Struct.IP4_STRUCT.arrayField("ip.src.bytes");
+	
+	/** The Constant DST_BYTES. */
 	public static final ArrayField DST_BYTES = Struct.IP4_STRUCT.arrayField("ip.dst.bytes");
 
+	/** The bits. */
 	private final BitField bits;
 
+	/**
+	 * Instantiates a new ip 4 layout.
+	 *
+	 * @param layout    the layout
+	 * @param path      the path
+	 * @param formatter the formatter
+	 */
 	private Ip4Layout(BinaryLayout layout, String path, BitFieldFormatter formatter) {
 		this.bits = layout.bitField(path)
 				.formatted()
 				.formatter(formatter);
 	}
 
+	/**
+	 * Instantiates a new ip 4 layout.
+	 *
+	 * @param layout the layout
+	 * @param path   the path
+	 */
 	private Ip4Layout(BinaryLayout layout, String path) {
 		this.bits = layout.bitField(path)
 				.formatted()
 				.format("%d");
 	}
 
+	/**
+	 * Instantiates a new ip 4 layout.
+	 *
+	 * @param layout the layout
+	 * @param path   the path
+	 * @param format the format
+	 */
 	private Ip4Layout(BinaryLayout layout, String path, String format) {
 		this.bits = layout.bitField(path)
 				.formatted()
@@ -177,6 +259,9 @@ public enum Ip4Layout implements EnumBitField<Ip4Layout> {
 	}
 
 	/**
+	 * Proxy bit field.
+	 *
+	 * @return the bit field
 	 * @see com.slytechs.jnet.layout.BitField.Proxy#proxyBitField()
 	 */
 	@Override

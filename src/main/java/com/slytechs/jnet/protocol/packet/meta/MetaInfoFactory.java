@@ -21,15 +21,36 @@ import java.lang.reflect.AnnotatedElement;
 
 import com.slytechs.jnet.runtime.internal.json.JsonObject;
 
+/**
+ * A factory for creating MetaInfo objects.
+ */
 public class MetaInfoFactory {
+	
+	/** The element. */
 	private final AnnotatedElement element;
+	
+	/** The json defaults. */
 	private final JsonObject jsonDefaults;
 
+	/**
+	 * Instantiates a new meta info factory.
+	 *
+	 * @param element      the element
+	 * @param name         the name
+	 * @param jsonDefaults the json defaults
+	 */
 	public MetaInfoFactory(AnnotatedElement element, String name, JsonObject jsonDefaults) {
 		this.element = element;
 		this.jsonDefaults = jsonDefaults;
 	}
 
+	/**
+	 * Gets the meta info.
+	 *
+	 * @param <T>        the generic type
+	 * @param lookupType the lookup type
+	 * @return the meta info
+	 */
 	public <T extends MetaInfoType> T getMetaInfo(Class<T> lookupType) {
 		return null;
 	}

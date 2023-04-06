@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.constants;
+package com.slytechs.jnet.protocol.core.constants;
 
 import com.slytechs.jnet.protocol.HeaderInfo;
 import com.slytechs.jnet.protocol.HeaderSupplier;
@@ -24,57 +24,122 @@ import com.slytechs.jnet.protocol.packet.Header;
 import com.slytechs.jnet.protocol.packet.Other;
 
 /**
- * 
+ * The Enum L2FrameType.
+ *
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
 public enum L2FrameType implements HeaderInfo {
 
+	/** The other. */
 	OTHER(0),
+	
+	/** The ether. */
 	ETHER(CoreHeaderInfo.CORE_ID_ETHER, Ethernet::new),
+	
+	/** The llc. */
 	LLC(CoreHeaderInfo.CORE_ID_LLC),
+	
+	/** The snap. */
 	SNAP(CoreHeaderInfo.CORE_ID_SNAP),
+	
+	/** The ppp. */
 	PPP(CoreHeaderInfo.CORE_ID_PPP),
+	
+	/** The fddi. */
 	FDDI(CoreHeaderInfo.CORE_ID_FDDI),
+	
+	/** The atm. */
 	ATM(CoreHeaderInfo.CORE_ID_ATM),
+	
+	/** The novell raw. */
 	NOVELL_RAW(CoreHeaderInfo.CORE_ID_ETHER),
+	
+	/** The isl. */
 	ISL(CoreHeaderInfo.CORE_ID_ETHER),
 
 	;
 
+	/** The id. */
 	private final int id;
+	
+	/** The supplier. */
 	private final HeaderSupplier supplier;
 
+	/**
+	 * Instantiates a new l 2 frame type.
+	 *
+	 * @param id the id
+	 */
 	L2FrameType(int id) {
 		this.id = id;
 		this.supplier = Other::new;
 	}
 
+	/**
+	 * Instantiates a new l 2 frame type.
+	 *
+	 * @param id       the id
+	 * @param supplier the supplier
+	 */
 	L2FrameType(int id, HeaderSupplier supplier) {
 		this.id = id;
 		this.supplier = supplier;
 	}
 
+	/** The Constant L2_FRAME_TYPE_UNKNOWN. */
 	public final static int L2_FRAME_TYPE_UNKNOWN = -1;
+	
+	/** The Constant L2_FRAME_TYPE_OTHER. */
 	public final static int L2_FRAME_TYPE_OTHER = 0;
+	
+	/** The Constant L2_FRAME_TYPE_ETHER. */
 	public final static int L2_FRAME_TYPE_ETHER = 1;
+	
+	/** The Constant L2_FRAME_TYPE_LLC. */
 	public final static int L2_FRAME_TYPE_LLC = 2;
+	
+	/** The Constant L2_FRAME_TYPE_SNAP. */
 	public final static int L2_FRAME_TYPE_SNAP = 3;
+	
+	/** The Constant L2_FRAME_TYPE_NOVELL_RAW. */
 	public final static int L2_FRAME_TYPE_NOVELL_RAW = 4;
+	
+	/** The Constant L2_FRAME_TYPE_ISL. */
 	public final static int L2_FRAME_TYPE_ISL = 5;
+	
+	/** The Constant L2_FRAME_TYPE_PPP. */
 	public final static int L2_FRAME_TYPE_PPP = 6;
+	
+	/** The Constant L2_FRAME_TYPE_FDDI. */
 	public final static int L2_FRAME_TYPE_FDDI = 7;
+	
+	/** The Constant L2_FRAME_TYPE_ATM. */
 	public final static int L2_FRAME_TYPE_ATM = 8;
 
+	/**
+	 * Value of.
+	 *
+	 * @param l2FrameType the l 2 frame type
+	 * @return the l 2 frame type
+	 */
 	public static L2FrameType valueOf(int l2FrameType) {
 		return values()[l2FrameType];
 	}
 
+	/**
+	 * Gets the l 2 frame type as int.
+	 *
+	 * @return the l 2 frame type as int
+	 */
 	public int getL2FrameTypeAsInt() {
 		return ordinal();
 	}
 
 	/**
+	 * Gets the header id.
+	 *
+	 * @return the header id
 	 * @see com.slytechs.jnet.protocol.HeaderInfo#getHeaderId()
 	 */
 	@Override
@@ -83,6 +148,9 @@ public enum L2FrameType implements HeaderInfo {
 	}
 
 	/**
+	 * New header instance.
+	 *
+	 * @return the header
 	 * @see com.slytechs.jnet.protocol.HeaderSupplier#newHeaderInstance()
 	 */
 	@Override

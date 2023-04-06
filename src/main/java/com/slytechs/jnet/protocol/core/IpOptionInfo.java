@@ -20,10 +20,11 @@ package com.slytechs.jnet.protocol.core;
 import com.slytechs.jnet.protocol.packet.HeaderExtensionInfo;
 
 /**
+ * The Interface IpOptionInfo.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public interface IpOptionInfo extends HeaderExtensionInfo {
 

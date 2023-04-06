@@ -18,17 +18,24 @@
 package com.slytechs.jnet.protocol.packet.descriptor;
 
 /**
+ * The Class JavaDissector.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public abstract class JavaDissector extends AbstractDissector {
 
+	/**
+	 * Instantiates a new java dissector.
+	 */
 	public JavaDissector() {
 	}
 
 	/**
+	 * Checks if is native.
+	 *
+	 * @return true, if is native
 	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDissector#isNative()
 	 */
 	@Override
@@ -36,5 +43,8 @@ public abstract class JavaDissector extends AbstractDissector {
 		return false;
 	}
 
+	/**
+	 * Destroy dissector.
+	 */
 	protected abstract void destroyDissector();
 }

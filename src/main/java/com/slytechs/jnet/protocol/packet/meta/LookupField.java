@@ -18,13 +18,21 @@
 package com.slytechs.jnet.protocol.packet.meta;
 
 /**
+ * The Interface LookupField.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public interface LookupField {
 
+	/**
+	 * Lookup.
+	 *
+	 * @param <V> the value type
+	 * @param key the key
+	 * @return the v
+	 */
 	<V> V lookup(String key);
 
 }

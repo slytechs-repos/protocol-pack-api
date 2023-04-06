@@ -23,23 +23,41 @@ import java.util.regex.Pattern;
 import com.slytechs.jnet.runtime.util.Detail;
 
 /**
+ * The Class DisplayUtil.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 final class DisplayUtil {
 
+	/**
+	 * The Replacing.
+	 */
 	private record Replacing(Pattern pattern, String replacement) {
+		
+		/**
+		 * Instantiates a new replacing.
+		 *
+		 * @param pattern     the pattern
+		 * @param replacement the replacement
+		 */
 		Replacing(String pattern, String replacement) {
 			this(Pattern.compile(pattern), replacement);
 		}
 
+		/**
+		 * Replace all.
+		 *
+		 * @param str the str
+		 * @return the string
+		 */
 		public String replaceAll(String str) {
 			return pattern.matcher(str).replaceAll(replacement());
 		}
 	}
 
+	/** The Constant DISPLAY_FMT_REPLACEMENTS. */
 	private static final Replacing[] DISPLAY_FMT_REPLACEMENTS = {
 			new Replacing("\\$([\\d,.+-]*)F", "%2&#36;$1"),
 			new Replacing("\\$([\\d,.+-]*)R1", "%3&#36;$1"),
@@ -53,6 +71,12 @@ final class DisplayUtil {
 			new Replacing("&#36;", "\\$"), // Restore escaped '$' character
 	};
 
+	/**
+	 * Rewrite display format.
+	 *
+	 * @param fmt the fmt
+	 * @return the string
+	 */
 	public static String rewriteDisplayFormat(String fmt) {
 		String str = rewriteDisplayFormat0(fmt);
 
@@ -61,6 +85,12 @@ final class DisplayUtil {
 		return str;
 	}
 
+	/**
+	 * Rewrite display format 0.
+	 *
+	 * @param fmt the fmt
+	 * @return the string
+	 */
 	public static String rewriteDisplayFormat0(String fmt) {
 
 		for (Replacing replacing : DISPLAY_FMT_REPLACEMENTS)
@@ -69,6 +99,13 @@ final class DisplayUtil {
 		return fmt;
 	}
 
+	/**
+	 * Checks if is detail.
+	 *
+	 * @param details the details
+	 * @param detail  the detail
+	 * @return true, if is detail
+	 */
 	public static boolean isDetail(Detail[] details, Detail detail) {
 		for (Detail d : details) {
 			if (d == detail)
@@ -78,6 +115,14 @@ final class DisplayUtil {
 		return details.length == 0;
 	}
 
+	/**
+	 * Select display.
+	 *
+	 * @param multiple the multiple
+	 * @param single   the single
+	 * @param detail   the detail
+	 * @return the optional
+	 */
 	public static Optional<Display> selectDisplay(Displays multiple, Display single, Detail detail) {
 
 		if (multiple != null) {
@@ -96,9 +141,19 @@ final class DisplayUtil {
 		return Optional.empty();
 	}
 
+	/**
+	 * Instantiates a new display util.
+	 */
 	private DisplayUtil() {
 	}
 
+	/**
+	 * Bitshift int left.
+	 *
+	 * @param v     the v
+	 * @param shift the shift
+	 * @return the string
+	 */
 	public static String bitshiftIntLeft(Object v, int shift) {
 		if (!(v instanceof Number n))
 			return String.valueOf(v);

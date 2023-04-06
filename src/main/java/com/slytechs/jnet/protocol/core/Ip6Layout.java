@@ -1,19 +1,19 @@
 /*
- * Apache License, Version 2.0
+ * Sly Technologies Free License
  * 
- * Copyright 2013-2022 Sly Technologies Inc.
+ * Copyright 2023 Sly Technologies Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Sly Technologies Free License (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- *   
+ * http://www.slytechs.com/free-license-text
+ * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package com.slytechs.jnet.protocol.core;
 
@@ -28,22 +28,46 @@ import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Int64be;
 import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Int8;
 
 /**
- * 
+ * The Enum Ip6Layout.
+ *
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
 public enum Ip6Layout implements BitField.Proxy {
+	
+	/** The version. */
 	VERSION("ip.version"),
+	
+	/** The dsfield. */
 	DSFIELD("ip.dsfield"),
+	
+	/** The flow. */
 	FLOW("ip.flow"),
+	
+	/** The payload length. */
 	PAYLOAD_LENGTH("ip.plen"),
+	
+	/** The next. */
 	NEXT("ip.nxt"),
+	
+	/** The hop limit. */
 	HOP_LIMIT("ip.hlim"),
+	
+	/** The src as int. */
 	SRC_AS_INT("ip.src.ints"),
+	
+	/** The dst as int. */
 	DST_AS_INT("ip.dst.ints"),
+	
+	/** The src as long. */
 	SRC_AS_LONG("ip.src.longs"),
+	
+	/** The dst as long. */
 	DST_AS_LONG("ip.dst.longs");
 
+	/**
+	 * The Class Struct.
+	 */
 	private static class Struct {
 
 		/** The Constant HEADER. */
@@ -86,16 +110,28 @@ public enum Ip6Layout implements BitField.Proxy {
 						sequenceLayout(2, Int64be.BITS_64).withName("ip.dst.longs")));
 	}
 
+	/** The Constant SRC_BYTES. */
 	public static final ArrayField SRC_BYTES = Struct.IP6_STRUCT.arrayField("ip.src");
+	
+	/** The Constant DST_BYTES. */
 	public static final ArrayField DST_BYTES = Struct.IP6_STRUCT.arrayField("ip.dst");
 
+	/** The field. */
 	private final BitField field;
 
+	/**
+	 * Instantiates a new ip 6 layout.
+	 *
+	 * @param path the path
+	 */
 	Ip6Layout(String path) {
 		this.field = Struct.IP6_STRUCT.bitField(path);
 	}
 
 	/**
+	 * Proxy bit field.
+	 *
+	 * @return the bit field
 	 * @see com.slytechs.jnet.layout.BitField.Proxy#proxyBitField()
 	 */
 	@Override

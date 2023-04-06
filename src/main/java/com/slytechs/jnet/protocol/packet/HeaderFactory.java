@@ -20,13 +20,19 @@ package com.slytechs.jnet.protocol.packet;
 import com.slytechs.jnet.protocol.HeaderInfo;
 
 /**
+ * A factory for creating Header objects.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public interface HeaderFactory {
 
+	/**
+	 * New instance.
+	 *
+	 * @return the header factory
+	 */
 	static HeaderFactory newInstance() {
 		return new HeaderFactoryAllocator();
 	}
@@ -43,36 +49,91 @@ public interface HeaderFactory {
 		return new HeaderFactorySyncLocalImpl();
 	}
 
+	/**
+	 * Gets the header.
+	 *
+	 * @param <H>    the generic type
+	 * @param header the header
+	 * @return the header
+	 */
 	@SuppressWarnings("unchecked")
 	default <H extends Header> H getHeader(HeaderInfo header) {
 		return (H) get(header.getHeaderId());
 	}
 
+	/**
+	 * Gets the exension.
+	 *
+	 * @param <H>       the generic type
+	 * @param primary   the primary
+	 * @param extension the extension
+	 * @return the exension
+	 */
 	@SuppressWarnings("unchecked")
 	default <H extends Header> H getExension(HeaderInfo primary, HeaderExtensionInfo extension) {
 		return (H) getExtension(primary.getHeaderId(), extension.getHeaderId());
 	}
 
+	/**
+	 * Gets the.
+	 *
+	 * @param id the id
+	 * @return the header
+	 */
 	Header get(int id);
 
+	/**
+	 * Gets the header.
+	 *
+	 * @param <H>  the generic type
+	 * @param id   the id
+	 * @param type the type
+	 * @return the header
+	 */
 	@SuppressWarnings("unchecked")
 	default <H extends Header> H getHeader(int id, Class<H> type) {
 		return (H) get(id);
 	}
 
+	/**
+	 * Gets the extension.
+	 *
+	 * @param primaryId   the primary id
+	 * @param extensionId the extension id
+	 * @return the extension
+	 */
 	default Header getExtension(int primaryId, int extensionId) {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * Gets the.
+	 *
+	 * @param <H>         the generic type
+	 * @param primaryId   the primary id
+	 * @param extensionId the extension id
+	 * @param type        the type
+	 * @return the h
+	 */
 	@SuppressWarnings("unchecked")
 	default <H extends Header> H get(int primaryId, int extensionId, Class<H> type) {
 		return (H) getExtension(primaryId, extensionId);
 	}
 
+	/**
+	 * Checks if is release supported.
+	 *
+	 * @return true, if is release supported
+	 */
 	default boolean isReleaseSupported() {
 		return false;
 	}
 
+	/**
+	 * Release.
+	 *
+	 * @param header the header
+	 */
 	default void release(Header header) {
 		throw new UnsupportedOperationException();
 	}

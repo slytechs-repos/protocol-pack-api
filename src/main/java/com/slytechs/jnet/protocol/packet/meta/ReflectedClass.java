@@ -33,15 +33,23 @@ import com.slytechs.jnet.runtime.internal.json.JsonObject;
 import com.slytechs.jnet.runtime.internal.json.JsonReader;
 
 /**
+ * The Class ReflectedClass.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 class ReflectedClass extends ReflectedComponent {
 
+	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger.getLogger(ReflectedClass.class.getPackageName());
 
+	/**
+	 * Parses the.
+	 *
+	 * @param cl the cl
+	 * @return the reflected class
+	 */
 	static ReflectedClass parse(Class<?> cl) {
 		JsonObject jsonConf = null;
 		JsonObject jsonFields = null;
@@ -67,6 +75,13 @@ class ReflectedClass extends ReflectedComponent {
 		return new ReflectedClass(cl, metaInfo, methods, fields);
 	}
 
+	/**
+	 * Read meta resource.
+	 *
+	 * @param resourceName the resource name
+	 * @return the json object
+	 * @throws JsonException the json exception
+	 */
 	static JsonObject readMetaResource(String resourceName) throws JsonException {
 
 		InputStream in = ReflectedClass.class.getResourceAsStream("/" + resourceName);
@@ -80,6 +95,13 @@ class ReflectedClass extends ReflectedComponent {
 		}
 	}
 
+	/**
+	 * To sorted array.
+	 *
+	 * @param methods the methods
+	 * @param fields  the fields
+	 * @return the reflected member[]
+	 */
 	private static ReflectedMember[] toSortedArray(ReflectedMethod[] methods, ReflectedField[] fields) {
 		List<ReflectedMember> list = new ArrayList<ReflectedMember>();
 		Arrays.stream(methods)
@@ -93,13 +115,29 @@ class ReflectedClass extends ReflectedComponent {
 		return list.toArray(ReflectedMember[]::new);
 	}
 
+	/** The class type. */
 	private final Class<?> classType;
+	
+	/** The member methods. */
 	private final ReflectedMethod[] memberMethods;
+	
+	/** The member fields. */
 	private final ReflectedField[] memberFields;
 
+	/** The fields array. */
 	private final ReflectedMember[] fieldsArray;
+	
+	/** The fields map. */
 	private final Map<String, ReflectedMember> fieldsMap;
 
+	/**
+	 * Instantiates a new reflected class.
+	 *
+	 * @param cl       the cl
+	 * @param metaInfo the meta info
+	 * @param methods  the methods
+	 * @param fields   the fields
+	 */
 	private ReflectedClass(Class<?> cl, MetaInfo metaInfo,
 			ReflectedMethod[] methods,
 			ReflectedField[] fields) {
@@ -113,24 +151,47 @@ class ReflectedClass extends ReflectedComponent {
 	}
 
 	/**
+	 * Gets the class type.
+	 *
 	 * @return the classType
 	 */
 	public Class<?> getClassType() {
 		return classType;
 	}
 
+	/**
+	 * Gets the fields.
+	 *
+	 * @return the fields
+	 */
 	public ReflectedMember[] getFields() {
 		return fieldsArray;
 	}
 
+	/**
+	 * Gets the member fields.
+	 *
+	 * @return the member fields
+	 */
 	public ReflectedField[] getMemberFields() {
 		return memberFields;
 	}
 
+	/**
+	 * Gets the member methods.
+	 *
+	 * @return the member methods
+	 */
 	public ReflectedMethod[] getMemberMethods() {
 		return memberMethods;
 	}
 
+	/**
+	 * Gets the field.
+	 *
+	 * @param name the name
+	 * @return the field
+	 */
 	public ReflectedMember getField(String name) {
 		return fieldsMap.get(name);
 	}

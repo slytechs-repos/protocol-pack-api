@@ -19,33 +19,53 @@ package com.slytechs.jnet.protocol.core;
 
 import java.util.Objects;
 
-import com.slytechs.jnet.protocol.constants.CoreConstants;
 import com.slytechs.jnet.protocol.core.Ip.IpOption;
+import com.slytechs.jnet.protocol.core.constants.CoreConstants;
 import com.slytechs.jnet.protocol.packet.ExtendableHeader;
 import com.slytechs.jnet.protocol.packet.Header;
 
 /**
- * 
+ * The Class Ip.
+ *
  * @author Sly Technologies
  * @author repos@slytechs.com
+ * @param <T> the generic type
  */
 //@MetaResource("ip-meta.json")
 public abstract class Ip<T extends IpOption> extends ExtendableHeader<T> {
 
+	/**
+	 * The Class IpOption.
+	 */
 	public static abstract class IpOption extends Header {
 
 		/**
-		 * @param id
+		 * Instantiates a new ip option.
+		 *
+		 * @param id the id
 		 */
 		protected IpOption(int id) {
 			super(id);
 		}
 	}
 
+	/**
+	 * To string.
+	 *
+	 * @param ipAddress the ip address
+	 * @return the string
+	 */
 	public static String toString(byte[] ipAddress) {
 		return toString(ipAddress, new StringBuilder(CoreConstants.IPv6_ADDRESS_STRING_SIZE)).toString();
 	}
 
+	/**
+	 * To string.
+	 *
+	 * @param ipAddress the ip address
+	 * @param b         the b
+	 * @return the string builder
+	 */
 	public static StringBuilder toString(byte[] ipAddress, StringBuilder b) {
 		if ((ipAddress.length != CoreConstants.IPv4_ADDRESS_SIZE)
 				&& (ipAddress.length != CoreConstants.IPv6_ADDRESS_SIZE))
@@ -60,6 +80,7 @@ public abstract class Ip<T extends IpOption> extends ExtendableHeader<T> {
 	 * Converts IPv4 binary address into a string suitable for presentation.
 	 *
 	 * @param src a byte array representing an IPv4 numeric address
+	 * @param b   the b
 	 * @return a String representing the IPv4 address in textual representation
 	 *         format
 	 */
@@ -80,6 +101,7 @@ public abstract class Ip<T extends IpOption> extends ExtendableHeader<T> {
 	 * Convert IPv6 binary address into presentation (printable) format.
 	 *
 	 * @param src a byte array representing the IPv6 numeric address
+	 * @param b   the b
 	 * @return a String representing an IPv6 address in textual representation
 	 *         format
 	 */
@@ -95,6 +117,12 @@ public abstract class Ip<T extends IpOption> extends ExtendableHeader<T> {
 		return b;
 	}
 
+	/**
+	 * Strip netmask.
+	 *
+	 * @param address the address
+	 * @return the string
+	 */
 	private static String stripNetmask(String address) {
 		if (address.contains("/"))
 			address = address.replaceFirst("^(.+)/.+$", "$1"); // Strip netmask
@@ -102,6 +130,13 @@ public abstract class Ip<T extends IpOption> extends ExtendableHeader<T> {
 		return address;
 	}
 
+	/**
+	 * Parses the ip 4 address string.
+	 *
+	 * @param ipAddress the ip address
+	 * @return the byte[]
+	 * @throws IllegalArgumentException the illegal argument exception
+	 */
 	private static byte[] parseIp4AddressString(String ipAddress) throws IllegalArgumentException {
 		ipAddress = stripNetmask(ipAddress);
 
@@ -118,6 +153,13 @@ public abstract class Ip<T extends IpOption> extends ExtendableHeader<T> {
 		return result;
 	}
 
+	/**
+	 * Parses the ip 6 address string.
+	 *
+	 * @param ipAddress the ip address
+	 * @return the byte[]
+	 * @throws IllegalArgumentException the illegal argument exception
+	 */
 	private static byte[] parseIp6AddressString(String ipAddress) throws IllegalArgumentException {
 		ipAddress = stripNetmask(ipAddress);
 
@@ -144,6 +186,13 @@ public abstract class Ip<T extends IpOption> extends ExtendableHeader<T> {
 		return result;
 	}
 
+	/**
+	 * Parses the ip address string.
+	 *
+	 * @param ipAddress the ip address
+	 * @return the byte[]
+	 * @throws IllegalArgumentException the illegal argument exception
+	 */
 	public static byte[] parseIpAddressString(String ipAddress) throws IllegalArgumentException {
 		Objects.requireNonNull(ipAddress, "ipAddress");
 
@@ -153,23 +202,56 @@ public abstract class Ip<T extends IpOption> extends ExtendableHeader<T> {
 			return parseIp6AddressString(ipAddress);
 	}
 
+/**
+ * Src.
+ *
+ * @return the byte[]
+ */
 //	@Meta
 	public abstract byte[] src();
 
+	/**
+	 * Src get as address.
+	 *
+	 * @return the ip address
+	 */
 	public abstract IpAddress srcGetAsAddress();
 
+/**
+ * Dst.
+ *
+ * @return the byte[]
+ */
 //	@Meta
 	public abstract byte[] dst();
 
+	/**
+	 * Dst address.
+	 *
+	 * @return the ip address
+	 */
 	public abstract IpAddress dstAddress();
 
+	/**
+	 * Instantiates a new ip.
+	 *
+	 * @param id the id
+	 */
 	protected Ip(int id) {
 		super(id);
 	}
 
+/**
+ * Version.
+ *
+ * @return the int
+ */
 //	@Meta
 	public abstract int version();
 
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.Header#payloadLength()
+	 */
 	@Override
 	public abstract int payloadLength();
 }

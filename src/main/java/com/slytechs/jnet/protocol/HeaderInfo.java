@@ -19,19 +19,47 @@ package com.slytechs.jnet.protocol;
 
 import com.slytechs.jnet.protocol.packet.HeaderExtensionInfo;
 
+/**
+ * The Interface HeaderInfo.
+ */
 public interface HeaderInfo extends HeaderSupplier {
 
+	/**
+	 * Gets the extension infos.
+	 *
+	 * @return the extension infos
+	 */
 	default HeaderExtensionInfo[] getExtensionInfos() {
 		return HeaderExtensionInfo.EMPTY_ARRAY;
 	}
 
+	/**
+	 * Gets the header class name.
+	 *
+	 * @return the header class name
+	 */
 	default String getHeaderClassName() {
 		return newHeaderInstance().getClass().getCanonicalName();
 	}
 
+	/**
+	 * Gets the header id.
+	 *
+	 * @return the header id
+	 */
 	int getHeaderId();
 
+	/**
+	 * Name.
+	 *
+	 * @return the string
+	 */
 	String name();
 
+	/**
+	 * Ordinal.
+	 *
+	 * @return the int
+	 */
 	int ordinal();
 }

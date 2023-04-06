@@ -19,18 +19,39 @@ package com.slytechs.jnet.protocol.packet.meta;
 
 import java.util.function.Function;
 
+/**
+ * The Class Global.
+ */
 class Global extends MapMetaContext {
 
+	/** The Constant GLOBAL_STATIC_CTX. */
 	static final Global GLOBAL_STATIC_CTX = new Global();
 
+	/**
+	 * Instantiates a new global.
+	 */
 	public Global() {
 		super("Global", 100);
 	}
 
+	/**
+	 * Gets the.
+	 *
+	 * @return the global
+	 */
 	public static Global get() {
 		return GLOBAL_STATIC_CTX;
 	}
 
+	/**
+	 * Compute.
+	 *
+	 * @param <K>  the key type
+	 * @param <V>  the value type
+	 * @param key  the key
+	 * @param func the func
+	 * @return the v
+	 */
 	public static <K, V> V compute(K key, Function<K, V> func) {
 		return get().getOrCompute(key, func);
 	}

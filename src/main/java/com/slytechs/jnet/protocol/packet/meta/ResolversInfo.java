@@ -27,13 +27,22 @@ import com.slytechs.jnet.runtime.internal.json.JsonValue;
 import com.slytechs.jnet.runtime.internal.json.JsonValue.ValueType;
 
 /**
+ * The ResolversInfo.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public record ResolversInfo(ValueResolver... resolvers) implements MetaInfoType {
 
+	/**
+	 * Parses the.
+	 *
+	 * @param element      the element
+	 * @param name         the name
+	 * @param jsonDefaults the json defaults
+	 * @return the resolvers info
+	 */
 	static ResolversInfo parse(AnnotatedElement element, String name, JsonObject jsonDefaults) {
 		JsonValue jsonValue = null;
 		if (jsonDefaults != null)
@@ -45,6 +54,12 @@ public record ResolversInfo(ValueResolver... resolvers) implements MetaInfoType 
 		return parseAnnotations(element);
 	}
 
+	/**
+	 * Parses the annotations.
+	 *
+	 * @param element the element
+	 * @return the resolvers info
+	 */
 	private static ResolversInfo parseAnnotations(AnnotatedElement element) {
 		Resolvers multiple = element.getAnnotation(Resolvers.class);
 		Resolver single = element.getAnnotation(Resolver.class);
@@ -64,6 +79,12 @@ public record ResolversInfo(ValueResolver... resolvers) implements MetaInfoType 
 		return new ResolversInfo();
 	}
 
+	/**
+	 * Parses the json.
+	 *
+	 * @param jsonValue the json value
+	 * @return the resolvers info
+	 */
 	private static ResolversInfo parseJson(JsonValue jsonValue) {
 
 		JsonArray jsonArray;

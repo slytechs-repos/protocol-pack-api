@@ -20,25 +20,58 @@ package com.slytechs.jnet.protocol.packet.meta;
 import java.lang.reflect.Member;
 
 /**
+ * The Class ReflectedMember.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public abstract class ReflectedMember extends ReflectedComponent {
 
+	/**
+	 * Instantiates a new reflected member.
+	 *
+	 * @param meta the meta
+	 */
 	protected ReflectedMember(MetaInfo meta) {
 		super(meta);
 	}
 
+	/**
+	 * Gets the value.
+	 *
+	 * @param <T>    the generic type
+	 * @param target the target
+	 * @param args   the args
+	 * @return the value
+	 */
 	public abstract <T> T getValue(Object target, Object... args);
 
+	/**
+	 * Sets the value.
+	 *
+	 * @param target the target
+	 * @param args   the args
+	 */
 	public abstract void setValue(Object target, Object... args);
 
+	/**
+	 * Gets the value type.
+	 *
+	 * @return the value type
+	 */
 	public abstract Class<?> getValueType();
 
+	/**
+	 * Gets the member.
+	 *
+	 * @return the member
+	 */
 	protected abstract Member getMember();
 
+	/**
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return getMember().toString();

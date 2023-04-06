@@ -17,14 +17,15 @@
  */
 package com.slytechs.jnet.protocol.core;
 
-import com.slytechs.jnet.protocol.constants.CoreHeaderInfo;
+import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
 import com.slytechs.jnet.protocol.packet.ExtendableHeader;
 import com.slytechs.jnet.protocol.packet.Packet;
 import com.slytechs.jnet.protocol.packet.meta.Meta;
 import com.slytechs.jnet.protocol.packet.meta.MetaResource;
 
 /**
- * 
+ * The Class Tcp.
+ *
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
@@ -32,9 +33,15 @@ import com.slytechs.jnet.protocol.packet.meta.MetaResource;
 @MetaResource("tcp-meta.json")
 public final class Tcp extends ExtendableHeader<TcpOption> {
 
+	/** The Constant ID. */
 	public static final int ID = CoreHeaderInfo.CORE_ID_TCP;
+	
+	/** The Constant FLAGS_FORMAT. */
 	private static final String FLAGS_FORMAT = "..B WEUA PRSF";
 
+	/**
+	 * Instantiates a new tcp.
+	 */
 	public Tcp() {
 		super(ID);
 	}
@@ -44,15 +51,30 @@ public final class Tcp extends ExtendableHeader<TcpOption> {
 //		return (TcpProtocol) super.getProtocol();
 //	}
 
-	@Meta
+	/**
+ * Ack.
+ *
+ * @return the long
+ */
+@Meta
 	public long ack() {
 		return TcpStruct.ACK.getUnsignedInt(buffer());
 	}
 
+	/**
+	 * Ack.
+	 *
+	 * @param ack the ack
+	 */
 	public void ack(long ack) {
 		TcpStruct.ACK.setInt((int) ack, buffer());
 	}
 
+	/**
+	 * Checksum.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int checksum() {
 		return TcpStruct.CHECKSUM.getUnsignedShort(buffer());
@@ -87,92 +109,186 @@ public final class Tcp extends ExtendableHeader<TcpOption> {
 //		return valid ? 1 : 0;
 //	}
 
-	public void checksum(int checksum) {
+	/**
+ * Checksum.
+ *
+ * @param checksum the checksum
+ */
+public void checksum(int checksum) {
 		TcpStruct.CHECKSUM.setInt(checksum, buffer());
 	}
 
+	/**
+	 * Dst port.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int dstPort() {
 		return TcpStruct.DST_PORT.getUnsignedShort(buffer());
 	}
 
+	/**
+	 * Dst port.
+	 *
+	 * @param newPort the new port
+	 */
 	public void dstPort(int newPort) {
 		TcpStruct.DST_PORT.setInt(newPort, buffer());
 	}
 
+	/**
+	 * Flags.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int flags() {
 		return TcpStruct.FLAGS.getUnsignedShort(buffer());
 	}
 
+	/**
+	 * Flags.
+	 *
+	 * @param flags the flags
+	 */
 	public void flags(int flags) {
 		TcpStruct.FLAGS.setInt(flags, buffer());
 	}
 
+	/**
+	 * Hdr len.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int hdrLen() {
 		return TcpStruct.HDR_LEN.getUnsignedShort(buffer());
 	}
 
+	/**
+	 * Hdr len.
+	 *
+	 * @param hdrLen the hdr len
+	 */
 	public void hdrLen(int hdrLen) {
 		TcpStruct.HDR_LEN.setInt(hdrLen, buffer());
 	}
 
+	/**
+	 * Hdr len bytes.
+	 *
+	 * @return the int
+	 */
 	public int hdrLenBytes() {
 		return TcpStruct.HDR_LEN.getUnsignedShort(buffer()) << 2;
 	}
 
+	/**
+	 * Res.
+	 *
+	 * @return the int
+	 */
 	public int res() {
 		return TcpStruct.RESERVED.getUnsignedShort(buffer());
 	}
 
+	/**
+	 * Reserved.
+	 *
+	 * @param res the res
+	 */
 	public void reserved(int res) {
 		TcpStruct.RESERVED.setInt(res, buffer());
 	}
 
+	/**
+	 * Seq.
+	 *
+	 * @return the long
+	 */
 	@Meta
 	public long seq() {
 		return TcpStruct.SEQ.getUnsignedInt(buffer());
 	}
 
+	/**
+	 * Seq.
+	 *
+	 * @param seq the seq
+	 */
 	public void seq(long seq) {
 		TcpStruct.SEQ.setInt((int) seq, buffer());
 	}
 
+	/**
+	 * Src port.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int srcPort() {
 		return TcpStruct.SRC_PORT.getUnsignedShort(buffer());
 	}
 
+	/**
+	 * Src port.
+	 *
+	 * @param newPort the new port
+	 */
 	public void srcPort(int newPort) {
 		TcpStruct.SRC_PORT.setInt(newPort, buffer());
 	}
 
+	/**
+	 * Urgent pointer.
+	 *
+	 * @return the int
+	 */
 	public int urgentPointer() {
 		return TcpStruct.URGENT_POINTER.getUnsignedShort(buffer());
 	}
 
+	/**
+	 * Urgent pointer.
+	 *
+	 * @param urgentPointer the urgent pointer
+	 */
 	public void urgentPointer(int urgentPointer) {
 		TcpStruct.URGENT_POINTER.setInt(urgentPointer, buffer());
 	}
 
+	/**
+	 * Window unscaled value.
+	 *
+	 * @return the int
+	 */
 	public int windowUnscaledValue() {
 		return TcpStruct.WIN_SIZE.getUnsignedShort(buffer());
 	}
 
+	/**
+	 * Window unscaled value.
+	 *
+	 * @param size the size
+	 */
 	public void windowUnscaledValue(int size) {
 		TcpStruct.WIN_SIZE.setInt(size, buffer());
 	}
 
 	/**
-	 * @return
+	 * Checks if is reassembled.
+	 *
+	 * @return true, if is reassembled
 	 */
 	public boolean isReassembled() {
 		throw new UnsupportedOperationException("not implemented yet");
 	}
 
 	/**
-	 * @return
+	 * Reaseembled segments.
+	 *
+	 * @return the packet[]
 	 */
 	public Packet[] reaseembledSegments() {
 		throw new UnsupportedOperationException("not implemented yet");

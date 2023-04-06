@@ -18,36 +18,47 @@
 package com.slytechs.jnet.protocol.core;
 
 import com.slytechs.jnet.protocol.HeaderInfo;
-import com.slytechs.jnet.protocol.Pack;
+import com.slytechs.jnet.protocol.ProtocolPack;
+import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
+import com.slytechs.jnet.protocol.core.constants.PackInfo;
 import com.slytechs.jnet.protocol.HeaderId;
-import com.slytechs.jnet.protocol.constants.CoreHeaderInfo;
-import com.slytechs.jnet.protocol.constants.PackInfo;
 import com.slytechs.jnet.protocol.packet.HeaderNotFound;
 
 /**
+ * The Class CorePack.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
-public final class CorePack extends Pack<CoreHeaderInfo> {
+public final class CoreProtocolPack extends ProtocolPack<CoreHeaderInfo> {
 
 	/** Core Protocol Pack singleton definition. */
-	private static final CorePack SINGLETON = new CorePack();
+	private static final CoreProtocolPack SINGLETON = new CoreProtocolPack();
 
-	public static CorePack singleton() {
+	/**
+	 * Singleton.
+	 *
+	 * @return the core pack
+	 */
+	public static CoreProtocolPack singleton() {
 		return SINGLETON;
 	}
 
 	/**
 	 * Pack definitions are designed to be singltons.
 	 */
-	private CorePack() {
+	private CoreProtocolPack() {
 		super(PackInfo.CORE, CoreHeaderInfo.values());
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.Pack#getHeader(int)
+	 * Gets the header.
+	 *
+	 * @param id the id
+	 * @return the header
+	 * @throws HeaderNotFound the header not found
+	 * @see com.slytechs.jnet.protocol.ProtocolPack#getHeader(int)
 	 */
 	@Override
 	public HeaderInfo getHeader(int id) throws HeaderNotFound {

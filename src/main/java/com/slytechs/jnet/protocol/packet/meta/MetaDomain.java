@@ -42,26 +42,78 @@ import java.util.function.Function;
  */
 public interface MetaDomain {
 
+	/**
+	 * Gets the global domain.
+	 *
+	 * @return the global domain
+	 */
 	public static MapMetaContext getGlobalDomain() {
 		return Global.GLOBAL_STATIC_CTX;
 	}
 
+	/**
+	 * Global.
+	 *
+	 * @param <K> the key type
+	 * @param <V> the value type
+	 * @param key the key
+	 * @return the v
+	 */
 	static <K, V> V global(K key) {
 		return getGlobalDomain().get(key);
 	}
 
+	/**
+	 * Global.
+	 *
+	 * @param <K>  the key type
+	 * @param <V>  the value type
+	 * @param key  the key
+	 * @param func the func
+	 * @return the v
+	 */
 	static <K, V> V global(K key, Function<K, V> func) {
 		return getGlobalDomain().getOrCompute(key, func);
 	}
 
+	/**
+	 * Name.
+	 *
+	 * @return the string
+	 */
 	String name();
 
+	/**
+	 * Parent.
+	 *
+	 * @return the meta domain
+	 */
 	MetaDomain parent();
 
+	/**
+	 * Find key.
+	 *
+	 * @param <K> the key type
+	 * @param <V> the value type
+	 * @param key the key
+	 * @return the optional
+	 */
 	<K, V> Optional<V> findKey(K key);
 
+	/**
+	 * Find domain.
+	 *
+	 * @param name the name
+	 * @return the meta domain
+	 */
 	MetaDomain findDomain(String name);
 
+	/**
+	 * Search for field.
+	 *
+	 * @param path the path
+	 * @return the optional
+	 */
 	default Optional<MetaField> searchForField(MetaPath path) {
 		return path.searchForField(this);
 	}

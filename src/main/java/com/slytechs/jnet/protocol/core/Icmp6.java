@@ -19,27 +19,31 @@ package com.slytechs.jnet.protocol.core;
 
 import java.util.concurrent.locks.Lock;
 
-import com.slytechs.jnet.protocol.constants.CoreHeaderInfo;
+import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
 
 /**
+ * The Class Icmp6.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public class Icmp6 extends Icmp {
+	
+	/** The Constant ID. */
 	public static final int ID = CoreHeaderInfo.CORE_ID_ICMPv6;
 
 	/**
-	 * @param id
+	 * Instantiates a new icmp 6.
 	 */
 	public Icmp6() {
 		super(ID);
 	}
 
 	/**
-	 * @param id
-	 * @param lock
+	 * Instantiates a new icmp 6.
+	 *
+	 * @param lock the lock
 	 */
 	public Icmp6(Lock lock) {
 		super(ID, lock);

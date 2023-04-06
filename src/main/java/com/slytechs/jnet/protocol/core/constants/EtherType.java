@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.constants;
+package com.slytechs.jnet.protocol.core.constants;
 
 import java.util.function.IntSupplier;
 
@@ -35,41 +35,88 @@ import com.slytechs.jnet.runtime.util.Enums;
  */
 public enum EtherType implements IntSupplier {
 
+	/** The I pv 4. */
 	IPv4(EtherType.ETHER_TYPE_IPv4),
+	
+	/** The I pv 6. */
 	IPv6(EtherType.ETHER_TYPE_IPv6),
+	
+	/** The vlan. */
 	VLAN(EtherType.ETHER_TYPE_VLAN),
+	
+	/** The ipx. */
 	IPX(EtherType.ETHER_TYPE_IPX),
+	
+	/** The mpls uni. */
 	MPLS_UNI(EtherType.ETHER_TYPE_MPLS),
+	
+	/** The mpls multi. */
 	MPLS_MULTI(EtherType.ETHER_TYPE_MPLS_UPSTREAM),
 
 	;
 
+	/** The Constant ETHER_TYPE_IPv4. */
 	// @formatter:off
 	public static final int ETHER_TYPE_IPv4            = 0x0800;
+	
+	/** The Constant ETHER_TYPE_IPv6. */
 	public static final int ETHER_TYPE_IPv6            = 0x86DD;
+	
+	/** The Constant ETHER_TYPE_VLAN. */
 	public static final int ETHER_TYPE_VLAN            = 0x8100;
+	
+	/** The Constant ETHER_TYPE_IPX. */
 	public static final int ETHER_TYPE_IPX             = 0x8137;
+	
+	/** The Constant ETHER_TYPE_MPLS. */
 	public static final int ETHER_TYPE_MPLS            = 0x8847;
+	
+	/** The Constant ETHER_TYPE_MPLS_UPSTREAM. */
 	public static final int ETHER_TYPE_MPLS_UPSTREAM   = 0x8848;
+	
+	/** The Constant ETHER_TYPE_PPPoE_DISCOVERY. */
 	public static final int ETHER_TYPE_PPPoE_DISCOVERY = 0x8848;
+	
+	/** The Constant ETHER_TYPE_PPPoE_SESSION. */
 	public static final int ETHER_TYPE_PPPoE_SESSION   = 0x8848;
 	// @formatter:on
 
+	/**
+	 * Resolve.
+	 *
+	 * @param obj the obj
+	 * @return the string
+	 */
 	public static String resolve(Object obj) {
 		return Enums.resolve(obj, EtherType.class);
 	}
 
+	/**
+	 * Value of ether type.
+	 *
+	 * @param type the type
+	 * @return the ether type
+	 */
 	public static EtherType valueOfEtherType(int type) {
 		return Enums.valueOf(type, EtherType.class);
 	}
 
+	/** The type. */
 	private final int type;
 
+	/**
+	 * Instantiates a new ether type.
+	 *
+	 * @param type the type
+	 */
 	EtherType(int type) {
 		this.type = type;
 	}
 
 	/**
+	 * Gets the as int.
+	 *
+	 * @return the as int
 	 * @see java.util.function.IntSupplier#getAsInt()
 	 */
 	@Override

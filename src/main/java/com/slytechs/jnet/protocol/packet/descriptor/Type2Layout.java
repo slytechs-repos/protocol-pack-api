@@ -26,36 +26,79 @@ import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Int32;
 import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Int64;
 
 /**
+ * The Enum Type2Layout.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public enum Type2Layout implements BitField.Proxy {
 
+	/** The timestamp. */
 	TIMESTAMP("timestamp"),
+	
+	/** The caplen. */
 	CAPLEN("caplen"),
+	
+	/** The color1. */
 	COLOR1("color1"),
+	
+	/** The color2. */
 	COLOR2("color2"),
+	
+	/** The hash24. */
 	HASH24("hash24"),
+	
+	/** The wirelen. */
 	WIRELEN("wirelen"),
+	
+	/** The l2 type. */
 	L2_TYPE("l2_type"),
+	
+	/** The rx port. */
 	RX_PORT("rx_port"),
+	
+	/** The tx port. */
 	TX_PORT("tx_port"),
+	
+	/** The hash type. */
 	HASH_TYPE("hash_type"),
+	
+	/** The tx now. */
 	TX_NOW("tx_now"),
+	
+	/** The tx ignore. */
 	TX_IGNORE("tx_ignore"),
+	
+	/** The tx crc override. */
 	TX_CRC_OVERRIDE("tx_crc_override"),
+	
+	/** The tx set clock. */
 	TX_SET_CLOCK("tx_set_clock"),
+	
+	/** The record count. */
 	RECORD_COUNT("record_count"),
+	
+	/** The bitmask. */
 	BITMASK("bitmask"),
+	
+	/** The record. */
 	RECORD("record"),
+	
+	/** The hash32. */
 	HASH32("hash32"),
+	
+	/** The array. */
 	ARRAY("array"),
 
 	;
 
+	/**
+	 * The Class Struct.
+	 */
 	private static class Struct {
+		
+		/** The Constant TYPE2_STRUCT. */
 		private static final BinaryLayout TYPE2_STRUCT = unionLayout(
 				/* length: 24-184 bytes */
 				structLayout(
@@ -98,13 +141,22 @@ public enum Type2Layout implements BitField.Proxy {
 		);
 	}
 
+	/** The field. */
 	private final BitField field;
 
+	/**
+	 * Instantiates a new type 2 layout.
+	 *
+	 * @param path the path
+	 */
 	Type2Layout(String path) {
 		this.field = Struct.TYPE2_STRUCT.bitField(path);
 	}
 
 	/**
+	 * Proxy bit field.
+	 *
+	 * @return the bit field
 	 * @see com.slytechs.jnet.runtime.internal.layout.BitField.Proxy#proxyBitField()
 	 */
 	@Override
@@ -112,20 +164,62 @@ public enum Type2Layout implements BitField.Proxy {
 		return field;
 	}
 
+	/**
+	 * Encode word 2 BE.
+	 *
+	 * @param captureLength the capture length
+	 * @param rxPort        the rx port
+	 * @param txPort        the tx port
+	 * @return the int
+	 */
 	public static int encodeWord2BE(int captureLength, int rxPort, int txPort) {
 		throw new UnsupportedOperationException("not implemented yet");
 	}
 
+	/**
+	 * Encode word 2 LE.
+	 *
+	 * @param captureLength the capture length
+	 * @param rxPort        the rx port
+	 * @param txPort        the tx port
+	 * @return the int
+	 */
 	public static int encodeWord2LE(int captureLength, int rxPort, int txPort) {
 		throw new UnsupportedOperationException("not implemented yet");
 	}
 
+	/**
+	 * Encode word 3 BE.
+	 *
+	 * @param wireLength    the wire length
+	 * @param txNow         the tx now
+	 * @param txIgnore      the tx ignore
+	 * @param txCrcOverride the tx crc override
+	 * @param txSetClock    the tx set clock
+	 * @param l2Type        the l 2 type
+	 * @param i             the i
+	 * @param recordCount   the record count
+	 * @return the int
+	 */
 	public static int encodeWord3BE(int wireLength, int txNow, int txIgnore, int txCrcOverride, int txSetClock,
 			int l2Type, int i,
 			int recordCount) {
 		throw new UnsupportedOperationException("not implemented yet");
 	}
 
+	/**
+	 * Encode word 3 LE.
+	 *
+	 * @param wireLength    the wire length
+	 * @param txNow         the tx now
+	 * @param txIgnore      the tx ignore
+	 * @param txCrcOverride the tx crc override
+	 * @param txSetClock    the tx set clock
+	 * @param l2Type        the l 2 type
+	 * @param i             the i
+	 * @param recordCount   the record count
+	 * @return the int
+	 */
 	public static int encodeWord3LE(int wireLength, int txNow, int txIgnore, int txCrcOverride, int txSetClock,
 			int l2Type, int i,
 			int recordCount) {

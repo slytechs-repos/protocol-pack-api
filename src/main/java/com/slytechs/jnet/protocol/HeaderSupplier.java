@@ -20,16 +20,29 @@ package com.slytechs.jnet.protocol;
 import com.slytechs.jnet.protocol.packet.Header;
 
 /**
+ * The Interface HeaderSupplier.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public interface HeaderSupplier {
 
+	/**
+	 * Of.
+	 *
+	 * @param moduleName the module name
+	 * @param className  the class name
+	 * @return the header supplier
+	 */
 	static HeaderSupplier of(String moduleName, String className) {
 		return new ReflectedHeaderSupplier(moduleName, className);
 	}
 
+	/**
+	 * New header instance.
+	 *
+	 * @return the header
+	 */
 	Header newHeaderInstance();
 }

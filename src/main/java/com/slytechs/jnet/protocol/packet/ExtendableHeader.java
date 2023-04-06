@@ -22,20 +22,29 @@ import java.nio.ByteBuffer;
 import com.slytechs.jnet.protocol.packet.descriptor.CompactDescriptor;
 
 /**
+ * The Class ExtendableHeader.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
+ * @param <T> the generic type
  */
 public abstract class ExtendableHeader<T extends Header>
 		extends Header
 		implements HasExtension<T> {
 
+	/** The source buffer. */
 	private ByteBuffer sourceBuffer;
+	
+	/** The lookup. */
 	private HeaderLookup lookup;
+	
+	/** The meta. */
 	private int meta;
 
 	/**
+	 * On unbind.
+	 *
 	 * @see com.slytechs.jnet.protocol.packet.Header#onUnbind()
 	 */
 	@Override
@@ -48,13 +57,21 @@ public abstract class ExtendableHeader<T extends Header>
 	}
 
 	/**
-	 * @param id
+	 * Instantiates a new extendable header.
+	 *
+	 * @param id the id
 	 */
 	protected ExtendableHeader(int id) {
 		super(id);
 	}
 
 	/**
+	 * Gets the extension.
+	 *
+	 * @param extension the extension
+	 * @param depth     the depth
+	 * @return the extension
+	 * @throws HeaderNotFound the header not found
 	 * @see com.slytechs.jnet.protocol.packet.HasExtension#getExtension(com.slytechs.jnet.protocol.packet.ExtendableHeader,
 	 *      int)
 	 */
@@ -68,6 +85,11 @@ public abstract class ExtendableHeader<T extends Header>
 	}
 
 	/**
+	 * Checks for extension.
+	 *
+	 * @param extensionId the extension id
+	 * @param depth       the depth
+	 * @return true, if successful
 	 * @see com.slytechs.jnet.protocol.packet.HasExtension#hasExtension(int, int)
 	 */
 	@Override
@@ -78,6 +100,11 @@ public abstract class ExtendableHeader<T extends Header>
 	}
 
 	/**
+	 * Peek extension.
+	 *
+	 * @param extension the extension
+	 * @param depth     the depth
+	 * @return the t
 	 * @see com.slytechs.jnet.protocol.packet.HasExtension#peekExtension(com.slytechs.jnet.protocol.packet.ExtendableHeader,
 	 *      int)
 	 */
@@ -105,6 +132,11 @@ public abstract class ExtendableHeader<T extends Header>
 	}
 
 	/**
+	 * Bind extensions to packet.
+	 *
+	 * @param sourceBuffer the source buffer
+	 * @param lookup       the lookup
+	 * @param meta         the meta
 	 * @see com.slytechs.jnet.protocol.packet.Header#bindExtensionsToPacket(java.nio.ByteBuffer,
 	 *      com.slytechs.jnet.protocol.packet.HeaderLookup, int)
 	 */

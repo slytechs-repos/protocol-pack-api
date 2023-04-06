@@ -17,19 +17,20 @@
  */
 package com.slytechs.jnet.protocol.packet.descriptor;
 
-import com.slytechs.jnet.protocol.constants.PacketDescriptorType;
+import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
 import com.slytechs.jnet.runtime.util.Detail;
 
 /**
+ * The Class Type1Descriptor.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public class Type1Descriptor extends PacketDescriptor {
 
 	/**
-	 * @param type
+	 * Instantiates a new type 1 descriptor.
 	 */
 	public Type1Descriptor() {
 		super(PacketDescriptorType.TYPE1);
@@ -37,6 +38,9 @@ public class Type1Descriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Checks if is header extension supported.
+	 *
+	 * @return true, if is header extension supported
 	 * @see com.slytechs.jnet.protocol.packet.HeaderLookup#isHeaderExtensionSupported()
 	 */
 	@Override
@@ -45,6 +49,9 @@ public class Type1Descriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * List headers.
+	 *
+	 * @return the long[]
 	 * @see com.slytechs.jnet.protocol.packet.HeaderLookup#listHeaders()
 	 */
 	@Override
@@ -53,6 +60,11 @@ public class Type1Descriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Lookup header.
+	 *
+	 * @param id    the id
+	 * @param depth the depth
+	 * @return the long
 	 * @see com.slytechs.jnet.protocol.packet.HeaderLookup#lookupHeader(int, int)
 	 */
 	@Override
@@ -61,6 +73,13 @@ public class Type1Descriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Lookup header extension.
+	 *
+	 * @param headerId        the header id
+	 * @param extId           the ext id
+	 * @param depth           the depth
+	 * @param recordIndexHint the record index hint
+	 * @return the long
 	 * @see com.slytechs.jnet.protocol.packet.HeaderLookup#lookupHeaderExtension(int,
 	 *      int, int, int)
 	 */
@@ -70,6 +89,9 @@ public class Type1Descriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Byte size.
+	 *
+	 * @return the int
 	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#byteSize()
 	 */
 	@Override
@@ -78,6 +100,9 @@ public class Type1Descriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Timestamp.
+	 *
+	 * @return the long
 	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#timestamp()
 	 */
 	@Override
@@ -86,6 +111,9 @@ public class Type1Descriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Capture length.
+	 *
+	 * @return the int
 	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#captureLength()
 	 */
 	@Override
@@ -94,6 +122,9 @@ public class Type1Descriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Wire length.
+	 *
+	 * @return the int
 	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#wireLength()
 	 */
 	@Override
@@ -102,6 +133,11 @@ public class Type1Descriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Builds the detailed string.
+	 *
+	 * @param b      the b
+	 * @param detail the detail
+	 * @return the string builder
 	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#buildDetailedString(java.lang.StringBuilder,
 	 *      com.slytechs.jnet.runtime.util.Detail)
 	 */

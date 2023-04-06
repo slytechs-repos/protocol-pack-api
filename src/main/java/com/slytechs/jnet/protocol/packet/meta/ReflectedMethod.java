@@ -27,14 +27,24 @@ import java.util.logging.Logger;
 import com.slytechs.jnet.runtime.internal.json.JsonObject;
 
 /**
+ * The Class ReflectedMethod.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 class ReflectedMethod extends ReflectedMember {
+	
+	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger.getLogger(ReflectedMethod.class.getPackageName());
 
+	/**
+	 * Parses the.
+	 *
+	 * @param cl         the cl
+	 * @param jsonFields the json fields
+	 * @return the reflected method[]
+	 */
 	public static ReflectedMethod[] parse(Class<?> cl, JsonObject jsonFields) {
 		var list = new ArrayList<ReflectedMethod>();
 
@@ -43,6 +53,13 @@ class ReflectedMethod extends ReflectedMember {
 		return list.toArray(ReflectedMethod[]::new);
 	}
 
+	/**
+	 * Parses the methods recursively.
+	 *
+	 * @param cl         the cl
+	 * @param list       the list
+	 * @param jsonFields the json fields
+	 */
 	private static void parseMethodsRecursively(Class<?> cl, List<ReflectedMethod> list, JsonObject jsonFields) {
 
 		if (cl.getSuperclass() == Object.class)
@@ -57,6 +74,13 @@ class ReflectedMethod extends ReflectedMember {
 
 	}
 
+	/**
+	 * Parses the method.
+	 *
+	 * @param method     the method
+	 * @param jsonFields the json fields
+	 * @return the reflected method
+	 */
 	private static ReflectedMethod parseMethod(Method method, JsonObject jsonFields) {
 		String name = method.getName();
 
@@ -68,23 +92,32 @@ class ReflectedMethod extends ReflectedMember {
 		return new ReflectedMethod(method, container);
 	}
 
+	/** The method. */
 	private final Method method;
 
 	/**
-	 * @param method
-	 * @param f
-	 * @param parent
-	 * 
+	 * Instantiates a new reflected method.
+	 *
+	 * @param method   the method
+	 * @param metaInfo the meta info
 	 */
 	private ReflectedMethod(Method method, MetaInfo metaInfo) {
 		super(metaInfo);
 		this.method = method;
 	}
 
+	/**
+	 * Gets the method.
+	 *
+	 * @return the method
+	 */
 	public Method getMethod() {
 		return method;
 	}
 
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.ReflectedMember#getValue(java.lang.Object, java.lang.Object[])
+	 */
 	@Override
 	@SuppressWarnings("unchecked")
 	public <T> T getValue(Object target, Object... args) {
@@ -99,6 +132,9 @@ class ReflectedMethod extends ReflectedMember {
 		}
 	}
 
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.ReflectedMember#setValue(java.lang.Object, java.lang.Object[])
+	 */
 	@Override
 	public void setValue(Object target, Object... args) {
 		try {
@@ -113,7 +149,7 @@ class ReflectedMethod extends ReflectedMember {
 	}
 
 	/**
-	 * @return
+	 * @see com.slytechs.jnet.protocol.packet.meta.ReflectedMember#getValueType()
 	 */
 	@Override
 	public Class<?> getValueType() {
@@ -121,6 +157,9 @@ class ReflectedMethod extends ReflectedMember {
 	}
 
 	/**
+	 * Gets the member.
+	 *
+	 * @return the member
 	 * @see com.slytechs.jnet.protocol.packet.meta.ReflectedMember#getMember()
 	 */
 	@Override

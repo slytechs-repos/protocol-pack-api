@@ -18,24 +18,28 @@
 package com.slytechs.jnet.protocol.packet.meta;
 
 /**
+ * The Class MetaException.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public class MetaException extends RuntimeException {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -1004282614073478273L;
 
 	/**
-	 * 
+	 * Instantiates a new meta exception.
 	 */
 	public MetaException() {
 		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @param message
+	 * Instantiates a new meta exception.
+	 *
+	 * @param message the message
 	 */
 	public MetaException(String message) {
 		super(message);
@@ -43,7 +47,9 @@ public class MetaException extends RuntimeException {
 	}
 
 	/**
-	 * @param cause
+	 * Instantiates a new meta exception.
+	 *
+	 * @param cause the cause
 	 */
 	public MetaException(Throwable cause) {
 		super(cause);
@@ -51,8 +57,10 @@ public class MetaException extends RuntimeException {
 	}
 
 	/**
-	 * @param message
-	 * @param cause
+	 * Instantiates a new meta exception.
+	 *
+	 * @param message the message
+	 * @param cause   the cause
 	 */
 	public MetaException(String message, Throwable cause) {
 		super(message, cause);
@@ -60,10 +68,12 @@ public class MetaException extends RuntimeException {
 	}
 
 	/**
-	 * @param message
-	 * @param cause
-	 * @param enableSuppression
-	 * @param writableStackTrace
+	 * Instantiates a new meta exception.
+	 *
+	 * @param message            the message
+	 * @param cause              the cause
+	 * @param enableSuppression  the enable suppression
+	 * @param writableStackTrace the writable stack trace
 	 */
 	public MetaException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);

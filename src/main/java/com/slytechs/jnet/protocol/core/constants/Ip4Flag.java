@@ -15,29 +15,46 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.constants;
+package com.slytechs.jnet.protocol.core.constants;
 
 import java.util.EnumSet;
 import java.util.Set;
 
 /**
+ * The Enum Ip4Flag.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public enum Ip4Flag {
 	
+	/** The reserved. */
 	RESERVED,
+	
+	/** The df. */
 	DF,
+	
+	/** The mf. */
 	MF,
 
 	;
 
+	/** The Constant IPv4_FLAG_RESERVED. */
 	public static final int IPv4_FLAG_RESERVED = 0x0;
+	
+	/** The Constant IPv4_FLAG_DF. */
 	public static final int IPv4_FLAG_DF = 0x2;
+	
+	/** The Constant IPv4_FLAG_MF. */
 	public static final int IPv4_FLAG_MF = 0x8;
 
+	/**
+	 * Value of.
+	 *
+	 * @param flags the flags
+	 * @return the sets the
+	 */
 	public static Set<Ip4Flag> valueOf(int flags) {
 		Set<Ip4Flag> set = EnumSet.noneOf(Ip4Flag.class);
 		

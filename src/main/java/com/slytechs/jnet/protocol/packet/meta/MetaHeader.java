@@ -32,22 +32,38 @@ import com.slytechs.jnet.protocol.packet.Packet;
 import com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped;
 
 /**
+ * The Class MetaHeader.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public final class MetaHeader
 		extends MetaElement
 		implements Iterable<MetaField>, MetaMapped {
 
+	/** The header. */
 	private final Header header;
 
+	/** The fields. */
 	private final List<MetaField> fields;
+	
+	/** The attributes. */
 	private final List<MetaField> attributes;
+	
+	/** The elements. */
 	private final List<MetaField> elements;
+	
+	/** The element map. */
 	private volatile Map<String, MetaField> elementMap;
 
+	/**
+	 * Instantiates a new meta header.
+	 *
+	 * @param domain         the domain
+	 * @param target         the target
+	 * @param reflectedClass the reflected class
+	 */
 	private MetaHeader(MetaDomain domain, Header target, ReflectedClass reflectedClass) {
 		super(domain, reflectedClass);
 		this.header = target;
@@ -63,26 +79,54 @@ public final class MetaHeader
 		attributes.forEach(e -> elementMap.put(e.name(), e));
 	}
 
+	/**
+	 * Instantiates a new meta header.
+	 *
+	 * @param packet the packet
+	 * @param header the header
+	 */
 	public MetaHeader(Packet packet, Header header) {
 		this(MetaContext.newRoot(), new MetaPacket(packet), header);
 	}
 
+	/**
+	 * Instantiates a new meta header.
+	 *
+	 * @param ctx    the ctx
+	 * @param packet the packet
+	 * @param header the header
+	 */
 	public MetaHeader(MetaDomain ctx, MetaPacket packet, Header header) {
 		this(ctx,
 				header,
 				Global.compute(header.getClass(), ReflectedClass::parse));
 	}
 
+	/**
+	 * Instantiates a new meta header.
+	 *
+	 * @param ctx    the ctx
+	 * @param header the header
+	 */
 	public MetaHeader(MetaDomain ctx, Header header) {
 		this(ctx,
 				header,
 				Global.compute(header.getClass(), ReflectedClass::parse));
 	}
 
+	/**
+	 * Gets the extension.
+	 *
+	 * @param name the name
+	 * @return the extension
+	 */
 	public MetaHeader getExtension(String name) {
 		return null;
 	}
 
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped#getField(java.lang.String)
+	 */
 	@Override
 	public MetaField getField(String name) {
 		if (elementMap == null) {// Lazy allocate map
@@ -96,11 +140,19 @@ public final class MetaHeader
 		return this.elementMap.get(name);
 	}
 
+	/**
+	 * Gets the target.
+	 *
+	 * @return the target
+	 */
 	public Object getTarget() {
 		return header;
 	}
 
 	/**
+	 * Iterator.
+	 *
+	 * @return the iterator
 	 * @see java.lang.Iterable#iterator()
 	 */
 	@Override
@@ -108,23 +160,46 @@ public final class MetaHeader
 		return fields.iterator();
 	}
 
+	/**
+	 * List attributes.
+	 *
+	 * @return the list
+	 */
 	public List<MetaField> listAttributes() {
 		return attributes;
 	}
 
+	/**
+	 * List fields.
+	 *
+	 * @return the list
+	 */
 	public List<MetaField> listFields() {
 		return fields;
 	}
 
+	/**
+	 * List all elements.
+	 *
+	 * @return the list
+	 */
 	public List<MetaField> listAllElements() {
 		return elements;
 	}
 
+	/**
+	 * List sub headers.
+	 *
+	 * @return the list
+	 */
 	public List<MetaHeader> listSubHeaders() {
 		return Collections.emptyList();
 	}
 
 	/**
+	 * To string.
+	 *
+	 * @return the string
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -134,6 +209,12 @@ public final class MetaHeader
 	}
 
 	/**
+	 * Gets the.
+	 *
+	 * @param <K> the key type
+	 * @param <V> the value type
+	 * @param key the key
+	 * @return the v
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped#get(java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
@@ -143,6 +224,9 @@ public final class MetaHeader
 	}
 
 	/**
+	 * Size.
+	 *
+	 * @return the int
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped#size()
 	 */
 	@Override
@@ -150,19 +234,40 @@ public final class MetaHeader
 		return elements.size();
 	}
 
+	/**
+	 * Buffer.
+	 *
+	 * @return the byte buffer
+	 */
 	public ByteBuffer buffer() {
 		return header.buffer();
 	}
 
+	/**
+	 * Offset.
+	 *
+	 * @return the int
+	 */
 	public int offset() {
 		return header.offset();
 	}
 
+	/**
+	 * Length.
+	 *
+	 * @return the int
+	 */
 	public int length() {
 		return header.length();
 	}
 
 	/**
+	 * Find key.
+	 *
+	 * @param <K> the key type
+	 * @param <V> the value type
+	 * @param key the key
+	 * @return the optional
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findKey(java.lang.Object)
 	 */
 	@Override
@@ -174,6 +279,10 @@ public final class MetaHeader
 	}
 
 	/**
+	 * Find domain.
+	 *
+	 * @param name the name
+	 * @return the meta domain
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findDomain(java.lang.String)
 	 */
 	@Override

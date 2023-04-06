@@ -25,20 +25,31 @@ import java.util.stream.Stream;
 import com.slytechs.jnet.protocol.packet.meta.MetaValue.ValueResolver;
 
 /**
+ * The Class MetaField.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public final class MetaField extends MetaElement {
 
+	/** The header. */
 	private final MetaHeader header;
+	
+	/** The member. */
 	private final ReflectedMember member;
+	
+	/** The resolvers. */
 	private final ValueResolver[] resolvers;
+	
+	/** The target. */
 	private final Object target;
 
 	/**
-	 * @param memberInfo
+	 * Instantiates a new meta field.
+	 *
+	 * @param header     the header
+	 * @param memberInfo the member info
 	 */
 	MetaField(MetaHeader header, ReflectedMember memberInfo) {
 		super(header, memberInfo);
@@ -59,26 +70,58 @@ public final class MetaField extends MetaElement {
 			this.resolvers = new ValueResolver[0];
 	}
 
+	/**
+	 * Gets the parent header.
+	 *
+	 * @return the parent header
+	 */
 	public MetaHeader getParentHeader() {
 		return header;
 	}
 
+	/**
+	 * List sub fields.
+	 *
+	 * @return the list
+	 */
 	public List<MetaField> listSubFields() {
 		return Collections.emptyList();
 	}
 
+	/**
+	 * Gets the.
+	 *
+	 * @param <V> the value type
+	 * @return the v
+	 */
 	public <V> V get() {
 		return member.getValue(target);
 	}
 
+	/**
+	 * Sets the.
+	 *
+	 * @param <V>      the value type
+	 * @param newValue the new value
+	 */
 	public <V> void set(V newValue) {
 		member.setValue(target, newValue);
 	}
 
+	/**
+	 * String value.
+	 *
+	 * @return the string
+	 */
 	public String stringValue() {
 		return get();
 	}
 
+	/**
+	 * Gets the formatted.
+	 *
+	 * @return the formatted
+	 */
 	public String getFormatted() {
 		Object value = member.getValue(target);
 		MetaInfo meta = getMeta(MetaInfo.class);
@@ -86,6 +129,12 @@ public final class MetaField extends MetaElement {
 		return meta.formatter().format(value);
 	}
 
+	/**
+	 * Gets the resolved.
+	 *
+	 * @param resolverIndex the resolver index
+	 * @return the resolved
+	 */
 	public String getResolved(int resolverIndex) {
 		if (resolverIndex >= resolvers.length)
 			return "";
@@ -94,6 +143,12 @@ public final class MetaField extends MetaElement {
 	}
 
 	/**
+	 * Find key.
+	 *
+	 * @param <K> the key type
+	 * @param <V> the value type
+	 * @param key the key
+	 * @return the optional
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findKey(java.lang.Object)
 	 */
 	@Override
@@ -105,6 +160,10 @@ public final class MetaField extends MetaElement {
 	}
 
 	/**
+	 * Find domain.
+	 *
+	 * @param name the name
+	 * @return the meta domain
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findDomain(java.lang.String)
 	 */
 	@Override

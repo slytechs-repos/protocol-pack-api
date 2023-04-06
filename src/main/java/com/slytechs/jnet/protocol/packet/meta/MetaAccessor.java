@@ -17,8 +17,17 @@
  */
 package com.slytechs.jnet.protocol.packet.meta;
 
+/**
+ * The Interface MetaAccessor.
+ */
 public interface MetaAccessor {
 
+	/**
+	 * Gets the field.
+	 *
+	 * @param path the path
+	 * @return the field
+	 */
 	MetaField getField(MetaPath path);
 
 }

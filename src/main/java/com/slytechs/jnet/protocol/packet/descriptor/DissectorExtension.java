@@ -20,14 +20,24 @@ package com.slytechs.jnet.protocol.packet.descriptor;
 import java.nio.ByteBuffer;
 
 /**
+ * The Interface DissectorExtension.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public interface DissectorExtension {
 
+	/** The empty. */
 	DissectorExtension EMPTY = null;
 
+	/**
+	 * Dissect L 2.
+	 *
+	 * @param dlt    the dlt
+	 * @param buffer the buffer
+	 * @param offset the offset
+	 * @return the int
+	 */
 	int dissectL2(int dlt, ByteBuffer buffer, int offset);
 }

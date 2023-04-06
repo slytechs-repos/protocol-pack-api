@@ -20,15 +20,26 @@ package com.slytechs.jnet.protocol.packet.meta;
 import java.util.Objects;
 
 /**
+ * The Class AbstractMetaContext.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public abstract class AbstractMetaContext implements MetaDomain, MetaContext {
+	
+	/** The parent. */
 	private final MetaContext parent;
+	
+	/** The name. */
 	private final String name;
 
+	/**
+	 * Instantiates a new abstract meta context.
+	 *
+	 * @param parent the parent
+	 * @param name   the name
+	 */
 	protected AbstractMetaContext(MetaContext parent, String name) {
 		this.parent = Objects.requireNonNull(parent, "parent domain");
 		this.name = name;
@@ -38,6 +49,11 @@ public abstract class AbstractMetaContext implements MetaDomain, MetaContext {
 					.formatted(name));
 	}
 
+	/**
+	 * Instantiates a new abstract meta context.
+	 *
+	 * @param name the name
+	 */
 	protected AbstractMetaContext(String name) {
 
 		this.name = name;
@@ -50,17 +66,26 @@ public abstract class AbstractMetaContext implements MetaDomain, MetaContext {
 					.formatted(name));
 	}
 
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#name()
+	 */
 	@Override
 	public final String name() {
 		return name;
 	}
 
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#parent()
+	 */
 	@Override
 	public final MetaDomain parent() {
 		return parent;
 	}
 
 	/**
+	 * To string.
+	 *
+	 * @return the string
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

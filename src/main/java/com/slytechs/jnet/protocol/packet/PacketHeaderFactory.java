@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 
 import com.slytechs.jnet.protocol.HeaderId;
 import com.slytechs.jnet.protocol.HeaderInfo;
-import com.slytechs.jnet.protocol.constants.PackInfo;
+import com.slytechs.jnet.protocol.core.constants.PackInfo;
 
 /**
  * @author Sly Technologies Inc

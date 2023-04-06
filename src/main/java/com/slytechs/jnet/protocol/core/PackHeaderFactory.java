@@ -20,21 +20,27 @@ package com.slytechs.jnet.protocol.core;
 import static com.slytechs.jnet.protocol.HeaderId.*;
 
 import com.slytechs.jnet.protocol.HeaderInfo;
+import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
+import com.slytechs.jnet.protocol.core.constants.PackInfo;
 import com.slytechs.jnet.protocol.HeaderId;
-import com.slytechs.jnet.protocol.constants.CoreHeaderInfo;
-import com.slytechs.jnet.protocol.constants.PackInfo;
 import com.slytechs.jnet.protocol.packet.Header;
 import com.slytechs.jnet.protocol.packet.HeaderFactory;
 
 /**
+ * A factory for creating PackHeader objects.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public class PackHeaderFactory implements HeaderFactory {
 
+	/**
+	 * The Class LazySupplier.
+	 */
 	private static class LazySupplier {
+		
+		/** The Constant EMPTY. */
 		private static final LazySupplier EMPTY = new LazySupplier(null) {
 
 			/**
@@ -47,13 +53,26 @@ public class PackHeaderFactory implements HeaderFactory {
 
 		};
 
+		/** The allocated header. */
 		private Header allocatedHeader;
+		
+		/** The info. */
 		private final HeaderInfo info;
 
+		/**
+		 * Instantiates a new lazy supplier.
+		 *
+		 * @param info the info
+		 */
 		LazySupplier(HeaderInfo info) {
 			this.info = info;
 		}
 
+		/**
+		 * Gets the.
+		 *
+		 * @return the header
+		 */
 		Header get() {
 			if (allocatedHeader == null)
 				this.allocatedHeader = info.newHeaderInstance();
@@ -63,6 +82,7 @@ public class PackHeaderFactory implements HeaderFactory {
 
 	}
 
+	/** The Constant table. */
 	private static final LazySupplier[] table = new LazySupplier[PROTO_MAX_ORDINALS];
 
 	static {
@@ -78,6 +98,10 @@ public class PackHeaderFactory implements HeaderFactory {
 	}
 
 	/**
+	 * Gets the.
+	 *
+	 * @param id the id
+	 * @return the header
 	 * @see com.slytechs.jnet.protocol.packet.HeaderFactory#get(int)
 	 */
 	@Override

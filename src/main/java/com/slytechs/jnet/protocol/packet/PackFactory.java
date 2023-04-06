@@ -17,24 +17,32 @@
  */
 package com.slytechs.jnet.protocol.packet;
 
-import com.slytechs.jnet.protocol.Pack;
+import com.slytechs.jnet.protocol.ProtocolPack;
 import com.slytechs.jnet.protocol.PackSupplier;
 
 /**
+ * A factory for creating Pack objects.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 class PackFactory {
 
+	/**
+	 * The Class LazySupplier.
+	 */
 	private static class LazySupplier implements PackSupplier {
 
 		/**
+		 * Apply.
+		 *
+		 * @param packId the pack id
+		 * @return the pack
 		 * @see com.slytechs.jnet.protocol.PackSupplier#apply(int)
 		 */
 		@Override
-		public Pack apply(int packId) {
+		public ProtocolPack apply(int packId) {
 			throw new UnsupportedOperationException("not implemented yet");
 		}
 

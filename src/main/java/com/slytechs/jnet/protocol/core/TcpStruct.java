@@ -19,7 +19,7 @@ package com.slytechs.jnet.protocol.core;
 
 import static com.slytechs.jnet.runtime.internal.layout.BinaryLayout.*;
 
-import com.slytechs.jnet.protocol.constants.CoreConstants;
+import com.slytechs.jnet.protocol.core.constants.CoreConstants;
 import com.slytechs.jnet.runtime.internal.layout.ArrayField;
 import com.slytechs.jnet.runtime.internal.layout.BinaryLayout;
 import com.slytechs.jnet.runtime.internal.layout.BitField;
@@ -29,31 +29,69 @@ import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Int32be;
 import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Int8;
 import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Padding;
 
+/**
+ * The Enum TcpStruct.
+ */
 public enum TcpStruct implements EnumBitField<TcpStruct> {
 
 	// TCP HEADER FIELDS
 
+	/** The src port. */
 	SRC_PORT(Layout.TCP_STRUCT, "tcp.srcport"),
+	
+	/** The dst port. */
 	DST_PORT(Layout.TCP_STRUCT, "tcp.dstport"),
+	
+	/** The seq. */
 	SEQ(Layout.TCP_STRUCT, "tcp.seq"),
+	
+	/** The ack. */
 	ACK(Layout.TCP_STRUCT, "tcp.ack"),
+	
+	/** The hdr len. */
 	HDR_LEN(Layout.TCP_STRUCT, "tcp.hdr_len"),
+	
+	/** The reserved. */
 	RESERVED(Layout.TCP_STRUCT, "tcp.res"),
+	
+	/** The flags. */
 	FLAGS(Layout.TCP_STRUCT, "tcp.flags"),
+	
+	/** The win size. */
 	WIN_SIZE(Layout.TCP_STRUCT, "tcp.window_size_value"),
+	
+	/** The checksum. */
 	CHECKSUM(Layout.TCP_STRUCT, "tcp.checksum"),
+	
+	/** The urgent pointer. */
 	URGENT_POINTER(Layout.TCP_STRUCT, "tcp.urgent_pointer"),
 
 	// TCP OPTION FIELDS
 
+	/** The opt kind. */
 	OPT_KIND(Layout.OPTION_LAYOUT, "tcp.opt.kind"),
+	
+	/** The opt len. */
 	OPT_LEN(Layout.OPTION_LAYOUT, "tcp.opt.len"),
+	
+	/** The opt mss. */
 	OPT_MSS(Layout.OPTION_LAYOUT, "tcp.opt.mss"),
+	
+	/** The opt tssend. */
 	OPT_TSSEND(Layout.OPTION_LAYOUT, "tcp.opt.ts.send_ts"),
+	
+	/** The opt tsrecv. */
 	OPT_TSRECV(Layout.OPTION_LAYOUT, "tcp.opt.ts.recv_ts"),
+	
+	/** The opt win scale. */
 	OPT_WIN_SCALE(Layout.OPTION_LAYOUT, "tcp.opt.win_scale");
 
+	/**
+	 * The Class Layout.
+	 */
 	private static class Layout {
+		
+		/** The Constant TCP_STRUCT. */
 		private static final BinaryLayout TCP_STRUCT = unionLayout(
 				structLayout(
 
@@ -81,6 +119,7 @@ public enum TcpStruct implements EnumBitField<TcpStruct> {
 				sequenceLayout(CoreConstants.TCP_HEADER_LEN / 2, Int16be.BITS_16).withName("tcp.shorts"),
 				sequenceLayout(CoreConstants.TCP_HEADER_LEN / 4, Int32be.BITS_32).withName("tcp.ints"));
 
+		/** The Constant OPTION_LAYOUT. */
 		private static final BinaryLayout OPTION_LAYOUT = unionLayout(
 				structLayout(
 						Int8.BITS_08.withName("tcp.opt.kind"),
@@ -105,13 +144,27 @@ public enum TcpStruct implements EnumBitField<TcpStruct> {
 
 	}
 
+	/** The Constant HEADER_BYTES. */
 	public static final ArrayField HEADER_BYTES = Layout.TCP_STRUCT.arrayField("tcp.bytes");
+	
+	/** The Constant HEADER_SHORTS. */
 	public static final ArrayField HEADER_SHORTS = Layout.TCP_STRUCT.arrayField("tcp.shorts");
+	
+	/** The Constant HEADER_INTS. */
 	public static final ArrayField HEADER_INTS = Layout.TCP_STRUCT.arrayField("tcp.ints");
+	
+	/** The Constant OPT_COOKIE. */
 	public static final ArrayField OPT_COOKIE = Layout.OPTION_LAYOUT.arrayField("tcp.opt.fastopen.cookie");
 
+	/** The bits. */
 	private final BitField bits;
 
+	/**
+	 * Instantiates a new tcp struct.
+	 *
+	 * @param layout the layout
+	 * @param path   the path
+	 */
 	private TcpStruct(BinaryLayout layout, String path) {
 		this.bits = layout.bitField(path)
 				.formatted()
@@ -119,6 +172,9 @@ public enum TcpStruct implements EnumBitField<TcpStruct> {
 	}
 
 	/**
+	 * Proxy bit field.
+	 *
+	 * @return the bit field
 	 * @see com.slytechs.jnet.runtime.internal.layout.BitField.Proxy#proxyBitField()
 	 */
 	@Override

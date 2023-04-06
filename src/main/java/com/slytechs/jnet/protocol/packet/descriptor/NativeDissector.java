@@ -20,24 +20,32 @@ package com.slytechs.jnet.protocol.packet.descriptor;
 import java.net.ProtocolException;
 import java.nio.ByteBuffer;
 
-import com.slytechs.jnet.protocol.constants.L2FrameType;
+import com.slytechs.jnet.protocol.core.constants.L2FrameType;
 
 /**
+ * The Class NativeDissector.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public class NativeDissector extends AbstractDissector {
 
 	/**
-	 * 
+	 * Instantiates a new native dissector.
 	 */
 	public NativeDissector() {
 		// TODO Auto-generated constructor stub
 	}
 
 	/**
+	 * Dissect packet.
+	 *
+	 * @param buffer    the buffer
+	 * @param timestamp the timestamp
+	 * @param caplen    the caplen
+	 * @param wirelen   the wirelen
+	 * @return the int
 	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDissector#dissectPacket(java.nio.ByteBuffer,
 	 *      long, int, int)
 	 */
@@ -47,6 +55,10 @@ public class NativeDissector extends AbstractDissector {
 	}
 
 	/**
+	 * Write descriptor.
+	 *
+	 * @param buffer the buffer
+	 * @return the int
 	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDissector#writeDescriptor(java.nio.ByteBuffer)
 	 */
 	@Override
@@ -55,6 +67,9 @@ public class NativeDissector extends AbstractDissector {
 	}
 
 	/**
+	 * Reset.
+	 *
+	 * @return the packet dissector
 	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDissector#reset()
 	 */
 	@Override
@@ -63,7 +78,12 @@ public class NativeDissector extends AbstractDissector {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDissector#setDatalinkType(com.slytechs.jnet.protocol.constants.L2FrameType)
+	 * Sets the datalink type.
+	 *
+	 * @param l2Type the l 2 type
+	 * @return the packet dissector
+	 * @throws ProtocolException the protocol exception
+	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDissector#setDatalinkType(com.slytechs.jnet.protocol.core.constants.L2FrameType)
 	 */
 	@Override
 	public PacketDissector setDatalinkType(L2FrameType l2Type) throws ProtocolException {
@@ -71,6 +91,9 @@ public class NativeDissector extends AbstractDissector {
 	}
 
 	/**
+	 * Checks if is native.
+	 *
+	 * @return true, if is native
 	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDissector#isNative()
 	 */
 	@Override

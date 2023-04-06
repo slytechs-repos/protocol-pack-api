@@ -24,20 +24,26 @@ import java.util.function.IntFunction;
 import com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaIndexed;
 
 /**
+ * The Class ListMetaContext.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public class ListMetaContext extends AbstractMetaContext implements MetaIndexed {
 
+	/** The list. */
 	private final ArrayList<Object> list;
 
+	/** The capacity. */
 	private final int capacity;
 
 	/**
-	 * @param parent
-	 * @param name
+	 * Instantiates a new list meta context.
+	 *
+	 * @param parent   the parent
+	 * @param name     the name
+	 * @param capacity the capacity
 	 */
 	public ListMetaContext(MetaContext parent, String name, int capacity) {
 		super(parent, name);
@@ -46,7 +52,10 @@ public class ListMetaContext extends AbstractMetaContext implements MetaIndexed 
 	}
 
 	/**
-	 * @param name
+	 * Instantiates a new list meta context.
+	 *
+	 * @param name     the name
+	 * @param capacity the capacity
 	 */
 	public ListMetaContext(String name, int capacity) {
 		super(name);
@@ -55,6 +64,10 @@ public class ListMetaContext extends AbstractMetaContext implements MetaIndexed 
 	}
 
 	/**
+	 * Append.
+	 *
+	 * @param <V>   the value type
+	 * @param value the value
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaIndexed#append(java.lang.Object)
 	 */
 	@Override
@@ -63,6 +76,9 @@ public class ListMetaContext extends AbstractMetaContext implements MetaIndexed 
 	}
 
 	/**
+	 * Capacity.
+	 *
+	 * @return the int
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaIndexed#capacity()
 	 */
 	@Override
@@ -71,6 +87,11 @@ public class ListMetaContext extends AbstractMetaContext implements MetaIndexed 
 	}
 
 	/**
+	 * Gets the at index.
+	 *
+	 * @param <V>   the value type
+	 * @param index the index
+	 * @return the at index
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaIndexed#getAtIndex(int)
 	 */
 	@SuppressWarnings("unchecked")
@@ -80,6 +101,9 @@ public class ListMetaContext extends AbstractMetaContext implements MetaIndexed 
 	}
 
 	/**
+	 * Limit.
+	 *
+	 * @return the int
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaIndexed#limit()
 	 */
 	@Override
@@ -88,6 +112,11 @@ public class ListMetaContext extends AbstractMetaContext implements MetaIndexed 
 	}
 
 	/**
+	 * Sets the at index.
+	 *
+	 * @param <V>   the value type
+	 * @param index the index
+	 * @param value the value
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaIndexed#setAtIndex(int,
 	 *      java.lang.Object)
 	 */
@@ -100,6 +129,11 @@ public class ListMetaContext extends AbstractMetaContext implements MetaIndexed 
 	}
 
 	/**
+	 * Limit.
+	 *
+	 * @param <V>      the value type
+	 * @param newLimit the new limit
+	 * @param func     the func
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaIndexed#limit(int,
 	 *      java.util.function.IntFunction)
 	 */
@@ -117,6 +151,12 @@ public class ListMetaContext extends AbstractMetaContext implements MetaIndexed 
 	}
 
 	/**
+	 * Find key.
+	 *
+	 * @param <K> the key type
+	 * @param <V> the value type
+	 * @param key the key
+	 * @return the optional
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findKey(java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
@@ -129,6 +169,10 @@ public class ListMetaContext extends AbstractMetaContext implements MetaIndexed 
 	}
 
 	/**
+	 * Find domain.
+	 *
+	 * @param name the name
+	 * @return the meta domain
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findDomain(java.lang.String)
 	 */
 	@Override

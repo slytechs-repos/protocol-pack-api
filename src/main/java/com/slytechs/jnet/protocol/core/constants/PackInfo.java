@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.constants;
+package com.slytechs.jnet.protocol.core.constants;
 
 import static com.slytechs.jnet.protocol.HeaderId.*;
 
@@ -70,42 +70,95 @@ import static com.slytechs.jnet.protocol.HeaderId.*;
  */
 public enum PackInfo {
 
+	/** The core. */
 	CORE("core", PackInfo.CORE_MODULE, PackInfo.CORE_PACK),
+	
+	/** The opts. */
 	OPTS("options"),
+	
+	/** The media. */
 	MEDIA("media"),
+	
+	/** The web. */
 	WEB("web", PackInfo.WEB_MODULE, PackInfo.WEB_PACK),
+	
+	/** The telco. */
 	TELCO("telco"),
+	
+	/** The lte. */
 	LTE("lte"),
+	
+	/** The db. */
 	DB("database"),
+	
+	/** The ms. */
 	MS("microsoft"),
+	
+	/** The aaa. */
 	AAA("authentication"),
 
 	;
 
+	/** The Constant PACK_ID_CORE. */
 	// @formatter:off
 	public static final int PACK_ID_CORE      = 0  << PROTO_SHIFT_PACK;
+	
+	/** The Constant PACK_ID_OPTIONS. */
 	public static final int PACK_ID_OPTIONS   = 1  << PROTO_SHIFT_PACK;
+	
+	/** The Constant PACK_ID_MEDIA. */
 	public static final int PACK_ID_MEDIA     = 2  << PROTO_SHIFT_PACK;
+	
+	/** The Constant PACK_ID_WEB. */
 	public static final int PACK_ID_WEB       = 3  << PROTO_SHIFT_PACK;
+	
+	/** The Constant PACK_ID_TELCO. */
 	public static final int PACK_ID_TELCO     = 4  << PROTO_SHIFT_PACK;
+	
+	/** The Constant PACK_ID_LTE. */
 	public static final int PACK_ID_LTE       = 5  << PROTO_SHIFT_PACK;
+	
+	/** The Constant PACK_ID_DB. */
 	public static final int PACK_ID_DB        = 6  << PROTO_SHIFT_PACK;
+	
+	/** The Constant PACK_ID_MS. */
 	public static final int PACK_ID_MS        = 7  << PROTO_SHIFT_PACK;
+	
+	/** The Constant PACK_ID_AAA. */
 	public static final int PACK_ID_AAA       = 8  << PROTO_SHIFT_PACK;
 	// @formatter:on
 
+	/** The Constant CORE_MODULE. */
 	// @formatter:off
 	private static final String CORE_MODULE = "com.slytechs.jnet.protocol.core";
+	
+	/** The Constant CORE_PACK. */
 	private static final String CORE_PACK   = "com.slytechs.jnet.protocol.core.CorePack";
+	
+	/** The Constant WEB_MODULE. */
 	private static final String WEB_MODULE = "com.slytechs.jnet.protocol.web";
+	
+	/** The Constant WEB_PACK. */
 	private static final String WEB_PACK   = "com.slytechs.jnet.protocol.web.WebPack";
 	// @formatter:on
 
+	/** The id. */
 	private final int id;
+	
+	/** The module name. */
 	private final String moduleName;
+	
+	/** The class name. */
 	private final String className;
+	
+	/** The name. */
 	private final String name;
 
+	/**
+	 * Instantiates a new pack info.
+	 *
+	 * @param name the name
+	 */
 	PackInfo(String name) {
 		this.name = name;
 		this.className = null;
@@ -114,9 +167,11 @@ public enum PackInfo {
 	}
 
 	/**
+	 * Instantiates a new pack info.
+	 *
 	 * @param name       TODO
 	 * @param moduleName TODO
-	 * @param string
+	 * @param className  the class name
 	 */
 	PackInfo(String name, String moduleName, String className) {
 		this.name = name;
@@ -125,22 +180,48 @@ public enum PackInfo {
 		this.id = (ordinal() << PROTO_SHIFT_PACK);
 	}
 
+	/**
+	 * Value of pack id.
+	 *
+	 * @param id the id
+	 * @return the pack info
+	 */
 	public static PackInfo valueOfPackId(int id) {
 		return values()[decodePackOrdinal(id)];
 	}
 
+	/**
+	 * Gets the pack id as int.
+	 *
+	 * @return the pack id as int
+	 */
 	public int getPackIdAsInt() {
 		return id;
 	}
 
+	/**
+	 * Gets the pack class name.
+	 *
+	 * @return the pack class name
+	 */
 	public String getPackClassName() {
 		return className;
 	}
 
+	/**
+	 * Gets the pack module name.
+	 *
+	 * @return the pack module name
+	 */
 	public String getPackModuleName() {
 		return moduleName;
 	}
 
+	/**
+	 * Gets the pack name.
+	 *
+	 * @return the pack name
+	 */
 	public String getPackName() {
 		return name;
 	}

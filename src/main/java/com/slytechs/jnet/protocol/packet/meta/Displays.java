@@ -25,15 +25,22 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
+ * The Interface Displays.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 @Documented
 @Retention(RUNTIME)
 @Target({
 		METHOD })
 public @interface Displays {
+	
+	/**
+	 * Value.
+	 *
+	 * @return the display[]
+	 */
 	Display[] value();
 }

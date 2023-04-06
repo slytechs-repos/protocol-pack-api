@@ -17,28 +17,43 @@
  */
 package com.slytechs.jnet.protocol.core;
 
-import com.slytechs.jnet.protocol.constants.CoreHeaderInfo;
+import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
 import com.slytechs.jnet.protocol.packet.Header;
 import com.slytechs.jnet.protocol.packet.meta.Meta;
 
 /**
- * 
+ * The Class Udp.
+ *
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
 @Meta
 public class Udp extends Header {
 
+	/** The Constant ID. */
 	public static final int ID = CoreHeaderInfo.CORE_ID_UDP;
 
+	/**
+	 * Instantiates a new udp.
+	 */
 	public Udp() {
 		super(ID);
 	}
 
+	/**
+	 * Checksum.
+	 *
+	 * @return the int
+	 */
 	public int checksum() {
 		return UdpStruct.CHECKSUM.getUnsignedShort(buffer());
 	}
 
+	/**
+	 * Checksum.
+	 *
+	 * @param checksum the checksum
+	 */
 	public void checksum(int checksum) {
 		UdpStruct.CHECKSUM.setInt(checksum, buffer());
 	}
@@ -53,25 +68,48 @@ public class Udp extends Header {
 		return UdpStruct.DST_PORT.getUnsignedShort(buffer());
 	}
 
+	/**
+	 * Dst port.
+	 *
+	 * @param dstPort the dst port
+	 */
 	public void dstPort(int dstPort) {
 		UdpStruct.DST_PORT.setInt(dstPort, buffer());
 	}
 
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.Header#length()
+	 */
 	@Override
 	@Meta
 	public int length() {
 		return UdpStruct.LENGTH.getUnsignedShort(buffer());
 	}
 
+	/**
+	 * Length.
+	 *
+	 * @param length the length
+	 */
 	public void length(int length) {
 		UdpStruct.LENGTH.setInt(length, buffer());
 	}
 
+	/**
+	 * Src port.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int srcPort() {
 		return UdpStruct.SRC_PORT.getUnsignedShort(buffer());
 	}
 
+	/**
+	 * Src port.
+	 *
+	 * @param srcPort the src port
+	 */
 	public void srcPort(int srcPort) {
 		UdpStruct.SRC_PORT.setInt(srcPort, buffer());
 	}

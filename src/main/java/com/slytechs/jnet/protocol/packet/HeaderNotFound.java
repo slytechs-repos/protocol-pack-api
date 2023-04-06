@@ -20,17 +20,21 @@ package com.slytechs.jnet.protocol.packet;
 import com.slytechs.jnet.runtime.util.NotFound;
 
 /**
+ * The Class HeaderNotFound.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public class HeaderNotFound extends NotFound {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -578445872993071429L;
 
 	/**
-	 * @param message
+	 * Instantiates a new header not found.
+	 *
+	 * @param message the message
 	 */
 	public HeaderNotFound(String message) {
 		super(message);

@@ -45,7 +45,7 @@ class TestPacks {
 
 	@Test
 	void listAllDeclaredPacks() {
-		Pack.listAllDeclaredPacks().forEach(System.out::println);
+		ProtocolPack.listAllDeclaredPacks().forEach(System.out::println);
 	}
 
 }

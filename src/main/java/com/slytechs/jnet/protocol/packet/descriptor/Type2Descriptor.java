@@ -22,35 +22,51 @@ import static com.slytechs.jnet.protocol.packet.descriptor.Type2Layout.*;
 import java.nio.ByteBuffer;
 
 import com.slytechs.jnet.protocol.HeaderInfo;
-import com.slytechs.jnet.protocol.Pack;
+import com.slytechs.jnet.protocol.ProtocolPack;
+import com.slytechs.jnet.protocol.core.constants.CoreConstants;
+import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
+import com.slytechs.jnet.protocol.core.constants.HashType;
+import com.slytechs.jnet.protocol.core.constants.L2FrameType;
+import com.slytechs.jnet.protocol.core.constants.PackInfo;
+import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
 import com.slytechs.jnet.protocol.HeaderId;
-import com.slytechs.jnet.protocol.constants.CoreConstants;
-import com.slytechs.jnet.protocol.constants.CoreHeaderInfo;
-import com.slytechs.jnet.protocol.constants.HashType;
-import com.slytechs.jnet.protocol.constants.L2FrameType;
-import com.slytechs.jnet.protocol.constants.PackInfo;
-import com.slytechs.jnet.protocol.constants.PacketDescriptorType;
 import com.slytechs.jnet.runtime.util.Bits;
 import com.slytechs.jnet.runtime.util.Detail;
 
 /**
+ * The Class Type2Descriptor.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public class Type2Descriptor extends PacketDescriptor {
 
+	/** The mask. */
 	/* Lazy cache some common values, cleared on unbind() */
 	private int mask;
+	
+	/** The hash type. */
 	private int hashType;
+	
+	/** The hash 32. */
 	private int hash24, hash32;
+	
+	/** The expanded header arrays. */
 	private long[] expandedHeaderArrays;
 
+	/**
+	 * Instantiates a new type 2 descriptor.
+	 */
 	public Type2Descriptor() {
 		super(PacketDescriptorType.TYPE1);
 	}
 
+	/**
+	 * Bitmask.
+	 *
+	 * @return the int
+	 */
 	public int bitmask() {
 		if (mask == -1)
 			mask = BITMASK.getInt(buffer());
@@ -59,6 +75,9 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Byte size.
+	 *
+	 * @return the int
 	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#byteSize()
 	 */
 	@Override
@@ -66,31 +85,62 @@ public class Type2Descriptor extends PacketDescriptor {
 		return (recordCount() << 2) + CoreConstants.DESC_TYPE2_BYTE_SIZE_MIN;
 	}
 
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#captureLength()
+	 */
 	@Override
 	public int captureLength() {
 		return CAPLEN.getInt(buffer());
 	}
 
+	/**
+	 * Color 1.
+	 *
+	 * @return the int
+	 */
 	public int color1() {
 		return COLOR1.getInt(buffer());
 	}
 
+	/**
+	 * Color 1.
+	 *
+	 * @param color1 the color 1
+	 * @return the type 2 descriptor
+	 */
 	public Type2Descriptor color1(int color1) {
 		COLOR1.setInt(color1, buffer());
 
 		return this;
 	}
 
+	/**
+	 * Color 2.
+	 *
+	 * @return the int
+	 */
 	public int color2() {
 		return COLOR2.getInt(buffer());
 	}
 
+	/**
+	 * Color 2.
+	 *
+	 * @param color1 the color 1
+	 * @return the type 2 descriptor
+	 */
 	public Type2Descriptor color2(int color1) {
 		COLOR2.setInt(color1, buffer());
 
 		return this;
 	}
 
+	/**
+	 * Gets the record.
+	 *
+	 * @param index the index
+	 * @return the record
+	 */
 	public int getRecord(int index) {
 		int count = recordCount();
 		if (index >= count)
@@ -99,10 +149,22 @@ public class Type2Descriptor extends PacketDescriptor {
 		return buffer().getInt((index << 2) + CoreConstants.DESC_TYPE2_BYTE_SIZE_MAX);
 	}
 
+	/**
+	 * Hash.
+	 *
+	 * @param hash     the hash
+	 * @param hashType the hash type
+	 * @return the type 2 descriptor
+	 */
 	public Type2Descriptor hash(int hash, HashType hashType) {
 		return hash24(hash, hashType.getAsInt());
 	}
 
+	/**
+	 * Hash 24.
+	 *
+	 * @return the int
+	 */
 	public int hash24() {
 		if (hash24 == -1)
 			hash24 = HASH24.getInt(buffer());
@@ -110,6 +172,13 @@ public class Type2Descriptor extends PacketDescriptor {
 		return hash24;
 	}
 
+	/**
+	 * Hash 24.
+	 *
+	 * @param hash24   the hash 24
+	 * @param hashType the hash type
+	 * @return the type 2 descriptor
+	 */
 	public Type2Descriptor hash24(int hash24, int hashType) {
 		HASH24.setInt(hash24, buffer());
 		HASH_TYPE.setInt(hashType, buffer());
@@ -121,6 +190,11 @@ public class Type2Descriptor extends PacketDescriptor {
 		return this;
 	}
 
+	/**
+	 * Hash 32.
+	 *
+	 * @return the int
+	 */
 	public int hash32() {
 		if (hash32 == -1)
 			hash32 = HASH32.getInt(buffer());
@@ -128,6 +202,12 @@ public class Type2Descriptor extends PacketDescriptor {
 		return hash32;
 	}
 
+	/**
+	 * Hash 32.
+	 *
+	 * @param hash the hash
+	 * @return the type 2 descriptor
+	 */
 	public Type2Descriptor hash32(int hash) {
 		HASH32.setInt(hash, buffer());
 
@@ -138,6 +218,11 @@ public class Type2Descriptor extends PacketDescriptor {
 		return this;
 	}
 
+	/**
+	 * Hash type.
+	 *
+	 * @return the int
+	 */
 	public int hashType() {
 		if (hashType == -1)
 			hashType = HASH_TYPE.getInt(buffer());
@@ -146,6 +231,9 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Checks if is header extension supported.
+	 *
+	 * @return true, if is header extension supported
 	 * @see com.slytechs.jnet.protocol.packet.HeaderLookup#isHeaderExtensionSupported()
 	 */
 	@Override
@@ -153,12 +241,18 @@ public class Type2Descriptor extends PacketDescriptor {
 		return true;
 	}
 
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#l2FrameType()
+	 */
 	@Override
 	public int l2FrameType() {
 		return L2_TYPE.getInt(buffer());
 	}
 
 	/**
+	 * List headers.
+	 *
+	 * @return the long[]
 	 * @see com.slytechs.jnet.protocol.packet.HeaderLookup#listHeaders()
 	 */
 	@Override
@@ -172,6 +266,14 @@ public class Type2Descriptor extends PacketDescriptor {
 		return expandedHeaderArrays;
 	}
 
+	/**
+	 * Lookup extension.
+	 *
+	 * @param extId       the ext id
+	 * @param start       the start
+	 * @param recordCount the record count
+	 * @return the long
+	 */
 	private long lookupExtension(int extId, int start, int recordCount) {
 
 		for (int i = start; i < recordCount; i++) {
@@ -191,6 +293,11 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Lookup header.
+	 *
+	 * @param headerId the header id
+	 * @param depth    the depth
+	 * @return the long
 	 * @see com.slytechs.jnet.protocol.packet.HeaderLookup#lookupHeader(int, int)
 	 */
 	@Override
@@ -214,6 +321,13 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Lookup header extension.
+	 *
+	 * @param headerId        the header id
+	 * @param extId           the ext id
+	 * @param depth           the depth
+	 * @param recordIndexHint the record index hint
+	 * @return the long
 	 * @see com.slytechs.jnet.protocol.packet.HeaderLookup#lookupHeaderExtension(int,
 	 *      int, int, int)
 	 */
@@ -243,6 +357,12 @@ public class Type2Descriptor extends PacketDescriptor {
 		return CompactDescriptor.ID_NOT_FOUND;
 	}
 
+	/**
+	 * Lookup payload.
+	 *
+	 * @param record the record
+	 * @return the long
+	 */
 	private long lookupPayload(int record) {
 		int off = HeaderId.decodeRecordOffset(record);
 		int len = HeaderId.decodeRecordSize(record);
@@ -251,12 +371,19 @@ public class Type2Descriptor extends PacketDescriptor {
 		return CompactDescriptor.encode(CoreHeaderInfo.CORE_ID_PAYLOAD, poff, captureLength() - poff);
 	}
 
+	/**
+	 * Lookup payload entire packet.
+	 *
+	 * @return the long
+	 */
 	private long lookupPayloadEntirePacket() {
 		return CompactDescriptor.encode(CoreHeaderInfo.CORE_ID_PAYLOAD, 0, captureLength());
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.resource.MemoryBinding#onBind()
+	 * On bind.
+	 *
+	 * @see com.slytechs.jnet.runtime.MemoryBinding#onBind()
 	 */
 	@Override
 	protected void onBind() {
@@ -264,6 +391,12 @@ public class Type2Descriptor extends PacketDescriptor {
 		expandedHeaderArrays = null;
 	}
 
+	/**
+	 * Record.
+	 *
+	 * @param index the index
+	 * @return the int
+	 */
 	public int record(int index) {
 //		return RECORD.getInt(buffer(), index);
 
@@ -271,6 +404,11 @@ public class Type2Descriptor extends PacketDescriptor {
 		return buffer().getInt(CoreConstants.DESC_TYPE2_BYTE_SIZE_MIN + (index * 4));
 	}
 
+	/**
+	 * Record count.
+	 *
+	 * @return the int
+	 */
 	public int recordCount() {
 //		return RECORD_COUNT.getInt(buffer());
 
@@ -278,25 +416,50 @@ public class Type2Descriptor extends PacketDescriptor {
 		return shiftr(12, 27, 0x1F);
 	}
 
+	/**
+	 * Rx port.
+	 *
+	 * @return the int
+	 */
 	public int rxPort() {
 		return RX_PORT.getInt(buffer());
 	}
 
+	/**
+	 * Rx port.
+	 *
+	 * @param rxPort the rx port
+	 * @return the type 2 descriptor
+	 */
 	public Type2Descriptor rxPort(int rxPort) {
 		RX_PORT.setInt(rxPort, buffer());
 
 		return this;
 	}
 
+	/**
+	 * Shiftr.
+	 *
+	 * @param byteOffset the byte offset
+	 * @param bits       the bits
+	 * @param mask       the mask
+	 * @return the int
+	 */
 	private int shiftr(int byteOffset, int bits, int mask) {
 		return (buffer().getInt(byteOffset) >> bits) & mask;
 	}
 
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#timestamp()
+	 */
 	@Override
 	public long timestamp() {
 		return TIMESTAMP.getLong(buffer());
 	}
 
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#buildDetailedString(java.lang.StringBuilder, com.slytechs.jnet.runtime.util.Detail)
+	 */
 	@Override
 	public StringBuilder buildDetailedString(StringBuilder b, Detail detail) {
 		if (detail.isLow()) {
@@ -363,7 +526,7 @@ public class Type2Descriptor extends PacketDescriptor {
 									i,
 									record,
 									id,
-									Pack.findHeader(id)
+									ProtocolPack.findHeader(id)
 											.map(HeaderInfo::name)
 											.orElse("N/A"),
 									offset,
@@ -376,7 +539,7 @@ public class Type2Descriptor extends PacketDescriptor {
 									i,
 									record,
 									id,
-									Pack.findExtension(lastId, id)
+									ProtocolPack.findExtension(lastId, id)
 											.map(HeaderInfo::name)
 											.orElse("N/A"),
 									offset,
@@ -389,63 +552,125 @@ public class Type2Descriptor extends PacketDescriptor {
 		return b;
 	}
 
+	/**
+	 * Tx crc override.
+	 *
+	 * @return the int
+	 */
 	public int txCrcOverride() {
 		return TX_CRC_OVERRIDE.getInt(buffer());
 	}
 
+	/**
+	 * Tx crc override.
+	 *
+	 * @param txCrcOverride the tx crc override
+	 * @return the type 2 descriptor
+	 */
 	public Type2Descriptor txCrcOverride(int txCrcOverride) {
 		TX_CRC_OVERRIDE.setInt(txCrcOverride, buffer());
 
 		return this;
 	}
 
+	/**
+	 * Tx ignore.
+	 *
+	 * @return the int
+	 */
 	public int txIgnore() {
 		return TX_IGNORE.getInt(buffer());
 	}
 
+	/**
+	 * Tx ignore.
+	 *
+	 * @param txIgnore the tx ignore
+	 * @return the type 2 descriptor
+	 */
 	public Type2Descriptor txIgnore(int txIgnore) {
 		TX_IGNORE.setInt(txIgnore, buffer());
 
 		return this;
 	}
 
+	/**
+	 * Tx now.
+	 *
+	 * @return the int
+	 */
 	public int txNow() {
 		return TX_NOW.getInt(buffer());
 	}
 
+	/**
+	 * Tx now.
+	 *
+	 * @param txNow the tx now
+	 * @return the type 2 descriptor
+	 */
 	public Type2Descriptor txNow(int txNow) {
 		TX_NOW.setInt(txNow, buffer());
 
 		return this;
 	}
 
+	/**
+	 * Tx port.
+	 *
+	 * @return the int
+	 */
 	public int txPort() {
 		return TX_PORT.getInt(buffer());
 	}
 
+	/**
+	 * Tx port.
+	 *
+	 * @param txPort the tx port
+	 * @return the type 2 descriptor
+	 */
 	public Type2Descriptor txPort(int txPort) {
 		TX_PORT.setInt(txPort, buffer());
 
 		return this;
 	}
 
+	/**
+	 * Tx set clock.
+	 *
+	 * @return the int
+	 */
 	public int txSetClock() {
 		return TX_SET_CLOCK.getInt(buffer());
 	}
 
+	/**
+	 * Tx set clock.
+	 *
+	 * @param txSetClock the tx set clock
+	 * @return the type 2 descriptor
+	 */
 	public Type2Descriptor txSetClock(int txSetClock) {
 		TX_SET_CLOCK.setInt(txSetClock, buffer());
 
 		return this;
 	}
 
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#wireLength()
+	 */
 	@Override
 	public int wireLength() {
 		return WIRELEN.getInt(buffer());
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.resource.MemoryBinding#withBinding(java.nio.ByteBuffer)
+	 * With binding.
+	 *
+	 * @param buffer the buffer
+	 * @return the type 2 descriptor
+	 * @see com.slytechs.jnet.runtime.MemoryBinding#withBinding(java.nio.ByteBuffer)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
@@ -453,12 +678,20 @@ public class Type2Descriptor extends PacketDescriptor {
 		return super.withBinding(buffer);
 	}
 
+	/**
+	 * Word.
+	 *
+	 * @param index the index
+	 * @return the int
+	 */
 	private int word(int index) {
 		return ARRAY.getInt(buffer(), index);
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.resource.MemoryBinding#onUnbind()
+	 * On unbind.
+	 *
+	 * @see com.slytechs.jnet.runtime.MemoryBinding#onUnbind()
 	 */
 	@Override
 	protected void onUnbind() {

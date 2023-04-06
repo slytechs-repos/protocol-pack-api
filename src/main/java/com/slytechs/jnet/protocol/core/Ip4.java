@@ -19,10 +19,10 @@ package com.slytechs.jnet.protocol.core;
 
 import java.util.Set;
 
-import com.slytechs.jnet.protocol.constants.CoreConstants;
-import com.slytechs.jnet.protocol.constants.CoreHeaderInfo;
-import com.slytechs.jnet.protocol.constants.Ip4Flag;
-import com.slytechs.jnet.protocol.constants.IpType;
+import com.slytechs.jnet.protocol.core.constants.CoreConstants;
+import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
+import com.slytechs.jnet.protocol.core.constants.Ip4Flag;
+import com.slytechs.jnet.protocol.core.constants.IpType;
 import com.slytechs.jnet.protocol.packet.Packet;
 import com.slytechs.jnet.protocol.packet.meta.Display;
 import com.slytechs.jnet.protocol.packet.meta.Meta;
@@ -30,14 +30,20 @@ import com.slytechs.jnet.protocol.packet.meta.Meta.MetaType;
 import com.slytechs.jnet.protocol.packet.meta.MetaResource;
 
 /**
- * 
+ * The Class Ip4.
+ *
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
 @MetaResource("ip4-meta.json")
 public class Ip4 extends Ip<Ip4Option> {
+	
+	/** The Constant ID. */
 	public static final int ID = CoreHeaderInfo.CORE_ID_IPv4;
 
+	/**
+	 * Instantiates a new ip 4.
+	 */
 	public Ip4() {
 		super(ID);
 	}
@@ -61,14 +67,29 @@ public class Ip4 extends Ip<Ip4Option> {
 		return Ip4Layout.DSFIELD.getInt(buffer());
 	}
 
+	/**
+	 * Dsfield dscp.
+	 *
+	 * @return the int
+	 */
 	public int dsfieldDscp() {
 		return Ip4Layout.DSFIELD_DSCP.getInt(buffer());
 	}
 
+	/**
+	 * Dsfield dscp code.
+	 *
+	 * @return the int
+	 */
 	public int dsfieldDscpCode() {
 		return Ip4Layout.DSFIELD_DSCP_CODE.getInt(buffer());
 	}
 
+	/**
+	 * Dsfield dscp info.
+	 *
+	 * @return the string
+	 */
 	String dsfieldDscpInfo() {
 		StringBuilder b = new StringBuilder();
 
@@ -83,16 +104,28 @@ public class Ip4 extends Ip<Ip4Option> {
 		return b.toString();
 	}
 
+	/**
+	 * Dsfield dscp select.
+	 *
+	 * @return the int
+	 */
 	int dsfieldDscpSelect() {
 		return Ip4Layout.DSFIELD_DSCP_SELECT.getInt(buffer());
 	}
 
+	/**
+	 * Dsfield ecn.
+	 *
+	 * @return the int
+	 */
 	int dsfieldEcn() {
 		return Ip4Layout.DSFIELD_ECN.getInt(buffer());
 	}
 
 	/**
-	 * @return
+	 * Dsfield info.
+	 *
+	 * @return the string
 	 */
 	String dsfieldInfo() {
 		StringBuilder b = new StringBuilder();
@@ -112,46 +145,87 @@ public class Ip4 extends Ip<Ip4Option> {
 		return b.toString();
 	}
 
+	/**
+	 * @see com.slytechs.jnet.protocol.core.Ip#dst()
+	 */
 	@Meta
 	@Override
 	public byte[] dst() {
 		return dst(new byte[CoreConstants.IPv4_FIELD_DST_LEN], 0);
 	}
 
+	/**
+	 * Dst.
+	 *
+	 * @param dst the dst
+	 * @return the byte[]
+	 */
 	public byte[] dst(byte[] dst) {
 		return dst(dst, 0);
 	}
 
+	/**
+	 * Dst.
+	 *
+	 * @param dst    the dst
+	 * @param offset the offset
+	 * @return the byte[]
+	 */
 	public byte[] dst(byte[] dst, int offset) {
 		buffer().get(CoreConstants.IPv4_FIELD_DST, dst, offset, CoreConstants.IPv4_FIELD_DST_LEN);
 
 		return dst;
 	}
 
+	/**
+	 * @see com.slytechs.jnet.protocol.core.Ip#dstAddress()
+	 */
 	@Override
 	public Ip4Address dstAddress() {
 		return new Ip4Address(dst());
 	}
 
+	/**
+	 * Dst as int.
+	 *
+	 * @return the int
+	 */
 	public int dstAsInt() {
 		return Ip4Layout.DST.getInt(buffer());
 	}
 
+	/**
+	 * Flags.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int flags() {
 		return Ip4Layout.FLAGS.getInt(buffer());
 	}
 
+	/**
+	 * Flags byte.
+	 *
+	 * @return the int
+	 */
 	public int flagsByte() {
 		return Ip4Layout.FLAGS_BYTE.getInt(buffer());
 	}
 
+	/**
+	 * Flags df.
+	 *
+	 * @return the int
+	 */
 	public int flagsDf() {
 		return Ip4Layout.FLAGS_DF.getInt(buffer());
 	}
 
 	/**
-	 * @return
+	 * Flags info.
+	 *
+	 * @return the string
 	 */
 	@Meta(MetaType.ATTRIBUTE)
 	public String flagsInfo() {
@@ -164,80 +238,153 @@ public class Ip4 extends Ip<Ip4Option> {
 		return "No flags";
 	}
 
+	/**
+	 * Flags mf.
+	 *
+	 * @return the int
+	 */
 	public int flagsMf() {
 		return Ip4Layout.FLAGS_MF.getInt(buffer());
 	}
 
+	/**
+	 * Flags nibble.
+	 *
+	 * @return the int
+	 */
 	public int flagsNibble() {
 		return Ip4Layout.FLAGS_NIBBLE.getInt(buffer());
 	}
 
+	/**
+	 * Flags rb.
+	 *
+	 * @return the int
+	 */
 	public int flagsRb() {
 		return Ip4Layout.FLAGS_RB.getInt(buffer());
 	}
 
+	/**
+	 * Flags set.
+	 *
+	 * @return the sets the
+	 */
 	@Meta(MetaType.ATTRIBUTE)
 	public Set<Ip4Flag> flagsSet() {
 		return Ip4Flag.valueOf(flags());
 	}
 
+	/**
+	 * Frag offset.
+	 *
+	 * @return the int
+	 */
 	public int fragOffset() {
 		return Ip4Layout.FRAG_OFFSET.getInt(buffer());
 	}
 
+	/**
+	 * Hdr len.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int hdrLen() {
 		return Ip4Layout.HDR_LEN.getInt(buffer());
 	}
 
+	/**
+	 * Hdr len bytes.
+	 *
+	 * @return the int
+	 */
 	@Meta(MetaType.ATTRIBUTE)
 	public int hdrLenBytes() {
 		return hdrLen() * 4;
 	}
 
+	/**
+	 * Identification.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int identification() {
 		return Ip4Layout.ID.getUnsignedShort(buffer());
 	}
 
 	/**
-	 * @return
+	 * Checks if is reassembled.
+	 *
+	 * @return true, if is reassembled
 	 */
 	public boolean isReassembled() {
 		throw new UnsupportedOperationException("not implemented yet");
 	}
 
+	/**
+	 * @see com.slytechs.jnet.protocol.core.Ip#payloadLength()
+	 */
 	@Override
 	public int payloadLength() {
 		return totalLength() - hdrLenBytes();
 	}
 
+	/**
+	 * Protocol.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int protocol() {
 		return Ip4Layout.PROTO.getInt(buffer());
 	}
 
+	/**
+	 * Protocol info.
+	 *
+	 * @return the string
+	 */
 	public String protocolInfo() {
 		return IpType.valueOfIpType(protocol()).name();
 	}
 
 	/**
-	 * @return
+	 * Reassembled fragments.
+	 *
+	 * @return the packet[]
 	 */
 	public Packet[] reassembledFragments() {
 		throw new UnsupportedOperationException("not implemented yet");
 	}
 
+	/**
+	 * @see com.slytechs.jnet.protocol.core.Ip#src()
+	 */
 	@Override
 	@Meta
 	public byte[] src() {
 		return src(new byte[CoreConstants.IPv4_FIELD_SRC_LEN], 0);
 	}
 
+	/**
+	 * Src.
+	 *
+	 * @param dst the dst
+	 * @return the byte[]
+	 */
 	public byte[] src(byte[] dst) {
 		return src(dst, 0);
 	}
 
+	/**
+	 * Src.
+	 *
+	 * @param dst    the dst
+	 * @param offset the offset
+	 * @return the byte[]
+	 */
 	public byte[] src(byte[] dst, int offset) {
 		byte[] debug = new byte[20];
 		buffer().get(0, debug);
@@ -246,26 +393,47 @@ public class Ip4 extends Ip<Ip4Option> {
 		return dst;
 	}
 
+	/**
+	 * @see com.slytechs.jnet.protocol.core.Ip#srcGetAsAddress()
+	 */
 	@Override
 	public Ip4Address srcGetAsAddress() {
 		return new Ip4Address(src());
 	}
 
+	/**
+	 * Src get as int.
+	 *
+	 * @return the int
+	 */
 	public int srcGetAsInt() {
 		return Ip4Layout.SRC.getInt(buffer());
 	}
 
+	/**
+	 * Total length.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int totalLength() {
 		return Ip4Layout.TOTAL_LENGTH.getInt(buffer());
 	}
 
+	/**
+	 * Ttl.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int ttl() {
 		return Ip4Layout.TTL.getInt(buffer());
 	}
 
 	/**
+	 * Version.
+	 *
+	 * @return the int
 	 * @see com.slytechs.jnet.runtime.protocol.core.Ip#version()
 	 */
 	@Override

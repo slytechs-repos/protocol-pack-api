@@ -21,20 +21,30 @@ import com.slytechs.jnet.protocol.packet.meta.Meta.MetaType;
 import com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped;
 
 /**
+ * The Class MetaElement.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public abstract class MetaElement
 		implements Comparable<MetaElement>, MetaDomain {
 
+	/** The meta. */
 	protected final ReflectedComponent meta;
 
+	/** The meta type. */
 	private final MetaType metaType;
 
+	/** The parent. */
 	private final MetaDomain parent;
 
+	/**
+	 * Instantiates a new meta element.
+	 *
+	 * @param parent        the parent
+	 * @param metaContainer the meta container
+	 */
 	protected MetaElement(MetaDomain parent, ReflectedComponent metaContainer) {
 		this.meta = metaContainer;
 		this.metaType = metaContainer.getMetaType(MetaInfo.class).metaType();
@@ -45,11 +55,20 @@ public abstract class MetaElement
 			this.parent = parent;
 	}
 
+	/**
+	 * Abbr.
+	 *
+	 * @return the string
+	 */
 	public final String abbr() {
 		return meta.abbr();
 	}
 
 	/**
+	 * Compare to.
+	 *
+	 * @param o the o
+	 * @return the int
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
@@ -57,36 +76,74 @@ public abstract class MetaElement
 		return ordinal() - o.ordinal();
 	}
 
+	/**
+	 * Gets the meta.
+	 *
+	 * @param <T>  the generic type
+	 * @param type the type
+	 * @return the meta
+	 */
 	public final <T extends MetaInfoType> T getMeta(Class<T> type) {
 		return meta.getMetaType(type);
 	}
 
+	/**
+	 * Checks if is attribute.
+	 *
+	 * @return true, if is attribute
+	 */
 	public final boolean isAttribute() {
 		return (metaType == MetaType.ATTRIBUTE);
 	}
 
+	/**
+	 * Checks if is field.
+	 *
+	 * @return true, if is field
+	 */
 	public final boolean isField() {
 		return (metaType == MetaType.FIELD);
 	}
 
+	/**
+	 * Meta type.
+	 *
+	 * @return the meta type
+	 */
 	public final MetaType metaType() {
 		return metaType;
 	}
 
+	/**
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#name()
+	 */
 	@Override
 	public final String name() {
 		return meta.name();
 	}
 
+	/**
+	 * Note.
+	 *
+	 * @return the string
+	 */
 	public final String note() {
 		return meta.note();
 	}
 
+	/**
+	 * Ordinal.
+	 *
+	 * @return the int
+	 */
 	public final int ordinal() {
 		return meta.ordinal();
 	}
 
 	/**
+	 * Parent.
+	 *
+	 * @return the meta domain
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#parent()
 	 */
 	@Override
@@ -95,6 +152,9 @@ public abstract class MetaElement
 	}
 
 	/**
+	 * To string.
+	 *
+	 * @return the string
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

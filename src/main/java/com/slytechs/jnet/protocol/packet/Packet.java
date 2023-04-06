@@ -21,7 +21,7 @@ import static com.slytechs.jnet.protocol.packet.descriptor.CompactDescriptor.*;
 
 import java.nio.ByteBuffer;
 
-import com.slytechs.jnet.protocol.constants.CoreHeaderInfo;
+import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
 import com.slytechs.jnet.protocol.packet.descriptor.CompactDescriptor;
 import com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor;
 import com.slytechs.jnet.protocol.packet.descriptor.Type1Descriptor;
@@ -29,14 +29,15 @@ import com.slytechs.jnet.protocol.packet.meta.Meta;
 import com.slytechs.jnet.protocol.packet.meta.Meta.MetaType;
 import com.slytechs.jnet.protocol.packet.meta.MetaResource;
 import com.slytechs.jnet.protocol.packet.meta.PacketFormat;
-import com.slytechs.jnet.runtime.resource.MemoryBinding;
+import com.slytechs.jnet.runtime.MemoryBinding;
 import com.slytechs.jnet.runtime.time.Timestamp;
 import com.slytechs.jnet.runtime.time.TimestampUnit;
 import com.slytechs.jnet.runtime.util.Detail;
 import com.slytechs.jnet.runtime.util.HexStrings;
 
 /**
- * 
+ * The Class Packet.
+ *
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
@@ -45,21 +46,45 @@ public final class Packet
 		extends MemoryBinding
 		implements HasHeader, Cloneable, AutoCloseable {
 
+	/** The Constant MAX_PACKET_LENGTH. */
 	public static final int MAX_PACKET_LENGTH = 1538;
 
+	/** The descriptor. */
 	private PacketDescriptor descriptor;
+	
+	/** The lookup. */
 	private final HeaderLookup lookup;
+	
+	/** The formatter. */
 	private PacketFormat formatter;
 
+	/**
+	 * Instantiates a new packet.
+	 */
 	public Packet() {
 		this(new Type1Descriptor());
 	}
 
+	/**
+	 * Instantiates a new packet.
+	 *
+	 * @param descriptor the descriptor
+	 */
 	public Packet(PacketDescriptor descriptor) {
 		this.descriptor = descriptor;
 		this.lookup = descriptor;
 	}
 
+	/**
+	 * Bind header.
+	 *
+	 * @param <T>    the generic type
+	 * @param header the header
+	 * @param offset the offset
+	 * @param length the length
+	 * @param meta   the meta
+	 * @return true, if successful
+	 */
 	private <T extends Header> boolean bindHeader(T header, int offset, int length, int meta) {
 		ByteBuffer buffer = buffer();
 		int payloadLength = descriptor.captureLength() - (offset + length);
@@ -72,11 +97,21 @@ public final class Packet
 		return true;
 	}
 
+	/**
+	 * Bind frame header.
+	 *
+	 * @param frame the frame
+	 */
 	private void bindFrameHeader(Frame frame) {
 		bindHeader(frame, 0, captureLength(), 0);
 		frame.bindDescriptor(descriptor);
 	}
 
+	/**
+	 * Bind payload header.
+	 *
+	 * @param payload the payload
+	 */
 	private void bindPayloadHeader(Payload payload) {
 		var headers = lookup.listHeaders();
 
@@ -93,6 +128,11 @@ public final class Packet
 		bindHeader(payload, offset, length, 0);
 	}
 
+	/**
+	 * Payload length.
+	 *
+	 * @return the int
+	 */
 	public int payloadLength() {
 		var headers = lookup.listHeaders();
 
@@ -107,11 +147,19 @@ public final class Packet
 		return length;
 	}
 
+	/**
+	 * Capture length.
+	 *
+	 * @return the int
+	 */
 	@Meta(MetaType.ATTRIBUTE)
 	public int captureLength() {
 		return descriptor.captureLength();
 	}
 
+	/**
+	 * @see com.slytechs.jnet.runtime.MemoryBinding#clone()
+	 */
 	@Override
 	public Packet clone() {
 		Packet clone = (Packet) super.clone();
@@ -120,7 +168,11 @@ public final class Packet
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.internal.foreign.MemoryBinding#cloneTo(java.nio.ByteBuffer)
+	 * Clone to.
+	 *
+	 * @param dst the dst
+	 * @return the packet
+	 * @see com.com.slytechs.jnet.runtime.MemoryBinding#cloneTo(java.nio.ByteBuffer)
 	 */
 	@Override
 	public Packet cloneTo(ByteBuffer dst) {
@@ -131,22 +183,45 @@ public final class Packet
 		return clone;
 	}
 
+	/**
+	 * @see java.lang.AutoCloseable#close()
+	 */
 	@Override
 	public void close() {
 		unbind();
 	}
 
+	/**
+	 * Descriptor.
+	 *
+	 * @param <D> the generic type
+	 * @return the d
+	 */
 	@SuppressWarnings("unchecked")
 	public <D extends PacketDescriptor> D descriptor() {
 		return (D) descriptor;
 	}
 
+	/**
+	 * Descriptor.
+	 *
+	 * @param <D>            the generic type
+	 * @param descriptorType the descriptor type
+	 * @return the d
+	 */
 	@SuppressWarnings("unchecked")
 	public <D extends PacketDescriptor> D descriptor(Class<D> descriptorType) {
 		return (D) descriptor;
 	}
 
 	/**
+	 * Gets the header.
+	 *
+	 * @param <T>    the generic type
+	 * @param header the header
+	 * @param depth  the depth
+	 * @return the header
+	 * @throws HeaderNotFound the header not found
 	 * @see com.slytechs.jnet.protocol.packet.HasHeader#getHeader(com.slytechs.jnet.protocol.packet.Header)
 	 */
 	@Override
@@ -159,6 +234,11 @@ public final class Packet
 	}
 
 	/**
+	 * Checks for header.
+	 *
+	 * @param headerId the header id
+	 * @param depth    the depth
+	 * @return true, if successful
 	 * @see com.slytechs.jnet.protocol.packet.HasHeader#hasHeader(long)
 	 */
 	@Override
@@ -166,11 +246,24 @@ public final class Packet
 		return lookupHeader(headerId, depth) != ID_NOT_FOUND;
 	}
 
+	/**
+	 * Lookup header.
+	 *
+	 * @param id    the id
+	 * @param depth the depth
+	 * @return the long
+	 */
 	protected final long lookupHeader(int id, int depth) {
 		return lookup.lookupHeader(id, 0);
 	}
 
 	/**
+	 * Peek header.
+	 *
+	 * @param <T>    the generic type
+	 * @param header the header
+	 * @param depth  the depth
+	 * @return the t
 	 * @see com.slytechs.jnet.protocol.packet.HasHeader#peekHeader(com.slytechs.jnet.protocol.packet.Header,
 	 *      int)
 	 */
@@ -204,29 +297,59 @@ public final class Packet
 		return header;
 	}
 
+	/**
+	 * Sets the descriptor.
+	 *
+	 * @param descriptor the descriptor
+	 * @return the packet
+	 */
 	public Packet setDescriptor(PacketDescriptor descriptor) {
 		this.descriptor = descriptor;
 
 		return this;
 	}
 
+	/**
+	 * Sets the formatter.
+	 *
+	 * @param formatter the new formatter
+	 */
 	public void setFormatter(PacketFormat formatter) {
 		this.formatter = formatter;
 	}
 
+	/**
+	 * Timestamp.
+	 *
+	 * @return the long
+	 */
 	public final long timestamp() {
 		return descriptor.timestamp();
 	}
 
+	/**
+	 * Timestamp unit.
+	 *
+	 * @return the timestamp unit
+	 */
 	public final TimestampUnit timestampUnit() {
 		return descriptor.timestampUnit();
 	}
 
+	/**
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return toString(Detail.LOW);
 	}
 
+	/**
+	 * To string.
+	 *
+	 * @param detail the detail
+	 * @return the string
+	 */
 	public String toString(Detail detail) {
 		if (formatter != null)
 			return formatter.format(this, detail);
@@ -252,6 +375,11 @@ public final class Packet
 		};
 	}
 
+	/**
+	 * Wire length.
+	 *
+	 * @return the int
+	 */
 	public int wireLength() {
 		return descriptor.wireLength();
 	}

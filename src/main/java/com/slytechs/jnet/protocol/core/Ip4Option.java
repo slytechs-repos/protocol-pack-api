@@ -17,24 +17,45 @@
  */
 package com.slytechs.jnet.protocol.core;
 
-import com.slytechs.jnet.protocol.constants.Ip4OptionInfo;
 import com.slytechs.jnet.protocol.core.Ip.IpOption;
+import com.slytechs.jnet.protocol.core.constants.Ip4OptionInfo;
 
+/**
+ * The Class Ip4Option.
+ */
 public abstract class Ip4Option extends IpOption {
 
+	/**
+	 * The Class Ip4OptRouter.
+	 */
 	public static class Ip4OptRouter extends Ip4Option {
+		
+		/** The Constant ID. */
 		public static final int ID = Ip4OptionInfo.IPv4_OPT_ID_RTRALT;
 
+		/**
+		 * Instantiates a new ip 4 opt router.
+		 */
 		public Ip4OptRouter() {
 			super(ID);
 		}
 
+		/**
+		 * Examine packet.
+		 *
+		 * @return true, if successful
+		 */
 		public boolean examinePacket() {
 			return buffer().getShort(2) == 0;
 		}
 
 	}
 
+	/**
+	 * Instantiates a new ip 4 option.
+	 *
+	 * @param id the id
+	 */
 	protected Ip4Option(int id) {
 		super(id);
 	}

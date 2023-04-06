@@ -1,21 +1,21 @@
 /*
- * Apache License, Version 2.0
+ * Sly Technologies Free License
  * 
- * Copyright 2013-2022 Sly Technologies Inc.
+ * Copyright 2023 Sly Technologies Inc.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Sly Technologies Free License (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- *   
+ * http://www.slytechs.com/free-license-text
+ * 
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
-package com.slytechs.jnet.protocol.constants;
+package com.slytechs.jnet.protocol.core.constants;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -31,15 +31,36 @@ import java.util.logging.Logger;
 import com.slytechs.jnet.runtime.internal.ArrayUtils;
 import com.slytechs.jnet.runtime.util.HexStrings;
 
+/**
+ * The Class IeeeOuiAssignments.
+ */
 public final class IeeeOuiAssignments {
 
+	/**
+	 * The Class OuiEntry.
+	 */
 	public static class OuiEntry {
 
+		/** The prefix. */
 		private final byte[] prefix;
+		
+		/** The name. */
 		private final String name;
+		
+		/** The descriptrion. */
 		private final String descriptrion;
+		
+		/** The mask. */
 		private final int mask;
 
+		/**
+		 * Instantiates a new oui entry.
+		 *
+		 * @param prefix       the prefix
+		 * @param mask         the mask
+		 * @param name         the name
+		 * @param descriptrion the descriptrion
+		 */
 		public OuiEntry(byte[] prefix, int mask, String name, String descriptrion) {
 			this.prefix = prefix;
 			this.mask = mask;
@@ -47,6 +68,9 @@ public final class IeeeOuiAssignments {
 			this.descriptrion = descriptrion;
 		}
 
+		/**
+		 * @see java.lang.Object#equals(java.lang.Object)
+		 */
 		@Override
 		public boolean equals(Object obj) {
 			if (this == obj)
@@ -59,27 +83,53 @@ public final class IeeeOuiAssignments {
 			return ArrayUtils.equals(prefix, array, mask);
 		}
 
+		/**
+		 * Gets the descriptrion.
+		 *
+		 * @return the descriptrion
+		 */
 		public String getDescriptrion() {
 			return descriptrion;
 		}
 
+		/**
+		 * Gets the mask.
+		 *
+		 * @return the mask
+		 */
 		public int getMask() {
 			return mask;
 		}
 
+		/**
+		 * Gets the name.
+		 *
+		 * @return the name
+		 */
 		public String getName() {
 			return name;
 		}
 
+		/**
+		 * Gets the prefix.
+		 *
+		 * @return the prefix
+		 */
 		public byte[] getPrefix() {
 			return prefix;
 		}
 
+		/**
+		 * @see java.lang.Object#hashCode()
+		 */
 		@Override
 		public int hashCode() {
 			return ArrayUtils.hashCodeWithNetmask(prefix, 24);
 		}
 
+		/**
+		 * @see java.lang.Object#toString()
+		 */
 		@Override
 		public String toString() {
 			return "OuiEntry ["
@@ -92,11 +142,23 @@ public final class IeeeOuiAssignments {
 
 	}
 
+	/**
+	 * The Class OuiTable.
+	 */
 	private static class OuiTable {
 
+		/** The Constant EUI64_BYTE_LENGTH. */
 		private static final int EUI64_BYTE_LENGTH = 8;
+		
+		/** The Constant OUI_MANUFACTURER_TABLE. */
 		private static final OuiTable OUI_MANUFACTURER_TABLE = new OuiTable();
 
+		/**
+		 * Parses the mac.
+		 *
+		 * @param mac the mac
+		 * @return the byte[]
+		 */
 		private static byte[] parseMac(String mac) {
 			int index = mac.indexOf('/');
 			if (index != -1)
@@ -109,6 +171,12 @@ public final class IeeeOuiAssignments {
 			return array;
 		}
 
+		/**
+		 * Parses the mask.
+		 *
+		 * @param mac the mac
+		 * @return the int
+		 */
 		private static int parseMask(String mac) {
 			int mask = 24; // default mask
 
@@ -119,14 +187,27 @@ public final class IeeeOuiAssignments {
 			return mask;
 		}
 
+		/** The map 24 bit hash. */
 		private final Map<Integer, OuiEntry[]> map24BitHash = new HashMap<>();
 
+		/** The size. */
 		private int size = 0;
 
+		/**
+		 * Instantiates a new oui table.
+		 */
 		public OuiTable() {
 
 		}
 
+		/**
+		 * Adds the entry.
+		 *
+		 * @param prefix      the prefix
+		 * @param mask        the mask
+		 * @param name        the name
+		 * @param description the description
+		 */
 		public void addEntry(byte[] prefix, int mask, String name, String description) {
 			OuiEntry entry = new OuiEntry(prefix, mask, name, description);
 			int hash = entry.hashCode();
@@ -142,10 +223,21 @@ public final class IeeeOuiAssignments {
 			size++;
 		}
 
+		/**
+		 * Checks if is loaded.
+		 *
+		 * @return true, if is loaded
+		 */
 		public boolean isLoaded() {
 			return size > 0;
 		}
 
+		/**
+		 * Load cvs table.
+		 *
+		 * @param cvsResourceName the cvs resource name
+		 * @throws IOException Signals that an I/O exception has occurred.
+		 */
 		public void loadCvsTable(String cvsResourceName) throws IOException {
 			InputStream in = IeeeOuiAssignments.class.getResourceAsStream(cvsResourceName);
 			if (in == null)
@@ -154,6 +246,12 @@ public final class IeeeOuiAssignments {
 			readTable(in);
 		}
 
+		/**
+		 * Lookup entry.
+		 *
+		 * @param mac the mac
+		 * @return the optional
+		 */
 		public Optional<OuiEntry> lookupEntry(byte[] mac) {
 
 			int hash = ArrayUtils.hashCodeWithNetmask(mac, 24);
@@ -169,6 +267,13 @@ public final class IeeeOuiAssignments {
 			return Optional.empty();
 		}
 
+		/**
+		 * Read table.
+		 *
+		 * @param in the in
+		 * @return the int
+		 * @throws IOException Signals that an I/O exception has occurred.
+		 */
 		public int readTable(InputStream in) throws IOException {
 
 			try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
@@ -211,6 +316,9 @@ public final class IeeeOuiAssignments {
 			}
 		}
 
+		/**
+		 * @see java.lang.Object#toString()
+		 */
 		@Override
 		public String toString() {
 			return "OuiTable ["
@@ -219,14 +327,19 @@ public final class IeeeOuiAssignments {
 					+ "]";
 		}
 
+		/**
+		 * Clear.
+		 */
 		public void clear() {
 			map24BitHash.clear();
 			size = 0;
 		}
 	}
 
+	/** The Constant LOG. */
 	private final static Logger LOG = Logger.getLogger(IeeeOuiAssignments.class.getCanonicalName());
 
+	/** The Constant OUI_MANUFACTURE_CVS. */
 	private static final String OUI_MANUFACTURE_CVS = "/ieee-oui-manufacturer-assignments.cvs";
 
 	/**
@@ -289,8 +402,14 @@ public final class IeeeOuiAssignments {
 		return OuiTable.OUI_MANUFACTURER_TABLE.lookupEntry(macAddress);
 	}
 
+	/** The is manufacturer oui lookup enabled. */
 	public static boolean isManufacturerOuiLookupEnabled = true;
 
+	/**
+	 * Enable manufacturer oui lookup.
+	 *
+	 * @param b the b
+	 */
 	public static void enableManufacturerOuiLookup(boolean b) {
 		isManufacturerOuiLookupEnabled = b;
 
@@ -298,9 +417,18 @@ public final class IeeeOuiAssignments {
 			OuiTable.OUI_MANUFACTURER_TABLE.clear();
 	}
 
+	/**
+	 * Instantiates a new ieee oui assignments.
+	 */
 	private IeeeOuiAssignments() {
 	}
 
+	/**
+	 * Lookup ether type name.
+	 *
+	 * @param type the type
+	 * @return the optional
+	 */
 	public static Optional<String> lookupEtherTypeName(int type) {
 		String name = switch (type) {
 		case 0x0800 -> "IPv4";
@@ -320,14 +448,32 @@ public final class IeeeOuiAssignments {
 		return Optional.ofNullable(name);
 	}
 
+	/**
+	 * Resolve mac oui name.
+	 *
+	 * @param obj the obj
+	 * @return the string
+	 */
 	public static String resolveMacOuiName(Object obj) {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * Format prefix mac with oui name.
+	 *
+	 * @param obj the obj
+	 * @return the string
+	 */
 	public static String formatPrefixMacWithOuiName(Object obj) {
 		return "IeeOui:: format";
 	}
 
+	/**
+	 * Resolve mac oui description.
+	 *
+	 * @param obj the obj
+	 * @return the string
+	 */
 	public static String resolveMacOuiDescription(Object obj) {
 		return "IeeOui:: resolve";
 	}

@@ -20,22 +20,35 @@ package com.slytechs.jnet.protocol.packet.descriptor;
 import java.net.ProtocolException;
 import java.nio.ByteBuffer;
 
-import com.slytechs.jnet.protocol.constants.L2FrameType;
-import com.slytechs.jnet.protocol.constants.PacketDescriptorType;
+import com.slytechs.jnet.protocol.core.constants.L2FrameType;
+import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
 import com.slytechs.jnet.runtime.time.TimestampSource;
 
 /**
+ * The Interface PacketDissector.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public interface PacketDissector {
 
+	/**
+	 * Dissector.
+	 *
+	 * @param type the type
+	 * @return the packet dissector
+	 */
 	static PacketDissector dissector(PacketDescriptorType type) {
 		return javaDissector(type);
 	}
 
+	/**
+	 * Java dissector.
+	 *
+	 * @param type the type
+	 * @return the packet dissector
+	 */
 	static PacketDissector javaDissector(PacketDescriptorType type) {
 
 		return switch (type) {
@@ -47,10 +60,22 @@ public interface PacketDissector {
 
 	}
 
+	/**
+	 * Native dissector.
+	 *
+	 * @param type the type
+	 * @return the packet dissector
+	 */
 	static PacketDissector nativeDissector(PacketDescriptorType type) {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * Dissect packet.
+	 *
+	 * @param buffer the buffer
+	 * @return the int
+	 */
 	default int dissectPacket(ByteBuffer buffer) {
 		int caplen = buffer.remaining();
 		long timestamp = TimestampSource.system().timestamp();
@@ -58,13 +83,45 @@ public interface PacketDissector {
 		return dissectPacket(buffer, timestamp, caplen, caplen);
 	}
 
+	/**
+	 * Dissect packet.
+	 *
+	 * @param buffer    the buffer
+	 * @param timestamp the timestamp
+	 * @param caplen    the caplen
+	 * @param wirelen   the wirelen
+	 * @return the int
+	 */
 	int dissectPacket(ByteBuffer buffer, long timestamp, int caplen, int wirelen);
 
+	/**
+	 * Checks if is native.
+	 *
+	 * @return true, if is native
+	 */
 	boolean isNative();
 
+	/**
+	 * Reset.
+	 *
+	 * @return the packet dissector
+	 */
 	PacketDissector reset();
 
+	/**
+	 * Sets the datalink type.
+	 *
+	 * @param l2Type the l 2 type
+	 * @return the packet dissector
+	 * @throws ProtocolException the protocol exception
+	 */
 	PacketDissector setDatalinkType(L2FrameType l2Type) throws ProtocolException;
 
+	/**
+	 * Write descriptor.
+	 *
+	 * @param buffer the buffer
+	 * @return the int
+	 */
 	int writeDescriptor(ByteBuffer buffer);
 }

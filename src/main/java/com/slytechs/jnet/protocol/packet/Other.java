@@ -18,15 +18,16 @@
 package com.slytechs.jnet.protocol.packet;
 
 /**
+ * The Class Other.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public final class Other extends Payload {
 
 	/**
-	 * 
+	 * Instantiates a new other.
 	 */
 	public Other() {
 	}

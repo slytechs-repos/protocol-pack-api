@@ -19,20 +19,36 @@ package com.slytechs.jnet.protocol.core;
 
 import static com.slytechs.jnet.runtime.internal.layout.BinaryLayout.*;
 
-import com.slytechs.jnet.protocol.constants.CoreConstants;
+import com.slytechs.jnet.protocol.core.constants.CoreConstants;
 import com.slytechs.jnet.runtime.internal.layout.ArrayField;
 import com.slytechs.jnet.runtime.internal.layout.BinaryLayout;
 import com.slytechs.jnet.runtime.internal.layout.BitField;
 import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Int16;
 import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Int8;
 
+/**
+ * The Enum UdpStruct.
+ */
 public enum UdpStruct implements BitField.Proxy {
+	
+	/** The src port. */
 	SRC_PORT("udp.srcport"),
+	
+	/** The dst port. */
 	DST_PORT("udp.dstport"),
+	
+	/** The length. */
 	LENGTH("udp.length"),
+	
+	/** The checksum. */
 	CHECKSUM("udp.checksum");
 
+	/**
+	 * The Class Struct.
+	 */
 	private static class Struct {
+		
+		/** The Constant UDP_STRUCT. */
 		private static final BinaryLayout UDP_STRUCT = unionLayout(
 				structLayout(
 						Int16.BITS_16.withName("udp.srcport"),
@@ -42,15 +58,25 @@ public enum UdpStruct implements BitField.Proxy {
 				sequenceLayout(CoreConstants.UDP_HEADER_LEN, Int8.BITS_08).withName("udp.bytes"));
 	}
 
+	/** The Constant HEADER_BYTES. */
 	public static final ArrayField HEADER_BYTES = Struct.UDP_STRUCT.arrayField("udp.bytes");
 
+	/** The field. */
 	private final BitField field;
 
+	/**
+	 * Instantiates a new udp struct.
+	 *
+	 * @param path the path
+	 */
 	UdpStruct(String path) {
 		this.field = Struct.UDP_STRUCT.bitField(path);
 	}
 
 	/**
+	 * Proxy bit field.
+	 *
+	 * @return the bit field
 	 * @see com.slytechs.jnet.runtime.internal.layout.BitField.Proxy#proxyBitField()
 	 */
 	@Override

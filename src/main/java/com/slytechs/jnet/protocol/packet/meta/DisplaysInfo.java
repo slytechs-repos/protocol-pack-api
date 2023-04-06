@@ -31,14 +31,15 @@ import com.slytechs.jnet.runtime.util.Detail;
 import com.slytechs.jnet.runtime.util.Enums;
 
 /**
+ * The DisplaysInfo.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public record DisplaysInfo(DisplayInfo[] displays) implements MetaInfoType {
 
-	/** Empty static array containing nothing but nulls in each row */
+	/** Empty static array containing nothing but nulls in each row. */
 	private static final Predicate<DisplayInfo[]> IS_EMPTY = new Predicate<>() {
 		private static final DisplayInfo[] EMPTY_ARRAY = new DisplayInfo[Detail.values().length];
 
@@ -51,6 +52,14 @@ public record DisplaysInfo(DisplayInfo[] displays) implements MetaInfoType {
 		}
 	};
 
+	/**
+	 * Parses the.
+	 *
+	 * @param element      the element
+	 * @param name         the name
+	 * @param jsonDefaults the json defaults
+	 * @return the displays info
+	 */
 	public static DisplaysInfo parse(AnnotatedElement element, String name, JsonObject jsonDefaults) {
 		JsonValue jsonDisplays = null;
 		if (jsonDefaults != null)
@@ -78,6 +87,13 @@ public record DisplaysInfo(DisplayInfo[] displays) implements MetaInfoType {
 		return new DisplaysInfo(displays);
 	}
 
+	/**
+	 * Parses the json.
+	 *
+	 * @param jsonValue      the json value
+	 * @param displays       the displays
+	 * @param defaultDisplay the default display
+	 */
 	private static void parseJson(JsonValue jsonValue, DisplayInfo[] displays,
 			Function<Detail, DisplayInfo> defaultDisplay) {
 		if (jsonValue == null)
@@ -117,6 +133,12 @@ public record DisplaysInfo(DisplayInfo[] displays) implements MetaInfoType {
 		}
 	}
 
+	/**
+	 * Gets the json display.
+	 *
+	 * @param value the value
+	 * @return the json display
+	 */
 	private static JsonObject getJsonDisplay(JsonValue value) {
 		if (value.getValueType() == ValueType.OBJECT)
 			return (JsonObject) value;
@@ -130,6 +152,12 @@ public record DisplaysInfo(DisplayInfo[] displays) implements MetaInfoType {
 				.formatted(value));
 	}
 
+	/**
+	 * Parses the annotation and override.
+	 *
+	 * @param element  the element
+	 * @param displays the displays
+	 */
 	private static void parseAnnotationAndOverride(AnnotatedElement element,
 			DisplayInfo[] displays) {
 		Displays multiple = element.getAnnotation(Displays.class);
@@ -155,6 +183,12 @@ public record DisplaysInfo(DisplayInfo[] displays) implements MetaInfoType {
 		return;
 	}
 
+	/**
+	 * Select.
+	 *
+	 * @param detail the detail
+	 * @return the display info
+	 */
 	public DisplayInfo select(Detail detail) {
 		return displays[detail.ordinal()];
 	}

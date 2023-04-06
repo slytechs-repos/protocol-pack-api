@@ -17,23 +17,34 @@
  */
 package com.slytechs.jnet.protocol.packet;
 
-import com.slytechs.jnet.protocol.constants.CoreHeaderInfo;
+import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
 import com.slytechs.jnet.protocol.packet.meta.Meta;
 import com.slytechs.jnet.protocol.packet.meta.MetaResource;
 
 /**
- * 
+ * The Class Payload.
+ *
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
 @MetaResource("payload-meta.json")
 public sealed class Payload extends Header permits Other {
+	
+	/** The Constant ID. */
 	public static final int ID = CoreHeaderInfo.CORE_ID_PAYLOAD;
 
+	/**
+	 * Instantiates a new payload.
+	 */
 	public Payload() {
 		super(ID);
 	}
 
+	/**
+	 * Data.
+	 *
+	 * @return the byte[]
+	 */
 	@Meta
 	public byte[] data() {
 		byte[] array = new byte[length()];
@@ -43,10 +54,24 @@ public sealed class Payload extends Header permits Other {
 		return array;
 	}
 
+	/**
+	 * Data.
+	 *
+	 * @param dst the dst
+	 * @return the int
+	 */
 	public int data(byte[] dst) {
 		return data(dst, 0, dst.length);
 	}
 
+	/**
+	 * Data.
+	 *
+	 * @param dst    the dst
+	 * @param offset the offset
+	 * @param length the length
+	 * @return the int
+	 */
 	public int data(byte[] dst, int offset, int length) {
 		if (offset + length > length())
 			length = length() - offset;

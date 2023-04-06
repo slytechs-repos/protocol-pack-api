@@ -22,19 +22,28 @@ import static com.slytechs.jnet.protocol.HeaderId.*;
 import com.slytechs.jnet.protocol.HeaderId;
 
 /**
+ * The Class HeaderFactorySyncLocalImpl.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 class HeaderFactorySyncLocalImpl implements HeaderFactory {
 
+	/** The allocator. */
 	private final HeaderFactory allocator = HeaderFactory.newInstance();
 
+	/** The cache 0. */
 	private final Header[][] cache0 = new Header[PROTO_MAX_PACKS][PROTO_MAX_ORDINALS];
+	
+	/** The cache 1. */
 	private final Header[][][] cache1 = new Header[PROTO_MAX_PACKS][PROTO_MAX_ORDINALS][PROTO_MAX_ORDINALS];
 
 	/**
+	 * Gets the.
+	 *
+	 * @param id the id
+	 * @return the header
 	 * @see com.slytechs.jnet.protocol.packet.HeaderFactory#get(int)
 	 */
 	@Override
@@ -52,6 +61,9 @@ class HeaderFactorySyncLocalImpl implements HeaderFactory {
 	}
 
 	/**
+	 * Checks if is release supported.
+	 *
+	 * @return true, if is release supported
 	 * @see com.slytechs.jnet.protocol.packet.HeaderFactory#isReleaseSupported()
 	 */
 	@Override
@@ -60,6 +72,9 @@ class HeaderFactorySyncLocalImpl implements HeaderFactory {
 	}
 
 	/**
+	 * Release.
+	 *
+	 * @param header the header
 	 * @see com.slytechs.jnet.protocol.packet.HeaderFactory#release(com.slytechs.jnet.protocol.packet.Header)
 	 */
 	@Override
@@ -73,6 +88,11 @@ class HeaderFactorySyncLocalImpl implements HeaderFactory {
 	}
 
 	/**
+	 * Gets the extension.
+	 *
+	 * @param primaryId   the primary id
+	 * @param extensionId the extension id
+	 * @return the extension
 	 * @see com.slytechs.jnet.protocol.packet.HeaderFactory#getExtension(int, int)
 	 */
 	@Override

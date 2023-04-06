@@ -19,9 +19,17 @@ package com.slytechs.jnet.protocol;
 
 import java.util.function.IntFunction;
 
-public interface PackSupplier extends IntFunction<Pack<?>> {
+/**
+ * The Interface PackSupplier.
+ */
+public interface PackSupplier extends IntFunction<ProtocolPack<?>> {
+	
+	/** The empty. */
 	PackSupplier EMPTY = ignored -> null;
 
+	/**
+	 * @see java.util.function.IntFunction#apply(int)
+	 */
 	@Override
-	Pack<?> apply(int packId);
+	ProtocolPack<?> apply(int packId);
 }

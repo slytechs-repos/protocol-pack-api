@@ -22,23 +22,28 @@ import java.util.concurrent.locks.Lock;
 import com.slytechs.jnet.protocol.packet.Header;
 
 /**
+ * The Class Icmp.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public class Icmp extends Header {
 
 	/**
-	 * @param id
+	 * Instantiates a new icmp.
+	 *
+	 * @param id the id
 	 */
 	protected Icmp(int id) {
 		super(id);
 	}
 
 	/**
-	 * @param id
-	 * @param lock
+	 * Instantiates a new icmp.
+	 *
+	 * @param id   the id
+	 * @param lock the lock
 	 */
 	protected Icmp(int id, Lock lock) {
 		super(id, lock);

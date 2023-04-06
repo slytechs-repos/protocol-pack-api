@@ -27,13 +27,22 @@ import com.slytechs.jnet.runtime.internal.json.JsonValue;
 import com.slytechs.jnet.runtime.internal.json.JsonValue.ValueType;
 
 /**
+ * The Class MetaInfo.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public class MetaInfo implements Comparable<MetaInfo>, MetaInfoType {
 
+	/**
+	 * Parses the.
+	 *
+	 * @param element      the element
+	 * @param name         the name
+	 * @param jsonDefaults the json defaults
+	 * @return the meta info
+	 */
 	public static MetaInfo parse(AnnotatedElement element, String name, JsonObject jsonDefaults) {
 
 		if (!element.isAnnotationPresent(Meta.class) && jsonDefaults == null)
@@ -61,6 +70,12 @@ public class MetaInfo implements Comparable<MetaInfo>, MetaInfoType {
 		return meta;
 	}
 
+	/**
+	 * Parses the json meta.
+	 *
+	 * @param meta      the meta
+	 * @param jsonValue the json value
+	 */
 	private static void parseJsonMeta(MetaInfo meta, JsonValue jsonValue) {
 
 		JsonObject jsonMeta;
@@ -95,6 +110,13 @@ public class MetaInfo implements Comparable<MetaInfo>, MetaInfoType {
 		}
 	}
 
+	/**
+	 * Parses the meta annotation.
+	 *
+	 * @param meta    the meta
+	 * @param element the element
+	 * @param name    the name
+	 */
 	private static void parseMetaAnnotation(MetaInfo meta, AnnotatedElement element, String name) {
 		Meta ma = element.getAnnotation(Meta.class);
 		if (ma == null)
@@ -124,19 +146,39 @@ public class MetaInfo implements Comparable<MetaInfo>, MetaInfoType {
 
 	}
 
+	/** The name. */
 	private String name;
 
+	/** The abbr. */
 	private String abbr;
+	
+	/** The note. */
 	private String note = "";
+	
+	/** The ordinal. */
 	private int ordinal = -1;
+	
+	/** The formatter. */
 	private Formatter formatter;
+	
+	/** The displays info. */
 	private DisplaysInfo displaysInfo;
+	
+	/** The resolvers info. */
 	private ResolversInfo resolversInfo;
+	
+	/** The meta type. */
 	private MetaType metaType;
+	
+	/**
+	 * Instantiates a new meta info.
+	 */
 	private MetaInfo() {
 	}
 
 	/**
+	 * Abbr.
+	 *
 	 * @return the abbr
 	 */
 	protected String abbr() {
@@ -144,6 +186,10 @@ public class MetaInfo implements Comparable<MetaInfo>, MetaInfoType {
 	}
 
 	/**
+	 * Compare to.
+	 *
+	 * @param o the o
+	 * @return the int
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
@@ -152,12 +198,21 @@ public class MetaInfo implements Comparable<MetaInfo>, MetaInfoType {
 	}
 
 	/**
+	 * Formatter.
+	 *
 	 * @return the type
 	 */
 	public Formatter formatter() {
 		return formatter;
 	}
 
+	/**
+	 * Gets the meta type.
+	 *
+	 * @param <T>  the generic type
+	 * @param type the type
+	 * @return the meta type
+	 */
 	@SuppressWarnings("unchecked")
 	public <T extends MetaInfoType> T getMetaType(Class<T> type) {
 		if (type == MetaInfo.class)
@@ -172,11 +227,18 @@ public class MetaInfo implements Comparable<MetaInfo>, MetaInfoType {
 		return null;
 	}
 
+	/**
+	 * Meta type.
+	 *
+	 * @return the meta type
+	 */
 	public MetaType metaType() {
 		return metaType;
 	}
 
 	/**
+	 * Name.
+	 *
 	 * @return the name
 	 */
 	public String name() {
@@ -184,6 +246,8 @@ public class MetaInfo implements Comparable<MetaInfo>, MetaInfoType {
 	}
 
 	/**
+	 * Note.
+	 *
 	 * @return the note
 	 */
 	public String note() {
@@ -191,6 +255,8 @@ public class MetaInfo implements Comparable<MetaInfo>, MetaInfoType {
 	}
 
 	/**
+	 * Ordinal.
+	 *
 	 * @return the ordinal
 	 */
 	public int ordinal() {
@@ -198,6 +264,9 @@ public class MetaInfo implements Comparable<MetaInfo>, MetaInfoType {
 	}
 
 	/**
+	 * To string.
+	 *
+	 * @return the string
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

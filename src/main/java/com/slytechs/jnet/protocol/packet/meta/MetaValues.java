@@ -20,13 +20,20 @@ package com.slytechs.jnet.protocol.packet.meta;
 import com.slytechs.jnet.runtime.util.HexStrings;
 
 /**
+ * The Class MetaValues.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 class MetaValues {
 
+	/**
+	 * Byte array formatter.
+	 *
+	 * @param array the array
+	 * @return the string
+	 */
 	private static String byteArrayFormatter(byte[] array) {
 		if (array.length == 6)
 			return HexStrings.toMacString(array);
@@ -40,6 +47,12 @@ class MetaValues {
 		return HexStrings.toHexString(array, 0, array.length);
 	}
 
+	/**
+	 * Auto.
+	 *
+	 * @param target the target
+	 * @return the string
+	 */
 	static String auto(Object target) {
 		if (target instanceof byte[] array)
 			return byteArrayFormatter(array);
@@ -47,6 +60,12 @@ class MetaValues {
 		return (target == null) ? "" : String.valueOf(target);
 	}
 
+	/**
+	 * Mac address.
+	 *
+	 * @param target the target
+	 * @return the string
+	 */
 	static String macAddress(Object target) {
 		if (target instanceof byte[] array)
 			return HexStrings.toMacString(array);
@@ -54,6 +73,12 @@ class MetaValues {
 		return (target == null) ? "" : String.valueOf(target);
 	}
 
+	/**
+	 * Ip address.
+	 *
+	 * @param target the target
+	 * @return the string
+	 */
 	static String ipAddress(Object target) {
 		if (target instanceof byte[] array)
 			return HexStrings.toIpString(array);
@@ -61,6 +86,12 @@ class MetaValues {
 		return (target == null) ? "" : String.valueOf(target);
 	}
 
+	/**
+	 * Ip 4 address.
+	 *
+	 * @param target the target
+	 * @return the string
+	 */
 	static String ip4Address(Object target) {
 		if (target instanceof byte[] array)
 			return HexStrings.toIp4String(array);
@@ -68,6 +99,12 @@ class MetaValues {
 		return (target == null) ? "" : String.valueOf(target);
 	}
 
+	/**
+	 * Ip 6 address.
+	 *
+	 * @param target the target
+	 * @return the string
+	 */
 	static String ip6Address(Object target) {
 		if (target instanceof byte[] array)
 			return HexStrings.toIp6String(array);
@@ -75,6 +112,12 @@ class MetaValues {
 		return (target == null) ? "" : String.valueOf(target);
 	}
 
+	/**
+	 * Hex lowercase.
+	 *
+	 * @param target the target
+	 * @return the string
+	 */
 	static String hexLowercase(Object target) {
 		if (target instanceof Number number)
 			return Long.toHexString(number.longValue());
@@ -82,6 +125,12 @@ class MetaValues {
 		return (target == null) ? "" : String.valueOf(target);
 	}
 
+	/**
+	 * Hex uppercase.
+	 *
+	 * @param target the target
+	 * @return the string
+	 */
 	static String hexUppercase(Object target) {
 		if (target instanceof Number number)
 			return "%X".formatted(number);
@@ -89,6 +138,12 @@ class MetaValues {
 		return (target == null) ? "" : String.valueOf(target);
 	}
 
+	/**
+	 * Hex uppercase 0 x.
+	 *
+	 * @param target the target
+	 * @return the string
+	 */
 	static String hexUppercase0x(Object target) {
 		if (target instanceof Number number)
 			return "0x%X".formatted(number);
@@ -96,6 +151,12 @@ class MetaValues {
 		return (target == null) ? "" : String.valueOf(target);
 	}
 
+	/**
+	 * Hex lowercase 0 x.
+	 *
+	 * @param target the target
+	 * @return the string
+	 */
 	static String hexLowercase0x(Object target) {
 		if (target instanceof Number number)
 			return "0x%x".formatted(number);
@@ -103,6 +164,12 @@ class MetaValues {
 		return (target == null) ? "" : String.valueOf(target);
 	}
 
+	/**
+	 * None.
+	 *
+	 * @param target the target
+	 * @return the string
+	 */
 	static String none(Object target) {
 		return "";
 	}

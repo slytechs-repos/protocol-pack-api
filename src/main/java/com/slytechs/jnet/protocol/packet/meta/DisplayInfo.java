@@ -24,16 +24,19 @@ import com.slytechs.jnet.runtime.internal.json.JsonString;
 import com.slytechs.jnet.runtime.util.Detail;
 
 /**
+ * The DisplayInfo.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public record DisplayInfo(String value, String label, Detail detail) implements MetaInfoType {
 
+	/** The Constant EMPTY_HEADER_DEFAULT_DISPLAY. */
 	@Display(label = "", value = "")
 	private static final Display EMPTY_HEADER_DEFAULT_DISPLAY;
 
+	/** The Constant EMPTY_FIELD_DEFAULT_DISPLAY. */
 	@Display(label = "", value = "%{:F}s")
 	private static final Display EMPTY_FIELD_DEFAULT_DISPLAY;
 
@@ -52,6 +55,14 @@ public record DisplayInfo(String value, String label, Detail detail) implements 
 		}
 	}
 
+	/**
+	 * Parses the json.
+	 *
+	 * @param jsonDisplay    the json display
+	 * @param detail         the detail
+	 * @param defaultDisplay the default display
+	 * @return the display info
+	 */
 	public static DisplayInfo parseJson(JsonObject jsonDisplay, Detail detail,
 			Function<Detail, DisplayInfo> defaultDisplay) {
 
@@ -72,14 +83,33 @@ public record DisplayInfo(String value, String label, Detail detail) implements 
 		return new DisplayInfo(value, label, detail);
 	}
 
+	/**
+	 * Default header display.
+	 *
+	 * @param detail the detail
+	 * @return the display info
+	 */
 	public static DisplayInfo defaultHeaderDisplay(Detail detail) {
 		return parseAnnotation(EMPTY_HEADER_DEFAULT_DISPLAY, detail);
 	}
 
+	/**
+	 * Default field display.
+	 *
+	 * @param detail the detail
+	 * @return the display info
+	 */
 	public static DisplayInfo defaultFieldDisplay(Detail detail) {
 		return parseAnnotation(EMPTY_FIELD_DEFAULT_DISPLAY, detail);
 	}
 
+	/**
+	 * Parses the annotation.
+	 *
+	 * @param displayAnnotation the display annotation
+	 * @param detail            the detail
+	 * @return the display info
+	 */
 	public static DisplayInfo parseAnnotation(Display displayAnnotation, Detail detail) {
 		return new DisplayInfo(
 				displayAnnotation.value(),
@@ -87,6 +117,12 @@ public record DisplayInfo(String value, String label, Detail detail) implements 
 				detail);
 	}
 
+	/**
+	 * Label.
+	 *
+	 * @param metaInfo the meta info
+	 * @return the string
+	 */
 	public String label(MetaInfo metaInfo) {
 		String label = label();
 		if (label.isBlank())

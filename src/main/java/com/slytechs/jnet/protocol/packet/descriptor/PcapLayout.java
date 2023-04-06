@@ -26,20 +26,31 @@ import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Int64;
 import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Padding;
 
 /**
+ * The Enum PcapLayout.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public enum PcapLayout implements BitField.Proxy {
 
+	/** The timestamp. */
 	TIMESTAMP("bitmask"),
+	
+	/** The caplen. */
 	CAPLEN("bitmask"),
+	
+	/** The wirelen. */
 	WIRELEN("bitmask"),
 
 	;
 
+	/**
+	 * The Class Struct.
+	 */
 	private static class Struct {
+		
+		/** The Constant PCAP_STRUCT. */
 		private static final BinaryLayout PCAP_STRUCT = structLayout(
 				Int64.BITS_64.withName("timestamp"),
 				Int32.BITS_16.withName("caplen"),
@@ -48,16 +59,22 @@ public enum PcapLayout implements BitField.Proxy {
 				Padding.BITS_16);
 	}
 
+	/** The field. */
 	private final BitField field;
 
 	/**
-	 * 
+	 * Instantiates a new pcap layout.
+	 *
+	 * @param path the path
 	 */
 	PcapLayout(String path) {
 		this.field = Struct.PCAP_STRUCT.bitField(path);
 	}
 
 	/**
+	 * Proxy bit field.
+	 *
+	 * @return the bit field
 	 * @see com.slytechs.jnet.runtime.internal.layout.BitField.Proxy#proxyBitField()
 	 */
 	@Override

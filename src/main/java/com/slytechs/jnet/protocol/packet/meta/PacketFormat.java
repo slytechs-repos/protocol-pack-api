@@ -25,28 +25,48 @@ import com.slytechs.jnet.runtime.util.Detail;
 import com.slytechs.jnet.runtime.util.HexStrings;
 
 /**
+ * The Class PacketFormat.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public final class PacketFormat extends MetaFormat {
 
+	/** The Constant HEADER_LINE_FORMAT_ATTRIBUTE. */
 	private static final String HEADER_LINE_FORMAT_ATTRIBUTE = "headerLineFormat";
+	
+	/** The Constant DEFAULT_LINE_FORMAT. */
 	private static final String DEFAULT_LINE_FORMAT = "%15s = %-30s";
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -729988509291767979L;
 
+	/** The field line. */
 	private final String fieldLine;
 
+	/**
+	 * Instantiates a new packet format.
+	 */
 	public PacketFormat() {
 		this(Detail.DEFAULT);
 	}
 
+	/**
+	 * Instantiates a new packet format.
+	 *
+	 * @param detail the detail
+	 */
 	public PacketFormat(Detail detail) {
 		this(new MapMetaContext("packetFormat", 1), detail);
 	}
 
+	/**
+	 * Instantiates a new packet format.
+	 *
+	 * @param domain the domain
+	 * @param detail the detail
+	 */
 	public PacketFormat(MetaDomain domain, Detail detail) {
 		super(domain, detail);
 
@@ -57,6 +77,10 @@ public final class PacketFormat extends MetaFormat {
 	}
 
 	/**
+	 * Convert to meta if possible.
+	 *
+	 * @param obj the obj
+	 * @return the object
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaFormat#convertToMetaIfPossible(java.lang.Object)
 	 */
 	@Override
@@ -70,6 +94,14 @@ public final class PacketFormat extends MetaFormat {
 		return obj;
 	}
 
+	/**
+	 * Format field.
+	 *
+	 * @param field      the field
+	 * @param toAppendTo the to append to
+	 * @param detail     the detail
+	 * @return the string builder
+	 */
 	public StringBuilder formatField(MetaField field, StringBuilder toAppendTo, Detail detail) {
 		var display = field.getMeta(DisplaysInfo.class).select(detail);
 		if (display == null) // Not visible
@@ -102,6 +134,14 @@ public final class PacketFormat extends MetaFormat {
 		}
 	}
 
+	/**
+	 * Format header.
+	 *
+	 * @param header     the header
+	 * @param toAppendTo the to append to
+	 * @param detail     the detail
+	 * @return the string builder
+	 */
 	public StringBuilder formatHeader(MetaHeader header, StringBuilder toAppendTo, Detail detail) {
 		var display = header.getMeta(DisplaysInfo.class).select(detail);
 		if (display == null) // Not visible
@@ -133,6 +173,14 @@ public final class PacketFormat extends MetaFormat {
 		return toAppendTo;
 	}
 
+	/**
+	 * Format hexdump.
+	 *
+	 * @param array       the array
+	 * @param labelOffset the label offset
+	 * @param toAppendTo  the to append to
+	 * @return the string builder
+	 */
 	private StringBuilder formatHexdump(byte[] array, int labelOffset, StringBuilder toAppendTo) {
 		return HexStrings.toHexTextDump(
 				toAppendTo,
@@ -140,10 +188,23 @@ public final class PacketFormat extends MetaFormat {
 				HexStrings.DEFAULT_HEXDUMP_PREFIX);
 	}
 
+	/**
+	 * Format hexdump.
+	 *
+	 * @param field the field
+	 * @return the string
+	 */
 	public String formatHexdump(MetaField field) {
 		return formatHexdump(field, new StringBuilder()).toString();
 	}
 
+	/**
+	 * Format hexdump.
+	 *
+	 * @param field      the field
+	 * @param toAppendTo the to append to
+	 * @return the string builder
+	 */
 	public StringBuilder formatHexdump(MetaField field, StringBuilder toAppendTo) {
 		var offsetField = field.searchForField(new MetaPath("offset"))
 				.orElse(null);
@@ -153,15 +214,34 @@ public final class PacketFormat extends MetaFormat {
 		return formatHexdump(array, offset, toAppendTo);
 	}
 
+	/**
+	 * Format hexdump.
+	 *
+	 * @param header the header
+	 * @return the string
+	 */
 	public String formatHexdump(Header header) {
 		return formatHexdump(new MetaHeader(this, header));
 
 	}
 
+	/**
+	 * Format hexdump.
+	 *
+	 * @param header the header
+	 * @return the string
+	 */
 	public String formatHexdump(MetaHeader header) {
 		return formatHexdump(header, new StringBuilder()).toString();
 	}
 
+	/**
+	 * Format hexdump.
+	 *
+	 * @param header     the header
+	 * @param toAppendTo the to append to
+	 * @return the string builder
+	 */
 	public StringBuilder formatHexdump(MetaHeader header, StringBuilder toAppendTo) {
 		int offset = header.offset();
 		byte[] array = new byte[header.length()];
@@ -170,14 +250,33 @@ public final class PacketFormat extends MetaFormat {
 		return formatHexdump(array, offset, toAppendTo);
 	}
 
+	/**
+	 * Format hexdump.
+	 *
+	 * @param packet the packet
+	 * @return the string
+	 */
 	public String formatHexdump(Packet packet) {
 		return formatHexdump(new MetaPacket(this, packet));
 	}
 
+	/**
+	 * Format hexdump.
+	 *
+	 * @param packet the packet
+	 * @return the string
+	 */
 	public String formatHexdump(MetaPacket packet) {
 		return formatHexdump(packet, new StringBuilder()).toString();
 	}
 
+	/**
+	 * Format hexdump.
+	 *
+	 * @param packet     the packet
+	 * @param toAppendTo the to append to
+	 * @return the string builder
+	 */
 	public StringBuilder formatHexdump(MetaPacket packet, StringBuilder toAppendTo) {
 		int offset = 0;
 		byte[] array = new byte[packet.captureLength()];
@@ -186,12 +285,25 @@ public final class PacketFormat extends MetaFormat {
 		return formatHexdump(array, offset, toAppendTo);
 	}
 
+	/**
+	 * Format left.
+	 *
+	 * @param label      the label
+	 * @param toAppendTo the to append to
+	 * @return the string builder
+	 */
 	private StringBuilder formatLeft(String label, StringBuilder toAppendTo) {
 		return toAppendTo
 				.append("%-10s".formatted(label + ":"));
 	}
 
 	/**
+	 * Format meta.
+	 *
+	 * @param element    the element
+	 * @param toAppendTo the to append to
+	 * @param detail     the detail
+	 * @return the string builder
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaFormat#formatMeta(com.slytechs.jnet.protocol.packet.meta.MetaElement,
 	 *      java.lang.StringBuilder, Detail)
 	 */
@@ -211,6 +323,14 @@ public final class PacketFormat extends MetaFormat {
 				.formatted(element.getClass().getSimpleName()));
 	}
 
+	/**
+	 * Format packet.
+	 *
+	 * @param packet     the packet
+	 * @param toAppendTo the to append to
+	 * @param detail     the detail
+	 * @return the string builder
+	 */
 	public StringBuilder formatPacket(MetaPacket packet, StringBuilder toAppendTo, Detail detail) {
 		var display = packet.getMeta(DisplaysInfo.class).select(detail);
 		if (display == null) // Not visible
@@ -230,6 +350,14 @@ public final class PacketFormat extends MetaFormat {
 		return toAppendTo;
 	}
 
+	/**
+	 * Format summary.
+	 *
+	 * @param element    the element
+	 * @param toAppendTo the to append to
+	 * @param detail     the detail
+	 * @return the string builder
+	 */
 	private StringBuilder formatSummary(MetaElement element, StringBuilder toAppendTo, Detail detail) {
 		var display = element.getMeta(DisplaysInfo.class).select(detail);
 		if (display == null)
@@ -264,6 +392,9 @@ public final class PacketFormat extends MetaFormat {
 	}
 
 	/**
+	 * Name.
+	 *
+	 * @return the string
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#name()
 	 */
 	@Override
@@ -272,6 +403,9 @@ public final class PacketFormat extends MetaFormat {
 	}
 
 	/**
+	 * Parent.
+	 *
+	 * @return the meta domain
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#parent()
 	 */
 	@Override
@@ -280,6 +414,12 @@ public final class PacketFormat extends MetaFormat {
 	}
 
 	/**
+	 * Find key.
+	 *
+	 * @param <K> the key type
+	 * @param <V> the value type
+	 * @param key the key
+	 * @return the optional
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findKey(java.lang.Object)
 	 */
 	@Override
@@ -288,6 +428,10 @@ public final class PacketFormat extends MetaFormat {
 	}
 
 	/**
+	 * Find domain.
+	 *
+	 * @param name the name
+	 * @return the meta domain
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findDomain(java.lang.String)
 	 */
 	@Override

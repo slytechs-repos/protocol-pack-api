@@ -34,25 +34,43 @@ import com.slytechs.jnet.protocol.packet.descriptor.CompactDescriptor;
 import com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped;
 
 /**
+ * The Class MetaPacket.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public final class MetaPacket
 		extends MetaElement
 		implements Iterable<MetaHeader>, MetaMapped {
 
+	/** The header factory. */
 	private final HeaderFactory headerFactory = HeaderFactory.newInstance();
 
+	/** The packet. */
 	private final Packet packet;
+	
+	/** The headers. */
 	private final List<MetaHeader> headers = new ArrayList<>();
+	
+	/** The last header. */
 	private final MetaHeader lastHeader;
 
+	/**
+	 * Instantiates a new meta packet.
+	 *
+	 * @param packet the packet
+	 */
 	public MetaPacket(Packet packet) {
 		this(new MapMetaContext("packet", 1), packet);
 	}
 
+	/**
+	 * Instantiates a new meta packet.
+	 *
+	 * @param ctx    the ctx
+	 * @param packet the packet
+	 */
 	public MetaPacket(MetaDomain ctx, Packet packet) {
 		super(ctx, Global.compute(Packet.class, ReflectedClass::parse));
 		this.packet = packet;
@@ -79,11 +97,19 @@ public final class MetaPacket
 		}
 	}
 
+	/**
+	 * Gets the target.
+	 *
+	 * @return the target
+	 */
 	public Object getTarget() {
 		return packet;
 	}
 
 	/**
+	 * Iterator.
+	 *
+	 * @return the iterator
 	 * @see java.lang.Iterable#iterator()
 	 */
 	@Override
@@ -91,10 +117,21 @@ public final class MetaPacket
 		return listHeaders().iterator();
 	}
 
+	/**
+	 * List headers.
+	 *
+	 * @return the list
+	 */
 	public List<MetaHeader> listHeaders() {
 		return headers;
 	}
 
+	/**
+	 * Gets the header.
+	 *
+	 * @param name the name
+	 * @return the header
+	 */
 	public MetaHeader getHeader(String name) {
 		return headers.stream()
 				.filter(h -> h.name().equals(name))
@@ -102,6 +139,12 @@ public final class MetaPacket
 				.orElse(null);
 	}
 
+	/**
+	 * Find header.
+	 *
+	 * @param name the name
+	 * @return the optional
+	 */
 	public Optional<MetaHeader> findHeader(String name) {
 		if (name.equals("last"))
 			return Optional.of(lastHeader);
@@ -113,6 +156,12 @@ public final class MetaPacket
 	}
 
 	/**
+	 * Gets the.
+	 *
+	 * @param <K> the key type
+	 * @param <V> the value type
+	 * @param key the key
+	 * @return the v
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped#get(java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
@@ -126,6 +175,9 @@ public final class MetaPacket
 	}
 
 	/**
+	 * Size.
+	 *
+	 * @return the int
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped#size()
 	 */
 	@Override
@@ -134,6 +186,9 @@ public final class MetaPacket
 	}
 
 	/**
+	 * To string.
+	 *
+	 * @return the string
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -144,19 +199,37 @@ public final class MetaPacket
 						.collect(Collectors.joining(", ")));
 	}
 
+	/**
+	 * Capture length.
+	 *
+	 * @return the int
+	 */
 	public int captureLength() {
 		return packet.captureLength();
 	}
 
+	/**
+	 * Wire length.
+	 *
+	 * @return the int
+	 */
 	public int wireLength() {
 		return packet.wireLength();
 	}
 
+	/**
+	 * Buffer.
+	 *
+	 * @return the byte buffer
+	 */
 	public ByteBuffer buffer() {
 		return packet.buffer();
 	}
 
 	/**
+	 * Parent.
+	 *
+	 * @return the meta domain
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#parent()
 	 */
 	@Override
@@ -165,6 +238,12 @@ public final class MetaPacket
 	}
 
 	/**
+	 * Find key.
+	 *
+	 * @param <K> the key type
+	 * @param <V> the value type
+	 * @param key the key
+	 * @return the optional
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findKey(java.lang.Object)
 	 */
 	@Override
@@ -176,6 +255,10 @@ public final class MetaPacket
 	}
 
 	/**
+	 * Find domain.
+	 *
+	 * @param name the name
+	 * @return the meta domain
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findDomain(java.lang.String)
 	 */
 	@Override

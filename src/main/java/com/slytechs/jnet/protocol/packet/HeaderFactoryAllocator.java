@@ -21,21 +21,27 @@ import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 
 import com.slytechs.jnet.protocol.HeaderId;
-import com.slytechs.jnet.protocol.Pack;
-import com.slytechs.jnet.protocol.constants.PackInfo;
+import com.slytechs.jnet.protocol.ProtocolPack;
+import com.slytechs.jnet.protocol.core.constants.PackInfo;
 
 /**
+ * The Class HeaderFactoryAllocator.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 class HeaderFactoryAllocator implements HeaderFactory {
 
+	/** The table. */
 	@SuppressWarnings("unchecked")
 	private final Reference<HeaderFactory>[] table = new Reference[PackInfo.values().length];
 
 	/**
+	 * Gets the.
+	 *
+	 * @param id the id
+	 * @return the header
 	 * @see com.slytechs.jnet.protocol.packet.HeaderFactory#get(int)
 	 */
 	@Override
@@ -45,8 +51,14 @@ class HeaderFactoryAllocator implements HeaderFactory {
 		return perPack.get(id);
 	}
 
+	/**
+	 * Lookup pack factory.
+	 *
+	 * @param id the id
+	 * @return the header factory
+	 */
 	private HeaderFactory lookupPackFactory(int id) {
-		Pack<?> pack = Pack.getLoadedPack(id);
+		ProtocolPack<?> pack = ProtocolPack.getLoadedPack(id);
 		int ordinal = HeaderId.decodePackOrdinal(id);
 
 		Reference<HeaderFactory> entry = table[ordinal];
@@ -61,6 +73,11 @@ class HeaderFactoryAllocator implements HeaderFactory {
 	}
 
 	/**
+	 * Gets the extension.
+	 *
+	 * @param primaryId   the primary id
+	 * @param extensionId the extension id
+	 * @return the extension
 	 * @see com.slytechs.jnet.protocol.packet.HeaderFactory#getExtension(int, int)
 	 */
 	@Override

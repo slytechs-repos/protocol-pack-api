@@ -19,27 +19,31 @@ package com.slytechs.jnet.protocol.core;
 
 import java.util.concurrent.locks.Lock;
 
-import com.slytechs.jnet.protocol.constants.CoreHeaderInfo;
+import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
 
 /**
+ * The Class Icmp4.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public class Icmp4 extends Icmp {
+	
+	/** The Constant ID. */
 	public static final int ID = CoreHeaderInfo.CORE_ID_ICMPv4;
 
 	/**
-	 * @param id
+	 * Instantiates a new icmp 4.
 	 */
 	public Icmp4() {
 		super(ID);
 	}
 
 	/**
-	 * @param id
-	 * @param lock
+	 * Instantiates a new icmp 4.
+	 *
+	 * @param lock the lock
 	 */
 	public Icmp4(Lock lock) {
 		super(ID, lock);

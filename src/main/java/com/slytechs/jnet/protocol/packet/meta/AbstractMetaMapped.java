@@ -20,18 +20,23 @@ package com.slytechs.jnet.protocol.packet.meta;
 import com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped;
 
 /**
+ * The Class AbstractMetaMapped.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public abstract class AbstractMetaMapped extends AbstractMetaContext implements MetaMapped {
 
+	/** The lookup. */
 	private LookupField lookup;
 
 	/**
-	 * @param parent
-	 * @param name
+	 * Instantiates a new abstract meta mapped.
+	 *
+	 * @param parent the parent
+	 * @param name   the name
+	 * @param lookup the lookup
 	 */
 	public AbstractMetaMapped(MetaContext parent, String name, LookupField lookup) {
 		super(parent, name);
@@ -39,7 +44,9 @@ public abstract class AbstractMetaMapped extends AbstractMetaContext implements 
 	}
 
 	/**
-	 * @param name
+	 * Instantiates a new abstract meta mapped.
+	 *
+	 * @param name the name
 	 */
 	public AbstractMetaMapped(String name) {
 		super(name);
@@ -47,6 +54,9 @@ public abstract class AbstractMetaMapped extends AbstractMetaContext implements 
 	}
 
 	/**
+	 * Capacity.
+	 *
+	 * @return the int
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped#capacity()
 	 */
 	@Override
@@ -55,6 +65,12 @@ public abstract class AbstractMetaMapped extends AbstractMetaContext implements 
 	}
 
 	/**
+	 * Gets the.
+	 *
+	 * @param <K> the key type
+	 * @param <V> the value type
+	 * @param key the key
+	 * @return the v
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped#get(java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
@@ -64,6 +80,9 @@ public abstract class AbstractMetaMapped extends AbstractMetaContext implements 
 	}
 
 	/**
+	 * Size.
+	 *
+	 * @return the int
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped#size()
 	 */
 	@Override

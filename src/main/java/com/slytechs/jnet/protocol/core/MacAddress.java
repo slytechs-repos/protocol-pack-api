@@ -20,31 +20,38 @@ package com.slytechs.jnet.protocol.core;
 import com.slytechs.jnet.runtime.util.HexStrings;
 
 /**
+ * The Class MacAddress.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public class MacAddress {
 
 	/**
-	 * @param destination
+	 * Instantiates a new mac address.
+	 *
+	 * @param destination the destination
 	 */
 	public MacAddress(byte[] destination) {
 		// TODO Auto-generated constructor stub
 	}
 
 	/**
-	 * @param destination
-	 * @return
+	 * To oui string.
+	 *
+	 * @param destination the destination
+	 * @return the string
 	 */
 	public static String toOuiString(byte[] destination) {
 		throw new UnsupportedOperationException("not implemented yet");
 	}
 
 	/**
-	 * @param address
-	 * @return
+	 * To string.
+	 *
+	 * @param address the address
+	 * @return the string
 	 */
 	public static String toString(byte[] address) {
 		return HexStrings.toMacString(address);

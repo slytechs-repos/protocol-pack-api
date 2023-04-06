@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.constants;
+package com.slytechs.jnet.protocol.core.constants;
 
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
@@ -63,15 +63,28 @@ public enum PacketDescriptorType implements IntSupplier {
 	/** 16 byte NT STD descriptor. */
 	public static final int PACKET_DESCRIPTOR_TYPE_NT_STD = 100; // 16 byte Napatech STD descriptor
 
+	/** The type. */
 	private final int type;
 
+	/** The factory. */
 	private final Supplier<PacketDescriptor> factory;
 
+	/**
+	 * Instantiates a new packet descriptor type.
+	 *
+	 * @param factory the factory
+	 */
 	PacketDescriptorType(Supplier<PacketDescriptor> factory) {
 		this.factory = factory;
 		this.type = ordinal();
 	}
 
+	/**
+	 * Instantiates a new packet descriptor type.
+	 *
+	 * @param type    the type
+	 * @param factory the factory
+	 */
 	PacketDescriptorType(int type, Supplier<PacketDescriptor> factory) {
 		this.factory = factory;
 		this.type = type;
@@ -89,6 +102,11 @@ public enum PacketDescriptorType implements IntSupplier {
 		return type;
 	}
 
+	/**
+	 * New descriptor.
+	 *
+	 * @return the packet descriptor
+	 */
 	public PacketDescriptor newDescriptor() {
 		return factory.get();
 	}

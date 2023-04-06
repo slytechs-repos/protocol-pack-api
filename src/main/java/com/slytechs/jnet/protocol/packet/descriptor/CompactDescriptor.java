@@ -19,7 +19,7 @@ package com.slytechs.jnet.protocol.packet.descriptor;
 
 import static com.slytechs.jnet.runtime.internal.layout.BinaryLayout.*;
 
-import com.slytechs.jnet.protocol.constants.CoreHeaderInfo;
+import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
 import com.slytechs.jnet.runtime.internal.layout.BinaryLayout;
 import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Int64;
 
@@ -31,57 +31,137 @@ import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Int64;
  */
 public interface CompactDescriptor {
 
+	/**
+	 * The Interface DecodeConsumer.
+	 */
 	@FunctionalInterface
 	public interface DecodeConsumer {
+		
+		/**
+		 * Accept.
+		 *
+		 * @param id     the id
+		 * @param offset the offset
+		 * @param length the length
+		 */
 		void accept(int id, int offset, int length);
 	}
 
+	/**
+	 * The Interface EncodeConsumer.
+	 */
 	@FunctionalInterface
 	public interface EncodeConsumer {
+		
+		/**
+		 * Accept.
+		 *
+		 * @param compact the compact
+		 */
 		void accept(long compact);
 	}
 
+	/** The Constant ID_NOT_FOUND. */
 	public static final long ID_NOT_FOUND = -1L;
 
+	/** The Constant COMPACT_ID_MASK. */
 	public static final long COMPACT_ID_MASK = 0x0000_0000_0000FFFFL;
+	
+	/** The Constant COMPACT_META_MASK. */
 	public static final long COMPACT_META_MASK = 0x0000_0000_FFFF0000L;
+	
+	/** The Constant COMPACT_OFF_MASK. */
 	public static final long COMPACT_OFF_MASK = 0x0000_FFFF_00000000L;
+	
+	/** The Constant COMPACT_LEN_MASK. */
 	public static final long COMPACT_LEN_MASK = 0xFFFF_0000_00000000L;
 
+	/** The Constant COMPACT_ID_SHIFT. */
 	public static final int COMPACT_ID_SHIFT = 0;
+	
+	/** The Constant COMPACT_META_SHIFT. */
 	public static final int COMPACT_META_SHIFT = 16;
+	
+	/** The Constant COMPACT_OFF_SHIFT. */
 	public static final int COMPACT_OFF_SHIFT = 32;
+	
+	/** The Constant COMPACT_LEN_SHIFT. */
 	public static final int COMPACT_LEN_SHIFT = 48;
 
+	/** The Constant COMPACT_LAYOUT. */
 	public static final BinaryLayout COMPACT_LAYOUT = structLayout(
 			Int64.BITS_16.withName("length"),
 			Int64.BITS_16.withName("offset"),
 			Int64.BITS_32.withName("id"));
 
+	/**
+	 * Decode.
+	 *
+	 * @param compact  the compact
+	 * @param consumer the consumer
+	 */
 	public static void decode(CompactDescriptor compact, DecodeConsumer consumer) {
 		consumer.accept(compact.id(), compact.offset(), compact.length());
 	}
 
+	/**
+	 * Decode.
+	 *
+	 * @param compact  the compact
+	 * @param consumer the consumer
+	 */
 	public static void decode(long compact, DecodeConsumer consumer) {
 		consumer.accept(decodeId(compact), decodeOffset(compact), decodeLength(compact));
 	}
 
+	/**
+	 * Decode id.
+	 *
+	 * @param compact the compact
+	 * @return the int
+	 */
 	public static int decodeId(long compact) {
 		return (int) ((compact & COMPACT_ID_MASK) >> COMPACT_ID_SHIFT);
 	}
 
+	/**
+	 * Decode length.
+	 *
+	 * @param compact the compact
+	 * @return the int
+	 */
 	public static int decodeLength(long compact) {
 		return (int) ((compact & COMPACT_LEN_MASK) >> COMPACT_LEN_SHIFT);
 	}
 
+	/**
+	 * Decode meta.
+	 *
+	 * @param compact the compact
+	 * @return the int
+	 */
 	public static int decodeMeta(long compact) {
 		return (int) ((compact & COMPACT_META_MASK) >> COMPACT_META_SHIFT);
 	}
 
+	/**
+	 * Decode offset.
+	 *
+	 * @param compact the compact
+	 * @return the int
+	 */
 	public static int decodeOffset(long compact) {
 		return (int) ((compact & COMPACT_OFF_MASK) >> COMPACT_OFF_SHIFT);
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param id     the id
+	 * @param offset the offset
+	 * @param length the length
+	 * @return the long
+	 */
 	public static long encode(int id, int offset, int length) {
 		return 0l
 				| (((long) id << COMPACT_ID_SHIFT) & COMPACT_ID_MASK)
@@ -89,10 +169,27 @@ public interface CompactDescriptor {
 				| (((long) length << COMPACT_LEN_SHIFT) & COMPACT_LEN_MASK);
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param id       the id
+	 * @param offset   the offset
+	 * @param length   the length
+	 * @param consumer the consumer
+	 */
 	public static void encode(int id, int offset, int length, EncodeConsumer consumer) {
 		consumer.accept(encode(id, offset, length));
 	}
 
+	/**
+	 * Encode.
+	 *
+	 * @param id     the id
+	 * @param offset the offset
+	 * @param length the length
+	 * @param meta   the meta
+	 * @return the long
+	 */
 	public static long encode(int id, int offset, int length, int meta) {
 		return 0l
 				| (((long) id << COMPACT_ID_SHIFT) & COMPACT_ID_MASK)
@@ -101,6 +198,14 @@ public interface CompactDescriptor {
 				| (((long) length << COMPACT_LEN_SHIFT) & COMPACT_LEN_MASK);
 	}
 
+	/**
+	 * Index of in table.
+	 *
+	 * @param id    the id
+	 * @param table the table
+	 * @param limit the limit
+	 * @return the int
+	 */
 	public static int indexOfInTable(int id, long[] table, int limit) {
 
 		for (int i = 0; i < limit; i++) {
@@ -112,6 +217,14 @@ public interface CompactDescriptor {
 		return -1;
 	}
 
+	/**
+	 * Lookup id in table.
+	 *
+	 * @param id    the id
+	 * @param table the table
+	 * @param limit the limit
+	 * @return the long
+	 */
 	public static long lookupIdInTable(int id, long[] table, int limit) {
 
 		for (int i = 0; i < limit; i++) {
@@ -123,6 +236,14 @@ public interface CompactDescriptor {
 		return CompactDescriptor.ID_NOT_FOUND;
 	}
 
+	/**
+	 * Of.
+	 *
+	 * @param id     the id
+	 * @param offset the offset
+	 * @param length the length
+	 * @return the compact descriptor
+	 */
 	public static CompactDescriptor of(int id, int offset, int length) {
 		final long compact = encode(id, offset, length);
 		return new CompactDescriptor() {
@@ -154,6 +275,12 @@ public interface CompactDescriptor {
 		};
 	}
 
+	/**
+	 * Of.
+	 *
+	 * @param compact the compact
+	 * @return the compact descriptor
+	 */
 	public static CompactDescriptor of(long compact) {
 		int id = decodeId(compact);
 		int offset = decodeOffset(compact);
@@ -184,6 +311,12 @@ public interface CompactDescriptor {
 		};
 	}
 
+	/**
+	 * To string.
+	 *
+	 * @param encoded the encoded
+	 * @return the string
+	 */
 	public static String toString(long encoded) {
 		return "CompactDescriptor"
 				+ "[id=" + String.format("%s", CoreHeaderInfo.toStringId(decodeId(encoded)))
@@ -193,11 +326,31 @@ public interface CompactDescriptor {
 				+ "]";
 	}
 
+	/**
+	 * Compact.
+	 *
+	 * @return the long
+	 */
 	long compact();
 
+	/**
+	 * Id.
+	 *
+	 * @return the int
+	 */
 	int id();
 
+	/**
+	 * Length.
+	 *
+	 * @return the int
+	 */
 	int length();
 
+	/**
+	 * Offset.
+	 *
+	 * @return the int
+	 */
 	int offset();
 }

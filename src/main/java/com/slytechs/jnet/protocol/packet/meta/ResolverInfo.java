@@ -23,13 +23,22 @@ import com.slytechs.jnet.protocol.packet.meta.MetaValue.ValueResolver;
 import com.slytechs.jnet.runtime.internal.json.JsonArray;
 
 /**
+ * The Class ResolverInfo.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public class ResolverInfo implements MetaInfoType {
 
+	/**
+	 * Parses the.
+	 *
+	 * @param element   the element
+	 * @param name      the name
+	 * @param jsonArray the json array
+	 * @return the resolver info
+	 */
 	static ResolverInfo parse(AnnotatedElement element, String name, JsonArray jsonArray) {
 		if (jsonArray != null)
 			return parseJson(jsonArray);
@@ -37,6 +46,12 @@ public class ResolverInfo implements MetaInfoType {
 		return parseAnnotations(element);
 	}
 
+	/**
+	 * Parses the annotations.
+	 *
+	 * @param element the element
+	 * @return the resolver info
+	 */
 	private static ResolverInfo parseAnnotations(AnnotatedElement element) {
 		Resolvers multiple = element.getAnnotation(Resolvers.class);
 		Resolver single = element.getAnnotation(Resolver.class);
@@ -56,6 +71,12 @@ public class ResolverInfo implements MetaInfoType {
 		return new ResolverInfo();
 	}
 
+	/**
+	 * Parses the json.
+	 *
+	 * @param jsonArray the json array
+	 * @return the resolver info
+	 */
 	private static ResolverInfo parseJson(JsonArray jsonArray) {
 		ValueResolver[] resolvers = new ValueResolver[jsonArray.size()];
 		for (int i = 0; i < jsonArray.size(); i++) {
@@ -65,12 +86,23 @@ public class ResolverInfo implements MetaInfoType {
 		return new ResolverInfo(resolvers);
 	}
 
+	/** The resolvers. */
 	private final ValueResolver[] resolvers;
 
+	/**
+	 * Instantiates a new resolver info.
+	 *
+	 * @param resolvers the resolvers
+	 */
 	private ResolverInfo(ValueResolver... resolvers) {
 		this.resolvers = resolvers;
 	}
 
+	/**
+	 * Gets the value resolvers.
+	 *
+	 * @return the value resolvers
+	 */
 	public ValueResolver[] getValueResolvers() {
 		return resolvers;
 	}

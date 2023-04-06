@@ -23,18 +23,27 @@ import java.lang.reflect.InvocationTargetException;
 import com.slytechs.jnet.protocol.packet.Header;
 
 /**
+ * The Class ReflectedHeaderSupplier.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 class ReflectedHeaderSupplier implements HeaderSupplier {
 
+	/** The module name. */
 	private final String moduleName;
+	
+	/** The class name. */
 	private final String className;
+	
+	/** The constructor. */
 	private Constructor<? extends Header> constructor;
 
 	/**
+	 * New header instance.
+	 *
+	 * @return the header
 	 * @see com.slytechs.jnet.protocol.HeaderSupplier#newHeaderInstance()
 	 */
 	@Override
@@ -47,6 +56,11 @@ class ReflectedHeaderSupplier implements HeaderSupplier {
 		}
 	}
 
+	/**
+	 * Gets the constructor.
+	 *
+	 * @return the constructor
+	 */
 	@SuppressWarnings("unchecked")
 	private Constructor<? extends Header> getConstructor() {
 
@@ -67,15 +81,34 @@ class ReflectedHeaderSupplier implements HeaderSupplier {
 		return constructor;
 	}
 
+	/**
+	 * Unable to allocate exception.
+	 *
+	 * @param e the e
+	 * @return the illegal state exception
+	 * @throws IllegalStateException the illegal state exception
+	 */
 	private IllegalStateException unableToAllocateException(Throwable e) throws IllegalStateException {
 		return new IllegalStateException("unable to allocate header [%s in module %s]"
 				.formatted(className, moduleName), e);
 	}
 
+	/**
+	 * Unable to allocate exception.
+	 *
+	 * @return the illegal state exception
+	 * @throws IllegalStateException the illegal state exception
+	 */
 	private IllegalStateException unableToAllocateException() throws IllegalStateException {
 		return unableToAllocateException(null);
 	}
 
+	/**
+	 * Instantiates a new reflected header supplier.
+	 *
+	 * @param moduleName the module name
+	 * @param className  the class name
+	 */
 	public ReflectedHeaderSupplier(String moduleName, String className) {
 		this.moduleName = moduleName;
 		this.className = className;

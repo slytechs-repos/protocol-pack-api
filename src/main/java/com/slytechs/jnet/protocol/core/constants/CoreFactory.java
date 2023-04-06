@@ -15,9 +15,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.constants;
+package com.slytechs.jnet.protocol.core.constants;
 
-import static com.slytechs.jnet.protocol.constants.CoreHeaderInfo.*;
+import static com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo.*;
 
 import com.slytechs.jnet.protocol.core.Ethernet;
 import com.slytechs.jnet.protocol.core.Icmp4;
@@ -30,20 +30,27 @@ import com.slytechs.jnet.protocol.packet.Header;
 import com.slytechs.jnet.protocol.packet.Payload;
 
 /**
+ * A factory for creating Core objects.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public final class CoreFactory {
 
 	/**
-	 * 
+	 * Instantiates a new core factory.
 	 */
 	public CoreFactory() {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * Lookup header.
+	 *
+	 * @param id the id
+	 * @return the header
+	 */
 	public static Header lookupHeader(int id) {
 		return switch (id) {
 		case CORE_ID_PAYLOAD -> new Payload();

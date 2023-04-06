@@ -27,11 +27,11 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.slytechs.jnet.protocol.constants.CoreConstants;
-import com.slytechs.jnet.protocol.constants.HashType;
-import com.slytechs.jnet.protocol.constants.PacketDescriptorType;
 import com.slytechs.jnet.protocol.core.Ethernet;
 import com.slytechs.jnet.protocol.core.Ip4;
+import com.slytechs.jnet.protocol.core.constants.CoreConstants;
+import com.slytechs.jnet.protocol.core.constants.HashType;
+import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
 import com.slytechs.jnet.protocol.packet.Packet;
 import com.slytechs.jnet.protocol.packet.Payload;
 import com.slytechs.jnet.protocol.packet.descriptor.PacketDissector;

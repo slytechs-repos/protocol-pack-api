@@ -21,15 +21,48 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 
+/**
+ * The Interface MetaContext.
+ */
 public interface MetaContext extends MetaDomain {
 
+	/**
+	 * The Interface MetaIndexed.
+	 */
 	interface MetaIndexed extends MetaContext {
+		
+		/**
+		 * Append.
+		 *
+		 * @param <V>   the value type
+		 * @param value the value
+		 */
 		<V> void append(V value);
 
+		/**
+		 * Capacity.
+		 *
+		 * @return the int
+		 */
 		int capacity();
 
+		/**
+		 * Gets the at index.
+		 *
+		 * @param <V>   the value type
+		 * @param index the index
+		 * @return the at index
+		 */
 		<V> V getAtIndex(int index);
 
+		/**
+		 * Gets the at index or compute.
+		 *
+		 * @param <V>   the value type
+		 * @param index the index
+		 * @param func  the func
+		 * @return the at index or compute
+		 */
 		default <V> V getAtIndexOrCompute(int index, IntFunction<V> func) {
 			V v = getAtIndex(index);
 
@@ -41,27 +74,70 @@ public interface MetaContext extends MetaDomain {
 			return v;
 		}
 
+		/**
+		 * Limit.
+		 *
+		 * @return the int
+		 */
 		int limit();
 
+		/**
+		 * Limit.
+		 *
+		 * @param <V>      the value type
+		 * @param newLimit the new limit
+		 * @param func     the func
+		 */
 		<V> void limit(int newLimit, IntFunction<V> func);
 
+		/**
+		 * Remaining.
+		 *
+		 * @return the int
+		 */
 		default int remaining() {
 			return capacity() - limit();
 		}
 
+		/**
+		 * Sets the all.
+		 *
+		 * @param <V>  the value type
+		 * @param func the new all
+		 */
 		default <V> void setAll(IntFunction<V> func) {
 			int count = limit();
 			for (int i = 0; i < count; i++)
 				setAtIndex(i, func.apply(i));
 		}
 
+		/**
+		 * Sets the at index.
+		 *
+		 * @param <V>   the value type
+		 * @param index the index
+		 * @param value the value
+		 */
 		<V> void setAtIndex(int index, V value);
 	}
 
+	/**
+	 * The Interface MetaMapped.
+	 */
 	interface MetaMapped extends MetaContext {
 
+		/**
+		 * The Interface Proxy.
+		 */
 		public interface Proxy extends MetaMapped {
 
+			/**
+			 * Of.
+			 *
+			 * @param parent the parent
+			 * @param proxy  the proxy
+			 * @return the meta mapped
+			 */
 			static MetaMapped of(MetaDomain parent, MetaMapped proxy) {
 				return new Proxy() {
 
@@ -92,9 +168,17 @@ public interface MetaContext extends MetaDomain {
 				};
 			}
 
+			/**
+			 * Gets the proxy.
+			 *
+			 * @return the proxy
+			 */
 			MetaMapped getProxy();
 
 			/**
+			 * Capacity.
+			 *
+			 * @return the int
 			 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped#capacity()
 			 */
 			@Override
@@ -103,6 +187,12 @@ public interface MetaContext extends MetaDomain {
 			}
 
 			/**
+			 * Gets the.
+			 *
+			 * @param <K> the key type
+			 * @param <V> the value type
+			 * @param key the key
+			 * @return the v
 			 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped#get(java.lang.Object)
 			 */
 			@Override
@@ -111,6 +201,10 @@ public interface MetaContext extends MetaDomain {
 			}
 
 			/**
+			 * Gets the field.
+			 *
+			 * @param name the name
+			 * @return the field
 			 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped#getField(java.lang.String)
 			 */
 			@Override
@@ -119,6 +213,13 @@ public interface MetaContext extends MetaDomain {
 			}
 
 			/**
+			 * Gets the or compute.
+			 *
+			 * @param <K>  the key type
+			 * @param <V>  the value type
+			 * @param key  the key
+			 * @param func the func
+			 * @return the or compute
 			 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped#getOrCompute(java.lang.Object,
 			 *      java.util.function.Function)
 			 */
@@ -128,6 +229,9 @@ public interface MetaContext extends MetaDomain {
 			}
 
 			/**
+			 * Remaining.
+			 *
+			 * @return the int
 			 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped#remaining()
 			 */
 			@Override
@@ -136,6 +240,12 @@ public interface MetaContext extends MetaDomain {
 			}
 
 			/**
+			 * Sets the.
+			 *
+			 * @param <K>   the key type
+			 * @param <V>   the value type
+			 * @param key   the key
+			 * @param value the value
 			 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped#set(java.lang.Object,
 			 *      java.lang.Object)
 			 */
@@ -145,6 +255,9 @@ public interface MetaContext extends MetaDomain {
 			}
 
 			/**
+			 * Size.
+			 *
+			 * @return the int
 			 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped#size()
 			 */
 			@Override
@@ -154,20 +267,54 @@ public interface MetaContext extends MetaDomain {
 
 		}
 
+		/**
+		 * Capacity.
+		 *
+		 * @return the int
+		 */
 		default int capacity() {
 			return size();
 		}
 
+		/**
+		 * Gets the.
+		 *
+		 * @param <K> the key type
+		 * @param <V> the value type
+		 * @param key the key
+		 * @return the v
+		 */
 		<K, V> V get(K key);
 
+		/**
+		 * Gets the field.
+		 *
+		 * @param name the name
+		 * @return the field
+		 */
 		default MetaField getField(String name) {
 			return get(name);
 		}
 
+		/**
+		 * Find field.
+		 *
+		 * @param name the name
+		 * @return the optional
+		 */
 		default Optional<MetaField> findField(String name) {
 			return Optional.ofNullable(getField(name));
 		}
 
+		/**
+		 * Gets the or compute.
+		 *
+		 * @param <K>  the key type
+		 * @param <V>  the value type
+		 * @param key  the key
+		 * @param func the func
+		 * @return the or compute
+		 */
 		default <K, V> V getOrCompute(K key, Function<K, V> func) {
 			V v = get(key);
 
@@ -179,21 +326,50 @@ public interface MetaContext extends MetaDomain {
 			return v;
 		}
 
+		/**
+		 * Remaining.
+		 *
+		 * @return the int
+		 */
 		default int remaining() {
 			return capacity() - size();
 		}
 
+		/**
+		 * Sets the.
+		 *
+		 * @param <K>   the key type
+		 * @param <V>   the value type
+		 * @param key   the key
+		 * @param value the value
+		 */
 		default <K, V> void set(K key, V value) {
 			throw new UnsupportedOperationException("setters not supported for this domain type");
 		}
 
+		/**
+		 * Size.
+		 *
+		 * @return the int
+		 */
 		int size();
 	}
 
+	/**
+	 * New root.
+	 *
+	 * @return the meta context
+	 */
 	static MetaContext newRoot() {
 		return new MapMetaContext(Global.get(), MetaPath.ROOT_NAME, 1);
 	}
 
+	/**
+	 * Cast.
+	 *
+	 * @param <T> the generic type
+	 * @return the t
+	 */
 	@SuppressWarnings("unchecked")
 	default <T extends MetaContext> T cast() {
 		return (T) this;

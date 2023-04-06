@@ -23,27 +23,49 @@ import java.util.Optional;
 
 import com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped;
 
+/**
+ * The Class MapMetaContext.
+ */
 public class MapMetaContext
 		extends AbstractMetaContext
 		implements MetaMapped {
 
+	/** The capacity. */
 	private int capacity = Integer.MAX_VALUE;
 
-	/** Root domain */
+	/**
+	 * Root domain.
+	 *
+	 * @param name     the name
+	 * @param capacity the capacity
+	 */
 	public MapMetaContext(String name, int capacity) {
 		super(name);
 		this.capacity = capacity;
 	}
 
-	/** Anchored domain */
+	/**
+	 * Anchored domain.
+	 *
+	 * @param parent   the parent
+	 * @param name     the name
+	 * @param capacity the capacity
+	 */
 	public MapMetaContext(MetaContext parent, String name, int capacity) {
 		super(parent, name);
 		this.capacity = capacity;
 	}
 
+	/** The map. */
 	private final Map<Object, Object> map = new HashMap<>();
 
 	/**
+	 * Gets the.
+	 *
+	 * @param <K> the key type
+	 * @param <V> the value type
+	 * @param key the key
+	 * @return the v
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped#get(java.lang.Object)
 	 */
 	@SuppressWarnings("unchecked")
@@ -53,6 +75,12 @@ public class MapMetaContext
 	}
 
 	/**
+	 * Sets the.
+	 *
+	 * @param <K>   the key type
+	 * @param <V>   the value type
+	 * @param key   the key
+	 * @param value the value
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMappedSetter#set(java.lang.Object,
 	 *      java.lang.Object)
 	 */
@@ -66,6 +94,9 @@ public class MapMetaContext
 	}
 
 	/**
+	 * Capacity.
+	 *
+	 * @return the int
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped#capacity()
 	 */
 	@Override
@@ -73,6 +104,11 @@ public class MapMetaContext
 		throw new UnsupportedOperationException("not implemented yet");
 	}
 
+	/**
+	 * Sets the capacity.
+	 *
+	 * @param newCapacity the new capacity
+	 */
 	public void setCapacity(int newCapacity) {
 		if (newCapacity < size())
 			throw new IllegalStateException("new capacity is less than current size [size=%d, newCapacity=%d]"
@@ -81,11 +117,17 @@ public class MapMetaContext
 		this.capacity = newCapacity;
 	}
 
+	/**
+	 * Clear.
+	 */
 	public void clear() {
 		map.clear();
 	}
 
 	/**
+	 * Size.
+	 *
+	 * @return the int
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped#size()
 	 */
 	@Override
@@ -94,6 +136,12 @@ public class MapMetaContext
 	}
 
 	/**
+	 * Find key.
+	 *
+	 * @param <K> the key type
+	 * @param <V> the value type
+	 * @param key the key
+	 * @return the optional
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findKey(java.lang.Object)
 	 */
 	@Override
@@ -102,6 +150,10 @@ public class MapMetaContext
 	}
 
 	/**
+	 * Find domain.
+	 *
+	 * @param name the name
+	 * @return the meta domain
 	 * @see com.slytechs.jnet.protocol.packet.meta.MetaDomain#findDomain(java.lang.String)
 	 */
 	@Override

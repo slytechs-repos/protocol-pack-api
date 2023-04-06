@@ -17,8 +17,6 @@
  */
 package com.slytechs.jnet.protocol;
 
-import static com.slytechs.jnet.runtime.util.Strings.*;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -27,29 +25,40 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.slytechs.jnet.protocol.constants.PackInfo;
+import com.slytechs.jnet.protocol.core.constants.PackInfo;
 import com.slytechs.jnet.protocol.packet.Header;
 import com.slytechs.jnet.protocol.packet.HeaderExtensionInfo;
 import com.slytechs.jnet.protocol.packet.HeaderNotFound;
 import com.slytechs.jnet.protocol.packet.Other;
 
 /**
+ * The Class Pack.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
+ * @param <E> the element type
  */
-public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
+public abstract class ProtocolPack<E extends Enum<? extends HeaderInfo>> {
 
+	/**
+	 * The Enum EmptyPack.
+	 */
 	private enum EmptyPack implements HeaderInfo {
 		;
 
+		/**
+		 * @see com.slytechs.jnet.protocol.HeaderInfo#getHeaderId()
+		 */
 		@Override
 		public int getHeaderId() {
 			throw new UnsupportedOperationException("not implemented yet");
 		}
 
 		/**
+		 * New header instance.
+		 *
+		 * @return the header
 		 * @see com.slytechs.jnet.protocol.HeaderSupplier#newHeaderInstance()
 		 */
 		@Override
@@ -59,19 +68,33 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 
 	}
 
-	private static class PackNotLoaded extends Pack<EmptyPack> {
+	/**
+	 * The Class PackNotLoaded.
+	 */
+	private static class PackNotLoaded extends ProtocolPack<EmptyPack> {
 
+		/**
+		 * Instantiates a new pack not loaded.
+		 *
+		 * @param id the id
+		 */
 		protected PackNotLoaded(PackInfo id) {
 			super(id, id.getPackName(), null);
 		}
 
+		/**
+		 * @see com.slytechs.jnet.protocol.ProtocolPack#isDetectable()
+		 */
 		@Override
 		protected boolean isDetectable() {
-			return Pack.isPackDetected(getPackId());
+			return ProtocolPack.isPackDetected(getPackId());
 		}
 
 		/**
-		 * @see com.slytechs.jnet.protocol.Pack#isPackLoaded()
+		 * Checks if is pack loaded.
+		 *
+		 * @return true, if is pack loaded
+		 * @see com.slytechs.jnet.protocol.ProtocolPack#isPackLoaded()
 		 */
 		@Override
 		public boolean isPackLoaded() {
@@ -79,7 +102,12 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		}
 
 		/**
-		 * @see com.slytechs.jnet.protocol.Pack#getHeader(int)
+		 * Gets the header.
+		 *
+		 * @param id the id
+		 * @return the header
+		 * @throws HeaderNotFound the header not found
+		 * @see com.slytechs.jnet.protocol.ProtocolPack#getHeader(int)
 		 */
 		@Override
 		public HeaderInfo getHeader(int id) throws HeaderNotFound {
@@ -88,19 +116,31 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 
 	}
 
-	private static class PackVariableOptions extends Pack<EmptyPack> {
+	/**
+	 * The Class PackVariableOptions.
+	 */
+	private static class PackVariableOptions extends ProtocolPack<EmptyPack> {
 
+		/**
+		 * Instantiates a new pack variable options.
+		 */
 		protected PackVariableOptions() {
 			super(PackInfo.OPTS, PackInfo.OPTS.getPackName(), null);
 		}
 
+		/**
+		 * @see com.slytechs.jnet.protocol.ProtocolPack#isDetectable()
+		 */
 		@Override
 		protected boolean isDetectable() {
 			return true;
 		}
 
 		/**
-		 * @see com.slytechs.jnet.protocol.Pack#isPackLoaded()
+		 * Checks if is pack loaded.
+		 *
+		 * @return true, if is pack loaded
+		 * @see com.slytechs.jnet.protocol.ProtocolPack#isPackLoaded()
 		 */
 		@Override
 		public boolean isPackLoaded() {
@@ -108,7 +148,12 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		}
 
 		/**
-		 * @see com.slytechs.jnet.protocol.Pack#getHeader(int)
+		 * Gets the header.
+		 *
+		 * @param id the id
+		 * @return the header
+		 * @throws HeaderNotFound the header not found
+		 * @see com.slytechs.jnet.protocol.ProtocolPack#getHeader(int)
 		 */
 		@Override
 		public HeaderInfo getHeader(int id) throws HeaderNotFound {
@@ -117,7 +162,8 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 
 	}
 
-	private static final Pack<?>[] packTable = new Pack[PackInfo.values().length];
+	/** The Constant packTable. */
+	private static final ProtocolPack<?>[] packTable = new ProtocolPack[PackInfo.values().length];
 
 	static {
 		PackInfo[] values = PackInfo.values();
@@ -131,9 +177,15 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		packTable[PackInfo.OPTS.ordinal()] = new PackVariableOptions();
 	}
 
+	/**
+	 * Find header.
+	 *
+	 * @param id the id
+	 * @return the optional<? extends header info>
+	 */
 	public static Optional<? extends HeaderInfo> findHeader(int id) {
 		int packId = HeaderId.decodePackId(id);
-		Pack<?> pack = getLoadedPack(packId);
+		ProtocolPack<?> pack = getLoadedPack(packId);
 		if (pack == null)
 			return Optional.empty();
 
@@ -145,6 +197,13 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		}
 	}
 
+	/**
+	 * Find extension.
+	 *
+	 * @param id          the id
+	 * @param extensionId the extension id
+	 * @return the optional<? extends header info>
+	 */
 	public static Optional<? extends HeaderInfo> findExtension(int id, int extensionId) {
 		Optional<? extends HeaderInfo> parent = findHeader(id);
 		if (parent.isEmpty())
@@ -156,12 +215,25 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		return Optional.of(extInfos[extOrdinal]);
 	}
 
+	/**
+	 * Gets the header.
+	 *
+	 * @param id the id
+	 * @return the header
+	 * @throws HeaderNotFound the header not found
+	 */
 	public abstract HeaderInfo getHeader(int id) throws HeaderNotFound;
 
+	/**
+	 * Count all pack extensions.
+	 *
+	 * @param <E> the element type
+	 * @return the int
+	 */
 	private static <E extends Enum<? extends HeaderInfo>> int countAllPackExtensions() {
 		int count = 0;
 
-		for (Pack<?> pack : packTable) {
+		for (ProtocolPack<?> pack : packTable) {
 			if (!pack.isPackLoaded() || (pack.packInfo == PackInfo.OPTS))
 				continue;
 
@@ -171,6 +243,13 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		return count;
 	}
 
+	/**
+	 * Count all protocols.
+	 *
+	 * @param <E> the element type
+	 * @param ids the ids
+	 * @return the int
+	 */
 	private static <E extends Enum<? extends HeaderInfo>> int countAllProtocols(E[] ids) {
 		int count = ids.length;
 
@@ -185,6 +264,13 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		return count;
 	}
 
+	/**
+	 * Count single pack extensions.
+	 *
+	 * @param <E> the element type
+	 * @param ids the ids
+	 * @return the int
+	 */
 	private static <E extends Enum<? extends HeaderInfo>> int countSinglePackExtensions(E[] ids) {
 		int count = 0;
 
@@ -199,32 +285,59 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		return count;
 	}
 
+	/**
+	 * Gets the detected pack.
+	 *
+	 * @param <T_PACK> the generic type
+	 * @param packId   the pack id
+	 * @return the detected pack
+	 */
 	@SuppressWarnings("unchecked")
-	public static <T_PACK extends Pack<?>> T_PACK getDetectedPack(int packId) {
+	public static <T_PACK extends ProtocolPack<?>> T_PACK getDetectedPack(int packId) {
 		int packOrdinal = HeaderId.decodePackOrdinal(packId);
 
-		Pack<?> pack = packTable[packOrdinal];
+		ProtocolPack<?> pack = packTable[packOrdinal];
 		if (!pack.isDetectable())
 			return null;
 
 		return (T_PACK) pack;
 	}
 
+	/**
+	 * Gets the loaded pack.
+	 *
+	 * @param <T_PACK> the generic type
+	 * @param packId   the pack id
+	 * @return the loaded pack
+	 */
 	@SuppressWarnings("unchecked")
-	public static <T_PACK extends Pack<?>> T_PACK getLoadedPack(int packId) {
+	public static <T_PACK extends ProtocolPack<?>> T_PACK getLoadedPack(int packId) {
 		int packOrdinal = HeaderId.decodePackOrdinal(packId);
 
-		Pack<?> pack = packTable[packOrdinal];
+		ProtocolPack<?> pack = packTable[packOrdinal];
 		if (!pack.isPackLoaded())
 			return null;
 
 		return (T_PACK) pack;
 	}
 
-	public static <T_PACK extends Pack<?>> T_PACK getDetectedPack(PackInfo id) {
+	/**
+	 * Gets the detected pack.
+	 *
+	 * @param <T_PACK> the generic type
+	 * @param id       the id
+	 * @return the detected pack
+	 */
+	public static <T_PACK extends ProtocolPack<?>> T_PACK getDetectedPack(PackInfo id) {
 		return getDetectedPack(id.getPackIdAsInt());
 	}
 
+	/**
+	 * Checks if is pack detected.
+	 *
+	 * @param packInfo the pack info
+	 * @return true, if is pack detected
+	 */
 	public static boolean isPackDetected(PackInfo packInfo) {
 		try {
 			String moduleName = packInfo.getPackModuleName();
@@ -241,37 +354,64 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 			if (module.isPresent())
 				return (Class.forName(module.get(), className) != null);
 			else
-				return (Class.forName(className, false, Pack.class.getClassLoader()) != null);
+				return (Class.forName(className, false, ProtocolPack.class.getClassLoader()) != null);
 
 		} catch (SecurityException | ClassNotFoundException e) {
 			return false;
 		}
 	}
 
-	public static List<Pack<?>> listAllDeclaredPacks() {
+	/**
+	 * List all declared packs.
+	 *
+	 * @return the list
+	 */
+	public static List<ProtocolPack<?>> listAllDeclaredPacks() {
 		return Arrays.asList(packTable);
 	}
 
-	public static List<Pack<?>> listAllDetectablePacks() {
+	/**
+	 * List all detectable packs.
+	 *
+	 * @return the list
+	 */
+	public static List<ProtocolPack<?>> listAllDetectablePacks() {
 		return Arrays.asList(packTable)
 				.stream()
-				.filter(Pack::isDetectable)
+				.filter(ProtocolPack::isDetectable)
 				.collect(Collectors.toList());
 	}
 
-	public static List<Pack<?>> listAllLoadedPacks() {
+	/**
+	 * List all loaded packs.
+	 *
+	 * @return the list
+	 */
+	public static List<ProtocolPack<?>> listAllLoadedPacks() {
 		return Arrays.asList(packTable)
 				.stream()
-				.filter(Pack::isPackLoaded)
+				.filter(ProtocolPack::isPackLoaded)
 				.collect(Collectors.toList());
 	}
 
+	/**
+	 * Load pack.
+	 *
+	 * @param id the id
+	 * @return true, if successful
+	 */
 	public static synchronized boolean loadPack(int id) {
 		PackInfo packInfo = PackInfo.values()[HeaderId.decodePackOrdinal(id)];
 
 		return loadPack(packInfo);
 	}
 
+	/**
+	 * Load pack.
+	 *
+	 * @param packInfo the pack info
+	 * @return true, if successful
+	 */
 	public static synchronized boolean loadPack(PackInfo packInfo) {
 		if (packTable[packInfo.ordinal()].isPackLoaded())
 			return true;
@@ -279,7 +419,7 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		String moduleName = packInfo.getPackModuleName();
 		String className = packInfo.getPackClassName();
 
-		Pack<?> pack = loadPackClass(moduleName, className);
+		ProtocolPack<?> pack = loadPackClass(moduleName, className);
 		if (pack == null)
 			return false;
 
@@ -288,8 +428,15 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		return true;
 	}
 
+	/**
+	 * Load pack class.
+	 *
+	 * @param moduleName the module name
+	 * @param className  the class name
+	 * @return the pack
+	 */
 	@SuppressWarnings("unchecked")
-	private static Pack<?> loadPackClass(String moduleName, String className) {
+	private static ProtocolPack<?> loadPackClass(String moduleName, String className) {
 		try {
 
 			if (className == null)
@@ -300,19 +447,19 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 				module = ModuleLayer.boot()
 						.findModule(moduleName);
 
-			Class<Pack<?>> clazz;
+			Class<ProtocolPack<?>> clazz;
 			if (module.isPresent())
-				clazz = (Class<Pack<?>>) Class
+				clazz = (Class<ProtocolPack<?>>) Class
 						.forName(module.get(), className);
 			else
-				clazz = (Class<Pack<?>>) Class
+				clazz = (Class<ProtocolPack<?>>) Class
 						.forName(className);
 			if (clazz == null)
 				return null;
 
 			Method singletonMethod = clazz.getDeclaredMethod("singleton");
 
-			Pack<?> pack = (Pack<?>) singletonMethod.invoke(null);
+			ProtocolPack<?> pack = (ProtocolPack<?>) singletonMethod.invoke(null);
 
 			return pack;
 
@@ -323,6 +470,12 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		}
 	}
 
+	/**
+	 * Unload pack.
+	 *
+	 * @param packInfo the pack info
+	 * @return true, if successful
+	 */
 	public static synchronized boolean unloadPack(PackInfo packInfo) {
 
 		if (!packTable[packInfo.ordinal()].isPackLoaded())
@@ -333,13 +486,28 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		return true;
 	}
 
+	/** The pack info. */
 	private final PackInfo packInfo;
+	
+	/** The name. */
 	private final String name;
+	
+	/** The int id. */
 	private final int intId;
+	
+	/** The protocol ids. */
 	private final E[] protocolIds;
+	
+	/** The module. */
 	private Module module;
 
-	protected Pack(PackInfo id, E[] protocolIds) {
+	/**
+	 * Instantiates a new pack.
+	 *
+	 * @param id          the id
+	 * @param protocolIds the protocol ids
+	 */
+	protected ProtocolPack(PackInfo id, E[] protocolIds) {
 		this.packInfo = id;
 		this.name = id.getPackName();
 		this.protocolIds = Objects.requireNonNull(protocolIds, "protocolIds");
@@ -349,37 +517,79 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 				.orElse(null);
 	}
 
-	protected Pack(PackInfo id, String name, E[] protocolIds) {
+	/**
+	 * Instantiates a new pack.
+	 *
+	 * @param id          the id
+	 * @param name        the name
+	 * @param protocolIds the protocol ids
+	 */
+	protected ProtocolPack(PackInfo id, String name, E[] protocolIds) {
 		this.packInfo = id;
 		this.name = name;
 		this.protocolIds = protocolIds;
 		this.intId = id.getPackIdAsInt();
 	}
 
+	/**
+	 * Gets the pack id.
+	 *
+	 * @return the pack id
+	 */
 	public PackInfo getPackId() {
 		return packInfo;
 	}
 
+	/**
+	 * Gets the pack class name.
+	 *
+	 * @return the pack class name
+	 */
 	public String getPackClassName() {
 		return packInfo.getPackClassName();
 	}
 
+	/**
+	 * Gets the pack module name.
+	 *
+	 * @return the pack module name
+	 */
 	public String getPackModuleName() {
 		return packInfo.getPackModuleName();
 	}
 
+	/**
+	 * Gets the module.
+	 *
+	 * @return the module
+	 */
 	public Module getModule() {
 		return module;
 	}
 
+	/**
+	 * Gets the pack id as int.
+	 *
+	 * @return the pack id as int
+	 */
 	public int getPackIdAsInt() {
 		return intId;
 	}
 
+	/**
+	 * Gets the pack name.
+	 *
+	 * @return the pack name
+	 */
 	public String getPackName() {
 		return name;
 	}
 
+	/**
+	 * Gets the protocol ids.
+	 *
+	 * @return the protocol ids
+	 */
 	public E[] getProtocolIds() {
 		if (protocolIds == null)
 			throw new UnsupportedOperationException();
@@ -387,19 +597,37 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		return protocolIds;
 	}
 
+	/**
+	 * Checks if is detectable.
+	 *
+	 * @return true, if is detectable
+	 */
 	protected boolean isDetectable() {
 		return true;
 	}
 
+	/**
+	 * Checks if is pack loaded.
+	 *
+	 * @return true, if is pack loaded
+	 */
 	public boolean isPackLoaded() {
 		return true;
 	}
 
+	/**
+	 * To array.
+	 *
+	 * @return the header info[]
+	 */
 	public HeaderInfo[] toArray() {
 		return (HeaderInfo[]) protocolIds;
 	}
 
 	/**
+	 * To string.
+	 *
+	 * @return the string
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -427,7 +655,7 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		}
 
 		return "Pack ["
-				+ "name=%-16s".formatted(dquote(name))
+				+ "name=%-16s".formatted("\"" + name + "\"")
 				+ " (%2d/0x%03X)".formatted(ordinal, id)
 				+ ", " + status
 				+ "]";

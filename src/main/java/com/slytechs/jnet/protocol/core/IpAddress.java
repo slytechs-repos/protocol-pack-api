@@ -20,10 +20,11 @@ package com.slytechs.jnet.protocol.core;
 import com.slytechs.jnet.protocol.Address;
 
 /**
+ * The Class IpAddress.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public class IpAddress implements Address {
 
