@@ -321,20 +321,20 @@
 	</profiles>
 	<issueManagement>
 		<system>Github Issue Tracking</system>
-		<url>https://github.com/slytechs-repos/core-protocol-pack/issues</url>
+		<url>https://github.com/slytechs-repos/core-protocols/issues</url>
 	</issueManagement>
 	<scm>
 		<connection>
-			scm:git:git://github.com/slytechs-repos/core-protocol-pack.git</connection>
+			scm:git:git://github.com/slytechs-repos/core-protocols.git</connection>
 		<developerConnection>
-			scm:git:ssh:git://github.com/slytechs-repos/core-protocol-pack.git</developerConnection>
-		<url>https://github.com/slytechs-repos/core-protocol-pack</url>
+			scm:git:ssh:git://github.com/slytechs-repos/core-protocols.git</developerConnection>
+		<url>https://github.com/slytechs-repos/core-protocols</url>
 	</scm>
 	<distributionManagement>
 		<!-- mvn clean site site:stage scm-publish:publish-scm -->
 		<site>
 			<id>github</id>
-			<url>scm:git:git@github.com:slytechs-repos/core-protocol-pack.git</url>
+			<url>scm:git:git@github.com:slytechs-repos/core-protocols.git</url>
 		</site>
 	</distributionManagement>
 </project>
