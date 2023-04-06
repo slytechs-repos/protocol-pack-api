@@ -21,7 +21,7 @@ import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 
 import com.slytechs.jnet.protocol.HeaderId;
-import com.slytechs.jnet.protocol.constants.Pack;
+import com.slytechs.jnet.protocol.Pack;
 import com.slytechs.jnet.protocol.constants.PackInfo;
 
 /**

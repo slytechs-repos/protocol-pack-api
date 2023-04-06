@@ -21,7 +21,8 @@ import static com.slytechs.jnet.protocol.HeaderId.*;
 
 /**
  * Protocol pack definitions. A protocol pack contains a number of protocol ID
- * constants, which are defined in their constant tables i.e. {@link CoreHeaderInfo}.
+ * constants, which are defined in their constant tables i.e.
+ * {@link CoreHeaderInfo}.
  * 
  * <p>
  * A protocol ID is a 32-bit value which is made up of 3 parts, where 1st part
@@ -72,7 +73,7 @@ public enum PackInfo {
 	CORE("core", PackInfo.CORE_MODULE, PackInfo.CORE_PACK),
 	OPTS("options"),
 	MEDIA("media"),
-	WEB("web"),
+	WEB("web", PackInfo.WEB_MODULE, PackInfo.WEB_PACK),
 	TELCO("telco"),
 	LTE("lte"),
 	DB("database"),
@@ -96,6 +97,8 @@ public enum PackInfo {
 	// @formatter:off
 	private static final String CORE_MODULE = "com.slytechs.jnet.protocol.core";
 	private static final String CORE_PACK   = "com.slytechs.jnet.protocol.core.CorePack";
+	private static final String WEB_MODULE = "com.slytechs.jnet.protocol.web";
+	private static final String WEB_PACK   = "com.slytechs.jnet.protocol.web.WebPack";
 	// @formatter:on
 
 	private final int id;

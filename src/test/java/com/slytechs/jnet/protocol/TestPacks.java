@@ -15,10 +15,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet;
+package com.slytechs.jnet.protocol;
 
-import com.slytechs.jnet.protocol.Pack;
-import com.slytechs.jnet.protocol.PackSupplier;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author Sly Technologies Inc
@@ -26,17 +27,25 @@ import com.slytechs.jnet.protocol.PackSupplier;
  * @author Mark Bednarczyk
  *
  */
-class PackFactory {
+class TestPacks {
 
-	private static class LazySupplier implements PackSupplier {
-
-		/**
-		 * @see com.slytechs.jnet.protocol.PackSupplier#apply(int)
-		 */
-		@Override
-		public Pack apply(int packId) {
-			throw new UnsupportedOperationException("not implemented yet");
-		}
-
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@BeforeEach
+	void setUp() throws Exception {
 	}
+
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@AfterEach
+	void tearDown() throws Exception {
+	}
+
+	@Test
+	void listAllDeclaredPacks() {
+		Pack.listAllDeclaredPacks().forEach(System.out::println);
+	}
+
 }

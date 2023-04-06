@@ -22,12 +22,12 @@ import static com.slytechs.jnet.protocol.packet.descriptor.Type2Layout.*;
 import java.nio.ByteBuffer;
 
 import com.slytechs.jnet.protocol.HeaderInfo;
+import com.slytechs.jnet.protocol.Pack;
 import com.slytechs.jnet.protocol.HeaderId;
 import com.slytechs.jnet.protocol.constants.CoreConstants;
 import com.slytechs.jnet.protocol.constants.CoreHeaderInfo;
 import com.slytechs.jnet.protocol.constants.HashType;
 import com.slytechs.jnet.protocol.constants.L2FrameType;
-import com.slytechs.jnet.protocol.constants.Pack;
 import com.slytechs.jnet.protocol.constants.PackInfo;
 import com.slytechs.jnet.protocol.constants.PacketDescriptorType;
 import com.slytechs.jnet.runtime.util.Bits;

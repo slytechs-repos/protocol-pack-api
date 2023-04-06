@@ -21,10 +21,6 @@ import com.slytechs.jnet.protocol.packet.HeaderExtensionInfo;
 
 public interface HeaderInfo extends HeaderSupplier {
 
-	default Class<? extends Enum<? extends HeaderExtensionInfo>> getExtensionInfoClass() {
-		return null;
-	}
-
 	default HeaderExtensionInfo[] getExtensionInfos() {
 		return HeaderExtensionInfo.EMPTY_ARRAY;
 	}

@@ -127,14 +127,9 @@ class PackHeaderFactory implements HeaderFactory {
 
 		/* Initialize entire table even for out of range values for quick lookups */
 		for (int i = 0; i < protocolIds.length; i++) {
-			Class<? extends Enum<? extends HeaderExtensionInfo>> cl = protocolIds[i]
-					.getExtensionInfoClass();
-			if (cl == null)
-				continue;
 
-			HeaderExtensionInfo[] exts = (HeaderExtensionInfo[]) cl
-					.getEnumConstants();
-			if (exts == null)
+			HeaderExtensionInfo[] exts = protocolIds[i].getExtensionInfos();
+			if (exts.length == 0)
 				continue;
 
 			table[i] = initializeProtocolTable(exts);

@@ -18,9 +18,9 @@
 package com.slytechs.jnet.protocol.core;
 
 import com.slytechs.jnet.protocol.HeaderInfo;
+import com.slytechs.jnet.protocol.Pack;
 import com.slytechs.jnet.protocol.HeaderId;
 import com.slytechs.jnet.protocol.constants.CoreHeaderInfo;
-import com.slytechs.jnet.protocol.constants.Pack;
 import com.slytechs.jnet.protocol.constants.PackInfo;
 import com.slytechs.jnet.protocol.packet.HeaderNotFound;
 
@@ -47,7 +47,7 @@ public final class CorePack extends Pack<CoreHeaderInfo> {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.constants.Pack#getHeader(int)
+	 * @see com.slytechs.jnet.protocol.Pack#getHeader(int)
 	 */
 	@Override
 	public HeaderInfo getHeader(int id) throws HeaderNotFound {

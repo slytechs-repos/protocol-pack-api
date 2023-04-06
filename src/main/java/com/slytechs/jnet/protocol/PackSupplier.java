@@ -19,8 +19,6 @@ package com.slytechs.jnet.protocol;
 
 import java.util.function.IntFunction;
 
-import com.slytechs.jnet.protocol.constants.Pack;
-
 public interface PackSupplier extends IntFunction<Pack<?>> {
 	PackSupplier EMPTY = ignored -> null;
 

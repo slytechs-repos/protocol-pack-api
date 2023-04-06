@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.constants;
+package com.slytechs.jnet.protocol;
 
 import static com.slytechs.jnet.runtime.util.Strings.*;
 
@@ -27,8 +27,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.slytechs.jnet.protocol.HeaderInfo;
-import com.slytechs.jnet.protocol.HeaderId;
+import com.slytechs.jnet.protocol.constants.PackInfo;
 import com.slytechs.jnet.protocol.packet.Header;
 import com.slytechs.jnet.protocol.packet.HeaderExtensionInfo;
 import com.slytechs.jnet.protocol.packet.HeaderNotFound;
@@ -72,7 +71,7 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		}
 
 		/**
-		 * @see com.slytechs.jnet.protocol.constants.Pack#isPackLoaded()
+		 * @see com.slytechs.jnet.protocol.Pack#isPackLoaded()
 		 */
 		@Override
 		public boolean isPackLoaded() {
@@ -80,7 +79,7 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		}
 
 		/**
-		 * @see com.slytechs.jnet.protocol.constants.Pack#getHeader(int)
+		 * @see com.slytechs.jnet.protocol.Pack#getHeader(int)
 		 */
 		@Override
 		public HeaderInfo getHeader(int id) throws HeaderNotFound {
@@ -101,7 +100,7 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		}
 
 		/**
-		 * @see com.slytechs.jnet.protocol.constants.Pack#isPackLoaded()
+		 * @see com.slytechs.jnet.protocol.Pack#isPackLoaded()
 		 */
 		@Override
 		public boolean isPackLoaded() {
@@ -109,7 +108,7 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		}
 
 		/**
-		 * @see com.slytechs.jnet.protocol.constants.Pack#getHeader(int)
+		 * @see com.slytechs.jnet.protocol.Pack#getHeader(int)
 		 */
 		@Override
 		public HeaderInfo getHeader(int id) throws HeaderNotFound {
@@ -177,13 +176,9 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 
 		for (E id : ids) {
 			HeaderInfo i = (HeaderInfo) id;
-			if (i.getExtensionInfoClass() == null)
-				continue;
 
-			HeaderExtensionInfo[] exts = (HeaderExtensionInfo[]) i
-					.getExtensionInfoClass()
-					.getEnumConstants();
-			if (exts != null)
+			HeaderExtensionInfo[] exts = i.getExtensionInfos();
+			if (exts.length > 0)
 				count += exts.length;
 		}
 
@@ -196,10 +191,8 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		for (E id : ids) {
 			HeaderInfo i = (HeaderInfo) id;
 
-			HeaderExtensionInfo[] exts = (HeaderExtensionInfo[]) i
-					.getExtensionInfoClass()
-					.getEnumConstants();
-			if (exts != null)
+			HeaderExtensionInfo[] exts = i.getExtensionInfos();
+			if (exts.length > 0)
 				count += exts.length;
 		}
 
@@ -283,9 +276,10 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		if (packTable[packInfo.ordinal()].isPackLoaded())
 			return true;
 
-		Pack<?> pack = loadPackClass(
-				packInfo.getPackModuleName(),
-				packInfo.getPackClassName());
+		String moduleName = packInfo.getPackModuleName();
+		String className = packInfo.getPackClassName();
+
+		Pack<?> pack = loadPackClass(moduleName, className);
 		if (pack == null)
 			return false;
 
