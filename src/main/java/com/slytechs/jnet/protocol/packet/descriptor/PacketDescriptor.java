@@ -154,7 +154,8 @@ public abstract class PacketDescriptor
 	}
 
 	/**
-	 * @see com.slytechs.jnet.runtime.util.StringBuildable#buildString(java.lang.StringBuilder, com.slytechs.jnet.runtime.util.Detail)
+	 * @see com.slytechs.jnet.runtime.util.StringBuildable#buildString(java.lang.StringBuilder,
+	 *      com.slytechs.jnet.runtime.util.Detail)
 	 */
 	@Override
 	public final StringBuilder buildString(StringBuilder b, Detail detail) {

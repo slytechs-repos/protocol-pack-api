@@ -47,7 +47,7 @@ public abstract class ReflectedComponent implements Comparable<ReflectedComponen
 	 * Abbr.
 	 *
 	 * @return the string
-	 * @see com.slytechs.jnet.protocol.packet.meta.MetaInfo.Proxy#abbr()
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaInfo.PacketDescriptorProxy#abbr()
 	 */
 	public String abbr() {
 		return meta.abbr();
@@ -91,7 +91,7 @@ public abstract class ReflectedComponent implements Comparable<ReflectedComponen
 	 * Name.
 	 *
 	 * @return the string
-	 * @see com.slytechs.jnet.protocol.packet.meta.MetaInfo.Proxy#name()
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaInfo.PacketDescriptorProxy#name()
 	 */
 	public String name() {
 		return meta.name();
@@ -101,7 +101,7 @@ public abstract class ReflectedComponent implements Comparable<ReflectedComponen
 	 * Note.
 	 *
 	 * @return the string
-	 * @see com.slytechs.jnet.protocol.packet.meta.MetaInfo.Proxy#note()
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaInfo.PacketDescriptorProxy#note()
 	 */
 	public String note() {
 		return meta.note();
@@ -111,7 +111,7 @@ public abstract class ReflectedComponent implements Comparable<ReflectedComponen
 	 * Ordinal.
 	 *
 	 * @return the int
-	 * @see com.slytechs.jnet.protocol.packet.meta.MetaInfo.Proxy#ordinal()
+	 * @see com.slytechs.jnet.protocol.packet.meta.MetaInfo.PacketDescriptorProxy#ordinal()
 	 */
 	public int ordinal() {
 		return meta.ordinal();

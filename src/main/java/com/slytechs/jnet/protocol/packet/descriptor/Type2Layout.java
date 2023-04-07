@@ -32,62 +32,62 @@ import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Int64;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public enum Type2Layout implements BitField.Proxy {
+enum Type2Layout implements BitField.Proxy {
 
 	/** The timestamp. */
 	TIMESTAMP("timestamp"),
-	
+
 	/** The caplen. */
 	CAPLEN("caplen"),
-	
+
 	/** The color1. */
 	COLOR1("color1"),
-	
+
 	/** The color2. */
 	COLOR2("color2"),
-	
+
 	/** The hash24. */
 	HASH24("hash24"),
-	
+
 	/** The wirelen. */
 	WIRELEN("wirelen"),
-	
+
 	/** The l2 type. */
 	L2_TYPE("l2_type"),
-	
+
 	/** The rx port. */
 	RX_PORT("rx_port"),
-	
+
 	/** The tx port. */
 	TX_PORT("tx_port"),
-	
+
 	/** The hash type. */
 	HASH_TYPE("hash_type"),
-	
+
 	/** The tx now. */
 	TX_NOW("tx_now"),
-	
+
 	/** The tx ignore. */
 	TX_IGNORE("tx_ignore"),
-	
+
 	/** The tx crc override. */
 	TX_CRC_OVERRIDE("tx_crc_override"),
-	
+
 	/** The tx set clock. */
 	TX_SET_CLOCK("tx_set_clock"),
-	
+
 	/** The record count. */
 	RECORD_COUNT("record_count"),
-	
+
 	/** The bitmask. */
 	BITMASK("bitmask"),
-	
+
 	/** The record. */
 	RECORD("record"),
-	
+
 	/** The hash32. */
 	HASH32("hash32"),
-	
+
 	/** The array. */
 	ARRAY("array"),
 
@@ -97,7 +97,7 @@ public enum Type2Layout implements BitField.Proxy {
 	 * The Class Struct.
 	 */
 	private static class Struct {
-		
+
 		/** The Constant TYPE2_STRUCT. */
 		private static final BinaryLayout TYPE2_STRUCT = unionLayout(
 				/* length: 24-184 bytes */
