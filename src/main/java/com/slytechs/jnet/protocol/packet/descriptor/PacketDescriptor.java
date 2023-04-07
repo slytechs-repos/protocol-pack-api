@@ -17,12 +17,12 @@
  */
 package com.slytechs.jnet.protocol.packet.descriptor;
 
+import com.slytechs.jnet.protocol.Descriptor;
 import com.slytechs.jnet.protocol.core.constants.L2FrameType;
 import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
 import com.slytechs.jnet.protocol.packet.HeaderLookup;
 import com.slytechs.jnet.protocol.packet.meta.Meta;
 import com.slytechs.jnet.protocol.packet.meta.Meta.MetaType;
-import com.slytechs.jnet.runtime.MemoryBinding;
 import com.slytechs.jnet.runtime.time.TimestampUnit;
 import com.slytechs.jnet.runtime.util.Detail;
 import com.slytechs.jnet.runtime.util.StringBuildable;
@@ -35,11 +35,8 @@ import com.slytechs.jnet.runtime.util.StringBuildable;
  * @author Mark Bednarczyk
  */
 public abstract class PacketDescriptor
-		extends MemoryBinding
+		extends Descriptor
 		implements HeaderLookup, StringBuildable {
-
-	/** The type. */
-	private final PacketDescriptorType type;
 
 	/** The frame no. */
 	@Meta(MetaType.ATTRIBUTE)
@@ -54,7 +51,7 @@ public abstract class PacketDescriptor
 	 * @param type the type
 	 */
 	protected PacketDescriptor(PacketDescriptorType type) {
-		this.type = type;
+		super(type);
 	}
 
 	/**
@@ -62,8 +59,9 @@ public abstract class PacketDescriptor
 	 *
 	 * @return the packet descriptor type
 	 */
+	@Override
 	public final PacketDescriptorType type() {
-		return type;
+		return (PacketDescriptorType) super.type();
 	}
 
 	/**

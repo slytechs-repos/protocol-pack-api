@@ -17,12 +17,11 @@
  */
 package com.slytechs.jnet.protocol.core.constants;
 
-import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
+import com.slytechs.jnet.protocol.DescriptorType;
 import com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor;
 import com.slytechs.jnet.protocol.packet.descriptor.PcapDescriptor;
-import com.slytechs.jnet.protocol.packet.descriptor.ReflectedDescriptorFactory;
 import com.slytechs.jnet.protocol.packet.descriptor.Type1Descriptor;
 import com.slytechs.jnet.protocol.packet.descriptor.Type2Descriptor;
 
@@ -33,7 +32,7 @@ import com.slytechs.jnet.protocol.packet.descriptor.Type2Descriptor;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public enum PacketDescriptorType implements IntSupplier {
+public enum PacketDescriptorType implements DescriptorType<PacketDescriptor> {
 
 	/** 16 bytes PCAP descriptor. */
 	PCAP(PcapDescriptor::new),
@@ -46,9 +45,6 @@ public enum PacketDescriptorType implements IntSupplier {
 	 * dissection records.
 	 */
 	TYPE2(Type2Descriptor::new),
-
-	/** IP fragmentation descriptor defined in <em>jnetpcap-pro</em> modules */
-	IPF(20, PacketDescriptorType.IPF_DESC_MODULENAME, PacketDescriptorType.IPF_DESC_CLASSNAME),
 
 	/** 16 byte Napatech STD descriptor. */
 	DESCRIPTOR_TYPE_NT_STD(100, null)
@@ -66,9 +62,6 @@ public enum PacketDescriptorType implements IntSupplier {
 
 	/** 16 byte NT STD descriptor. */
 	public static final int PACKET_DESCRIPTOR_TYPE_NT_STD = 100; // 16 byte Napatech STD descriptor
-
-	private static final String IPF_DESC_MODULENAME = "com.slytechs.jnetpcap.pro";
-	private static final String IPF_DESC_CLASSNAME = "com.slytechs.jnetpcap.pro.IpfDescriptor";
 
 	/** The type. */
 	private final int type;
@@ -98,17 +91,6 @@ public enum PacketDescriptorType implements IntSupplier {
 	}
 
 	/**
-	 * Instantiates a new packet descriptor type.
-	 *
-	 * @param type    the type
-	 * @param factory the factory
-	 */
-	PacketDescriptorType(int type, String moduleName, String className) {
-		this.factory = new ReflectedDescriptorFactory(moduleName, className);
-		this.type = type;
-	}
-
-	/**
 	 * Gets an equivalent numerical constant for this descriptor type. Suitable in
 	 * passing to native jNet native library functions.
 	 *
@@ -125,6 +107,7 @@ public enum PacketDescriptorType implements IntSupplier {
 	 *
 	 * @return the packet descriptor
 	 */
+	@Override
 	public PacketDescriptor newDescriptor() {
 		return factory.get();
 	}
