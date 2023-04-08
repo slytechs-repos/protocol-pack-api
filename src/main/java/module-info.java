@@ -40,23 +40,20 @@
  */
 module com.slytechs.protocol {
 
-	exports com.slytechs.protocol;
-	exports com.slytechs.protocol.pack.core;
-	exports com.slytechs.protocol.pack.core.constants;
-	exports com.slytechs.protocol.descriptor;
-	exports com.slytechs.protocol.meta;
-	exports com.slytechs.protocol.util;
-
 	/* Private API */
 	exports com.slytechs.protocol.runtime.internal;
 	exports com.slytechs.protocol.runtime.internal.layout;
 	exports com.slytechs.protocol.runtime.internal.foreign;
 	exports com.slytechs.protocol.runtime.internal.concurrent;
 	exports com.slytechs.protocol.runtime.internal.json to
-			com.slytechs.protocol,
-			com.slytechs.jnet.protocol.web;
+			com.slytechs.protocol.pack.web;
 
 	/* Public API */
+	exports com.slytechs.protocol;
+	exports com.slytechs.protocol.pack.core;
+	exports com.slytechs.protocol.pack.core.constants;
+	exports com.slytechs.protocol.descriptor;
+	exports com.slytechs.protocol.meta;
 	exports com.slytechs.protocol.runtime;
 	exports com.slytechs.protocol.runtime.time;
 	exports com.slytechs.protocol.runtime.util;

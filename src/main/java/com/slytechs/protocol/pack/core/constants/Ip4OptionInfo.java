@@ -25,7 +25,7 @@ import com.slytechs.protocol.HeaderId;
 import com.slytechs.protocol.HeaderSupplier;
 import com.slytechs.protocol.Other;
 import com.slytechs.protocol.pack.core.IpOptionInfo;
-import com.slytechs.protocol.pack.core.Ip4Option.Ip4OptRouter;
+import com.slytechs.protocol.pack.core.Ip4Option.Ip4RouterOption;
 
 /**
  * The Enum Ip4OptionInfo.
@@ -102,7 +102,7 @@ public enum Ip4OptionInfo implements IpOptionInfo {
 	ADDRESS_EXTENSION(0x93, "E-ADDR"),
 	
 	/** The router alert. */
-	ROUTER_ALERT(0x94, "RTR_ALT", Ip4OptRouter::new),
+	ROUTER_ALERT(0x94, "RTR_ALT", Ip4RouterOption::new),
 	
 	/** The selective directed broadcast. */
 	SELECTIVE_DIRECTED_BROADCAST(0x95, "SBD"),

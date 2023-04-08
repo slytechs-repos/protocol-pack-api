@@ -28,7 +28,7 @@ public abstract class Ip4Option extends IpOption {
 	/**
 	 * The Class Ip4OptRouter.
 	 */
-	public static class Ip4OptRouter extends Ip4Option {
+	public static class Ip4RouterOption extends Ip4Option {
 		
 		/** The Constant ID. */
 		public static final int ID = Ip4OptionInfo.IPv4_OPT_ID_RTRALT;
@@ -36,7 +36,7 @@ public abstract class Ip4Option extends IpOption {
 		/**
 		 * Instantiates a new ip 4 opt router.
 		 */
-		public Ip4OptRouter() {
+		public Ip4RouterOption() {
 			super(ID);
 		}
 

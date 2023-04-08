@@ -15,29 +15,43 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.protocol;
+package com.slytechs.protocol.runtime;
 
-import com.slytechs.protocol.runtime.NotFound;
+import java.util.Arrays;
 
 /**
- * Indicates that a requested header was not found or available.
+ * The Class NotFound.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
+ * @author mark
  */
-public class HeaderNotFound extends NotFound {
+public class NotFound extends Exception {
 
 	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -578445872993071429L;
+	private static final long serialVersionUID = 6006575620166935617L;
 
 	/**
-	 * Instantiates a new header not found.
+	 * Instantiates a new not found.
+	 */
+	public NotFound() {
+	}
+
+	/**
+	 * Instantiates a new not found.
 	 *
 	 * @param message the message
 	 */
-	public HeaderNotFound(String message) {
+	public NotFound(String message) {
 		super(message);
 	}
 
+	/**
+	 * Instantiates a new not found.
+	 *
+	 * @param path the path
+	 */
+	public NotFound(String... path) {
+		super(Arrays.asList(path).toString());
+	}
 }

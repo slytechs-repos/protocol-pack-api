@@ -23,10 +23,11 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Supplier;
 
 import com.slytechs.protocol.meta.Meta;
-import com.slytechs.protocol.meta.PacketFormat;
 import com.slytechs.protocol.meta.Meta.MetaType;
+import com.slytechs.protocol.meta.PacketFormat;
 import com.slytechs.protocol.runtime.MemoryBinding;
 import com.slytechs.protocol.runtime.util.Detail;
+import com.slytechs.protocol.runtime.util.DetailedString;
 import com.slytechs.protocol.runtime.util.HexStrings;
 
 /**
@@ -35,7 +36,7 @@ import com.slytechs.protocol.runtime.util.HexStrings;
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
-public abstract class Header extends MemoryBinding {
+public abstract class Header extends MemoryBinding implements DetailedString {
 
 	/** The lock factory */
 	private static Supplier<Lock> LOCK_FACTORY = ReentrantLock::new;
@@ -213,8 +214,8 @@ public abstract class Header extends MemoryBinding {
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
-	public String toString() {
-		return toString(Detail.MEDIUM);
+	public final String toString() {
+		return toString(Detail.DEFAULT);
 	}
 
 	/**
@@ -225,7 +226,8 @@ public abstract class Header extends MemoryBinding {
 	 * @return the generated string from the fields of this header
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString(Detail detail) {
+	@Override
+	public final String toString(Detail detail) {
 		if (formatter != null)
 			return formatter.format(this, detail);
 

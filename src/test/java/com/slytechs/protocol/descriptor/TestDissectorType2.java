@@ -36,7 +36,7 @@ import com.slytechs.protocol.descriptor.Type2JavaPacketDissector;
 import com.slytechs.protocol.pack.core.Ethernet;
 import com.slytechs.protocol.pack.core.Ip4;
 import com.slytechs.protocol.pack.core.Ip6;
-import com.slytechs.protocol.pack.core.Ip4Option.Ip4OptRouter;
+import com.slytechs.protocol.pack.core.Ip4Option.Ip4RouterOption;
 import com.slytechs.protocol.pack.core.Ip6Option.Ip6FragmentOption;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.CoreHeaderInfo;
@@ -215,7 +215,7 @@ class TestDissectorType2 {
 		Ethernet eth = new Ethernet();
 		Ip4 ip4 = new Ip4();
 		Ip6 ip6 = new Ip6();
-		Ip4OptRouter router4 = new Ip4OptRouter();
+		Ip4RouterOption router4 = new Ip4RouterOption();
 		Ip6FragmentOption frag6 = new Ip6FragmentOption();
 
 		if (packet.hasHeader(eth)) {
@@ -276,7 +276,7 @@ class TestDissectorType2 {
 		Ethernet eth = new Ethernet();
 		Ip4 ip4 = new Ip4();
 		Ip6 ip6 = new Ip6();
-		Ip4OptRouter router4 = new Ip4OptRouter();
+		Ip4RouterOption router4 = new Ip4RouterOption();
 		Ip6FragmentOption frag6 = new Ip6FragmentOption();
 
 //		final long COUNT = 3_000_000_000l;

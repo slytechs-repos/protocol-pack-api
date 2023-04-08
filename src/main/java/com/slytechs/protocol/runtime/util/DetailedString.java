@@ -17,41 +17,13 @@
  */
 package com.slytechs.protocol.runtime.util;
 
-import java.util.Arrays;
-
 /**
- * The Class NotFound.
- *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author mark
+ * @author Mark Bednarczyk
+ *
  */
-public class NotFound extends Exception {
+public interface DetailedString {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 6006575620166935617L;
-
-	/**
-	 * Instantiates a new not found.
-	 */
-	public NotFound() {
-	}
-
-	/**
-	 * Instantiates a new not found.
-	 *
-	 * @param message the message
-	 */
-	public NotFound(String message) {
-		super(message);
-	}
-
-	/**
-	 * Instantiates a new not found.
-	 *
-	 * @param path the path
-	 */
-	public NotFound(String... path) {
-		super(Arrays.asList(path).toString());
-	}
+	String toString(Detail detail);
 }

@@ -29,9 +29,9 @@ import java.util.List;
 import java.util.Optional;
 
 import com.slytechs.protocol.runtime.MemoryBinding;
+import com.slytechs.protocol.runtime.NotFound;
 import com.slytechs.protocol.runtime.internal.util.Attribute.Builtin;
 import com.slytechs.protocol.runtime.internal.util.Attribute.Value;
-import com.slytechs.protocol.runtime.util.NotFound;
 
 /**
  * An attribute buffer which stores attribute values.

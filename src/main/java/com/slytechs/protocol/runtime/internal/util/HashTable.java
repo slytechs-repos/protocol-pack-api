@@ -17,7 +17,7 @@
  */
 package com.slytechs.protocol.runtime.internal.util;
 
-import com.slytechs.protocol.runtime.util.NotFound;
+import com.slytechs.protocol.runtime.NotFound;
 
 /**
  * The Interface HashTable.

@@ -25,14 +25,15 @@ import com.slytechs.protocol.descriptor.CompactDescriptor;
 import com.slytechs.protocol.descriptor.PacketDescriptor;
 import com.slytechs.protocol.descriptor.Type1Descriptor;
 import com.slytechs.protocol.meta.Meta;
+import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.meta.PacketFormat;
-import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.pack.core.constants.CoreHeaderInfo;
 import com.slytechs.protocol.runtime.MemoryBinding;
 import com.slytechs.protocol.runtime.time.Timestamp;
 import com.slytechs.protocol.runtime.time.TimestampUnit;
 import com.slytechs.protocol.runtime.util.Detail;
+import com.slytechs.protocol.runtime.util.DetailedString;
 import com.slytechs.protocol.runtime.util.HexStrings;
 
 /**
@@ -55,7 +56,7 @@ import com.slytechs.protocol.runtime.util.HexStrings;
 @MetaResource("packet-meta.json")
 public final class Packet
 		extends MemoryBinding
-		implements HasHeader, Cloneable, AutoCloseable {
+		implements HasHeader, Cloneable, AutoCloseable, DetailedString {
 
 	/** The Constant MAX_PACKET_LENGTH. */
 	public static final int MAX_PACKET_LENGTH = 1538;

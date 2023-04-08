@@ -17,8 +17,8 @@
  */
 package com.slytechs.protocol.runtime.internal.util;
 
+import com.slytechs.protocol.runtime.NotFound;
 import com.slytechs.protocol.runtime.internal.util.HashTable.OfLong;
-import com.slytechs.protocol.runtime.util.NotFound;
 
 /**
  * The Class LongHashTable.
