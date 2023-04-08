@@ -36,6 +36,7 @@ import com.slytechs.jnet.protocol.core.constants.HashType;
 import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
 import com.slytechs.jnet.protocol.descriptor.PacketDissector;
 import com.slytechs.jnet.protocol.descriptor.Type2Descriptor;
+import com.slytechs.jnet.protocol.meta.PacketFormat;
 import com.slytechs.jnet.runtime.internal.json.JsonException;
 import com.slytechs.jnet.runtime.util.Detail;
 import com.slytechs.jnet.runtime.util.HexStrings;

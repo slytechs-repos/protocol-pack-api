@@ -21,8 +21,8 @@ import java.util.function.LongSupplier;
 
 import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
 import com.slytechs.jnet.protocol.descriptor.PacketDescriptor;
-import com.slytechs.jnet.protocol.packet.meta.Meta;
-import com.slytechs.jnet.protocol.packet.meta.MetaResource;
+import com.slytechs.jnet.protocol.meta.Meta;
+import com.slytechs.jnet.protocol.meta.MetaResource;
 
 /**
  * The Class Frame.

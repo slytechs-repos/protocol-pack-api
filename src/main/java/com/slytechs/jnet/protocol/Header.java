@@ -22,9 +22,9 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Supplier;
 
-import com.slytechs.jnet.protocol.packet.meta.Meta;
-import com.slytechs.jnet.protocol.packet.meta.Meta.MetaType;
-import com.slytechs.jnet.protocol.packet.meta.PacketFormat;
+import com.slytechs.jnet.protocol.meta.Meta;
+import com.slytechs.jnet.protocol.meta.PacketFormat;
+import com.slytechs.jnet.protocol.meta.Meta.MetaType;
 import com.slytechs.jnet.runtime.MemoryBinding;
 import com.slytechs.jnet.runtime.util.Detail;
 import com.slytechs.jnet.runtime.util.HexStrings;

@@ -20,8 +20,8 @@ package com.slytechs.jnet.protocol.core;
 import com.slytechs.jnet.protocol.ExtendableHeader;
 import com.slytechs.jnet.protocol.Packet;
 import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
-import com.slytechs.jnet.protocol.packet.meta.Meta;
-import com.slytechs.jnet.protocol.packet.meta.MetaResource;
+import com.slytechs.jnet.protocol.meta.Meta;
+import com.slytechs.jnet.protocol.meta.MetaResource;
 
 /**
  * The Class Tcp.
