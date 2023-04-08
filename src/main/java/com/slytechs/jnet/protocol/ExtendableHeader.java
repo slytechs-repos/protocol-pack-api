@@ -19,7 +19,7 @@ package com.slytechs.jnet.protocol;
 
 import java.nio.ByteBuffer;
 
-import com.slytechs.jnet.protocol.packet.descriptor.CompactDescriptor;
+import com.slytechs.jnet.protocol.descriptor.CompactDescriptor;
 
 /**
  * The Class ExtendableHeader.

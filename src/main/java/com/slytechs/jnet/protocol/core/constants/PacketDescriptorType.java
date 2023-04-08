@@ -20,10 +20,10 @@ package com.slytechs.jnet.protocol.core.constants;
 import java.util.function.Supplier;
 
 import com.slytechs.jnet.protocol.DescriptorType;
-import com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor;
-import com.slytechs.jnet.protocol.packet.descriptor.PcapDescriptor;
-import com.slytechs.jnet.protocol.packet.descriptor.Type1Descriptor;
-import com.slytechs.jnet.protocol.packet.descriptor.Type2Descriptor;
+import com.slytechs.jnet.protocol.descriptor.PacketDescriptor;
+import com.slytechs.jnet.protocol.descriptor.PcapDescriptor;
+import com.slytechs.jnet.protocol.descriptor.Type1Descriptor;
+import com.slytechs.jnet.protocol.descriptor.Type2Descriptor;
 
 /**
  * A constant table of packet descriptor types supported by jNet modules.

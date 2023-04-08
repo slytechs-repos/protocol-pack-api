@@ -15,24 +15,36 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet.descriptor;
-
-import com.slytechs.jnet.protocol.Descriptor;
-import com.slytechs.jnet.protocol.core.constants.IpfDescriptorType;
+package com.slytechs.jnet.protocol.descriptor;
 
 /**
+ * The Class JavaDissector.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
-public class IpfDescriptor extends Descriptor {
+public abstract class JavaDissector extends AbstractDissector {
 
 	/**
-	 * @param type
+	 * Instantiates a new java dissector.
 	 */
-	public IpfDescriptor() {
-		super(IpfDescriptorType.IPF);
+	public JavaDissector() {
 	}
 
+	/**
+	 * Checks if is native.
+	 *
+	 * @return true, if is native
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDissector#isNative()
+	 */
+	@Override
+	public boolean isNative() {
+		return false;
+	}
+
+	/**
+	 * Destroy dissector.
+	 */
+	protected abstract void destroyDissector();
 }

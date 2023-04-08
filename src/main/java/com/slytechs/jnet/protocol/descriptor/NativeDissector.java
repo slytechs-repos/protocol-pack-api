@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet.descriptor;
+package com.slytechs.jnet.protocol.descriptor;
 
 import java.net.ProtocolException;
 import java.nio.ByteBuffer;
@@ -46,7 +46,7 @@ public class NativeDissector extends AbstractDissector {
 	 * @param caplen    the caplen
 	 * @param wirelen   the wirelen
 	 * @return the int
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDissector#dissectPacket(java.nio.ByteBuffer,
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDissector#dissectPacket(java.nio.ByteBuffer,
 	 *      long, int, int)
 	 */
 	@Override
@@ -59,7 +59,7 @@ public class NativeDissector extends AbstractDissector {
 	 *
 	 * @param buffer the buffer
 	 * @return the int
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDissector#writeDescriptor(java.nio.ByteBuffer)
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDissector#writeDescriptor(java.nio.ByteBuffer)
 	 */
 	@Override
 	public int writeDescriptor(ByteBuffer buffer) {
@@ -70,7 +70,7 @@ public class NativeDissector extends AbstractDissector {
 	 * Reset.
 	 *
 	 * @return the packet dissector
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDissector#reset()
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDissector#reset()
 	 */
 	@Override
 	public PacketDissector reset() {
@@ -83,7 +83,7 @@ public class NativeDissector extends AbstractDissector {
 	 * @param l2Type the l 2 type
 	 * @return the packet dissector
 	 * @throws ProtocolException the protocol exception
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDissector#setDatalinkType(com.slytechs.jnet.protocol.core.constants.L2FrameType)
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDissector#setDatalinkType(com.slytechs.jnet.protocol.core.constants.L2FrameType)
 	 */
 	@Override
 	public PacketDissector setDatalinkType(L2FrameType l2Type) throws ProtocolException {
@@ -94,7 +94,7 @@ public class NativeDissector extends AbstractDissector {
 	 * Checks if is native.
 	 *
 	 * @return true, if is native
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDissector#isNative()
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDissector#isNative()
 	 */
 	@Override
 	public boolean isNative() {

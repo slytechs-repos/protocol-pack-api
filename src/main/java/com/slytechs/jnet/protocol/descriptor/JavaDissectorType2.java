@@ -15,10 +15,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet.descriptor;
+package com.slytechs.jnet.protocol.descriptor;
 
 import static com.slytechs.jnet.protocol.core.constants.CoreConstants.*;
-import static com.slytechs.jnet.protocol.packet.descriptor.Type2Layout.*;
+import static com.slytechs.jnet.protocol.descriptor.Type2Layout.*;
 
 import java.net.ProtocolException;
 import java.nio.ByteBuffer;
@@ -274,7 +274,7 @@ class JavaDissectorType2 extends JavaDissector {
 	/**
 	 * Destroy dissector.
 	 *
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.JavaDissector#destroyDissector()
+	 * @see com.slytechs.jnet.protocol.descriptor.JavaDissector#destroyDissector()
 	 */
 	@Override
 	protected void destroyDissector() {
@@ -713,7 +713,7 @@ class JavaDissectorType2 extends JavaDissector {
 	 * @param captureLength the capture length
 	 * @param wireLength    the wire length
 	 * @return the int
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDissector#dissectPacket(java.nio.ByteBuffer,
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDissector#dissectPacket(java.nio.ByteBuffer,
 	 *      long, int, int)
 	 */
 	@Override
@@ -759,7 +759,7 @@ class JavaDissectorType2 extends JavaDissector {
 	 * Reset.
 	 *
 	 * @return the packet dissector
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDissector#reset()
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDissector#reset()
 	 */
 	@Override
 	public PacketDissector reset() {
@@ -780,7 +780,7 @@ class JavaDissectorType2 extends JavaDissector {
 	 * @param l2Type the l 2 type
 	 * @return the packet dissector
 	 * @throws ProtocolException the protocol exception
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDissector#setDatalinkType(com.slytechs.jnet.protocol.core.constants.L2FrameType)
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDissector#setDatalinkType(com.slytechs.jnet.protocol.core.constants.L2FrameType)
 	 */
 	@Override
 	public PacketDissector setDatalinkType(L2FrameType l2Type) throws ProtocolException {
@@ -808,7 +808,7 @@ class JavaDissectorType2 extends JavaDissector {
 	 *
 	 * @param desc the desc
 	 * @return the int
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDissector#writeDescriptor(java.nio.ByteBuffer)
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDissector#writeDescriptor(java.nio.ByteBuffer)
 	 */
 	@Override
 	public int writeDescriptor(ByteBuffer desc) {

@@ -17,14 +17,14 @@
  */
 package com.slytechs.jnet.protocol;
 
-import static com.slytechs.jnet.protocol.packet.descriptor.CompactDescriptor.*;
+import static com.slytechs.jnet.protocol.descriptor.CompactDescriptor.*;
 
 import java.nio.ByteBuffer;
 
 import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
-import com.slytechs.jnet.protocol.packet.descriptor.CompactDescriptor;
-import com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor;
-import com.slytechs.jnet.protocol.packet.descriptor.Type1Descriptor;
+import com.slytechs.jnet.protocol.descriptor.CompactDescriptor;
+import com.slytechs.jnet.protocol.descriptor.PacketDescriptor;
+import com.slytechs.jnet.protocol.descriptor.Type1Descriptor;
 import com.slytechs.jnet.protocol.packet.meta.Meta;
 import com.slytechs.jnet.protocol.packet.meta.Meta.MetaType;
 import com.slytechs.jnet.protocol.packet.meta.MetaResource;

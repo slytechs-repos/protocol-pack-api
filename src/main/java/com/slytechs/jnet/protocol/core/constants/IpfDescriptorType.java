@@ -20,7 +20,7 @@ package com.slytechs.jnet.protocol.core.constants;
 import java.util.function.Supplier;
 
 import com.slytechs.jnet.protocol.DescriptorType;
-import com.slytechs.jnet.protocol.packet.descriptor.IpfDescriptor;
+import com.slytechs.jnet.protocol.descriptor.IpfDescriptor;
 
 /**
  * @author Sly Technologies Inc

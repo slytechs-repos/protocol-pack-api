@@ -20,7 +20,7 @@ package com.slytechs.jnet.protocol;
 import java.util.function.LongSupplier;
 
 import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
-import com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor;
+import com.slytechs.jnet.protocol.descriptor.PacketDescriptor;
 import com.slytechs.jnet.protocol.packet.meta.Meta;
 import com.slytechs.jnet.protocol.packet.meta.MetaResource;
 

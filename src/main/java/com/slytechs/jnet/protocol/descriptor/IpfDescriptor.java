@@ -15,15 +15,24 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet.descriptor;
+package com.slytechs.jnet.protocol.descriptor;
+
+import com.slytechs.jnet.protocol.Descriptor;
+import com.slytechs.jnet.protocol.core.constants.IpfDescriptorType;
 
 /**
- * The Class AbstractDissector.
- *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
+ *
  */
-public abstract class AbstractDissector implements PacketDissector {
+public class IpfDescriptor extends Descriptor {
+
+	/**
+	 * @param type
+	 */
+	public IpfDescriptor() {
+		super(IpfDescriptorType.IPF);
+	}
 
 }

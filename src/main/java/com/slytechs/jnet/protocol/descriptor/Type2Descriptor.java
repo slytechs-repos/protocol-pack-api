@@ -15,9 +15,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet.descriptor;
+package com.slytechs.jnet.protocol.descriptor;
 
-import static com.slytechs.jnet.protocol.packet.descriptor.Type2Layout.*;
+import static com.slytechs.jnet.protocol.descriptor.Type2Layout.*;
 
 import java.nio.ByteBuffer;
 
@@ -78,7 +78,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	 * Byte size.
 	 *
 	 * @return the int
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#byteSize()
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDescriptor#byteSize()
 	 */
 	@Override
 	public int byteSize() {
@@ -86,7 +86,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#captureLength()
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDescriptor#captureLength()
 	 */
 	@Override
 	public int captureLength() {
@@ -242,7 +242,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#l2FrameType()
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDescriptor#l2FrameType()
 	 */
 	@Override
 	public int l2FrameType() {
@@ -450,7 +450,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#timestamp()
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDescriptor#timestamp()
 	 */
 	@Override
 	public long timestamp() {
@@ -458,7 +458,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#buildDetailedString(java.lang.StringBuilder, com.slytechs.jnet.runtime.util.Detail)
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDescriptor#buildDetailedString(java.lang.StringBuilder, com.slytechs.jnet.runtime.util.Detail)
 	 */
 	@Override
 	public StringBuilder buildDetailedString(StringBuilder b, Detail detail) {
@@ -658,7 +658,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#wireLength()
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDescriptor#wireLength()
 	 */
 	@Override
 	public int wireLength() {

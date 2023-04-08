@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet.descriptor;
+package com.slytechs.jnet.protocol.descriptor;
 
 import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
 import com.slytechs.jnet.runtime.util.Detail;
@@ -92,7 +92,7 @@ public class Type1Descriptor extends PacketDescriptor {
 	 * Byte size.
 	 *
 	 * @return the int
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#byteSize()
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDescriptor#byteSize()
 	 */
 	@Override
 	public int byteSize() {
@@ -103,7 +103,7 @@ public class Type1Descriptor extends PacketDescriptor {
 	 * Timestamp.
 	 *
 	 * @return the long
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#timestamp()
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDescriptor#timestamp()
 	 */
 	@Override
 	public long timestamp() {
@@ -114,7 +114,7 @@ public class Type1Descriptor extends PacketDescriptor {
 	 * Capture length.
 	 *
 	 * @return the int
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#captureLength()
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDescriptor#captureLength()
 	 */
 	@Override
 	public int captureLength() {
@@ -125,7 +125,7 @@ public class Type1Descriptor extends PacketDescriptor {
 	 * Wire length.
 	 *
 	 * @return the int
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#wireLength()
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDescriptor#wireLength()
 	 */
 	@Override
 	public int wireLength() {
@@ -138,7 +138,7 @@ public class Type1Descriptor extends PacketDescriptor {
 	 * @param b      the b
 	 * @param detail the detail
 	 * @return the string builder
-	 * @see com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor#buildDetailedString(java.lang.StringBuilder,
+	 * @see com.slytechs.jnet.protocol.descriptor.PacketDescriptor#buildDetailedString(java.lang.StringBuilder,
 	 *      com.slytechs.jnet.runtime.util.Detail)
 	 */
 	@Override

@@ -15,29 +15,15 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet.descriptor;
-
-import java.nio.ByteBuffer;
+package com.slytechs.jnet.protocol.descriptor;
 
 /**
- * The Interface DissectorExtension.
+ * The Class AbstractDissector.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public interface DissectorExtension {
+public abstract class AbstractDissector implements PacketDissector {
 
-	/** The empty. */
-	DissectorExtension EMPTY = null;
-
-	/**
-	 * Dissect L 2.
-	 *
-	 * @param dlt    the dlt
-	 * @param buffer the buffer
-	 * @param offset the offset
-	 * @return the int
-	 */
-	int dissectL2(int dlt, ByteBuffer buffer, int offset);
 }

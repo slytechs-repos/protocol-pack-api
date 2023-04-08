@@ -30,7 +30,7 @@ import com.slytechs.jnet.protocol.HeaderFactory;
 import com.slytechs.jnet.protocol.HeaderNotFound;
 import com.slytechs.jnet.protocol.Packet;
 import com.slytechs.jnet.protocol.Payload;
-import com.slytechs.jnet.protocol.packet.descriptor.CompactDescriptor;
+import com.slytechs.jnet.protocol.descriptor.CompactDescriptor;
 import com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped;
 
 /**

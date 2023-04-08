@@ -10,4 +10,4 @@
  * make them available through the {@code Packet} class API.
  * </p>
  */
-package com.slytechs.jnet.protocol.packet.descriptor;
+package com.slytechs.jnet.protocol.descriptor;

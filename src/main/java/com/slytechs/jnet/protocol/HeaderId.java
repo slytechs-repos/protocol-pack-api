@@ -18,7 +18,7 @@
 package com.slytechs.jnet.protocol;
 
 import com.slytechs.jnet.protocol.core.constants.PackInfo;
-import com.slytechs.jnet.protocol.packet.descriptor.CompactDescriptor;
+import com.slytechs.jnet.protocol.descriptor.CompactDescriptor;
 
 /**
  * Various protocol and protocol ID encoding utilities.

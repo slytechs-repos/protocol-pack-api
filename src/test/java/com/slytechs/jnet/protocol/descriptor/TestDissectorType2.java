@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet.descriptor;
+package com.slytechs.jnet.protocol.descriptor;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,6 +41,9 @@ import com.slytechs.jnet.protocol.core.constants.HashType;
 import com.slytechs.jnet.protocol.core.constants.Ip4OptionInfo;
 import com.slytechs.jnet.protocol.core.constants.L2FrameType;
 import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
+import com.slytechs.jnet.protocol.descriptor.JavaDissectorType2;
+import com.slytechs.jnet.protocol.descriptor.PacketDissector;
+import com.slytechs.jnet.protocol.descriptor.Type2Descriptor;
 import com.slytechs.jnet.runtime.internal.Benchmark;
 import com.slytechs.jnet.runtime.util.Detail;
 import com.slytechs.jnet.runtime.util.HexStrings;
