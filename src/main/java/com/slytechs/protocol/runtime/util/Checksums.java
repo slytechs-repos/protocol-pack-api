@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.protocol.util;
+package com.slytechs.protocol.runtime.util;
 
 import java.nio.ByteBuffer;
 import java.util.zip.CRC32;
