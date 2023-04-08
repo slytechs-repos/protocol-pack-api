@@ -262,7 +262,7 @@ public enum Ip4Layout implements EnumBitField<Ip4Layout> {
 	 * Proxy bit field.
 	 *
 	 * @return the bit field
-	 * @see com.slytechs.jnet.layout.BitField.Proxy#proxyBitField()
+	 * @see com.slytechs.jnetpcap.pro.PacketDescriptorProxy.BitField.Proxy#proxyBitField()
 	 */
 	@Override
 	public BitField proxyBitField() {

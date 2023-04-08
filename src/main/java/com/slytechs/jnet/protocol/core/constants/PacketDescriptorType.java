@@ -17,9 +17,9 @@
  */
 package com.slytechs.jnet.protocol.core.constants;
 
-import java.util.function.IntSupplier;
 import java.util.function.Supplier;
 
+import com.slytechs.jnet.protocol.DescriptorType;
 import com.slytechs.jnet.protocol.packet.descriptor.PacketDescriptor;
 import com.slytechs.jnet.protocol.packet.descriptor.PcapDescriptor;
 import com.slytechs.jnet.protocol.packet.descriptor.Type1Descriptor;
@@ -32,7 +32,7 @@ import com.slytechs.jnet.protocol.packet.descriptor.Type2Descriptor;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public enum PacketDescriptorType implements IntSupplier {
+public enum PacketDescriptorType implements DescriptorType<PacketDescriptor> {
 
 	/** 16 bytes PCAP descriptor. */
 	PCAP(PcapDescriptor::new),
@@ -107,6 +107,7 @@ public enum PacketDescriptorType implements IntSupplier {
 	 *
 	 * @return the packet descriptor
 	 */
+	@Override
 	public PacketDescriptor newDescriptor() {
 		return factory.get();
 	}
