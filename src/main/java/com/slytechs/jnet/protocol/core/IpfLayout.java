@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet.descriptor;
+package com.slytechs.jnet.protocol.core;
 
 import static com.slytechs.jnet.runtime.internal.layout.BinaryLayout.*;
 

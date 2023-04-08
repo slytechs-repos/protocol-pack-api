@@ -15,37 +15,57 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet.descriptor;
-
-import com.slytechs.jnet.protocol.Descriptor;
-import com.slytechs.jnet.protocol.core.constants.IpfDescriptorType;
+package com.slytechs.jnet.runtime.internal.json;
 
 /**
- * A IP fragment tracking descriptor. This descriptor type, tracks IP fragments
- * as they are captured, reassembled and dispatched to program packet handlers.
- * This descriptor is supplied in addition to the regular type descriptors and
- * can forward header lookup calls for protocol resolution.
- * 
+ * The Interface JsonValue.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
-public final class IpfDescriptor extends Descriptor {
+public interface JsonValue {
 
 	/**
-	 * Instantiates a new ipf descriptor.
+	 * The Enum ValueType.
 	 */
-	public IpfDescriptor() {
-		super(IpfDescriptorType.IPF);
+	public enum ValueType {
+		
+		/** The array. */
+		ARRAY,
+		
+		/** The false. */
+		FALSE,
+		
+		/** The null. */
+		NULL,
+		
+		/** The number. */
+		NUMBER,
+		
+		/** The object. */
+		OBJECT,
+		
+		/** The string. */
+		STRING,
+		
+		/** The true. */
+		TRUE
 	}
+
+	/** The null. */
+	JsonValue NULL = new JsonNullImpl();
+	
+	/** The false. */
+	JsonValue FALSE = new JsonBooleanImpl("false");
+	
+	/** The true. */
+	JsonValue TRUE = new JsonBooleanImpl("true");
 
 	/**
-	 * @see com.slytechs.jnet.protocol.Descriptor#type()
+	 * Gets the value type.
+	 *
+	 * @return the value type
 	 */
-	@Override
-	public IpfDescriptorType type() {
-		return IpfDescriptorType.IPF;
-	}
-
+	ValueType getValueType();
 }
