@@ -41,11 +41,11 @@
 module com.slytechs.jnet.protocol.core {
 
 	exports com.slytechs.jnet.protocol;
-	exports com.slytechs.jnet.protocol.core.constants;
 	exports com.slytechs.jnet.protocol.core;
-	exports com.slytechs.jnet.protocol.util;
-	exports com.slytechs.jnet.protocol.meta;
+	exports com.slytechs.jnet.protocol.core.constants;
 	exports com.slytechs.jnet.protocol.descriptor;
+	exports com.slytechs.jnet.protocol.meta;
+	exports com.slytechs.jnet.protocol.util;
 
 	/* Private API */
 	exports com.slytechs.jnet.runtime.internal;

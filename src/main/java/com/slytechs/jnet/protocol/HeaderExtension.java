@@ -29,7 +29,7 @@ import com.slytechs.jnet.protocol.descriptor.CompactDescriptor;
  * @author Mark Bednarczyk
  * @param <T> the generic type
  */
-public abstract class ExtendableHeader<T extends Header>
+public abstract class HeaderExtension<T extends Header>
 		extends Header
 		implements HasExtension<T> {
 
@@ -61,7 +61,7 @@ public abstract class ExtendableHeader<T extends Header>
 	 *
 	 * @param id the id
 	 */
-	protected ExtendableHeader(int id) {
+	protected HeaderExtension(int id) {
 		super(id);
 	}
 

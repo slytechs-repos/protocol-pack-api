@@ -17,8 +17,8 @@
  */
 package com.slytechs.jnet.protocol.core;
 
-import com.slytechs.jnet.protocol.Descriptor;
 import com.slytechs.jnet.protocol.core.constants.IpfDescriptorType;
+import com.slytechs.jnet.protocol.descriptor.Descriptor;
 
 /**
  * A IP fragment tracking descriptor. This descriptor type, tracks IP fragments
@@ -41,7 +41,7 @@ public final class IpfDescriptor extends Descriptor {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.Descriptor#type()
+	 * @see com.slytechs.jnet.protocol.descriptor.Descriptor#type()
 	 */
 	@Override
 	public IpfDescriptorType type() {

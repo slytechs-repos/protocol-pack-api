@@ -17,7 +17,6 @@
  */
 package com.slytechs.jnet.protocol.descriptor;
 
-import com.slytechs.jnet.protocol.Descriptor;
 import com.slytechs.jnet.protocol.core.constants.IpfDescriptorType;
 
 /**

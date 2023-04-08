@@ -19,7 +19,7 @@ package com.slytechs.jnet.protocol.core.constants;
 
 import java.util.function.Supplier;
 
-import com.slytechs.jnet.protocol.DescriptorType;
+import com.slytechs.jnet.protocol.descriptor.DescriptorType;
 import com.slytechs.jnet.protocol.descriptor.IpfDescriptor;
 
 /**
@@ -52,7 +52,7 @@ public enum IpfDescriptorType implements DescriptorType<IpfDescriptor> {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.DescriptorType#getAsInt()
+	 * @see com.slytechs.jnet.protocol.descriptor.DescriptorType#getAsInt()
 	 */
 	@Override
 	public int getAsInt() {
@@ -60,7 +60,7 @@ public enum IpfDescriptorType implements DescriptorType<IpfDescriptor> {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.DescriptorType#newDescriptor()
+	 * @see com.slytechs.jnet.protocol.descriptor.DescriptorType#newDescriptor()
 	 */
 	@Override
 	public IpfDescriptor newDescriptor() {

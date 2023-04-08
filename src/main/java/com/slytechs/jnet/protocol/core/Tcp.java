@@ -17,7 +17,7 @@
  */
 package com.slytechs.jnet.protocol.core;
 
-import com.slytechs.jnet.protocol.ExtendableHeader;
+import com.slytechs.jnet.protocol.HeaderExtension;
 import com.slytechs.jnet.protocol.Packet;
 import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
 import com.slytechs.jnet.protocol.meta.Meta;
@@ -31,7 +31,7 @@ import com.slytechs.jnet.protocol.meta.MetaResource;
  */
 
 @MetaResource("tcp-meta.json")
-public final class Tcp extends ExtendableHeader<TcpOption> {
+public final class Tcp extends HeaderExtension<TcpOption> {
 
 	/** The Constant ID. */
 	public static final int ID = CoreHeaderInfo.CORE_ID_TCP;

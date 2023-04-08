@@ -19,7 +19,7 @@ package com.slytechs.jnet.protocol.core;
 
 import java.util.Objects;
 
-import com.slytechs.jnet.protocol.ExtendableHeader;
+import com.slytechs.jnet.protocol.HeaderExtension;
 import com.slytechs.jnet.protocol.Header;
 import com.slytechs.jnet.protocol.core.Ip.IpOption;
 import com.slytechs.jnet.protocol.core.constants.CoreConstants;
@@ -32,7 +32,7 @@ import com.slytechs.jnet.protocol.core.constants.CoreConstants;
  * @param <T> the generic type
  */
 //@MetaResource("ip-meta.json")
-public abstract class Ip<T extends IpOption> extends ExtendableHeader<T> {
+public abstract class Ip<T extends IpOption> extends HeaderExtension<T> {
 
 	/**
 	 * The Class IpOption.

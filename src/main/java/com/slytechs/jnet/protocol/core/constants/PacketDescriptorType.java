@@ -19,7 +19,7 @@ package com.slytechs.jnet.protocol.core.constants;
 
 import java.util.function.Supplier;
 
-import com.slytechs.jnet.protocol.DescriptorType;
+import com.slytechs.jnet.protocol.descriptor.DescriptorType;
 import com.slytechs.jnet.protocol.descriptor.PacketDescriptor;
 import com.slytechs.jnet.protocol.descriptor.PcapDescriptor;
 import com.slytechs.jnet.protocol.descriptor.Type1Descriptor;

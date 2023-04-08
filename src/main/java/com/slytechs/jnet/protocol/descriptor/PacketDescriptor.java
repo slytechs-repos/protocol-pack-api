@@ -17,7 +17,6 @@
  */
 package com.slytechs.jnet.protocol.descriptor;
 
-import com.slytechs.jnet.protocol.Descriptor;
 import com.slytechs.jnet.protocol.HeaderLookup;
 import com.slytechs.jnet.protocol.core.constants.L2FrameType;
 import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;

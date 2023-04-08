@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol;
+package com.slytechs.jnet.protocol.descriptor;
 
 import java.util.Iterator;
 import java.util.Optional;
