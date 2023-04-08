@@ -21,6 +21,8 @@ import com.slytechs.jnet.protocol.HeaderSupplier;
 
 import static com.slytechs.jnet.protocol.core.constants.PackInfo.*;
 
+import com.slytechs.jnet.protocol.Header;
+import com.slytechs.jnet.protocol.HeaderExtensionInfo;
 import com.slytechs.jnet.protocol.HeaderId;
 import com.slytechs.jnet.protocol.core.TcpOption.TcpEndOfListOption;
 import com.slytechs.jnet.protocol.core.TcpOption.TcpFastOpenOption;
@@ -29,8 +31,6 @@ import com.slytechs.jnet.protocol.core.TcpOption.TcpNoOption;
 import com.slytechs.jnet.protocol.core.TcpOption.TcpSelectiveAckOption;
 import com.slytechs.jnet.protocol.core.TcpOption.TcpTimestampOption;
 import com.slytechs.jnet.protocol.core.TcpOption.TcpWindowScaleOption;
-import com.slytechs.jnet.protocol.packet.Header;
-import com.slytechs.jnet.protocol.packet.HeaderExtensionInfo;
 
 /**
  * The Enum TcpOptionInfo.

@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet;
+package com.slytechs.jnet.protocol;
 
 import static com.slytechs.jnet.protocol.packet.descriptor.CompactDescriptor.*;
 
@@ -222,7 +222,7 @@ public final class Packet
 	 * @param depth  the depth
 	 * @return the header
 	 * @throws HeaderNotFound the header not found
-	 * @see com.slytechs.jnet.protocol.packet.HasHeader#getHeader(com.slytechs.jnet.protocol.packet.Header)
+	 * @see com.slytechs.jnet.protocol.HasHeader#getHeader(com.slytechs.jnet.protocol.Header)
 	 */
 	@Override
 	public <T extends Header> T getHeader(T header, int depth) throws HeaderNotFound {
@@ -239,7 +239,7 @@ public final class Packet
 	 * @param headerId the header id
 	 * @param depth    the depth
 	 * @return true, if successful
-	 * @see com.slytechs.jnet.protocol.packet.HasHeader#hasHeader(long)
+	 * @see com.slytechs.jnet.protocol.HasHeader#hasHeader(long)
 	 */
 	@Override
 	public final boolean hasHeader(int headerId, int depth) {
@@ -264,7 +264,7 @@ public final class Packet
 	 * @param header the header
 	 * @param depth  the depth
 	 * @return the t
-	 * @see com.slytechs.jnet.protocol.packet.HasHeader#peekHeader(com.slytechs.jnet.protocol.packet.Header,
+	 * @see com.slytechs.jnet.protocol.HasHeader#peekHeader(com.slytechs.jnet.protocol.Header,
 	 *      int)
 	 */
 	@Override

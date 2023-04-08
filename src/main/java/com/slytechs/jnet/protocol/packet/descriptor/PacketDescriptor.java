@@ -18,9 +18,9 @@
 package com.slytechs.jnet.protocol.packet.descriptor;
 
 import com.slytechs.jnet.protocol.Descriptor;
+import com.slytechs.jnet.protocol.HeaderLookup;
 import com.slytechs.jnet.protocol.core.constants.L2FrameType;
 import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
-import com.slytechs.jnet.protocol.packet.HeaderLookup;
 import com.slytechs.jnet.protocol.packet.meta.Meta;
 import com.slytechs.jnet.protocol.packet.meta.Meta.MetaType;
 import com.slytechs.jnet.runtime.time.TimestampUnit;

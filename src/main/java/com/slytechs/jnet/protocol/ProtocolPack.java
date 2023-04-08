@@ -26,10 +26,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.slytechs.jnet.protocol.core.constants.PackInfo;
-import com.slytechs.jnet.protocol.packet.Header;
-import com.slytechs.jnet.protocol.packet.HeaderExtensionInfo;
-import com.slytechs.jnet.protocol.packet.HeaderNotFound;
-import com.slytechs.jnet.protocol.packet.Other;
 
 /**
  * The Class Pack.

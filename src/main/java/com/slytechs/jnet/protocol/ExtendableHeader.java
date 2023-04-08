@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet;
+package com.slytechs.jnet.protocol;
 
 import java.nio.ByteBuffer;
 
@@ -45,7 +45,7 @@ public abstract class ExtendableHeader<T extends Header>
 	/**
 	 * On unbind.
 	 *
-	 * @see com.slytechs.jnet.protocol.packet.Header#onUnbind()
+	 * @see com.slytechs.jnet.protocol.Header#onUnbind()
 	 */
 	@Override
 	protected void onUnbind() {
@@ -72,7 +72,7 @@ public abstract class ExtendableHeader<T extends Header>
 	 * @param depth     the depth
 	 * @return the extension
 	 * @throws HeaderNotFound the header not found
-	 * @see com.slytechs.jnet.protocol.packet.HasExtension#getExtension(com.slytechs.jnet.protocol.packet.ExtendableHeader,
+	 * @see com.slytechs.jnet.protocol.HasExtension#getExtension(com.slytechs.jnet.protocol.packet.ExtendableHeader,
 	 *      int)
 	 */
 	@Override
@@ -90,7 +90,7 @@ public abstract class ExtendableHeader<T extends Header>
 	 * @param extensionId the extension id
 	 * @param depth       the depth
 	 * @return true, if successful
-	 * @see com.slytechs.jnet.protocol.packet.HasExtension#hasExtension(int, int)
+	 * @see com.slytechs.jnet.protocol.HasExtension#hasExtension(int, int)
 	 */
 	@Override
 	public boolean hasExtension(int extensionId, int depth) {
@@ -105,7 +105,7 @@ public abstract class ExtendableHeader<T extends Header>
 	 * @param extension the extension
 	 * @param depth     the depth
 	 * @return the t
-	 * @see com.slytechs.jnet.protocol.packet.HasExtension#peekExtension(com.slytechs.jnet.protocol.packet.ExtendableHeader,
+	 * @see com.slytechs.jnet.protocol.HasExtension#peekExtension(com.slytechs.jnet.protocol.packet.ExtendableHeader,
 	 *      int)
 	 */
 	@Override
@@ -137,8 +137,8 @@ public abstract class ExtendableHeader<T extends Header>
 	 * @param sourceBuffer the source buffer
 	 * @param lookup       the lookup
 	 * @param meta         the meta
-	 * @see com.slytechs.jnet.protocol.packet.Header#bindExtensionsToPacket(java.nio.ByteBuffer,
-	 *      com.slytechs.jnet.protocol.packet.HeaderLookup, int)
+	 * @see com.slytechs.jnet.protocol.Header#bindExtensionsToPacket(java.nio.ByteBuffer,
+	 *      com.slytechs.jnet.protocol.HeaderLookup, int)
 	 */
 	@Override
 	void bindExtensionsToPacket(ByteBuffer sourceBuffer, HeaderLookup lookup, int meta) {

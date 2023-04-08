@@ -19,8 +19,8 @@ package com.slytechs.jnet.protocol.packet.meta;
 
 import java.util.Optional;
 
-import com.slytechs.jnet.protocol.packet.Header;
-import com.slytechs.jnet.protocol.packet.Packet;
+import com.slytechs.jnet.protocol.Header;
+import com.slytechs.jnet.protocol.Packet;
 import com.slytechs.jnet.runtime.util.Detail;
 import com.slytechs.jnet.runtime.util.HexStrings;
 

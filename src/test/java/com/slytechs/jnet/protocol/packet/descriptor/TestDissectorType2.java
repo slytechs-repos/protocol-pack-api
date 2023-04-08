@@ -29,6 +29,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
+import com.slytechs.jnet.protocol.Packet;
 import com.slytechs.jnet.protocol.core.Ethernet;
 import com.slytechs.jnet.protocol.core.Ip4;
 import com.slytechs.jnet.protocol.core.Ip4Option.Ip4OptRouter;
@@ -40,7 +41,6 @@ import com.slytechs.jnet.protocol.core.constants.HashType;
 import com.slytechs.jnet.protocol.core.constants.Ip4OptionInfo;
 import com.slytechs.jnet.protocol.core.constants.L2FrameType;
 import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
-import com.slytechs.jnet.protocol.packet.Packet;
 import com.slytechs.jnet.runtime.internal.Benchmark;
 import com.slytechs.jnet.runtime.util.Detail;
 import com.slytechs.jnet.runtime.util.HexStrings;

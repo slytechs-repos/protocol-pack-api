@@ -19,6 +19,7 @@ package com.slytechs.jnet.protocol.core.constants;
 
 import static com.slytechs.jnet.protocol.core.constants.PackInfo.*;
 
+import com.slytechs.jnet.protocol.Header;
 import com.slytechs.jnet.protocol.HeaderId;
 import com.slytechs.jnet.protocol.HeaderSupplier;
 import com.slytechs.jnet.protocol.core.Ip6Option.Ip6AuthenticationOption;
@@ -30,7 +31,6 @@ import com.slytechs.jnet.protocol.core.Ip6Option.Ip6RoutingOption;
 import com.slytechs.jnet.protocol.core.Ip6Option.Ip6SecurityOption;
 import com.slytechs.jnet.protocol.core.Ip6Option.Ip6Shim6Option;
 import com.slytechs.jnet.protocol.core.IpOptionInfo;
-import com.slytechs.jnet.protocol.packet.Header;
 
 /**
  * The Enum Ip6OptionInfo.

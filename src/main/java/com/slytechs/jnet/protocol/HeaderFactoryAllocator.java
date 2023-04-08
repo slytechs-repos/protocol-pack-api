@@ -15,13 +15,11 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet;
+package com.slytechs.jnet.protocol;
 
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 
-import com.slytechs.jnet.protocol.HeaderId;
-import com.slytechs.jnet.protocol.ProtocolPack;
 import com.slytechs.jnet.protocol.core.constants.PackInfo;
 
 /**
@@ -42,7 +40,7 @@ class HeaderFactoryAllocator implements HeaderFactory {
 	 *
 	 * @param id the id
 	 * @return the header
-	 * @see com.slytechs.jnet.protocol.packet.HeaderFactory#get(int)
+	 * @see com.slytechs.jnet.protocol.HeaderFactory#get(int)
 	 */
 	@Override
 	public Header get(int id) {
@@ -78,7 +76,7 @@ class HeaderFactoryAllocator implements HeaderFactory {
 	 * @param primaryId   the primary id
 	 * @param extensionId the extension id
 	 * @return the extension
-	 * @see com.slytechs.jnet.protocol.packet.HeaderFactory#getExtension(int, int)
+	 * @see com.slytechs.jnet.protocol.HeaderFactory#getExtension(int, int)
 	 */
 	@Override
 	public Header getExtension(int primaryId, int extensionId) {

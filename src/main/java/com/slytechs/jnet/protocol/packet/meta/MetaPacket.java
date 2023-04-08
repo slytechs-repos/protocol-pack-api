@@ -24,12 +24,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.slytechs.jnet.protocol.packet.Frame;
-import com.slytechs.jnet.protocol.packet.Header;
-import com.slytechs.jnet.protocol.packet.HeaderFactory;
-import com.slytechs.jnet.protocol.packet.HeaderNotFound;
-import com.slytechs.jnet.protocol.packet.Packet;
-import com.slytechs.jnet.protocol.packet.Payload;
+import com.slytechs.jnet.protocol.Frame;
+import com.slytechs.jnet.protocol.Header;
+import com.slytechs.jnet.protocol.HeaderFactory;
+import com.slytechs.jnet.protocol.HeaderNotFound;
+import com.slytechs.jnet.protocol.Packet;
+import com.slytechs.jnet.protocol.Payload;
 import com.slytechs.jnet.protocol.packet.descriptor.CompactDescriptor;
 import com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped;
 

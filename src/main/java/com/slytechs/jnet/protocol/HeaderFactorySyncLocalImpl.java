@@ -15,11 +15,9 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet;
+package com.slytechs.jnet.protocol;
 
 import static com.slytechs.jnet.protocol.HeaderId.*;
-
-import com.slytechs.jnet.protocol.HeaderId;
 
 /**
  * The Class HeaderFactorySyncLocalImpl.
@@ -44,7 +42,7 @@ class HeaderFactorySyncLocalImpl implements HeaderFactory {
 	 *
 	 * @param id the id
 	 * @return the header
-	 * @see com.slytechs.jnet.protocol.packet.HeaderFactory#get(int)
+	 * @see com.slytechs.jnet.protocol.HeaderFactory#get(int)
 	 */
 	@Override
 	public Header get(int id) {
@@ -64,7 +62,7 @@ class HeaderFactorySyncLocalImpl implements HeaderFactory {
 	 * Checks if is release supported.
 	 *
 	 * @return true, if is release supported
-	 * @see com.slytechs.jnet.protocol.packet.HeaderFactory#isReleaseSupported()
+	 * @see com.slytechs.jnet.protocol.HeaderFactory#isReleaseSupported()
 	 */
 	@Override
 	public boolean isReleaseSupported() {
@@ -75,7 +73,7 @@ class HeaderFactorySyncLocalImpl implements HeaderFactory {
 	 * Release.
 	 *
 	 * @param header the header
-	 * @see com.slytechs.jnet.protocol.packet.HeaderFactory#release(com.slytechs.jnet.protocol.packet.Header)
+	 * @see com.slytechs.jnet.protocol.HeaderFactory#release(com.slytechs.jnet.protocol.Header)
 	 */
 	@Override
 	public void release(Header header) {
@@ -93,7 +91,7 @@ class HeaderFactorySyncLocalImpl implements HeaderFactory {
 	 * @param primaryId   the primary id
 	 * @param extensionId the extension id
 	 * @return the extension
-	 * @see com.slytechs.jnet.protocol.packet.HeaderFactory#getExtension(int, int)
+	 * @see com.slytechs.jnet.protocol.HeaderFactory#getExtension(int, int)
 	 */
 	@Override
 	public Header getExtension(int primaryId, int extensionId) {

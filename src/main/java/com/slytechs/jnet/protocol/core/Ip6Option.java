@@ -317,7 +317,7 @@ public class Ip6Option extends IpOption {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.packet.Header#length()
+	 * @see com.slytechs.jnet.protocol.Header#length()
 	 */
 	@Override
 	public int length() {

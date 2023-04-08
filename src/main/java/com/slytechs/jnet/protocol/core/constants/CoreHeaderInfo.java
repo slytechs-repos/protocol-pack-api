@@ -23,6 +23,11 @@ import java.util.function.Supplier;
 
 import com.slytechs.jnet.protocol.HeaderInfo;
 import com.slytechs.jnet.protocol.HeaderSupplier;
+import com.slytechs.jnet.protocol.Other;
+import com.slytechs.jnet.protocol.Payload;
+import com.slytechs.jnet.protocol.Frame;
+import com.slytechs.jnet.protocol.Header;
+import com.slytechs.jnet.protocol.HeaderExtensionInfo;
 import com.slytechs.jnet.protocol.HeaderId;
 import com.slytechs.jnet.protocol.core.Ethernet;
 import com.slytechs.jnet.protocol.core.Icmp4;
@@ -31,11 +36,6 @@ import com.slytechs.jnet.protocol.core.Ip4;
 import com.slytechs.jnet.protocol.core.Ip6;
 import com.slytechs.jnet.protocol.core.Tcp;
 import com.slytechs.jnet.protocol.core.Udp;
-import com.slytechs.jnet.protocol.packet.Frame;
-import com.slytechs.jnet.protocol.packet.Header;
-import com.slytechs.jnet.protocol.packet.HeaderExtensionInfo;
-import com.slytechs.jnet.protocol.packet.Other;
-import com.slytechs.jnet.protocol.packet.Payload;
 
 /**
  * Core protocol pack. Table of all protocols included in the core protocol

@@ -17,11 +17,11 @@
  */
 package com.slytechs.jnet.protocol.core.constants;
 
+import com.slytechs.jnet.protocol.Header;
 import com.slytechs.jnet.protocol.HeaderInfo;
 import com.slytechs.jnet.protocol.HeaderSupplier;
+import com.slytechs.jnet.protocol.Other;
 import com.slytechs.jnet.protocol.core.Ethernet;
-import com.slytechs.jnet.protocol.packet.Header;
-import com.slytechs.jnet.protocol.packet.Other;
 
 /**
  * The Enum L2FrameType.

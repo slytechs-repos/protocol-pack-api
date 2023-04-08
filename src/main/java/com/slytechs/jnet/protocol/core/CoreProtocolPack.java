@@ -18,11 +18,11 @@
 package com.slytechs.jnet.protocol.core;
 
 import com.slytechs.jnet.protocol.HeaderInfo;
+import com.slytechs.jnet.protocol.HeaderNotFound;
 import com.slytechs.jnet.protocol.ProtocolPack;
 import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
 import com.slytechs.jnet.protocol.core.constants.PackInfo;
 import com.slytechs.jnet.protocol.HeaderId;
-import com.slytechs.jnet.protocol.packet.HeaderNotFound;
 
 /**
  * The Class CorePack.

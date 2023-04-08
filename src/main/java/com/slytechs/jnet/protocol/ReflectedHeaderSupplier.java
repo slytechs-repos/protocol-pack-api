@@ -20,8 +20,6 @@ package com.slytechs.jnet.protocol;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import com.slytechs.jnet.protocol.packet.Header;
-
 /**
  * The Class ReflectedHeaderSupplier.
  *

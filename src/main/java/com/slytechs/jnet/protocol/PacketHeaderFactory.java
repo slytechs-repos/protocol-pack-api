@@ -15,14 +15,12 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet;
+package com.slytechs.jnet.protocol;
 
 import static com.slytechs.jnet.protocol.HeaderId.*;
 
 import java.util.function.Supplier;
 
-import com.slytechs.jnet.protocol.HeaderId;
-import com.slytechs.jnet.protocol.HeaderInfo;
 import com.slytechs.jnet.protocol.core.constants.PackInfo;
 
 /**
@@ -99,7 +97,7 @@ class PackHeaderFactory implements HeaderFactory {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.packet.HeaderFactory#get(int)
+	 * @see com.slytechs.jnet.protocol.HeaderFactory#get(int)
 	 */
 	@Override
 	public Header get(int id) {
@@ -111,7 +109,7 @@ class PackHeaderFactory implements HeaderFactory {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.packet.HeaderFactory#getExtension(int, int)
+	 * @see com.slytechs.jnet.protocol.HeaderFactory#getExtension(int, int)
 	 */
 	@Override
 	public Header getExtension(int primaryId, int extensionId) {

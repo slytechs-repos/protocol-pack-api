@@ -41,7 +41,7 @@ public class Type1Descriptor extends PacketDescriptor {
 	 * Checks if is header extension supported.
 	 *
 	 * @return true, if is header extension supported
-	 * @see com.slytechs.jnet.protocol.packet.HeaderLookup#isHeaderExtensionSupported()
+	 * @see com.slytechs.jnet.protocol.HeaderLookup#isHeaderExtensionSupported()
 	 */
 	@Override
 	public boolean isHeaderExtensionSupported() {
@@ -52,7 +52,7 @@ public class Type1Descriptor extends PacketDescriptor {
 	 * List headers.
 	 *
 	 * @return the long[]
-	 * @see com.slytechs.jnet.protocol.packet.HeaderLookup#listHeaders()
+	 * @see com.slytechs.jnet.protocol.HeaderLookup#listHeaders()
 	 */
 	@Override
 	public long[] listHeaders() {
@@ -65,7 +65,7 @@ public class Type1Descriptor extends PacketDescriptor {
 	 * @param id    the id
 	 * @param depth the depth
 	 * @return the long
-	 * @see com.slytechs.jnet.protocol.packet.HeaderLookup#lookupHeader(int, int)
+	 * @see com.slytechs.jnet.protocol.HeaderLookup#lookupHeader(int, int)
 	 */
 	@Override
 	public long lookupHeader(int id, int depth) {
@@ -80,7 +80,7 @@ public class Type1Descriptor extends PacketDescriptor {
 	 * @param depth           the depth
 	 * @param recordIndexHint the record index hint
 	 * @return the long
-	 * @see com.slytechs.jnet.protocol.packet.HeaderLookup#lookupHeaderExtension(int,
+	 * @see com.slytechs.jnet.protocol.HeaderLookup#lookupHeaderExtension(int,
 	 *      int, int, int)
 	 */
 	@Override

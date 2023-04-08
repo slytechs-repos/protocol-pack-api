@@ -18,15 +18,15 @@
 package com.slytechs.jnet.protocol.core.constants;
 
 import com.slytechs.jnet.protocol.HeaderSupplier;
+import com.slytechs.jnet.protocol.Other;
 
 import static com.slytechs.jnet.protocol.core.constants.PackInfo.*;
 
+import com.slytechs.jnet.protocol.Header;
+import com.slytechs.jnet.protocol.HeaderExtensionInfo;
 import com.slytechs.jnet.protocol.HeaderId;
 import com.slytechs.jnet.protocol.core.Ip4Option.Ip4OptRouter;
 import com.slytechs.jnet.protocol.core.IpOptionInfo;
-import com.slytechs.jnet.protocol.packet.Header;
-import com.slytechs.jnet.protocol.packet.HeaderExtensionInfo;
-import com.slytechs.jnet.protocol.packet.Other;
 
 /**
  * The Enum Ip4OptionInfo.
@@ -418,7 +418,7 @@ public enum Ip4OptionInfo implements IpOptionInfo {
 	 * Gets the parent header id.
 	 *
 	 * @return the parent header id
-	 * @see com.slytechs.jnet.protocol.packet.HeaderExtensionInfo#getParentHeaderId()
+	 * @see com.slytechs.jnet.protocol.HeaderExtensionInfo#getParentHeaderId()
 	 */
 	@Override
 	public int getParentHeaderId() {

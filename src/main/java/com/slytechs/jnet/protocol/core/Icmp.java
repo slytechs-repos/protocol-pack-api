@@ -19,7 +19,7 @@ package com.slytechs.jnet.protocol.core;
 
 import java.util.concurrent.locks.Lock;
 
-import com.slytechs.jnet.protocol.packet.Header;
+import com.slytechs.jnet.protocol.Header;
 
 /**
  * The Class Icmp.

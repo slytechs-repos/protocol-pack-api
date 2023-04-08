@@ -27,8 +27,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.slytechs.jnet.protocol.packet.Header;
-import com.slytechs.jnet.protocol.packet.Packet;
+import com.slytechs.jnet.protocol.Header;
+import com.slytechs.jnet.protocol.Packet;
 import com.slytechs.jnet.protocol.packet.meta.MetaContext.MetaMapped;
 
 /**

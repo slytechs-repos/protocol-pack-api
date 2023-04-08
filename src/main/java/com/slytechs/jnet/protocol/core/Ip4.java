@@ -19,11 +19,11 @@ package com.slytechs.jnet.protocol.core;
 
 import java.util.Set;
 
+import com.slytechs.jnet.protocol.Packet;
 import com.slytechs.jnet.protocol.core.constants.CoreConstants;
 import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
 import com.slytechs.jnet.protocol.core.constants.Ip4Flag;
 import com.slytechs.jnet.protocol.core.constants.IpType;
-import com.slytechs.jnet.protocol.packet.Packet;
 import com.slytechs.jnet.protocol.packet.meta.Display;
 import com.slytechs.jnet.protocol.packet.meta.Meta;
 import com.slytechs.jnet.protocol.packet.meta.Meta.MetaType;

@@ -19,10 +19,10 @@ package com.slytechs.jnet.protocol.core;
 
 import java.util.Objects;
 
+import com.slytechs.jnet.protocol.ExtendableHeader;
+import com.slytechs.jnet.protocol.Header;
 import com.slytechs.jnet.protocol.core.Ip.IpOption;
 import com.slytechs.jnet.protocol.core.constants.CoreConstants;
-import com.slytechs.jnet.protocol.packet.ExtendableHeader;
-import com.slytechs.jnet.protocol.packet.Header;
 
 /**
  * The Class Ip.
@@ -250,7 +250,7 @@ public abstract class Ip<T extends IpOption> extends ExtendableHeader<T> {
 	public abstract int version();
 
 	/**
-	 * @see com.slytechs.jnet.protocol.packet.Header#payloadLength()
+	 * @see com.slytechs.jnet.protocol.Header#payloadLength()
 	 */
 	@Override
 	public abstract int payloadLength();

@@ -15,30 +15,33 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet;
-
-import com.slytechs.jnet.protocol.HeaderInfo;
+package com.slytechs.jnet.protocol;
 
 /**
- * The Interface HeaderExtensionInfo.
+ * A factory for creating Pack objects.
+ *
+ * @author Sly Technologies Inc
+ * @author repos@slytechs.com
+ * @author Mark Bednarczyk
  */
-public interface HeaderExtensionInfo extends HeaderInfo {
-	
-	/** The empty array. */
-	HeaderExtensionInfo[] EMPTY_ARRAY = new HeaderExtensionInfo[0];
+class PackFactory {
 
 	/**
-	 * Gets the extension abbr.
-	 *
-	 * @return the extension abbr
+	 * The Class LazySupplier.
 	 */
-	String getExtensionAbbr();
+	private static class LazySupplier implements PackSupplier {
 
-	/**
-	 * Gets the parent header id.
-	 *
-	 * @return the parent header id
-	 */
-	int getParentHeaderId();
+		/**
+		 * Apply.
+		 *
+		 * @param packId the pack id
+		 * @return the pack
+		 * @see com.slytechs.jnet.protocol.PackSupplier#apply(int)
+		 */
+		@Override
+		public ProtocolPack apply(int packId) {
+			throw new UnsupportedOperationException("not implemented yet");
+		}
 
+	}
 }

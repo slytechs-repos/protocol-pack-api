@@ -15,9 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet;
-
-import com.slytechs.jnet.protocol.HeaderInfo;
+package com.slytechs.jnet.protocol;
 
 /**
  * A factory for creating Header objects.

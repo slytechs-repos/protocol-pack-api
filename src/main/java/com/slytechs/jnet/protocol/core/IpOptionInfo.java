@@ -17,7 +17,7 @@
  */
 package com.slytechs.jnet.protocol.core;
 
-import com.slytechs.jnet.protocol.packet.HeaderExtensionInfo;
+import com.slytechs.jnet.protocol.HeaderExtensionInfo;
 
 /**
  * The Interface IpOptionInfo.

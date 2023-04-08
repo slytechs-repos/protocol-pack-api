@@ -19,9 +19,9 @@ package com.slytechs.jnet.protocol.core;
 
 import java.nio.ByteBuffer;
 
+import com.slytechs.jnet.protocol.Header;
 import com.slytechs.jnet.protocol.core.constants.CoreConstants;
 import com.slytechs.jnet.protocol.core.constants.TcpOptionInfo;
-import com.slytechs.jnet.protocol.packet.Header;
 
 /**
  * The Class TcpOption.
@@ -334,7 +334,7 @@ public class TcpOption extends Header {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.packet.Header#length()
+	 * @see com.slytechs.jnet.protocol.Header#length()
 	 */
 	@Override
 	public int length() {

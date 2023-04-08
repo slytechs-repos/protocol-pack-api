@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet;
+package com.slytechs.jnet.protocol;
 
 import java.util.function.LongSupplier;
 
@@ -164,7 +164,7 @@ public final class Frame extends Header {
 	/**
 	 * On unbind.
 	 *
-	 * @see com.slytechs.jnet.protocol.packet.Header#onUnbind()
+	 * @see com.slytechs.jnet.protocol.Header#onUnbind()
 	 */
 	@Override
 	protected void onUnbind() {

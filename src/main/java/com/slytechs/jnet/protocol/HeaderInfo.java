@@ -17,8 +17,6 @@
  */
 package com.slytechs.jnet.protocol;
 
-import com.slytechs.jnet.protocol.packet.HeaderExtensionInfo;
-
 /**
  * The Interface HeaderInfo.
  */

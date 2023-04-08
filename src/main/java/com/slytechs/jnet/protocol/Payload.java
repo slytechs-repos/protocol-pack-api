@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.jnet.protocol.packet;
+package com.slytechs.jnet.protocol;
 
 import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
 import com.slytechs.jnet.protocol.packet.meta.Meta;

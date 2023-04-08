@@ -19,6 +19,8 @@ package com.slytechs.jnet.protocol.core.constants;
 
 import static com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo.*;
 
+import com.slytechs.jnet.protocol.Header;
+import com.slytechs.jnet.protocol.Payload;
 import com.slytechs.jnet.protocol.core.Ethernet;
 import com.slytechs.jnet.protocol.core.Icmp4;
 import com.slytechs.jnet.protocol.core.Icmp6;
@@ -26,8 +28,6 @@ import com.slytechs.jnet.protocol.core.Ip4;
 import com.slytechs.jnet.protocol.core.Ip6;
 import com.slytechs.jnet.protocol.core.Tcp;
 import com.slytechs.jnet.protocol.core.Udp;
-import com.slytechs.jnet.protocol.packet.Header;
-import com.slytechs.jnet.protocol.packet.Payload;
 
 /**
  * A factory for creating Core objects.

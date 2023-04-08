@@ -17,8 +17,8 @@
  */
 package com.slytechs.jnet.protocol.core;
 
+import com.slytechs.jnet.protocol.Header;
 import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
-import com.slytechs.jnet.protocol.packet.Header;
 import com.slytechs.jnet.protocol.packet.meta.Meta;
 
 /**
@@ -78,7 +78,7 @@ public class Udp extends Header {
 	}
 
 	/**
-	 * @see com.slytechs.jnet.protocol.packet.Header#length()
+	 * @see com.slytechs.jnet.protocol.Header#length()
 	 */
 	@Override
 	@Meta

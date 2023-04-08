@@ -19,12 +19,12 @@ package com.slytechs.jnet.protocol.core;
 
 import static com.slytechs.jnet.protocol.HeaderId.*;
 
+import com.slytechs.jnet.protocol.Header;
+import com.slytechs.jnet.protocol.HeaderFactory;
 import com.slytechs.jnet.protocol.HeaderInfo;
 import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
 import com.slytechs.jnet.protocol.core.constants.PackInfo;
 import com.slytechs.jnet.protocol.HeaderId;
-import com.slytechs.jnet.protocol.packet.Header;
-import com.slytechs.jnet.protocol.packet.HeaderFactory;
 
 /**
  * A factory for creating PackHeader objects.
@@ -102,7 +102,7 @@ public class PackHeaderFactory implements HeaderFactory {
 	 *
 	 * @param id the id
 	 * @return the header
-	 * @see com.slytechs.jnet.protocol.packet.HeaderFactory#get(int)
+	 * @see com.slytechs.jnet.protocol.HeaderFactory#get(int)
 	 */
 	@Override
 	public Header get(int id) {

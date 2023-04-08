@@ -26,13 +26,13 @@ import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.function.IntConsumer;
 
+import com.slytechs.jnet.protocol.HeaderExtensionInfo;
 import com.slytechs.jnet.protocol.HeaderId;
 import com.slytechs.jnet.protocol.core.constants.CoreConstants;
 import com.slytechs.jnet.protocol.core.constants.CoreHeaderInfo;
 import com.slytechs.jnet.protocol.core.constants.Ip4OptionInfo;
 import com.slytechs.jnet.protocol.core.constants.Ip6OptionInfo;
 import com.slytechs.jnet.protocol.core.constants.L2FrameType;
-import com.slytechs.jnet.protocol.packet.HeaderExtensionInfo;
 import com.slytechs.jnet.runtime.time.TimestampUnit;
 import com.slytechs.jnet.runtime.util.Bits;
 
