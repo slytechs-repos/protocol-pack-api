@@ -26,9 +26,9 @@ import com.slytechs.jnet.protocol.descriptor.CompactDescriptor;
 import com.slytechs.jnet.protocol.descriptor.PacketDescriptor;
 import com.slytechs.jnet.protocol.descriptor.Type1Descriptor;
 import com.slytechs.jnet.protocol.meta.Meta;
+import com.slytechs.jnet.protocol.meta.Meta.MetaType;
 import com.slytechs.jnet.protocol.meta.MetaResource;
 import com.slytechs.jnet.protocol.meta.PacketFormat;
-import com.slytechs.jnet.protocol.meta.Meta.MetaType;
 import com.slytechs.jnet.runtime.MemoryBinding;
 import com.slytechs.jnet.runtime.time.Timestamp;
 import com.slytechs.jnet.runtime.time.TimestampUnit;
@@ -36,7 +36,18 @@ import com.slytechs.jnet.runtime.util.Detail;
 import com.slytechs.jnet.runtime.util.HexStrings;
 
 /**
- * The Class Packet.
+ * Main packet class which encapsulates raw packet data and retains reference to
+ * descriptor information. A packet is designed to work with certain packet
+ * descriptors which allow this packet object to perform protocol header lookups
+ * for different headers
+ * 
+ * <p>
+ * Descriptors held by this packet, are daisy chained for very efficient
+ * insertion of new descriptors. Descriptors are a way network hardware and low
+ * level libraries provide information about network packets. For example, when
+ * IP fragment reassembly or tracking is enabled, additional IPF related
+ * descriptors are attached to header packet.
+ * </p>
  *
  * @author Sly Technologies
  * @author repos@slytechs.com
@@ -51,10 +62,10 @@ public final class Packet
 
 	/** The descriptor. */
 	private PacketDescriptor descriptor;
-	
+
 	/** The lookup. */
 	private final HeaderLookup lookup;
-	
+
 	/** The formatter. */
 	private PacketFormat formatter;
 
@@ -270,7 +281,7 @@ public final class Packet
 	@Override
 	public <T extends Header> T peekHeader(T header, int depth) {
 		header.unbind();
-		
+
 		int id = header.id();
 
 		if (id == CoreHeaderInfo.CORE_ID_PAYLOAD && (header instanceof Payload payload)) {

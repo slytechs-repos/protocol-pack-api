@@ -23,33 +23,36 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Supplier;
 
 import com.slytechs.jnet.protocol.meta.Meta;
-import com.slytechs.jnet.protocol.meta.PacketFormat;
 import com.slytechs.jnet.protocol.meta.Meta.MetaType;
+import com.slytechs.jnet.protocol.meta.PacketFormat;
 import com.slytechs.jnet.runtime.MemoryBinding;
 import com.slytechs.jnet.runtime.util.Detail;
 import com.slytechs.jnet.runtime.util.HexStrings;
 
 /**
- * The Class Header.
+ * A "reusable" protocol header that can be bound and unbound to data in memory.
  *
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
 public abstract class Header extends MemoryBinding {
 
-	/** The lock factory. */
+	/** The lock factory */
 	private static Supplier<Lock> LOCK_FACTORY = ReentrantLock::new;
 
-	/** The id. */
+	/** The numerical protocol header id assigned at "pack" level. */
 	protected final int id;
-	
-	/** The lock. */
+
+	/** A multipurpose lock, lazily allocated if needed */
 	private volatile Lock lock; // Lazy & concurrent allocation
 
-	/** The payload length. */
+	/** Some important header attributes */
 	private int offset, length, payloadLength;
-	
-	/** The formatter. */
+
+	/**
+	 * A pretty pring formatted, if will be used to generated {@code toString()}
+	 * output
+	 */
 	private PacketFormat formatter;
 
 	/**
@@ -73,7 +76,8 @@ public abstract class Header extends MemoryBinding {
 	}
 
 	/**
-	 * Bind header extensions and options.
+	 * Bind header extensions and options, but only if HeaderExtension is a
+	 * subclass, otherwise do nothing.
 	 *
 	 * @param sourceBuffer the source buffer or typically the buffer containing the
 	 *                     source packet
@@ -102,7 +106,9 @@ public abstract class Header extends MemoryBinding {
 	}
 
 	/**
-	 * Gets the lock.
+	 * Gets a header specific lock for synchronizing access to header fields. The
+	 * lock is initialized lazily and only when requested, otherwise the lock field
+	 * remains uninitialized.
 	 *
 	 * @return the lock
 	 */
@@ -118,9 +124,9 @@ public abstract class Header extends MemoryBinding {
 	}
 
 	/**
-	 * Id.
+	 * The protocol header's unique numerical ID assigned at the pack level.
 	 *
-	 * @return the int
+	 * @return the id
 	 */
 	@Meta(MetaType.ATTRIBUTE)
 	public final int id() {
@@ -128,9 +134,9 @@ public abstract class Header extends MemoryBinding {
 	}
 
 	/**
-	 * Length.
+	 * The header length.
 	 *
-	 * @return the int
+	 * @return length in bytes
 	 */
 	@Meta(MetaType.ATTRIBUTE)
 	public int length() {
@@ -138,7 +144,8 @@ public abstract class Header extends MemoryBinding {
 	}
 
 	/**
-	 * Name.
+	 * Name of this protocol header. If a specific header is not assigned, the
+	 * method defaults to acquiring a name from the sub-class classname.
 	 *
 	 * @return the string
 	 */
@@ -148,9 +155,9 @@ public abstract class Header extends MemoryBinding {
 	}
 
 	/**
-	 * Offset.
+	 * Offset of the begining of this header from the start of the packet.
 	 *
-	 * @return the int
+	 * @return offset in bytes
 	 */
 	@Meta(MetaType.ATTRIBUTE)
 	public final int offset() {
@@ -158,8 +165,6 @@ public abstract class Header extends MemoryBinding {
 	}
 
 	/**
-	 * On unbind.
-	 *
 	 * @see com.slytechs.jnet.runtime.MemoryBinding#onUnbind()
 	 */
 	@Override
@@ -168,9 +173,9 @@ public abstract class Header extends MemoryBinding {
 	}
 
 	/**
-	 * Payload length.
+	 * Calculated payload data length for this protocol.
 	 *
-	 * @return the int
+	 * @return length in bytes
 	 */
 	@Meta(MetaType.ATTRIBUTE)
 	public int payloadLength() {
@@ -178,9 +183,10 @@ public abstract class Header extends MemoryBinding {
 	}
 
 	/**
-	 * Payload offset.
+	 * Offset to the start of the payload for this specific protocol from the start
+	 * of the packet.
 	 *
-	 * @return the int
+	 * @return offset in bytes
 	 */
 	@Meta(MetaType.ATTRIBUTE)
 	public int payloadOffset() {
@@ -188,7 +194,10 @@ public abstract class Header extends MemoryBinding {
 	}
 
 	/**
-	 * Sets the formatter.
+	 * Sets a new data formatter for this protocol header to use in generating
+	 * {@link #toString()} method output. If the formatter is not set, the
+	 * {@link #toString()} method defaults to minimum header state information such
+	 * as offset, length, etc...
 	 *
 	 * @param formatter the new formatter
 	 */
@@ -197,9 +206,10 @@ public abstract class Header extends MemoryBinding {
 	}
 
 	/**
-	 * To string.
+	 * Generates a simple string representing the state of this header or uses the
+	 * formatter if set.
 	 *
-	 * @return the string
+	 * @return the generated string from the fields of this header
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -208,10 +218,12 @@ public abstract class Header extends MemoryBinding {
 	}
 
 	/**
-	 * To string.
+	 * Generates a simple string representing the state of this header or uses the
+	 * formatter if set.
 	 *
-	 * @param detail the detail
-	 * @return the string
+	 * @param detail generates the header string at specified detail level
+	 * @return the generated string from the fields of this header
+	 * @see java.lang.Object#toString()
 	 */
 	public String toString(Detail detail) {
 		if (formatter != null)

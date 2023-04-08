@@ -24,6 +24,8 @@ import java.util.function.Supplier;
 import com.slytechs.jnet.protocol.core.constants.PackInfo;
 
 /**
+ * Packet header implementation.
+ * 
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk

@@ -18,7 +18,10 @@
 package com.slytechs.jnet.protocol;
 
 /**
- * The Class Other.
+ * A specialized builtin header type, which allows encapsulation of any header
+ * type as long as we have offset and length information about it. This class is
+ * identical to {@link Payload} but has more specific nomenclature for "Other"
+ * or otherwise undefined, protocol header type.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com

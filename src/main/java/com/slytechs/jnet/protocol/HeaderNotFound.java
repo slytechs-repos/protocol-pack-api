@@ -20,7 +20,7 @@ package com.slytechs.jnet.protocol;
 import com.slytechs.jnet.runtime.util.NotFound;
 
 /**
- * The Class HeaderNotFound.
+ * Indicates that a requested header was not found or available.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com

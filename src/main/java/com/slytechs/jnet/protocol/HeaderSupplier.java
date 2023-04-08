@@ -18,12 +18,13 @@
 package com.slytechs.jnet.protocol;
 
 /**
- * The Interface HeaderSupplier.
+ * A functional interface to allocate a new instance of a protocol header.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
+@FunctionalInterface
 public interface HeaderSupplier {
 
 	/**

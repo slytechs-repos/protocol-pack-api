@@ -17,8 +17,11 @@
  */
 package com.slytechs.jnet.protocol;
 
+import com.slytechs.jnet.protocol.descriptor.CompactDescriptor;
+
 /**
- * The Interface HeaderLookup.
+ * Interface which defines specific lookup operations within a descriptor for
+ * different protocol headers.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
@@ -34,29 +37,36 @@ public interface HeaderLookup {
 	boolean isHeaderExtensionSupported();
 
 	/**
-	 * List headers.
+	 * List headers recorded within a descriptor or lookup source.
 	 *
-	 * @return the long[]
+	 * @return an array of {@link CompactDescriptor} encoded header IDs and other
+	 *         auxilary information such as offset and length of the header.
 	 */
 	long[] listHeaders();
 
 	/**
-	 * Lookup header.
+	 * Lookup a primary header and at specific inner tunnel depth.
 	 *
-	 * @param id    the id
-	 * @param depth the depth
-	 * @return the long
+	 * @param id    a header id
+	 * @param depth the tunnel inner depth
+	 * @return A {@link CompactDescriptor} encoded long value with information about
+	 *         the header or {@link CompactDescriptor#ID_NOT_FOUND} if header at
+	 *         depth is not found or available
 	 */
 	long lookupHeader(int id, int depth);
 
 	/**
-	 * Lookup header extension.
+	 * Lookup a header extension and at specific inner tunnel depth
 	 *
-	 * @param headerId        the header id
-	 * @param extId           the ext id
-	 * @param depth           the depth
-	 * @param recordIndexHint the record index hint
-	 * @return the long
+	 * @param headerId        the primary header id
+	 * @param extId           the header extension id
+	 * @param depth           the tunnel inner depth
+	 * @param recordIndexHint the record index hint, this information is typically
+	 *                        index of where info about this header resides within a
+	 *                        descriptor, if repeated call and available
+	 * @return A {@link CompactDescriptor} encoded long value with information about
+	 *         the header or {@link CompactDescriptor#ID_NOT_FOUND} if header at
+	 *         depth is not found or available
 	 */
 	long lookupHeaderExtension(int headerId, int extId, int depth, int recordIndexHint);
 

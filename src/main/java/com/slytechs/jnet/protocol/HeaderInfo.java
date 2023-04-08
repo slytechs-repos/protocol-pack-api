@@ -18,7 +18,7 @@
 package com.slytechs.jnet.protocol;
 
 /**
- * The Interface HeaderInfo.
+ * Interface which provides important information about a protocol header.
  */
 public interface HeaderInfo extends HeaderSupplier {
 
@@ -41,23 +41,26 @@ public interface HeaderInfo extends HeaderSupplier {
 	}
 
 	/**
-	 * Gets the header id.
+	 * Gets the numerical header id of the protocol header described by this object.
 	 *
 	 * @return the header id
 	 */
 	int getHeaderId();
 
 	/**
-	 * Name.
+	 * Name name of the protocol header.
 	 *
 	 * @return the string
 	 */
 	String name();
 
 	/**
-	 * Ordinal.
+	 * The header's definition ordinal number within this pack. Header ids and
+	 * header ordinals differ because header id has pack id and ordinal information
+	 * encoded, whereas ordinal by itself is only unique within a pack.
 	 *
-	 * @return the int
+	 * @return the ordinal number of this protocol header, unique only within a
+	 *         defining protocol pack
 	 */
 	int ordinal();
 }

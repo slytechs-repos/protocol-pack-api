@@ -18,22 +18,23 @@
 package com.slytechs.jnet.protocol;
 
 /**
- * The Interface HeaderExtensionInfo.
+ * Provides important information about a header extension in addition to
+ * {@link HeaderInfo} information.
  */
 public interface HeaderExtensionInfo extends HeaderInfo {
-	
-	/** The empty array. */
+
+	/** The empty array for efficient initialization. */
 	HeaderExtensionInfo[] EMPTY_ARRAY = new HeaderExtensionInfo[0];
 
 	/**
-	 * Gets the extension abbr.
+	 * Gets the extension abbreviation.
 	 *
-	 * @return the extension abbr
+	 * @return the extension abbreviation
 	 */
 	String getExtensionAbbr();
 
 	/**
-	 * Gets the parent header id.
+	 * Gets the parent header id for which this extension belong to.
 	 *
 	 * @return the parent header id
 	 */

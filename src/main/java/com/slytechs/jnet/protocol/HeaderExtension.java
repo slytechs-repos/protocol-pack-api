@@ -22,12 +22,12 @@ import java.nio.ByteBuffer;
 import com.slytechs.jnet.protocol.descriptor.CompactDescriptor;
 
 /**
- * The Class ExtendableHeader.
+ * A specialized header subclass implemented by all header extensions and
+ * options.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
- * @param <T> the generic type
+ * @param <T> the generic header extension type
  */
 public abstract non-sealed class HeaderExtension<T extends Header>
 		extends Header
@@ -43,7 +43,8 @@ public abstract non-sealed class HeaderExtension<T extends Header>
 	private int meta;
 
 	/**
-	 * On unbind.
+	 * Reset this header extension instance, importantly reset the reference to
+	 * sourceBuffer to release it
 	 *
 	 * @see com.slytechs.jnet.protocol.Header#onUnbind()
 	 */
@@ -66,13 +67,7 @@ public abstract non-sealed class HeaderExtension<T extends Header>
 	}
 
 	/**
-	 * Gets the extension.
-	 *
-	 * @param extension the extension
-	 * @param depth     the depth
-	 * @return the extension
-	 * @throws HeaderNotFound the header not found
-	 * @see com.slytechs.jnet.protocol.HasExtension#getExtension(com.slytechs.jnet.protocol.packet.ExtendableHeader,
+	 * @see com.slytechs.jnet.protocol.HasExtension#getExtension(com.slytechs.jnet.protocol.Header,
 	 *      int)
 	 */
 	@Override
@@ -85,11 +80,6 @@ public abstract non-sealed class HeaderExtension<T extends Header>
 	}
 
 	/**
-	 * Checks for extension.
-	 *
-	 * @param extensionId the extension id
-	 * @param depth       the depth
-	 * @return true, if successful
 	 * @see com.slytechs.jnet.protocol.HasExtension#hasExtension(int, int)
 	 */
 	@Override
@@ -100,12 +90,7 @@ public abstract non-sealed class HeaderExtension<T extends Header>
 	}
 
 	/**
-	 * Peek extension.
-	 *
-	 * @param extension the extension
-	 * @param depth     the depth
-	 * @return the t
-	 * @see com.slytechs.jnet.protocol.HasExtension#peekExtension(com.slytechs.jnet.protocol.packet.ExtendableHeader,
+	 * @see com.slytechs.jnet.protocol.HasExtension#peekExtension(com.slytechs.jnet.protocol.Header,
 	 *      int)
 	 */
 	@Override
@@ -132,11 +117,6 @@ public abstract non-sealed class HeaderExtension<T extends Header>
 	}
 
 	/**
-	 * Bind extensions to packet.
-	 *
-	 * @param sourceBuffer the source buffer
-	 * @param lookup       the lookup
-	 * @param meta         the meta
 	 * @see com.slytechs.jnet.protocol.Header#bindExtensionsToPacket(java.nio.ByteBuffer,
 	 *      com.slytechs.jnet.protocol.HeaderLookup, int)
 	 */
