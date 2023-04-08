@@ -17,14 +17,36 @@
  */
 package com.slytechs.jnet.protocol;
 
-/**
- * The Interface Address.
- *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
- * @author mark
- */
-public interface Address {
+import java.util.function.IntSupplier;
 
-	AddressType type();
+/**
+ * A constant network address type.
+ */
+public enum AddressType implements IntSupplier {
+
+	/** The ip4. */
+	IPv4,
+
+	/** The ip6. */
+	IPv6,
+
+	/** The mac. */
+	MAC,
+
+	/** The mac64. */
+	MAC64,
+
+	/** The ipx. */
+	IPX,
+
+	/** The appletalk. */
+	APPLETALK,;
+
+	/**
+	 * @see java.util.function.IntSupplier#getAsInt()
+	 */
+	@Override
+	public int getAsInt() {
+		return ordinal();
+	}
 }

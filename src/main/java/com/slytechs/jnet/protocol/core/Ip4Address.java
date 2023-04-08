@@ -17,6 +17,7 @@
  */
 package com.slytechs.jnet.protocol.core;
 
+import com.slytechs.jnet.protocol.AddressType;
 import com.slytechs.jnet.runtime.util.HexStrings;
 
 /**
@@ -57,6 +58,8 @@ public final class Ip4Address extends IpAddress {
 	 * @param address the address
 	 */
 	public Ip4Address(byte[] address) {
+		super(AddressType.IPv4);
+
 		this.bytes = address;
 
 		if (address.length != 4)

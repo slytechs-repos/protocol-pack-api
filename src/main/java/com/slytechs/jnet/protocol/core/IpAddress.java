@@ -18,6 +18,7 @@
 package com.slytechs.jnet.protocol.core;
 
 import com.slytechs.jnet.protocol.Address;
+import com.slytechs.jnet.protocol.AddressType;
 
 /**
  * The Class IpAddress.
@@ -26,6 +27,21 @@ import com.slytechs.jnet.protocol.Address;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public class IpAddress implements Address {
+public abstract class IpAddress implements Address {
+
+	private final AddressType type;
+
+	protected IpAddress(AddressType type) {
+		super();
+		this.type = type;
+	}
+
+	/**
+	 * @see com.slytechs.jnet.protocol.Address#type()
+	 */
+	@Override
+	public AddressType type() {
+		return this.type;
+	}
 
 }

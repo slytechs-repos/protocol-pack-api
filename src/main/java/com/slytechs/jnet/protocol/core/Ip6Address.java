@@ -17,6 +17,7 @@
  */
 package com.slytechs.jnet.protocol.core;
 
+import com.slytechs.jnet.protocol.AddressType;
 import com.slytechs.jnet.runtime.internal.ArrayUtils;
 import com.slytechs.jnet.runtime.util.HexStrings;
 
@@ -28,7 +29,7 @@ import com.slytechs.jnet.runtime.util.HexStrings;
  * @author mark
  */
 public final class Ip6Address extends IpAddress {
-	
+
 	/** The Constant IP6_ADDRESS_SIZE. */
 	public static final int IP6_ADDRESS_SIZE = 16;
 
@@ -65,10 +66,10 @@ public final class Ip6Address extends IpAddress {
 
 	/** The high. */
 	private final long high;
-	
+
 	/** The low. */
 	private final long low;
-	
+
 	/** The bytes. */
 	private byte[] bytes;
 
@@ -78,6 +79,7 @@ public final class Ip6Address extends IpAddress {
 	 * @param address the address
 	 */
 	public Ip6Address(byte[] address) {
+		super(AddressType.IPv6);
 
 		this.high = ArrayUtils.getLong(address, 0, true);
 		this.low = ArrayUtils.getLong(address, 8, true);
