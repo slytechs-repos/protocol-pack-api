@@ -29,12 +29,12 @@ import com.slytechs.jnet.protocol.core.constants.L2FrameType;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public class NativeDissector extends AbstractDissector {
+public class NativePacketDissector extends AbstractPacketDissector {
 
 	/**
 	 * Instantiates a new native dissector.
 	 */
-	public NativeDissector() {
+	public NativePacketDissector() {
 		// TODO Auto-generated constructor stub
 	}
 

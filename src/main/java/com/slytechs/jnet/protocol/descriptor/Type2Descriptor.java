@@ -17,7 +17,7 @@
  */
 package com.slytechs.jnet.protocol.descriptor;
 
-import static com.slytechs.jnet.protocol.descriptor.Type2Layout.*;
+import static com.slytechs.jnet.protocol.descriptor.Type2DescriptorLayout.*;
 
 import java.nio.ByteBuffer;
 

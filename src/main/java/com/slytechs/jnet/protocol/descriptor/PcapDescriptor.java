@@ -78,7 +78,7 @@ public final class PcapDescriptor extends PacketDescriptor {
 	 */
 	@Override
 	public int captureLength() {
-		return PcapLayout.CAPLEN.getUnsignedShort(buffer());
+		return PcapDescriptorLayout.CAPLEN.getUnsignedShort(buffer());
 	}
 
 	/**
@@ -105,7 +105,7 @@ public final class PcapDescriptor extends PacketDescriptor {
 	 */
 	@Override
 	public long timestamp() {
-		return PcapLayout.CAPLEN.getLong(buffer());
+		return PcapDescriptorLayout.CAPLEN.getLong(buffer());
 	}
 
 	/**
@@ -128,7 +128,7 @@ public final class PcapDescriptor extends PacketDescriptor {
 	 */
 	@Override
 	public int wireLength() {
-		return PcapLayout.WIRELEN.getUnsignedShort(buffer());
+		return PcapDescriptorLayout.WIRELEN.getUnsignedShort(buffer());
 	}
 
 	/**

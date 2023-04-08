@@ -32,7 +32,7 @@ import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Int64;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-enum Type2Layout implements BitField.Proxy {
+enum Type2DescriptorLayout implements BitField.Proxy {
 
 	/** The timestamp. */
 	TIMESTAMP("timestamp"),
@@ -149,7 +149,7 @@ enum Type2Layout implements BitField.Proxy {
 	 *
 	 * @param path the path
 	 */
-	Type2Layout(String path) {
+	Type2DescriptorLayout(String path) {
 		this.field = Struct.TYPE2_STRUCT.bitField(path);
 	}
 

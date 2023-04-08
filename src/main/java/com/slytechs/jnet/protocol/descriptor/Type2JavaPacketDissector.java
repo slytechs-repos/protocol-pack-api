@@ -18,7 +18,7 @@
 package com.slytechs.jnet.protocol.descriptor;
 
 import static com.slytechs.jnet.protocol.core.constants.CoreConstants.*;
-import static com.slytechs.jnet.protocol.descriptor.Type2Layout.*;
+import static com.slytechs.jnet.protocol.descriptor.Type2DescriptorLayout.*;
 
 import java.net.ProtocolException;
 import java.nio.ByteBuffer;
@@ -43,7 +43,7 @@ import com.slytechs.jnet.runtime.util.Bits;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-class JavaDissectorType2 extends JavaDissector {
+class Type2JavaPacketDissector extends JavaPacketDissector {
 
 	/** The Constant RECORD_START. */
 	private static final int RECORD_START = CoreConstants.DESC_TYPE2_BYTE_SIZE_MIN;
@@ -138,7 +138,7 @@ class JavaDissectorType2 extends JavaDissector {
 	/**
 	 * Instantiates a new java dissector type 2.
 	 */
-	JavaDissectorType2() {
+	Type2JavaPacketDissector() {
 		this(DissectorExtension.EMPTY);
 	}
 
@@ -147,7 +147,7 @@ class JavaDissectorType2 extends JavaDissector {
 	 *
 	 * @param context the context
 	 */
-	JavaDissectorType2(DissectorExtension context) {
+	Type2JavaPacketDissector(DissectorExtension context) {
 		this.extensions = context;
 
 		reset();
@@ -274,7 +274,7 @@ class JavaDissectorType2 extends JavaDissector {
 	/**
 	 * Destroy dissector.
 	 *
-	 * @see com.slytechs.jnet.protocol.descriptor.JavaDissector#destroyDissector()
+	 * @see com.slytechs.jnet.protocol.descriptor.JavaPacketDissector#destroyDissector()
 	 */
 	@Override
 	protected void destroyDissector() {
@@ -796,7 +796,7 @@ class JavaDissectorType2 extends JavaDissector {
 	 * @param hashType the hash type
 	 * @return the java dissector type 2
 	 */
-	public JavaDissectorType2 setHash(int hash, int hashType) {
+	public Type2JavaPacketDissector setHash(int hash, int hashType) {
 		this.hashType = hashType;
 		this.hash = hash;
 
@@ -861,15 +861,15 @@ class JavaDissectorType2 extends JavaDissector {
 
 		// Struct/Layout class has the private encoders we utilize here
 		int word2 = big
-				? Type2Layout
+				? Type2DescriptorLayout
 						.encodeWord2BE(captureLength, rxPort, txPort)
-				: Type2Layout
+				: Type2DescriptorLayout
 						.encodeWord2LE(captureLength, rxPort, txPort);
 
 		int word3 = big
-				? Type2Layout
+				? Type2DescriptorLayout
 						.encodeWord3BE(wireLength, txNow, txIgnore, txCrcOverride, txSetClock, l2Type, 0, recordCount)
-				: Type2Layout
+				: Type2DescriptorLayout
 						.encodeWord3LE(wireLength, txNow, txIgnore, txCrcOverride, txSetClock, l2Type, 0, recordCount);
 
 		// @formatter:off
@@ -891,7 +891,7 @@ class JavaDissectorType2 extends JavaDissector {
 	 *
 	 * @return the java dissector type 2
 	 */
-	public JavaDissectorType2 disableBitmaskRecording() {
+	public Type2JavaPacketDissector disableBitmaskRecording() {
 		// Turning on all bits, effectively disables bitmask checks
 		bitmask = defaultBitmask = Bits.BITS_32;
 
@@ -903,7 +903,7 @@ class JavaDissectorType2 extends JavaDissector {
 	 *
 	 * @return the java dissector type 2
 	 */
-	public JavaDissectorType2 disableExtensionRecordingForAll() {
+	public Type2JavaPacketDissector disableExtensionRecordingForAll() {
 		this.recordExtensions = false;
 
 		return this;
@@ -916,7 +916,7 @@ class JavaDissectorType2 extends JavaDissector {
 	 * @param extentionIds the extention ids
 	 * @return the java dissector type 2
 	 */
-	public JavaDissectorType2 disableExtensionRecordingFor(
+	public Type2JavaPacketDissector disableExtensionRecordingFor(
 			CoreHeaderInfo protocolId, HeaderExtensionInfo... extentionIds) {
 
 		return disableExtensionRecordingInCoreProtocol(protocolId.getHeaderId(),
@@ -932,7 +932,7 @@ class JavaDissectorType2 extends JavaDissector {
 	 * @param extensionIds the extension ids
 	 * @return the java dissector type 2
 	 */
-	public JavaDissectorType2 disableExtensionRecordingInCoreProtocol(int protocolId, int... extensionIds) {
+	public Type2JavaPacketDissector disableExtensionRecordingInCoreProtocol(int protocolId, int... extensionIds) {
 
 		if (extensionIds.length > 0) {
 			IntConsumer bitmaskSet = switch (protocolId) {

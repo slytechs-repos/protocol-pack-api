@@ -41,7 +41,7 @@ import com.slytechs.jnet.protocol.core.constants.HashType;
 import com.slytechs.jnet.protocol.core.constants.Ip4OptionInfo;
 import com.slytechs.jnet.protocol.core.constants.L2FrameType;
 import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
-import com.slytechs.jnet.protocol.descriptor.JavaDissectorType2;
+import com.slytechs.jnet.protocol.descriptor.Type2JavaPacketDissector;
 import com.slytechs.jnet.protocol.descriptor.PacketDissector;
 import com.slytechs.jnet.protocol.descriptor.Type2Descriptor;
 import com.slytechs.jnet.runtime.internal.Benchmark;
@@ -244,7 +244,7 @@ class TestDissectorType2 {
 
 		final long TIMESTAMP = System.currentTimeMillis();
 
-		JavaDissectorType2 diss2 = ((JavaDissectorType2) dissector)
+		Type2JavaPacketDissector diss2 = ((Type2JavaPacketDissector) dissector)
 //				.disableBitmaskRecording()
 //				.disableExtensionRecordingForAll()
 				.disableExtensionRecordingFor(CoreHeaderInfo.IPv4,

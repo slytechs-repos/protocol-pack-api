@@ -24,6 +24,6 @@ package com.slytechs.jnet.protocol.descriptor;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public abstract class AbstractDissector implements PacketDissector {
+public abstract class AbstractPacketDissector implements PacketDissector {
 
 }

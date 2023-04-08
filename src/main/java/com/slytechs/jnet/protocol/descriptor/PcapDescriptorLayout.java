@@ -32,7 +32,7 @@ import com.slytechs.jnet.runtime.internal.layout.PredefinedLayout.Padding;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public enum PcapLayout implements BitField.Proxy {
+public enum PcapDescriptorLayout implements BitField.Proxy {
 
 	/** The timestamp. */
 	TIMESTAMP("bitmask"),
@@ -67,7 +67,7 @@ public enum PcapLayout implements BitField.Proxy {
 	 *
 	 * @param path the path
 	 */
-	PcapLayout(String path) {
+	PcapDescriptorLayout(String path) {
 		this.field = Struct.PCAP_STRUCT.bitField(path);
 	}
 
