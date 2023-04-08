@@ -29,16 +29,16 @@ import com.slytechs.jnet.protocol.descriptor.CompactDescriptor;
  * @author Mark Bednarczyk
  * @param <T> the generic type
  */
-public abstract class HeaderExtension<T extends Header>
+public abstract non-sealed class HeaderExtension<T extends Header>
 		extends Header
 		implements HasExtension<T> {
 
 	/** The source buffer. */
 	private ByteBuffer sourceBuffer;
-	
+
 	/** The lookup. */
 	private HeaderLookup lookup;
-	
+
 	/** The meta. */
 	private int meta;
 
