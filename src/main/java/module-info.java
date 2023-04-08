@@ -38,30 +38,30 @@
  * @author mark
  * @author repos@slytechs.com
  */
-module com.slytechs.jnet.protocol.core {
+module com.slytechs.protocol {
 
-	exports com.slytechs.jnet.protocol;
-	exports com.slytechs.jnet.protocol.core;
-	exports com.slytechs.jnet.protocol.core.constants;
-	exports com.slytechs.jnet.protocol.descriptor;
-	exports com.slytechs.jnet.protocol.meta;
-	exports com.slytechs.jnet.protocol.util;
+	exports com.slytechs.protocol;
+	exports com.slytechs.protocol.pack.core;
+	exports com.slytechs.protocol.pack.core.constants;
+	exports com.slytechs.protocol.descriptor;
+	exports com.slytechs.protocol.meta;
+	exports com.slytechs.protocol.util;
 
 	/* Private API */
-	exports com.slytechs.jnet.runtime.internal;
-	exports com.slytechs.jnet.runtime.internal.layout;
-	exports com.slytechs.jnet.runtime.internal.foreign;
-	exports com.slytechs.jnet.runtime.internal.concurrent;
-	exports com.slytechs.jnet.runtime.internal.json to
-			com.slytechs.jnet.protocol.core,
+	exports com.slytechs.protocol.runtime.internal;
+	exports com.slytechs.protocol.runtime.internal.layout;
+	exports com.slytechs.protocol.runtime.internal.foreign;
+	exports com.slytechs.protocol.runtime.internal.concurrent;
+	exports com.slytechs.protocol.runtime.internal.json to
+			com.slytechs.protocol,
 			com.slytechs.jnet.protocol.web;
 
 	/* Public API */
-	exports com.slytechs.jnet.runtime;
-	exports com.slytechs.jnet.runtime.time;
-	exports com.slytechs.jnet.runtime.util;
-	exports com.slytechs.jnet.runtime.internal.util.function;
-	exports com.slytechs.jnet.runtime.internal.util.format;
+	exports com.slytechs.protocol.runtime;
+	exports com.slytechs.protocol.runtime.time;
+	exports com.slytechs.protocol.runtime.util;
+	exports com.slytechs.protocol.runtime.internal.util.function;
+	exports com.slytechs.protocol.runtime.internal.util.format;
 
 	requires java.logging;
 }
