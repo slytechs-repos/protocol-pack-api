@@ -8,7 +8,7 @@ The module is currently almost ready for initial API delopment. Please see [pull
 This module, **core-protocols** is an extension module which provides protocol level support for one of the main public APIs. You need to setup your application using either **jnetpcap-pro** or **jnetwork** modules which provide the main APIs for building applications using any of the protocol packs.
 
 ## What's inside
-The mdule provides support for the following services:
+The **core-protocols** module provides support for the following services:
 - Runtime support for all of the modules using combination of public and private APIs
   - Private APIs are exported to other modules and provide common implementation features across all modules
 - Raw packet dissection
