@@ -85,9 +85,9 @@ import com.slytechs.protocol.runtime.NotFound;
 public interface PackId {
 
 	// @formatter:off
-	int PACK_MASK_ORDINAL  = 0x0000003F; // 05:00 - 6 bits, protocol number
-	int PACK_MASK_PACK     = 0x000003C0; // 09:06 - 4 bits, protocol pack number
-	int PACK_MASK_UNPACK   = 0x000003FF; // 09:00 - Pack + Ordinal
+	int PACK_MASK_ORDINAL  = 0x0000003F;  // 05:00 - 6 bits, protocol number
+	int PACK_MASK_PACK     = 0x000003C0;  // 09:06 - 4 bits, protocol pack number
+	int PACK_MASK_UNPACK   = 0x000003FF;  // 09:00 - Pack + Ordinal
 	int RECORD_MASK_ORDINAL = 0x0000003F; // 05:00 - 6 bits, protocol number
 	int RECORD_MASK_PACK    = 0x000003C0; // 09:06 - 4 bits, protocol pack number
 	int RECORD_MASK_UNPACK  = 0x000003FF; // 09:00 - Pack + Ordinal

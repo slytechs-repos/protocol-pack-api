@@ -52,7 +52,7 @@ import com.slytechs.protocol.pack.core.constants.CoreIdTable;
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
-public class Ip6 extends Ip<Ip6Option> {
+public final class Ip6 extends Ip<Ip6Option> {
 
 	/** The Constant ID. */
 	public static final int ID = CoreIdTable.CORE_ID_IPv6;

@@ -57,7 +57,7 @@ import com.slytechs.protocol.pack.core.constants.IpType;
  * @author repos@slytechs.com
  */
 @MetaResource("ip4-meta.json")
-public class Ip4 extends Ip<Ip4Option> {
+public final class Ip4 extends Ip<Ip4Option> {
 
 	/** The Constant ID. */
 	public static final int ID = CoreIdTable.CORE_ID_IPv4;
