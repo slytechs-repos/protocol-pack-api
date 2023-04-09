@@ -22,7 +22,7 @@ import static com.slytechs.protocol.HeaderId.*;
 /**
  * Protocol pack definitions. A protocol pack contains a number of protocol ID
  * constants, which are defined in their constant tables i.e.
- * {@link CoreHeaderInfo}.
+ * {@link CoreHeaders}.
  * 
  * <p>
  * A protocol ID is a 32-bit value which is made up of 3 parts, where 1st part

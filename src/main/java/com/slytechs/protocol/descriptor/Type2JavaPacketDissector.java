@@ -29,7 +29,7 @@ import java.util.function.IntConsumer;
 import com.slytechs.protocol.HeaderExtensionInfo;
 import com.slytechs.protocol.HeaderId;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
-import com.slytechs.protocol.pack.core.constants.CoreHeaderInfo;
+import com.slytechs.protocol.pack.core.constants.CoreHeaders;
 import com.slytechs.protocol.pack.core.constants.Ip4OptionInfo;
 import com.slytechs.protocol.pack.core.constants.Ip6OptionInfo;
 import com.slytechs.protocol.pack.core.constants.L2FrameType;
@@ -296,13 +296,13 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 		if (type > ETHER_MIN_VALUE_FOR_TYPE) {
 			// Ethernet2 frame type
 
-			addRecord(CoreHeaderInfo.CORE_ID_ETHER, 0, CoreConstants.ETHER_HEADER_LEN);
+			addRecord(CoreHeaders.CORE_ID_ETHER, 0, CoreConstants.ETHER_HEADER_LEN);
 			l2Type = L2FrameType.L2_FRAME_TYPE_ETHER;
 
 		} else if (hasRemaining(offset, LLC_HEADER_LEN)) { // Nope 802.3 frame
 			// THE 802.2 LOGICAL LINK CONTROL (LLC) HEADER
 
-			addRecord(CoreHeaderInfo.CORE_ID_LLC, offset, CoreConstants.LLC_HEADER_LEN);
+			addRecord(CoreHeaders.CORE_ID_LLC, offset, CoreConstants.LLC_HEADER_LEN);
 			l2Type = L2FrameType.L2_FRAME_TYPE_LLC;
 			int dsap = Byte.toUnsignedInt(buf.get(offset + LLC_FIELD_DSAP));
 			int ssap = Byte.toUnsignedInt(buf.get(offset + LLC_FIELD_SSAP));
@@ -316,7 +316,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 					&& hasRemaining(offset, SNAP_HEADER_LEN)) { // Snap + Frame = SNAP
 				// THE SUB-NETWORK ACCESS PROTOCOL (SNAP) HEADER
 
-				addRecord(CoreHeaderInfo.CORE_ID_SNAP, offset, CoreConstants.SNAP_HEADER_LEN);
+				addRecord(CoreHeaders.CORE_ID_SNAP, offset, CoreConstants.SNAP_HEADER_LEN);
 				l2Type = L2FrameType.L2_FRAME_TYPE_SNAP;
 				type = buf.getShort(offset + SNAP_FIELD_TYPE);
 				int oui = buf.getInt(offset + SNAP_FIELD_OUI) >> 8;
@@ -348,7 +348,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 			break;
 
 		case ETHER_TYPE_VLAN:
-			if (addRecord(CoreHeaderInfo.CORE_ID_VLAN, offset, VLAN_HEADER_LEN)) {
+			if (addRecord(CoreHeaders.CORE_ID_VLAN, offset, VLAN_HEADER_LEN)) {
 				offset += VLAN_FIELD_LEN_TCI; // Tag Control Information (2 bytes)
 				dissectEthType(offset);
 			}
@@ -368,7 +368,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 				int label = buf.getInt(offset);
 				bottomOfstack = (label & MPLS_BITMASK_BOTTOM) != 0;
 
-				if (!addRecord(CoreHeaderInfo.CORE_ID_MPLS, offset, MPLS_HEADER_LEN))
+				if (!addRecord(CoreHeaders.CORE_ID_MPLS, offset, MPLS_HEADER_LEN))
 					return;
 
 				offset += MPLS_HEADER_LEN; // MPLS header length
@@ -386,7 +386,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 	 * @param offset the offset
 	 */
 	private void dissectIpx(int offset) {
-		addRecord(CoreHeaderInfo.CORE_ID_IPX, offset, CoreConstants.IPX_HEADER_LEN);
+		addRecord(CoreHeaders.CORE_ID_IPX, offset, CoreConstants.IPX_HEADER_LEN);
 	}
 
 	/**
@@ -443,7 +443,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 		case ICMPv6_TYPE_TIME_EXEEDED:
 		case ICMPv6_TYPE_PARAMETER_PROBLEM:
 			len = 8;
-			if (!addRecord(CoreHeaderInfo.CORE_ID_ICMPv6, offset, len))
+			if (!addRecord(CoreHeaders.CORE_ID_ICMPv6, offset, len))
 				return;
 			offset += len;
 			dissectIp(offset);
@@ -452,31 +452,31 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 		case ICMPv6_TYPE_ECHO_REQUEST:
 		case ICMPv6_TYPE_ECHO_REPLY:
 			len = 8;
-			addRecord(CoreHeaderInfo.CORE_ID_ICMPv6, offset, len);
+			addRecord(CoreHeaders.CORE_ID_ICMPv6, offset, len);
 			return;
 
 		case ICMPv6_TYPE_ROUTER_SOLICITATION:
 			len = 8;
-			addRecord(CoreHeaderInfo.CORE_ID_ICMPv6, offset, len);
+			addRecord(CoreHeaders.CORE_ID_ICMPv6, offset, len);
 			// TODO: parse options
 			break;
 
 		case ICMPv6_TYPE_ROUTER_ADVERTISEMENT:
 			len = 16;
-			addRecord(CoreHeaderInfo.CORE_ID_ICMPv6, offset, len);
+			addRecord(CoreHeaders.CORE_ID_ICMPv6, offset, len);
 			// TODO: parse options
 			break;
 
 		case ICMPv6_TYPE_NEIGHBOR_SOLICITATION:
 		case ICMPv6_TYPE_NEIGHBOR_ADVERTISEMENT:
 			len = 24;
-			addRecord(CoreHeaderInfo.CORE_ID_ICMPv6, offset, len);
+			addRecord(CoreHeaders.CORE_ID_ICMPv6, offset, len);
 			// TODO: parse options
 			break;
 
 		case ICMPv6_TYPE_REDIRECT:
 			len = 40;
-			addRecord(CoreHeaderInfo.CORE_ID_ICMPv6, offset, len);
+			addRecord(CoreHeaders.CORE_ID_ICMPv6, offset, len);
 			// TODO: parse options
 			break;
 
@@ -495,7 +495,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 		case ICMPv6_TYPE_MOBILE_PREFIX_SOLICITATION:
 		case ICMPv6_TYPE_MOBILE_PREFIX_ADVERTISEMENT:
 			len = 4;
-			addRecord(CoreHeaderInfo.CORE_ID_ICMPv6, offset, len);
+			addRecord(CoreHeaders.CORE_ID_ICMPv6, offset, len);
 			return;
 		}
 	}
@@ -512,7 +512,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 		EXIT: while (nextHeader != -1) {
 			switch (nextHeader) {
 			case IP_TYPE_ICMPv4:
-				addRecord(CoreHeaderInfo.CORE_ID_ICMPv4, offset, CoreConstants.ICMPv4_HEADER_LEN);
+				addRecord(CoreHeaders.CORE_ID_ICMPv4, offset, CoreConstants.ICMPv4_HEADER_LEN);
 
 				break EXIT;
 
@@ -526,13 +526,13 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 					r0 = buf.get(offset + CoreConstants.TCP_FIELD_IHL);
 					len = ((r0 >> 4) & Bits.BITS_04) << 2;
 
-					addRecord(CoreHeaderInfo.CORE_ID_TCP, offset, len);
+					addRecord(CoreHeaders.CORE_ID_TCP, offset, len);
 				}
 
 				break EXIT;
 
 			case IP_TYPE_UDP:
-				addRecord(CoreHeaderInfo.CORE_ID_UDP, offset, CoreConstants.UDP_HEADER_LEN);
+				addRecord(CoreHeaders.CORE_ID_UDP, offset, CoreConstants.UDP_HEADER_LEN);
 
 				break EXIT;
 
@@ -546,12 +546,12 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 					r0 = buf.getShort(offset + 0);
 					len = calculateGreHeaderLength((short) r0);
 
-					addRecord(CoreHeaderInfo.CORE_ID_GRE, offset, len);
+					addRecord(CoreHeaders.CORE_ID_GRE, offset, len);
 				}
 				break EXIT;
 
 			case IP_TYPE_SCTP:
-				addRecord(CoreHeaderInfo.CORE_ID_SCTP, offset, CoreConstants.SCTP_HEADER_LEN);
+				addRecord(CoreHeaders.CORE_ID_SCTP, offset, CoreConstants.SCTP_HEADER_LEN);
 				break EXIT;
 
 			case IP_TYPE_ICMPv6:
@@ -629,7 +629,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 		final int ip6RecordIndex = recordCount;
 		final int ip6OffsetStart = offset;
 
-		if (!addRecord(CoreHeaderInfo.CORE_ID_IPv6, offset, IPv6_HEADER_LEN))
+		if (!addRecord(CoreHeaders.CORE_ID_IPv6, offset, IPv6_HEADER_LEN))
 			return;
 
 		int extLen = 0;
@@ -668,7 +668,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 
 		} // End LOOP:
 
-		if ((extLen > 0) && !updateRecord(ip6RecordIndex, CoreHeaderInfo.CORE_ID_IPv6,
+		if ((extLen > 0) && !updateRecord(ip6RecordIndex, CoreHeaders.CORE_ID_IPv6,
 				ip6OffsetStart, IPv6_HEADER_LEN + extLen))
 			return;
 
@@ -694,7 +694,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 			len = ((r0 >> 0) & Bits.BITS_04) << 2;
 			nextHeader = buf.get(offset + IPv4_FIELD_PROTOCOL);
 
-			if (!addRecord(CoreHeaderInfo.CORE_ID_IPv4, offset, len))
+			if (!addRecord(CoreHeaders.CORE_ID_IPv4, offset, len))
 				return;
 
 			dissectIp4Options(offset, len, nextHeader);
@@ -917,7 +917,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 	 * @return the java dissector type 2
 	 */
 	public Type2JavaPacketDissector disableExtensionRecordingFor(
-			CoreHeaderInfo protocolId, HeaderExtensionInfo... extentionIds) {
+			CoreHeaders protocolId, HeaderExtensionInfo... extentionIds) {
 
 		return disableExtensionRecordingInCoreProtocol(protocolId.getHeaderId(),
 				Arrays.stream(extentionIds)
@@ -936,9 +936,9 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 
 		if (extensionIds.length > 0) {
 			IntConsumer bitmaskSet = switch (protocolId) {
-			case CoreHeaderInfo.CORE_ID_IPv4 -> id -> ip4DisableBitmask = HeaderId.bitmaskSet(ip4DisableBitmask, id);
-			case CoreHeaderInfo.CORE_ID_IPv6 -> id -> ip6DisableBitmask = HeaderId.bitmaskSet(ip6DisableBitmask, id);
-			case CoreHeaderInfo.CORE_ID_TCP -> id -> tcpDisableBitmask = HeaderId.bitmaskSet(tcpDisableBitmask, id);
+			case CoreHeaders.CORE_ID_IPv4 -> id -> ip4DisableBitmask = HeaderId.bitmaskSet(ip4DisableBitmask, id);
+			case CoreHeaders.CORE_ID_IPv6 -> id -> ip6DisableBitmask = HeaderId.bitmaskSet(ip6DisableBitmask, id);
+			case CoreHeaders.CORE_ID_TCP -> id -> tcpDisableBitmask = HeaderId.bitmaskSet(tcpDisableBitmask, id);
 			default -> id -> {};
 			};
 
@@ -948,9 +948,9 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 		} else {
 			/* If no specifics extensions specified, disable them all */
 			switch (protocolId) {
-			case CoreHeaderInfo.CORE_ID_IPv4 -> ip4DisableBitmask = Bits.BITS_32;
-			case CoreHeaderInfo.CORE_ID_IPv6 -> ip6DisableBitmask = Bits.BITS_32;
-			case CoreHeaderInfo.CORE_ID_TCP -> tcpDisableBitmask = Bits.BITS_32;
+			case CoreHeaders.CORE_ID_IPv4 -> ip4DisableBitmask = Bits.BITS_32;
+			case CoreHeaders.CORE_ID_IPv6 -> ip6DisableBitmask = Bits.BITS_32;
+			case CoreHeaders.CORE_ID_TCP -> tcpDisableBitmask = Bits.BITS_32;
 			};
 		}
 

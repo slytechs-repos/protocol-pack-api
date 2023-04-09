@@ -25,7 +25,6 @@ package com.slytechs.protocol;
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
 public final class Other extends Payload {
 
@@ -33,6 +32,7 @@ public final class Other extends Payload {
 	 * Instantiates a new other.
 	 */
 	public Other() {
+		super();
 	}
 
 }

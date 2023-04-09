@@ -23,7 +23,7 @@ import com.slytechs.protocol.Header;
 import com.slytechs.protocol.HeaderFactory;
 import com.slytechs.protocol.HeaderId;
 import com.slytechs.protocol.HeaderInfo;
-import com.slytechs.protocol.pack.core.constants.CoreHeaderInfo;
+import com.slytechs.protocol.pack.core.constants.CoreHeaders;
 import com.slytechs.protocol.pack.core.constants.PackInfo;
 
 /**
@@ -91,7 +91,7 @@ public class PackHeaderFactory implements HeaderFactory {
 		for (int i = 0; i < table.length; i++)
 			table[i] = LazySupplier.EMPTY;
 
-		CoreHeaderInfo[] core = CoreHeaderInfo.values();
+		CoreHeaders[] core = CoreHeaders.values();
 		for (int i = 0; i < core.length; i++)
 			table[i] = new LazySupplier(core[i]);
 

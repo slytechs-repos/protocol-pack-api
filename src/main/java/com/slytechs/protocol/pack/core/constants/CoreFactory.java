@@ -17,7 +17,7 @@
  */
 package com.slytechs.protocol.pack.core.constants;
 
-import static com.slytechs.protocol.pack.core.constants.CoreHeaderInfo.*;
+import static com.slytechs.protocol.pack.core.constants.CoreHeaders.*;
 
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.Payload;

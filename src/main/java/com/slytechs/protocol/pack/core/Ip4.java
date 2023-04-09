@@ -25,7 +25,7 @@ import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
-import com.slytechs.protocol.pack.core.constants.CoreHeaderInfo;
+import com.slytechs.protocol.pack.core.constants.CoreHeaders;
 import com.slytechs.protocol.pack.core.constants.Ip4Flag;
 import com.slytechs.protocol.pack.core.constants.IpType;
 
@@ -39,7 +39,7 @@ import com.slytechs.protocol.pack.core.constants.IpType;
 public class Ip4 extends Ip<Ip4Option> {
 	
 	/** The Constant ID. */
-	public static final int ID = CoreHeaderInfo.CORE_ID_IPv4;
+	public static final int ID = CoreHeaders.CORE_ID_IPv4;
 
 	/**
 	 * Instantiates a new ip 4.

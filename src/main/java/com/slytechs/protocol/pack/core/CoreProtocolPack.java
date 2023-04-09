@@ -21,7 +21,7 @@ import com.slytechs.protocol.HeaderId;
 import com.slytechs.protocol.HeaderInfo;
 import com.slytechs.protocol.HeaderNotFound;
 import com.slytechs.protocol.ProtocolPack;
-import com.slytechs.protocol.pack.core.constants.CoreHeaderInfo;
+import com.slytechs.protocol.pack.core.constants.CoreHeaders;
 import com.slytechs.protocol.pack.core.constants.PackInfo;
 
 /**
@@ -31,7 +31,7 @@ import com.slytechs.protocol.pack.core.constants.PackInfo;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public final class CoreProtocolPack extends ProtocolPack<CoreHeaderInfo> {
+public final class CoreProtocolPack extends ProtocolPack<CoreHeaders> {
 
 	/** Core Protocol Pack singleton definition. */
 	private static final CoreProtocolPack SINGLETON = new CoreProtocolPack();
@@ -49,7 +49,7 @@ public final class CoreProtocolPack extends ProtocolPack<CoreHeaderInfo> {
 	 * Pack definitions are designed to be singltons.
 	 */
 	private CoreProtocolPack() {
-		super(PackInfo.CORE, CoreHeaderInfo.values());
+		super(PackInfo.CORE, CoreHeaders.values());
 	}
 
 	/**
@@ -68,13 +68,13 @@ public final class CoreProtocolPack extends ProtocolPack<CoreHeaderInfo> {
 			throw new HeaderNotFound("invalid pack id [%d] not applicable to [%s] pack"
 					.formatted(packId, super.getPackName()));
 
-		var headers = CoreHeaderInfo.values();
+		var headers = CoreHeaders.values();
 
 		if (hdrOrdinal > headers.length)
 			throw new HeaderNotFound("header id [%d] in [%s] pack"
 					.formatted(id, super.getPackName()));
 
-		return CoreHeaderInfo.values()[hdrOrdinal];
+		return CoreHeaders.values()[hdrOrdinal];
 	}
 
 }

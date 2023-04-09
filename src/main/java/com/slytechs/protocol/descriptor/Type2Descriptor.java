@@ -25,7 +25,7 @@ import com.slytechs.protocol.HeaderId;
 import com.slytechs.protocol.HeaderInfo;
 import com.slytechs.protocol.ProtocolPack;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
-import com.slytechs.protocol.pack.core.constants.CoreHeaderInfo;
+import com.slytechs.protocol.pack.core.constants.CoreHeaders;
 import com.slytechs.protocol.pack.core.constants.HashType;
 import com.slytechs.protocol.pack.core.constants.L2FrameType;
 import com.slytechs.protocol.pack.core.constants.PackInfo;
@@ -302,7 +302,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	 */
 	@Override
 	public long lookupHeader(int headerId, int depth) {
-		if (headerId == CoreHeaderInfo.CORE_ID_PAYLOAD)
+		if (headerId == CoreHeaders.CORE_ID_PAYLOAD)
 			return lookupPayloadEntirePacket();
 
 		final int mask = bitmask();
@@ -347,7 +347,7 @@ public class Type2Descriptor extends PacketDescriptor {
 			final int record = record(i);
 
 			if (HeaderId.recordEqualsId(record, headerId) && (depth-- == 0)) {
-				if (extId == CoreHeaderInfo.CORE_ID_PAYLOAD)
+				if (extId == CoreHeaders.CORE_ID_PAYLOAD)
 					return lookupPayload(record);
 
 				return lookupExtension(extId, i + 1, recordCount);
@@ -368,7 +368,7 @@ public class Type2Descriptor extends PacketDescriptor {
 		int len = HeaderId.decodeRecordSize(record);
 		int poff = off + len;
 
-		return CompactDescriptor.encode(CoreHeaderInfo.CORE_ID_PAYLOAD, poff, captureLength() - poff);
+		return CompactDescriptor.encode(CoreHeaders.CORE_ID_PAYLOAD, poff, captureLength() - poff);
 	}
 
 	/**
@@ -377,7 +377,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	 * @return the long
 	 */
 	private long lookupPayloadEntirePacket() {
-		return CompactDescriptor.encode(CoreHeaderInfo.CORE_ID_PAYLOAD, 0, captureLength());
+		return CompactDescriptor.encode(CoreHeaders.CORE_ID_PAYLOAD, 0, captureLength());
 	}
 
 	/**

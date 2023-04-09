@@ -19,19 +19,33 @@ package com.slytechs.protocol;
 
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.MetaResource;
-import com.slytechs.protocol.pack.core.constants.CoreHeaderInfo;
+import com.slytechs.protocol.pack.core.constants.CoreHeaders;
 
 /**
- * The Class Payload.
+ * A builtin model of a payload. A payload may be applied to a {@link Packet} or
+ * any of the headers or extensions. A payload will be bound to data portion of
+ * either a packet or a header.
+ * 
+ * <p>
+ * For packets, payload will bound to the packet's data contents starting at the
+ * first byte past the last header until the end of the packet, allowing generic
+ * access to the data payload portion of the packet.
+ * </p>
+ * <p>
+ * For headers, payload will be bound to the data portion just past the header.
+ * Another words a payload will be bound to the first byte past the header and
+ * until the last byte of the packet or data length defined by the header, if a
+ * header specifies included data length.
+ * </p>
  *
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
 @MetaResource("payload-meta.json")
 public sealed class Payload extends Header permits Other {
-	
+
 	/** The Constant ID. */
-	public static final int ID = CoreHeaderInfo.CORE_ID_PAYLOAD;
+	public static final int ID = CoreHeaders.CORE_ID_PAYLOAD;
 
 	/**
 	 * Instantiates a new payload.
@@ -41,9 +55,9 @@ public sealed class Payload extends Header permits Other {
 	}
 
 	/**
-	 * Data.
+	 * Copies the payload contents to a new array.
 	 *
-	 * @return the byte[]
+	 * @return array containing copy of the payload contents
 	 */
 	@Meta
 	public byte[] data() {
@@ -55,22 +69,22 @@ public sealed class Payload extends Header permits Other {
 	}
 
 	/**
-	 * Data.
+	 * Copies the payload contents to the supplied array.
 	 *
-	 * @param dst the dst
-	 * @return the int
+	 * @param dst the destination array where to copy the contents
+	 * @return number of bytes copied into the array
 	 */
 	public int data(byte[] dst) {
 		return data(dst, 0, dst.length);
 	}
 
 	/**
-	 * Data.
+	 * Copies the payload contents to the supplied array.
 	 *
-	 * @param dst    the dst
-	 * @param offset the offset
-	 * @param length the length
-	 * @return the int
+	 * @param dst    the destination array where to copy the contents
+	 * @param offset the offset into the destination array of the start of the copy
+	 * @param length number of bytes to copy from payload to dst array
+	 * @return number of bytes copied into the array
 	 */
 	public int data(byte[] dst, int offset, int length) {
 		if (offset + length > length())

@@ -21,7 +21,7 @@ import com.slytechs.protocol.HeaderExtension;
 import com.slytechs.protocol.Packet;
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.MetaResource;
-import com.slytechs.protocol.pack.core.constants.CoreHeaderInfo;
+import com.slytechs.protocol.pack.core.constants.CoreHeaders;
 
 /**
  * The Class Tcp.
@@ -34,7 +34,7 @@ import com.slytechs.protocol.pack.core.constants.CoreHeaderInfo;
 public final class Tcp extends HeaderExtension<TcpOption> {
 
 	/** The Constant ID. */
-	public static final int ID = CoreHeaderInfo.CORE_ID_TCP;
+	public static final int ID = CoreHeaders.CORE_ID_TCP;
 	
 	/** The Constant FLAGS_FORMAT. */
 	private static final String FLAGS_FORMAT = "..B WEUA PRSF";

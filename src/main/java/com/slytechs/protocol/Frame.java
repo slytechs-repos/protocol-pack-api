@@ -22,40 +22,49 @@ import java.util.function.LongSupplier;
 import com.slytechs.protocol.descriptor.PacketDescriptor;
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.MetaResource;
-import com.slytechs.protocol.pack.core.constants.CoreHeaderInfo;
+import com.slytechs.protocol.pack.core.constants.CoreHeaders;
 
 /**
- * The Class Frame.
+ * Frames are small parts of a message in the network.
  *
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
 @MetaResource("frame-meta.json") // in src/main/resource
 public final class Frame extends Header {
-	
-	/** The Constant ID. */
-	public static final int ID = CoreHeaderInfo.CORE_ID_FRAME;
 
 	/**
-	 * The Interface FrameNumber.
+	 * A supplier of frame numbers.
 	 */
 	public interface FrameNumber {
 
 		/**
-		 * Of.
+		 * New frame number supplier starting at 0 frame number.
 		 *
-		 * @return the frame number
+		 * @return the frame number supplier
 		 */
 		static FrameNumber of() {
 			return starting(0);
 		}
 
 		/**
-		 * Starting.
+		 * New frame number supplier starting at specified starting frame number.
 		 *
-		 * @param startingNo the starting no
-		 * @param onRollOver the on roll over
-		 * @return the frame number
+		 * @param startingNo the starting frame number
+		 * @return the frame number supplier
+		 */
+		static FrameNumber starting(long startingNo) {
+			return starting(startingNo, () -> 0);
+		}
+
+		/**
+		 * New frame number supplier starting at specified starting frame number with
+		 * ability to handle frame number roll over for a 63-bit counter.
+		 *
+		 * @param startingNo the starting frame number
+		 * @param onRollOver an action which produces new starting frame number and
+		 *                   handles frame counter roll overs
+		 * @return the frame number supplier
 		 */
 		static FrameNumber starting(long startingNo, LongSupplier onRollOver) {
 			return new FrameNumber() {
@@ -74,43 +83,28 @@ public final class Frame extends Header {
 		}
 
 		/**
-		 * Starting.
+		 * Gets the current frame number and increments to the next one.
 		 *
-		 * @param startingNo the starting no
-		 * @return the frame number
-		 */
-		static FrameNumber starting(long startingNo) {
-			return starting(startingNo, () -> 0);
-		}
-
-		/**
-		 * Gets the and increment.
-		 *
-		 * @return the and increment
+		 * @return a frame number
 		 */
 		long getAndIncrement();
 
 		/**
-		 * Gets the using.
+		 * Computes a frame counter using a combination of timestamp and a port number.
+		 * Basic implementations ignore both these parameters and simply increment frame
+		 * numbers from a starting frame number.
 		 *
-		 * @param timestamp the timestamp
-		 * @param portNo    the port no
-		 * @return the using
+		 * @param timestamp the timestamp of the packet
+		 * @param portNo    the port no the packet was received on
+		 * @return a frame number
 		 */
 		default long getUsing(long timestamp, int portNo) {
 			return getAndIncrement();
 		}
 	}
 
-	/**
-	 * Frame no.
-	 *
-	 * @return the long
-	 */
-	@Meta
-	public long frameNo() {
-		return descriptor.frameNo();
-	}
+	/** The Constant ID. */
+	public static final int ID = CoreHeaders.CORE_ID_FRAME;
 
 	/** The descriptor. */
 	private PacketDescriptor descriptor;
@@ -123,29 +117,18 @@ public final class Frame extends Header {
 	}
 
 	/**
-	 * Timestamp.
+	 * Bind descriptor.
 	 *
-	 * @return the long
+	 * @param descriptor the descriptor
 	 */
-	@Meta
-	public long timestamp() {
-		return descriptor.timestamp();
+	void bindDescriptor(PacketDescriptor descriptor) {
+		this.descriptor = descriptor;
 	}
 
 	/**
-	 * Wire length.
+	 * Number of packet bytes captured.
 	 *
-	 * @return the int
-	 */
-	@Meta
-	public int wireLength() {
-		return descriptor.wireLength();
-	}
-
-	/**
-	 * Capture length.
-	 *
-	 * @return the int
+	 * @return number of bytes
 	 */
 	@Meta
 	public int captureLength() {
@@ -153,12 +136,55 @@ public final class Frame extends Header {
 	}
 
 	/**
-	 * Bind descriptor.
+	 * Copies the frame contents to a new array.
 	 *
-	 * @param descriptor the descriptor
+	 * @return array containing copy of the frame contents
 	 */
-	void bindDescriptor(PacketDescriptor descriptor) {
-		this.descriptor = descriptor;
+	@Meta
+	public byte[] data() {
+		byte[] array = new byte[length()];
+
+		data(array);
+
+		return array;
+	}
+
+	/**
+	 * Copies the frame contents to the supplied array.
+	 *
+	 * @param dst the destination array where to copy the contents
+	 * @return number of bytes copied into the array
+	 */
+	public int data(byte[] dst) {
+		return data(dst, 0, dst.length);
+	}
+
+	/**
+	 * Copies the frame contents to the supplied array.
+	 *
+	 * @param dst    the destination array where to copy the contents
+	 * @param offset the offset into the destination array of the start of the copy
+	 * @param length number of bytes to copy from frame to dst array
+	 * @return number of bytes copied into the array
+	 */
+	public int data(byte[] dst, int offset, int length) {
+		if (offset + length > length())
+			length = length() - offset;
+
+		buffer().get(dst, offset, length);
+
+		return length;
+	}
+
+	/**
+	 * Frame number assigned to this packet frame at the time of the packet dispatch
+	 * or capture
+	 *
+	 * @return frame number
+	 */
+	@Meta
+	public long frameNo() {
+		return descriptor.frameNo();
 	}
 
 	/**
@@ -171,4 +197,23 @@ public final class Frame extends Header {
 		descriptor = null;
 	}
 
+	/**
+	 * The timestamp when this packet was captured.
+	 *
+	 * @return 64-bit timestamp in capture ports encoding and timestamp units
+	 */
+	@Meta
+	public long timestamp() {
+		return descriptor.timestamp();
+	}
+
+	/**
+	 * Packet length as seen on the wire before any truncation due to snaplen.
+	 *
+	 * @return number of bytes
+	 */
+	@Meta
+	public int wireLength() {
+		return descriptor.wireLength();
+	}
 }

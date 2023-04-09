@@ -421,7 +421,7 @@ public enum Ip4OptionInfo implements IpOptionInfo {
 	 */
 	@Override
 	public int getParentHeaderId() {
-		return CoreHeaderInfo.CORE_ID_IPv4;
+		return CoreHeaders.CORE_ID_IPv4;
 	}
 
 	/**

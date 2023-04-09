@@ -17,7 +17,7 @@
  */
 package com.slytechs.protocol.pack.core;
 
-import com.slytechs.protocol.pack.core.constants.CoreHeaderInfo;
+import com.slytechs.protocol.pack.core.constants.CoreHeaders;
 
 /**
  * The Class Ip6.
@@ -28,7 +28,7 @@ import com.slytechs.protocol.pack.core.constants.CoreHeaderInfo;
 public class Ip6 extends Ip<Ip6Option> {
 
 	/** The Constant ID. */
-	public static final int ID = CoreHeaderInfo.CORE_ID_IPv6;
+	public static final int ID = CoreHeaders.CORE_ID_IPv6;
 
 	/**
 	 * Instantiates a new ip 6.

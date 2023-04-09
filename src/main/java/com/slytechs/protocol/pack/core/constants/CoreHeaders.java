@@ -46,80 +46,80 @@ import com.slytechs.protocol.pack.core.Udp;
  * @author Mark Bednarczyk
  *
  */
-public enum CoreHeaderInfo implements HeaderInfo {
+public enum CoreHeaders implements HeaderInfo {
 
 	/** The payload. */
 	PAYLOAD(Payload::new),
-	
+
 	/** The frame. */
 	FRAME(Frame::new),
-	
+
 	/** The ether. */
 	ETHER(Ethernet::new),
-	
+
 	/** The I pv 4. */
 	IPv4(Ip4::new, Ip4OptionInfo::values),
-	
+
 	/** The I pv 6. */
 	IPv6(Ip6::new, Ip6OptionInfo::values),
-	
+
 	/** The udp. */
 	UDP(Udp::new),
-	
+
 	/** The tcp. */
 	TCP(Tcp::new, TcpOptionInfo::values),
-	
+
 	/** The sctp. */
 	SCTP,
-	
+
 	/** The ICM pv 4. */
 	ICMPv4(Icmp4::new),
-	
+
 	/** The ICM pv 6. */
 	ICMPv6(Icmp6::new),
-	
+
 	/** The llc. */
 	LLC,
-	
+
 	/** The snap. */
 	SNAP,
-	
+
 	/** The vlan. */
 	VLAN,
-	
+
 	/** The mpls. */
 	MPLS,
-	
+
 	/** The ipx. */
 	IPX,
-	
+
 	/** The gre. */
 	GRE,
-	
+
 	/** The ppp. */
 	PPP,
-	
+
 	/** The fddi. */
 	FDDI,
-	
+
 	/** The atm. */
 	ATM,
-	
+
 	/** The arp. */
 	ARP,
-	
+
 	/** The rarp. */
 	RARP,
-	
+
 	/** The stp. */
 	STP,
-	
+
 	/** The DHC pv 4. */
 	DHCPv4,
-	
+
 	/** The DHC pv 6. */
 	DHCPv6,
-	
+
 	/** The igmp. */
 	IGMP
 
@@ -127,6 +127,8 @@ public enum CoreHeaderInfo implements HeaderInfo {
 
 	/** The Constant CORE_ID_PAYLOAD. */
 	// @formatter:off
+	public static final int CORE_ID_OTHER    = -1;
+	
 	public static final int CORE_ID_PAYLOAD  = 0  | PACK_ID_CORE;
 	
 	/** The Constant CORE_ID_FRAME. */
@@ -208,7 +210,7 @@ public enum CoreHeaderInfo implements HeaderInfo {
 	 * @param id the id
 	 * @return the core header info
 	 */
-	public static CoreHeaderInfo valueOf(int id) {
+	public static CoreHeaders valueOf(int id) {
 		int pack = HeaderId.decodePackId(id);
 		if (pack != PackInfo.PACK_ID_CORE)
 			return null;
@@ -219,17 +221,17 @@ public enum CoreHeaderInfo implements HeaderInfo {
 
 	/** The id. */
 	private final int id;
-	
+
 	/** The supplier. */
 	private final HeaderSupplier supplier;
-	
+
 	/** The extensions supplier. */
 	private final Supplier<HeaderExtensionInfo[]> extensionsSupplier;
 
 	/**
 	 * Instantiates a new core header info.
 	 */
-	CoreHeaderInfo() {
+	CoreHeaders() {
 		this.id = HeaderId.encodeId(PackInfo.CORE, ordinal());
 		this.supplier = Other::new;
 		this.extensionsSupplier = () -> HeaderExtensionInfo.EMPTY_ARRAY;
@@ -240,7 +242,7 @@ public enum CoreHeaderInfo implements HeaderInfo {
 	 *
 	 * @param supplier the supplier
 	 */
-	CoreHeaderInfo(HeaderSupplier supplier) {
+	CoreHeaders(HeaderSupplier supplier) {
 		this.id = HeaderId.encodeId(PackInfo.CORE, ordinal());
 		this.supplier = supplier;
 		this.extensionsSupplier = () -> HeaderExtensionInfo.EMPTY_ARRAY;
@@ -252,7 +254,7 @@ public enum CoreHeaderInfo implements HeaderInfo {
 	 * @param supplier           the supplier
 	 * @param extensionsSupplier the extensions supplier
 	 */
-	CoreHeaderInfo(HeaderSupplier supplier, Supplier<HeaderExtensionInfo[]> extensionsSupplier) {
+	CoreHeaders(HeaderSupplier supplier, Supplier<HeaderExtensionInfo[]> extensionsSupplier) {
 		this.id = HeaderId.encodeId(PackInfo.CORE, ordinal());
 		this.supplier = supplier;
 		this.extensionsSupplier = extensionsSupplier;
@@ -286,7 +288,7 @@ public enum CoreHeaderInfo implements HeaderInfo {
 	 * @param id the id
 	 * @return the core header info
 	 */
-	public static CoreHeaderInfo toStringId(int id) {
+	public static CoreHeaders toStringId(int id) {
 		return values()[HeaderId.decodeIdOrdinal(id)];
 	}
 

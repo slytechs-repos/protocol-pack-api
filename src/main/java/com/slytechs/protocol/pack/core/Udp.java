@@ -19,7 +19,7 @@ package com.slytechs.protocol.pack.core;
 
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.meta.Meta;
-import com.slytechs.protocol.pack.core.constants.CoreHeaderInfo;
+import com.slytechs.protocol.pack.core.constants.CoreHeaders;
 
 /**
  * The Class Udp.
@@ -31,7 +31,7 @@ import com.slytechs.protocol.pack.core.constants.CoreHeaderInfo;
 public class Udp extends Header {
 
 	/** The Constant ID. */
-	public static final int ID = CoreHeaderInfo.CORE_ID_UDP;
+	public static final int ID = CoreHeaders.CORE_ID_UDP;
 
 	/**
 	 * Instantiates a new udp.
