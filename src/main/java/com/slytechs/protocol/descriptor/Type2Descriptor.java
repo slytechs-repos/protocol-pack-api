@@ -24,9 +24,9 @@ import java.nio.ByteBuffer;
 import com.slytechs.protocol.HeaderInfo;
 import com.slytechs.protocol.pack.Pack;
 import com.slytechs.protocol.pack.PackId;
-import com.slytechs.protocol.pack.DeclaredPackIds;
+import com.slytechs.protocol.pack.ProtocolPackTable;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
-import com.slytechs.protocol.pack.core.constants.CorePackIds;
+import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 import com.slytechs.protocol.pack.core.constants.HashType;
 import com.slytechs.protocol.pack.core.constants.L2FrameType;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
@@ -282,7 +282,7 @@ public class Type2Descriptor extends PacketDescriptor {
 			final int pack = PackId.decodeRecordPackOrdinal(record);
 
 			/* Scan until we no longer see OPTIONS records */
-			if (pack != DeclaredPackIds.PACK_ID_OPTIONS)
+			if (pack != ProtocolPackTable.PACK_ID_OPTIONS)
 				break;
 
 			if (id == extId)
@@ -302,7 +302,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	 */
 	@Override
 	public long lookupHeader(int headerId, int depth) {
-		if (headerId == CorePackIds.CORE_ID_PAYLOAD)
+		if (headerId == CoreIdTable.CORE_ID_PAYLOAD)
 			return lookupPayloadEntirePacket();
 
 		final int mask = bitmask();
@@ -347,7 +347,7 @@ public class Type2Descriptor extends PacketDescriptor {
 			final int record = record(i);
 
 			if (PackId.recordEqualsId(record, headerId) && (depth-- == 0)) {
-				if (extId == CorePackIds.CORE_ID_PAYLOAD)
+				if (extId == CoreIdTable.CORE_ID_PAYLOAD)
 					return lookupPayload(record);
 
 				return lookupExtension(extId, i + 1, recordCount);
@@ -368,7 +368,7 @@ public class Type2Descriptor extends PacketDescriptor {
 		int len = PackId.decodeRecordSize(record);
 		int poff = off + len;
 
-		return CompactDescriptor.encode(CorePackIds.CORE_ID_PAYLOAD, poff, captureLength() - poff);
+		return CompactDescriptor.encode(CoreIdTable.CORE_ID_PAYLOAD, poff, captureLength() - poff);
 	}
 
 	/**
@@ -377,7 +377,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	 * @return the long
 	 */
 	private long lookupPayloadEntirePacket() {
-		return CompactDescriptor.encode(CorePackIds.CORE_ID_PAYLOAD, 0, captureLength());
+		return CompactDescriptor.encode(CoreIdTable.CORE_ID_PAYLOAD, 0, captureLength());
 	}
 
 	/**
@@ -519,7 +519,7 @@ public class Type2Descriptor extends PacketDescriptor {
 				int offset = PackId.decodeRecordOffset(record);
 				int length = PackId.decodeRecordSize(record);
 
-				if (pack != DeclaredPackIds.PACK_ID_OPTIONS) {
+				if (pack != ProtocolPackTable.PACK_ID_OPTIONS) {
 					lastId = id;
 					b.append("    [%d]=0x%08X (id=0x%03X [%-20s], off=%2d, len=%2d)%n"
 							.formatted(

@@ -56,7 +56,7 @@ public interface HeaderFactory {
 	 */
 	@SuppressWarnings("unchecked")
 	default <H extends Header> H getHeader(HeaderInfo header) {
-		return (H) get(header.getHeaderId());
+		return (H) get(header.id());
 	}
 
 	/**
@@ -69,7 +69,7 @@ public interface HeaderFactory {
 	 */
 	@SuppressWarnings("unchecked")
 	default <H extends Header> H getExension(HeaderInfo primary, HeaderExtensionInfo extension) {
-		return (H) getExtension(primary.getHeaderId(), extension.getHeaderId());
+		return (H) getExtension(primary.id(), extension.id());
 	}
 
 	/**

@@ -17,13 +17,13 @@
  */
 package com.slytechs.protocol.pack.core.constants;
 
-import static com.slytechs.protocol.pack.DeclaredPackIds.*;
+import static com.slytechs.protocol.pack.ProtocolPackTable.*;
 
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.HeaderExtensionInfo;
 import com.slytechs.protocol.HeaderSupplier;
 import com.slytechs.protocol.pack.PackId;
-import com.slytechs.protocol.pack.DeclaredPackIds;
+import com.slytechs.protocol.pack.ProtocolPackTable;
 import com.slytechs.protocol.pack.core.TcpOption.TcpEndOfListOption;
 import com.slytechs.protocol.pack.core.TcpOption.TcpFastOpenOption;
 import com.slytechs.protocol.pack.core.TcpOption.TcpMSSOption;
@@ -61,7 +61,7 @@ public enum TcpOptionInfo implements HeaderExtensionInfo {
 	;
 
 	/** The Constant PACK_ID_OPTS. */
-	private static final int PACK_ID_OPTS = (PACK_ID_OPTIONS << PackId.PROTO_SHIFT_PACK);
+	private static final int PACK_ID_OPTS = (PACK_ID_OPTIONS << PackId.PACK_SHIFT_PACK);
 
 	/** The Constant TCP_OPT_ID_EOL. */
 	// @formatter:off
@@ -126,7 +126,7 @@ public enum TcpOptionInfo implements HeaderExtensionInfo {
 	TcpOptionInfo(int type, String abbr, HeaderSupplier supplier) {
 		this.type = type;
 		this.abbr = abbr;
-		this.id = PackId.encodeId(DeclaredPackIds.OPTS, ordinal());
+		this.id = PackId.encodeId(ProtocolPackTable.OPTS, ordinal());
 		this.supplier = supplier;
 	}
 
@@ -138,7 +138,7 @@ public enum TcpOptionInfo implements HeaderExtensionInfo {
 	 */
 	public static TcpOptionInfo valueOf(int id) {
 		int pack = PackId.decodePackId(id);
-		if (pack != DeclaredPackIds.PACK_ID_OPTIONS)
+		if (pack != ProtocolPackTable.PACK_ID_OPTIONS)
 			return null;
 
 		int index = PackId.decodeIdOrdinal(id);
@@ -153,7 +153,7 @@ public enum TcpOptionInfo implements HeaderExtensionInfo {
 	 */
 	@Override
 	public int getParentHeaderId() {
-		return CorePackIds.CORE_ID_TCP;
+		return CoreIdTable.CORE_ID_TCP;
 	}
 
 	/**
@@ -171,10 +171,10 @@ public enum TcpOptionInfo implements HeaderExtensionInfo {
 	 * Gets the header id.
 	 *
 	 * @return the header id
-	 * @see com.slytechs.protocol.HeaderInfo#getHeaderId()
+	 * @see com.slytechs.protocol.HeaderInfo#id()
 	 */
 	@Override
-	public int getHeaderId() {
+	public int id() {
 		return id;
 	}
 

@@ -45,7 +45,7 @@ public interface HeaderInfo extends HeaderSupplier {
 	 *
 	 * @return the header id
 	 */
-	int getHeaderId();
+	int id();
 
 	/**
 	 * Name name of the protocol header.

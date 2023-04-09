@@ -19,7 +19,7 @@ package com.slytechs.protocol.descriptor;
 
 import static com.slytechs.protocol.runtime.internal.layout.BinaryLayout.*;
 
-import com.slytechs.protocol.pack.core.constants.CorePackIds;
+import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.runtime.internal.layout.BinaryLayout;
 import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int64;
 
@@ -36,7 +36,7 @@ public interface CompactDescriptor {
 	 */
 	@FunctionalInterface
 	public interface DecodeConsumer {
-		
+
 		/**
 		 * Accept.
 		 *
@@ -52,7 +52,7 @@ public interface CompactDescriptor {
 	 */
 	@FunctionalInterface
 	public interface EncodeConsumer {
-		
+
 		/**
 		 * Accept.
 		 *
@@ -66,25 +66,25 @@ public interface CompactDescriptor {
 
 	/** The Constant COMPACT_ID_MASK. */
 	public static final long COMPACT_ID_MASK = 0x0000_0000_0000FFFFL;
-	
+
 	/** The Constant COMPACT_META_MASK. */
 	public static final long COMPACT_META_MASK = 0x0000_0000_FFFF0000L;
-	
+
 	/** The Constant COMPACT_OFF_MASK. */
 	public static final long COMPACT_OFF_MASK = 0x0000_FFFF_00000000L;
-	
+
 	/** The Constant COMPACT_LEN_MASK. */
 	public static final long COMPACT_LEN_MASK = 0xFFFF_0000_00000000L;
 
 	/** The Constant COMPACT_ID_SHIFT. */
 	public static final int COMPACT_ID_SHIFT = 0;
-	
+
 	/** The Constant COMPACT_META_SHIFT. */
 	public static final int COMPACT_META_SHIFT = 16;
-	
+
 	/** The Constant COMPACT_OFF_SHIFT. */
 	public static final int COMPACT_OFF_SHIFT = 32;
-	
+
 	/** The Constant COMPACT_LEN_SHIFT. */
 	public static final int COMPACT_LEN_SHIFT = 48;
 
@@ -319,7 +319,7 @@ public interface CompactDescriptor {
 	 */
 	public static String toString(long encoded) {
 		return "CompactDescriptor"
-				+ "[id=" + String.format("%s", CorePackIds.toStringId(decodeId(encoded)))
+				+ "[id=" + String.format("%s", PackId.toString(decodeId(encoded)))
 				+ " off=" + decodeOffset(encoded)
 				+ " len=" + decodeLength(encoded)
 //				+ " compact=" + String.format("0x%016X", encoded)

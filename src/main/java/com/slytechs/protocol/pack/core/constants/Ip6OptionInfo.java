@@ -17,12 +17,12 @@
  */
 package com.slytechs.protocol.pack.core.constants;
 
-import static com.slytechs.protocol.pack.DeclaredPackIds.*;
+import static com.slytechs.protocol.pack.ProtocolPackTable.*;
 
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.HeaderSupplier;
 import com.slytechs.protocol.pack.PackId;
-import com.slytechs.protocol.pack.DeclaredPackIds;
+import com.slytechs.protocol.pack.ProtocolPackTable;
 import com.slytechs.protocol.pack.core.IpOptionInfo;
 import com.slytechs.protocol.pack.core.Ip6Option.Ip6AuthenticationOption;
 import com.slytechs.protocol.pack.core.Ip6Option.Ip6DestinationOption;
@@ -176,7 +176,7 @@ public enum Ip6OptionInfo implements IpOptionInfo {
 	Ip6OptionInfo(int type, String abbr, HeaderSupplier supplier) {
 		this.type = type;
 		this.abbr = abbr;
-		this.id = PackId.encodeId(DeclaredPackIds.OPTS, ordinal());
+		this.id = PackId.encodeId(ProtocolPackTable.OPTS, ordinal());
 		this.supplier = supplier;
 	}
 
@@ -188,7 +188,7 @@ public enum Ip6OptionInfo implements IpOptionInfo {
 	 */
 	@Override
 	public int getParentHeaderId() {
-		return CorePackIds.CORE_ID_IPv6;
+		return CoreIdTable.CORE_ID_IPv6;
 	}
 
 	/**
@@ -206,10 +206,10 @@ public enum Ip6OptionInfo implements IpOptionInfo {
 	 * Gets the header id.
 	 *
 	 * @return the header id
-	 * @see com.slytechs.protocol.HeaderInfo#getHeaderId()
+	 * @see com.slytechs.protocol.HeaderInfo#id()
 	 */
 	@Override
-	public int getHeaderId() {
+	public int id() {
 		return id;
 	}
 

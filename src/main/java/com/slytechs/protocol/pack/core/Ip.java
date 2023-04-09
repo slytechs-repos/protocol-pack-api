@@ -25,8 +25,15 @@ import com.slytechs.protocol.pack.core.Ip.IpOption;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 
 /**
- * The Class Ip.
- *
+ * Internet Protocol base definition.
+ * <p>
+ * Internet Protocol is a widely used protocol in data communication over
+ * various types of networks, particularly in packet-switched layer networks
+ * like Ethernet. It provides a logical connection between network devices by
+ * assigning identification to each device. IP uses a best effort delivery model
+ * and is a connectionless protocol, meaning that neither delivery nor proper
+ * sequencing or avoidance of duplicate delivery is guaranteed.
+ * 
  * @author Sly Technologies
  * @author repos@slytechs.com
  * @param <T> the generic type
@@ -202,11 +209,11 @@ public abstract class Ip<T extends IpOption> extends HeaderExtension<T> {
 			return parseIp6AddressString(ipAddress);
 	}
 
-/**
- * Src.
- *
- * @return the byte[]
- */
+	/**
+	 * Src.
+	 *
+	 * @return the byte[]
+	 */
 //	@Meta
 	public abstract byte[] src();
 
@@ -217,11 +224,11 @@ public abstract class Ip<T extends IpOption> extends HeaderExtension<T> {
 	 */
 	public abstract IpAddress srcGetAsAddress();
 
-/**
- * Dst.
- *
- * @return the byte[]
- */
+	/**
+	 * Dst.
+	 *
+	 * @return the byte[]
+	 */
 //	@Meta
 	public abstract byte[] dst();
 
@@ -241,11 +248,11 @@ public abstract class Ip<T extends IpOption> extends HeaderExtension<T> {
 		super(id);
 	}
 
-/**
- * Version.
- *
- * @return the int
- */
+	/**
+	 * Version.
+	 *
+	 * @return the int
+	 */
 //	@Meta
 	public abstract int version();
 

@@ -17,18 +17,45 @@
  */
 package com.slytechs.protocol.pack.core;
 
-import com.slytechs.protocol.pack.core.constants.CorePackIds;
+import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 
 /**
- * The Class Ip6.
- *
+ * Internet Protocol Version 6 (IPv6).
+ * <p>
+ * An IPv6 packet is the smallest unit of message exchanged using Internet
+ * Protocol version 6 (IPv6). It is comprised of control information for
+ * addressing and routing, as well as a payload of user data. The control
+ * information in IPv6 packets consists of a mandatory fixed header and optional
+ * extension headers. The payload of an IPv6 packet is typically a datagram or
+ * segment of the higher-level transport layer protocol, although it could also
+ * be data for an internet layer (e.g., ICMPv6) or link layer (e.g., OSPF).
+ * </p>
+ * <p>
+ * IPv6 packets are typically transmitted over the link layer (e.g., Ethernet or
+ * Wi-Fi), which encapsulates each packet in a frame. Alternatively, packets may
+ * be transported over a higher-layer tunneling protocol such as IPv4 when using
+ * 6to4 or Teredo transition technologies.
+ * </p>
+ * <p>
+ * Unlike IPv4, routers do not fragment IPv6 packets larger than the maximum
+ * transmission unit (MTU), as this is the sole responsibility of the
+ * originating node. IPv6 mandates a minimum MTU of 1,280 octets, but hosts are
+ * "strongly recommended" to use Path MTU Discovery to take advantage of MTUs
+ * greater than the minimum.
+ * </p>
+ * <p>
+ * Since July 2017, the Internet Assigned Numbers Authority (IANA) has been
+ * responsible for registering all IPv6 parameters used in IPv6 packet headers.
+ * *
+ * </p>
+ * 
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
 public class Ip6 extends Ip<Ip6Option> {
 
 	/** The Constant ID. */
-	public static final int ID = CorePackIds.CORE_ID_IPv6;
+	public static final int ID = CoreIdTable.CORE_ID_IPv6;
 
 	/**
 	 * Instantiates a new ip 6.

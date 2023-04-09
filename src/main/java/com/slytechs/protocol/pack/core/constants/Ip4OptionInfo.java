@@ -17,14 +17,14 @@
  */
 package com.slytechs.protocol.pack.core.constants;
 
-import static com.slytechs.protocol.pack.DeclaredPackIds.*;
+import static com.slytechs.protocol.pack.ProtocolPackTable.*;
 
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.HeaderExtensionInfo;
 import com.slytechs.protocol.HeaderSupplier;
 import com.slytechs.protocol.Other;
 import com.slytechs.protocol.pack.PackId;
-import com.slytechs.protocol.pack.DeclaredPackIds;
+import com.slytechs.protocol.pack.ProtocolPackTable;
 import com.slytechs.protocol.pack.core.IpOptionInfo;
 import com.slytechs.protocol.pack.core.Ip4Option.Ip4RouterOption;
 
@@ -335,7 +335,7 @@ public enum Ip4OptionInfo implements IpOptionInfo {
 	 */
 	public static Ip4OptionInfo valueOf(int id) {
 		int pack = PackId.decodePackId(id);
-		if (pack != DeclaredPackIds.PACK_ID_OPTIONS)
+		if (pack != ProtocolPackTable.PACK_ID_OPTIONS)
 			return null;
 
 		int index = PackId.decodeIdOrdinal(id);
@@ -363,7 +363,7 @@ public enum Ip4OptionInfo implements IpOptionInfo {
 	Ip4OptionInfo(int type, String abbr) {
 		this.type = type;
 		this.abbr = abbr;
-		this.id = PackId.encodeId(DeclaredPackIds.OPTS, ordinal());
+		this.id = PackId.encodeId(ProtocolPackTable.OPTS, ordinal());
 		this.supplier = Other::new;
 	}
 
@@ -378,7 +378,7 @@ public enum Ip4OptionInfo implements IpOptionInfo {
 		this.type = type;
 		this.abbr = abbr;
 		this.supplier = supplier;
-		this.id = PackId.encodeId(DeclaredPackIds.OPTS, ordinal());
+		this.id = PackId.encodeId(ProtocolPackTable.OPTS, ordinal());
 	}
 
 	/**
@@ -396,10 +396,10 @@ public enum Ip4OptionInfo implements IpOptionInfo {
 	 * Gets the header id.
 	 *
 	 * @return the header id
-	 * @see com.slytechs.protocol.pack.core.IpOptionInfo#getHeaderId()
+	 * @see com.slytechs.protocol.pack.core.IpOptionInfo#id()
 	 */
 	@Override
-	public int getHeaderId() {
+	public int id() {
 		return id;
 	}
 
@@ -422,7 +422,7 @@ public enum Ip4OptionInfo implements IpOptionInfo {
 	 */
 	@Override
 	public int getParentHeaderId() {
-		return CorePackIds.CORE_ID_IPv4;
+		return CoreIdTable.CORE_ID_IPv4;
 	}
 
 	/**

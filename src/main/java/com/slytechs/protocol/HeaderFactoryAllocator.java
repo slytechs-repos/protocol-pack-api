@@ -22,7 +22,7 @@ import java.lang.ref.WeakReference;
 
 import com.slytechs.protocol.pack.Pack;
 import com.slytechs.protocol.pack.PackId;
-import com.slytechs.protocol.pack.DeclaredPackIds;
+import com.slytechs.protocol.pack.ProtocolPackTable;
 
 /**
  * The Class HeaderFactoryAllocator.
@@ -35,7 +35,7 @@ class HeaderFactoryAllocator implements HeaderFactory {
 
 	/** The table. */
 	@SuppressWarnings("unchecked")
-	private final Reference<HeaderFactory>[] table = new Reference[DeclaredPackIds.values().length];
+	private final Reference<HeaderFactory>[] table = new Reference[ProtocolPackTable.values().length];
 
 	/**
 	 * Gets the.

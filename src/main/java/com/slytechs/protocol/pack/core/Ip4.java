@@ -22,24 +22,45 @@ import java.util.Set;
 import com.slytechs.protocol.Packet;
 import com.slytechs.protocol.meta.Display;
 import com.slytechs.protocol.meta.Meta;
-import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.meta.Meta.MetaType;
+import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
-import com.slytechs.protocol.pack.core.constants.CorePackIds;
+import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 import com.slytechs.protocol.pack.core.constants.Ip4Flag;
 import com.slytechs.protocol.pack.core.constants.IpType;
 
 /**
- * The Class Ip4.
- *
+ * Internet Protocol Version 4 (IPv4).
+ * <p>
+ * Internet Protocol Version 4 (IPv4) is a widely used protocol in data
+ * communication over various types of networks, particularly in packet-switched
+ * layer networks like Ethernet. It provides a logical connection between
+ * network devices by assigning identification to each device. IPv4 uses a best
+ * effort delivery model and is a connectionless protocol, meaning that neither
+ * delivery nor proper sequencing or avoidance of duplicate delivery is
+ * guaranteed.
+ * </p>
+ * <p>
+ * IPv4 employs 32-bit addressing, which allows for 232 unique addresses. These
+ * addresses are divided into five classes: A, B, C, D, and E. Classes A, B, and
+ * C differ in the bit length used to address the network host. While Class D
+ * addresses are reserved for military purposes, Class E addresses are set aside
+ * for future use. IPv4 addresses are typically represented in dot-decimal
+ * notation, where the address is divided into four octets and expressed in
+ * decimal format, separated by periods. RFC 791 is the publication that defines
+ * and specifies IPv4. There are many ways to configure IPv4 with various
+ * devices, including both manual and automatic configurations, depending on the
+ * network type.
+ * </p>
+ * 
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
 @MetaResource("ip4-meta.json")
 public class Ip4 extends Ip<Ip4Option> {
-	
+
 	/** The Constant ID. */
-	public static final int ID = CorePackIds.CORE_ID_IPv4;
+	public static final int ID = CoreIdTable.CORE_ID_IPv4;
 
 	/**
 	 * Instantiates a new ip 4.

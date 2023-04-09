@@ -21,20 +21,22 @@ import com.slytechs.protocol.Header;
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
-import com.slytechs.protocol.pack.core.constants.CorePackIds;
+import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 import com.slytechs.protocol.pack.core.constants.EtherType;
 import com.slytechs.protocol.runtime.util.HexStrings;
 
 /**
- * Ethernet protocol header model.
+ * Ethernet II protocol header.
  * 
  * <p>
- * Basic frame format which is required for all MAC implementation is defined in
- * IEEE 802.3 standard. Though several optional formats are being used to extend
- * the protocol’s basic capability. Ethernet frame starts with Preamble and SFD,
- * both work at the physical layer. Ethernet header contains both the Source and
- * Destination MAC address, after which the payload of the frame is present. The
- * last field is CRC which is used to detect any transmission errors.
+ * The IEEE 802.3 standard defines the fundamental frame format that is
+ * necessary for all MAC implementations. However, several optional formats are
+ * also used to expand the protocol's basic capabilities. An Ethernet frame
+ * begins with the Preamble and SFD, which operate at the physical layer.
+ * Following this, the Ethernet header includes both the Source and Destination
+ * MAC addresses, after which the frame payload is located. Finally, the CRC
+ * field is included to detect errors. We will now examine each field of the
+ * basic frame format in detail.
  * </p>
  *
  * @author Sly Technologies
@@ -44,7 +46,7 @@ import com.slytechs.protocol.runtime.util.HexStrings;
 public final class Ethernet extends Header {
 
 	/** Core protocol pack assigned header ID */
-	public static final int ID = CorePackIds.CORE_ID_ETHER;
+	public static final int ID = CoreIdTable.CORE_ID_ETHER;
 
 	/** The Constant ETHER_FIELD_DST_MASK64. */
 	private static final long ETHER_FIELD_DST_MASK64 = 0xFFFF_FFFFFFFFl;

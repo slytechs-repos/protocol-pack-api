@@ -19,12 +19,12 @@ package com.slytechs.protocol.pack;
 
 import static com.slytechs.protocol.pack.PackId.*;
 
-import com.slytechs.protocol.pack.core.constants.CorePackIds;
+import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 
 /**
  * Protocol pack definitions. A protocol pack contains a number of protocol ID
  * constants, which are defined in their constant tables i.e.
- * {@link CorePackIds}.
+ * {@link CoreIdTable}.
  * 
  * <p>
  * A protocol ID is a 32-bit value which is made up of 3 parts, where 1st part
@@ -47,12 +47,12 @@ import com.slytechs.protocol.pack.core.constants.CorePackIds;
  * </p>
  * 
  * <pre>
- * struct ProtocolId_s{
+ * struct PackId_s{
  * 	uint32_t
- * 		index:8,  // Index within the protocol pack
- * 		pack:8,   // Protocol pack unique number
- * 		size:7,   // (Optional) Size of the protocol header (in units of 32-bits)
- * 		offset:9; // (Optional) Offset into the packet (in units of 8-bit bytes)
+ * 		index:6,  // Index within the protocol pack
+ * 		pack:4,   // Protocol pack unique number
+ * 		size:11,   // (Optional) Size of the protocol header (in units of 32-bits)
+ * 		offset:11; // (Optional) Offset into the packet (in units of 8-bit bytes)
  * }
  * </pre>
  * 
@@ -70,10 +70,10 @@ import com.slytechs.protocol.pack.core.constants.CorePackIds;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public enum DeclaredPackIds {
+public enum ProtocolPackTable implements PackId {
 
 	/** The core. */
-	CORE("core", DeclaredPackIds.CORE_MODULE, DeclaredPackIds.CORE_PACK),
+	CORE("core", ProtocolPackTable.CORE_MODULE, ProtocolPackTable.CORE_PACK),
 
 	/** The opts. */
 	OPTS("options"),
@@ -82,7 +82,7 @@ public enum DeclaredPackIds {
 	MEDIA("media"),
 
 	/** The web. */
-	WEB("web", DeclaredPackIds.WEB_MODULE, DeclaredPackIds.WEB_PACK),
+	WEB("web", ProtocolPackTable.WEB_MODULE, ProtocolPackTable.WEB_PACK),
 
 	/** The telco. */
 	TELCO("telco"),
@@ -103,31 +103,31 @@ public enum DeclaredPackIds {
 
 	/** The Constant PACK_ID_CORE. */
 	// @formatter:off
-	public static final int PACK_ID_CORE      = 0  << PROTO_SHIFT_PACK;
+	public static final int PACK_ID_CORE      = 0  << PACK_SHIFT_PACK;
 	
 	/** The Constant PACK_ID_OPTIONS. */
-	public static final int PACK_ID_OPTIONS   = 1  << PROTO_SHIFT_PACK;
+	public static final int PACK_ID_OPTIONS   = 1  << PACK_SHIFT_PACK;
 	
 	/** The Constant PACK_ID_MEDIA. */
-	public static final int PACK_ID_MEDIA     = 2  << PROTO_SHIFT_PACK;
+	public static final int PACK_ID_MEDIA     = 2  << PACK_SHIFT_PACK;
 	
 	/** The Constant PACK_ID_WEB. */
-	public static final int PACK_ID_WEB       = 3  << PROTO_SHIFT_PACK;
+	public static final int PACK_ID_WEB       = 3  << PACK_SHIFT_PACK;
 	
 	/** The Constant PACK_ID_TELCO. */
-	public static final int PACK_ID_TELCO     = 4  << PROTO_SHIFT_PACK;
+	public static final int PACK_ID_TELCO     = 4  << PACK_SHIFT_PACK;
 	
 	/** The Constant PACK_ID_LTE. */
-	public static final int PACK_ID_LTE       = 5  << PROTO_SHIFT_PACK;
+	public static final int PACK_ID_LTE       = 5  << PACK_SHIFT_PACK;
 	
 	/** The Constant PACK_ID_DB. */
-	public static final int PACK_ID_DB        = 6  << PROTO_SHIFT_PACK;
+	public static final int PACK_ID_DB        = 6  << PACK_SHIFT_PACK;
 	
 	/** The Constant PACK_ID_MS. */
-	public static final int PACK_ID_MS        = 7  << PROTO_SHIFT_PACK;
+	public static final int PACK_ID_MS        = 7  << PACK_SHIFT_PACK;
 	
 	/** The Constant PACK_ID_AAA. */
-	public static final int PACK_ID_AAA       = 8  << PROTO_SHIFT_PACK;
+	public static final int PACK_ID_AAA       = 8  << PACK_SHIFT_PACK;
 	// @formatter:on
 
 	/** The Constant CORE_MODULE. */
@@ -161,11 +161,11 @@ public enum DeclaredPackIds {
 	 *
 	 * @param name the name
 	 */
-	DeclaredPackIds(String name) {
+	ProtocolPackTable(String name) {
 		this.name = name;
 		this.className = null;
 		this.moduleName = null;
-		this.id = (ordinal() << PROTO_SHIFT_PACK);
+		this.id = (ordinal() << PACK_SHIFT_PACK);
 	}
 
 	/**
@@ -175,11 +175,11 @@ public enum DeclaredPackIds {
 	 * @param moduleName TODO
 	 * @param className  the class name
 	 */
-	DeclaredPackIds(String name, String moduleName, String className) {
+	ProtocolPackTable(String name, String moduleName, String className) {
 		this.name = name;
 		this.moduleName = moduleName;
 		this.className = className;
-		this.id = (ordinal() << PROTO_SHIFT_PACK);
+		this.id = (ordinal() << PACK_SHIFT_PACK);
 	}
 
 	/**
@@ -188,7 +188,7 @@ public enum DeclaredPackIds {
 	 * @param id the id
 	 * @return the pack info
 	 */
-	public static DeclaredPackIds valueOfPackId(int id) {
+	public static ProtocolPackTable valueOfPackId(int id) {
 		return values()[decodePackOrdinal(id)];
 	}
 
@@ -226,5 +226,13 @@ public enum DeclaredPackIds {
 	 */
 	public String getPackName() {
 		return name;
+	}
+
+	/**
+	 * @see com.slytechs.protocol.pack.PackId#id()
+	 */
+	@Override
+	public int id() {
+		return id;
 	}
 }

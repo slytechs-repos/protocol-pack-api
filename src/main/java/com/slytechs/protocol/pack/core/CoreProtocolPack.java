@@ -19,37 +19,37 @@ package com.slytechs.protocol.pack.core;
 
 import com.slytechs.protocol.HeaderInfo;
 import com.slytechs.protocol.HeaderNotFound;
+import com.slytechs.protocol.pack.ProtocolPackTable;
 import com.slytechs.protocol.pack.Pack;
 import com.slytechs.protocol.pack.PackId;
-import com.slytechs.protocol.pack.DeclaredPackIds;
-import com.slytechs.protocol.pack.core.constants.CorePackIds;
+import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 
 /**
- * The Class CorePack.
+ * Core protocol pack definition.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public final class CorePack extends Pack<CorePackIds> {
+public final class CoreProtocolPack extends Pack<CoreIdTable> {
 
 	/** Core Protocol Pack singleton definition. */
-	private static final CorePack SINGLETON = new CorePack();
+	private static final CoreProtocolPack SINGLETON = new CoreProtocolPack();
 
 	/**
-	 * Singleton.
+	 * Core pack is always loaded and reference kept as a singleton.
 	 *
-	 * @return the core pack
+	 * @return the core protocol pack
 	 */
-	public static CorePack singleton() {
+	public static CoreProtocolPack singleton() {
 		return SINGLETON;
 	}
 
 	/**
 	 * Pack definitions are designed to be singltons.
 	 */
-	private CorePack() {
-		super(DeclaredPackIds.CORE, CorePackIds.values());
+	private CoreProtocolPack() {
+		super(ProtocolPackTable.CORE, CoreIdTable.values());
 	}
 
 	/**
@@ -64,17 +64,17 @@ public final class CorePack extends Pack<CorePackIds> {
 	public HeaderInfo getHeader(int id) throws HeaderNotFound {
 		int packId = PackId.decodePackId(id);
 		int hdrOrdinal = PackId.decodeIdOrdinal(id);
-		if (packId != DeclaredPackIds.PACK_ID_CORE)
+		if (packId != ProtocolPackTable.PACK_ID_CORE)
 			throw new HeaderNotFound("invalid pack id [%d] not applicable to [%s] pack"
 					.formatted(packId, super.getPackName()));
 
-		var headers = CorePackIds.values();
+		var headers = CoreIdTable.values();
 
 		if (hdrOrdinal > headers.length)
 			throw new HeaderNotFound("header id [%d] in [%s] pack"
 					.formatted(id, super.getPackName()));
 
-		return CorePackIds.values()[hdrOrdinal];
+		return CoreIdTable.values()[hdrOrdinal];
 	}
 
 }

@@ -19,7 +19,7 @@ package com.slytechs.protocol.pack.core;
 
 import java.util.concurrent.locks.Lock;
 
-import com.slytechs.protocol.pack.core.constants.CorePackIds;
+import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 
 /**
  * The Class Icmp4.
@@ -31,7 +31,7 @@ import com.slytechs.protocol.pack.core.constants.CorePackIds;
 public class Icmp4 extends Icmp {
 	
 	/** The Constant ID. */
-	public static final int ID = CorePackIds.CORE_ID_ICMPv4;
+	public static final int ID = CoreIdTable.CORE_ID_ICMPv4;
 
 	/**
 	 * Instantiates a new icmp 4.

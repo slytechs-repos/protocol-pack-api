@@ -35,28 +35,28 @@ public enum L2FrameType implements HeaderInfo {
 	OTHER(0),
 	
 	/** The ether. */
-	ETHER(CorePackIds.CORE_ID_ETHER, Ethernet::new),
+	ETHER(CoreIdTable.CORE_ID_ETHER, Ethernet::new),
 	
 	/** The llc. */
-	LLC(CorePackIds.CORE_ID_LLC),
+	LLC(CoreIdTable.CORE_ID_LLC),
 	
 	/** The snap. */
-	SNAP(CorePackIds.CORE_ID_SNAP),
+	SNAP(CoreIdTable.CORE_ID_SNAP),
 	
 	/** The ppp. */
-	PPP(CorePackIds.CORE_ID_PPP),
+	PPP(CoreIdTable.CORE_ID_PPP),
 	
 	/** The fddi. */
-	FDDI(CorePackIds.CORE_ID_FDDI),
+	FDDI(CoreIdTable.CORE_ID_FDDI),
 	
 	/** The atm. */
-	ATM(CorePackIds.CORE_ID_ATM),
+	ATM(CoreIdTable.CORE_ID_ATM),
 	
 	/** The novell raw. */
-	NOVELL_RAW(CorePackIds.CORE_ID_ETHER),
+	NOVELL_RAW(CoreIdTable.CORE_ID_ETHER),
 	
 	/** The isl. */
-	ISL(CorePackIds.CORE_ID_ETHER),
+	ISL(CoreIdTable.CORE_ID_ETHER),
 
 	;
 
@@ -140,10 +140,10 @@ public enum L2FrameType implements HeaderInfo {
 	 * Gets the header id.
 	 *
 	 * @return the header id
-	 * @see com.slytechs.protocol.HeaderInfo#getHeaderId()
+	 * @see com.slytechs.protocol.HeaderInfo#id()
 	 */
 	@Override
-	public int getHeaderId() {
+	public int id() {
 		return id;
 	}
 

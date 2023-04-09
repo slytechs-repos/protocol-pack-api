@@ -23,8 +23,8 @@ import com.slytechs.protocol.Header;
 import com.slytechs.protocol.HeaderFactory;
 import com.slytechs.protocol.HeaderInfo;
 import com.slytechs.protocol.pack.PackId;
-import com.slytechs.protocol.pack.DeclaredPackIds;
-import com.slytechs.protocol.pack.core.constants.CorePackIds;
+import com.slytechs.protocol.pack.ProtocolPackTable;
+import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 
 /**
  * A factory for creating PackHeader objects.
@@ -83,7 +83,7 @@ public class PackHeaderFactory implements HeaderFactory {
 	}
 
 	/** The Constant table. */
-	private static final LazySupplier[] table = new LazySupplier[PROTO_MAX_ORDINALS];
+	private static final LazySupplier[] table = new LazySupplier[PACK_MAXCOUNT_ORDINALS];
 
 	static {
 
@@ -91,7 +91,7 @@ public class PackHeaderFactory implements HeaderFactory {
 		for (int i = 0; i < table.length; i++)
 			table[i] = LazySupplier.EMPTY;
 
-		CorePackIds[] core = CorePackIds.values();
+		CoreIdTable[] core = CoreIdTable.values();
 		for (int i = 0; i < core.length; i++)
 			table[i] = new LazySupplier(core[i]);
 
@@ -109,7 +109,7 @@ public class PackHeaderFactory implements HeaderFactory {
 		int pack = PackId.decodePackId(id);
 		int ordinal = PackId.decodeIdOrdinal(id);
 
-		if (pack != DeclaredPackIds.PACK_ID_CORE)
+		if (pack != ProtocolPackTable.PACK_ID_CORE)
 			return null;
 
 		return table[ordinal].get();

@@ -22,7 +22,7 @@ import static com.slytechs.protocol.pack.PackId.*;
 import java.util.function.Supplier;
 
 import com.slytechs.protocol.pack.PackId;
-import com.slytechs.protocol.pack.DeclaredPackIds;
+import com.slytechs.protocol.pack.ProtocolPackTable;
 
 /**
  * Packet header implementation.
@@ -89,7 +89,7 @@ class PackHeaderFactory implements HeaderFactory {
 		int pack1 = PackId.decodePackId(extensionId);
 		int ordinal1 = PackId.decodeIdOrdinal(extensionId);
 
-		if ((pack0 != this.pack) || (pack1 != DeclaredPackIds.PACK_ID_OPTIONS))
+		if ((pack0 != this.pack) || (pack1 != ProtocolPackTable.PACK_ID_OPTIONS))
 			return null;
 
 		HeaderSupplier[] table = extension[ordinal0];
@@ -124,7 +124,7 @@ class PackHeaderFactory implements HeaderFactory {
 	}
 
 	private HeaderSupplier[][] initializeExtensionTable(HeaderInfo[] protocolIds) {
-		HeaderSupplier[][] table = new HeaderSupplier[PROTO_MAX_ORDINALS][];
+		HeaderSupplier[][] table = new HeaderSupplier[PACK_MAXCOUNT_ORDINALS][];
 
 		/* Initialize entire table even for out of range values for quick lookups */
 		for (int i = 0; i < protocolIds.length; i++) {

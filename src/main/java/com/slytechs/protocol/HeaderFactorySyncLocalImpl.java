@@ -34,10 +34,10 @@ class HeaderFactorySyncLocalImpl implements HeaderFactory {
 	private final HeaderFactory allocator = HeaderFactory.newInstance();
 
 	/** The cache 0. */
-	private final Header[][] cache0 = new Header[PROTO_MAX_PACKS][PROTO_MAX_ORDINALS];
+	private final Header[][] cache0 = new Header[PACK_MAXCOUNT_PACKS][PACK_MAXCOUNT_ORDINALS];
 	
 	/** The cache 1. */
-	private final Header[][][] cache1 = new Header[PROTO_MAX_PACKS][PROTO_MAX_ORDINALS][PROTO_MAX_ORDINALS];
+	private final Header[][][] cache1 = new Header[PACK_MAXCOUNT_PACKS][PACK_MAXCOUNT_ORDINALS][PACK_MAXCOUNT_ORDINALS];
 
 	/**
 	 * Gets the.

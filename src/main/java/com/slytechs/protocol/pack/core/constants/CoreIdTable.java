@@ -17,7 +17,7 @@
  */
 package com.slytechs.protocol.pack.core.constants;
 
-import static com.slytechs.protocol.pack.DeclaredPackIds.*;
+import static com.slytechs.protocol.pack.ProtocolPackTable.*;
 
 import java.util.function.Supplier;
 
@@ -29,7 +29,7 @@ import com.slytechs.protocol.HeaderSupplier;
 import com.slytechs.protocol.Other;
 import com.slytechs.protocol.Payload;
 import com.slytechs.protocol.pack.PackId;
-import com.slytechs.protocol.pack.DeclaredPackIds;
+import com.slytechs.protocol.pack.ProtocolPackTable;
 import com.slytechs.protocol.pack.core.Ethernet;
 import com.slytechs.protocol.pack.core.Icmp4;
 import com.slytechs.protocol.pack.core.Icmp6;
@@ -47,7 +47,10 @@ import com.slytechs.protocol.pack.core.Udp;
  * @author Mark Bednarczyk
  *
  */
-public enum CorePackIds implements HeaderInfo {
+public enum CoreIdTable implements HeaderInfo, PackId {
+
+	/** The payload. */
+	PACK(),
 
 	/** The payload. */
 	PAYLOAD(Payload::new),
@@ -126,83 +129,33 @@ public enum CorePackIds implements HeaderInfo {
 
 	;
 
-	/** The Constant CORE_ID_PAYLOAD. */
 	// @formatter:off
-	public static final int CORE_ID_OTHER    = -1;
-	
-	public static final int CORE_ID_PAYLOAD  = 0  | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_FRAME. */
-	public static final int CORE_ID_FRAME    = 1  | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_ETHER. */
-	public static final int CORE_ID_ETHER    = 2  | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_IPv4. */
-	public static final int CORE_ID_IPv4     = 3  | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_IPv6. */
-	public static final int CORE_ID_IPv6     = 4  | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_UDP. */
-	public static final int CORE_ID_UDP      = 5  | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_TCP. */
-	public static final int CORE_ID_TCP      = 6  | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_SCTP. */
-	public static final int CORE_ID_SCTP     = 7  | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_ICMPv4. */
-	public static final int CORE_ID_ICMPv4   = 8  | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_ICMPv6. */
-	public static final int CORE_ID_ICMPv6   = 9  | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_LLC. */
-	public static final int CORE_ID_LLC      = 10 | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_SNAP. */
-	public static final int CORE_ID_SNAP     = 11 | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_VLAN. */
-	public static final int CORE_ID_VLAN     = 12 | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_MPLS. */
-	public static final int CORE_ID_MPLS     = 13 | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_IPX. */
-	public static final int CORE_ID_IPX      = 14 | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_GRE. */
-	public static final int CORE_ID_GRE      = 15 | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_PPP. */
-	public static final int CORE_ID_PPP      = 16 | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_FDDI. */
-	public static final int CORE_ID_FDDI     = 17 | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_ATM. */
-	public static final int CORE_ID_ATM      = 18 | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_ARM. */
-	public static final int CORE_ID_ARM      = 19 | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_RARP. */
-	public static final int CORE_ID_RARP     = 20 | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_STP. */
-	public static final int CORE_ID_STP      = 21 | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_DHCPv4. */
-	public static final int CORE_ID_DHCPv4   = 22 | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_DHCPv6. */
-	public static final int CORE_ID_DHCPv6   = 23 | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_IGMP. */
-	public static final int CORE_ID_IGMP     = 24 | PACK_ID_CORE;
+	public static final int CORE_ID_PACK     = 0  | PACK_ID_CORE;
+	public static final int CORE_ID_PAYLOAD  = 1  | PACK_ID_CORE;
+	public static final int CORE_ID_FRAME    = 2  | PACK_ID_CORE;
+	public static final int CORE_ID_ETHER    = 3  | PACK_ID_CORE;
+	public static final int CORE_ID_IPv4     = 4  | PACK_ID_CORE;
+	public static final int CORE_ID_IPv6     = 5  | PACK_ID_CORE;
+	public static final int CORE_ID_UDP      = 6  | PACK_ID_CORE;
+	public static final int CORE_ID_TCP      = 7  | PACK_ID_CORE;
+	public static final int CORE_ID_SCTP     = 8  | PACK_ID_CORE;
+	public static final int CORE_ID_ICMPv4   = 9  | PACK_ID_CORE;
+	public static final int CORE_ID_ICMPv6   = 10 | PACK_ID_CORE;
+	public static final int CORE_ID_LLC      = 11 | PACK_ID_CORE;
+	public static final int CORE_ID_SNAP     = 12 | PACK_ID_CORE;
+	public static final int CORE_ID_VLAN     = 13 | PACK_ID_CORE;
+	public static final int CORE_ID_MPLS     = 14 | PACK_ID_CORE;
+	public static final int CORE_ID_IPX      = 15 | PACK_ID_CORE;
+	public static final int CORE_ID_GRE      = 16 | PACK_ID_CORE;
+	public static final int CORE_ID_PPP      = 17 | PACK_ID_CORE;
+	public static final int CORE_ID_FDDI     = 18 | PACK_ID_CORE;
+	public static final int CORE_ID_ATM      = 19 | PACK_ID_CORE;
+	public static final int CORE_ID_ARM      = 20 | PACK_ID_CORE;
+	public static final int CORE_ID_RARP     = 21 | PACK_ID_CORE;
+	public static final int CORE_ID_STP      = 22 | PACK_ID_CORE;
+	public static final int CORE_ID_DHCPv4   = 23 | PACK_ID_CORE;
+	public static final int CORE_ID_DHCPv6   = 24 | PACK_ID_CORE;
+	public static final int CORE_ID_IGMP     = 25 | PACK_ID_CORE;
 	// @formatter:on
 
 	/**
@@ -211,9 +164,9 @@ public enum CorePackIds implements HeaderInfo {
 	 * @param id the id
 	 * @return the core header info
 	 */
-	public static CorePackIds valueOf(int id) {
+	public static CoreIdTable valueOf(int id) {
 		int pack = PackId.decodePackId(id);
-		if (pack != DeclaredPackIds.PACK_ID_CORE)
+		if (pack != ProtocolPackTable.PACK_ID_CORE)
 			return null;
 
 		int ordinal = PackId.decodeIdOrdinal(id);
@@ -232,8 +185,8 @@ public enum CorePackIds implements HeaderInfo {
 	/**
 	 * Instantiates a new core header info.
 	 */
-	CorePackIds() {
-		this.id = PackId.encodeId(DeclaredPackIds.CORE, ordinal());
+	CoreIdTable() {
+		this.id = PackId.encodeId(ProtocolPackTable.CORE, ordinal());
 		this.supplier = Other::new;
 		this.extensionsSupplier = () -> HeaderExtensionInfo.EMPTY_ARRAY;
 	}
@@ -243,8 +196,8 @@ public enum CorePackIds implements HeaderInfo {
 	 *
 	 * @param supplier the supplier
 	 */
-	CorePackIds(HeaderSupplier supplier) {
-		this.id = PackId.encodeId(DeclaredPackIds.CORE, ordinal());
+	CoreIdTable(HeaderSupplier supplier) {
+		this.id = PackId.encodeId(ProtocolPackTable.CORE, ordinal());
 		this.supplier = supplier;
 		this.extensionsSupplier = () -> HeaderExtensionInfo.EMPTY_ARRAY;
 	}
@@ -255,8 +208,8 @@ public enum CorePackIds implements HeaderInfo {
 	 * @param supplier           the supplier
 	 * @param extensionsSupplier the extensions supplier
 	 */
-	CorePackIds(HeaderSupplier supplier, Supplier<HeaderExtensionInfo[]> extensionsSupplier) {
-		this.id = PackId.encodeId(DeclaredPackIds.CORE, ordinal());
+	CoreIdTable(HeaderSupplier supplier, Supplier<HeaderExtensionInfo[]> extensionsSupplier) {
+		this.id = PackId.encodeId(ProtocolPackTable.CORE, ordinal());
 		this.supplier = supplier;
 		this.extensionsSupplier = extensionsSupplier;
 	}
@@ -276,10 +229,10 @@ public enum CorePackIds implements HeaderInfo {
 	 * Gets the header id.
 	 *
 	 * @return the header id
-	 * @see com.slytechs.protocol.HeaderInfo#getHeaderId()
+	 * @see com.slytechs.protocol.HeaderInfo#id()
 	 */
 	@Override
-	public int getHeaderId() {
+	public int id() {
 		return id;
 	}
 
@@ -289,7 +242,7 @@ public enum CorePackIds implements HeaderInfo {
 	 * @param id the id
 	 * @return the core header info
 	 */
-	public static CorePackIds toStringId(int id) {
+	public static CoreIdTable toStringId(int id) {
 		return values()[PackId.decodeIdOrdinal(id)];
 	}
 
