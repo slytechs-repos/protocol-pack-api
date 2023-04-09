@@ -34,6 +34,9 @@ Here is a table of all of the protocol definitions provided by this **core-proto
 |         |VLAN     |IPX     |SCTP    |
 |         |PPP      |MPLS    |        |
 |         |STP      |IGMP    |        |
-|         |ARP/RARP |ICMP    |        |
+|         |ARP/RARP |        |        |
+|         |ATM      |        |        |
+|         |FDDI     |        |        |
+|         |ARP/RARP |        |        |
 
   
