@@ -19,7 +19,7 @@ package com.slytechs.protocol.descriptor;
 
 import static com.slytechs.protocol.runtime.internal.layout.BinaryLayout.*;
 
-import com.slytechs.protocol.pack.core.constants.CoreHeaders;
+import com.slytechs.protocol.pack.core.constants.CorePackIds;
 import com.slytechs.protocol.runtime.internal.layout.BinaryLayout;
 import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int64;
 
@@ -319,7 +319,7 @@ public interface CompactDescriptor {
 	 */
 	public static String toString(long encoded) {
 		return "CompactDescriptor"
-				+ "[id=" + String.format("%s", CoreHeaders.toStringId(decodeId(encoded)))
+				+ "[id=" + String.format("%s", CorePackIds.toStringId(decodeId(encoded)))
 				+ " off=" + decodeOffset(encoded)
 				+ " len=" + decodeLength(encoded)
 //				+ " compact=" + String.format("0x%016X", encoded)

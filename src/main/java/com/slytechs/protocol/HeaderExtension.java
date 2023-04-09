@@ -19,7 +19,6 @@ package com.slytechs.protocol;
 
 import java.nio.ByteBuffer;
 
-import com.slytechs.protocol.Header;
 import com.slytechs.protocol.descriptor.CompactDescriptor;
 
 /**

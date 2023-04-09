@@ -19,7 +19,7 @@ package com.slytechs.protocol.pack.core;
 
 import java.util.concurrent.locks.Lock;
 
-import com.slytechs.protocol.pack.core.constants.CoreHeaders;
+import com.slytechs.protocol.pack.core.constants.CorePackIds;
 
 /**
  * The Class Icmp6.
@@ -31,7 +31,7 @@ import com.slytechs.protocol.pack.core.constants.CoreHeaders;
 public class Icmp6 extends Icmp {
 	
 	/** The Constant ID. */
-	public static final int ID = CoreHeaders.CORE_ID_ICMPv6;
+	public static final int ID = CorePackIds.CORE_ID_ICMPv6;
 
 	/**
 	 * Instantiates a new icmp 6.

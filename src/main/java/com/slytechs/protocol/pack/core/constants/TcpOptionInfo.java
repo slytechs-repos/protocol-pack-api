@@ -17,12 +17,13 @@
  */
 package com.slytechs.protocol.pack.core.constants;
 
-import static com.slytechs.protocol.pack.core.constants.PackInfo.*;
+import static com.slytechs.protocol.pack.DeclaredPackIds.*;
 
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.HeaderExtensionInfo;
-import com.slytechs.protocol.HeaderId;
 import com.slytechs.protocol.HeaderSupplier;
+import com.slytechs.protocol.pack.PackId;
+import com.slytechs.protocol.pack.DeclaredPackIds;
 import com.slytechs.protocol.pack.core.TcpOption.TcpEndOfListOption;
 import com.slytechs.protocol.pack.core.TcpOption.TcpFastOpenOption;
 import com.slytechs.protocol.pack.core.TcpOption.TcpMSSOption;
@@ -60,7 +61,7 @@ public enum TcpOptionInfo implements HeaderExtensionInfo {
 	;
 
 	/** The Constant PACK_ID_OPTS. */
-	private static final int PACK_ID_OPTS = (PACK_ID_OPTIONS << HeaderId.PROTO_SHIFT_PACK);
+	private static final int PACK_ID_OPTS = (PACK_ID_OPTIONS << PackId.PROTO_SHIFT_PACK);
 
 	/** The Constant TCP_OPT_ID_EOL. */
 	// @formatter:off
@@ -125,7 +126,7 @@ public enum TcpOptionInfo implements HeaderExtensionInfo {
 	TcpOptionInfo(int type, String abbr, HeaderSupplier supplier) {
 		this.type = type;
 		this.abbr = abbr;
-		this.id = HeaderId.encodeId(PackInfo.OPTS, ordinal());
+		this.id = PackId.encodeId(DeclaredPackIds.OPTS, ordinal());
 		this.supplier = supplier;
 	}
 
@@ -136,11 +137,11 @@ public enum TcpOptionInfo implements HeaderExtensionInfo {
 	 * @return the tcp option info
 	 */
 	public static TcpOptionInfo valueOf(int id) {
-		int pack = HeaderId.decodePackId(id);
-		if (pack != PackInfo.PACK_ID_OPTIONS)
+		int pack = PackId.decodePackId(id);
+		if (pack != DeclaredPackIds.PACK_ID_OPTIONS)
 			return null;
 
-		int index = HeaderId.decodeIdOrdinal(id);
+		int index = PackId.decodeIdOrdinal(id);
 		return values()[index];
 	}
 
@@ -152,7 +153,7 @@ public enum TcpOptionInfo implements HeaderExtensionInfo {
 	 */
 	@Override
 	public int getParentHeaderId() {
-		return CoreHeaders.CORE_ID_TCP;
+		return CorePackIds.CORE_ID_TCP;
 	}
 
 	/**

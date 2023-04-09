@@ -17,13 +17,14 @@
  */
 package com.slytechs.protocol.pack.core.constants;
 
-import static com.slytechs.protocol.pack.core.constants.PackInfo.*;
+import static com.slytechs.protocol.pack.DeclaredPackIds.*;
 
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.HeaderExtensionInfo;
-import com.slytechs.protocol.HeaderId;
 import com.slytechs.protocol.HeaderSupplier;
 import com.slytechs.protocol.Other;
+import com.slytechs.protocol.pack.PackId;
+import com.slytechs.protocol.pack.DeclaredPackIds;
 import com.slytechs.protocol.pack.core.IpOptionInfo;
 import com.slytechs.protocol.pack.core.Ip4Option.Ip4RouterOption;
 
@@ -333,11 +334,11 @@ public enum Ip4OptionInfo implements IpOptionInfo {
 	 * @return the ip 4 option info
 	 */
 	public static Ip4OptionInfo valueOf(int id) {
-		int pack = HeaderId.decodePackId(id);
-		if (pack != PackInfo.PACK_ID_OPTIONS)
+		int pack = PackId.decodePackId(id);
+		if (pack != DeclaredPackIds.PACK_ID_OPTIONS)
 			return null;
 
-		int index = HeaderId.decodeIdOrdinal(id);
+		int index = PackId.decodeIdOrdinal(id);
 		return values()[index];
 	}
 
@@ -362,7 +363,7 @@ public enum Ip4OptionInfo implements IpOptionInfo {
 	Ip4OptionInfo(int type, String abbr) {
 		this.type = type;
 		this.abbr = abbr;
-		this.id = HeaderId.encodeId(PackInfo.OPTS, ordinal());
+		this.id = PackId.encodeId(DeclaredPackIds.OPTS, ordinal());
 		this.supplier = Other::new;
 	}
 
@@ -377,7 +378,7 @@ public enum Ip4OptionInfo implements IpOptionInfo {
 		this.type = type;
 		this.abbr = abbr;
 		this.supplier = supplier;
-		this.id = HeaderId.encodeId(PackInfo.OPTS, ordinal());
+		this.id = PackId.encodeId(DeclaredPackIds.OPTS, ordinal());
 	}
 
 	/**
@@ -421,7 +422,7 @@ public enum Ip4OptionInfo implements IpOptionInfo {
 	 */
 	@Override
 	public int getParentHeaderId() {
-		return CoreHeaders.CORE_ID_IPv4;
+		return CorePackIds.CORE_ID_IPv4;
 	}
 
 	/**

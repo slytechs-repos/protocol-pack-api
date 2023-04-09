@@ -17,11 +17,12 @@
  */
 package com.slytechs.protocol;
 
-import static com.slytechs.protocol.HeaderId.*;
+import static com.slytechs.protocol.pack.PackId.*;
 
 import java.util.function.Supplier;
 
-import com.slytechs.protocol.pack.core.constants.PackInfo;
+import com.slytechs.protocol.pack.PackId;
+import com.slytechs.protocol.pack.DeclaredPackIds;
 
 /**
  * Packet header implementation.
@@ -73,8 +74,8 @@ class PackHeaderFactory implements HeaderFactory {
 	}
 
 	private HeaderSupplier lookupSupplier(int id) {
-		int pack = HeaderId.decodePackId(id);
-		int ordinal = HeaderId.decodeIdOrdinal(id);
+		int pack = PackId.decodePackId(id);
+		int ordinal = PackId.decodeIdOrdinal(id);
 
 		if (pack != this.pack)
 			return null;
@@ -83,12 +84,12 @@ class PackHeaderFactory implements HeaderFactory {
 	}
 
 	private HeaderSupplier lookupSupplier(int primaryId, int extensionId) {
-		int pack0 = HeaderId.decodePackId(primaryId);
-		int ordinal0 = HeaderId.decodeIdOrdinal(primaryId);
-		int pack1 = HeaderId.decodePackId(extensionId);
-		int ordinal1 = HeaderId.decodeIdOrdinal(extensionId);
+		int pack0 = PackId.decodePackId(primaryId);
+		int ordinal0 = PackId.decodeIdOrdinal(primaryId);
+		int pack1 = PackId.decodePackId(extensionId);
+		int ordinal1 = PackId.decodeIdOrdinal(extensionId);
 
-		if ((pack0 != this.pack) || (pack1 != PackInfo.PACK_ID_OPTIONS))
+		if ((pack0 != this.pack) || (pack1 != DeclaredPackIds.PACK_ID_OPTIONS))
 			return null;
 
 		HeaderSupplier[] table = extension[ordinal0];

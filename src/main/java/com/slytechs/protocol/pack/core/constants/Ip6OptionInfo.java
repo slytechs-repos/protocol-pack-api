@@ -17,11 +17,12 @@
  */
 package com.slytechs.protocol.pack.core.constants;
 
-import static com.slytechs.protocol.pack.core.constants.PackInfo.*;
+import static com.slytechs.protocol.pack.DeclaredPackIds.*;
 
 import com.slytechs.protocol.Header;
-import com.slytechs.protocol.HeaderId;
 import com.slytechs.protocol.HeaderSupplier;
+import com.slytechs.protocol.pack.PackId;
+import com.slytechs.protocol.pack.DeclaredPackIds;
 import com.slytechs.protocol.pack.core.IpOptionInfo;
 import com.slytechs.protocol.pack.core.Ip6Option.Ip6AuthenticationOption;
 import com.slytechs.protocol.pack.core.Ip6Option.Ip6DestinationOption;
@@ -175,7 +176,7 @@ public enum Ip6OptionInfo implements IpOptionInfo {
 	Ip6OptionInfo(int type, String abbr, HeaderSupplier supplier) {
 		this.type = type;
 		this.abbr = abbr;
-		this.id = HeaderId.encodeId(PackInfo.OPTS, ordinal());
+		this.id = PackId.encodeId(DeclaredPackIds.OPTS, ordinal());
 		this.supplier = supplier;
 	}
 
@@ -187,7 +188,7 @@ public enum Ip6OptionInfo implements IpOptionInfo {
 	 */
 	@Override
 	public int getParentHeaderId() {
-		return CoreHeaders.CORE_ID_IPv6;
+		return CorePackIds.CORE_ID_IPv6;
 	}
 
 	/**

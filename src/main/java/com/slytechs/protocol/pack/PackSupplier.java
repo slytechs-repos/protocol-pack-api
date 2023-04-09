@@ -15,21 +15,21 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.protocol;
+package com.slytechs.protocol.pack;
 
 import java.util.function.IntFunction;
 
 /**
- * The Interface PackSupplier.
+ * A protocol pack supplier given a numerical pack id.
  */
-public interface PackSupplier extends IntFunction<ProtocolPack<?>> {
-	
-	/** The empty. */
+public interface PackSupplier extends IntFunction<Pack<?>> {
+
+	/** A supplier which supplies an empty pack. */
 	PackSupplier EMPTY = ignored -> null;
 
 	/**
 	 * @see java.util.function.IntFunction#apply(int)
 	 */
 	@Override
-	ProtocolPack<?> apply(int packId);
+	Pack<?> apply(int packId);
 }

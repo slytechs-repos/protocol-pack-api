@@ -50,6 +50,7 @@ module com.slytechs.protocol {
 
 	/* Public API */
 	exports com.slytechs.protocol;
+	exports com.slytechs.protocol.pack;
 	exports com.slytechs.protocol.pack.core;
 	exports com.slytechs.protocol.pack.core.constants;
 	exports com.slytechs.protocol.descriptor;

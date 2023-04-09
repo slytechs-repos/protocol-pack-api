@@ -28,7 +28,7 @@ import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.meta.PacketFormat;
-import com.slytechs.protocol.pack.core.constants.CoreHeaders;
+import com.slytechs.protocol.pack.core.constants.CorePackIds;
 import com.slytechs.protocol.runtime.MemoryBinding;
 import com.slytechs.protocol.runtime.time.Timestamp;
 import com.slytechs.protocol.runtime.time.TimestampUnit;
@@ -285,10 +285,10 @@ public final class Packet
 
 		int id = header.id();
 
-		if ((id == CoreHeaders.CORE_ID_FRAME) && (header instanceof Frame frame)) {
+		if ((id == CorePackIds.CORE_ID_FRAME) && (header instanceof Frame frame)) {
 			bindFrameHeader(frame);
 
-		} else if (id == CoreHeaders.CORE_ID_PAYLOAD && (header instanceof Payload payload)) {
+		} else if (id == CorePackIds.CORE_ID_PAYLOAD && (header instanceof Payload payload)) {
 			bindPayloadHeader(payload);
 
 		} else {

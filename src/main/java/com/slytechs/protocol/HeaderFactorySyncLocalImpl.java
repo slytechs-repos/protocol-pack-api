@@ -17,7 +17,9 @@
  */
 package com.slytechs.protocol;
 
-import static com.slytechs.protocol.HeaderId.*;
+import static com.slytechs.protocol.pack.PackId.*;
+
+import com.slytechs.protocol.pack.PackId;
 
 /**
  * The Class HeaderFactorySyncLocalImpl.
@@ -46,8 +48,8 @@ class HeaderFactorySyncLocalImpl implements HeaderFactory {
 	 */
 	@Override
 	public Header get(int id) {
-		int proto = HeaderId.decodeIdOrdinal(id);
-		int pack = HeaderId.decodePackOrdinal(id);
+		int proto = PackId.decodeIdOrdinal(id);
+		int pack = PackId.decodePackOrdinal(id);
 
 		Header header = cache0[pack][proto];
 		if (header == null)
@@ -95,9 +97,9 @@ class HeaderFactorySyncLocalImpl implements HeaderFactory {
 	 */
 	@Override
 	public Header getExtension(int primaryId, int extensionId) {
-		int proto0 = HeaderId.decodeIdOrdinal(primaryId);
-		int pack0 = HeaderId.decodePackOrdinal(primaryId);
-		int proto1 = HeaderId.decodeIdOrdinal(extensionId);
+		int proto0 = PackId.decodeIdOrdinal(primaryId);
+		int pack0 = PackId.decodePackOrdinal(primaryId);
+		int proto1 = PackId.decodeIdOrdinal(extensionId);
 
 		Header header = cache1[pack0][proto0][proto1];
 		if (header == null)

@@ -17,14 +17,14 @@
  */
 package com.slytechs.protocol.pack.core;
 
-import static com.slytechs.protocol.HeaderId.*;
+import static com.slytechs.protocol.pack.PackId.*;
 
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.HeaderFactory;
-import com.slytechs.protocol.HeaderId;
 import com.slytechs.protocol.HeaderInfo;
-import com.slytechs.protocol.pack.core.constants.CoreHeaders;
-import com.slytechs.protocol.pack.core.constants.PackInfo;
+import com.slytechs.protocol.pack.PackId;
+import com.slytechs.protocol.pack.DeclaredPackIds;
+import com.slytechs.protocol.pack.core.constants.CorePackIds;
 
 /**
  * A factory for creating PackHeader objects.
@@ -91,7 +91,7 @@ public class PackHeaderFactory implements HeaderFactory {
 		for (int i = 0; i < table.length; i++)
 			table[i] = LazySupplier.EMPTY;
 
-		CoreHeaders[] core = CoreHeaders.values();
+		CorePackIds[] core = CorePackIds.values();
 		for (int i = 0; i < core.length; i++)
 			table[i] = new LazySupplier(core[i]);
 
@@ -106,10 +106,10 @@ public class PackHeaderFactory implements HeaderFactory {
 	 */
 	@Override
 	public Header get(int id) {
-		int pack = HeaderId.decodePackId(id);
-		int ordinal = HeaderId.decodeIdOrdinal(id);
+		int pack = PackId.decodePackId(id);
+		int ordinal = PackId.decodeIdOrdinal(id);
 
-		if (pack != PackInfo.PACK_ID_CORE)
+		if (pack != DeclaredPackIds.PACK_ID_CORE)
 			return null;
 
 		return table[ordinal].get();

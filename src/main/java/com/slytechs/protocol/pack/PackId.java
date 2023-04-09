@@ -15,13 +15,12 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.protocol;
+package com.slytechs.protocol.pack;
 
 import com.slytechs.protocol.descriptor.CompactDescriptor;
-import com.slytechs.protocol.pack.core.constants.PackInfo;
 
 /**
- * Various protocol and protocol ID encoding utilities.
+ * Various pack and header ID encoding utilities.
  * 
  * <h2>32-bit protocol 'ID' and 'record' encoding</h2>
  * <p>
@@ -48,7 +47,7 @@ import com.slytechs.protocol.pack.core.constants.PackInfo;
  * @author Mark Bednarczyk
  *
  */
-public final class HeaderId {
+public final class PackId {
 
 	/** The Constant PROTO_MASK_ORDINAL. */
 	// @formatter:off
@@ -98,7 +97,7 @@ public final class HeaderId {
 
 	/** The Constant PROTO_MAX_PACKS. */
 	public static final int PROTO_MAX_PACKS = 16;
-	
+
 	/** The Constant PROTO_MAX_ORDINALS. */
 	public static final int PROTO_MAX_ORDINALS = 64;
 
@@ -213,8 +212,8 @@ public final class HeaderId {
 	 * @param ordinal the ordinal
 	 * @return the int
 	 */
-	public static int encodeId(PackInfo pack, int ordinal) {
-		return HeaderId.encodeId(pack.ordinal(), ordinal);
+	public static int encodeId(DeclaredPackIds pack, int ordinal) {
+		return PackId.encodeId(pack.ordinal(), ordinal);
 	}
 
 	/**
@@ -312,7 +311,7 @@ public final class HeaderId {
 	/**
 	 * Instantiates a new header id.
 	 */
-	private HeaderId() {
+	private PackId() {
 	}
 
 }

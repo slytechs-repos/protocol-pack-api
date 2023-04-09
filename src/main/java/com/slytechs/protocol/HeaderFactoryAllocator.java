@@ -20,7 +20,9 @@ package com.slytechs.protocol;
 import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 
-import com.slytechs.protocol.pack.core.constants.PackInfo;
+import com.slytechs.protocol.pack.Pack;
+import com.slytechs.protocol.pack.PackId;
+import com.slytechs.protocol.pack.DeclaredPackIds;
 
 /**
  * The Class HeaderFactoryAllocator.
@@ -33,7 +35,7 @@ class HeaderFactoryAllocator implements HeaderFactory {
 
 	/** The table. */
 	@SuppressWarnings("unchecked")
-	private final Reference<HeaderFactory>[] table = new Reference[PackInfo.values().length];
+	private final Reference<HeaderFactory>[] table = new Reference[DeclaredPackIds.values().length];
 
 	/**
 	 * Gets the.
@@ -56,13 +58,13 @@ class HeaderFactoryAllocator implements HeaderFactory {
 	 * @return the header factory
 	 */
 	private HeaderFactory lookupPackFactory(int id) {
-		ProtocolPack<?> pack = ProtocolPack.getLoadedPack(id);
-		int ordinal = HeaderId.decodePackOrdinal(id);
+		Pack<?> pack = Pack.getLoadedPack(id);
+		int ordinal = PackId.decodePackOrdinal(id);
 
 		Reference<HeaderFactory> entry = table[ordinal];
 
 		if (entry == null || entry.get() == null) {
-			int packId = HeaderId.decodePackId(id);
+			int packId = PackId.decodePackId(id);
 
 			entry = table[ordinal] = new WeakReference<>(new PackHeaderFactory(packId, pack.toArray()));
 		}

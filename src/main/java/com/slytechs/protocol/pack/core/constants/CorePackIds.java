@@ -17,18 +17,19 @@
  */
 package com.slytechs.protocol.pack.core.constants;
 
-import static com.slytechs.protocol.pack.core.constants.PackInfo.*;
+import static com.slytechs.protocol.pack.DeclaredPackIds.*;
 
 import java.util.function.Supplier;
 
 import com.slytechs.protocol.Frame;
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.HeaderExtensionInfo;
-import com.slytechs.protocol.HeaderId;
 import com.slytechs.protocol.HeaderInfo;
 import com.slytechs.protocol.HeaderSupplier;
 import com.slytechs.protocol.Other;
 import com.slytechs.protocol.Payload;
+import com.slytechs.protocol.pack.PackId;
+import com.slytechs.protocol.pack.DeclaredPackIds;
 import com.slytechs.protocol.pack.core.Ethernet;
 import com.slytechs.protocol.pack.core.Icmp4;
 import com.slytechs.protocol.pack.core.Icmp6;
@@ -46,7 +47,7 @@ import com.slytechs.protocol.pack.core.Udp;
  * @author Mark Bednarczyk
  *
  */
-public enum CoreHeaders implements HeaderInfo {
+public enum CorePackIds implements HeaderInfo {
 
 	/** The payload. */
 	PAYLOAD(Payload::new),
@@ -210,12 +211,12 @@ public enum CoreHeaders implements HeaderInfo {
 	 * @param id the id
 	 * @return the core header info
 	 */
-	public static CoreHeaders valueOf(int id) {
-		int pack = HeaderId.decodePackId(id);
-		if (pack != PackInfo.PACK_ID_CORE)
+	public static CorePackIds valueOf(int id) {
+		int pack = PackId.decodePackId(id);
+		if (pack != DeclaredPackIds.PACK_ID_CORE)
 			return null;
 
-		int ordinal = HeaderId.decodeIdOrdinal(id);
+		int ordinal = PackId.decodeIdOrdinal(id);
 		return values()[ordinal];
 	}
 
@@ -231,8 +232,8 @@ public enum CoreHeaders implements HeaderInfo {
 	/**
 	 * Instantiates a new core header info.
 	 */
-	CoreHeaders() {
-		this.id = HeaderId.encodeId(PackInfo.CORE, ordinal());
+	CorePackIds() {
+		this.id = PackId.encodeId(DeclaredPackIds.CORE, ordinal());
 		this.supplier = Other::new;
 		this.extensionsSupplier = () -> HeaderExtensionInfo.EMPTY_ARRAY;
 	}
@@ -242,8 +243,8 @@ public enum CoreHeaders implements HeaderInfo {
 	 *
 	 * @param supplier the supplier
 	 */
-	CoreHeaders(HeaderSupplier supplier) {
-		this.id = HeaderId.encodeId(PackInfo.CORE, ordinal());
+	CorePackIds(HeaderSupplier supplier) {
+		this.id = PackId.encodeId(DeclaredPackIds.CORE, ordinal());
 		this.supplier = supplier;
 		this.extensionsSupplier = () -> HeaderExtensionInfo.EMPTY_ARRAY;
 	}
@@ -254,8 +255,8 @@ public enum CoreHeaders implements HeaderInfo {
 	 * @param supplier           the supplier
 	 * @param extensionsSupplier the extensions supplier
 	 */
-	CoreHeaders(HeaderSupplier supplier, Supplier<HeaderExtensionInfo[]> extensionsSupplier) {
-		this.id = HeaderId.encodeId(PackInfo.CORE, ordinal());
+	CorePackIds(HeaderSupplier supplier, Supplier<HeaderExtensionInfo[]> extensionsSupplier) {
+		this.id = PackId.encodeId(DeclaredPackIds.CORE, ordinal());
 		this.supplier = supplier;
 		this.extensionsSupplier = extensionsSupplier;
 	}
@@ -288,8 +289,8 @@ public enum CoreHeaders implements HeaderInfo {
 	 * @param id the id
 	 * @return the core header info
 	 */
-	public static CoreHeaders toStringId(int id) {
-		return values()[HeaderId.decodeIdOrdinal(id)];
+	public static CorePackIds toStringId(int id) {
+		return values()[PackId.decodeIdOrdinal(id)];
 	}
 
 	/**

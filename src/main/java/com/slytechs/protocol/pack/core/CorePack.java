@@ -17,12 +17,12 @@
  */
 package com.slytechs.protocol.pack.core;
 
-import com.slytechs.protocol.HeaderId;
 import com.slytechs.protocol.HeaderInfo;
 import com.slytechs.protocol.HeaderNotFound;
-import com.slytechs.protocol.ProtocolPack;
-import com.slytechs.protocol.pack.core.constants.CoreHeaders;
-import com.slytechs.protocol.pack.core.constants.PackInfo;
+import com.slytechs.protocol.pack.Pack;
+import com.slytechs.protocol.pack.PackId;
+import com.slytechs.protocol.pack.DeclaredPackIds;
+import com.slytechs.protocol.pack.core.constants.CorePackIds;
 
 /**
  * The Class CorePack.
@@ -31,25 +31,25 @@ import com.slytechs.protocol.pack.core.constants.PackInfo;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public final class CoreProtocolPack extends ProtocolPack<CoreHeaders> {
+public final class CorePack extends Pack<CorePackIds> {
 
 	/** Core Protocol Pack singleton definition. */
-	private static final CoreProtocolPack SINGLETON = new CoreProtocolPack();
+	private static final CorePack SINGLETON = new CorePack();
 
 	/**
 	 * Singleton.
 	 *
 	 * @return the core pack
 	 */
-	public static CoreProtocolPack singleton() {
+	public static CorePack singleton() {
 		return SINGLETON;
 	}
 
 	/**
 	 * Pack definitions are designed to be singltons.
 	 */
-	private CoreProtocolPack() {
-		super(PackInfo.CORE, CoreHeaders.values());
+	private CorePack() {
+		super(DeclaredPackIds.CORE, CorePackIds.values());
 	}
 
 	/**
@@ -58,23 +58,23 @@ public final class CoreProtocolPack extends ProtocolPack<CoreHeaders> {
 	 * @param id the id
 	 * @return the header
 	 * @throws HeaderNotFound the header not found
-	 * @see com.slytechs.protocol.ProtocolPack#getHeader(int)
+	 * @see com.slytechs.protocol.pack.Pack#getHeader(int)
 	 */
 	@Override
 	public HeaderInfo getHeader(int id) throws HeaderNotFound {
-		int packId = HeaderId.decodePackId(id);
-		int hdrOrdinal = HeaderId.decodeIdOrdinal(id);
-		if (packId != PackInfo.PACK_ID_CORE)
+		int packId = PackId.decodePackId(id);
+		int hdrOrdinal = PackId.decodeIdOrdinal(id);
+		if (packId != DeclaredPackIds.PACK_ID_CORE)
 			throw new HeaderNotFound("invalid pack id [%d] not applicable to [%s] pack"
 					.formatted(packId, super.getPackName()));
 
-		var headers = CoreHeaders.values();
+		var headers = CorePackIds.values();
 
 		if (hdrOrdinal > headers.length)
 			throw new HeaderNotFound("header id [%d] in [%s] pack"
 					.formatted(id, super.getPackName()));
 
-		return CoreHeaders.values()[hdrOrdinal];
+		return CorePackIds.values()[hdrOrdinal];
 	}
 
 }

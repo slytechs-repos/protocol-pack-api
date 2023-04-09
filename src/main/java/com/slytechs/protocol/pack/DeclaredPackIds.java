@@ -15,14 +15,16 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.protocol.pack.core.constants;
+package com.slytechs.protocol.pack;
 
-import static com.slytechs.protocol.HeaderId.*;
+import static com.slytechs.protocol.pack.PackId.*;
+
+import com.slytechs.protocol.pack.core.constants.CorePackIds;
 
 /**
  * Protocol pack definitions. A protocol pack contains a number of protocol ID
  * constants, which are defined in their constant tables i.e.
- * {@link CoreHeaders}.
+ * {@link CorePackIds}.
  * 
  * <p>
  * A protocol ID is a 32-bit value which is made up of 3 parts, where 1st part
@@ -68,32 +70,32 @@ import static com.slytechs.protocol.HeaderId.*;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public enum PackInfo {
+public enum DeclaredPackIds {
 
 	/** The core. */
-	CORE("core", PackInfo.CORE_MODULE, PackInfo.CORE_PACK),
-	
+	CORE("core", DeclaredPackIds.CORE_MODULE, DeclaredPackIds.CORE_PACK),
+
 	/** The opts. */
 	OPTS("options"),
-	
+
 	/** The media. */
 	MEDIA("media"),
-	
+
 	/** The web. */
-	WEB("web", PackInfo.WEB_MODULE, PackInfo.WEB_PACK),
-	
+	WEB("web", DeclaredPackIds.WEB_MODULE, DeclaredPackIds.WEB_PACK),
+
 	/** The telco. */
 	TELCO("telco"),
-	
+
 	/** The lte. */
 	LTE("lte"),
-	
+
 	/** The db. */
 	DB("database"),
-	
+
 	/** The ms. */
 	MS("microsoft"),
-	
+
 	/** The aaa. */
 	AAA("authentication"),
 
@@ -144,13 +146,13 @@ public enum PackInfo {
 
 	/** The id. */
 	private final int id;
-	
+
 	/** The module name. */
 	private final String moduleName;
-	
+
 	/** The class name. */
 	private final String className;
-	
+
 	/** The name. */
 	private final String name;
 
@@ -159,7 +161,7 @@ public enum PackInfo {
 	 *
 	 * @param name the name
 	 */
-	PackInfo(String name) {
+	DeclaredPackIds(String name) {
 		this.name = name;
 		this.className = null;
 		this.moduleName = null;
@@ -173,7 +175,7 @@ public enum PackInfo {
 	 * @param moduleName TODO
 	 * @param className  the class name
 	 */
-	PackInfo(String name, String moduleName, String className) {
+	DeclaredPackIds(String name, String moduleName, String className) {
 		this.name = name;
 		this.moduleName = moduleName;
 		this.className = className;
@@ -186,7 +188,7 @@ public enum PackInfo {
 	 * @param id the id
 	 * @return the pack info
 	 */
-	public static PackInfo valueOfPackId(int id) {
+	public static DeclaredPackIds valueOfPackId(int id) {
 		return values()[decodePackOrdinal(id)];
 	}
 
