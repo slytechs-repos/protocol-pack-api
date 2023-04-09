@@ -2,7 +2,7 @@
 Core Protocol pack consisting of many common protocols runtime support for other modules.
 
 ## Where to use this module
-This module, **core-protocols** is not usable by itself. You need to setup your application using either **jnetpcap-pro** or **jnetwork** modules which provide the main APIs for building applications using any of the protocol packs.
+This module, **core-protocols** is an extension module which provides protocol level support for one of the main public APIs. You need to setup your application using either **jnetpcap-pro** or **jnetwork** modules which provide the main APIs for building applications using any of the protocol packs.
 
 ## What's inside
 The mdule provides support for the following services:
