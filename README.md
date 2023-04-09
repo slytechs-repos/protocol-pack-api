@@ -11,6 +11,7 @@ This module, **core-protocols** is an extension module which provides protocol l
 The **core-protocols** module provides support for the following services:
 - Runtime support for all of the modules using combination of public and private APIs
   - Private APIs are exported to other modules and provide common implementation features across all modules
+  - A small public API is also exported for things like capture `Timestamp` and `TimestampUnit` classes, etc...
 - Raw packet dissection
   - Advanced packet descriptors store the results of the dissection process after packet capture
   - Information about the presence of each protocol header is recorded in `PacketDescriptorType.TYPE2`
