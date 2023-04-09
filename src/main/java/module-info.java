@@ -1,4 +1,3 @@
-
 /*
  * Sly Technologies Free License
  * 
@@ -28,14 +27,14 @@
  * <dt>Llc - provides LLC functions to IEEE 802 MAC layers</dt>
  * <dt>Vlan - IEEE 802.1q datalink Vlan tags</dt>
  * <dt>MPLS - MPLS labels</dt>
+ * <dt>Stp - Spanning Tree Protocol</dt>
  * <dt>Ip - Internet Protocol IPv4 and IPv6</dt>
  * <dt>Icmp - Internet Control Message Protocol</dt>
- * <dt>Stp - Spanning Tree Protocol</dt>
- * <dt>Stp - Spanning Tree Protocol</dt>
+ * <dt>Tcp - Transmission Control Protocol</dt>
+ * <dt>Udp - User Datagram Protocol</dt>
  * </dl>
  * 
  * @author Sly Technologies
- * @author mark
  * @author repos@slytechs.com
  */
 module com.slytechs.protocol {

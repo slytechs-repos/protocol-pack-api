@@ -69,21 +69,6 @@ public class Ip4 extends Ip<Ip4Option> {
 		super(ID);
 	}
 
-	/**
-	 * Checksum status.
-	 *
-	 * @return -1 = Unverified, 0 = Verfication Failed, 1 = Verfication OK
-	 */
-//	int checksumStatus() {
-//		return getProtocol(Ip4Protocol.class)
-//				.checksumStatus(this);
-//	}
-
-//	int checksumValidation() {
-//		return getProtocol(Ip4Protocol.class)
-//				.calculateChecksum(this);
-//	}
-
 	public int dsfield() {
 		return Ip4Layout.DSFIELD.getInt(buffer());
 	}
