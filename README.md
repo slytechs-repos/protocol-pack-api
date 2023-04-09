@@ -1,5 +1,5 @@
 # Core Protocol Pack
-Core Protocol pack consisting of many common protocols runtime support for other modules.
+Core Protocol pack consisting of many common protocols and runtime support for other modules.
 
 ### Latest status - [Pull Request #1](https://github.com/slytechs-repos/core-protocols/pull/4)
 The module is currently almost ready for initial API delopment. Please see [pull #1](https://github.com/slytechs-repos/core-protocols/pull/4) for the latest status.
