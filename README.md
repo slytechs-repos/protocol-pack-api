@@ -21,6 +21,9 @@ The mdule provides support for the following services:
   - Coverters for XML, JSON and other output types
 - A set of protocols which are considered **core** or common on most networks
 
+### Protocol Table
+Here is a table of all of the protocol definitions provided by this **core-protocols** module.
+
 | Builtin | Layer2  | Layer3 | Layer4 | Layer7 |
 |---------|---------|--------|--------|--------|
 |Payload  |Ethernet |IPv4    |TCP     |DHCP    |
