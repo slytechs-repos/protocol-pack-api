@@ -26,6 +26,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import com.slytechs.protocol.meta.MetaValue.ValueResolver;
+import com.slytechs.protocol.pack.core.constants.ArpOp;
 import com.slytechs.protocol.pack.core.constants.EtherType;
 import com.slytechs.protocol.pack.core.constants.IeeeOuiAssignments;
 import com.slytechs.protocol.pack.core.constants.IpType;
@@ -73,6 +74,9 @@ public @interface Resolver {
 		
 		/** The ip type. */
 		IP_TYPE(IpType::resolve),
+		
+		/** The ip type. */
+		ARP_OP(ArpOp::resolve),
 		
 		/** The ether mac oui name. */
 		ETHER_MAC_OUI_NAME(IeeeOuiAssignments::resolveMacOuiName),

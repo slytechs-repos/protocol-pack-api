@@ -102,6 +102,12 @@ public final class CoreConstants {
 	/** The Constant ETHER_TYPE_MPLS. */
 	public static final int ETHER_TYPE_MPLS            = 0x8847;
 	
+	/** The Constant ETHER_TYPE_ARP. */
+	public static final int ETHER_TYPE_ARP            = 0x0806;
+	
+	/** The Constant ETHER_TYPE_ARP. */
+	public static final int ETHER_TYPE_RARP           = 0x8035;
+	
 	/** The Constant ETHER_TYPE_MPLS_UPSTREAM. */
 	public static final int ETHER_TYPE_MPLS_UPSTREAM   = 0x8848;
 	
@@ -111,6 +117,16 @@ public final class CoreConstants {
 	/** The Constant ETHER_TYPE_PPPoE_SESSION. */
 	public static final int ETHER_TYPE_PPPoE_SESSION   = 0x8848;
 	/* @formatter:on - Descriptor Ethernet II constants */
+
+	/* @formatter:off - ARP constants */
+	public static final int ARP_HEADER_LEN             = 28;
+	public static final int ARP_FIELD_SHA              = 8;
+	public static final int ARP_FIELD_SPA              = 14;
+	public static final int ARP_FIELD_THA              = 18;
+	public static final int ARP_FIELD_TPA              = 24;
+	public static final int ARP_LEN_HALEN              = 6;
+	public static final int ARP_LEN_PALEN              = 4;
+	/* @formatter:on - ARP constants */
 
 	/* @formatter:off - Descriptor VLAN constants */
 	/** The Constant VLAN_HEADER_LEN. */

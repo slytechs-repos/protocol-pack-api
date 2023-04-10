@@ -23,7 +23,7 @@ import java.nio.ByteBuffer;
 
 import com.slytechs.protocol.descriptor.CompactDescriptor;
 import com.slytechs.protocol.descriptor.PacketDescriptor;
-import com.slytechs.protocol.descriptor.Type1Descriptor;
+import com.slytechs.protocol.descriptor.Type2Descriptor;
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
@@ -74,7 +74,7 @@ public final class Packet
 	 * Instantiates a new packet.
 	 */
 	public Packet() {
-		this(new Type1Descriptor());
+		this(new Type2Descriptor());
 	}
 
 	/**
@@ -85,6 +85,16 @@ public final class Packet
 	public Packet(PacketDescriptor descriptor) {
 		this.descriptor = descriptor;
 		this.lookup = descriptor;
+	}
+
+	/**
+	 * Bind frame header.
+	 *
+	 * @param frame the frame
+	 */
+	private void bindFrameHeader(Frame frame) {
+		bindHeader(frame, 0, captureLength(), 0);
+		frame.bindDescriptor(descriptor);
 	}
 
 	/**
@@ -109,16 +119,6 @@ public final class Packet
 	}
 
 	/**
-	 * Bind frame header.
-	 *
-	 * @param frame the frame
-	 */
-	private void bindFrameHeader(Frame frame) {
-		bindHeader(frame, 0, captureLength(), 0);
-		frame.bindDescriptor(descriptor);
-	}
-
-	/**
 	 * Bind payload header.
 	 *
 	 * @param payload the payload
@@ -140,22 +140,14 @@ public final class Packet
 	}
 
 	/**
-	 * Payload length.
+	 * Checks if any payload data is available or if all of the packet bytes are
+	 * consumed by known headers. Payload starts on the next byte passed the last
+	 * header and ends at packet length.
 	 *
-	 * @return the int
+	 * @return true, if successful
 	 */
-	public int payloadLength() {
-		var headers = lookup.listHeaders();
-
-		if (headers.length == 0)
-			return captureLength();
-
-		var lastHeader = headers[headers.length - 1];
-		int offset = CompactDescriptor.decodeOffset(lastHeader)
-				+ CompactDescriptor.decodeLength(lastHeader);
-		int length = captureLength() - offset;
-
-		return length;
+	public boolean hasPayload() {
+		return payloadLength() > 0;
 	}
 
 	/**
@@ -258,6 +250,16 @@ public final class Packet
 	}
 
 	/**
+	 * Checks if the packet is truncated. If {@code caplen < wirelen} there were
+	 * fewer bytes captured than there were original seen on the network.
+	 *
+	 * @return true, if is truncated
+	 */
+	public boolean isTruncated() {
+		return descriptor.captureLength() < descriptor.wireLength();
+	}
+
+	/**
 	 * Lookup header.
 	 *
 	 * @param id    the id
@@ -266,6 +268,25 @@ public final class Packet
 	 */
 	protected final long lookupHeader(int id, int depth) {
 		return lookup.lookupHeader(id, 0);
+	}
+
+	/**
+	 * Payload length.
+	 *
+	 * @return the int
+	 */
+	public int payloadLength() {
+		var headers = lookup.listHeaders();
+
+		if (headers.length == 0)
+			return captureLength();
+
+		var lastHeader = headers[headers.length - 1];
+		int offset = CompactDescriptor.decodeOffset(lastHeader)
+				+ CompactDescriptor.decodeLength(lastHeader);
+		int length = captureLength() - offset;
+
+		return length;
 	}
 
 	/**

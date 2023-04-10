@@ -37,21 +37,27 @@ public enum EtherType implements IntSupplier {
 
 	/** The I pv 4. */
 	IPv4(EtherType.ETHER_TYPE_IPv4),
-	
+
 	/** The I pv 6. */
 	IPv6(EtherType.ETHER_TYPE_IPv6),
-	
+
 	/** The vlan. */
 	VLAN(EtherType.ETHER_TYPE_VLAN),
-	
+
 	/** The ipx. */
 	IPX(EtherType.ETHER_TYPE_IPX),
-	
+
 	/** The mpls uni. */
 	MPLS_UNI(EtherType.ETHER_TYPE_MPLS),
-	
+
 	/** The mpls multi. */
 	MPLS_MULTI(EtherType.ETHER_TYPE_MPLS_UPSTREAM),
+
+	/** The ARP. */
+	ARP(EtherType.ETHER_TYPE_ARP),
+
+	/** The RARP. */
+	RARP(EtherType.ETHER_TYPE_RARP),
 
 	;
 
@@ -79,6 +85,12 @@ public enum EtherType implements IntSupplier {
 	
 	/** The Constant ETHER_TYPE_PPPoE_SESSION. */
 	public static final int ETHER_TYPE_PPPoE_SESSION   = 0x8848;
+	
+	/** The Constant ETHER_TYPE_ARP. */
+	public static final int ETHER_TYPE_ARP            = 0x0806;
+	
+	/** The Constant ETHER_TYPE_RARP. */
+	public static final int ETHER_TYPE_RARP           = 0x8035;
 	// @formatter:on
 
 	/**

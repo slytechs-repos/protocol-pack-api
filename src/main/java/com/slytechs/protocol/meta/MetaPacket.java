@@ -49,10 +49,10 @@ public final class MetaPacket
 
 	/** The packet. */
 	private final Packet packet;
-	
+
 	/** The headers. */
 	private final List<MetaHeader> headers = new ArrayList<>();
-	
+
 	/** The last header. */
 	private final MetaHeader lastHeader;
 
@@ -91,7 +91,8 @@ public final class MetaPacket
 
 			this.lastHeader = headers.get(headers.size() - 1);
 
-			headers.add(new MetaHeader(ctx, this, packet.getHeader(new Payload(), 0)));
+			if (packet.hasPayload())
+				headers.add(new MetaHeader(ctx, this, packet.getHeader(new Payload(), 0)));
 		} catch (HeaderNotFound e) {
 			throw new IllegalStateException(e);
 		}

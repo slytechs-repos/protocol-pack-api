@@ -17,7 +17,6 @@
  */
 package com.slytechs.protocol.meta;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -27,10 +26,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.slytechs.protocol.runtime.internal.json.Json;
 import com.slytechs.protocol.runtime.internal.json.JsonException;
 import com.slytechs.protocol.runtime.internal.json.JsonObject;
-import com.slytechs.protocol.runtime.internal.json.JsonReader;
 
 /**
  * The Class ReflectedClass.
@@ -83,16 +80,8 @@ class ReflectedClass extends ReflectedComponent {
 	 * @throws JsonException the json exception
 	 */
 	static JsonObject readMetaResource(String resourceName) throws JsonException {
-
-		InputStream in = ReflectedClass.class.getResourceAsStream("/" + resourceName);
-		if (in == null)
-			return null;
-
-		try (JsonReader reader = Json.createReader(in)) {
-			JsonObject obj = reader.readObject();
-
-			return obj;
-		}
+		return new MetaResourceShortformReader(resourceName)
+				.toJsonObj();
 	}
 
 	/**
@@ -117,16 +106,16 @@ class ReflectedClass extends ReflectedComponent {
 
 	/** The class type. */
 	private final Class<?> classType;
-	
+
 	/** The member methods. */
 	private final ReflectedMethod[] memberMethods;
-	
+
 	/** The member fields. */
 	private final ReflectedField[] memberFields;
 
 	/** The fields array. */
 	private final ReflectedMember[] fieldsArray;
-	
+
 	/** The fields map. */
 	private final Map<String, ReflectedMember> fieldsMap;
 

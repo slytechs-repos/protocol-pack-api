@@ -30,6 +30,7 @@ import com.slytechs.protocol.Other;
 import com.slytechs.protocol.Payload;
 import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.ProtocolPackTable;
+import com.slytechs.protocol.pack.core.Arp;
 import com.slytechs.protocol.pack.core.Ethernet;
 import com.slytechs.protocol.pack.core.Icmp4;
 import com.slytechs.protocol.pack.core.Icmp6;
@@ -110,10 +111,7 @@ public enum CoreIdTable implements HeaderInfo, PackId {
 	ATM,
 
 	/** The arp. */
-	ARP,
-
-	/** The rarp. */
-	RARP,
+	ARP(Arp::new),
 
 	/** The stp. */
 	STP,
@@ -150,12 +148,11 @@ public enum CoreIdTable implements HeaderInfo, PackId {
 	public static final int CORE_ID_PPP      = 17 | PACK_ID_CORE;
 	public static final int CORE_ID_FDDI     = 18 | PACK_ID_CORE;
 	public static final int CORE_ID_ATM      = 19 | PACK_ID_CORE;
-	public static final int CORE_ID_ARM      = 20 | PACK_ID_CORE;
-	public static final int CORE_ID_RARP     = 21 | PACK_ID_CORE;
-	public static final int CORE_ID_STP      = 22 | PACK_ID_CORE;
-	public static final int CORE_ID_DHCPv4   = 23 | PACK_ID_CORE;
-	public static final int CORE_ID_DHCPv6   = 24 | PACK_ID_CORE;
-	public static final int CORE_ID_IGMP     = 25 | PACK_ID_CORE;
+	public static final int CORE_ID_ARP      = 20 | PACK_ID_CORE;
+	public static final int CORE_ID_STP      = 21 | PACK_ID_CORE;
+	public static final int CORE_ID_DHCPv4   = 22 | PACK_ID_CORE;
+	public static final int CORE_ID_DHCPv6   = 23 | PACK_ID_CORE;
+	public static final int CORE_ID_IGMP     = 24 | PACK_ID_CORE;
 	// @formatter:on
 
 	/**

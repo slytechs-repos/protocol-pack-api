@@ -50,13 +50,13 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 
 	/** The Constant WORD0_1. */
 	private static final int WORD0_1 = 0;
-	
+
 	/** The Constant WORD2. */
 	private static final int WORD2 = 8;
-	
+
 	/** The Constant WORD3. */
 	private static final int WORD3 = 12;
-	
+
 	/** The Constant WORD5. */
 	private static final int WORD5 = 20;
 
@@ -65,25 +65,25 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 
 	/** The extensions. */
 	private final DissectorExtension extensions;
-	
+
 	/** The buf. */
 	private ByteBuffer buf;
 
 	/** The record extensions. */
 	private boolean recordExtensions = true;
-	
+
 	/** The timestamp unit. */
 	private TimestampUnit timestampUnit = TimestampUnit.PCAP_MICRO;
 
 	/** The ip 4 disable bitmask. */
 	private int ip4DisableBitmask = 0;
-	
+
 	/** The ip 6 disable bitmask. */
 	private int ip6DisableBitmask = 0;
-	
+
 	/** The tcp disable bitmask. */
 	private int tcpDisableBitmask = 0;
-	
+
 	/** The default bitmask. */
 	private int defaultBitmask = Bits.BITS_00;
 
@@ -92,46 +92,46 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 
 	/** The timestamp. */
 	private long timestamp;
-	
+
 	/** The capture length. */
 	private int captureLength;
-	
+
 	/** The wire length. */
 	private int wireLength;
 
 	/** The rx port. */
 	private int rxPort;
-	
+
 	/** The tx port. */
 	private int txPort;
-	
+
 	/** The tx now. */
 	private int txNow;
-	
+
 	/** The tx ignore. */
 	private int txIgnore;
-	
+
 	/** The tx crc override. */
 	private int txCrcOverride;
-	
+
 	/** The tx set clock. */
 	private int txSetClock;
-	
+
 	/** The l 2 type. */
 	private int l2Type;
-	
+
 	/** The hash type. */
 	private int hashType;
-	
+
 	/** The record count. */
 	private int recordCount;
-	
+
 	/** The hash. */
 	private int hash;
-	
+
 	/** The bitmask. */
 	private int bitmask;
-	
+
 	/** The record. */
 	private final int[] record = new int[DESC_TYPE2_RECORD_MAX_COUNT];
 
@@ -376,6 +376,11 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 
 			dissectIp(offset);
 
+			break;
+
+		case ETHER_TYPE_ARP:
+		case ETHER_TYPE_RARP:
+			addRecord(CoreIdTable.CORE_ID_ARP, offset, CoreConstants.ARP_HEADER_LEN);
 			break;
 		}
 	}
