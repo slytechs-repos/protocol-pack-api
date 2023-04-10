@@ -177,7 +177,8 @@ public abstract class MemoryBinding implements Cloneable, Binding {
 			throw new IllegalStateException("no binding!");
 
 		if (buffer.limit() == 0)
-			throw new IllegalStateException("empty binding! " + buffer);
+			throw new IllegalStateException("%s: empty binding! %s"
+					.formatted(getClass().getSimpleName(), buffer));
 
 		return buffer;
 	}
