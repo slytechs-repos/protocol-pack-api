@@ -33,61 +33,61 @@ import com.slytechs.protocol.runtime.util.HexStrings;
  */
 public enum TestPacket {
 
-	RARP1_REQUEST(Rarp1Req.DESCRIPTION, Rarp1Req.ETHER_HEADER + Rarp1Req.ARP_HEADER),
-	RARP1_REPLY(Rarp1Reply.DESCRIPTION, Rarp1Reply.ETHER_HEADER + Rarp1Reply.ARP_HEADER),
+	/**
+	 * 1 0.000000 VMware_34:0b:de Broadcast RARP 42 Who is 00:0c:29:34:0b:de? Tell
+	 * 00:0c:29:34:0b:de
+	 * 
+	 * <pre>
+	Frame 1: 42 bytes on wire (336 bits), 42 bytes captured (336 bits) on interface Unknown/not available in original file format(libpcap), id 0
+	Ethernet II, Src: VMware_34:0b:de (00:0c:29:34:0b:de), Dst: Broadcast (ff:ff:ff:ff:ff:ff)
+	    Destination: Broadcast (ff:ff:ff:ff:ff:ff)
+	    Source: VMware_34:0b:de (00:0c:29:34:0b:de)
+	    Type: RARP (0x8035)
+	Address Resolution Protocol (reverse request)
+	    Hardware type: Ethernet (1)
+	    Protocol type: IPv4 (0x0800)
+	    Hardware size: 6
+	    Protocol size: 4
+	    Opcode: reverse request (3)
+	    Sender MAC address: VMware_34:0b:de (00:0c:29:34:0b:de)
+	    Sender IP address: 0.0.0.0
+	    Target MAC address: VMware_34:0b:de (00:0c:29:34:0b:de)
+	    Target IP address: 0.0.0.0
+	 * 
+	 * </pre>
+	 */
+	RARP1_REQUEST("ffffffffffff000c29340bde8035" + "0001080006040003000c29340bde00000000000c29340bde00000000"),
+
+	/**
+	 * 2 0.002000 VMware_c5:f6:9b VMware_34:0b:de RARP 42 00:0c:29:34:0b:de is at
+	 * 10.1.1.100
+	 * 
+	 * <pre>
+	Frame 2: 42 bytes on wire (336 bits), 42 bytes captured (336 bits) on interface Unknown/not available in original file format(libpcap), id 0
+	Ethernet II, Src: VMware_c5:f6:9b (00:0c:29:c5:f6:9b), Dst: VMware_34:0b:de (00:0c:29:34:0b:de)
+	    Destination: VMware_34:0b:de (00:0c:29:34:0b:de)
+	    Source: VMware_c5:f6:9b (00:0c:29:c5:f6:9b)
+	    Type: RARP (0x8035)
+	Address Resolution Protocol (reverse reply)
+	    Hardware type: Ethernet (1)
+	    Protocol type: IPv4 (0x0800)
+	    Hardware size: 6
+	    Protocol size: 4
+	    Opcode: reverse reply (4)
+	    Sender MAC address: VMware_c5:f6:9b (00:0c:29:c5:f6:9b)
+	    Sender IP address: 10.1.1.10
+	    Target MAC address: VMware_34:0b:de (00:0c:29:34:0b:de)
+	    Target IP address: 10.1.1.100
+	 * 
+	 * </pre>
+	 */
+	RARP1_REPLY("000c29340bde000c29c5f69b8035" + "0001080006040004000c29c5f69b0a01010a000c29340bde0a010164"),
 
 	;
 
-	interface Rarp1Req {
-		String DESCRIPTION = """
-				Frame 1: 42 bytes on wire (336 bits), 42 bytes captured (336 bits) on interface Unknown/not available in original file format(libpcap), id 0
-				Ethernet II, Src: VMware_34:0b:de (00:0c:29:34:0b:de), Dst: Broadcast (ff:ff:ff:ff:ff:ff)
-				    Destination: Broadcast (ff:ff:ff:ff:ff:ff)
-				    Source: VMware_34:0b:de (00:0c:29:34:0b:de)
-				    Type: RARP (0x8035)
-				Address Resolution Protocol (reverse request)
-				    Hardware type: Ethernet (1)
-				    Protocol type: IPv4 (0x0800)
-				    Hardware size: 6
-				    Protocol size: 4
-				    Opcode: reverse request (3)
-				    Sender MAC address: VMware_34:0b:de (00:0c:29:34:0b:de)
-				    Sender IP address: 0.0.0.0
-				    Target MAC address: VMware_34:0b:de (00:0c:29:34:0b:de)
-				    Target IP address: 0.0.0.0
-
-												""";
-		String ETHER_HEADER = "ffffffffffff000c29340bde8035";
-		String ARP_HEADER = "0001080006040003000c29340bde00000000000c29340bde00000000";
-	}
-
-	interface Rarp1Reply {
-		String DESCRIPTION = """
-				Frame 2: 42 bytes on wire (336 bits), 42 bytes captured (336 bits) on interface Unknown/not available in original file format(libpcap), id 0
-				Ethernet II, Src: VMware_c5:f6:9b (00:0c:29:c5:f6:9b), Dst: VMware_34:0b:de (00:0c:29:34:0b:de)
-				    Destination: VMware_34:0b:de (00:0c:29:34:0b:de)
-				    Source: VMware_c5:f6:9b (00:0c:29:c5:f6:9b)
-				    Type: RARP (0x8035)
-				Address Resolution Protocol (reverse reply)
-				    Hardware type: Ethernet (1)
-				    Protocol type: IPv4 (0x0800)
-				    Hardware size: 6
-				    Protocol size: 4
-				    Opcode: reverse reply (4)
-				    Sender MAC address: VMware_c5:f6:9b (00:0c:29:c5:f6:9b)
-				    Sender IP address: 10.1.1.10
-				    Target MAC address: VMware_34:0b:de (00:0c:29:34:0b:de)
-				    Target IP address: 10.1.1.100
-								""";
-		String ETHER_HEADER = "000c29340bde000c29c5f69b8035";
-		String ARP_HEADER = "0001080006040004000c29c5f69b0a01010a000c29340bde0a010164";
-	}
-
 	private final byte[] array;
-	private final String description;
 
-	TestPacket(String description, String hexbytes) {
-		this.description = description;
+	TestPacket(String hexbytes) {
 		this.array = HexStrings.parseHexString(hexbytes);
 	}
 
@@ -97,10 +97,6 @@ public enum TestPacket {
 
 	public ByteBuffer toByteBuffer() {
 		return ByteBuffer.wrap(array).order(ByteOrder.BIG_ENDIAN);
-	}
-
-	public String description() {
-		return description;
 	}
 
 	public Packet toPacket() {
