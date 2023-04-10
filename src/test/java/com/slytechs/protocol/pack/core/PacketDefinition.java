@@ -57,7 +57,9 @@ public enum PacketDefinition {
 	 * 
 	 * </pre>
 	 */
-	ARP1_REQUEST("ffffffffffff00070daff4540806" + "000108000604000100070daff45418a6ac0100000000000018a6ad9f"),
+	ARP1_REQUEST(""
+			+ "ffffffffffff00070daff4540806"
+			+ "000108000604000100070daff45418a6ac0100000000000018a6ad9f"),
 
 	/**
 	 * 1 0.000000 VMware_34:0b:de Broadcast RARP 42 Who is 00:0c:29:34:0b:de? Tell
@@ -82,7 +84,9 @@ public enum PacketDefinition {
 	 * 
 	 * </pre>
 	 */
-	RARP1_REQUEST("ffffffffffff000c29340bde8035" + "0001080006040003000c29340bde00000000000c29340bde00000000"),
+	RARP1_REQUEST(""
+			+ "ffffffffffff000c29340bde8035"
+			+ "0001080006040003000c29340bde00000000000c29340bde00000000"),
 
 	/**
 	 * 2 0.002000 VMware_c5:f6:9b VMware_34:0b:de RARP 42 00:0c:29:34:0b:de is at
@@ -107,24 +111,83 @@ public enum PacketDefinition {
 	 * 
 	 * </pre>
 	 */
-	RARP1_REPLY("000c29340bde000c29c5f69b8035" + "0001080006040004000c29c5f69b0a01010a000c29340bde0a010164"),
+	RARP1_REPLY(""
+			+ "000c29340bde000c29c5f69b8035"
+			+ "0001080006040004000c29c5f69b0a01010a000c29340bde0a010164"),
 
-	;
+	/**
+	 * 1 0.000000 131.151.32.129 131.151.32.21 X11 1518 Requests: FreePixmap,
+	 * 
+	 * <pre>
+	Frame 1: 1518 bytes on wire (12144 bits), 1518 bytes captured (12144 bits)
+	Ethernet II, Src: AniCommu_40:ef:24 (00:40:05:40:ef:24), Dst: 3com_9f:b1:f3 (00:60:08:9f:b1:f3)
+	    Destination: 3com_9f:b1:f3 (00:60:08:9f:b1:f3)
+	    Source: AniCommu_40:ef:24 (00:40:05:40:ef:24)
+	    Type: 802.1Q Virtual LAN (0x8100)
+	802.1Q Virtual LAN, PRI: 0, DEI: 0, ID: 32
+	    000. .... .... .... = Priority: Best Effort (default) (0)
+	    ...0 .... .... .... = DEI: Ineligible
+	    .... 0000 0010 0000 = ID: 32
+	    Type: IPv4 (0x0800)
+	Internet Protocol Version 4, Src: 131.151.32.129, Dst: 131.151.32.21
+	    0100 .... = Version: 4
+	    .... 0101 = Header Length: 20 bytes (5)
+	    Differentiated Services Field: 0x00 (DSCP: CS0, ECN: Not-ECT)
+	    Total Length: 1500
+	    Identification: 0x3b32 (15154)
+	    010. .... = Flags: 0x2, Don't fragment
+	    ...0 0000 0000 0000 = Fragment Offset: 0
+	    Time to Live: 64
+	    Protocol: TCP (6)
+	    Header Checksum: 0xb225 [validation disabled]
+	    [Header checksum status: Unverified]
+	    Source Address: 131.151.32.129
+	    Destination Address: 131.151.32.21
+	Transmission Control Protocol, Src Port: health-trap (1162), Dst Port: x11 (6000), Seq: 1, Ack: 1, Len: 1448
+	 * </pre>
+	 */
+	VLAN(""
+			+ "0060089fb1f300400540ef248100"
+			+ "00200800"
+			+ "450005dc3b3240004006b2258397208183972015"
+			+ "048a17704e14d0a94d3d54b9801870f810b800000101080a0004f0c70199a3c5"),
+			;
 
+	/** The array. */
 	private final byte[] array;
 
+	/**
+	 * Instantiates a new packet definition.
+	 *
+	 * @param hexbytes the hexbytes
+	 */
 	PacketDefinition(String hexbytes) {
 		this.array = HexStrings.parseHexString(hexbytes);
 	}
 
+	/**
+	 * To array.
+	 *
+	 * @return the byte[]
+	 */
 	public byte[] toArray() {
 		return array;
 	}
 
+	/**
+	 * To byte buffer.
+	 *
+	 * @return the byte buffer
+	 */
 	public ByteBuffer toByteBuffer() {
 		return ByteBuffer.wrap(array).order(ByteOrder.BIG_ENDIAN);
 	}
 
+	/**
+	 * To packet.
+	 *
+	 * @return the packet
+	 */
 	public Packet toPacket() {
 		var packet = new Packet(toByteBuffer());
 
