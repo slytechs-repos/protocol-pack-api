@@ -30,14 +30,22 @@ Here is a table of all of the protocol definitions provided by this **core-proto
 
 | Builtin | Layer2  | Layer3 | Layer4 | Layer7 |
 |---------|---------|--------|--------|--------|
-|Payload  |Ethernet |IPv4    |TCP     |DHCP    |
-|Frame    |LLC/SNAP |IPv6    |UDP     |
+|[Payload][payload]  |[Ethernet][eth] |[IPv4][ip4]    |[TCP][tcp]     |DHCP    |
+|[Frame][frame]    |LLC/SNAP |[IPv6][ip6]    |[UDP][udp]     |
 |         |VLAN     |IPX     |SCTP    |
-|         |PPP      |MPLS    |        |
-|         |STP      |IGMP    |        |
-|         |ARP/RARP |        |        |
+|         |PPP      |MPLS    |[ICMPv4][icmp4]
+|         |STP      |IGMP    |[ICMPv6][icmp6]
 |         |ATM      |        |        |
 |         |FDDI     |        |        |
-|         |ARP/RARP |        |        |
+|         |[ARP][arp] |        |        |
 
-  
+[payload]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/Payload.java
+[frame]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/Frame.java
+[eth]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Ethernet.java
+[arp]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Arp.java
+[ip4]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Ip4.java
+[ip6]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Ip6.java
+[udp]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Udp.java
+[tcp]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Tcp.java
+[icmp4]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Icmp4.java
+[icmp6]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Icmp6.java
