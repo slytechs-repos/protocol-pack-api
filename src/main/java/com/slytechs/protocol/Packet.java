@@ -29,6 +29,7 @@ import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.meta.PacketFormat;
 import com.slytechs.protocol.pack.core.constants.CoreIdTable;
+import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 import com.slytechs.protocol.runtime.MemoryBinding;
 import com.slytechs.protocol.runtime.time.Timestamp;
 import com.slytechs.protocol.runtime.time.TimestampUnit;
@@ -77,13 +78,41 @@ public final class Packet
 		this(new Type2Descriptor());
 	}
 
+	public Packet(ByteBuffer packet) {
+		this(new Type2Descriptor());
+
+		bind(packet);
+	}
+
+	public Packet(ByteBuffer packet, PacketDescriptor descriptor) {
+		this(descriptor);
+
+		bind(packet);
+	}
+
+	public Packet(ByteBuffer packet, PacketDescriptorType type) {
+		this(type);
+
+		bind(packet);
+	}
+
 	/**
-	 * Instantiates a new packet.
+	 * Instantiates a new packet with a specific descriptor.
 	 *
 	 * @param descriptor the descriptor
 	 */
 	public Packet(PacketDescriptor descriptor) {
 		this.descriptor = descriptor;
+		this.lookup = descriptor;
+	}
+
+	/**
+	 * Instantiates a new packet with a specific descriptor.
+	 *
+	 * @param descriptor the descriptor
+	 */
+	public Packet(PacketDescriptorType type) {
+		this.descriptor = type.newDescriptor();
 		this.lookup = descriptor;
 	}
 
@@ -137,17 +166,6 @@ public final class Packet
 		int length = captureLength() - offset;
 
 		bindHeader(payload, offset, length, 0);
-	}
-
-	/**
-	 * Checks if any payload data is available or if all of the packet bytes are
-	 * consumed by known headers. Payload starts on the next byte passed the last
-	 * header and ends at packet length.
-	 *
-	 * @return true, if successful
-	 */
-	public boolean hasPayload() {
-		return payloadLength() > 0;
 	}
 
 	/**
@@ -247,6 +265,17 @@ public final class Packet
 	@Override
 	public final boolean hasHeader(int headerId, int depth) {
 		return lookupHeader(headerId, depth) != ID_NOT_FOUND;
+	}
+
+	/**
+	 * Checks if any payload data is available or if all of the packet bytes are
+	 * consumed by known headers. Payload starts on the next byte passed the last
+	 * header and ends at packet length.
+	 *
+	 * @return true, if successful
+	 */
+	public boolean hasPayload() {
+		return payloadLength() > 0;
 	}
 
 	/**
