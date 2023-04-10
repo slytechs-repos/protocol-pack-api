@@ -20,6 +20,7 @@ package com.slytechs.protocol.pack.core;
 import java.util.concurrent.locks.Lock;
 
 import com.slytechs.protocol.Header;
+import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 
 /**
@@ -37,9 +38,10 @@ import com.slytechs.protocol.pack.core.constants.CoreIdTable;
  * @author Mark Bednarczyk
  * @see IEEE 802.1Q Frame Format
  */
+@Meta
 public class Vlan extends Header {
 
-	/** The Constant ID. */
+	/** Core protocol pack assigned header ID */
 	public static final int ID = CoreIdTable.CORE_ID_VLAN;
 
 	/**
@@ -69,6 +71,7 @@ public class Vlan extends Header {
 	 *
 	 * @return 3-bit pri value
 	 */
+	@Meta
 	public int priority() {
 		return VlanLayout.PRI.getInt(buffer());
 	}
@@ -87,6 +90,7 @@ public class Vlan extends Header {
 	 *
 	 * @return the 1-bit cfi value
 	 */
+	@Meta
 	public int formatIdentifier() {
 		return VlanLayout.CFI.getInt(buffer());
 	}
@@ -101,6 +105,7 @@ public class Vlan extends Header {
 	 *
 	 * @return the 12-bit VID value.
 	 */
+	@Meta
 	public int vlanId() {
 		return VlanLayout.VID.getInt(buffer());
 	}
