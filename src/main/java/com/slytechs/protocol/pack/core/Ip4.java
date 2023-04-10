@@ -20,7 +20,6 @@ package com.slytechs.protocol.pack.core;
 import java.util.Set;
 
 import com.slytechs.protocol.Packet;
-import com.slytechs.protocol.meta.Display;
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
@@ -444,7 +443,6 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 */
 	@Override
 	@Meta
-	@Display("%d")
 	public int version() {
 		return Ip4Layout.VERSION.getInt(buffer());
 	}

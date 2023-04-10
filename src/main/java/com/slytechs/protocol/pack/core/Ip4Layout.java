@@ -33,82 +33,82 @@ import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Padding;
  * The Enum Ip4Layout.
  */
 public enum Ip4Layout implements EnumBitField<Ip4Layout> {
-	
+
 	/** The version. */
 	VERSION(Struct.IP4_STRUCT, "ip.version"),
-	
+
 	/** The hdr len. */
 	HDR_LEN(Struct.IP4_STRUCT, "ip.hdr_len"),
-	
+
 	/** The dsfield. */
 	DSFIELD(Struct.IP4_STRUCT, "ip.dsfield"),
-	
+
 	/** The dsfield dscp. */
 	DSFIELD_DSCP(Struct.IP4_STRUCT, "ip.dsfield.dscp"),
-	
+
 	/** The dsfield dscp select. */
 	DSFIELD_DSCP_SELECT(Struct.IP4_STRUCT, "ip.dsfield.dscp.select"),
-	
+
 	/** The dsfield dscp code. */
 	DSFIELD_DSCP_CODE(Struct.IP4_STRUCT, "ip.dsfield.dscp.code"),
-	
+
 	/** The dsfield ecn. */
 	DSFIELD_ECN(Struct.IP4_STRUCT, "ip.dsfield.ecn"),
-	
+
 	/** The total length. */
 	TOTAL_LENGTH(Struct.IP4_STRUCT, "ip.len"),
-	
+
 	/** The id. */
 	ID(Struct.IP4_STRUCT, "ip.id", "0x%x (%1$d)"),
-	
+
 	/** The flags. */
 	FLAGS(Struct.IP4_STRUCT, "ip.flags"),
-	
+
 	/** The flags nibble. */
 	FLAGS_NIBBLE(Struct.IP4_STRUCT, "ip.flags_nibble"),
-	
+
 	/** The flags byte. */
 	FLAGS_BYTE(Struct.IP4_STRUCT, "ip.flags_byte"),
-	
+
 	/** The flags rb. */
 	FLAGS_RB(Struct.IP4_STRUCT, "ip.flags.rb"),
-	
+
 	/** The flags df. */
 	FLAGS_DF(Struct.IP4_STRUCT, "ip.flags.df"),
-	
+
 	/** The flags mf. */
 	FLAGS_MF(Struct.IP4_STRUCT, "ip.flags.mf"),
-	
+
 	/** The frag offset. */
 	FRAG_OFFSET(Struct.IP4_STRUCT, "ip.frag_offset"),
-	
+
 	/** The ttl. */
 	TTL(Struct.IP4_STRUCT, "ip.ttl"),
-	
+
 	/** The proto. */
 	PROTO(Struct.IP4_STRUCT, "ip.proto"),
-	
+
 	/** The checksum. */
 	CHECKSUM(Struct.IP4_STRUCT, "ip.checksum"),
-	
+
 	/** The src. */
 	SRC(Struct.IP4_STRUCT, "ip.src"),
-	
+
 	/** The dst. */
 	DST(Struct.IP4_STRUCT, "ip.dst"),
 
 	/** The header word0. */
 	HEADER_WORD0(Struct.IP4_STRUCT, "ip.word0", "%08X"),
-	
+
 	/** The header word1. */
 	HEADER_WORD1(Struct.IP4_STRUCT, "ip.word1", "%08X"),
-	
+
 	/** The header word2. */
 	HEADER_WORD2(Struct.IP4_STRUCT, "ip.word2", "%08X"),
-	
+
 	/** The header word3. */
 	HEADER_WORD3(Struct.IP4_STRUCT, "ip.word3", "%08X"),
-	
+
 	/** The header word4. */
 	HEADER_WORD4(Struct.IP4_STRUCT, "ip.word4", "%08X");
 
@@ -123,8 +123,9 @@ public enum Ip4Layout implements EnumBitField<Ip4Layout> {
 				/* Word0 - 31:00 */
 				structLayout( /* 31:00 */
 						structLayout( /* 07:00 */
-								Int8.BITS_04.withName("ip.version"), /* 03:00 */
-								Int8.BITS_04.withName("ip.hdr_len")), /* 07:04 */
+								Int8.BITS_04.withName("ip.hdr_len"), /* 03:00 */
+								Int8.BITS_04.withName("ip.version") /* 07:04 */
+						),
 
 						/* 15:08 Detailed DS or TOS field */
 						unionLayout(
@@ -213,7 +214,7 @@ public enum Ip4Layout implements EnumBitField<Ip4Layout> {
 
 	/** The Constant SRC_BYTES. */
 	public static final ArrayField SRC_BYTES = Struct.IP4_STRUCT.arrayField("ip.src.bytes");
-	
+
 	/** The Constant DST_BYTES. */
 	public static final ArrayField DST_BYTES = Struct.IP4_STRUCT.arrayField("ip.dst.bytes");
 
