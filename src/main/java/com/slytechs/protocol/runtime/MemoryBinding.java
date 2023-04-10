@@ -162,6 +162,11 @@ public abstract class MemoryBinding implements Cloneable, Binding {
 	 * @param address the address
 	 */
 	private final void bind0(ByteBuffer buffer, MemorySegment address) {
+		
+		if (buffer.capacity() == 0)
+			throw new IllegalStateException("%s: empty binding! %s"
+					.formatted(getClass().getSimpleName(), buffer));
+
 		this.buffer = buffer;
 		this.address = address;
 	}
@@ -175,10 +180,6 @@ public abstract class MemoryBinding implements Cloneable, Binding {
 	public final ByteBuffer buffer() throws IllegalStateException {
 		if (buffer == null)
 			throw new IllegalStateException("no binding!");
-
-		if (buffer.limit() == 0)
-			throw new IllegalStateException("%s: empty binding! %s"
-					.formatted(getClass().getSimpleName(), buffer));
 
 		return buffer;
 	}
