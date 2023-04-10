@@ -1,6 +1,6 @@
 {
 	"Arp": "Address Resolution Protocol",
-	"field": {
+	"quick": {
 		"hardwareType": "Ethernet (%d)",
 		"protocolType": "%{:ETHER_TYPE}s (0x%04X)",
 		"hardwareSize": "%d bytes",
