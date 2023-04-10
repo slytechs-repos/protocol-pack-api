@@ -75,7 +75,7 @@ class TestArpRequestHeader {
 
 	@Test
 	void test_ArpRequest_hardwareType() throws HeaderNotFound {
-		var packet = TestPacket.ARP1_REQUEST.toPacket();
+		var packet = PacketDefinition.ARP1_REQUEST.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -89,7 +89,7 @@ class TestArpRequestHeader {
 
 	@Test
 	void test_ArpRequest_protocolType() throws HeaderNotFound {
-		var packet = TestPacket.ARP1_REQUEST.toPacket();
+		var packet = PacketDefinition.ARP1_REQUEST.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -103,7 +103,7 @@ class TestArpRequestHeader {
 
 	@Test
 	void test_ArpRequest_hardwareSize() throws HeaderNotFound {
-		var packet = TestPacket.ARP1_REQUEST.toPacket();
+		var packet = PacketDefinition.ARP1_REQUEST.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -117,7 +117,7 @@ class TestArpRequestHeader {
 
 	@Test
 	void test_ArpRequest_protocolSize() throws HeaderNotFound {
-		var packet = TestPacket.ARP1_REQUEST.toPacket();
+		var packet = PacketDefinition.ARP1_REQUEST.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -131,7 +131,7 @@ class TestArpRequestHeader {
 
 	@Test
 	void test_ArpRequest_operation() throws HeaderNotFound {
-		var packet = TestPacket.ARP1_REQUEST.toPacket();
+		var packet = PacketDefinition.ARP1_REQUEST.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -145,7 +145,7 @@ class TestArpRequestHeader {
 
 	@Test
 	void test_ArpRequest_senderMacAddress() throws HeaderNotFound {
-		var packet = TestPacket.ARP1_REQUEST.toPacket();
+		var packet = PacketDefinition.ARP1_REQUEST.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -161,7 +161,7 @@ class TestArpRequestHeader {
 
 	@Test
 	void test_ArpRequest_senderProtocolAddress() throws HeaderNotFound {
-		var packet = TestPacket.ARP1_REQUEST.toPacket();
+		var packet = PacketDefinition.ARP1_REQUEST.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -177,7 +177,7 @@ class TestArpRequestHeader {
 
 	@Test
 	void test_ArpRequest_targetMacAddress() throws HeaderNotFound {
-		var packet = TestPacket.ARP1_REQUEST.toPacket();
+		var packet = PacketDefinition.ARP1_REQUEST.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -193,7 +193,7 @@ class TestArpRequestHeader {
 
 	@Test
 	void test_ArpRequest_targetProtocolAddress() throws HeaderNotFound {
-		var packet = TestPacket.ARP1_REQUEST.toPacket();
+		var packet = PacketDefinition.ARP1_REQUEST.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 

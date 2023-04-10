@@ -31,7 +31,7 @@ import com.slytechs.protocol.runtime.util.HexStrings;
  * @author Mark Bednarczyk
  *
  */
-public enum TestPacket {
+public enum PacketDefinition {
 
 	/**
 	 * 1 0.000000 Cisco251_af:f4:54 Broadcast ARP 60 Who has 24.166.173.159? Tell
@@ -113,7 +113,7 @@ public enum TestPacket {
 
 	private final byte[] array;
 
-	TestPacket(String hexbytes) {
+	PacketDefinition(String hexbytes) {
 		this.array = HexStrings.parseHexString(hexbytes);
 	}
 
