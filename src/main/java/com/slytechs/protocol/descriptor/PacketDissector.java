@@ -20,6 +20,7 @@ package com.slytechs.protocol.descriptor;
 import java.net.ProtocolException;
 import java.nio.ByteBuffer;
 
+import com.slytechs.protocol.Packet;
 import com.slytechs.protocol.pack.core.constants.L2FrameType;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 import com.slytechs.protocol.runtime.time.TimestampSource;
@@ -86,6 +87,16 @@ public interface PacketDissector {
 	/**
 	 * Dissect packet.
 	 *
+	 * @param packet the packet
+	 * @return the int
+	 */
+	default int dissectPacket(Packet packet) {
+		return dissectPacket(packet.buffer());
+	}
+
+	/**
+	 * Dissect packet.
+	 *
 	 * @param buffer    the buffer
 	 * @param timestamp the timestamp
 	 * @param caplen    the caplen
@@ -124,4 +135,14 @@ public interface PacketDissector {
 	 * @return the int
 	 */
 	int writeDescriptor(ByteBuffer buffer);
+
+	/**
+	 * Write descriptor.
+	 *
+	 * @param descriptor the descriptor
+	 * @return the int
+	 */
+	default int writeDescriptor(PacketDescriptor descriptor) {
+		return writeDescriptor(descriptor.buffer());
+	}
 }

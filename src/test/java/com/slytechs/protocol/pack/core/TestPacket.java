@@ -34,6 +34,32 @@ import com.slytechs.protocol.runtime.util.HexStrings;
 public enum TestPacket {
 
 	/**
+	 * 1 0.000000 Cisco251_af:f4:54 Broadcast ARP 60 Who has 24.166.173.159? Tell
+	 * 24.166.172.1
+	 * 
+	 * <pre>
+	Frame 1: 60 bytes on wire (480 bits), 60 bytes captured (480 bits)
+	Ethernet II, Src: Cisco251_af:f4:54 (00:07:0d:af:f4:54), Dst: Broadcast (ff:ff:ff:ff:ff:ff)
+	    Destination: Broadcast (ff:ff:ff:ff:ff:ff)
+	    Source: Cisco251_af:f4:54 (00:07:0d:af:f4:54)
+	    Type: ARP (0x0806)
+	    Trailer: 060104000000000201000302000005010301
+	Address Resolution Protocol (request)
+	    Hardware type: Ethernet (1)
+	    Protocol type: IPv4 (0x0800)
+	    Hardware size: 6
+	    Protocol size: 4
+	    Opcode: request (1)
+	    Sender MAC address: Cisco251_af:f4:54 (00:07:0d:af:f4:54)
+	    Sender IP address: 24.166.172.1
+	    Target MAC address: 00:00:00_00:00:00 (00:00:00:00:00:00)
+	    Target IP address: 24.166.173.159
+	 * 
+	 * </pre>
+	 */
+	ARP1_REQUEST("ffffffffffff00070daff4540806" + "000108000604000100070daff45418a6ac0100000000000018a6ad9f"),
+
+	/**
 	 * 1 0.000000 VMware_34:0b:de Broadcast RARP 42 Who is 00:0c:29:34:0b:de? Tell
 	 * 00:0c:29:34:0b:de
 	 * 

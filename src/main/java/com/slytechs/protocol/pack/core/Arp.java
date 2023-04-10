@@ -65,12 +65,12 @@ public class Arp extends Header {
 	}
 
 	@Meta
-	public int operation() {
+	public int opcode() {
 		return Short.toUnsignedInt(ArpLayout.OPCODE.getShort(buffer()));
 	}
 
 	public ArpOp operationGetAsEnum() {
-		return ArpOp.valueOfArpOp(operation());
+		return ArpOp.valueOfArpOp(opcode());
 	}
 
 	@Meta
@@ -84,57 +84,57 @@ public class Arp extends Header {
 	}
 
 	@Meta
-	public byte[] senderHa() {
-		return senderHa(new byte[CoreConstants.ARP_LEN_HALEN], 0);
+	public byte[] senderMacAddress() {
+		return senderMacAddress(new byte[CoreConstants.ARP_LEN_HALEN], 0);
 	}
 
 	public byte[] senderHa(byte[] dst) {
-		return senderHa(dst, 0);
+		return senderMacAddress(dst, 0);
 	}
 
-	public byte[] senderHa(byte[] dst, int offset) {
+	public byte[] senderMacAddress(byte[] dst, int offset) {
 		buffer().get(CoreConstants.ARP_FIELD_SHA, dst, offset, CoreConstants.ARP_LEN_HALEN);
 		return dst;
 	}
 
 	@Meta
-	public byte[] senderPa() {
-		return senderPa(new byte[CoreConstants.ARP_LEN_PALEN], 0);
+	public byte[] senderProtocolAddress() {
+		return senderProtocolAddress(new byte[CoreConstants.ARP_LEN_PALEN], 0);
 	}
 
-	public byte[] senderPa(byte[] dst) {
-		return senderPa(dst, 0);
+	public byte[] senderProtocolAddress(byte[] dst) {
+		return senderProtocolAddress(dst, 0);
 	}
 
-	public byte[] senderPa(byte[] dst, int offset) {
+	public byte[] senderProtocolAddress(byte[] dst, int offset) {
 		buffer().get(CoreConstants.ARP_FIELD_SPA, dst, offset, CoreConstants.ARP_LEN_PALEN);
 		return dst;
 	}
 
 	@Meta
-	public byte[] targetHa() {
-		return targetHa(new byte[CoreConstants.ARP_LEN_HALEN], 0);
+	public byte[] targetMacAddress() {
+		return targetMacAddress(new byte[CoreConstants.ARP_LEN_HALEN], 0);
 	}
 
-	public byte[] targetHa(byte[] dst) {
-		return senderHa(dst, 0);
+	public byte[] targetMacAddress(byte[] dst) {
+		return senderMacAddress(dst, 0);
 	}
 
-	public byte[] targetHa(byte[] dst, int offset) {
+	public byte[] targetMacAddress(byte[] dst, int offset) {
 		buffer().get(CoreConstants.ARP_FIELD_THA, dst, offset, CoreConstants.ARP_LEN_HALEN);
 		return dst;
 	}
 
 	@Meta
-	public byte[] targetPa() {
-		return targetPa(new byte[CoreConstants.ARP_LEN_PALEN], 0);
+	public byte[] targetProtocolAddress() {
+		return targetProtocolAddress(new byte[CoreConstants.ARP_LEN_PALEN], 0);
 	}
 
-	public byte[] targetPa(byte[] dst) {
-		return targetPa(dst, 0);
+	public byte[] targetProtocolAddress(byte[] dst) {
+		return targetProtocolAddress(dst, 0);
 	}
 
-	public byte[] targetPa(byte[] dst, int offset) {
+	public byte[] targetProtocolAddress(byte[] dst, int offset) {
 		buffer().get(CoreConstants.ARP_FIELD_TPA, dst, offset, CoreConstants.ARP_LEN_PALEN);
 		return dst;
 	}
