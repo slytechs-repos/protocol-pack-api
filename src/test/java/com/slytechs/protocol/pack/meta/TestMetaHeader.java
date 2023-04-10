@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.protocol.packet.meta;
+package com.slytechs.protocol.pack.meta;
 
 import static java.nio.charset.StandardCharsets.*;
 

@@ -59,19 +59,27 @@ public final class Ethernet extends Header {
 	private static final long ETHER_FIELD_SRC_MASK64 = 0xFFFF_FFFFFFFFl;
 
 	/**
-	 * A flag which specifies if CRC field at the end of Ether II frame has been
+	 * A flag which specifies if CRC field at the end of EtherII frame has been
 	 * captured. Depends on capture configuration and hardware used.
 	 */
 	private boolean crcFlag;
 
 	/**
-	 * A flag which specifies if preamble preceding the Ether II frame has been
+	 * A flag which specifies if preamble preceding the EtherII frame has been
 	 * captured. Depends on capture configuration and hardware used.
 	 */
 	private boolean preambleFlag;
 
+	/**
+	 * The ethernet frame buffer spanning all of ethernet data (preamble + header +
+	 * data + CRC).
+	 */
 	private ByteBuffer frameBuffer;
 
+	/**
+	 * A flag which indicates if caplen < wirelen or packet was truncated and not
+	 * all data captured.
+	 */
 	private boolean isTruncated;
 
 	/**

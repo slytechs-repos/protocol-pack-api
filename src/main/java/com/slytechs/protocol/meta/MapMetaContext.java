@@ -81,7 +81,7 @@ public class MapMetaContext
 	 * @param <V>   the value type
 	 * @param key   the key
 	 * @param value the value
-	 * @see com.slytechs.protocol.meta.MetaContext.MetaMappedSetter#set(java.lang.Object,
+	 * @see com.slytechs.protocol.pack.meta.MetaContext.MetaMappedSetter#set(java.lang.Object,
 	 *      java.lang.Object)
 	 */
 	@Override
