@@ -18,16 +18,27 @@
 package com.slytechs.protocol.pack.core.constants;
 
 /**
- * The Class CoreConstants.
+ * Various core protocol pack constants.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
 public final class CoreConstants {
+	/* @formatter:off - Descriptor type2 constants */
+
+	/**
+	 * A flag which specifies if CRC field at the end of Ether II frame has been
+	 * captured. Depends on capture configuration and hardware used.
+	 */
+	public static final int DESC_PKT_FLAG_CRC           = 0x0001;
+
+	/**
+	 * A flag which specifies if preamble preceding the Ether II frame has been
+	 * captured. Depends on capture configuration and hardware used.
+	 */
+	public static final int DESC_PKT_FLAG_PREAMBLE      = 0x0002;
 
 	/** The Constant DESC_TYPE2_BYTE_SIZE_MIN. */
-	/* @formatter:off - Descriptor type2 constants */
 	public static final int DESC_TYPE2_BYTE_SIZE_MIN    = 24;
 	
 	/** The Constant DESC_TYPE2_RECORD_BYTE_SIZE. */
@@ -42,8 +53,8 @@ public final class CoreConstants {
 			+ (DESC_TYPE2_RECORD_MAX_COUNT * DESC_TYPE2_RECORD_BYTE_SIZE);
 	/* @formatter:on - Descriptor type2 constants */
 
-	/** The Constant ETHER_HEADER_LEN. */
 	/* @formatter:off - Descriptor Ethernet II constants */
+	/** The Constant ETHER_HEADER_LEN. */
 	public static final int ETHER_HEADER_LEN           = 14;
 	
 	/** The Constant ETHER_FIELD_TYPE. */
@@ -55,6 +66,15 @@ public final class CoreConstants {
 	/** The Constant ETHER_FIELD_SRC. */
 	public static final int ETHER_FIELD_SRC            = 6;
 	
+	/** The Constant ETHER_FIELD_PREAMBLE. */
+	public static final int ETHER_FIELD_PREAMBLE       = 0;
+	
+	/** The Constant ETHER_FIELD_LEN_PREAMBLE. */
+	public static final int ETHER_FIELD_LEN_PREAMBLE   = 8;
+	
+	/** The Constant ETHER_FIELD_LEN_CRC. */
+	public static final int ETHER_FIELD_LEN_CRC        = 4;
+
 	/** The Constant ETHER_FIELD_DST_LEN. */
 	public static final int ETHER_FIELD_DST_LEN        = 6;
 	
@@ -92,254 +112,254 @@ public final class CoreConstants {
 	public static final int ETHER_TYPE_PPPoE_SESSION   = 0x8848;
 	/* @formatter:on - Descriptor Ethernet II constants */
 
-	/** The Constant VLAN_HEADER_LEN. */
 	/* @formatter:off - Descriptor VLAN constants */
+	/** The Constant VLAN_HEADER_LEN. */
 	public static final int VLAN_HEADER_LEN    = 0;
 	
 	/** The Constant VLAN_FIELD_LEN_TCI. */
 	public static final int VLAN_FIELD_LEN_TCI = 0;
 	/* @formatter:on - Descriptor VLAN constants */
 
-	/** The Constant LLC_HEADER_LEN. */
 	/* Descriptor LLC constants */
+	/** The Constant LLC_HEADER_LEN. */
 	public static final int LLC_HEADER_LEN = 5;
-	
+
 	/** The Constant LLC_FIELD_DSAP. */
 	public static final int LLC_FIELD_DSAP = 5;
-	
+
 	/** The Constant LLC_FIELD_SSAP. */
 	public static final int LLC_FIELD_SSAP = 5;
-	
+
 	/** The Constant LLC_FIELD_CONTROL. */
 	public static final int LLC_FIELD_CONTROL = 5;
-	
+
 	/** The Constant LLC_TYPE_FRAME. */
 	public static final int LLC_TYPE_FRAME = 5;
-	
+
 	/** The Constant LLC_TYPE_SNAP. */
 	public static final int LLC_TYPE_SNAP = 5;
-	
+
 	/** The Constant LLC_TYPE_NETWARE. */
 	public static final int LLC_TYPE_NETWARE = 5;
 
 	/** The Constant SNAP_HEADER_LEN. */
 	/* Descriptor SNAP constants */
 	public static final int SNAP_HEADER_LEN = 4;
-	
+
 	/** The Constant SNAP_FIELD_TYPE. */
 	public static final int SNAP_FIELD_TYPE = 4;
-	
+
 	/** The Constant SNAP_FIELD_OUI. */
 	public static final int SNAP_FIELD_OUI = 4;
-	
+
 	/** The Constant SNAP_TYPE_ETHER. */
 	public static final int SNAP_TYPE_ETHER = 4;
 
 	/** The Constant MPLS_HEADER_LEN. */
 	/* Descriptor MPLS constants */
 	public static final int MPLS_HEADER_LEN = 0;
-	
+
 	/** The Constant MPLS_BITMASK_BOTTOM. */
 	public static final int MPLS_BITMASK_BOTTOM = 0;
 
 	/** The Constant IPX_HEADER_LEN. */
 	/* Descriptor IPX constants */
 	public static final int IPX_HEADER_LEN = 0;
-	
+
 	/** The Constant IPX_FIELD_VALUE_CHECKSUM. */
 	public static final int IPX_FIELD_VALUE_CHECKSUM = 0;
 
 	/** The Constant ICMPv4_HEADER_LEN. */
 	/* Descriptor ICMP constants */
 	public static final int ICMPv4_HEADER_LEN = 0;
-	
+
 	/** The Constant ICMPv6_TYPE_RESERVED. */
 	public static final int ICMPv6_TYPE_RESERVED = 0;
-	
+
 	/** The Constant ICMP_TYPE_UNREACHABLE. */
 	public static final int ICMP_TYPE_UNREACHABLE = 1;
-	
+
 	/** The Constant ICMPv6_TYPE_PACKET_TOO_BIG. */
 	public static final int ICMPv6_TYPE_PACKET_TOO_BIG = 2;
-	
+
 	/** The Constant ICMPv6_TYPE_TIME_EXEEDED. */
 	public static final int ICMPv6_TYPE_TIME_EXEEDED = 3;
-	
+
 	/** The Constant ICMPv6_TYPE_PARAMETER_PROBLEM. */
 	public static final int ICMPv6_TYPE_PARAMETER_PROBLEM = 4;
-	
+
 	/** The Constant ICMPv6_TYPE_ECHO_REQUEST. */
 	public static final int ICMPv6_TYPE_ECHO_REQUEST = 128;
-	
+
 	/** The Constant ICMPv6_TYPE_ECHO_REPLY. */
 	public static final int ICMPv6_TYPE_ECHO_REPLY = 129;
-	
+
 	/** The Constant ICMPv6_TYPE_MULTICAST_LISTENER_QUERY. */
 	public static final int ICMPv6_TYPE_MULTICAST_LISTENER_QUERY = 130;
-	
+
 	/** The Constant ICMPv6_TYPE_MULTICAST_LISTENER_REPORT. */
 	public static final int ICMPv6_TYPE_MULTICAST_LISTENER_REPORT = 131;
-	
+
 	/** The Constant ICMPv6_TYPE_MULTICAST_LISTENER_DONE. */
 	public static final int ICMPv6_TYPE_MULTICAST_LISTENER_DONE = 132;
-	
+
 	/** The Constant ICMPv6_TYPE_ROUTER_SOLICITATION. */
 	public static final int ICMPv6_TYPE_ROUTER_SOLICITATION = 133;
-	
+
 	/** The Constant ICMPv6_TYPE_ROUTER_ADVERTISEMENT. */
 	public static final int ICMPv6_TYPE_ROUTER_ADVERTISEMENT = 134;
-	
+
 	/** The Constant ICMPv6_TYPE_NEIGHBOR_SOLICITATION. */
 	public static final int ICMPv6_TYPE_NEIGHBOR_SOLICITATION = 135;
-	
+
 	/** The Constant ICMPv6_TYPE_NEIGHBOR_ADVERTISEMENT. */
 	public static final int ICMPv6_TYPE_NEIGHBOR_ADVERTISEMENT = 136;
-	
+
 	/** The Constant ICMPv6_TYPE_REDIRECT. */
 	public static final int ICMPv6_TYPE_REDIRECT = 137;
-	
+
 	/** The Constant ICMPv6_TYPE_ROUTER_RENUMBER. */
 	public static final int ICMPv6_TYPE_ROUTER_RENUMBER = 138;
-	
+
 	/** The Constant ICMPv6_TYPE_NODE_INFO_QUERY. */
 	public static final int ICMPv6_TYPE_NODE_INFO_QUERY = 139;
-	
+
 	/** The Constant ICMPv6_TYPE_NODE_INFO_RESPONSE. */
 	public static final int ICMPv6_TYPE_NODE_INFO_RESPONSE = 140;
-	
+
 	/** The Constant ICMPv6_TYPE_INVERSE_NEIGHBOR_SOLICITATION. */
 	public static final int ICMPv6_TYPE_INVERSE_NEIGHBOR_SOLICITATION = 141;
-	
+
 	/** The Constant ICMPv6_TYPE_INVERSE_NEIGHBOR_ADVERTISEMENT. */
 	public static final int ICMPv6_TYPE_INVERSE_NEIGHBOR_ADVERTISEMENT = 142;
-	
+
 	/** The Constant ICMPv6_TYPE_HOME_AGENT_REQUEST. */
 	public static final int ICMPv6_TYPE_HOME_AGENT_REQUEST = 144;
-	
+
 	/** The Constant ICMPv6_TYPE_HOME_AGENT_REPLY. */
 	public static final int ICMPv6_TYPE_HOME_AGENT_REPLY = 145;
-	
+
 	/** The Constant ICMPv6_TYPE_MOBILE_PREFIX_SOLICITATION. */
 	public static final int ICMPv6_TYPE_MOBILE_PREFIX_SOLICITATION = 146;
-	
+
 	/** The Constant ICMPv6_TYPE_MOBILE_PREFIX_ADVERTISEMENT. */
 	public static final int ICMPv6_TYPE_MOBILE_PREFIX_ADVERTISEMENT = 147;
-	
+
 	/** The Constant ICMPv6_TYPE_FMIPv6_MESSAGE. */
 	public static final int ICMPv6_TYPE_FMIPv6_MESSAGE = 154;
-	
+
 	/** The Constant ICMPv6_TYPE_RPL_CONTROL_MESSAGE. */
 	public static final int ICMPv6_TYPE_RPL_CONTROL_MESSAGE = 155;
-	
+
 	/** The Constant ICMPv6_TYPE_ILNPv6_LOCATOR_UPDATE_MESSAGE. */
 	public static final int ICMPv6_TYPE_ILNPv6_LOCATOR_UPDATE_MESSAGE = 156;
-	
+
 	/** The Constant ICMPv6_TYPE_DUPLICATE_ADDRESS_REQUEST_CODE_SUFFIX. */
 	public static final int ICMPv6_TYPE_DUPLICATE_ADDRESS_REQUEST_CODE_SUFFIX = 157;
-	
+
 	/** The Constant ICMPv6_TYPE_DUPLICATE_ADDRESS_CONFIRMATION_CODE_SUFFIX. */
 	public static final int ICMPv6_TYPE_DUPLICATE_ADDRESS_CONFIRMATION_CODE_SUFFIX = 158;
-	
+
 	/** The Constant ICMPv6_TYPE_MPL_CONTROL_MESSAGE. */
 	public static final int ICMPv6_TYPE_MPL_CONTROL_MESSAGE = 159;
-	
+
 	/** The Constant ICMPv6_TYPE_EXTENDED_ECHO_REQUEST. */
 	public static final int ICMPv6_TYPE_EXTENDED_ECHO_REQUEST = 160;
-	
+
 	/** The Constant ICMPv6_TYPE_EXTENDED_ECHO_REPLY. */
 	public static final int ICMPv6_TYPE_EXTENDED_ECHO_REPLY = 161;
 
 	/** The Constant IPv4_HEADER_LEN. */
 	/* Descriptor IP constants */
 	public static final int IPv4_HEADER_LEN = 20;
-	
+
 	/** The Constant IPv6_HEADER_LEN. */
 	public static final int IPv6_HEADER_LEN = 40;
-	
+
 	/** The Constant IPv4_FIELD_VER. */
 	public static final int IPv4_FIELD_VER = 0;
-	
+
 	/** The Constant IPv4_FIELD_PROTOCOL. */
 	public static final int IPv4_FIELD_PROTOCOL = 9;
-	
+
 	/** The Constant IPv6_FIELD_NEXT_HOP. */
 	public static final int IPv6_FIELD_NEXT_HOP = 0;
-	
+
 	/** The Constant IPv4_FIELD_DST_LEN. */
 	public static final int IPv4_FIELD_DST_LEN = 0;
-	
+
 	/** The Constant IPv4_FIELD_DST. */
 	public static final int IPv4_FIELD_DST = 0;
-	
+
 	/** The Constant IPv4_FIELD_SRC_LEN. */
 	public static final int IPv4_FIELD_SRC_LEN = 0;
-	
+
 	/** The Constant IPv4_FIELD_SRC. */
 	public static final int IPv4_FIELD_SRC = 0;
-	
+
 	/** The Constant IPv4_ADDRESS_SIZE. */
 	public static final int IPv4_ADDRESS_SIZE = 4;
-	
+
 	/** The Constant IPv6_ADDRESS_SIZE. */
 	public static final int IPv6_ADDRESS_SIZE = 16;
-	
+
 	/** The Constant IPv6_ADDRESS_STRING_SIZE. */
 	public static final int IPv6_ADDRESS_STRING_SIZE = 39;
-	
+
 	/** The Constant IP_TYPE_ICMPv4. */
 	public static final int IP_TYPE_ICMPv4 = 1;
-	
+
 	/** The Constant IP_TYPE_IPv4_IN_IP. */
 	public static final int IP_TYPE_IPv4_IN_IP = 4;
-	
+
 	/** The Constant IP_TYPE_TCP. */
 	public static final int IP_TYPE_TCP = 6;
-	
+
 	/** The Constant IP_TYPE_UDP. */
 	public static final int IP_TYPE_UDP = 17;
-	
+
 	/** The Constant IP_TYPE_IPv6_IN_IP. */
 	public static final int IP_TYPE_IPv6_IN_IP = 41;
-	
+
 	/** The Constant IP_TYPE_GRE. */
 	public static final int IP_TYPE_GRE = 47;
-	
+
 	/** The Constant IP_TYPE_SCTP. */
 	public static final int IP_TYPE_SCTP = 132;
-	
+
 	/** The Constant IP_TYPE_IPv6_HOP_BY_HOP. */
 	public static final int IP_TYPE_IPv6_HOP_BY_HOP = 0;
-	
+
 	/** The Constant IP_TYPE_IPv6_ROUTING_HEADER. */
 	public static final int IP_TYPE_IPv6_ROUTING_HEADER = 43;
-	
+
 	/** The Constant IP_TYPE_IPv6_FRAGMENT_HEADER. */
 	public static final int IP_TYPE_IPv6_FRAGMENT_HEADER = 44;
-	
+
 	/** The Constant IP_TYPE_IPv6_ENCAPSULATING_SECURITY_PAYLOAD. */
 	public static final int IP_TYPE_IPv6_ENCAPSULATING_SECURITY_PAYLOAD = 50;
-	
+
 	/** The Constant IP_TYPE_IPv6_AUTHENTICATION_HEADER. */
 	public static final int IP_TYPE_IPv6_AUTHENTICATION_HEADER = 51;
-	
+
 	/** The Constant IP_TYPE_ICMPv6. */
 	public static final int IP_TYPE_ICMPv6 = 58;
-	
+
 	/** The Constant IP_TYPE_NO_NEXT. */
 	public static final int IP_TYPE_NO_NEXT = 59;
-	
+
 	/** The Constant IP_TYPE_IPv6_DESTINATION_OPTIONS. */
 	public static final int IP_TYPE_IPv6_DESTINATION_OPTIONS = 60;
-	
+
 	/** The Constant IP_TYPE_IPv6_MOBILITY_HEADER. */
 	public static final int IP_TYPE_IPv6_MOBILITY_HEADER = 135;
-	
+
 	/** The Constant IP_TYPE_IPv6_HOST_IDENTITY_PROTOCOL. */
 	public static final int IP_TYPE_IPv6_HOST_IDENTITY_PROTOCOL = 139;
-	
+
 	/** The Constant IP_TYPE_IPv6_SHIM6_PROTOCOL. */
 	public static final int IP_TYPE_IPv6_SHIM6_PROTOCOL = 140;
-	
+
 	/** The Constant IPv4_OPTION_TYPE_EOOL. */
 	// @formatter:off
 	public static final int IPv4_OPTION_TYPE_EOOL      = 0x00;
@@ -470,52 +490,52 @@ public final class CoreConstants {
 	/** The Constant TCP_HEADER_LEN. */
 	/* Descriptor TCP constants */
 	public static final int TCP_HEADER_LEN = 20;
-	
+
 	/** The Constant TCP_FIELD_IHL. */
 	public static final int TCP_FIELD_IHL = 12;
-	
+
 	/** The Constant TCP_OPTION_FIELD_KIND. */
 	public static final int TCP_OPTION_FIELD_KIND = 0;
-	
+
 	/** The Constant TCP_OPTION_FIELD_LENGTH. */
 	public static final int TCP_OPTION_FIELD_LENGTH = 1;
-	
+
 	/** The Constant TCP_OPTION_KIND_EOL. */
 	public static final int TCP_OPTION_KIND_EOL = 0;
-	
+
 	/** The Constant TCP_OPTION_KIND_NOP. */
 	public static final int TCP_OPTION_KIND_NOP = 1;
-	
+
 	/** The Constant TCP_OPTION_KIND_MSS. */
 	public static final int TCP_OPTION_KIND_MSS = 2;
-	
+
 	/** The Constant TCP_OPTION_KIND_WIN_SCALE. */
 	public static final int TCP_OPTION_KIND_WIN_SCALE = 3;
-	
+
 	/** The Constant TCP_OPTION_KIND_SACK. */
 	public static final int TCP_OPTION_KIND_SACK = 4;
-	
+
 	/** The Constant TCP_OPTION_KIND_TIMESTAMP. */
 	public static final int TCP_OPTION_KIND_TIMESTAMP = 8;
-	
+
 	/** The Constant TCP_OPTION_KIND_FASTOPEN. */
 	public static final int TCP_OPTION_KIND_FASTOPEN = 34;
-	
+
 	/** The Constant TCP_OPTION_LEN_MSS. */
 	public static final int TCP_OPTION_LEN_MSS = 4;
-	
+
 	/** The Constant TCP_OPTION_LEN_TIMESTAMP. */
 	public static final int TCP_OPTION_LEN_TIMESTAMP = 10;
-	
+
 	/** The Constant TCP_OPTION_LEN_WIN_SCALE. */
 	public static final int TCP_OPTION_LEN_WIN_SCALE = 3;
-	
+
 	/** The Constant TCP_OPTION_LEN_FASTOPEN. */
 	public static final int TCP_OPTION_LEN_FASTOPEN = 18;
-	
+
 	/** The Constant TCP_OPTION_LEN_NOP. */
 	public static final int TCP_OPTION_LEN_NOP = 1;
-	
+
 	/** The Constant TCP_OPTION_LEN_EOL. */
 	public static final int TCP_OPTION_LEN_EOL = 1;
 
@@ -530,10 +550,10 @@ public final class CoreConstants {
 	/** The Constant GRE_BITMASK_CHKSUM_FLAG. */
 	/* Descriptor GRE constants */
 	public static final int GRE_BITMASK_CHKSUM_FLAG = 0;
-	
+
 	/** The Constant GRE_BITMASK_KEY_FLAG. */
 	public static final int GRE_BITMASK_KEY_FLAG = 0;
-	
+
 	/** The Constant GRE_BITMASK_SEQ_FLAG. */
 	public static final int GRE_BITMASK_SEQ_FLAG = 0;
 

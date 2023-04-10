@@ -27,7 +27,7 @@ import com.slytechs.protocol.runtime.util.Detail;
 import com.slytechs.protocol.runtime.util.StringBuildable;
 
 /**
- * The Class PacketDescriptor.
+ * Base class for all packet descriptors.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
@@ -40,6 +40,8 @@ public abstract class PacketDescriptor
 	/** The frame no. */
 	@Meta(MetaType.ATTRIBUTE)
 	public long frameNo;
+
+	private int flags;
 
 	/** The timestamp unit. */
 	private TimestampUnit timestampUnit = TimestampUnit.PCAP_MICRO;
@@ -54,13 +56,46 @@ public abstract class PacketDescriptor
 	}
 
 	/**
-	 * Type.
+	 * Builds the detailed string.
 	 *
-	 * @return the packet descriptor type
+	 * @param b      the b
+	 * @param detail the detail
+	 * @return the string builder
+	 */
+	protected abstract StringBuilder buildDetailedString(StringBuilder b, Detail detail);
+
+	/**
+	 * @see com.slytechs.protocol.runtime.util.StringBuildable#buildString(java.lang.StringBuilder,
+	 *      com.slytechs.protocol.runtime.util.Detail)
 	 */
 	@Override
-	public final PacketDescriptorType type() {
-		return (PacketDescriptorType) super.type();
+	public final StringBuilder buildString(StringBuilder b, Detail detail) {
+		String newLine = detail.isLow() ? "" : "\n";
+
+		b.append(getClass().getSimpleName());
+		b.append(" [").append(newLine);
+
+		buildDetailedString(b, detail);
+
+		b.append("]");
+
+		return b;
+	}
+
+	/**
+	 * Byte size.
+	 *
+	 * @return the int
+	 */
+	public abstract int byteSize();
+
+	/**
+	 * Byte size max.
+	 *
+	 * @return the int
+	 */
+	public int byteSizeMax() {
+		return byteSize();
 	}
 
 	/**
@@ -73,12 +108,28 @@ public abstract class PacketDescriptor
 	}
 
 	/**
-	 * Byte size max.
+	 * Capture length.
 	 *
 	 * @return the int
 	 */
-	public int byteSizeMax() {
-		return byteSize();
+	public abstract int captureLength();
+
+	/**
+	 * Additional flags copied from the dissector.
+	 *
+	 * @return Bit flags
+	 */
+	public final int flags() {
+		return flags;
+	}
+
+	/**
+	 * Sets new dissector flags.
+	 *
+	 * @param flags the new dissector flags
+	 */
+	public final void flags(int flags) {
+		this.flags = flags;
 	}
 
 	/**
@@ -103,11 +154,13 @@ public abstract class PacketDescriptor
 	}
 
 	/**
-	 * Byte size.
+	 * L 2 frame type.
 	 *
 	 * @return the int
 	 */
-	public abstract int byteSize();
+	public int l2FrameType() {
+		return L2FrameType.L2_FRAME_TYPE_UNKNOWN; // Layer2 frame type unknown
+	}
 
 	/**
 	 * Timestamp.
@@ -117,26 +170,21 @@ public abstract class PacketDescriptor
 	public abstract long timestamp();
 
 	/**
-	 * Capture length.
+	 * Timestamp unit.
 	 *
-	 * @return the int
+	 * @return the timestamp unit
 	 */
-	public abstract int captureLength();
+	public TimestampUnit timestampUnit() {
+		return this.timestampUnit;
+	}
 
 	/**
-	 * Wire length.
+	 * Timestamp unit.
 	 *
-	 * @return the int
+	 * @param timestampUnit the timestamp unit
 	 */
-	public abstract int wireLength();
-
-	/**
-	 * L 2 frame type.
-	 *
-	 * @return the int
-	 */
-	public int l2FrameType() {
-		return L2FrameType.L2_FRAME_TYPE_UNKNOWN; // Layer2 frame type unknown
+	public void timestampUnit(TimestampUnit timestampUnit) {
+		this.timestampUnit = timestampUnit;
 	}
 
 	/**
@@ -151,48 +199,20 @@ public abstract class PacketDescriptor
 	}
 
 	/**
-	 * @see com.slytechs.protocol.runtime.util.StringBuildable#buildString(java.lang.StringBuilder,
-	 *      com.slytechs.protocol.runtime.util.Detail)
+	 * Type.
+	 *
+	 * @return the packet descriptor type
 	 */
 	@Override
-	public final StringBuilder buildString(StringBuilder b, Detail detail) {
-		String newLine = detail.isLow() ? "" : "\n";
-
-		b.append(getClass().getSimpleName());
-		b.append(" [").append(newLine);
-
-		buildDetailedString(b, detail);
-
-		b.append("]");
-
-		return b;
+	public final PacketDescriptorType type() {
+		return (PacketDescriptorType) super.type();
 	}
 
 	/**
-	 * Builds the detailed string.
+	 * Wire length.
 	 *
-	 * @param b      the b
-	 * @param detail the detail
-	 * @return the string builder
+	 * @return the int
 	 */
-	protected abstract StringBuilder buildDetailedString(StringBuilder b, Detail detail);
-
-	/**
-	 * Timestamp unit.
-	 *
-	 * @param timestampUnit the timestamp unit
-	 */
-	public void timestampUnit(TimestampUnit timestampUnit) {
-		this.timestampUnit = timestampUnit;
-	}
-
-	/**
-	 * Timestamp unit.
-	 *
-	 * @return the timestamp unit
-	 */
-	public TimestampUnit timestampUnit() {
-		return this.timestampUnit;
-	}
+	public abstract int wireLength();
 
 }

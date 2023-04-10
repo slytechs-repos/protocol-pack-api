@@ -43,13 +43,13 @@ public final class IeeeOuiAssignments {
 
 		/** The prefix. */
 		private final byte[] prefix;
-		
+
 		/** The name. */
 		private final String name;
-		
+
 		/** The descriptrion. */
 		private final String descriptrion;
-		
+
 		/** The mask. */
 		private final int mask;
 
@@ -149,7 +149,7 @@ public final class IeeeOuiAssignments {
 
 		/** The Constant EUI64_BYTE_LENGTH. */
 		private static final int EUI64_BYTE_LENGTH = 8;
-		
+
 		/** The Constant OUI_MANUFACTURER_TABLE. */
 		private static final OuiTable OUI_MANUFACTURER_TABLE = new OuiTable();
 
@@ -465,7 +465,16 @@ public final class IeeeOuiAssignments {
 	 * @return the string
 	 */
 	public static String formatPrefixMacWithOuiName(Object obj) {
-		return "IeeOui:: format";
+		if (obj instanceof byte[] mac) {
+			Optional<OuiEntry> oui = lookupManufacturerOui(mac);
+
+			return oui
+					.map(OuiEntry::getName)
+					.map(n -> HexStrings.toMacString(mac, n, 3))
+					.orElse("");
+		}
+
+		return "";
 	}
 
 	/**
@@ -475,6 +484,14 @@ public final class IeeeOuiAssignments {
 	 * @return the string
 	 */
 	public static String resolveMacOuiDescription(Object obj) {
-		return "IeeOui:: resolve";
+		if (obj instanceof byte[] address) {
+			Optional<OuiEntry> oui = lookupManufacturerOui(address);
+
+			return oui
+					.map(OuiEntry::getDescriptrion)
+					.orElse("");
+		}
+
+		return "";
 	}
 }

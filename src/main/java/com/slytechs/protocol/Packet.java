@@ -99,9 +99,8 @@ public final class Packet
 	 */
 	private <T extends Header> boolean bindHeader(T header, int offset, int length, int meta) {
 		ByteBuffer buffer = buffer();
-		int payloadLength = descriptor.captureLength() - (offset + length);
 
-		header.bindHeaderToPacket(buffer, offset, length, payloadLength);
+		header.bindHeaderToPacket(buffer, descriptor, offset, length);
 		header.bindExtensionsToPacket(buffer, descriptor, meta);
 
 		header.setFormatter(formatter);

@@ -60,7 +60,7 @@
 					"label": "type"
 				},
 				"MEDIUM": "%{}04X (%{:R}s)",
-				"HIGH": "%{}04X (%{:R0}s) [%1$d]"
+				"HIGH": "%{}04X (%{:R1}s) [%1$d]"
 			},
 			"resolver": "ETHER_TYPE"
 		}

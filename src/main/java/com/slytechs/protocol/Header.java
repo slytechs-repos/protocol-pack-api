@@ -22,6 +22,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Supplier;
 
+import com.slytechs.protocol.descriptor.PacketDescriptor;
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.PacketFormat;
@@ -93,17 +94,57 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	/**
 	 * Bind header to packet.
 	 *
-	 * @param packet        the packet
-	 * @param offset        the offset
-	 * @param length        the length
-	 * @param payloadLength the payload length
+	 * @param packet     the packet
+	 * @param descriptor TODO
+	 * @param offset     the offset
+	 * @param length     the length
 	 */
-	final void bindHeaderToPacket(ByteBuffer packet, int offset, int length, int payloadLength) {
-		this.offset = offset;
-		this.length = length;
-		this.payloadLength = payloadLength;
+	final void bindHeaderToPacket(ByteBuffer packet, PacketDescriptor descriptor, int offset, int length) {
+		this.offset = calcOffset(packet, descriptor, offset, length);
+		this.length = calcLength(packet, descriptor, offset, length);
+		this.payloadLength = calcPayloadLength(packet, descriptor, offset, length);
 
 		super.bind(packet.slice(offset, length));
+	}
+
+	/**
+	 * Recalculates the header length on a per header basis if needed.
+	 *
+	 * @param packet     the packet buffer
+	 * @param descriptor the packet descriptor
+	 * @param offset     the offset calculated by the dissector
+	 * @param length     the length calculated by the dissector
+	 * @return new header length if different from dissector calculated one
+	 */
+	protected int calcLength(ByteBuffer packet, PacketDescriptor descriptor, int offset, int length) {
+		return length;
+	}
+
+	/**
+	 * Recalculates the header offset/start on a per header basis if needed.
+	 *
+	 * @param packet     the packet buffer
+	 * @param descriptor the packet descriptor
+	 * @param offset     the offset calculated by the dissector
+	 * @param length     the length calculated by the dissector
+	 * @return new header offset if different from dissector calculated one
+	 */
+	protected int calcOffset(ByteBuffer packet, PacketDescriptor descriptor, int offset, int length) {
+		return offset;
+	}
+
+	/**
+	 * Recalculates the protocol payload on a per header basis if needed.
+	 *
+	 * @param packet     the packet buffer
+	 * @param descriptor the packet descriptor
+	 * @param offset     the offset calculated by the dissector
+	 * @param length     the length calculated by the dissector
+	 * @return new protocol header payload length if different from dissector
+	 *         calculated one
+	 */
+	protected int calcPayloadLength(ByteBuffer packet, PacketDescriptor descriptor, int offset, int length) {
+		return descriptor.captureLength() - (offset + length);
 	}
 
 	/**

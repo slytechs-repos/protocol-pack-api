@@ -117,7 +117,12 @@ public final class PacketFormat extends MetaFormat {
 
 			var valueArgs = buildDisplayArgs(field.getParentHeader(), field, displayFormat);
 			displayFormat = super.rewriteDisplayArgs(displayFormat);
-//		System.out.printf("formatField:: displayFormat=%s%n", displayFormat);
+			
+//		System.out.printf("formatField::%s displayFormat=%s, args=%s%n", 
+//				field.name(), 
+////				display.value(),
+//				displayFormat,
+//				Arrays.asList(valueArgs));
 
 			var labelComponent = label;
 			var valueComponent = displayFormat.formatted(valueArgs);
