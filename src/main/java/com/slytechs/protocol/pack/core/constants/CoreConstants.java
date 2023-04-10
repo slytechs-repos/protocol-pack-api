@@ -130,7 +130,7 @@ public final class CoreConstants {
 
 	/* @formatter:off - Descriptor VLAN constants */
 	/** The Constant VLAN_HEADER_LEN. */
-	public static final int VLAN_HEADER_LEN    = 0;
+	public static final int VLAN_HEADER_LEN    = 2;
 	
 	/** The Constant VLAN_FIELD_LEN_TCI. */
 	public static final int VLAN_FIELD_LEN_TCI = 0;
