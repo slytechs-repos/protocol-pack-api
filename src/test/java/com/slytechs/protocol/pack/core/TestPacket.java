@@ -31,10 +31,37 @@ import com.slytechs.protocol.runtime.util.HexStrings;
  * @author Mark Bednarczyk
  *
  */
-public enum HexPackets {
-	RARP1(Rarp1.DESCRIPTION, Rarp1.ETHERNET_HEADER + Rarp1.ARP_HEADER);
+public enum TestPacket {
 
-	interface Rarp1 {
+	RARP1_REQUEST(Rarp1Req.DESCRIPTION, Rarp1Req.ETHER_HEADER + Rarp1Req.ARP_HEADER),
+	RARP1_REPLY(Rarp1Reply.DESCRIPTION, Rarp1Reply.ETHER_HEADER + Rarp1Reply.ARP_HEADER),
+
+	;
+
+	interface Rarp1Req {
+		String DESCRIPTION = """
+				Frame 1: 42 bytes on wire (336 bits), 42 bytes captured (336 bits) on interface Unknown/not available in original file format(libpcap), id 0
+				Ethernet II, Src: VMware_34:0b:de (00:0c:29:34:0b:de), Dst: Broadcast (ff:ff:ff:ff:ff:ff)
+				    Destination: Broadcast (ff:ff:ff:ff:ff:ff)
+				    Source: VMware_34:0b:de (00:0c:29:34:0b:de)
+				    Type: RARP (0x8035)
+				Address Resolution Protocol (reverse request)
+				    Hardware type: Ethernet (1)
+				    Protocol type: IPv4 (0x0800)
+				    Hardware size: 6
+				    Protocol size: 4
+				    Opcode: reverse request (3)
+				    Sender MAC address: VMware_34:0b:de (00:0c:29:34:0b:de)
+				    Sender IP address: 0.0.0.0
+				    Target MAC address: VMware_34:0b:de (00:0c:29:34:0b:de)
+				    Target IP address: 0.0.0.0
+
+												""";
+		String ETHER_HEADER = "ffffffffffff000c29340bde8035";
+		String ARP_HEADER = "0001080006040003000c29340bde00000000000c29340bde00000000";
+	}
+
+	interface Rarp1Reply {
 		String DESCRIPTION = """
 				Frame 2: 42 bytes on wire (336 bits), 42 bytes captured (336 bits) on interface Unknown/not available in original file format(libpcap), id 0
 				Ethernet II, Src: VMware_c5:f6:9b (00:0c:29:c5:f6:9b), Dst: VMware_34:0b:de (00:0c:29:34:0b:de)
@@ -52,14 +79,14 @@ public enum HexPackets {
 				    Target MAC address: VMware_34:0b:de (00:0c:29:34:0b:de)
 				    Target IP address: 10.1.1.100
 								""";
-		String ETHERNET_HEADER = "000c29340bde000c29c5f69b8035";
+		String ETHER_HEADER = "000c29340bde000c29c5f69b8035";
 		String ARP_HEADER = "0001080006040004000c29c5f69b0a01010a000c29340bde0a010164";
 	}
 
 	private final byte[] array;
 	private final String description;
 
-	HexPackets(String description, String hexbytes) {
+	TestPacket(String description, String hexbytes) {
 		this.description = description;
 		this.array = HexStrings.parseHexString(hexbytes);
 	}
@@ -77,9 +104,7 @@ public enum HexPackets {
 	}
 
 	public Packet toPacket() {
-		var packet = new Packet();
-
-		packet.bind(toByteBuffer());
+		var packet = new Packet(toByteBuffer());
 
 		return packet;
 	}

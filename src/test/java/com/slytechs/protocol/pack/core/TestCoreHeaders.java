@@ -67,7 +67,7 @@ class TestCoreHeaders {
 
 	@Test
 	void rarp() {
-		var packet = HexPackets.RARP1.toPacket();
+		var packet = TestPacket.RARP1_REPLY.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
