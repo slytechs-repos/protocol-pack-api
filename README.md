@@ -30,13 +30,13 @@ Here is a table of all of the protocol definitions provided by this **core-proto
 
 | Builtin | Layer2  | Layer3 | Layer4 | Layer7 |
 |---------|---------|--------|--------|--------|
-|[Payload][payload]  |[Ethernet][eth] |[IPv4][ip4]    |[TCP][tcp]     |[DHCP][phase2]    |
+|[Payload][payload]  |[Ethernet][eth] |[IPv4][ip4]    |[TCP][tcp]     |[DHCP<sup>2</sup>][phase2]    |
 |[Frame][frame]    |[LLC][llc] |[IPv6][ip6]    |[UDP][udp]     |
-|         |[SNAP][snap]     |[IPX][phase2]     |[SCTP][phase2]    |
-|         |[VLAN][vlan]      |[MPLS][phase2]    |[ICMPv4][icmp4]
-|         |[STP][stp]      |[IGMP][phase2]    |[ICMPv6][icmp6]
+|         |[SNAP][snap]     |[IPX<sup>2</sup>][phase2]     |[SCTP<sup>2</sup>][phase2]    |
+|         |[VLAN][vlan]      |[MPLS<sup>2</sup>][phase2]    |[ICMPv4][icmp4]
+|         |[STP][stp]      |[IGMP<sup>2</sup>][phase2]    |[ICMPv6][icmp6]
 |         |[ARP][arp] |        |        |
-|         |[PPP][phase2] |        |        |
+|         |[PPP<sup>2</sup>][phase2] |        |        |
 
 [payload]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/Payload.java
 [frame]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/Frame.java
