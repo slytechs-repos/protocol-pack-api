@@ -143,7 +143,7 @@ public final class Ip6 extends Ip<Ip6Option> {
 	 *
 	 * @return the int
 	 */
-	public int flow() {
+	public int flowLabel() {
 		return Ip6Layout.FLOW.getInt(buffer());
 	}
 
@@ -152,7 +152,7 @@ public final class Ip6 extends Ip<Ip6Option> {
 	 *
 	 * @param flow the flow
 	 */
-	public void flow(int flow) {
+	public void flowLabel(int flow) {
 		Ip6Layout.FLOW.setInt(flow, buffer());
 	}
 
@@ -179,7 +179,7 @@ public final class Ip6 extends Ip<Ip6Option> {
 	 *
 	 * @return the int
 	 */
-	public int next() {
+	public int nextHeader() {
 		return Ip6Layout.NEXT.getInt(buffer());
 	}
 
@@ -188,7 +188,7 @@ public final class Ip6 extends Ip<Ip6Option> {
 	 *
 	 * @param next the next
 	 */
-	public void next(int next) {
+	public void nextHeader(int next) {
 		Ip6Layout.NEXT.setInt(next, buffer());
 	}
 

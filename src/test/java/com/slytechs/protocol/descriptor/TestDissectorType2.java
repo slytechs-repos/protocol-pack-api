@@ -226,7 +226,7 @@ class TestDissectorType2 {
 		}
 
 		if (packet.hasHeader(ip6) && ip6.hasExtension(frag6)) {
-			log("IPv6.next=%d%n", ip6.next());
+			log("IPv6.next=%d%n", ip6.nextHeader());
 		}
 	}
 
