@@ -37,7 +37,7 @@ public sealed interface HasExtension<T extends Header> permits HeaderExtension<T
 	 * @return the header extension, this method does not return null
 	 * @throws HeaderNotFound if the protocol header is not found
 	 */
-	default T getExtension(T extension) throws HeaderNotFound {
+	default <E extends T> E getExtension(E extension) throws HeaderNotFound {
 		return getExtension(extension, 0);
 	}
 
@@ -52,7 +52,7 @@ public sealed interface HasExtension<T extends Header> permits HeaderExtension<T
 	 * @return the header extension, this method does not return null
 	 * @throws HeaderNotFound if the protocol header is not found
 	 */
-	T getExtension(T extension, int depth) throws HeaderNotFound;
+	<E extends T> E getExtension(E extension, int depth) throws HeaderNotFound;
 
 	/**
 	 * Checks if a particular protocol header extension is available.
@@ -113,7 +113,7 @@ public sealed interface HasExtension<T extends Header> permits HeaderExtension<T
 	 * @param header the unbound protocol header extension instance
 	 * @return the header, if header binding was successful, otherwise null
 	 */
-	default T peekExtension(T extension) {
+	default <E extends T> E peekExtension(E extension) {
 		return peekExtension(extension, 0);
 	}
 
@@ -130,6 +130,6 @@ public sealed interface HasExtension<T extends Header> permits HeaderExtension<T
 	 * @return the header extension, if header binding was successful, otherwise
 	 *         null
 	 */
-	T peekExtension(T extension, int depth);
+	<E extends T> E peekExtension(E extension, int depth);
 
 }

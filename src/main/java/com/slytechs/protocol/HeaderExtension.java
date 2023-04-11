@@ -20,6 +20,7 @@ package com.slytechs.protocol;
 import java.nio.ByteBuffer;
 
 import com.slytechs.protocol.descriptor.CompactDescriptor;
+import com.slytechs.protocol.descriptor.PacketDescriptor;
 
 /**
  * A specialized header subclass implemented by all header extensions and
@@ -34,10 +35,10 @@ public abstract non-sealed class HeaderExtension<T extends Header>
 		implements HasExtension<T> {
 
 	/** The source buffer. */
-	private ByteBuffer sourceBuffer;
+	private ByteBuffer packet;
 
-	/** The lookup. */
-	private HeaderLookup lookup;
+	/** The descriptor. */
+	private PacketDescriptor descriptor;
 
 	/** The meta. */
 	private int meta;
@@ -50,8 +51,8 @@ public abstract non-sealed class HeaderExtension<T extends Header>
 	 */
 	@Override
 	protected void onUnbind() {
-		sourceBuffer = null;
-		lookup = null;
+		packet = null;
+		descriptor = null;
 		meta = 0;
 
 		super.onUnbind();
@@ -71,8 +72,8 @@ public abstract non-sealed class HeaderExtension<T extends Header>
 	 *      int)
 	 */
 	@Override
-	public T getExtension(T extension, int depth) throws HeaderNotFound {
-		T t = peekExtension(extension, depth);
+	public <E extends T> E getExtension(E extension, int depth) throws HeaderNotFound {
+		E t = peekExtension(extension, depth);
 		if (t == null)
 			throw new HeaderNotFound(extension.headerName());
 
@@ -84,7 +85,7 @@ public abstract non-sealed class HeaderExtension<T extends Header>
 	 */
 	@Override
 	public boolean hasExtension(int extensionId, int depth) {
-		long cp = lookup.lookupHeaderExtension(super.id, extensionId, depth, meta);
+		long cp = descriptor.lookupHeaderExtension(super.id, extensionId, depth, meta);
 
 		return (cp != CompactDescriptor.ID_NOT_FOUND);
 	}
@@ -94,9 +95,9 @@ public abstract non-sealed class HeaderExtension<T extends Header>
 	 *      int)
 	 */
 	@Override
-	public T peekExtension(T extension, int depth) {
+	public <E extends T> E peekExtension(E extension, int depth) {
 
-		long cp = lookup.lookupHeaderExtension(super.id, extension.id(), depth, meta);
+		long cp = descriptor.lookupHeaderExtension(super.id, extension.id(), depth, meta);
 		if (cp == CompactDescriptor.ID_NOT_FOUND) {
 			/*
 			 * Make sure extension is unbound from any previous bindings. We don't want user
@@ -110,8 +111,7 @@ public abstract non-sealed class HeaderExtension<T extends Header>
 		int offset = CompactDescriptor.decodeOffset(cp);
 		int length = CompactDescriptor.decodeLength(cp);
 
-		ByteBuffer extBuffer = sourceBuffer.slice(offset, length);
-		extension.bind(extBuffer);
+		extension.bindHeaderToPacket(packet, descriptor, offset, length);
 
 		return extension;
 	}
@@ -121,9 +121,9 @@ public abstract non-sealed class HeaderExtension<T extends Header>
 	 *      com.slytechs.protocol.HeaderLookup, int)
 	 */
 	@Override
-	void bindExtensionsToPacket(ByteBuffer sourceBuffer, HeaderLookup lookup, int meta) {
-		this.sourceBuffer = sourceBuffer;
-		this.lookup = lookup;
+	void bindExtensionsToPacket(ByteBuffer packet, PacketDescriptor descriptor, int meta) {
+		this.packet = packet;
+		this.descriptor = descriptor;
 		this.meta = meta;
 	}
 

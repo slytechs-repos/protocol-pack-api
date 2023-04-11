@@ -33,6 +33,7 @@ import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 import com.slytechs.protocol.pack.core.constants.Ip4OptionInfo;
 import com.slytechs.protocol.pack.core.constants.Ip6OptionInfo;
 import com.slytechs.protocol.pack.core.constants.L2FrameType;
+import com.slytechs.protocol.pack.core.constants.TcpOptionInfo;
 import com.slytechs.protocol.runtime.time.TimestampUnit;
 import com.slytechs.protocol.runtime.util.Bits;
 
@@ -370,7 +371,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 			int dsap = Byte.toUnsignedInt(buf.get(offset + LLC_FIELD_DSAP));
 			int ssap = Byte.toUnsignedInt(buf.get(offset + LLC_FIELD_SSAP));
 			int control = Byte.toUnsignedInt(buf.get(offset + LLC_FIELD_CONTROL));
-			
+
 			offset += LLC_HEADER_LEN;
 
 			if ((control == LLC_TYPE_FRAME)
@@ -519,6 +520,50 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 		}
 	}
 
+	private void dissectTcpOptions(int offset, int tcpHeaderLenth) {
+
+		int limit = offset + tcpHeaderLenth;
+
+		// Advance to option start
+		offset += TCP_HEADER_LEN;
+
+		while (offset < limit) {
+			int kind = Byte.toUnsignedInt(buf.get(offset + TCP_OPTION_FIELD_KIND));
+
+			switch (kind) {
+
+			case TCP_OPTION_KIND_EOL:
+			case TCP_OPTION_KIND_NOP: {
+				int len =1;
+				int id = TcpOptionInfo.mapKindToId(kind);
+				
+				addRecord(id, offset, len);
+				offset += 1;
+				break;
+			}
+
+			case TCP_OPTION_KIND_MSS:
+			case TCP_OPTION_KIND_WIN_SCALE:
+			case TCP_OPTION_KIND_SACK:
+			case TCP_OPTION_KIND_TIMESTAMP:
+			case TCP_OPTION_KIND_FASTOPEN: {
+				int len = Byte.toUnsignedInt(buf.get(offset + TCP_OPTION_FIELD_LENGTH));
+				int id = TcpOptionInfo.mapKindToId(kind);
+
+				addRecord(id, offset, len);
+				offset += len;
+				break;
+			}
+
+			default: {
+				int len = Byte.toUnsignedInt(buf.get(offset + TCP_OPTION_FIELD_LENGTH));
+				offset += len;
+			}
+
+			}
+		}
+	}
+
 	/**
 	 * Dissect ip type.
 	 *
@@ -546,6 +591,8 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 					len = ((r0 >> 4) & Bits.BITS_04) << 2;
 
 					addRecord(CoreIdTable.CORE_ID_TCP, offset, len);
+
+					dissectTcpOptions(offset, len);
 				}
 
 				break EXIT;

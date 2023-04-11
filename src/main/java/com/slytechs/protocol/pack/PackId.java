@@ -200,6 +200,16 @@ public interface PackId {
 	}
 
 	/**
+	 * Decode record pack id.
+	 *
+	 * @param record the record
+	 * @return the int
+	 */
+	static int decodeRecordPackId(int record) {
+		return (record & RECORD_MASK_PACK);
+	}
+
+	/**
 	 * Decode record size.
 	 *
 	 * @param record the record

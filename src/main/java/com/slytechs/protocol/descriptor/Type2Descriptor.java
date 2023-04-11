@@ -277,15 +277,15 @@ public class Type2Descriptor extends PacketDescriptor {
 
 		for (int i = start; i < recordCount; i++) {
 			final int record = record(i);
-			final int id = PackId.encodeRecordId(record);
-			final int pack = PackId.decodeRecordPackOrdinal(record);
+			final int id = PackId.decodeRecordId(record);
+			final int pack = PackId.decodeRecordPackId(record);
 
 			/* Scan until we no longer see OPTIONS records */
 			if (pack != ProtocolPackTable.PACK_ID_OPTIONS)
 				break;
 
 			if (id == extId)
-				return PackId.recordToCompactDescriptor(record, extId, 0);
+				return PackId.recordToCompactDescriptor(record, extId, i);
 		}
 
 		return CompactDescriptor.ID_NOT_FOUND;

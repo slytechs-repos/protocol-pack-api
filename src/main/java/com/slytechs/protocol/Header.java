@@ -81,13 +81,13 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	 * Bind header extensions and options, but only if HeaderExtension is a
 	 * subclass, otherwise do nothing.
 	 *
-	 * @param sourceBuffer the source buffer or typically the buffer containing the
-	 *                     source packet
-	 * @param lookup       the extension header lookup
-	 * @param meta         the meta data, such as descriptor/lookup specific data
-	 *                     which aids in extension header lookup
+	 * @param packet the source buffer or typically the buffer containing the source
+	 *               packet
+	 * @param descriptor the extension header lookup
+	 * @param meta   the meta data, such as descriptor/lookup specific data which
+	 *               aids in extension header lookup
 	 */
-	void bindExtensionsToPacket(ByteBuffer sourceBuffer, HeaderLookup lookup, int meta) {
+	void bindExtensionsToPacket(ByteBuffer packet, PacketDescriptor descriptor, int meta) {
 		// Do nothing by default
 	}
 
