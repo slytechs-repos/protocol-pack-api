@@ -31,13 +31,12 @@ Here is a table of all of the protocol definitions provided by this **core-proto
 | Builtin | Layer2  | Layer3 | Layer4 | Layer7 |
 |---------|---------|--------|--------|--------|
 |[Payload][payload]  |[Ethernet][eth] |[IPv4][ip4]    |[TCP][tcp]     |DHCP    |
-|[Frame][frame]    |LLC/SNAP |[IPv6][ip6]    |[UDP][udp]     |
-|         |VLAN     |IPX     |SCTP    |
-|         |PPP      |MPLS    |[ICMPv4][icmp4]
+|[Frame][frame]    |[LLC][llc] |[IPv6][ip6]    |[UDP][udp]     |
+|         |[SNAP][snap]     |IPX     |SCTP    |
+|         |[VLAN][vlan]      |MPLS    |[ICMPv4][icmp4]
 |         |STP      |IGMP    |[ICMPv6][icmp6]
-|         |ATM      |        |        |
-|         |FDDI     |        |        |
 |         |[ARP][arp] |        |        |
+|         |PPP |        |        |
 
 [payload]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/Payload.java
 [frame]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/Frame.java
@@ -49,3 +48,6 @@ Here is a table of all of the protocol definitions provided by this **core-proto
 [tcp]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Tcp.java
 [icmp4]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Icmp4.java
 [icmp6]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Icmp6.java
+[llc]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Llc.java
+[snap]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Snap.java
+[vlan]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Vlan.java
