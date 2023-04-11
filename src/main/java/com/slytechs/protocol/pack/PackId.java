@@ -279,7 +279,7 @@ public interface PackId {
 	static boolean recordEqualsId(int record, int id) {
 		assert (id & PACK_MASK_UNPACK) == id : "id has offset/length encoded";
 
-		return (id & record) == id;
+		return (record & PACK_MASK_UNPACK) == id;
 	}
 
 	/**
@@ -292,7 +292,7 @@ public interface PackId {
 	static boolean recordEqualsPack(int record, int pack) {
 		pack <<= PACK_SHIFT_PACK;
 
-		return (pack & record) == pack;
+		return (record & PACK_MASK_PACK) == pack;
 	}
 
 	/**
