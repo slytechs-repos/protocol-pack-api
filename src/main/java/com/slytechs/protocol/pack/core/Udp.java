@@ -84,7 +84,15 @@ public final class Udp extends Header {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.Header#length()
+	 * Length field. This field specifies the length in bytes of the UDP header and
+	 * UDP data. The minimum length is 8 bytes, the length of the header. The field
+	 * size sets a theoretical limit of 65,535 bytes (8-byte header + 65,527 bytes
+	 * of data) for a UDP datagram. However the actual limit for the data length,
+	 * which is imposed by the underlying IPv4 protocol, is 65,507 bytes (65,535
+	 * bytes − 8-byte UDP header − 20-byte IP header). Using IPv6 jumbograms it is
+	 * possible to have UDP datagrams of size greater than 65,535 bytes. RFC 2675
+	 * specifies that the length field is set to zero if the length of the UDP
+	 * header plus UDP data is greater than 65,535.
 	 */
 	@Override
 	@Meta
@@ -93,7 +101,7 @@ public final class Udp extends Header {
 	}
 
 	/**
-	 * Length.
+	 * Set a new length field.
 	 *
 	 * @param length the length
 	 */
@@ -102,7 +110,11 @@ public final class Udp extends Header {
 	}
 
 	/**
-	 * Src port.
+	 * Source port number. This field identifies the sender's port, when used, and
+	 * should be assumed to be the port to reply to if needed. If not used, it
+	 * should be zero. If the source host is the client, the port number is likely
+	 * to be an ephemeral port. If the source host is the server, the port number is
+	 * likely to be a well-known port number from 0 to 1023
 	 *
 	 * @return the int
 	 */
@@ -112,7 +124,7 @@ public final class Udp extends Header {
 	}
 
 	/**
-	 * Src port.
+	 * Set a new port number.
 	 *
 	 * @param srcPort the src port
 	 */
