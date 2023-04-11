@@ -211,12 +211,25 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 	public static Optional<? extends HeaderInfo> findExtension(int id, int extensionId) {
 		Optional<? extends HeaderInfo> parent = findHeader(id);
 		if (parent.isEmpty())
-			return parent;
+			return Optional.empty();
 
 		var extInfos = parent.get().getExtensionInfos();
 		int extOrdinal = PackId.decodeIdOrdinal(extensionId);
 
 		return Optional.of(extInfos[extOrdinal]);
+	}
+
+	public static String toString(int id) {
+		return findHeader(id)
+				.map(HeaderInfo::name)
+				.orElse("N/A");
+	}
+
+	public static String toString(int id, int extId) {
+		var parent = findHeader(id).map(HeaderInfo::name).orElse("N/A");
+		var ext = findExtension(id, extId).map(HeaderInfo::name).orElse("N/A");
+
+		return "%s:%s".formatted(parent, ext);
 	}
 
 	/**

@@ -21,7 +21,6 @@ import static com.slytechs.protocol.descriptor.Type2DescriptorLayout.*;
 
 import java.nio.ByteBuffer;
 
-import com.slytechs.protocol.HeaderInfo;
 import com.slytechs.protocol.pack.Pack;
 import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.ProtocolPackTable;
@@ -45,13 +44,13 @@ public class Type2Descriptor extends PacketDescriptor {
 	/** The mask. */
 	/* Lazy cache some common values, cleared on unbind() */
 	private int mask;
-	
+
 	/** The hash type. */
 	private int hashType;
-	
+
 	/** The hash 32. */
 	private int hash24, hash32;
-	
+
 	/** The expanded header arrays. */
 	private long[] expandedHeaderArrays;
 
@@ -328,8 +327,8 @@ public class Type2Descriptor extends PacketDescriptor {
 	 * @param depth           the depth
 	 * @param recordIndexHint the record index hint
 	 * @return the long
-	 * @see com.slytechs.protocol.HeaderLookup#lookupHeaderExtension(int,
-	 *      int, int, int)
+	 * @see com.slytechs.protocol.HeaderLookup#lookupHeaderExtension(int, int, int,
+	 *      int)
 	 */
 	@Override
 	public long lookupHeaderExtension(int headerId, int extId, int depth, int recordIndexHint) {
@@ -458,7 +457,8 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.PacketDescriptor#buildDetailedString(java.lang.StringBuilder, com.slytechs.protocol.runtime.util.Detail)
+	 * @see com.slytechs.protocol.descriptor.PacketDescriptor#buildDetailedString(java.lang.StringBuilder,
+	 *      com.slytechs.protocol.runtime.util.Detail)
 	 */
 	@Override
 	public StringBuilder buildDetailedString(StringBuilder b, Detail detail) {
@@ -526,9 +526,7 @@ public class Type2Descriptor extends PacketDescriptor {
 									i,
 									record,
 									id,
-									Pack.findHeader(id)
-											.map(HeaderInfo::name)
-											.orElse("N/A"),
+									Pack.toString(id),
 									offset,
 									length));
 
@@ -539,9 +537,7 @@ public class Type2Descriptor extends PacketDescriptor {
 									i,
 									record,
 									id,
-									Pack.findExtension(lastId, id)
-											.map(HeaderInfo::name)
-											.orElse("N/A"),
+									Pack.toString(lastId, id),
 									offset,
 									length));
 
