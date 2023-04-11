@@ -30,7 +30,7 @@ import com.slytechs.protocol.pack.core.constants.CoreIdTable;
  * @author repos@slytechs.com
  */
 @Meta
-public class Snap extends Header {
+public final class Snap extends Header {
 
 	/** Core protocol pack assigned header ID. */
 	public static final int ID = CoreIdTable.CORE_ID_SNAP;

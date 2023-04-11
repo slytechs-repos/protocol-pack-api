@@ -330,6 +330,12 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 				dissectIpx(offset);
 				return;
 
+			} else if ((control == LLC_TYPE_FRAME)
+					&& (dsap == LLC_TYPE_STP)
+					&& (ssap == LLC_TYPE_STP)
+					&& hasRemaining(offset, STP_HEADER_LEN)) {
+				addRecord(CoreIdTable.CORE_ID_STP, offset, CoreConstants.STP_HEADER_LEN);
+
 			} else {
 				return; // Its a pure LLC frame, no protocols
 

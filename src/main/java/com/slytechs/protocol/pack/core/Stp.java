@@ -59,7 +59,7 @@ public final class Stp extends Header {
 	 */
 	@Meta
 	public int protocol() {
-		return StpLayout.PROTOCOL.getInt(buffer());
+		return StpLayout.PROTOCOL.getUnsignedShort(buffer());
 	}
 
 	/**
@@ -69,7 +69,7 @@ public final class Stp extends Header {
 	 */
 	@Meta
 	public int version() {
-		return StpLayout.VERSION.getInt(buffer());
+		return StpLayout.VERSION.getUnsignedByte(buffer());
 	}
 
 	/**
@@ -79,7 +79,7 @@ public final class Stp extends Header {
 	 */
 	@Meta
 	public int type() {
-		return StpLayout.TYPE.getInt(buffer());
+		return StpLayout.TYPE.getUnsignedByte(buffer());
 	}
 
 	/**
@@ -89,7 +89,7 @@ public final class Stp extends Header {
 	 */
 	@Meta
 	public int flags() {
-		return StpLayout.FLAGS.getInt(buffer());
+		return StpLayout.FLAGS.getUnsignedByte(buffer());
 	}
 
 	/**
@@ -100,6 +100,21 @@ public final class Stp extends Header {
 	@Meta
 	public long rootId() {
 		return StpLayout.ROOT_ID.getLong(buffer());
+	}
+
+	@Meta
+	public int rootBridgePriority() {
+		return StpLayout.ROOT_BRIDGE_PRIORITY.getUnsignedByte(buffer()) << 8;
+	}
+
+	@Meta
+	public int rootBridgeIdExt() {
+		return StpLayout.ROOT_BRIDGE_ID_EXT.getInt(buffer());
+	}
+
+	@Meta
+	public byte[] rootBridgeId() {
+		return StpLayout.ROOT_BRIDGE_ID.getByteArray(buffer());
 	}
 
 	/**
@@ -122,6 +137,21 @@ public final class Stp extends Header {
 		return StpLayout.BRIDGE_ID.getLong(buffer());
 	}
 
+	@Meta
+	public int systemBridgePriority() {
+		return StpLayout.SYSTEM_BRIDGE_PRIORITY.getUnsignedByte(buffer()) << 8;
+	}
+
+	@Meta
+	public int systemBridgeIdExt() {
+		return StpLayout.SYSTEM_BRIDGE_ID_EXT.getInt(buffer());
+	}
+
+	@Meta
+	public byte[] systemBridgeId() {
+		return StpLayout.SYSTEM_BRIDGE_ID.getByteArray(buffer());
+	}
+
 	/**
 	 * Port id.
 	 *
@@ -129,7 +159,7 @@ public final class Stp extends Header {
 	 */
 	@Meta
 	public int portId() {
-		return StpLayout.PORT_ID.getInt(buffer());
+		return StpLayout.PORT_ID.getUnsignedShort(buffer());
 	}
 
 	/**
@@ -139,7 +169,7 @@ public final class Stp extends Header {
 	 */
 	@Meta
 	public int messageAge() {
-		return StpLayout.MSG_AGE.getInt(buffer());
+		return StpLayout.MSG_AGE.getUnsignedShort(buffer());
 	}
 
 	/**
@@ -148,8 +178,8 @@ public final class Stp extends Header {
 	 * @return the int
 	 */
 	@Meta
-	public int maxAge() {
-		return StpLayout.MAX_AGE.getInt(buffer());
+	public int maxTime() {
+		return StpLayout.MAX_AGE.getUnsignedShort(buffer());
 	}
 
 	/**
@@ -159,7 +189,7 @@ public final class Stp extends Header {
 	 */
 	@Meta
 	public int helloTime() {
-		return StpLayout.HELLO.getInt(buffer());
+		return StpLayout.HELLO.getUnsignedShort(buffer());
 	}
 
 	/**
@@ -169,6 +199,6 @@ public final class Stp extends Header {
 	 */
 	@Meta
 	public int forwardDelay() {
-		return StpLayout.FORWARD.getInt(buffer());
+		return StpLayout.FORWARD.getUnsignedShort(buffer());
 	}
 }

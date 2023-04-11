@@ -157,6 +157,9 @@ public final class CoreConstants {
 
 	/** The Constant LLC_TYPE_NETWARE. */
 	public static final int LLC_TYPE_NETWARE = 0xFF;
+	
+	/** The Constant LLC_TYPE_STP. */
+	public static final int LLC_TYPE_STP = 0x42;
 
 	/** The Constant SNAP_HEADER_LEN. */
 	/* Descriptor SNAP constants */
@@ -177,6 +180,10 @@ public final class CoreConstants {
 
 	/** The Constant MPLS_BITMASK_BOTTOM. */
 	public static final int MPLS_BITMASK_BOTTOM = 0;
+	
+	/** The Constant STP_HEADER_LEN. */
+	public static final int STP_HEADER_LEN = 35;
+
 
 	/** The Constant IPX_HEADER_LEN. */
 	/* Descriptor IPX constants */

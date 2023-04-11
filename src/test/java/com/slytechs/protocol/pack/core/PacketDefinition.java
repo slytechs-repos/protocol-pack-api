@@ -170,11 +170,50 @@ public enum PacketDefinition {
 	 * </pre>
 	 */
 	SNAP(""
-			+ "01000ccdcdcd001de50ad740002e" // 802.3
-			+ "aa aa 03" // LLC
-			+ "00000c 0115"), // SNAP
+			+ "01000ccdcdcd001de50ad740002e"
+			+ "aa aa 03"
+			+ "00000c 0115"),
 
-	;
+	/**
+	 * Cisco_87:85:04 Spanning-tree-(for-bridges)_00 STP 60 Conf. Root =
+	 * 32768/100/00:1c:0e:87:78:00 Cost = 4 Port = 0x8004
+	 * 
+	 * <pre>
+	Frame 1: 60 bytes on wire (480 bits), 60 bytes captured (480 bits)
+	IEEE 802.3 Ethernet 
+	Logical-Link Control
+	    DSAP: Spanning Tree BPDU (0x42)
+	    SSAP: Spanning Tree BPDU (0x42)
+	    Control field: U, func=UI (0x03)
+	Spanning Tree Protocol
+	    Protocol Identifier: Spanning Tree Protocol (0x0000)
+	    Protocol Version Identifier: Spanning Tree (0)
+	    BPDU Type: Configuration (0x00)
+	    BPDU flags: 0x00
+	        0... .... = Topology Change Acknowledgment: No
+	        .... ...0 = Topology Change: No
+	    Root Identifier: 32768 / 100 / 00:1c:0e:87:78:00
+	        Root Bridge Priority: 32768
+	        Root Bridge System ID Extension: 100
+	        Root Bridge System ID: Cisco_87:78:00 (00:1c:0e:87:78:00)
+	    Root Path Cost: 4
+	    Bridge Identifier: 32768 / 100 / 00:1c:0e:87:85:00
+	        Bridge Priority: 32768
+	        Bridge System ID Extension: 100
+	        Bridge System ID: Cisco_87:85:00 (00:1c:0e:87:85:00)
+	    Port identifier: 0x8004
+	    Message Age: 1
+	    Max Age: 20
+	    Hello Time: 2
+	    Forward Delay: 15
+	 * </pre>
+	 */
+	STP(""
+			+ "0180c2000000001c0e8785040026"
+			+ "424203"
+			+ "0000 00 00 00 8064001c0e877800 00000004 8064001c0e878500"
+			+ "8004 0100 1400 0200 0f00"),
+			;
 
 	/** The array. */
 	private final byte[] array;
