@@ -25,7 +25,6 @@ import java.nio.ByteOrder;
 import com.slytechs.protocol.runtime.internal.ArrayUtils;
 import com.slytechs.protocol.runtime.internal.util.ByteArray;
 
-
 /**
  * The Class BitCarrierImplementation.
  *
@@ -163,7 +162,8 @@ class BitCarrierImplementation implements BitCarrier {
 	 * @param data       the data
 	 * @param byteOffset the byte offset
 	 * @return the byte at offset
-	 * @see com.slytechs.protocol.runtime.internal.layout.BitCarrier#getByteAtOffset(java.lang.Object, long)
+	 * @see com.slytechs.protocol.runtime.internal.layout.BitCarrier#getByteAtOffset(java.lang.Object,
+	 *      long)
 	 */
 	@Override
 	public byte getByteAtOffset(Object data, long byteOffset) {
@@ -201,12 +201,13 @@ class BitCarrierImplementation implements BitCarrier {
 	@Override
 	public int getIntAtOffset(Object data, long byteOffset, boolean big) {
 		assert carrierSize == 32 : "wrong carrier bit size";
+		ByteOrder bo = big ? ByteOrder.BIG_ENDIAN : ByteOrder.LITTLE_ENDIAN;
 
 		return switch (data) {
 		// @formatter:off
 		case byte[] d        -> ArrayUtils.getInt(d, (int) byteOffset, big);
 		case ByteArray d     -> ArrayUtils.getInt(d.array(), (int) byteOffset + d.arrayOffset(), big);
-		case ByteBuffer d    -> d.getInt((int) byteOffset);
+		case ByteBuffer d    -> d.order(bo).getInt((int) byteOffset);
 		case MemorySegment d -> d.get(JAVA_INT(big), byteOffset);
 		case Byte d          -> throwDataTypeTooShort(data);
 		case Short d         -> throwDataTypeTooShort(data);
@@ -234,12 +235,13 @@ class BitCarrierImplementation implements BitCarrier {
 	@Override
 	public long getLongAtOffset(Object data, long byteOffset, boolean big) {
 		assert carrierSize == 64 : "wrong carrier bit size";
+		ByteOrder bo = big ? ByteOrder.BIG_ENDIAN : ByteOrder.LITTLE_ENDIAN;
 
 		return switch (data) {
 		// @formatter:off
 		case byte[] d        -> ArrayUtils.getLong(d, (int) byteOffset, big);
 		case ByteArray d     -> ArrayUtils.getLong(d.array(), (int) byteOffset + d.arrayOffset(), big);
-		case ByteBuffer d    -> d.getLong((int) byteOffset);
+		case ByteBuffer d    -> d.order(bo).getLong((int) byteOffset);
 		case MemorySegment d -> d.get(JAVA_LONG(big), byteOffset);
 		case Byte d          -> throwDataTypeTooShort(data);
 		case Short d         -> throwDataTypeTooShort(data);
@@ -268,11 +270,13 @@ class BitCarrierImplementation implements BitCarrier {
 	public short getShortAtOffset(Object data, long byteOffset, boolean big) {
 		assert carrierSize == 16 : "wrong carrier bit size";
 
+		ByteOrder bo = big ? ByteOrder.BIG_ENDIAN : ByteOrder.LITTLE_ENDIAN;
+
 		return switch (data) {
 		// @formatter:off
 		case byte[] d        -> ArrayUtils.getShort(d, (int) byteOffset, big);
 		case ByteArray d     -> ArrayUtils.getShort(d.array(), (int) byteOffset + d.arrayOffset(), big);
-		case ByteBuffer d    -> d.getShort((int) byteOffset);
+		case ByteBuffer d    -> d.order(bo).getShort((int) byteOffset);
 		case MemorySegment d -> d.get(JAVA_SHORT(big), byteOffset);
 		case Byte d          -> throwDataTypeTooShort(data);
 		case Short d         -> getPrimitive(byteOffset, 1, d, MASK_16, big).shortValue();
