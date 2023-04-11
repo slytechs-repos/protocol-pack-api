@@ -36,6 +36,7 @@ enum VlanLayout implements BitField.Proxy {
 	PRI("pri"),
 	CFI("cfi"),
 	VID("vid"),
+	TYPE("type")
 
 	;
 
@@ -51,6 +52,7 @@ enum VlanLayout implements BitField.Proxy {
 				Int16be.BITS_03.withName("pri"),
 				Int16be.BITS_01.withName("cfi"),
 				Int16be.BITS_12.withName("vid"),
+				Int16be.BITS_16.withName("type"),
 
 				Padding.BITS_00);
 	}

@@ -130,10 +130,14 @@ public final class CoreConstants {
 
 	/* @formatter:off - Descriptor VLAN constants */
 	/** The Constant VLAN_HEADER_LEN. */
-	public static final int VLAN_HEADER_LEN    = 2;
+	public static final int VLAN_HEADER_LEN    = 4;
+	
+	/** The Constant VLAN_FIELD_TCI. */
+	public static final int VLAN_FIELD_TYPE = 2;
 	
 	/** The Constant VLAN_FIELD_LEN_TCI. */
-	public static final int VLAN_FIELD_LEN_TCI = 0;
+	public static final int VLAN_FIELD_LEN_TCI = 2;
+	
 	/* @formatter:on - Descriptor VLAN constants */
 
 	/* Descriptor LLC constants */
@@ -157,7 +161,7 @@ public final class CoreConstants {
 
 	/** The Constant LLC_TYPE_NETWARE. */
 	public static final int LLC_TYPE_NETWARE = 0xFF;
-	
+
 	/** The Constant LLC_TYPE_STP. */
 	public static final int LLC_TYPE_STP = 0x42;
 
@@ -180,10 +184,9 @@ public final class CoreConstants {
 
 	/** The Constant MPLS_BITMASK_BOTTOM. */
 	public static final int MPLS_BITMASK_BOTTOM = 0;
-	
+
 	/** The Constant STP_HEADER_LEN. */
 	public static final int STP_HEADER_LEN = 35;
-
 
 	/** The Constant IPX_HEADER_LEN. */
 	/* Descriptor IPX constants */
@@ -309,16 +312,16 @@ public final class CoreConstants {
 	public static final int IPv6_FIELD_NEXT_HOP = 0;
 
 	/** The Constant IPv4_FIELD_DST_LEN. */
-	public static final int IPv4_FIELD_DST_LEN = 0;
+	public static final int IPv4_FIELD_DST_LEN = 4;
 
 	/** The Constant IPv4_FIELD_DST. */
-	public static final int IPv4_FIELD_DST = 0;
+	public static final int IPv4_FIELD_DST = 16;
 
 	/** The Constant IPv4_FIELD_SRC_LEN. */
-	public static final int IPv4_FIELD_SRC_LEN = 0;
+	public static final int IPv4_FIELD_SRC_LEN = 4;
 
 	/** The Constant IPv4_FIELD_SRC. */
-	public static final int IPv4_FIELD_SRC = 0;
+	public static final int IPv4_FIELD_SRC = 12;
 
 	/** The Constant IPv4_ADDRESS_SIZE. */
 	public static final int IPv4_ADDRESS_SIZE = 4;

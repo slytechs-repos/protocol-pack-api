@@ -156,7 +156,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	@Meta
 	@Override
 	public byte[] dst() {
-		return dst(new byte[CoreConstants.IPv4_FIELD_DST_LEN], 0);
+		return dst(new byte[CoreConstants.IPv4_ADDRESS_SIZE], 0);
 	}
 
 	/**
@@ -325,7 +325,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 * @return true, if is reassembled
 	 */
 	public boolean isReassembled() {
-		throw new UnsupportedOperationException("not implemented yet");
+		return false;
 	}
 
 	/**
@@ -361,7 +361,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 * @return the packet[]
 	 */
 	public Packet[] reassembledFragments() {
-		throw new UnsupportedOperationException("not implemented yet");
+		return new Packet[0];
 	}
 
 	/**
@@ -370,7 +370,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	@Override
 	@Meta
 	public byte[] src() {
-		return src(new byte[CoreConstants.IPv4_FIELD_SRC_LEN], 0);
+		return src(new byte[CoreConstants.IPv4_ADDRESS_SIZE], 0);
 	}
 
 	/**
@@ -422,7 +422,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 */
 	@Meta
 	public int totalLength() {
-		return Ip4Layout.TOTAL_LENGTH.getInt(buffer());
+		return Ip4Layout.TOTAL_LENGTH.getUnsignedShort(buffer());
 	}
 
 	/**
@@ -432,7 +432,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 */
 	@Meta
 	public int ttl() {
-		return Ip4Layout.TTL.getInt(buffer());
+		return Ip4Layout.TTL.getUnsignedByte(buffer());
 	}
 
 	/**
@@ -444,6 +444,6 @@ public final class Ip4 extends Ip<Ip4Option> {
 	@Override
 	@Meta
 	public int version() {
-		return Ip4Layout.VERSION.getInt(buffer());
+		return Ip4Layout.VERSION.getUnsignedByte(buffer());
 	}
 }
