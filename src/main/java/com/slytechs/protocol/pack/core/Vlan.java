@@ -39,7 +39,7 @@ import com.slytechs.protocol.pack.core.constants.CoreIdTable;
  * @see IEEE 802.1Q Frame Format
  */
 @Meta
-public class Vlan extends Header {
+public final class Vlan extends Header {
 
 	/** Core protocol pack assigned header ID */
 	public static final int ID = CoreIdTable.CORE_ID_VLAN;

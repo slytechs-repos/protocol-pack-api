@@ -31,7 +31,7 @@ import com.slytechs.protocol.pack.core.constants.CoreIdTable;
  * @author Mark Bednarczyk
  */
 @Meta
-public class Llc extends Header {
+public final class Llc extends Header {
 
 	/** Core protocol pack assigned header ID. */
 	public static final int ID = CoreIdTable.CORE_ID_LLC;

@@ -33,7 +33,7 @@ import com.slytechs.protocol.pack.core.constants.CoreIdTable;
  * @author repos@slytechs.com
  */
 @MetaResource("arp-meta.json")
-public class Arp extends Header {
+public final class Arp extends Header {
 
 	/** Core protocol pack assigned header ID */
 	public static final int ID = CoreIdTable.CORE_ID_ARP;
