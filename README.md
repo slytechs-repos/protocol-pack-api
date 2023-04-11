@@ -34,7 +34,7 @@ Here is a table of all of the protocol definitions provided by this **core-proto
 |[Frame][frame]    |[LLC][llc] |[IPv6][ip6]    |[UDP][udp]     |
 |         |[SNAP][snap]     |IPX     |SCTP    |
 |         |[VLAN][vlan]      |MPLS    |[ICMPv4][icmp4]
-|         |STP      |IGMP    |[ICMPv6][icmp6]
+|         |[STP][stp]      |IGMP    |[ICMPv6][icmp6]
 |         |[ARP][arp] |        |        |
 |         |PPP |        |        |
 
@@ -51,3 +51,4 @@ Here is a table of all of the protocol definitions provided by this **core-proto
 [llc]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Llc.java
 [snap]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Snap.java
 [vlan]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Vlan.java
+[stp]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Stp.java
