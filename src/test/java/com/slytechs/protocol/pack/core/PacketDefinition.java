@@ -34,8 +34,7 @@ import com.slytechs.protocol.runtime.util.HexStrings;
 public enum PacketDefinition {
 
 	/**
-	 * 1 0.000000 Cisco251_af:f4:54 Broadcast ARP 60 Who has 24.166.173.159? Tell
-	 * 24.166.172.1
+	 * Cisco251_af:f4:54 Broadcast ARP 60 Who has 24.166.173.159? Tell 24.166.172.1
 	 * 
 	 * <pre>
 	Frame 1: 60 bytes on wire (480 bits), 60 bytes captured (480 bits)
@@ -62,7 +61,7 @@ public enum PacketDefinition {
 			+ "000108000604000100070daff45418a6ac0100000000000018a6ad9f"),
 
 	/**
-	 * 1 0.000000 VMware_34:0b:de Broadcast RARP 42 Who is 00:0c:29:34:0b:de? Tell
+	 * VMware_34:0b:de Broadcast RARP 42 Who is 00:0c:29:34:0b:de? Tell
 	 * 00:0c:29:34:0b:de
 	 * 
 	 * <pre>
@@ -89,8 +88,7 @@ public enum PacketDefinition {
 			+ "0001080006040003000c29340bde00000000000c29340bde00000000"),
 
 	/**
-	 * 2 0.002000 VMware_c5:f6:9b VMware_34:0b:de RARP 42 00:0c:29:34:0b:de is at
-	 * 10.1.1.100
+	 * VMware_c5:f6:9b VMware_34:0b:de RARP 42 00:0c:29:34:0b:de is at 10.1.1.100
 	 * 
 	 * <pre>
 	Frame 2: 42 bytes on wire (336 bits), 42 bytes captured (336 bits) on interface Unknown/not available in original file format(libpcap), id 0
@@ -116,7 +114,7 @@ public enum PacketDefinition {
 			+ "0001080006040004000c29c5f69b0a01010a000c29340bde0a010164"),
 
 	/**
-	 * 1 0.000000 131.151.32.129 131.151.32.21 X11 1518 Requests: FreePixmap,
+	 * 131.151.32.129 131.151.32.21 X11 1518 Requests: FreePixmap,
 	 * 
 	 * <pre>
 	Frame 1: 1518 bytes on wire (12144 bits), 1518 bytes captured (12144 bits)
@@ -151,7 +149,32 @@ public enum PacketDefinition {
 			+ "00200800"
 			+ "450005dc3b3240004006b2258397208183972015"
 			+ "048a17704e14d0a94d3d54b9801870f810b800000101080a0004f0c70199a3c5"),
-			;
+
+	/**
+	 * Cisco_0a:d7:40 STP-UplinkFast LLC 60 U, func=UI; SNAP, OUI 0x00000C (Cisco
+	 * Systems, Inc), PID 0x0115
+	 * 
+	 * <pre>
+	Frame 1: 60 bytes on wire (480 bits), 60 bytes captured (480 bits) on interface \Device\NPF_{C8AAF078-03B5-49B6-AD39-7ADFE9C665FE}, id 0
+	IEEE 802.3 Ethernet 
+	    Destination: STP-UplinkFast (01:00:0c:cd:cd:cd)
+	    Source: Cisco_0a:d7:40 (00:1d:e5:0a:d7:40)
+	    Length: 46
+	Logical-Link Control
+	    DSAP: SNAP (0xaa)
+	    SSAP: SNAP (0xaa)
+	    Control field: U, func=UI (0x03)
+	    Organization Code: 00:00:0c (Cisco Systems, Inc)
+	    PID: Unknown (0x0115)
+	Data (38 bytes)
+	 * </pre>
+	 */
+	SNAP(""
+			+ "01000ccdcdcd001de50ad740002e" // 802.3
+			+ "aa aa 03" // LLC
+			+ "00000c 0115"), // SNAP
+
+	;
 
 	/** The array. */
 	private final byte[] array;
