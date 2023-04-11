@@ -152,6 +152,7 @@ public enum PacketDefinition {
 
 	/**
 	 * 131.151.32.129 131.151.32.21 X11 1518 Requests: FreePixmap,
+	 * 
 	 * <pre>
 	Frame 1: 1518 bytes on wire (12144 bits), 1518 bytes captured (12144 bits)
 	Ethernet II, Src: AniCommu_40:ef:24 (00:40:05:40:ef:24), Dst: 3com_9f:b1:f3 (00:60:08:9f:b1:f3)
@@ -359,7 +360,30 @@ public enum PacketDefinition {
 			+ "424203"
 			+ "0000 00 00 00 8064001c0e877800 00000004 8064001c0e878500"
 			+ "8004 0100 1400 0200 0f00"),
-			;
+
+	/**
+	 * fc00:2:0:2::1	fc00:2:0:1::1	TCP	94	43424 → http-alt(8080) [SYN] Seq=0 Win=26460 Len=0 MSS=2940 SACK_PERM TSval=2149426466 TSecr=0 WS=128
+	 * <pre>
+	Frame 1: 94 bytes on wire (752 bits), 94 bytes captured (752 bits)
+	Ethernet II, Src: 86:93:23:d3:37:8e (86:93:23:d3:37:8e), Dst: 22:1a:95:d6:7a:23 (22:1a:95:d6:7a:23)
+	Internet Protocol Version 6, Src: fc00:2:0:2::1, Dst: fc00:2:0:1::1
+	    0110 .... = Version: 6
+	    .... 0000 0000 .... .... .... .... .... = Traffic Class: 0x00 (DSCP: CS0, ECN: Not-ECT)
+	    .... 1101 0110 1000 0100 1010 = Flow Label: 0xd684a
+	    Payload Length: 40
+	    Next Header: TCP (6)
+	    Hop Limit: 64
+	    Source Address: fc00:2:0:2::1
+	    Destination Address: fc00:2:0:1::1
+	Transmission Control Protocol, Src Port: 43424 (43424), Dst Port: http-alt (8080), Seq: 0, Len: 0
+	 * </pre>
+	 */
+	IPv6(""
+			+ "221a95d67a23869323d3378e86dd"
+			+ "600d684a00280640fc000002000000020000000000000001fc000002000000010000000000000001"
+			+ "a9a01f90021b638c00000000a002675c8eb9000002040b7c0402080a801da5220000000001030307"),
+
+	;
 
 	/** The array. */
 	private final byte[] array;

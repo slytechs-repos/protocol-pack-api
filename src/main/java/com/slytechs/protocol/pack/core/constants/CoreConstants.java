@@ -309,7 +309,7 @@ public final class CoreConstants {
 	public static final int IPv4_FIELD_PROTOCOL = 9;
 
 	/** The Constant IPv6_FIELD_NEXT_HOP. */
-	public static final int IPv6_FIELD_NEXT_HOP = 0;
+	public static final int IPv6_FIELD_NEXT_HOP = 6;
 
 	/** The Constant IPv4_FIELD_DST_LEN. */
 	public static final int IPv4_FIELD_DST_LEN = 4;
