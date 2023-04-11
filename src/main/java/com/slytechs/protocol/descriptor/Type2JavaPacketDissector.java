@@ -285,63 +285,9 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 	 * Dissect eth type.
 	 *
 	 * @param offset the offset
+	 * @param type
 	 */
-	private void dissectEthType(int offset) {
-		if (!hasRemaining(offset, ETHER_FIELD_LEN_TYPE))
-			return;
-
-		int type = Short.toUnsignedInt(buf.getShort(offset + 0)); // Offset is already at Ether 'type' field
-		offset += ETHER_FIELD_LEN_TYPE;
-
-		if (type > ETHER_MIN_VALUE_FOR_TYPE) {
-			// Ethernet2 frame type
-
-			addRecord(CoreIdTable.CORE_ID_ETHER, 0, CoreConstants.ETHER_HEADER_LEN);
-			l2Type = L2FrameType.L2_FRAME_TYPE_ETHER;
-
-		} else if (hasRemaining(offset, LLC_HEADER_LEN)) { // Nope 802.3 frame
-			// THE 802.2 LOGICAL LINK CONTROL (LLC) HEADER
-
-			addRecord(CoreIdTable.CORE_ID_LLC, offset, CoreConstants.LLC_HEADER_LEN);
-			l2Type = L2FrameType.L2_FRAME_TYPE_LLC;
-			int dsap = Byte.toUnsignedInt(buf.get(offset + LLC_FIELD_DSAP));
-			int ssap = Byte.toUnsignedInt(buf.get(offset + LLC_FIELD_SSAP));
-			int control = Byte.toUnsignedInt(buf.get(offset + LLC_FIELD_CONTROL));
-
-			offset += LLC_HEADER_LEN;
-
-			if ((control == LLC_TYPE_FRAME)
-					&& (ssap == LLC_TYPE_SNAP)
-					&& (dsap == LLC_TYPE_SNAP)
-					&& hasRemaining(offset, SNAP_HEADER_LEN)) { // Snap + Frame = SNAP
-				// THE SUB-NETWORK ACCESS PROTOCOL (SNAP) HEADER
-
-				addRecord(CoreIdTable.CORE_ID_SNAP, offset, CoreConstants.SNAP_HEADER_LEN);
-				l2Type = L2FrameType.L2_FRAME_TYPE_SNAP;
-				type = buf.getShort(offset + SNAP_FIELD_TYPE);
-
-				offset += SNAP_HEADER_LEN;
-
-			} else if ((control == LLC_TYPE_FRAME)
-					&& (dsap == LLC_TYPE_NETWARE)
-					&& (ssap == LLC_TYPE_NETWARE)
-					&& hasRemaining(offset, IPX_HEADER_LEN)) { // Netware + Frame = IPX
-				// Internetwork Packet Exchange
-				dissectIpx(offset);
-				return;
-
-			} else if ((control == LLC_TYPE_FRAME)
-					&& (dsap == LLC_TYPE_STP)
-					&& (ssap == LLC_TYPE_STP)
-					&& hasRemaining(offset, STP_HEADER_LEN)) {
-				addRecord(CoreIdTable.CORE_ID_STP, offset, CoreConstants.STP_HEADER_LEN);
-
-			} else {
-				return; // Its a pure LLC frame, no protocols
-
-			}
-		} else
-			return;
+	private void dissectEthType(int offset, int type) {
 
 		switch (type) {
 		case ETHER_TYPE_IPv4:
@@ -352,8 +298,9 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 
 		case ETHER_TYPE_VLAN:
 			if (addRecord(CoreIdTable.CORE_ID_VLAN, offset, VLAN_HEADER_LEN)) {
-				offset += VLAN_FIELD_LEN_TCI; // Tag Control Information (2 bytes)
-				dissectEthType(offset);
+				type = Short.toUnsignedInt(buf.getShort(offset + VLAN_FIELD_TYPE));
+				offset += VLAN_HEADER_LEN;
+				dissectEthType(offset, type);
 			}
 
 			break;
@@ -397,6 +344,70 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 		addRecord(CoreIdTable.CORE_ID_IPX, offset, CoreConstants.IPX_HEADER_LEN);
 	}
 
+	private void dissectEthernet(int offset) {
+
+		if (!hasRemaining(offset, ETHER_HEADER_LEN))
+			return;
+
+		int type = Short.toUnsignedInt(buf.getShort(offset + ETHER_FIELD_TYPE));
+
+		if (type > ETHER_MIN_VALUE_FOR_TYPE) {
+			// Ethernet2 frame type
+
+			addRecord(CoreIdTable.CORE_ID_ETHER, offset, ETHER_HEADER_LEN);
+			l2Type = L2FrameType.L2_FRAME_TYPE_ETHER;
+			offset += ETHER_HEADER_LEN;
+
+			dissectEthType(offset, type);
+
+		} else if (hasRemaining(offset, LLC_HEADER_LEN)) { // Nope 802.3 frame
+			// THE 802.2 LOGICAL LINK CONTROL (LLC) HEADER
+
+			offset += ETHER_HEADER_LEN;
+			addRecord(CoreIdTable.CORE_ID_LLC, offset, LLC_HEADER_LEN);
+			l2Type = L2FrameType.L2_FRAME_TYPE_LLC;
+
+			int dsap = Byte.toUnsignedInt(buf.get(offset + LLC_FIELD_DSAP));
+			int ssap = Byte.toUnsignedInt(buf.get(offset + LLC_FIELD_SSAP));
+			int control = Byte.toUnsignedInt(buf.get(offset + LLC_FIELD_CONTROL));
+			
+			offset += LLC_HEADER_LEN;
+
+			if ((control == LLC_TYPE_FRAME)
+					&& (ssap == LLC_TYPE_SNAP)
+					&& (dsap == LLC_TYPE_SNAP)
+					&& hasRemaining(offset, SNAP_HEADER_LEN)) { // Snap + Frame = SNAP
+				// THE SUB-NETWORK ACCESS PROTOCOL (SNAP) HEADER
+
+				addRecord(CoreIdTable.CORE_ID_SNAP, offset, SNAP_HEADER_LEN);
+				l2Type = L2FrameType.L2_FRAME_TYPE_SNAP;
+				type = buf.getShort(offset + SNAP_FIELD_TYPE);
+
+				offset += SNAP_HEADER_LEN;
+
+				dissectEthType(offset, type);
+
+			} else if ((control == LLC_TYPE_FRAME)
+					&& (dsap == LLC_TYPE_NETWARE)
+					&& (ssap == LLC_TYPE_NETWARE)
+					&& hasRemaining(offset, IPX_HEADER_LEN)) {
+
+				// Internetwork Packet Exchange
+				dissectIpx(offset);
+
+			} else if ((control == LLC_TYPE_FRAME)
+					&& (dsap == LLC_TYPE_STP)
+					&& (ssap == LLC_TYPE_STP)
+					&& hasRemaining(offset, STP_HEADER_LEN)) {
+
+				addRecord(CoreIdTable.CORE_ID_STP, offset, STP_HEADER_LEN);
+			} else {
+				return; // Its a pure LLC frame, no protocols
+
+			}
+		}
+	}
+
 	/**
 	 * Dissect L 2.
 	 *
@@ -410,14 +421,14 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 
 		switch (dlt) { // L2 Datalink Type
 		case L2FrameType.L2_FRAME_TYPE_ETHER:
-			if (hasRemaining(0, CoreConstants.ETHER_HEADER_LEN)) {
+			if (hasRemaining(offset, CoreConstants.ETHER_HEADER_LEN)) {
 				l2Type = L2FrameType.L2_FRAME_TYPE_ETHER;
-				dissectEthType(ETHER_FIELD_TYPE);
+				dissectEthernet(offset);
 			}
 			break;
 
 		case L2FrameType.L2_FRAME_TYPE_NOVELL_RAW:
-			if (hasRemaining(0, CoreConstants.ETHER_HEADER_LEN)) {
+			if (hasRemaining(offset, CoreConstants.ETHER_HEADER_LEN)) {
 				l2Type = L2FrameType.L2_FRAME_TYPE_ETHER;
 				int first2bytes = buf.getShort(ETHER_HEADER_LEN);
 
