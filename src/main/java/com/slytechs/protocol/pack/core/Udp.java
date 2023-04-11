@@ -22,13 +22,13 @@ import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 
 /**
- * The Class Udp.
+ * User Datagram Protocol (UDP).
  *
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
 @Meta
-public class Udp extends Header {
+public final class Udp extends Header {
 
 	/** The Constant ID. */
 	public static final int ID = CoreIdTable.CORE_ID_UDP;
@@ -41,27 +41,33 @@ public class Udp extends Header {
 	}
 
 	/**
-	 * Checksum.
+	 * The checksum field may be used for error-checking of the header and data.
+	 * This field is optional in IPv4, and mandatory in most cases in IPv6. The
+	 * field carries all-zeros if unused.
 	 *
-	 * @return the int
+	 * @return 16-bit checksum of the header and data or zero if not set
 	 */
 	public int checksum() {
 		return UdpStruct.CHECKSUM.getUnsignedShort(buffer());
 	}
 
 	/**
-	 * Checksum.
+	 * Sets a new checksum value.
 	 *
-	 * @param checksum the checksum
+	 * @param newChecksum new CRC16 checksum
 	 */
-	public void checksum(int checksum) {
-		UdpStruct.CHECKSUM.setInt(checksum, buffer());
+	public void checksum(int newChecksum) {
+		UdpStruct.CHECKSUM.setInt(newChecksum, buffer());
 	}
 
 	/**
-	 * Dst port.
+	 * Destination port number.This field identifies the receiver's port and is
+	 * required. Similar to source port number, if the client is the destination
+	 * host then the port number will likely be an ephemeral port number and if the
+	 * destination host is the server then the port number will likely be a
+	 * well-known port number.
 	 *
-	 * @return the int
+	 * @return port number
 	 */
 	@Meta
 	public int dstPort() {
@@ -69,7 +75,7 @@ public class Udp extends Header {
 	}
 
 	/**
-	 * Dst port.
+	 * Sets a new port number.
 	 *
 	 * @param dstPort the dst port
 	 */

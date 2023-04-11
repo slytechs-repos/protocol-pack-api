@@ -316,7 +316,7 @@ public enum PacketDefinition {
 	Data (38 bytes)
 	 * </pre>
 	 */
-	SNAP(""
+	IEEE8023_SNAP(""
 			+ "01000ccdcdcd001de50ad740002e"
 			+ "aa aa 03"
 			+ "00000c 0115"),
@@ -362,7 +362,9 @@ public enum PacketDefinition {
 			+ "8004 0100 1400 0200 0f00"),
 
 	/**
-	 * fc00:2:0:2::1	fc00:2:0:1::1	TCP	94	43424 → http-alt(8080) [SYN] Seq=0 Win=26460 Len=0 MSS=2940 SACK_PERM TSval=2149426466 TSecr=0 WS=128
+	 * fc00:2:0:2::1 fc00:2:0:1::1 TCP 94 43424 → http-alt(8080) [SYN] Seq=0
+	 * Win=26460 Len=0 MSS=2940 SACK_PERM TSval=2149426466 TSecr=0 WS=128
+	 * 
 	 * <pre>
 	Frame 1: 94 bytes on wire (752 bits), 94 bytes captured (752 bits)
 	Ethernet II, Src: 86:93:23:d3:37:8e (86:93:23:d3:37:8e), Dst: 22:1a:95:d6:7a:23 (22:1a:95:d6:7a:23)
@@ -378,10 +380,54 @@ public enum PacketDefinition {
 	Transmission Control Protocol, Src Port: 43424 (43424), Dst Port: http-alt (8080), Seq: 0, Len: 0
 	 * </pre>
 	 */
-	IPv6(""
+	ETH_IPv6_TCP(""
 			+ "221a95d67a23869323d3378e86dd"
 			+ "600d684a00280640fc000002000000020000000000000001fc000002000000010000000000000001"
 			+ "a9a01f90021b638c00000000a002675c8eb9000002040b7c0402080a801da5220000000001030307"),
+
+	/**
+	 * 192.168.29.58 192.168.29.160 SNMP 108 get-request
+	 * 
+	 * <pre>
+	Frame 1: 108 bytes on wire (864 bits), 108 bytes captured (864 bits)
+	Ethernet II, Src: VMware_ae:76:f5 (00:50:56:ae:76:f5), Dst: ArubaaHe_64:8b:a0 (00:0b:86:64:8b:a0)
+	Internet Protocol Version 4, Src: 192.168.29.58, Dst: 192.168.29.160
+	    0100 .... = Version: 4
+	    .... 0101 = Header Length: 20 bytes (5)
+	    Differentiated Services Field: 0x00 (DSCP: CS0, ECN: Not-ECT)
+	        0000 00.. = Differentiated Services Codepoint: Default (0)
+	        .... ..00 = Explicit Congestion Notification: Not ECN-Capable Transport (0)
+	    Total Length: 94
+	    Identification: 0x5c65 (23653)
+	    000. .... = Flags: 0x0
+	        0... .... = Reserved bit: Not set
+	        .0.. .... = Don't fragment: Not set
+	        ..0. .... = More fragments: Not set
+	    ...0 0000 0000 0000 = Fragment Offset: 0
+	    Time to Live: 128
+	    Protocol: UDP (17)
+	    Header Checksum: 0x0000 [validation disabled]
+	    [Header checksum status: Unverified]
+	    Source Address: 192.168.29.58
+	    Destination Address: 192.168.29.160
+	User Datagram Protocol, Src Port: 60376 (60376), Dst Port: snmp (161)
+	    Source Port: 60376 (60376)
+	    Destination Port: snmp (161)
+	    Length: 74
+	    Checksum: 0xbc86 [unverified]
+	    [Checksum Status: Unverified]
+	    [Stream index: 1]
+	    [Timestamps]
+	    UDP payload (66 bytes)
+	Simple Network Management Protocol
+	 * 
+	 * </pre>
+	 */
+	ETH_IPv4_UDP_SNMP(""
+			+ "000b86648ba0005056ae76f50800"
+			+ "4500005e5c65000080110000c0a81d3ac0a81da0"
+			+ "ebd800a1004abc86"
+			+ "3040020103300f02030091c8020205dc040104020103041530130400020100020100040561646d696e04000400301304000400a00d02030091c80201000201003000")
 
 	;
 

@@ -23,7 +23,7 @@ import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.runtime.internal.layout.ArrayField;
 import com.slytechs.protocol.runtime.internal.layout.BinaryLayout;
 import com.slytechs.protocol.runtime.internal.layout.BitField;
-import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int16;
+import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int16be;
 import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int8;
 
 /**
@@ -51,10 +51,10 @@ public enum UdpStruct implements BitField.Proxy {
 		/** The Constant UDP_STRUCT. */
 		private static final BinaryLayout UDP_STRUCT = unionLayout(
 				structLayout(
-						Int16.BITS_16.withName("udp.srcport"),
-						Int16.BITS_16.withName("udp.dstport"),
-						Int16.BITS_16.withName("udp.length"),
-						Int16.BITS_16.withName("udp.checksum")),
+						Int16be.BITS_16.withName("udp.srcport"),
+						Int16be.BITS_16.withName("udp.dstport"),
+						Int16be.BITS_16.withName("udp.length"),
+						Int16be.BITS_16.withName("udp.checksum")),
 				sequenceLayout(CoreConstants.UDP_HEADER_LEN, Int8.BITS_08).withName("udp.bytes"));
 	}
 
