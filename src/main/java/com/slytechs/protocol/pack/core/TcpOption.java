@@ -27,12 +27,12 @@ import com.slytechs.protocol.pack.core.constants.TcpOptionInfo;
  * The Class TcpOption.
  */
 public class TcpOption extends Header {
-	
+
 	/**
 	 * The Class TcpEndOfListOption.
 	 */
 	public static class TcpEndOfListOption extends TcpOption {
-		
+
 		/** The Constant ID. */
 		public static final int ID = TcpOptionInfo.TCP_OPT_ID_EOL;
 
@@ -56,7 +56,7 @@ public class TcpOption extends Header {
 	 * The Class TcpFastOpenOption.
 	 */
 	public static class TcpFastOpenOption extends TcpOption {
-		
+
 		/** The Constant ID. */
 		public static final int ID = TcpOptionInfo.TCP_OPT_ID_FASTOPEN;
 
@@ -86,7 +86,7 @@ public class TcpOption extends Header {
 	 * The Class TcpMSSOption.
 	 */
 	public static class TcpMSSOption extends TcpOption {
-		
+
 		/** The Constant ID. */
 		public static final int ID = TcpOptionInfo.TCP_OPT_ID_MSS;
 
@@ -112,7 +112,7 @@ public class TcpOption extends Header {
 	 * The Class TcpSelectiveAckOption.
 	 */
 	public static class TcpSelectiveAckOption extends TcpOption {
-		
+
 		/** The Constant ID. */
 		public static final int ID = TcpOptionInfo.TCP_OPT_ID_SACK;
 
@@ -193,7 +193,7 @@ public class TcpOption extends Header {
 	 * The Class TcpNoOption.
 	 */
 	public static class TcpNoOption extends TcpOption {
-		
+
 		/** The Constant ID. */
 		public static final int ID = TcpOptionInfo.TCP_OPT_ID_NOP;
 
@@ -217,7 +217,7 @@ public class TcpOption extends Header {
 	 * The Class TcpTimestampOption.
 	 */
 	public static class TcpTimestampOption extends TcpOption {
-		
+
 		/** The Constant ID. */
 		public static final int ID = TcpOptionInfo.TCP_OPT_ID_TIMESTAMP;
 
@@ -252,7 +252,7 @@ public class TcpOption extends Header {
 	 * The Class TcpWindowScaleOption.
 	 */
 	public static class TcpWindowScaleOption extends TcpOption {
-		
+
 		/** The Constant ID. */
 		public static final int ID = TcpOptionInfo.TCP_OPT_ID_WIN_SCALE;
 
@@ -286,7 +286,7 @@ public class TcpOption extends Header {
 
 	/** The kind. */
 	private final int kind;
-	
+
 	/** The length. */
 	private final int length;;
 
@@ -333,10 +333,6 @@ public class TcpOption extends Header {
 		buffer().put(CoreConstants.TCP_OPTION_FIELD_KIND, (byte) kind);
 	}
 
-	/**
-	 * @see com.slytechs.protocol.Header#length()
-	 */
-	@Override
 	public int length() {
 		return (length != -1)
 				? length

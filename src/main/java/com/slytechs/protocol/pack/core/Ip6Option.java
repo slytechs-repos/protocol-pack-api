@@ -33,7 +33,7 @@ public class Ip6Option extends IpOption {
 	 * The Class Ip6AuthenticationOption.
 	 */
 	public static class Ip6AuthenticationOption extends Ip6Option {
-		
+
 		/** The id. */
 		public static int ID = Ip6OptionInfo.IPv6_OPTION_ID_AUTHENTICATION;
 
@@ -49,7 +49,7 @@ public class Ip6Option extends IpOption {
 	 * The Class Ip6DestinationOption.
 	 */
 	public static class Ip6DestinationOption extends Ip6Option {
-		
+
 		/** The id. */
 		public static int ID = Ip6OptionInfo.IPv6_OPTION_ID_DESTINATION;
 
@@ -65,7 +65,7 @@ public class Ip6Option extends IpOption {
 	 * The Class Ip6FragmentOption.
 	 */
 	public static class Ip6FragmentOption extends Ip6Option {
-		
+
 		/** The id. */
 		public static int ID = Ip6OptionInfo.IPv6_OPTION_ID_FRAGMENT;
 
@@ -99,7 +99,7 @@ public class Ip6Option extends IpOption {
 	 * The Class Ip6HopByHopOption.
 	 */
 	public static class Ip6HopByHopOption extends Ip6Option {
-		
+
 		/** The id. */
 		public static int ID = Ip6OptionInfo.IPv6_OPTION_ID_HOP_BY_HOP;
 
@@ -115,7 +115,7 @@ public class Ip6Option extends IpOption {
 	 * The Class Ip6IdentityOption.
 	 */
 	public static class Ip6IdentityOption extends Ip6Option {
-		
+
 		/** The id. */
 		public static int ID = Ip6OptionInfo.IPv6_OPTION_ID_IDENTITY;
 
@@ -131,7 +131,7 @@ public class Ip6Option extends IpOption {
 	 * The Class Ip6MobilityOption.
 	 */
 	public static class Ip6MobilityOption extends Ip6Option {
-		
+
 		/** The id. */
 		public static int ID = Ip6OptionInfo.IPv6_OPTION_ID_MOBILITY;
 
@@ -152,25 +152,25 @@ public class Ip6Option extends IpOption {
 		 * The Enum RoutingType.
 		 */
 		public enum RoutingType {
-			
+
 			/** The type0. */
 			TYPE0(0),
-			
+
 			/** The type1. */
 			TYPE1(1),
-			
+
 			/** The type2. */
 			TYPE2(2),
-			
+
 			/** The type3. */
 			TYPE3(3),
-			
+
 			/** The type4. */
 			TYPE4(4),
-			
+
 			/** The type253. */
 			TYPE253(253),
-			
+
 			/** The type254. */
 			TYPE254(254),
 
@@ -246,7 +246,7 @@ public class Ip6Option extends IpOption {
 	 * The Class Ip6SecurityOption.
 	 */
 	public static class Ip6SecurityOption extends Ip6Option {
-		
+
 		/** The id. */
 		public static int ID = Ip6OptionInfo.IPv6_OPTION_ID_SECURITY;
 
@@ -262,7 +262,7 @@ public class Ip6Option extends IpOption {
 	 * The Class Ip6Shim6Option.
 	 */
 	public static class Ip6Shim6Option extends Ip6Option {
-		
+
 		/** The id. */
 		public static int ID = Ip6OptionInfo.IPv6_OPTION_ID_SHIMv6;
 
@@ -316,10 +316,6 @@ public class Ip6Option extends IpOption {
 		return Byte.toUnsignedInt(buffer().get(1));
 	}
 
-	/**
-	 * @see com.slytechs.protocol.Header#length()
-	 */
-	@Override
 	public int length() {
 		return (constantLength != -1) ? constantLength : (extensionLength() << 3);
 	}

@@ -91,7 +91,7 @@ public abstract class ReflectedComponent implements Comparable<ReflectedComponen
 	 * Name.
 	 *
 	 * @return the string
-	 * @see com.slytechs.protocol.pack.meta.MetaInfo.PacketDescriptorProxy#name()
+	 * @see com.slytechs.protocol.pack.meta.MetaInfo.PacketDescriptorProxy#headerName()
 	 */
 	public String name() {
 		return meta.name();

@@ -249,7 +249,7 @@ public final class MetaHeader
 	 * @return the int
 	 */
 	public int offset() {
-		return header.offset();
+		return header.headerOffset();
 	}
 
 	/**
@@ -258,7 +258,7 @@ public final class MetaHeader
 	 * @return the int
 	 */
 	public int length() {
-		return header.length();
+		return header.headerLength();
 	}
 
 	/**

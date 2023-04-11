@@ -94,7 +94,6 @@ public final class Udp extends Header {
 	 * specifies that the length field is set to zero if the length of the UDP
 	 * header plus UDP data is greater than 65,535.
 	 */
-	@Override
 	@Meta
 	public int length() {
 		return UdpStruct.LENGTH.getUnsignedShort(buffer());

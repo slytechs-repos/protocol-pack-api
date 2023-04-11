@@ -61,7 +61,7 @@ public sealed class Payload extends Header permits Other {
 	 */
 	@Meta
 	public byte[] data() {
-		byte[] array = new byte[length()];
+		byte[] array = new byte[headerLength()];
 
 		data(array);
 
@@ -87,8 +87,8 @@ public sealed class Payload extends Header permits Other {
 	 * @return number of bytes copied into the array
 	 */
 	public int data(byte[] dst, int offset, int length) {
-		if (offset + length > length())
-			length = length() - offset;
+		if (offset + length > headerLength())
+			length = headerLength() - offset;
 
 		buffer().get(dst, offset, length);
 

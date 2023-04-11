@@ -49,7 +49,7 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	private volatile Lock lock; // Lazy & concurrent allocation
 
 	/** Some important header attributes */
-	private int offset, length, payloadLength;
+	private int headerOffset, headerLength, payloadLength;
 
 	/**
 	 * A pretty pring formatted, if will be used to generated {@code toString()}
@@ -100,8 +100,8 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	 * @param length     the length
 	 */
 	final void bindHeaderToPacket(ByteBuffer packet, PacketDescriptor descriptor, int offset, int length) {
-		this.offset = offset;
-		this.length = length;
+		this.headerOffset = offset;
+		this.headerLength = length;
 		this.payloadLength = calcPayloadLength(packet, descriptor, offset, length);
 
 		super.bind(packet.slice(offset, length));
@@ -155,8 +155,8 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	 * @return length in bytes
 	 */
 	@Meta(MetaType.ATTRIBUTE)
-	public int length() {
-		return length;
+	public final int headerLength() {
+		return headerLength;
 	}
 
 	/**
@@ -166,18 +166,18 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	 * @return the string
 	 */
 	@Meta(MetaType.ATTRIBUTE)
-	public String name() {
+	public String headerName() {
 		return getClass().getSimpleName();
 	}
 
 	/**
-	 * Offset of the begining of this header from the start of the packet.
+	 * Offset of the beginning of this header from the start of the packet.
 	 *
 	 * @return offset in bytes
 	 */
 	@Meta(MetaType.ATTRIBUTE)
-	public final int offset() {
-		return offset;
+	public final int headerOffset() {
+		return headerOffset;
 	}
 
 	/**
@@ -185,7 +185,7 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	 */
 	@Override
 	protected void onUnbind() {
-		offset = length = payloadLength = 0;
+		headerOffset = headerLength = payloadLength = 0;
 	}
 
 	/**
@@ -206,7 +206,7 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	 */
 	@Meta(MetaType.ATTRIBUTE)
 	public int payloadOffset() {
-		return offset + length;
+		return headerOffset + headerLength;
 	}
 
 	/**
@@ -248,18 +248,18 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 
 		return switch (detail) {
 		case NONE -> "";
-		case LOW -> name();
+		case LOW -> headerName();
 
 		case MEDIUM -> "%s [offset=%d, length=%d]"
-				.formatted(name(), offset(), length());
+				.formatted(headerName(), headerOffset(), headerLength());
 
 		case HIGH -> "%s [offset=%d, length=%d]%n%s"
-				.formatted(name(), offset(), length(),
+				.formatted(headerName(), headerOffset(), headerLength(),
 						HexStrings.toHexTextDump(buffer(),
-								i -> "%04X: ".formatted(i + offset())));
+								i -> "%04X: ".formatted(i + headerOffset())));
 
 		case DEBUG -> "%s [offset=%d, length=%d, payload=%d, id=%04X]"
-				.formatted(name(), offset(), length(), payloadLength(), id());
+				.formatted(headerName(), headerOffset(), headerLength(), payloadLength(), id());
 		};
 	}
 }

@@ -35,7 +35,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 
 	/** The Constant ID. */
 	public static final int ID = CoreIdTable.CORE_ID_TCP;
-	
+
 	/** The Constant FLAGS_FORMAT. */
 	private static final String FLAGS_FORMAT = "..B WEUA PRSF";
 
@@ -52,11 +52,11 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 //	}
 
 	/**
- * Ack.
- *
- * @return the long
- */
-@Meta
+	 * Ack.
+	 *
+	 * @return the long
+	 */
+	@Meta
 	public long ack() {
 		return TcpStruct.ACK.getUnsignedInt(buffer());
 	}
@@ -110,11 +110,11 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 //	}
 
 	/**
- * Checksum.
- *
- * @param checksum the checksum
- */
-public void checksum(int checksum) {
+	 * Checksum.
+	 *
+	 * @param checksum the checksum
+	 */
+	public void checksum(int checksum) {
 		TcpStruct.CHECKSUM.setInt(checksum, buffer());
 	}
 

@@ -74,7 +74,7 @@ public abstract non-sealed class HeaderExtension<T extends Header>
 	public T getExtension(T extension, int depth) throws HeaderNotFound {
 		T t = peekExtension(extension, depth);
 		if (t == null)
-			throw new HeaderNotFound(extension.name());
+			throw new HeaderNotFound(extension.headerName());
 
 		return t;
 	}

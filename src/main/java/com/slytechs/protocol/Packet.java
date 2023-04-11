@@ -249,7 +249,7 @@ public final class Packet
 	public <T extends Header> T getHeader(T header, int depth) throws HeaderNotFound {
 		T newHeader = peekHeader(header, depth);
 		if (newHeader == null)
-			throw new HeaderNotFound(header.name());
+			throw new HeaderNotFound(header.headerName());
 
 		return newHeader;
 	}

@@ -134,8 +134,8 @@ public final class Ethernet extends Header {
 
 		frameBuffer
 				.clear()
-				.limit(offset() + length() + payloadLength())
-				.position(offset());
+				.limit(headerOffset() + headerLength() + payloadLength())
+				.position(headerOffset());
 
 		return Checksums.crc32(buffer());
 	}
