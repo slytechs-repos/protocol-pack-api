@@ -23,6 +23,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import com.slytechs.protocol.HeaderNotFound;
@@ -39,6 +40,9 @@ import com.slytechs.protocol.runtime.util.HexStrings;
  * @author Mark Bednarczyk
  *
  */
+@Tag("osi-layer2")
+@Tag("llc")
+@Tag("snap")
 class TestLlcSnapHeader {
 
 	static final PacketDissector DISSECTOR = PacketDissector

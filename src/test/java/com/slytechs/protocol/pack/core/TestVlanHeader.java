@@ -23,6 +23,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import com.slytechs.protocol.HeaderNotFound;
@@ -38,6 +39,9 @@ import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
  * @author Mark Bednarczyk
  *
  */
+@Tag("osi-layer2")
+@Tag("vlan")
+@Tag("tunnel")
 class TestVlanHeader {
 
 	static final PacketDissector DISSECTOR = PacketDissector
