@@ -319,9 +319,6 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 				addRecord(CoreIdTable.CORE_ID_SNAP, offset, CoreConstants.SNAP_HEADER_LEN);
 				l2Type = L2FrameType.L2_FRAME_TYPE_SNAP;
 				type = buf.getShort(offset + SNAP_FIELD_TYPE);
-				int oui = buf.getInt(offset + SNAP_FIELD_OUI) >> 8;
-				if (oui != SNAP_TYPE_ETHER) // A pure SNAP frame
-					return;
 
 				offset += SNAP_HEADER_LEN;
 
