@@ -138,35 +138,35 @@ public final class CoreConstants {
 
 	/* Descriptor LLC constants */
 	/** The Constant LLC_HEADER_LEN. */
-	public static final int LLC_HEADER_LEN = 5;
+	public static final int LLC_HEADER_LEN = 3;
 
 	/** The Constant LLC_FIELD_DSAP. */
-	public static final int LLC_FIELD_DSAP = 5;
+	public static final int LLC_FIELD_DSAP = 0;
 
 	/** The Constant LLC_FIELD_SSAP. */
-	public static final int LLC_FIELD_SSAP = 5;
+	public static final int LLC_FIELD_SSAP = 1;
 
 	/** The Constant LLC_FIELD_CONTROL. */
-	public static final int LLC_FIELD_CONTROL = 5;
+	public static final int LLC_FIELD_CONTROL = 2;
 
 	/** The Constant LLC_TYPE_FRAME. */
-	public static final int LLC_TYPE_FRAME = 5;
+	public static final int LLC_TYPE_FRAME = 3;
 
 	/** The Constant LLC_TYPE_SNAP. */
-	public static final int LLC_TYPE_SNAP = 5;
+	public static final int LLC_TYPE_SNAP = 0xAA;
 
 	/** The Constant LLC_TYPE_NETWARE. */
-	public static final int LLC_TYPE_NETWARE = 5;
+	public static final int LLC_TYPE_NETWARE = 0xFF;
 
 	/** The Constant SNAP_HEADER_LEN. */
 	/* Descriptor SNAP constants */
-	public static final int SNAP_HEADER_LEN = 4;
+	public static final int SNAP_HEADER_LEN = 5;
 
 	/** The Constant SNAP_FIELD_TYPE. */
-	public static final int SNAP_FIELD_TYPE = 4;
+	public static final int SNAP_FIELD_TYPE = 3;
 
 	/** The Constant SNAP_FIELD_OUI. */
-	public static final int SNAP_FIELD_OUI = 4;
+	public static final int SNAP_FIELD_OUI = 0;
 
 	/** The Constant SNAP_TYPE_ETHER. */
 	public static final int SNAP_TYPE_ETHER = 4;
