@@ -21,6 +21,7 @@ import com.slytechs.protocol.HeaderExtension;
 import com.slytechs.protocol.Packet;
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.MetaResource;
+import com.slytechs.protocol.pack.core.TcpOption.TcpWindowScaleOption;
 import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 
 /**
@@ -38,6 +39,13 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	/** The Constant FLAGS_FORMAT. */
 	@SuppressWarnings("unused")
 	private static final String FLAGS_FORMAT = "..B WEUA PRSF";
+
+	/**
+	 * The wscale option. We persist the object, once its lazily created in case it
+	 * will be needed again during the next header binding. The option is unbound
+	 * when the main TCP header is unbound.
+	 */
+	private TcpWindowScaleOption wscaleOption;
 
 	/**
 	 * Instantiates a new tcp.
@@ -204,6 +212,17 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
+	 * @see com.slytechs.protocol.HeaderExtension#onUnbind()
+	 */
+	@Override
+	protected void onUnbind() {
+		super.unbind();
+
+		if (wscaleOption != null)
+			wscaleOption.unbind();
+	}
+
+	/**
 	 * Reaseembled segments.
 	 *
 	 * @return the packet[]
@@ -317,6 +336,25 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 */
 	public void windowSize(int size) {
 		TcpStruct.WIN_SIZE.setInt(size, buffer());
+	}
+
+	/**
+	 * A scaled window size in units of bytes. If the TCP header has the
+	 * window-scale option the shift count of the option will be used. If no TCP
+	 * window-scale option, then a shift 0 will be used.
+	 *
+	 * @return the scaled window value
+	 */
+	public int windowSizeScaled() {
+
+		if (wscaleOption == null)
+			wscaleOption = new TcpWindowScaleOption();
+
+		int shiftCount = 0;
+		if (hasExtension(wscaleOption))
+			shiftCount = wscaleOption.shiftCount();
+
+		return windowSizeScaled(shiftCount);
 	}
 
 	/**

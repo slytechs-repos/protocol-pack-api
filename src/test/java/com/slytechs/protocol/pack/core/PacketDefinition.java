@@ -427,7 +427,52 @@ public enum PacketDefinition {
 			+ "000b86648ba0005056ae76f50800"
 			+ "4500005e5c65000080110000c0a81d3ac0a81da0"
 			+ "ebd800a1004abc86"
-			+ "3040020103300f02030091c8020205dc040104020103041530130400020100020100040561646d696e04000400301304000400a00d02030091c80201000201003000")
+			+ "3040020103300f02030091c8020205dc040104020103041530130400020100020100040561646d696e04000400301304000400a00d02030091c80201000201003000"),
+
+	/**
+	 * 192.168.1.140 174.143.213.184 TCP 74 57678 → http(80) [SYN] Seq=0 Win=5840
+	 * Len=0 MSS=1460 SACK_PERM TSval=2216538 TSecr=0 WS=128
+	 * 
+	 * <pre>
+	Frame 1: 74 bytes on wire (592 bits), 74 bytes captured (592 bits)
+	Ethernet II, Src: ASUSTekC_b3:01:84 (00:1d:60:b3:01:84), Dst: Actionte_2f:47:87 (00:26:62:2f:47:87)
+	Internet Protocol Version 4, Src: 192.168.1.140, Dst: 174.143.213.184
+	Transmission Control Protocol, Src Port: 57678 (57678), Dst Port: http (80), Seq: 0, Len: 0
+	    Source Port: 57678 (57678)
+	    Destination Port: http (80)
+	    [Stream index: 0]
+	    [Conversation completeness: Complete, WITH_DATA (31)]
+	    [TCP Segment Len: 0]
+	    Sequence Number: 0    (relative sequence number)
+	    Sequence Number (raw): 2387613953
+	    [Next Sequence Number: 1    (relative sequence number)]
+	    Acknowledgment Number: 0
+	    Acknowledgment number (raw): 0
+	    1010 .... = Header Length: 40 bytes (10)
+	    Flags: 0x002 (SYN)
+	    Window: 5840
+	    [Calculated window size: 5840]
+	    Checksum: 0x8f47 [unverified]
+	    [Checksum Status: Unverified]
+	    Urgent Pointer: 0
+	    Options: (20 bytes), Maximum segment size, SACK permitted, Timestamps, No-Operation (NOP), Window scale
+	        TCP Option - Maximum segment size: 1460 bytes
+	        TCP Option - SACK permitted
+	        TCP Option - Timestamps
+	        TCP Option - No-Operation (NOP)
+	        TCP Option - Window scale: 7 (multiply by 128)
+	            Kind: Window Scale (3)
+	            Length: 3
+	            Shift count: 7
+	            [Multiplier: 128]
+	    [Timestamps]
+	 * 
+	 * </pre>
+	 */
+	ETH_IPv4_TCP_WCALEOPT(""
+			+ "0026622f4787001d60b301840800"
+			+ "4500003ccb5b4000400628e4c0a8018cae8fd5b8"
+			+ "e14e00508e50190100000000a00216d08f470000020405b40402080a0021d25a0000000001030307"),
 
 	;
 

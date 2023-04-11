@@ -39,51 +39,48 @@ public enum TcpOptionInfo implements HeaderExtensionInfo {
 
 	/** The eol. */
 	EOL(CoreConstants.TCP_OPTION_KIND_EOL, "EOL", TcpEndOfListOption::new),
-	
+
 	/** The nop. */
 	NOP(CoreConstants.TCP_OPTION_KIND_NOP, "NOP", TcpNoOption::new),
-	
+
 	/** The mss. */
 	MSS(CoreConstants.TCP_OPTION_KIND_MSS, "MSS", TcpMSSOption::new),
-	
+
 	/** The win scale. */
 	WIN_SCALE(CoreConstants.TCP_OPTION_KIND_WIN_SCALE, "WIN", TcpWindowScaleOption::new),
-	
+
 	/** The sack. */
 	SACK(CoreConstants.TCP_OPTION_KIND_SACK, "SACK", TcpSelectiveAckOption::new),
-	
+
 	/** The timestamp. */
 	TIMESTAMP(CoreConstants.TCP_OPTION_KIND_TIMESTAMP, "TS", TcpTimestampOption::new),
-	
+
 	/** The fastopen. */
 	FASTOPEN(CoreConstants.TCP_OPTION_KIND_FASTOPEN, "FAST", TcpFastOpenOption::new),
 
 	;
 
-	/** The Constant PACK_ID_OPTS. */
-	private static final int PACK_ID_OPTS = (PACK_ID_OPTIONS << PackId.PACK_SHIFT_PACK);
-
 	/** The Constant TCP_OPT_ID_EOL. */
 	// @formatter:off
-	public static final int TCP_OPT_ID_EOL       = 0 | PACK_ID_OPTS;
+	public static final int TCP_OPT_ID_EOL       = 0 | PACK_ID_OPTIONS;
 	
 	/** The Constant TCP_OPT_ID_NOP. */
-	public static final int TCP_OPT_ID_NOP       = 1 | PACK_ID_OPTS;
+	public static final int TCP_OPT_ID_NOP       = 1 | PACK_ID_OPTIONS;
 	
 	/** The Constant TCP_OPT_ID_MSS. */
-	public static final int TCP_OPT_ID_MSS       = 2 | PACK_ID_OPTS;
+	public static final int TCP_OPT_ID_MSS       = 2 | PACK_ID_OPTIONS;
 	
 	/** The Constant TCP_OPT_ID_WIN_SCALE. */
-	public static final int TCP_OPT_ID_WIN_SCALE = 3 | PACK_ID_OPTS;
+	public static final int TCP_OPT_ID_WIN_SCALE = 3 | PACK_ID_OPTIONS;
 	
 	/** The Constant TCP_OPT_ID_SACK. */
-	public static final int TCP_OPT_ID_SACK      = 4 | PACK_ID_OPTS;
+	public static final int TCP_OPT_ID_SACK      = 4 | PACK_ID_OPTIONS;
 	
 	/** The Constant TCP_OPT_ID_TIMESTAMP. */
-	public static final int TCP_OPT_ID_TIMESTAMP = 5 | PACK_ID_OPTS;
+	public static final int TCP_OPT_ID_TIMESTAMP = 5 | PACK_ID_OPTIONS;
 	
 	/** The Constant TCP_OPT_ID_FASTOPEN. */
-	public static final int TCP_OPT_ID_FASTOPEN  = 6 | PACK_ID_OPTS;
+	public static final int TCP_OPT_ID_FASTOPEN  = 6 | PACK_ID_OPTIONS;
 	// @formatter:on
 
 	/** The Constant MAP_TABLE. */
@@ -106,13 +103,13 @@ public enum TcpOptionInfo implements HeaderExtensionInfo {
 
 	/** The id. */
 	private final int id;
-	
+
 	/** The abbr. */
 	private final String abbr;
-	
+
 	/** The type. */
 	private final int type;
-	
+
 	/** The supplier. */
 	private final HeaderSupplier supplier;
 

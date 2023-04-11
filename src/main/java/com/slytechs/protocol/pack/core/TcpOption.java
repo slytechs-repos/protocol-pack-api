@@ -17,6 +17,8 @@
  */
 package com.slytechs.protocol.pack.core;
 
+import static com.slytechs.protocol.pack.core.constants.CoreConstants.*;
+
 import java.nio.ByteBuffer;
 
 import com.slytechs.protocol.Header;
@@ -201,7 +203,7 @@ public class TcpOption extends Header {
 		 * Instantiates a new tcp no option.
 		 */
 		public TcpNoOption() {
-			super(ID, CoreConstants.TCP_OPTION_KIND_NOP, CoreConstants.TCP_OPTION_LEN_NOP);
+			super(ID, TCP_OPTION_KIND_NOP, TCP_OPTION_LEN_NOP);
 		}
 
 		/**
@@ -225,7 +227,7 @@ public class TcpOption extends Header {
 		 * Instantiates a new tcp timestamp option.
 		 */
 		public TcpTimestampOption() {
-			super(ID, CoreConstants.TCP_OPTION_KIND_TIMESTAMP, CoreConstants.TCP_OPTION_LEN_TIMESTAMP);
+			super(ID, TCP_OPTION_KIND_TIMESTAMP, TCP_OPTION_LEN_TIMESTAMP);
 		}
 
 		/**
@@ -260,7 +262,7 @@ public class TcpOption extends Header {
 		 * Instantiates a new tcp window scale option.
 		 */
 		public TcpWindowScaleOption() {
-			super(ID, CoreConstants.TCP_OPTION_KIND_WIN_SCALE, CoreConstants.TCP_OPTION_LEN_WIN_SCALE);
+			super(ID, TCP_OPTION_KIND_WIN_SCALE, TCP_OPTION_LEN_WIN_SCALE);
 		}
 
 		/**
@@ -270,7 +272,7 @@ public class TcpOption extends Header {
 		 * @return the int
 		 */
 		public int scaleWindow(int window) {
-			return window << bitShift();
+			return window << shiftCount();
 		}
 
 		/**
@@ -278,8 +280,8 @@ public class TcpOption extends Header {
 		 *
 		 * @return the int
 		 */
-		public int bitShift() {
-			return Byte.toUnsignedInt(buffer().get(3));
+		public int shiftCount() {
+			return Byte.toUnsignedInt(buffer().get(TCP_OPTION_FIELD_DATA));
 		}
 
 	};
@@ -334,9 +336,9 @@ public class TcpOption extends Header {
 	}
 
 	public int length() {
-		return (length != -1)
+		return ((length != -1)
 				? length
-				: Byte.toUnsignedInt(buffer().get(CoreConstants.TCP_OPTION_FIELD_LENGTH));
+				: Byte.toUnsignedInt(buffer().get(TCP_OPTION_FIELD_LENGTH)));
 	}
 
 	/**
@@ -345,7 +347,7 @@ public class TcpOption extends Header {
 	 * @param length the length
 	 */
 	public void length(int length) {
-		buffer().put(CoreConstants.TCP_OPTION_FIELD_LENGTH, (byte) kind);
+		buffer().put(TCP_OPTION_FIELD_LENGTH, (byte) kind);
 	}
 
 }

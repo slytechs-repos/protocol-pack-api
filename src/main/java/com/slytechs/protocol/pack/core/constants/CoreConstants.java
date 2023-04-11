@@ -525,6 +525,9 @@ public final class CoreConstants {
 
 	/** The Constant TCP_OPTION_FIELD_LENGTH. */
 	public static final int TCP_OPTION_FIELD_LENGTH = 1;
+	
+	/** The Constant TCP_OPTION_FIELD_DATA. */
+	public static final int TCP_OPTION_FIELD_DATA = 2;
 
 	/** The Constant TCP_OPTION_KIND_EOL. */
 	public static final int TCP_OPTION_KIND_EOL = 0;

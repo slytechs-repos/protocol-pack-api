@@ -155,8 +155,6 @@ class TestIp6Header {
 		DISSECTOR.dissectPacket(packet);
 		DISSECTOR.writeDescriptor(packet.descriptor());
 		
-		System.out.println(packet.descriptor());
-
 		var ip6 = packet.getHeader(new Ip6());
 
 		assertEquals(6, ip6.nextHeader());
@@ -170,8 +168,6 @@ class TestIp6Header {
 		DISSECTOR.dissectPacket(packet);
 		DISSECTOR.writeDescriptor(packet.descriptor());
 		
-		System.out.println(packet.descriptor());
-
 		var ip6 = packet.getHeader(new Ip6());
 
 		assertEquals(6, ip6.version());
@@ -185,8 +181,6 @@ class TestIp6Header {
 		DISSECTOR.dissectPacket(packet);
 		DISSECTOR.writeDescriptor(packet.descriptor());
 		
-		System.out.println(packet.descriptor());
-
 		assertTrue(packet.hasHeader(CoreIdTable.CORE_ID_TCP));
 	}
 
