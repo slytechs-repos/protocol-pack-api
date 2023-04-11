@@ -162,7 +162,7 @@ class ArrayCarrierImplementation implements ArrayCarrier {
 		case byte[] d -> System.arraycopy(d, (int) byteOffset, array, offset, length);
 		case ByteArray b -> System.arraycopy(b.array(), (int) (b.arrayOffset() + byteOffset), array, offset, length);
 		case MemorySegment seg -> memoryToArray(seg, byteOffset, array, offset, length);
-		case ByteBuffer b -> b.put(array, offset, length);
+		case ByteBuffer b -> b.get((int) byteOffset, array, offset, length);
 		default -> throw new IllegalArgumentException("unsupported data type " + data.getClass());
 		}
 
