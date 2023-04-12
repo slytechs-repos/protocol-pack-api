@@ -93,43 +93,22 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * Color 1.
+	 * Get user color.
 	 *
-	 * @return the int
+	 * @return an opaque value assigned by the user
 	 */
-	public int color1() {
-		return COLOR1.getInt(buffer());
+	public int color() {
+		return COLOR.getInt(buffer());
 	}
 
 	/**
-	 * Color 1.
+	 * Sets new color value
 	 *
-	 * @param color1 the color 1
-	 * @return the type 2 descriptor
+	 * @param newColor new color value
+	 * @return this descriptor
 	 */
-	public Type2Descriptor color1(int color1) {
-		COLOR1.setInt(color1, buffer());
-
-		return this;
-	}
-
-	/**
-	 * Color 2.
-	 *
-	 * @return the int
-	 */
-	public int color2() {
-		return COLOR2.getInt(buffer());
-	}
-
-	/**
-	 * Color 2.
-	 *
-	 * @param color1 the color 1
-	 * @return the type 2 descriptor
-	 */
-	public Type2Descriptor color2(int color1) {
-		COLOR2.setInt(color1, buffer());
+	public Type2Descriptor color(int newColor) {
+		COLOR.setInt(newColor, buffer());
 
 		return this;
 	}
@@ -227,6 +206,25 @@ public class Type2Descriptor extends PacketDescriptor {
 			hashType = HASH_TYPE.getInt(buffer());
 
 		return hashType;
+	}
+
+	/**
+	 * A flag which indicates if this is packet is part of layer3 fragmented
+	 * datagram.
+	 *
+	 * @return true, if it is a fragment
+	 */
+	public boolean isL3Fragment() {
+		return Type2DescriptorLayout.L3_IS_FRAG.getBit(buffer());
+	}
+
+	/**
+	 * A flag which indicates if this is the last fragment of a fragmented datagram.
+	 *
+	 * @return true, if it is the last fragment
+	 */
+	public boolean isL3LastFragment() {
+		return Type2DescriptorLayout.L3_LAST_FRAG.getBit(buffer());
 	}
 
 	/**
@@ -486,7 +484,11 @@ public class Type2Descriptor extends PacketDescriptor {
 						.append("  txnow=%d%n".formatted(txNow()))
 						.append("  txIgnore=%d%n".formatted(txIgnore()))
 						.append("  txCrcOverride=%d%n".formatted(txCrcOverride()))
-						.append("  txSetClock=%d%n".formatted(txSetClock()));
+						.append("  txSetClock=%d%n".formatted(txSetClock()))
+						.append("  isL3Fragment=%s%n".formatted(isL3Fragment()))
+						.append("  isL3LastFragment=%s%n".formatted(isL3LastFragment()))
+
+				;
 
 			b.append("")
 					.append("  l2FrameType=%d (%s)%n".formatted(l2FrameType(),
@@ -499,6 +501,7 @@ public class Type2Descriptor extends PacketDescriptor {
 									HashType.valueOf(hashType()),
 									hash24()))
 
+					.append("  color=%d%n".formatted(color()))
 					.append("  recordCount=%d%n".formatted(recordCount()));
 
 			if (detail.isHigh())
@@ -514,8 +517,8 @@ public class Type2Descriptor extends PacketDescriptor {
 			for (int i = 0; i < recordCount; i++) {
 
 				int record = record(i);
-				int pack = PackId.encodeRecordPackId(record);
-				int id = PackId.encodeRecordId(record);
+				int pack = PackId.decodeRecordPackId(record);
+				int id = PackId.decodeRecordId(record);
 				int offset = PackId.decodeRecordOffset(record);
 				int length = PackId.decodeRecordSize(record);
 

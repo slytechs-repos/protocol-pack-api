@@ -26,11 +26,10 @@ import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int32;
 import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int64;
 
 /**
- * The Enum Type2Layout.
+ * Type2 struct/layout definition.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
 enum Type2DescriptorLayout implements BitField.Proxy {
 
@@ -40,11 +39,14 @@ enum Type2DescriptorLayout implements BitField.Proxy {
 	/** The caplen. */
 	CAPLEN("caplen"),
 
-	/** The color1. */
-	COLOR1("color1"),
+	/** is l3 a fragment. */
+	L3_IS_FRAG("l3_is_frag"),
 
-	/** The color2. */
-	COLOR2("color2"),
+	/** is l3 the last fragment. */
+	L3_LAST_FRAG("l3_last_frag"),
+
+	/** The color. */
+	COLOR("color"),
 
 	/** The hash24. */
 	HASH24("hash24"),
@@ -118,13 +120,15 @@ enum Type2DescriptorLayout implements BitField.Proxy {
 						Int16.BITS_01.withName("tx_crc_override"),
 						Int16.BITS_01.withName("tx_set_clock"),
 						Int16.BITS_04.withName("l2_type"),
-						Int16.BITS_03.withName("color1"),
+						Int16.BITS_01.withName("l3_is_frag"),
+						Int16.BITS_01.withName("l3_last_frag"),
+						Int16.BITS_01.withName("reserved"),
 						Int16.BITS_05.withName("record_count"),
 
 						/* Word4 */
 						unionLayout(
 								Int32.BITS_32.withName("hash32"),
-								Int32.BITS_32.withName("color2"),
+								Int32.BITS_32.withName("color"),
 								structLayout(
 										Int32.BITS_24.withName("hash24"),
 										Int32.BITS_05.withName("hash_type"))),
