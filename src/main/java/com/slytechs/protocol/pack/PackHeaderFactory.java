@@ -15,15 +15,13 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.protocol.pack.core;
+package com.slytechs.protocol.pack;
 
 import static com.slytechs.protocol.pack.PackId.*;
 
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.HeaderFactory;
 import com.slytechs.protocol.HeaderInfo;
-import com.slytechs.protocol.pack.PackId;
-import com.slytechs.protocol.pack.ProtocolPackTable;
 import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 
 /**
@@ -33,18 +31,18 @@ import com.slytechs.protocol.pack.core.constants.CoreIdTable;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public class PackHeaderFactory implements HeaderFactory {
+public final class PackHeaderFactory implements HeaderFactory {
 
 	/**
 	 * The Class LazySupplier.
 	 */
 	private static class LazySupplier {
-		
+
 		/** The Constant EMPTY. */
 		private static final LazySupplier EMPTY = new LazySupplier(null) {
 
 			/**
-			 * @see com.slytechs.jnet.protocol.packet.PackHeaderFactory.LazySupplier#get()
+			 * @see com.slytechs.protocol.pack.jnet.protocol.packet.PackHeaderFactory.LazySupplier#get()
 			 */
 			@Override
 			Header get() {
@@ -55,7 +53,7 @@ public class PackHeaderFactory implements HeaderFactory {
 
 		/** The allocated header. */
 		private Header allocatedHeader;
-		
+
 		/** The info. */
 		private final HeaderInfo info;
 
@@ -94,6 +92,13 @@ public class PackHeaderFactory implements HeaderFactory {
 		CoreIdTable[] core = CoreIdTable.values();
 		for (int i = 0; i < core.length; i++)
 			table[i] = new LazySupplier(core[i]);
+
+	}
+
+	/**
+	 * Instantiates a new pack header factory.
+	 */
+	public PackHeaderFactory() {
 
 	}
 

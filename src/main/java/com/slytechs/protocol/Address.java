@@ -26,5 +26,10 @@ package com.slytechs.protocol;
  */
 public interface Address {
 
+	/**
+	 * Type.
+	 *
+	 * @return the address type
+	 */
 	AddressType type();
 }

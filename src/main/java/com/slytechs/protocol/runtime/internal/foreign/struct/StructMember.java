@@ -119,6 +119,9 @@ public abstract class StructMember {
 	}
 
 	/**
+	 * To string.
+	 *
+	 * @return the string
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

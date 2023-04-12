@@ -24,7 +24,7 @@ import java.util.Optional;
 import com.slytechs.protocol.meta.MetaContext.MetaMapped;
 
 /**
- * The Class MapMetaContext.
+ * Map based meta context.
  */
 public class MapMetaContext
 		extends AbstractMetaContext
@@ -75,14 +75,12 @@ public class MapMetaContext
 	}
 
 	/**
-	 * Sets the.
+	 * Sets the new value for key.
 	 *
 	 * @param <K>   the key type
 	 * @param <V>   the value type
 	 * @param key   the key
 	 * @param value the value
-	 * @see com.slytechs.protocol.pack.meta.MetaContext.MetaMappedSetter#set(java.lang.Object,
-	 *      java.lang.Object)
 	 */
 	@Override
 	public <K, V> void set(K key, V value) {

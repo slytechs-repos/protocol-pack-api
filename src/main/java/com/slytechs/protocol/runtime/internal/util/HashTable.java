@@ -35,6 +35,11 @@ public interface HashTable<T> {
 	public interface OfLong extends HashTable<Long> {
 
 		/**
+		 * Gets the.
+		 *
+		 * @param key the key
+		 * @return the long
+		 * @throws NotFound the not found
 		 * @see com.slytechs.protocol.runtime.internal.util.HashTable#get(int)
 		 */
 		@Override
@@ -52,6 +57,10 @@ public interface HashTable<T> {
 		long getLong(int key) throws NotFound;
 
 		/**
+		 * Peek.
+		 *
+		 * @param key the key
+		 * @return the long
 		 * @see com.slytechs.protocol.runtime.internal.util.HashTable#peek(int)
 		 */
 		@Override
@@ -77,7 +86,13 @@ public interface HashTable<T> {
 		long peekLong(int key, long defaultValue);
 
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.util.HashTable#put(int, java.lang.Object)
+		 * Put.
+		 *
+		 * @param key   the key
+		 * @param value the value
+		 * @return the long
+		 * @see com.slytechs.protocol.runtime.internal.util.HashTable#put(int,
+		 *      java.lang.Object)
 		 */
 		@Override
 		default Long put(int key, Long value) {

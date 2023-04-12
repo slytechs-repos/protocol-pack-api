@@ -178,7 +178,7 @@ public final class Frame extends Header {
 
 	/**
 	 * Frame number assigned to this packet frame at the time of the packet dispatch
-	 * or capture
+	 * or capture.
 	 *
 	 * @return frame number
 	 */

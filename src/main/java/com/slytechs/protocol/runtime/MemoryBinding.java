@@ -37,6 +37,12 @@ public abstract class MemoryBinding implements Cloneable, Binding {
 	private ByteBuffer buffer;
 
 	/**
+	 * Instantiates a new memory binding.
+	 */
+	protected MemoryBinding() {
+	}
+
+	/**
 	 * Address.
 	 *
 	 * @return the memory segment
@@ -162,7 +168,7 @@ public abstract class MemoryBinding implements Cloneable, Binding {
 	 * @param address the address
 	 */
 	private final void bind0(ByteBuffer buffer, MemorySegment address) {
-		
+
 		if (buffer.capacity() == 0)
 			throw new IllegalStateException("%s: empty binding! %s"
 					.formatted(getClass().getSimpleName(), buffer));
@@ -187,7 +193,8 @@ public abstract class MemoryBinding implements Cloneable, Binding {
 	/**
 	 * Clone this binding along with the data buffer by allocating new space and
 	 * making a copy.
-	 * 
+	 *
+	 * @return the memory binding
 	 * @see java.lang.Object#clone()
 	 */
 	@Override

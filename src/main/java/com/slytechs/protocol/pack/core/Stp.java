@@ -102,16 +102,31 @@ public final class Stp extends Header {
 		return StpLayout.ROOT_ID.getLong(buffer());
 	}
 
+	/**
+	 * Root bridge priority.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int rootBridgePriority() {
 		return StpLayout.ROOT_BRIDGE_PRIORITY.getUnsignedByte(buffer()) << 8;
 	}
 
+	/**
+	 * Root bridge id ext.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int rootBridgeIdExt() {
 		return StpLayout.ROOT_BRIDGE_ID_EXT.getInt(buffer());
 	}
 
+	/**
+	 * Root bridge id.
+	 *
+	 * @return the byte[]
+	 */
 	@Meta
 	public byte[] rootBridgeId() {
 		return StpLayout.ROOT_BRIDGE_ID.getByteArray(buffer());
@@ -137,16 +152,31 @@ public final class Stp extends Header {
 		return StpLayout.BRIDGE_ID.getLong(buffer());
 	}
 
+	/**
+	 * System bridge priority.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int systemBridgePriority() {
 		return StpLayout.SYSTEM_BRIDGE_PRIORITY.getUnsignedByte(buffer()) << 8;
 	}
 
+	/**
+	 * System bridge id ext.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int systemBridgeIdExt() {
 		return StpLayout.SYSTEM_BRIDGE_ID_EXT.getInt(buffer());
 	}
 
+	/**
+	 * System bridge id.
+	 *
+	 * @return the byte[]
+	 */
 	@Meta
 	public byte[] systemBridgeId() {
 		return StpLayout.SYSTEM_BRIDGE_ID.getByteArray(buffer());

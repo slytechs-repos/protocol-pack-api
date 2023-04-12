@@ -93,6 +93,8 @@ public final class Udp extends Header {
 	 * possible to have UDP datagrams of size greater than 65,535 bytes. RFC 2675
 	 * specifies that the length field is set to zero if the length of the UDP
 	 * header plus UDP data is greater than 65,535.
+	 *
+	 * @return the int
 	 */
 	@Meta
 	public int length() {

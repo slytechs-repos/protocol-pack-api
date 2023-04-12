@@ -68,6 +68,11 @@ public final class Ip4 extends Ip<Ip4Option> {
 		super(ID);
 	}
 
+	/**
+	 * Dsfield.
+	 *
+	 * @return the int
+	 */
 	public int dsfield() {
 		return Ip4Layout.DSFIELD.getInt(buffer());
 	}
@@ -151,6 +156,9 @@ public final class Ip4 extends Ip<Ip4Option> {
 	}
 
 	/**
+	 * Dst.
+	 *
+	 * @return the byte[]
 	 * @see com.slytechs.protocol.pack.core.Ip#dst()
 	 */
 	@Meta
@@ -183,6 +191,9 @@ public final class Ip4 extends Ip<Ip4Option> {
 	}
 
 	/**
+	 * Dst address.
+	 *
+	 * @return the ip 4 address
 	 * @see com.slytechs.protocol.pack.core.Ip#dstAddress()
 	 */
 	@Override
@@ -329,6 +340,9 @@ public final class Ip4 extends Ip<Ip4Option> {
 	}
 
 	/**
+	 * Payload length.
+	 *
+	 * @return the int
 	 * @see com.slytechs.protocol.pack.core.Ip#payloadLength()
 	 */
 	@Override
@@ -365,6 +379,9 @@ public final class Ip4 extends Ip<Ip4Option> {
 	}
 
 	/**
+	 * Src.
+	 *
+	 * @return the byte[]
 	 * @see com.slytechs.protocol.pack.core.Ip#src()
 	 */
 	@Override
@@ -399,6 +416,9 @@ public final class Ip4 extends Ip<Ip4Option> {
 	}
 
 	/**
+	 * Src get as address.
+	 *
+	 * @return the ip 4 address
 	 * @see com.slytechs.protocol.pack.core.Ip#srcGetAsAddress()
 	 */
 	@Override
@@ -439,7 +459,6 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 * Version.
 	 *
 	 * @return the int
-	 * @see com.slytechs.jnet.runtime.protocol.core.Ip#version()
 	 */
 	@Override
 	@Meta

@@ -17,6 +17,11 @@
  */
 package com.slytechs.protocol.descriptor;
 
+/**
+ * The Interface DescriptorType.
+ *
+ * @param <T> the generic type
+ */
 public interface DescriptorType<T extends Descriptor> {
 
 	/** Either 16 bytes. */
@@ -31,8 +36,18 @@ public interface DescriptorType<T extends Descriptor> {
 	/** 16 byte NT STD descriptor. */
 	int DESCRIPTOR_TYPE_NT_STD = 100;
 
+	/**
+	 * Gets the as int.
+	 *
+	 * @return the as int
+	 */
 	int getAsInt();
 
+	/**
+	 * New descriptor.
+	 *
+	 * @return the t
+	 */
 	T newDescriptor();
 
 }

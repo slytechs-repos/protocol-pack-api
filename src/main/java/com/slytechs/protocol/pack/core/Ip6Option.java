@@ -316,6 +316,11 @@ public class Ip6Option extends IpOption {
 		return Byte.toUnsignedInt(buffer().get(1));
 	}
 
+	/**
+	 * Length.
+	 *
+	 * @return the int
+	 */
 	public int length() {
 		return (constantLength != -1) ? constantLength : (extensionLength() << 3);
 	}

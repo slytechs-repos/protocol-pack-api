@@ -35,7 +35,7 @@ import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 @MetaResource("arp-meta.json")
 public final class Arp extends Header {
 
-	/** Core protocol pack assigned header ID */
+	/** Core protocol pack assigned header ID. */
 	public static final int ID = CoreIdTable.CORE_ID_ARP;
 
 	/**
@@ -54,86 +54,188 @@ public final class Arp extends Header {
 		super(ID, lock);
 	}
 
+	/**
+	 * Hardware size.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int hardwareSize() {
 		return Byte.toUnsignedInt(ArpLayout.HSIZE.getByte(buffer()));
 	}
 
+	/**
+	 * Hardware type.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int hardwareType() {
 		return Short.toUnsignedInt(ArpLayout.HTYPE.getShort(buffer()));
 	}
 
+	/**
+	 * Opcode.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int opcode() {
 		return Short.toUnsignedInt(ArpLayout.OPCODE.getShort(buffer()));
 	}
 
+	/**
+	 * Operation get as enum.
+	 *
+	 * @return the arp op
+	 */
 	public ArpOp operationGetAsEnum() {
 		return ArpOp.valueOfArpOp(opcode());
 	}
 
+	/**
+	 * Protocol size.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int protocolSize() {
 		return Byte.toUnsignedInt(ArpLayout.PSIZE.getByte(buffer()));
 	}
 
+	/**
+	 * Protocol type.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int protocolType() {
 		return Short.toUnsignedInt(ArpLayout.PTYPE.getShort(buffer()));
 	}
 
+	/**
+	 * Sender mac address.
+	 *
+	 * @return the byte[]
+	 */
 	@Meta
 	public byte[] senderMacAddress() {
 		return senderMacAddress(new byte[CoreConstants.ARP_LEN_HALEN], 0);
 	}
 
+	/**
+	 * Sender ha.
+	 *
+	 * @param dst the dst
+	 * @return the byte[]
+	 */
 	public byte[] senderHa(byte[] dst) {
 		return senderMacAddress(dst, 0);
 	}
 
+	/**
+	 * Sender mac address.
+	 *
+	 * @param dst    the dst
+	 * @param offset the offset
+	 * @return the byte[]
+	 */
 	public byte[] senderMacAddress(byte[] dst, int offset) {
 		buffer().get(CoreConstants.ARP_FIELD_SHA, dst, offset, CoreConstants.ARP_LEN_HALEN);
 		return dst;
 	}
 
+	/**
+	 * Sender protocol address.
+	 *
+	 * @return the byte[]
+	 */
 	@Meta
 	public byte[] senderProtocolAddress() {
 		return senderProtocolAddress(new byte[CoreConstants.ARP_LEN_PALEN], 0);
 	}
 
+	/**
+	 * Sender protocol address.
+	 *
+	 * @param dst the dst
+	 * @return the byte[]
+	 */
 	public byte[] senderProtocolAddress(byte[] dst) {
 		return senderProtocolAddress(dst, 0);
 	}
 
+	/**
+	 * Sender protocol address.
+	 *
+	 * @param dst    the dst
+	 * @param offset the offset
+	 * @return the byte[]
+	 */
 	public byte[] senderProtocolAddress(byte[] dst, int offset) {
 		buffer().get(CoreConstants.ARP_FIELD_SPA, dst, offset, CoreConstants.ARP_LEN_PALEN);
 		return dst;
 	}
 
+	/**
+	 * Target mac address.
+	 *
+	 * @return the byte[]
+	 */
 	@Meta
 	public byte[] targetMacAddress() {
 		return targetMacAddress(new byte[CoreConstants.ARP_LEN_HALEN], 0);
 	}
 
+	/**
+	 * Target mac address.
+	 *
+	 * @param dst the dst
+	 * @return the byte[]
+	 */
 	public byte[] targetMacAddress(byte[] dst) {
 		return senderMacAddress(dst, 0);
 	}
 
+	/**
+	 * Target mac address.
+	 *
+	 * @param dst    the dst
+	 * @param offset the offset
+	 * @return the byte[]
+	 */
 	public byte[] targetMacAddress(byte[] dst, int offset) {
 		buffer().get(CoreConstants.ARP_FIELD_THA, dst, offset, CoreConstants.ARP_LEN_HALEN);
 		return dst;
 	}
 
+	/**
+	 * Target protocol address.
+	 *
+	 * @return the byte[]
+	 */
 	@Meta
 	public byte[] targetProtocolAddress() {
 		return targetProtocolAddress(new byte[CoreConstants.ARP_LEN_PALEN], 0);
 	}
 
+	/**
+	 * Target protocol address.
+	 *
+	 * @param dst the dst
+	 * @return the byte[]
+	 */
 	public byte[] targetProtocolAddress(byte[] dst) {
 		return targetProtocolAddress(dst, 0);
 	}
 
+	/**
+	 * Target protocol address.
+	 *
+	 * @param dst    the dst
+	 * @param offset the offset
+	 * @return the byte[]
+	 */
 	public byte[] targetProtocolAddress(byte[] dst, int offset) {
 		buffer().get(CoreConstants.ARP_FIELD_TPA, dst, offset, CoreConstants.ARP_LEN_PALEN);
 		return dst;

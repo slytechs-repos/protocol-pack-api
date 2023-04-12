@@ -28,6 +28,10 @@ public interface PackSupplier extends IntFunction<Pack<?>> {
 	PackSupplier EMPTY = ignored -> null;
 
 	/**
+	 * Apply.
+	 *
+	 * @param packId the pack id
+	 * @return the pack
 	 * @see java.util.function.IntFunction#apply(int)
 	 */
 	@Override

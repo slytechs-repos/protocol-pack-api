@@ -24,7 +24,7 @@ package com.slytechs.protocol;
  * @author repos@slytechs.com
  * @param <T> the generic type
  */
-public sealed interface HasExtension<T extends Header> permits HeaderExtension<T> {
+public interface HasExtension<T extends Header> {
 
 	/**
 	 * Gets a protocol header extension. A header extension with numerical id
@@ -32,7 +32,7 @@ public sealed interface HasExtension<T extends Header> permits HeaderExtension<T
 	 * {@code extension}. This method does not return null and will throw an
 	 * exception if header extension is not present.
 	 *
-	 * @param <T>       the generic protocol header extension type
+	 * @param <E>       the element type
 	 * @param extension the protocol header extension instance
 	 * @return the header extension, this method does not return null
 	 * @throws HeaderNotFound if the protocol header is not found
@@ -47,6 +47,7 @@ public sealed interface HasExtension<T extends Header> permits HeaderExtension<T
 	 * {@code extension}. This method does not return null and will throw an
 	 * exception if header extension is not present.
 	 *
+	 * @param <E>       the element type
 	 * @param extension the protocol header extension instance
 	 * @param depth     the depth
 	 * @return the header extension, this method does not return null
@@ -57,7 +58,7 @@ public sealed interface HasExtension<T extends Header> permits HeaderExtension<T
 	/**
 	 * Checks if a particular protocol header extension is available.
 	 *
-	 * @param headerId the numerical header id for the requested header extension
+	 * @param extensionId the extension id
 	 * @return true, if successful, otherwise false
 	 */
 	default boolean hasExtension(int extensionId) {
@@ -80,8 +81,7 @@ public sealed interface HasExtension<T extends Header> permits HeaderExtension<T
 	 * is available. If a header extension is not available, no memory binding to
 	 * protocol header extension is performed and false is returned.
 	 *
-	 * @param <T>    the generic protocol header extension type
-	 * @param header the unbound protocol header extension instance
+	 * @param extension the extension
 	 * @return true, if header extension binding was successful, otherwise false
 	 */
 	default boolean hasExtension(T extension) {
@@ -93,11 +93,10 @@ public sealed interface HasExtension<T extends Header> permits HeaderExtension<T
 	 * is available. If a header extension is not available, no memory binding to
 	 * protocol header extension is performed and false is returned.
 	 *
-	 * @param <T>    the generic protocol header extension type
-	 * @param header the unbound protocol header extension instance
-	 * @param depth  the inner tunnel depth for this protocol where a value of 0
-	 *               always accesses the outer most protocol header if protocol
-	 *               header extension at least one level deep exists
+	 * @param extension the extension
+	 * @param depth     the inner tunnel depth for this protocol where a value of 0
+	 *                  always accesses the outer most protocol header if protocol
+	 *                  header extension at least one level deep exists
 	 * @return true, if header binding was successful, otherwise false
 	 */
 	default boolean hasExtension(T extension, int depth) {
@@ -109,8 +108,8 @@ public sealed interface HasExtension<T extends Header> permits HeaderExtension<T
 	 * extension is available. If a header is not available, no memory binding to
 	 * protocol header extension is performed and null is returned.
 	 *
-	 * @param <T>    the generic protocol header extension type
-	 * @param header the unbound protocol header extension instance
+	 * @param <E>       the element type
+	 * @param extension the extension
 	 * @return the header, if header binding was successful, otherwise null
 	 */
 	default <E extends T> E peekExtension(E extension) {
@@ -122,11 +121,11 @@ public sealed interface HasExtension<T extends Header> permits HeaderExtension<T
 	 * extension is available. If a header is not available, no memory binding to
 	 * protocol header extension is performed and null is returned.
 	 *
-	 * @param <T>    the generic protocol header extension type
-	 * @param header the unbound protocol header extension instance
-	 * @param depth  the inner tunnel depth for this protocol where a value of 0
-	 *               always accesses the outer most protocol header if protocol
-	 *               header extension at least one level deep exists
+	 * @param <E>       the element type
+	 * @param extension the extension
+	 * @param depth     the inner tunnel depth for this protocol where a value of 0
+	 *                  always accesses the outer most protocol header if protocol
+	 *                  header extension at least one level deep exists
 	 * @return the header extension, if header binding was successful, otherwise
 	 *         null
 	 */

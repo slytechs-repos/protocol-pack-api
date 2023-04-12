@@ -39,21 +39,21 @@ import com.slytechs.protocol.runtime.util.HexStrings;
  */
 public abstract class Header extends MemoryBinding implements DetailedString {
 
-	/** The lock factory */
+	/** The lock factory. */
 	private static Supplier<Lock> LOCK_FACTORY = ReentrantLock::new;
 
 	/** The numerical protocol header id assigned at "pack" level. */
 	protected final int id;
 
-	/** A multipurpose lock, lazily allocated if needed */
+	/** A multipurpose lock, lazily allocated if needed. */
 	private volatile Lock lock; // Lazy & concurrent allocation
 
-	/** Some important header attributes */
+	/** Some important header attributes. */
 	private int headerOffset, headerLength, payloadLength;
 
 	/**
 	 * A pretty pring formatted, if will be used to generated {@code toString()}
-	 * output
+	 * output.
 	 */
 	private PacketFormat formatter;
 
@@ -181,6 +181,8 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	}
 
 	/**
+	 * On unbind.
+	 *
 	 * @see com.slytechs.protocol.runtime.MemoryBinding#onUnbind()
 	 */
 	@Override

@@ -20,8 +20,6 @@ package com.slytechs.protocol.meta;
 import java.lang.reflect.Member;
 import java.lang.reflect.Modifier;
 
-import com.slytechs.protocol.runtime.internal.json.JsonValue.ValueType;
-
 /**
  * The Class ReflectedComponent.
  *
@@ -47,7 +45,6 @@ public abstract class ReflectedComponent implements Comparable<ReflectedComponen
 	 * Abbr.
 	 *
 	 * @return the string
-	 * @see com.slytechs.protocol.pack.meta.MetaInfo.PacketDescriptorProxy#abbr()
 	 */
 	public String abbr() {
 		return meta.abbr();
@@ -71,7 +68,6 @@ public abstract class ReflectedComponent implements Comparable<ReflectedComponen
 	 * @param <T>  the generic type
 	 * @param type the type
 	 * @return the meta type
-	 * @see com.slytechs.jnet.protocol.packet.meta.MetaInfoContainer#getMetaType(java.lang.Class)
 	 */
 	public <T extends MetaInfoType> T getMetaType(Class<T> type) {
 		return meta.getMetaType(type);
@@ -91,7 +87,6 @@ public abstract class ReflectedComponent implements Comparable<ReflectedComponen
 	 * Name.
 	 *
 	 * @return the string
-	 * @see com.slytechs.protocol.pack.meta.MetaInfo.PacketDescriptorProxy#headerName()
 	 */
 	public String name() {
 		return meta.name();
@@ -101,7 +96,6 @@ public abstract class ReflectedComponent implements Comparable<ReflectedComponen
 	 * Note.
 	 *
 	 * @return the string
-	 * @see com.slytechs.protocol.pack.meta.MetaInfo.PacketDescriptorProxy#note()
 	 */
 	public String note() {
 		return meta.note();
@@ -111,12 +105,10 @@ public abstract class ReflectedComponent implements Comparable<ReflectedComponen
 	 * Ordinal.
 	 *
 	 * @return the int
-	 * @see com.slytechs.protocol.pack.meta.MetaInfo.PacketDescriptorProxy#ordinal()
 	 */
 	public int ordinal() {
 		return meta.ordinal();
 	}
-
 
 	/**
 	 * Unwind cause exception.

@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.HeaderExtensionInfo;
 import com.slytechs.protocol.HeaderInfo;
-import com.slytechs.protocol.HeaderNotFound;
 import com.slytechs.protocol.Other;
 import com.slytechs.protocol.descriptor.DissectorExtension;
 import com.slytechs.protocol.descriptor.DissectorExtension.DissectorExtensionFactory;
@@ -52,6 +51,9 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		;
 
 		/**
+		 * Id.
+		 *
+		 * @return the int
 		 * @see com.slytechs.protocol.HeaderInfo#id()
 		 */
 		@Override
@@ -89,6 +91,9 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		}
 
 		/**
+		 * Checks if is detectable.
+		 *
+		 * @return true, if is detectable
 		 * @see com.slytechs.protocol.pack.Pack#isDetectable()
 		 */
 		@Override
@@ -112,7 +117,6 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		 *
 		 * @param id the id
 		 * @return the header
-		 * @throws HeaderNotFound the header not found
 		 * @see com.slytechs.protocol.pack.Pack#findHeader(int)
 		 */
 		@Override
@@ -136,6 +140,9 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		}
 
 		/**
+		 * Checks if is detectable.
+		 *
+		 * @return true, if is detectable
 		 * @see com.slytechs.protocol.pack.Pack#isDetectable()
 		 */
 		@Override
@@ -159,7 +166,6 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		 *
 		 * @param id the id
 		 * @return the header
-		 * @throws HeaderNotFound the header not found
 		 * @see com.slytechs.protocol.pack.Pack#findHeader(int)
 		 */
 		@Override
@@ -218,12 +224,25 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		return Optional.of(extInfos[extOrdinal]);
 	}
 
+	/**
+	 * To string.
+	 *
+	 * @param id the id
+	 * @return the string
+	 */
 	public static String toString(int id) {
 		return lookupHeader(id)
 				.map(HeaderInfo::name)
 				.orElse("N/A(%d)".formatted(id));
 	}
 
+	/**
+	 * To string.
+	 *
+	 * @param id    the id
+	 * @param extId the ext id
+	 * @return the string
+	 */
 	public static String toString(int id, int extId) {
 
 		var parent = lookupHeader(id)
@@ -243,7 +262,6 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 	 *
 	 * @param id the header id
 	 * @return the header information, does not return null
-	 * @throws HeaderNotFound the header not found
 	 */
 	public abstract Optional<HeaderInfo> findHeader(int id);
 
@@ -417,6 +435,13 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 				.collect(Collectors.toList());
 	}
 
+	/**
+	 * Wrap all extensions.
+	 *
+	 * @param type the type
+	 * @param core the core
+	 * @return the dissector extension
+	 */
 	public static DissectorExtension wrapAllExtensions(PacketDescriptorType type, DissectorExtension core) {
 
 		final List<DissectorExtension> list = Pack.listAllLoadedPacks().stream()
@@ -711,14 +736,29 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 				+ "]";
 	}
 
+	/**
+	 * Extension factory.
+	 *
+	 * @return the dissector extension factory
+	 */
 	protected DissectorExtensionFactory extensionFactory() {
 		return null;
 	}
 
+	/**
+	 * Checks if is not core.
+	 *
+	 * @return true, if is not core
+	 */
 	private boolean isNotCore() {
 		return !isCore();
 	}
 
+	/**
+	 * Checks if is core.
+	 *
+	 * @return true, if is core
+	 */
 	public boolean isCore() {
 		return false;
 	}

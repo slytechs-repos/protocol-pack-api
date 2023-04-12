@@ -276,6 +276,9 @@ public final class StructValue extends StructMember {
 	}
 
 	/**
+	 * To string.
+	 *
+	 * @return the string
 	 * @see com.slytechs.protocol.runtime.internal.foreign.struct.StructMember#toString()
 	 */
 	@Override
@@ -284,6 +287,10 @@ public final class StructValue extends StructMember {
 	}
 
 	/**
+	 * To string.
+	 *
+	 * @param b the b
+	 * @return the string builder
 	 * @see com.slytechs.protocol.runtime.internal.foreign.struct.StructMember#toString(java.lang.StringBuilder)
 	 */
 	@Override
@@ -292,7 +299,13 @@ public final class StructValue extends StructMember {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.runtime.internal.foreign.struct.StructMember#toString(java.lang.StringBuilder, java.lang.foreign.MemorySegment)
+	 * To string.
+	 *
+	 * @param b       the b
+	 * @param segment the segment
+	 * @return the string builder
+	 * @see com.slytechs.protocol.runtime.internal.foreign.struct.StructMember#toString(java.lang.StringBuilder,
+	 *      java.lang.foreign.MemorySegment)
 	 */
 	@Override
 	public StringBuilder toString(StringBuilder b, MemorySegment segment) {

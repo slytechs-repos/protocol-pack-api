@@ -97,6 +97,9 @@ public final class MetaPath implements Iterable<String> {
 	}
 
 	/**
+	 * To string.
+	 *
+	 * @return the string
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

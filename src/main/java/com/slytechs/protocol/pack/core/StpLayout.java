@@ -37,23 +37,52 @@ import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Padding;
  */
 enum StpLayout implements BitField.Proxy {
 
+	/** The protocol. */
 	PROTOCOL("protocol"),
+	
+	/** The version. */
 	VERSION("version"),
+	
+	/** The type. */
 	TYPE("type"),
+	
+	/** The flags. */
 	FLAGS("flags"),
+	
+	/** The root id. */
 	ROOT_ID("root_id"),
+	
+	/** The root path cost. */
 	ROOT_PATH_COST("root_cost"),
+	
+	/** The bridge id. */
 	BRIDGE_ID("bridge_id"),
+	
+	/** The port id. */
 	PORT_ID("port_id"),
+	
+	/** The msg age. */
 	MSG_AGE("msg_age"),
+	
+	/** The max age. */
 	MAX_AGE("max_time"),
+	
+	/** The hello. */
 	HELLO("hello"),
+	
+	/** The forward. */
 	FORWARD("forward"),
 
+	/** The root bridge priority. */
 	ROOT_BRIDGE_PRIORITY("root_bridge_priority"),
+	
+	/** The root bridge id ext. */
 	ROOT_BRIDGE_ID_EXT("root_bridge_id_ext"),
 
+	/** The system bridge priority. */
 	SYSTEM_BRIDGE_PRIORITY("system_bridge_priority"),
+	
+	/** The system bridge id ext. */
 	SYSTEM_BRIDGE_ID_EXT("system_bridge_id_ext"),
 
 	;
@@ -95,6 +124,8 @@ enum StpLayout implements BitField.Proxy {
 	
 	/** Sender hardware address. */
 	public static final ArrayField ROOT_BRIDGE_ID = Struct.STRUCT.arrayField("root_bridge_id");
+	
+	/** The Constant SYSTEM_BRIDGE_ID. */
 	public static final ArrayField SYSTEM_BRIDGE_ID = Struct.STRUCT.arrayField("system_bridge_id");
 
 

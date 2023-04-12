@@ -70,6 +70,9 @@ public abstract class ReflectedMember extends ReflectedComponent {
 	protected abstract Member getMember();
 
 	/**
+	 * To string.
+	 *
+	 * @return the string
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

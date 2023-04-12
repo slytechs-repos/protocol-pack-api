@@ -81,6 +81,10 @@ public class AttributeBuffer extends MemoryBinding implements Iterable<Attribute
 		int recordOffset;
 
 		/**
+		 * Adds the int.
+		 *
+		 * @param delta the delta
+		 * @return the int
 		 * @see com.slytechs.protocol.runtime.internal.util.Attribute.Value#addInt(int)
 		 */
 		@Override
@@ -227,6 +231,9 @@ public class AttributeBuffer extends MemoryBinding implements Iterable<Attribute
 		}
 
 		/**
+		 * Inc int.
+		 *
+		 * @return the int
 		 * @see com.slytechs.protocol.runtime.internal.util.Attribute.Value#incInt()
 		 */
 		@Override
@@ -579,6 +586,9 @@ public class AttributeBuffer extends MemoryBinding implements Iterable<Attribute
 	}
 
 	/**
+	 * To string.
+	 *
+	 * @return the string
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

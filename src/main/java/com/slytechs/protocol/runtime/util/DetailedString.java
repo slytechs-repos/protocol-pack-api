@@ -18,12 +18,19 @@
 package com.slytechs.protocol.runtime.util;
 
 /**
+ * The Interface DetailedString.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public interface DetailedString {
 
+	/**
+	 * To string.
+	 *
+	 * @param detail the detail
+	 * @return the string
+	 */
 	String toString(Detail detail);
 }

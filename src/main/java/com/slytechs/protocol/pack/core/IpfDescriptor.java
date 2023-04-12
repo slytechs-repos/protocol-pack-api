@@ -41,6 +41,9 @@ public final class IpfDescriptor extends Descriptor {
 	}
 
 	/**
+	 * Type.
+	 *
+	 * @return the ipf descriptor type
 	 * @see com.slytechs.protocol.descriptor.Descriptor#type()
 	 */
 	@Override

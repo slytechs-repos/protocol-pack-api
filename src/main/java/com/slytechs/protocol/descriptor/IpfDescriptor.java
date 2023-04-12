@@ -20,15 +20,16 @@ package com.slytechs.protocol.descriptor;
 import com.slytechs.protocol.pack.core.constants.IpfDescriptorType;
 
 /**
+ * Ip fragmentation descriptor. A fragmentation descriptor provides information
+ * about tracking and reassembly of IP fragments.
+ * 
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
- *
  */
 public class IpfDescriptor extends Descriptor {
 
 	/**
-	 * @param type
+	 * Instantiates a new ipf descriptor.
 	 */
 	public IpfDescriptor() {
 		super(IpfDescriptorType.IPF);

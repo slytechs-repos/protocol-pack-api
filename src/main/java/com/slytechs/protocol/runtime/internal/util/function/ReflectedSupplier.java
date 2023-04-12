@@ -23,23 +23,44 @@ import java.util.Optional;
 import java.util.function.Supplier;
 
 /**
+ * The Class ReflectedSupplier.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
+ * @param <T> the generic type
  */
 public final class ReflectedSupplier<T> implements Supplier<T> {
 
+	/** The module name. */
 	private final String moduleName;
+	
+	/** The class name. */
 	private final String className;
+	
+	/** The constructor. */
 	private Constructor<T> constructor;
 
+	/**
+	 * Instantiates a new reflected supplier.
+	 *
+	 * @param moduleName the module name
+	 * @param className  the class name
+	 */
 	public ReflectedSupplier(String moduleName, String className) {
 		this.moduleName = moduleName;
 		this.className = className;
 
 	}
 
+	/**
+	 * Creates the constructor.
+	 *
+	 * @return the constructor
+	 * @throws ClassNotFoundException the class not found exception
+	 * @throws NoSuchMethodException  the no such method exception
+	 * @throws SecurityException      the security exception
+	 */
 	@SuppressWarnings("unchecked")
 	private Constructor<T> createConstructor() throws ClassNotFoundException, NoSuchMethodException,
 			SecurityException {
@@ -63,6 +84,9 @@ public final class ReflectedSupplier<T> implements Supplier<T> {
 	}
 
 	/**
+	 * Gets the.
+	 *
+	 * @return the t
 	 * @see java.util.function.Supplier#get()
 	 */
 	@Override

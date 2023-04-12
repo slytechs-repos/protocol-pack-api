@@ -34,8 +34,14 @@ enum VlanLayout implements BitField.Proxy {
 
 	/** Hardware type. */
 	PRI("pri"),
+	
+	/** The cfi. */
 	CFI("cfi"),
+	
+	/** The vid. */
 	VID("vid"),
+	
+	/** The type. */
 	TYPE("type")
 
 	;

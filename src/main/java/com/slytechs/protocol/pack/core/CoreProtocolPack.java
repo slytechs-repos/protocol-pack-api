@@ -36,6 +36,9 @@ import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 public final class CoreProtocolPack extends Pack<CoreIdTable> {
 
 	/**
+	 * Checks if is core.
+	 *
+	 * @return true, if is core
 	 * @see com.slytechs.protocol.pack.Pack#isCore()
 	 */
 	@Override
@@ -67,7 +70,6 @@ public final class CoreProtocolPack extends Pack<CoreIdTable> {
 	 *
 	 * @param id the id
 	 * @return the header
-	 * @throws HeaderNotFound the header not found
 	 * @see com.slytechs.protocol.pack.Pack#findHeader(int)
 	 */
 	@Override

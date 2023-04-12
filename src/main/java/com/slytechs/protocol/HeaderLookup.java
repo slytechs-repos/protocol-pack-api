@@ -56,7 +56,7 @@ public interface HeaderLookup {
 	long lookupHeader(int id, int depth);
 
 	/**
-	 * Lookup a header extension and at specific inner tunnel depth
+	 * Lookup a header extension and at specific inner tunnel depth.
 	 *
 	 * @param headerId        the primary header id
 	 * @param extId           the header extension id

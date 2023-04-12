@@ -61,6 +61,9 @@ class NumberImpl implements JsonNumber {
 	}
 
 	/**
+	 * To string.
+	 *
+	 * @return the string
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

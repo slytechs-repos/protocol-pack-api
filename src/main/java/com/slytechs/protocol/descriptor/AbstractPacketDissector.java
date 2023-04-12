@@ -18,12 +18,17 @@
 package com.slytechs.protocol.descriptor;
 
 /**
- * The Class AbstractDissector.
+ * Abstract class for all packet dissectors.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
 public abstract class AbstractPacketDissector implements PacketDissector {
 
+	/**
+	 * Instantiates a new abstract packet dissector.
+	 */
+	protected AbstractPacketDissector() {
+
+	}
 }

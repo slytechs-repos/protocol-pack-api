@@ -23,13 +23,15 @@ import com.slytechs.protocol.descriptor.DescriptorType;
 import com.slytechs.protocol.descriptor.IpfDescriptor;
 
 /**
+ * The Enum IpfDescriptorType.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public enum IpfDescriptorType implements DescriptorType<IpfDescriptor> {
 
+	/** The ipf. */
 	IPF(20, IpfDescriptor::new),
 
 	;
@@ -52,6 +54,9 @@ public enum IpfDescriptorType implements DescriptorType<IpfDescriptor> {
 	}
 
 	/**
+	 * Gets the as int.
+	 *
+	 * @return the as int
 	 * @see com.slytechs.protocol.descriptor.DescriptorType#getAsInt()
 	 */
 	@Override
@@ -60,6 +65,9 @@ public enum IpfDescriptorType implements DescriptorType<IpfDescriptor> {
 	}
 
 	/**
+	 * New descriptor.
+	 *
+	 * @return the ipf descriptor
 	 * @see com.slytechs.protocol.descriptor.DescriptorType#newDescriptor()
 	 */
 	@Override

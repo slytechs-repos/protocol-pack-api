@@ -85,7 +85,13 @@ public final class StructUtf8String extends StructMember {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.runtime.internal.foreign.struct.StructMember#toString(java.lang.StringBuilder, java.lang.foreign.MemorySegment)
+	 * To string.
+	 *
+	 * @param b       the b
+	 * @param segment the segment
+	 * @return the string builder
+	 * @see com.slytechs.protocol.runtime.internal.foreign.struct.StructMember#toString(java.lang.StringBuilder,
+	 *      java.lang.foreign.MemorySegment)
 	 */
 	@Override
 	public StringBuilder toString(StringBuilder b, MemorySegment segment) {

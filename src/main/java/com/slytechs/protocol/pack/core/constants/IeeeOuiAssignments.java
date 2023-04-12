@@ -69,6 +69,10 @@ public final class IeeeOuiAssignments {
 		}
 
 		/**
+		 * Equals.
+		 *
+		 * @param obj the obj
+		 * @return true, if successful
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
 		@Override
@@ -120,6 +124,9 @@ public final class IeeeOuiAssignments {
 		}
 
 		/**
+		 * Hash code.
+		 *
+		 * @return the int
 		 * @see java.lang.Object#hashCode()
 		 */
 		@Override
@@ -128,6 +135,9 @@ public final class IeeeOuiAssignments {
 		}
 
 		/**
+		 * To string.
+		 *
+		 * @return the string
 		 * @see java.lang.Object#toString()
 		 */
 		@Override
@@ -317,6 +327,9 @@ public final class IeeeOuiAssignments {
 		}
 
 		/**
+		 * To string.
+		 *
+		 * @return the string
 		 * @see java.lang.Object#toString()
 		 */
 		@Override

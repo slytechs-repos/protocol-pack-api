@@ -34,7 +34,7 @@ public final class PcapDescriptor extends PacketDescriptor {
 
 	/** The Constant ID. */
 	public static final int ID = PacketDescriptorType.DESCRIPTOR_TYPE_PCAP;
-	
+
 	/** The Constant PCAP_DESCRIPTOR_LENGTH. */
 	public final static int PCAP_DESCRIPTOR_LENGTH = 24;
 
@@ -74,6 +74,9 @@ public final class PcapDescriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Capture length.
+	 *
+	 * @return the int
 	 * @see com.slytechs.protocol.descriptor.PacketDescriptor#captureLength()
 	 */
 	@Override
@@ -82,10 +85,10 @@ public final class PcapDescriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * List headers.
+	 * List headers included headers.
 	 *
-	 * @return the long[]
-	 * @see com.slytechs.jnet.protocol.deprecated.PacketDescriptor2#toLongArrayHeaders()
+	 * @return the list is always empty as Pcap header descriptor provides no
+	 *         information about the included packet headers
 	 */
 	@Override
 	public long[] listHeaders() {
@@ -93,6 +96,11 @@ public final class PcapDescriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Lookup header.
+	 *
+	 * @param headerId the header id
+	 * @param depth    the depth
+	 * @return the long
 	 * @see com.slytechs.protocol.HeaderLookup#lookupHeader(int, int)
 	 */
 	@Override
@@ -101,6 +109,9 @@ public final class PcapDescriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Timestamp.
+	 *
+	 * @return the long
 	 * @see com.slytechs.protocol.descriptor.PacketDescriptor#timestamp()
 	 */
 	@Override
@@ -109,7 +120,13 @@ public final class PcapDescriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.PacketDescriptor#buildDetailedString(java.lang.StringBuilder, com.slytechs.protocol.runtime.util.Detail)
+	 * Builds the detailed string.
+	 *
+	 * @param b      the b
+	 * @param detail the detail
+	 * @return the string builder
+	 * @see com.slytechs.protocol.descriptor.PacketDescriptor#buildDetailedString(java.lang.StringBuilder,
+	 *      com.slytechs.protocol.runtime.util.Detail)
 	 */
 	@Override
 	public StringBuilder buildDetailedString(StringBuilder b, Detail detail) {
@@ -124,6 +141,9 @@ public final class PcapDescriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Wire length.
+	 *
+	 * @return the int
 	 * @see com.slytechs.protocol.descriptor.PacketDescriptor#wireLength()
 	 */
 	@Override
@@ -136,7 +156,6 @@ public final class PcapDescriptor extends PacketDescriptor {
 	 *
 	 * @param dst the dst
 	 * @return the pcap descriptor
-	 * @see com.slytechs.jnet.protocol.deprecated.PacketDescriptor2#cloneTo(java.nio.ByteBuffer)
 	 */
 	@Override
 	public PcapDescriptor cloneTo(ByteBuffer dst) {
@@ -173,8 +192,8 @@ public final class PcapDescriptor extends PacketDescriptor {
 	 * @param depth           the depth
 	 * @param recordIndexHint the record index hint
 	 * @return the long
-	 * @see com.slytechs.protocol.HeaderLookup#lookupHeaderExtension(int,
-	 *      int, int, int)
+	 * @see com.slytechs.protocol.HeaderLookup#lookupHeaderExtension(int, int, int,
+	 *      int)
 	 */
 	@Override
 	public long lookupHeaderExtension(int headerId, int extId, int depth, int recordIndexHint) {

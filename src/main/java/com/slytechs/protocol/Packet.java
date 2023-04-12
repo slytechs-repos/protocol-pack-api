@@ -78,18 +78,35 @@ public final class Packet
 		this(new Type2Descriptor());
 	}
 
+	/**
+	 * Instantiates a new packet.
+	 *
+	 * @param packet the packet
+	 */
 	public Packet(ByteBuffer packet) {
 		this(new Type2Descriptor());
 
 		bind(packet);
 	}
 
+	/**
+	 * Instantiates a new packet.
+	 *
+	 * @param packet     the packet
+	 * @param descriptor the descriptor.
+	 */
 	public Packet(ByteBuffer packet, PacketDescriptor descriptor) {
 		this(descriptor);
 
 		bind(packet);
 	}
 
+	/**
+	 * Instantiates a new packet.
+	 *
+	 * @param packet the packet
+	 * @param type   the type
+	 */
 	public Packet(ByteBuffer packet, PacketDescriptorType type) {
 		this(type);
 
@@ -109,7 +126,7 @@ public final class Packet
 	/**
 	 * Instantiates a new packet with a specific descriptor.
 	 *
-	 * @param descriptor the descriptor
+	 * @param type the type
 	 */
 	public Packet(PacketDescriptorType type) {
 		this.descriptor = type.newDescriptor();
@@ -179,6 +196,9 @@ public final class Packet
 	}
 
 	/**
+	 * Clone.
+	 *
+	 * @return the packet
 	 * @see com.slytechs.protocol.runtime.MemoryBinding#clone()
 	 */
 	@Override
@@ -193,7 +213,6 @@ public final class Packet
 	 *
 	 * @param dst the dst
 	 * @return the packet
-	 * @see com.com.slytechs.jnet.runtime.MemoryBinding#cloneTo(java.nio.ByteBuffer)
 	 */
 	@Override
 	public Packet cloneTo(ByteBuffer dst) {
@@ -205,6 +224,8 @@ public final class Packet
 	}
 
 	/**
+	 * Close.
+	 *
 	 * @see java.lang.AutoCloseable#close()
 	 */
 	@Override
@@ -260,7 +281,6 @@ public final class Packet
 	 * @param headerId the header id
 	 * @param depth    the depth
 	 * @return true, if successful
-	 * @see com.slytechs.protocol.HasHeader#hasHeader(long)
 	 */
 	@Override
 	public final boolean hasHeader(int headerId, int depth) {
@@ -398,6 +418,9 @@ public final class Packet
 	}
 
 	/**
+	 * To string.
+	 *
+	 * @return the string
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

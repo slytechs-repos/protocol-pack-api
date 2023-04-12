@@ -20,25 +20,25 @@ package com.slytechs.protocol.runtime.util;
 import com.slytechs.protocol.runtime.util.UnitUtils.ConvertableUnit;
 
 /**
- * The Enum CountUnit.
+ * Unit definition for counting large numbers.
  */
 public enum CountUnit implements ConvertableUnit<CountUnit> {
-	
+
 	/** The uni. */
 	UNI(1L),
-	
+
 	/** The kilo. */
 	KILO(1_000L),
-	
+
 	/** The mega. */
 	MEGA(1_000_000L),
-	
+
 	/** The giga. */
 	GIGA(1_000_000_000L),
-	
+
 	/** The tera. */
 	TERA(1_000_000_000_000L),
-	
+
 	/** The peta. */
 	PETA(1_000_000_000_000_000L),
 
@@ -46,10 +46,10 @@ public enum CountUnit implements ConvertableUnit<CountUnit> {
 
 	/** The base. */
 	private final long base;
-	
+
 	/** The basef. */
 	private final double basef;
-	
+
 	/** The symbol. */
 	private final String symbol;
 
@@ -70,8 +70,6 @@ public enum CountUnit implements ConvertableUnit<CountUnit> {
 	 * @param value      the value
 	 * @param sourceUnit the source unit
 	 * @return the double
-	 * @see com.slytechs.jnet.runtime.util.UnitUtils.ConvertableUnit#convertf(double,
-	 *      java.lang.Enum)
 	 */
 	@Override
 	public double convertf(double value, CountUnit sourceUnit) {
@@ -84,8 +82,6 @@ public enum CountUnit implements ConvertableUnit<CountUnit> {
 	 * @param value      the value
 	 * @param sourceUnit the source unit
 	 * @return the long
-	 * @see com.slytechs.jnet.runtime.util.UnitUtils.ConvertableUnit#convert(long,
-	 *      java.lang.Enum)
 	 */
 	@Override
 	public long convert(long value, CountUnit sourceUnit) {
@@ -167,7 +163,6 @@ public enum CountUnit implements ConvertableUnit<CountUnit> {
 	 *
 	 * @param inUni the in uni
 	 * @return the double
-	 * @see com.slytechs.jnet.runtime.util.UnitUtils.ConvertableUnit#convertf(double)
 	 */
 	@Override
 	public double convertf(double inUni) {
@@ -178,7 +173,6 @@ public enum CountUnit implements ConvertableUnit<CountUnit> {
 	 * Gets the symbol.
 	 *
 	 * @return the symbol
-	 * @see com.slytechs.jnet.runtime.util.UnitUtils.ConvertableUnit#getSymbol()
 	 */
 	@Override
 	public String getSymbol() {

@@ -27,22 +27,41 @@ import java.util.function.IntSupplier;
  */
 public enum ArpOp implements IntSupplier {
 
+	/** The noop. */
 	NOOP,
+	
+	/** The request. */
 	REQUEST,
+	
+	/** The reply. */
 	REPLY,
+	
+	/** The reverse request. */
 	REVERSE_REQUEST,
+	
+	/** The reserse reply. */
 	RESERSE_REPLY,
 
 	;
 
+	/** The Constant ARP_OP_REPLY. */
 	/* @formatter:off */
 	public static final int ARP_OP_REPLY            = 1;
+	
+	/** The Constant ARP_OP_RESPONSE. */
 	public static final int ARP_OP_RESPONSE         = 2;
+	
+	/** The Constant ARP_OP_REVERSE_REQUEST. */
 	public static final int ARP_OP_REVERSE_REQUEST  = 3;
+	
+	/** The Constant ARP_OP_REVERSE_REPLY. */
 	public static final int ARP_OP_REVERSE_REPLY    = 4;
 	/* @formatter:on */
 
 	/**
+	 * Gets the as int.
+	 *
+	 * @return the as int
 	 * @see java.util.function.IntSupplier#getAsInt()
 	 */
 	@Override
@@ -51,13 +70,21 @@ public enum ArpOp implements IntSupplier {
 	}
 
 	/**
-	 * @param operation
-	 * @return
+	 * Value of arp op.
+	 *
+	 * @param operation the operation
+	 * @return the arp op
 	 */
 	public static ArpOp valueOfArpOp(int operation) {
 		return values()[operation];
 	}
 	
+	/**
+	 * Resolve.
+	 *
+	 * @param intValue the int value
+	 * @return the string
+	 */
 	public static String resolve(Object intValue) {
 		if (intValue instanceof Number n)
 			return valueOfArpOp(n.intValue()).name();

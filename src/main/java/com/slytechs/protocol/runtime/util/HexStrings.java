@@ -46,7 +46,7 @@ public class HexStrings {
 		/**
 		 * 1 space between every column and 2 spaces every 4 cols
 		 * 
-		 * ie.: {@code [4A 75 73 74  20 73 6F 6D  65 20 64 61  74 61 2E AA])
+		 * ie.: {@code [4A 75 73 74  20 73 6F 6D  65 20 64 61  74 61 2E AA]}
 		 */
 		Spacer HEXDUMP_COLUMN = (col) -> (col == 0)
 				? "" // No spaces

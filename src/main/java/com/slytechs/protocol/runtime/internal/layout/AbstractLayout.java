@@ -77,6 +77,10 @@ abstract class AbstractLayout implements BinaryLayout {
 	}
 
 	/**
+	 * Array field.
+	 *
+	 * @param elements the elements
+	 * @return the array field
 	 * @see com.slytechs.protocol.runtime.internal.layout.BinaryLayout#arrayField(com.slytechs.protocol.runtime.internal.layout.Path[])
 	 */
 	@Override
@@ -189,6 +193,9 @@ abstract class AbstractLayout implements BinaryLayout {
 	}
 
 	/**
+	 * Checks if is enabled.
+	 *
+	 * @return the enabled
 	 * @see com.slytechs.protocol.runtime.internal.layout.BinaryLayout#isEnabled()
 	 */
 	@Override
@@ -255,6 +262,10 @@ abstract class AbstractLayout implements BinaryLayout {
 	}
 
 	/**
+	 * When enabled.
+	 *
+	 * @param enabled the enabled
+	 * @return the binary layout
 	 * @see com.slytechs.protocol.runtime.internal.layout.BinaryLayout#whenEnabled(boolean)
 	 */
 	@Override

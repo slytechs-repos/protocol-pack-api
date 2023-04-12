@@ -20,7 +20,7 @@ package com.slytechs.protocol.runtime.util;
 import static java.lang.Long.*;
 
 /**
- * The Class BitConstants.
+ * Integer bit manipulation utilities and constants.
  *
  * @author Sly Technologies
  * @author repos@slytechs.com
@@ -131,46 +131,46 @@ public final class Bits {
 
 	/** The Constant BITS_00. */
 	public static final int BITS_00 = 0b00000000_00000000;
-	
+
 	/** The Constant BITS_01. */
 	public static final int BITS_01 = 0b00000000_00000001;
-	
+
 	/** The Constant BITS_02. */
 	public static final int BITS_02 = 0b00000000_00000011;
-	
+
 	/** The Constant BITS_03. */
 	public static final int BITS_03 = 0b00000000_00000111;
-	
+
 	/** The Constant BITS_04. */
 	public static final int BITS_04 = 0b00000000_00001111;
-	
+
 	/** The Constant BITS_05. */
 	public static final int BITS_05 = 0b00000000_00011111;
-	
+
 	/** The Constant BITS_06. */
 	public static final int BITS_06 = 0b00000000_00111111;
-	
+
 	/** The Constant BITS_07. */
 	public static final int BITS_07 = 0b00000000_01111111;
-	
+
 	/** The Constant BITS_08. */
 	public static final int BITS_08 = 0b00000000_11111111;
-	
+
 	/** The Constant BITS_09. */
 	public static final int BITS_09 = 0b00000001_11111111;
-	
+
 	/** The Constant BITS_10. */
 	public static final int BITS_10 = 0b00000011_11111111;
-	
+
 	/** The Constant BITS_11. */
 	public static final int BITS_11 = 0b00000111_11111111;
-	
+
 	/** The Constant BITS_16. */
 	public static final int BITS_16 = 0b11111111_11111111;
-	
+
 	/** The Constant BITS_24. */
 	public static final int BITS_24 = 0x00FFFFFF;
-	
+
 	/** The Constant BITS_32. */
 	public static final int BITS_32 = 0xFFFFFFFF;
 
@@ -257,5 +257,11 @@ public final class Bits {
 	 */
 	public static long valueMaskFromSize(long bitSize) {
 		return (bitSize == 64) ? MASK_64 : ((1L << (bitSize)) - 1);
+	}
+
+	/**
+	 * Disabled initializer.
+	 */
+	private Bits() {
 	}
 }

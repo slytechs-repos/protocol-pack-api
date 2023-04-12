@@ -38,6 +38,10 @@ public class FormattedBitField implements BitField.Proxy {
 		public interface OfLong extends ValueFormatter<Long> {
 			
 			/**
+			 * Format object.
+			 *
+			 * @param value the value
+			 * @return the object
 			 * @see com.slytechs.protocol.runtime.internal.layout.FormattedBitField.ValueFormatter#formatObject(java.lang.Object)
 			 */
 			@Override
@@ -283,6 +287,9 @@ public class FormattedBitField implements BitField.Proxy {
 	}
 
 	/**
+	 * To string.
+	 *
+	 * @return the string
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

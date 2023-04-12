@@ -32,8 +32,13 @@ import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Padding;
  */
 enum LlcLayout implements BitField.Proxy {
 
+	/** The dsap. */
 	DSAP("dsap"),
+	
+	/** The ssap. */
 	SSAP("ssap"),
+	
+	/** The control. */
 	CONTROL("control"),
 
 	;

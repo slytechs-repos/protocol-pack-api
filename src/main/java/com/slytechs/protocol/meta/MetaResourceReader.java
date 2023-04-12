@@ -26,18 +26,22 @@ import com.slytechs.protocol.runtime.internal.json.JsonObject;
 import com.slytechs.protocol.runtime.internal.json.JsonReader;
 
 /**
+ * The Class MetaResourceReader.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public class MetaResourceReader {
 
+	/** The json obj. */
 	private final JsonObject jsonObj;
 
 	/**
-	 * @throws NotFound      resource not found
-	 * @throws JsonException
+	 * Instantiates a new meta resource reader.
+	 *
+	 * @param resourceName the resource name
+	 * @throws JsonException the json exception
 	 */
 	public MetaResourceReader(String resourceName) throws JsonException {
 		InputStream in = ReflectedClass.class.getResourceAsStream("/" + resourceName);
@@ -54,10 +58,21 @@ public class MetaResourceReader {
 		}
 	}
 
+	/**
+	 * Process.
+	 *
+	 * @param sourceJsonObj the source json obj
+	 * @return the json object
+	 */
 	protected JsonObject process(JsonObject sourceJsonObj) {
 		return sourceJsonObj;
 	}
 
+	/**
+	 * To json obj.
+	 *
+	 * @return the json object
+	 */
 	public JsonObject toJsonObj() {
 		return this.jsonObj;
 	}

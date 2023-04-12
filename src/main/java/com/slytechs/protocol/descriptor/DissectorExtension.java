@@ -32,10 +32,21 @@ import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
  */
 public interface DissectorExtension {
 
+	/**
+	 * A factory for creating DissectorExtension objects.
+	 */
 	interface DissectorExtensionFactory {
+		
+		/**
+		 * New instance.
+		 *
+		 * @param type the type
+		 * @return the dissector extension
+		 */
 		DissectorExtension newInstance(PacketDescriptorType type);
 	}
 
+	/** The empty. */
 	static DissectorExtension EMPTY = new DissectorExtension() {
 
 		@Override
@@ -66,6 +77,12 @@ public interface DissectorExtension {
 		}
 	};
 
+	/**
+	 * Wrap.
+	 *
+	 * @param list the list
+	 * @return the dissector extension
+	 */
 	static DissectorExtension wrap(List<DissectorExtension> list) {
 		return new DissectorExtension() {
 
@@ -114,21 +131,63 @@ public interface DissectorExtension {
 		};
 	}
 
+	/**
+	 * Sets the recorder.
+	 *
+	 * @param recorder the new recorder
+	 */
 	void setRecorder(RecordRecorder recorder);
 
+	/**
+	 * Sets the extensions.
+	 *
+	 * @param ext the new extensions
+	 */
 	void setExtensions(DissectorExtension ext);
 
+	/**
+	 * Dissect encaps.
+	 *
+	 * @param buffer       the buffer
+	 * @param offset       the offset
+	 * @param encapsId     the encaps id
+	 * @param encapsOffset the encaps offset
+	 * @param encapsLength the encaps length
+	 * @return true, if successful
+	 */
 	default boolean dissectEncaps(ByteBuffer buffer, int offset, int encapsId, int encapsOffset, int encapsLength) {
 		return false;
 	}
 
+	/**
+	 * Dissect type.
+	 *
+	 * @param buffer   the buffer
+	 * @param offset   the offset
+	 * @param encapsId the encaps id
+	 * @param type     the type
+	 * @return true, if successful
+	 */
 	default boolean dissectType(ByteBuffer buffer, int offset, int encapsId, int type) {
 		return false;
 	}
 
+	/**
+	 * Dissect ports.
+	 *
+	 * @param buffer   the buffer
+	 * @param offset   the offset
+	 * @param encapsId the encaps id
+	 * @param src      the src
+	 * @param dst      the dst
+	 * @return true, if successful
+	 */
 	default boolean dissectPorts(ByteBuffer buffer, int offset, int encapsId, int src, int dst) {
 		return false;
 	}
 
+	/**
+	 * Reset.
+	 */
 	void reset();
 }

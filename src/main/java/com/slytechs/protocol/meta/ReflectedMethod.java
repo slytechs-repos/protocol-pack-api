@@ -116,7 +116,14 @@ class ReflectedMethod extends ReflectedMember {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.meta.ReflectedMember#getValue(java.lang.Object, java.lang.Object[])
+	 * Gets the value.
+	 *
+	 * @param <T>    the generic type
+	 * @param target the target
+	 * @param args   the args
+	 * @return the value
+	 * @see com.slytechs.protocol.meta.ReflectedMember#getValue(java.lang.Object,
+	 *      java.lang.Object[])
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
@@ -133,7 +140,12 @@ class ReflectedMethod extends ReflectedMember {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.meta.ReflectedMember#setValue(java.lang.Object, java.lang.Object[])
+	 * Sets the value.
+	 *
+	 * @param target the target
+	 * @param args   the args
+	 * @see com.slytechs.protocol.meta.ReflectedMember#setValue(java.lang.Object,
+	 *      java.lang.Object[])
 	 */
 	@Override
 	public void setValue(Object target, Object... args) {
@@ -149,6 +161,9 @@ class ReflectedMethod extends ReflectedMember {
 	}
 
 	/**
+	 * Gets the value type.
+	 *
+	 * @return the value type
 	 * @see com.slytechs.protocol.meta.ReflectedMember#getValueType()
 	 */
 	@Override

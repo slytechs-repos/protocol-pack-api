@@ -127,31 +127,80 @@ public enum CoreIdTable implements HeaderInfo, PackId {
 
 	;
 
+	/** The Constant CORE_ID_PACK. */
 	// @formatter:off
 	public static final int CORE_ID_PACK     = 0  | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_PAYLOAD. */
 	public static final int CORE_ID_PAYLOAD  = 1  | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_FRAME. */
 	public static final int CORE_ID_FRAME    = 2  | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_ETHER. */
 	public static final int CORE_ID_ETHER    = 3  | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_IPv4. */
 	public static final int CORE_ID_IPv4     = 4  | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_IPv6. */
 	public static final int CORE_ID_IPv6     = 5  | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_UDP. */
 	public static final int CORE_ID_UDP      = 6  | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_TCP. */
 	public static final int CORE_ID_TCP      = 7  | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_SCTP. */
 	public static final int CORE_ID_SCTP     = 8  | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_ICMPv4. */
 	public static final int CORE_ID_ICMPv4   = 9  | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_ICMPv6. */
 	public static final int CORE_ID_ICMPv6   = 10 | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_LLC. */
 	public static final int CORE_ID_LLC      = 11 | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_SNAP. */
 	public static final int CORE_ID_SNAP     = 12 | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_VLAN. */
 	public static final int CORE_ID_VLAN     = 13 | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_MPLS. */
 	public static final int CORE_ID_MPLS     = 14 | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_IPX. */
 	public static final int CORE_ID_IPX      = 15 | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_GRE. */
 	public static final int CORE_ID_GRE      = 16 | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_PPP. */
 	public static final int CORE_ID_PPP      = 17 | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_FDDI. */
 	public static final int CORE_ID_FDDI     = 18 | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_ATM. */
 	public static final int CORE_ID_ATM      = 19 | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_ARP. */
 	public static final int CORE_ID_ARP      = 20 | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_STP. */
 	public static final int CORE_ID_STP      = 21 | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_DHCPv4. */
 	public static final int CORE_ID_DHCPv4   = 22 | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_DHCPv6. */
 	public static final int CORE_ID_DHCPv6   = 23 | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_IGMP. */
 	public static final int CORE_ID_IGMP     = 24 | PACK_ID_CORE;
 	// @formatter:on
 

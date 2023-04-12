@@ -20,21 +20,17 @@ package com.slytechs.protocol.meta;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.*;
 
-import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-
-@Documented
-@Retention(RUNTIME)
-@Target({ TYPE })
 
 /**
  * The Interface MetaResource.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
+@Retention(RUNTIME)
+@Target(TYPE)
 public @interface MetaResource {
 
 	/**

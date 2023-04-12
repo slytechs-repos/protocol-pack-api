@@ -118,13 +118,26 @@ public final class CoreConstants {
 	public static final int ETHER_TYPE_PPPoE_SESSION   = 0x8848;
 	/* @formatter:on - Descriptor Ethernet II constants */
 
+	/** The Constant ARP_HEADER_LEN. */
 	/* @formatter:off - ARP constants */
 	public static final int ARP_HEADER_LEN             = 28;
+	
+	/** The Constant ARP_FIELD_SHA. */
 	public static final int ARP_FIELD_SHA              = 8;
+	
+	/** The Constant ARP_FIELD_SPA. */
 	public static final int ARP_FIELD_SPA              = 14;
+	
+	/** The Constant ARP_FIELD_THA. */
 	public static final int ARP_FIELD_THA              = 18;
+	
+	/** The Constant ARP_FIELD_TPA. */
 	public static final int ARP_FIELD_TPA              = 24;
+	
+	/** The Constant ARP_LEN_HALEN. */
 	public static final int ARP_LEN_HALEN              = 6;
+	
+	/** The Constant ARP_LEN_PALEN. */
 	public static final int ARP_LEN_PALEN              = 4;
 	/* @formatter:on - ARP constants */
 

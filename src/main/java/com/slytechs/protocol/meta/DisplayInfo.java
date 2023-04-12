@@ -26,9 +26,11 @@ import com.slytechs.protocol.runtime.util.Detail;
 /**
  * The DisplayInfo.
  *
+ * @param value  display format value
+ * @param label  display label
+ * @param detail display detail level
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
 public record DisplayInfo(String value, String label, Detail detail) implements MetaInfoType {
 

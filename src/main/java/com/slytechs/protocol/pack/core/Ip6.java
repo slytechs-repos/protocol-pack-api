@@ -83,6 +83,9 @@ public final class Ip6 extends Ip<Ip6Option> {
 	}
 
 	/**
+	 * Dst.
+	 *
+	 * @return the byte[]
 	 * @see com.slytechs.protocol.pack.core.Ip#dst()
 	 */
 	@Override
@@ -91,6 +94,9 @@ public final class Ip6 extends Ip<Ip6Option> {
 	}
 
 	/**
+	 * Dst address.
+	 *
+	 * @return the ip address
 	 * @see com.slytechs.protocol.pack.core.Ip#dstAddress()
 	 */
 	@Override
@@ -193,6 +199,9 @@ public final class Ip6 extends Ip<Ip6Option> {
 	}
 
 	/**
+	 * Payload length.
+	 *
+	 * @return the int
 	 * @see com.slytechs.protocol.pack.core.Ip#payloadLength()
 	 */
 	@Override
@@ -210,6 +219,9 @@ public final class Ip6 extends Ip<Ip6Option> {
 	}
 
 	/**
+	 * Src.
+	 *
+	 * @return the byte[]
 	 * @see com.slytechs.protocol.pack.core.Ip#src()
 	 */
 	@Override
@@ -218,6 +230,9 @@ public final class Ip6 extends Ip<Ip6Option> {
 	}
 
 	/**
+	 * Src get as address.
+	 *
+	 * @return the ip address
 	 * @see com.slytechs.protocol.pack.core.Ip#srcGetAsAddress()
 	 */
 	@Override
@@ -269,7 +284,6 @@ public final class Ip6 extends Ip<Ip6Option> {
 	 * Version.
 	 *
 	 * @return the int
-	 * @see com.slytechs.jnet.runtime.protocol.core.Ip#version()
 	 */
 	@Override
 	public int version() {

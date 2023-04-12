@@ -49,7 +49,7 @@ import com.slytechs.protocol.runtime.util.HexStrings;
 @MetaResource("ethernet-meta.json")
 public final class Ethernet extends Header {
 
-	/** Core protocol pack assigned header ID */
+	/** Core protocol pack assigned header ID. */
 	public static final int ID = CoreIdTable.CORE_ID_ETHER;
 
 	/** The Constant ETHER_FIELD_DST_MASK64. */
@@ -92,7 +92,12 @@ public final class Ethernet extends Header {
 	/**
 	 * Recalculate payload length based on dissector flags which indicates if
 	 * preamble or CRC fields are present.
-	 * 
+	 *
+	 * @param packet     the packet
+	 * @param descriptor the descriptor
+	 * @param offset     the offset
+	 * @param length     the length
+	 * @return the int
 	 * @see com.slytechs.protocol.Header#calcPayloadLength(java.nio.ByteBuffer,
 	 *      com.slytechs.protocol.descriptor.PacketDescriptor, int, int)
 	 */
@@ -238,6 +243,8 @@ public final class Ethernet extends Header {
 	}
 
 	/**
+	 * On unbind.
+	 *
 	 * @see com.slytechs.protocol.Header#onUnbind()
 	 */
 	@Override

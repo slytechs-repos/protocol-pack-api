@@ -41,6 +41,7 @@ public abstract class PacketDescriptor
 	@Meta(MetaType.ATTRIBUTE)
 	public long frameNo;
 
+	/** The flags. */
 	private int flags;
 
 	/** The timestamp unit. */
@@ -65,6 +66,11 @@ public abstract class PacketDescriptor
 	protected abstract StringBuilder buildDetailedString(StringBuilder b, Detail detail);
 
 	/**
+	 * Builds the string.
+	 *
+	 * @param b      the b
+	 * @param detail the detail
+	 * @return the string builder
 	 * @see com.slytechs.protocol.runtime.util.StringBuildable#buildString(java.lang.StringBuilder,
 	 *      com.slytechs.protocol.runtime.util.Detail)
 	 */

@@ -115,6 +115,9 @@ public abstract class MetaElement
 	}
 
 	/**
+	 * Name.
+	 *
+	 * @return the string
 	 * @see com.slytechs.protocol.meta.MetaDomain#name()
 	 */
 	@Override

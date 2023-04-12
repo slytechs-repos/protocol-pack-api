@@ -43,6 +43,9 @@ public enum AddressType implements IntSupplier {
 	APPLETALK,;
 
 	/**
+	 * Gets the as int.
+	 *
+	 * @return the as int
 	 * @see java.util.function.IntSupplier#getAsInt()
 	 */
 	@Override

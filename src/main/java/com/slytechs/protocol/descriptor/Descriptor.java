@@ -35,7 +35,10 @@ public abstract class Descriptor
 		extends MemoryBinding
 		implements Binding, Iterable<Descriptor> {
 
+	/** The type. */
 	private final DescriptorType<?> type;
+	
+	/** The next. */
 	private Descriptor next;
 
 	/**
@@ -73,6 +76,9 @@ public abstract class Descriptor
 	}
 
 	/**
+	 * Iterator.
+	 *
+	 * @return the iterator
 	 * @see java.lang.Iterable#iterator()
 	 */
 	@Override
@@ -109,6 +115,8 @@ public abstract class Descriptor
 	}
 
 	/**
+	 * On unbind.
+	 *
 	 * @see com.slytechs.protocol.runtime.MemoryBinding#onUnbind()
 	 */
 	@Override

@@ -29,11 +29,15 @@ import com.slytechs.protocol.pack.ProtocolPackTable;
  * 
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
- *
  */
 class PackHeaderFactory implements HeaderFactory {
 
+	/**
+	 * Private header supplier
+	 * 
+	 * @author Sly Technologies Inc
+	 * @author repos@slytechs.com
+	 */
 	private interface HeaderSupplier extends Supplier<Header> {
 		HeaderSupplier EMPTY = () -> null;
 
@@ -50,6 +54,11 @@ class PackHeaderFactory implements HeaderFactory {
 		private final HeaderInfo info;
 		private Header header;
 
+		/**
+		 * Lazy allocated supplier.
+		 * 
+		 * @param info
+		 */
 		LazySupplier(HeaderInfo info) {
 			this.info = info;
 		}
@@ -67,12 +76,23 @@ class PackHeaderFactory implements HeaderFactory {
 	private final HeaderSupplier[][] extension;
 	private final int pack;
 
+	/**
+	 * 
+	 * @param pack
+	 * @param packIds
+	 */
 	public PackHeaderFactory(int pack, HeaderInfo[] packIds) {
 		this.pack = pack;
 		this.primary = initializeProtocolTable(packIds);
 		this.extension = initializeExtensionTable(packIds);
 	}
 
+	/**
+	 * Get a header supplier if one is available for the header id.
+	 * 
+	 * @param id header id
+	 * @return supplier or null if not found
+	 */
 	private HeaderSupplier lookupSupplier(int id) {
 		int pack = PackId.decodePackId(id);
 		int ordinal = PackId.decodeIdOrdinal(id);
@@ -83,6 +103,13 @@ class PackHeaderFactory implements HeaderFactory {
 		return primary[ordinal];
 	}
 
+	/**
+	 * Get a header supplier if one is available for the header id.
+	 * 
+	 * @param primaryId   primary header id
+	 * @param extensionId extension header id
+	 * @return supplier or null if not found
+	 */
 	private HeaderSupplier lookupSupplier(int primaryId, int extensionId) {
 		int pack0 = PackId.decodePackId(primaryId);
 		int ordinal0 = PackId.decodeIdOrdinal(primaryId);

@@ -33,7 +33,7 @@ import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int8;
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
-public enum Ip6Layout implements BitField.Proxy {
+enum Ip6Layout implements BitField.Proxy {
 	
 	/** The version. */
 	VERSION("ip.version"),

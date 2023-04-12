@@ -29,14 +29,23 @@ import com.slytechs.protocol.AddressType;
  */
 public abstract class IpAddress implements Address {
 
+	/** The type. */
 	private final AddressType type;
 
+	/**
+	 * Instantiates a new ip address.
+	 *
+	 * @param type the type
+	 */
 	protected IpAddress(AddressType type) {
 		super();
 		this.type = type;
 	}
 
 	/**
+	 * Type.
+	 *
+	 * @return the address type
 	 * @see com.slytechs.protocol.Address#type()
 	 */
 	@Override

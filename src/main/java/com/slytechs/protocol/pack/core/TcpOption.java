@@ -46,6 +46,9 @@ public class TcpOption extends Header {
 		}
 
 		/**
+		 * Length.
+		 *
+		 * @return the int
 		 * @see com.slytechs.protocol.pack.core.TcpOption#length()
 		 */
 		@Override
@@ -126,6 +129,9 @@ public class TcpOption extends Header {
 		}
 
 		/**
+		 * Length.
+		 *
+		 * @return the int
 		 * @see com.slytechs.protocol.pack.core.TcpOption#length()
 		 */
 		@Override
@@ -207,6 +213,9 @@ public class TcpOption extends Header {
 		}
 
 		/**
+		 * Length.
+		 *
+		 * @return the int
 		 * @see com.slytechs.protocol.pack.core.TcpOption#length()
 		 */
 		@Override
@@ -335,6 +344,11 @@ public class TcpOption extends Header {
 		buffer().put(CoreConstants.TCP_OPTION_FIELD_KIND, (byte) kind);
 	}
 
+	/**
+	 * Length.
+	 *
+	 * @return the int
+	 */
 	public int length() {
 		return ((length != -1)
 				? length

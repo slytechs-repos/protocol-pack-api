@@ -144,6 +144,9 @@ class ReflectedField extends ReflectedMember {
 	}
 
 	/**
+	 * Gets the value type.
+	 *
+	 * @return the value type
 	 * @see com.slytechs.protocol.meta.ReflectedMember#getValueType()
 	 */
 	@Override

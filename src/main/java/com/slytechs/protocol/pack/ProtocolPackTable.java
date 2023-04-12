@@ -229,6 +229,9 @@ public enum ProtocolPackTable implements PackId {
 	}
 
 	/**
+	 * Id.
+	 *
+	 * @return the int
 	 * @see com.slytechs.protocol.pack.PackId#id()
 	 */
 	@Override

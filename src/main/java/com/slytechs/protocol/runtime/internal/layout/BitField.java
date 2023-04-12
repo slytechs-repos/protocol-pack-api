@@ -184,6 +184,10 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
+		 * Gets the bit.
+		 *
+		 * @param data the data
+		 * @return the bit
 		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getBit(java.lang.Object)
 		 */
 		@Override
@@ -192,7 +196,13 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getBit(java.lang.Object, long[])
+		 * Gets the bit.
+		 *
+		 * @param data      the data
+		 * @param sequences the sequences
+		 * @return the bit
+		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getBit(java.lang.Object,
+		 *      long[])
 		 */
 		@Override
 		default boolean getBit(Object data, long... sequences) {
@@ -227,7 +237,13 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getByteAt(long, java.lang.Object)
+		 * Gets the byte at.
+		 *
+		 * @param offset the offset
+		 * @param data   the data
+		 * @return the byte at
+		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getByteAt(long,
+		 *      java.lang.Object)
 		 */
 		@Override
 		default byte getByteAt(long offset, Object data) {
@@ -235,7 +251,14 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getByteAt(long, java.lang.Object, long[])
+		 * Gets the byte at.
+		 *
+		 * @param offset    the offset
+		 * @param data      the data
+		 * @param sequences the sequences
+		 * @return the byte at
+		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getByteAt(long,
+		 *      java.lang.Object, long[])
 		 */
 		@Override
 		default byte getByteAt(long offset, Object data, long... sequences) {
@@ -321,7 +344,13 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getIntAt(long, java.lang.Object)
+		 * Gets the int at.
+		 *
+		 * @param offset the offset
+		 * @param data   the data
+		 * @return the int at
+		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getIntAt(long,
+		 *      java.lang.Object)
 		 */
 		@Override
 		default int getIntAt(long offset, Object data) {
@@ -329,7 +358,14 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getIntAt(long, java.lang.Object, long[])
+		 * Gets the int at.
+		 *
+		 * @param offset    the offset
+		 * @param data      the data
+		 * @param sequences the sequences
+		 * @return the int at
+		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getIntAt(long,
+		 *      java.lang.Object, long[])
 		 */
 		@Override
 		default int getIntAt(long offset, Object data, long... sequences) {
@@ -363,7 +399,13 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getLongAt(long, java.lang.Object)
+		 * Gets the long at.
+		 *
+		 * @param offset the offset
+		 * @param data   the data
+		 * @return the long at
+		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getLongAt(long,
+		 *      java.lang.Object)
 		 */
 		@Override
 		default long getLongAt(long offset, Object data) {
@@ -371,7 +413,14 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getLongAt(long, java.lang.Object, long[])
+		 * Gets the long at.
+		 *
+		 * @param offset    the offset
+		 * @param data      the data
+		 * @param sequences the sequences
+		 * @return the long at
+		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getLongAt(long,
+		 *      java.lang.Object, long[])
 		 */
 		@Override
 		default long getLongAt(long offset, Object data, long... sequences) {
@@ -405,7 +454,13 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getNumberAt(long, java.lang.Object)
+		 * Gets the number at.
+		 *
+		 * @param offset the offset
+		 * @param data   the data
+		 * @return the number at
+		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getNumberAt(long,
+		 *      java.lang.Object)
 		 */
 		@Override
 		default Number getNumberAt(long offset, Object data) {
@@ -413,7 +468,14 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getNumberAt(long, java.lang.Object, long[])
+		 * Gets the number at.
+		 *
+		 * @param offset    the offset
+		 * @param data      the data
+		 * @param sequences the sequences
+		 * @return the number at
+		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getNumberAt(long,
+		 *      java.lang.Object, long[])
 		 */
 		@Override
 		default Number getNumberAt(long offset, Object data, long... sequences) {
@@ -447,7 +509,13 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getShortAt(long, java.lang.Object)
+		 * Gets the short at.
+		 *
+		 * @param offset the offset
+		 * @param data   the data
+		 * @return the short at
+		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getShortAt(long,
+		 *      java.lang.Object)
 		 */
 		@Override
 		default short getShortAt(long offset, Object data) {
@@ -455,7 +523,14 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getShortAt(long, java.lang.Object, long[])
+		 * Gets the short at.
+		 *
+		 * @param offset    the offset
+		 * @param data      the data
+		 * @param sequences the sequences
+		 * @return the short at
+		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getShortAt(long,
+		 *      java.lang.Object, long[])
 		 */
 		@Override
 		default short getShortAt(long offset, Object data, long... sequences) {
@@ -489,7 +564,13 @@ public interface BitField extends BinaryField, Constable {
 		}
 		
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getUnsignedByteAt(long, java.lang.Object)
+		 * Gets the unsigned byte at.
+		 *
+		 * @param offset the offset
+		 * @param data   the data
+		 * @return the unsigned byte at
+		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getUnsignedByteAt(long,
+		 *      java.lang.Object)
 		 */
 		@Override
 		default int getUnsignedByteAt(long offset, Object data) {
@@ -497,7 +578,14 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getUnsignedByteAt(long, java.lang.Object, long[])
+		 * Gets the unsigned byte at.
+		 *
+		 * @param offset    the offset
+		 * @param data      the data
+		 * @param sequences the sequences
+		 * @return the unsigned byte at
+		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getUnsignedByteAt(long,
+		 *      java.lang.Object, long[])
 		 */
 		@Override
 		default int getUnsignedByteAt(long offset, Object data, long... sequences) {
@@ -531,7 +619,13 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getUnsignedIntAt(long, java.lang.Object)
+		 * Gets the unsigned int at.
+		 *
+		 * @param offset the offset
+		 * @param data   the data
+		 * @return the unsigned int at
+		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getUnsignedIntAt(long,
+		 *      java.lang.Object)
 		 */
 		@Override
 		default long getUnsignedIntAt(long offset, Object data) {
@@ -539,7 +633,14 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getUnsignedIntAt(long, java.lang.Object, long[])
+		 * Gets the unsigned int at.
+		 *
+		 * @param offset    the offset
+		 * @param data      the data
+		 * @param sequences the sequences
+		 * @return the unsigned int at
+		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getUnsignedIntAt(long,
+		 *      java.lang.Object, long[])
 		 */
 		@Override
 		default long getUnsignedIntAt(long offset, Object data, long... sequences) {
@@ -573,7 +674,13 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getUnsignedNumberAt(long, java.lang.Object)
+		 * Gets the unsigned number at.
+		 *
+		 * @param offset the offset
+		 * @param data   the data
+		 * @return the unsigned number at
+		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getUnsignedNumberAt(long,
+		 *      java.lang.Object)
 		 */
 		@Override
 		default Number getUnsignedNumberAt(long offset, Object data) {
@@ -581,7 +688,14 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getUnsignedNumberAt(long, java.lang.Object, long[])
+		 * Gets the unsigned number at.
+		 *
+		 * @param offset    the offset
+		 * @param data      the data
+		 * @param sequences the sequences
+		 * @return the unsigned number at
+		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getUnsignedNumberAt(long,
+		 *      java.lang.Object, long[])
 		 */
 		@Override
 		default Number getUnsignedNumberAt(long offset, Object data, long... sequences) {
@@ -615,7 +729,13 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getUnsignedShortAt(long, java.lang.Object)
+		 * Gets the unsigned short at.
+		 *
+		 * @param offset the offset
+		 * @param data   the data
+		 * @return the unsigned short at
+		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getUnsignedShortAt(long,
+		 *      java.lang.Object)
 		 */
 		@Override
 		default int getUnsignedShortAt(long offset, Object data) {
@@ -623,7 +743,14 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
-		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getUnsignedShortAt(long, java.lang.Object, long[])
+		 * Gets the unsigned short at.
+		 *
+		 * @param offset    the offset
+		 * @param data      the data
+		 * @param sequences the sequences
+		 * @return the unsigned short at
+		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#getUnsignedShortAt(long,
+		 *      java.lang.Object, long[])
 		 */
 		@Override
 		default int getUnsignedShortAt(long offset, Object data, long... sequences) {
@@ -642,6 +769,9 @@ public interface BitField extends BinaryField, Constable {
 		}
 
 		/**
+		 * Non proxy.
+		 *
+		 * @return the bit field
 		 * @see com.slytechs.protocol.runtime.internal.layout.BitField#nonProxy()
 		 */
 		@Override

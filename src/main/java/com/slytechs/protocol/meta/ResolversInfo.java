@@ -29,9 +29,9 @@ import com.slytechs.protocol.runtime.internal.json.JsonValue.ValueType;
 /**
  * The ResolversInfo.
  *
+ * @param resolvers a list of value resolvers
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
 public record ResolversInfo(ValueResolver... resolvers) implements MetaInfoType {
 
@@ -95,7 +95,7 @@ public record ResolversInfo(ValueResolver... resolvers) implements MetaInfoType 
 					.add(jsonValue)
 					.build();
 		}
-		
+
 		ValueResolver[] resolvers = new ValueResolver[jsonArray.size()];
 
 		for (int i = 0; i < jsonArray.size(); i++) {

@@ -33,9 +33,9 @@ import com.slytechs.protocol.runtime.util.Enums;
 /**
  * The DisplaysInfo.
  *
+ * @param displays a array of displays, one per detail level
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
 public record DisplaysInfo(DisplayInfo[] displays) implements MetaInfoType {
 

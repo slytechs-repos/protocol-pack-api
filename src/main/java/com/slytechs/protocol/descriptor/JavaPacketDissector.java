@@ -32,7 +32,15 @@ import com.slytechs.protocol.pack.core.constants.L2FrameType;
 public abstract class JavaPacketDissector extends AbstractPacketDissector {
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.PacketDissector#dissectPacket(java.nio.ByteBuffer, long, int, int)
+	 * Dissect packet.
+	 *
+	 * @param buffer    the buffer
+	 * @param timestamp the timestamp
+	 * @param caplen    the caplen
+	 * @param wirelen   the wirelen
+	 * @return the int
+	 * @see com.slytechs.protocol.descriptor.PacketDissector#dissectPacket(java.nio.ByteBuffer,
+	 *      long, int, int)
 	 */
 	@Override
 	public int dissectPacket(ByteBuffer buffer, long timestamp, int caplen, int wirelen) {
@@ -40,6 +48,8 @@ public abstract class JavaPacketDissector extends AbstractPacketDissector {
 	}
 
 	/**
+	 * Reset.
+	 *
 	 * @see com.slytechs.protocol.descriptor.PacketDissector#reset()
 	 */
 	@Override
@@ -48,6 +58,11 @@ public abstract class JavaPacketDissector extends AbstractPacketDissector {
 	}
 
 	/**
+	 * Sets the datalink type.
+	 *
+	 * @param l2Type the l 2 type
+	 * @return the packet dissector
+	 * @throws ProtocolException the protocol exception
 	 * @see com.slytechs.protocol.descriptor.PacketDissector#setDatalinkType(com.slytechs.protocol.pack.core.constants.L2FrameType)
 	 */
 	@Override
@@ -56,6 +71,10 @@ public abstract class JavaPacketDissector extends AbstractPacketDissector {
 	}
 
 	/**
+	 * Write descriptor.
+	 *
+	 * @param buffer the buffer
+	 * @return the int
 	 * @see com.slytechs.protocol.descriptor.PacketDissector#writeDescriptor(java.nio.ByteBuffer)
 	 */
 	@Override

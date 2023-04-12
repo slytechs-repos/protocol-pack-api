@@ -134,6 +134,9 @@ public final class Ip6Address extends IpAddress {
 	}
 
 	/**
+	 * To string.
+	 *
+	 * @return the string
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

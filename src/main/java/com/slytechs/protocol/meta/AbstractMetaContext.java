@@ -67,6 +67,9 @@ public abstract class AbstractMetaContext implements MetaDomain, MetaContext {
 	}
 
 	/**
+	 * Name.
+	 *
+	 * @return the string
 	 * @see com.slytechs.protocol.meta.MetaDomain#name()
 	 */
 	@Override
@@ -75,6 +78,9 @@ public abstract class AbstractMetaContext implements MetaDomain, MetaContext {
 	}
 
 	/**
+	 * Parent.
+	 *
+	 * @return the meta domain
 	 * @see com.slytechs.protocol.meta.MetaDomain#parent()
 	 */
 	@Override

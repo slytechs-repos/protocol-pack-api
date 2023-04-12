@@ -39,6 +39,15 @@ public interface PacketDissector {
 	 */
 	@FunctionalInterface
 	public interface RecordRecorder {
+		
+		/**
+		 * Adds the record.
+		 *
+		 * @param id     the id
+		 * @param offset the offset
+		 * @param length the length
+		 * @return true, if successful
+		 */
 		boolean addRecord(int id, int offset, int length);
 	}
 
@@ -152,6 +161,9 @@ public interface PacketDissector {
 		return writeDescriptor(descriptor.buffer());
 	}
 
+	/**
+	 * Load all loaded extensions.
+	 */
 	default void loadAllLoadedExtensions() {
 
 	}

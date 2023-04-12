@@ -33,12 +33,25 @@ import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int64;
  */
 enum IpfLayout implements BitField.Proxy {
 
+	/** The assembled bytes. */
 	ASSEMBLED_BYTES("assembled_bytes"),
+	
+	/** The remaining bytes. */
 	REMAINING_BYTES("remaining_bytes"),
+	
+	/** The duplicate bytes. */
 	DUPLICATE_BYTES("duplicate_bytes"),
+	
+	/** The flags. */
 	FLAGS("flags"),
+	
+	/** The frame no. */
 	FRAME_NO("frame_no"),
+	
+	/** The prev no. */
 	PREV_NO("prev_no"),
+	
+	/** The next no. */
 	NEXT_NO("next_no"),
 
 	;

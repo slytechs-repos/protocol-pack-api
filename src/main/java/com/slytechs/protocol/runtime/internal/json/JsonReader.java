@@ -27,6 +27,9 @@ package com.slytechs.protocol.runtime.internal.json;
 public interface JsonReader extends AutoCloseable {
 
 	/**
+	 * Close.
+	 *
+	 * @throws JsonException the json exception
 	 * @see java.lang.AutoCloseable#close()
 	 */
 	@Override

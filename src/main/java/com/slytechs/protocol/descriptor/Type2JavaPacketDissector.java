@@ -287,7 +287,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 	 * Dissect eth type.
 	 *
 	 * @param offset the offset
-	 * @param type
+	 * @param type   the type
 	 */
 	private void dissectEthType(int offset, int type) {
 
@@ -350,6 +350,11 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 		addRecord(CoreIdTable.CORE_ID_IPX, offset, IPX_HEADER_LEN);
 	}
 
+	/**
+	 * Dissect ethernet.
+	 *
+	 * @param offset the offset
+	 */
 	private void dissectEthernet(int offset) {
 
 		if (!hasRemaining(offset, ETHER_HEADER_LEN))
@@ -523,6 +528,12 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 		}
 	}
 
+	/**
+	 * Dissect tcp options.
+	 *
+	 * @param offset         the offset
+	 * @param tcpHeaderLenth the tcp header lenth
+	 */
 	private void dissectTcpOptions(int offset, int tcpHeaderLenth) {
 
 		int limit = offset + tcpHeaderLenth;
@@ -1064,6 +1075,9 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 	}
 
 	/**
+	 * Sets the recorder.
+	 *
+	 * @param recorder the new recorder
 	 * @see com.slytechs.protocol.descriptor.DissectorExtension#setRecorder(com.slytechs.protocol.descriptor.PacketDissector.RecordRecorder)
 	 */
 	@Override
@@ -1071,6 +1085,9 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 	}
 
 	/**
+	 * Sets the extensions.
+	 *
+	 * @param ext the new extensions
 	 * @see com.slytechs.protocol.descriptor.DissectorExtension#setExtensions(com.slytechs.protocol.descriptor.DissectorExtension)
 	 */
 	@Override

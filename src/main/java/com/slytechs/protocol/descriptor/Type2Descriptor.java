@@ -85,6 +85,9 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Capture length.
+	 *
+	 * @return the int
 	 * @see com.slytechs.protocol.descriptor.PacketDescriptor#captureLength()
 	 */
 	@Override
@@ -102,7 +105,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * Sets new color value
+	 * Sets new color value.
 	 *
 	 * @param newColor new color value
 	 * @return this descriptor
@@ -239,6 +242,9 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * L 2 frame type.
+	 *
+	 * @return the int
 	 * @see com.slytechs.protocol.descriptor.PacketDescriptor#l2FrameType()
 	 */
 	@Override
@@ -447,6 +453,9 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Timestamp.
+	 *
+	 * @return the long
 	 * @see com.slytechs.protocol.descriptor.PacketDescriptor#timestamp()
 	 */
 	@Override
@@ -455,6 +464,11 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Builds the detailed string.
+	 *
+	 * @param b      the b
+	 * @param detail the detail
+	 * @return the string builder
 	 * @see com.slytechs.protocol.descriptor.PacketDescriptor#buildDetailedString(java.lang.StringBuilder,
 	 *      com.slytechs.protocol.runtime.util.Detail)
 	 */
@@ -657,6 +671,9 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
+	 * Wire length.
+	 *
+	 * @return the int
 	 * @see com.slytechs.protocol.descriptor.PacketDescriptor#wireLength()
 	 */
 	@Override

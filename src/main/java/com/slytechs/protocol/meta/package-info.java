@@ -15,7 +15,7 @@
  * {@code MetaField} value types. Further explained below.
  * </p>
  * 
- * <h2>MetaPacket, MetaHeader, MetaField</h3>
+ * <h2>MetaPacket, MetaHeader, MetaField</h2>
  * <p>
  * A packet once captured, or created, can be wrapped as a {@code MetaPacket}
  * object. This allows so called "parsing" of packet information to be exposed

@@ -67,6 +67,9 @@ public interface PaddedField {
 		}
 
 		/**
+		 * Bit alignment.
+		 *
+		 * @return the long
 		 * @see com.slytechs.protocol.runtime.internal.foreign.PaddedField#bitAlignment()
 		 */
 		@Override
@@ -75,6 +78,9 @@ public interface PaddedField {
 		}
 
 		/**
+		 * To string.
+		 *
+		 * @return the string
 		 * @see java.lang.Object#toString()
 		 */
 		@Override

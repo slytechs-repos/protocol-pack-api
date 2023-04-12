@@ -34,6 +34,7 @@ import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Padding;
  */
 enum SnapLayout implements BitField.Proxy {
 
+	/** The pid. */
 	PID("pid"),
 
 	;

@@ -30,7 +30,7 @@ import com.slytechs.protocol.descriptor.PacketDescriptor;
  * @author repos@slytechs.com
  * @param <T> the generic header extension type
  */
-public abstract non-sealed class HeaderExtension<T extends Header>
+public abstract class HeaderExtension<T extends Header>
 		extends Header
 		implements HasExtension<T> {
 
@@ -45,7 +45,7 @@ public abstract non-sealed class HeaderExtension<T extends Header>
 
 	/**
 	 * Reset this header extension instance, importantly reset the reference to
-	 * sourceBuffer to release it
+	 * sourceBuffer to release it.
 	 *
 	 * @see com.slytechs.protocol.Header#onUnbind()
 	 */
@@ -68,6 +68,13 @@ public abstract non-sealed class HeaderExtension<T extends Header>
 	}
 
 	/**
+	 * Gets the extension.
+	 *
+	 * @param <E>       the element type
+	 * @param extension the extension
+	 * @param depth     the depth
+	 * @return the extension
+	 * @throws HeaderNotFound the header not found
 	 * @see com.slytechs.protocol.HasExtension#getExtension(com.slytechs.protocol.Header,
 	 *      int)
 	 */
@@ -81,6 +88,11 @@ public abstract non-sealed class HeaderExtension<T extends Header>
 	}
 
 	/**
+	 * Checks for extension.
+	 *
+	 * @param extensionId the extension id
+	 * @param depth       the depth
+	 * @return true, if successful
 	 * @see com.slytechs.protocol.HasExtension#hasExtension(int, int)
 	 */
 	@Override
@@ -91,6 +103,12 @@ public abstract non-sealed class HeaderExtension<T extends Header>
 	}
 
 	/**
+	 * Peek extension.
+	 *
+	 * @param <E>       the element type
+	 * @param extension the extension
+	 * @param depth     the depth
+	 * @return the e
 	 * @see com.slytechs.protocol.HasExtension#peekExtension(com.slytechs.protocol.Header,
 	 *      int)
 	 */
@@ -117,6 +135,11 @@ public abstract non-sealed class HeaderExtension<T extends Header>
 	}
 
 	/**
+	 * Bind extensions to packet.
+	 *
+	 * @param packet     the packet
+	 * @param descriptor the descriptor
+	 * @param meta       the meta
 	 * @see com.slytechs.protocol.Header#bindExtensionsToPacket(java.nio.ByteBuffer,
 	 *      com.slytechs.protocol.HeaderLookup, int)
 	 */

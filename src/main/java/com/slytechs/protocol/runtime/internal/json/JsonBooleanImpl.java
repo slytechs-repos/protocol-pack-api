@@ -50,6 +50,9 @@ class JsonBooleanImpl implements JsonValue {
 	}
 
 	/**
+	 * To string.
+	 *
+	 * @return the string
 	 * @see java.lang.Object#toString()
 	 */
 	@Override

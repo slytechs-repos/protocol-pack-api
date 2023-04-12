@@ -96,6 +96,9 @@ public enum HashType implements IntSupplier {
 	;
 
 	/**
+	 * Gets the as int.
+	 *
+	 * @return the as int
 	 * @see java.util.function.IntSupplier#getAsInt()
 	 */
 	public int getAsInt() {

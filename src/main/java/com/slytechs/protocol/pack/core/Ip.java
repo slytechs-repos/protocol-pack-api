@@ -257,6 +257,9 @@ public abstract class Ip<T extends IpOption> extends HeaderExtension<T> {
 	public abstract int version();
 
 	/**
+	 * Payload length.
+	 *
+	 * @return the int
 	 * @see com.slytechs.protocol.Header#payloadLength()
 	 */
 	@Override

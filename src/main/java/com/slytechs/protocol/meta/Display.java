@@ -20,7 +20,6 @@ package com.slytechs.protocol.meta;
 import static java.lang.annotation.ElementType.*;
 import static java.lang.annotation.RetentionPolicy.*;
 
-import java.lang.annotation.Documented;
 import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -34,11 +33,10 @@ import com.slytechs.protocol.runtime.util.Detail;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-@Documented
 @Repeatable(Displays.class)
 @Retention(RUNTIME)
 @Target({ METHOD,
-		FIELD})
+		FIELD })
 public @interface Display {
 
 	/**
@@ -54,9 +52,8 @@ public @interface Display {
 	 * </dl>
 	 * 
 	 * <p>
-	 * For example:
-	 * <code>"0x%1$04X (formatted=%2$s, resolved=%3$s)" or arguments can be accessed 
-	 * without absolute indexes since they are accessed in 
+	 * For example: <code>"0x%1$04X (formatted=%2$s, resolved=%3$s)"</code> or
+	 * arguments can be accessed without absolute indexes since they are accessed in
 	 * order<code>"0x04X (formatted=%s, resolved=%s)</code>
 	 * </p>
 	 * 

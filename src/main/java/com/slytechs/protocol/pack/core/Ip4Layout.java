@@ -32,7 +32,7 @@ import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Padding;
 /**
  * The Enum Ip4Layout.
  */
-public enum Ip4Layout implements EnumBitField<Ip4Layout> {
+enum Ip4Layout implements EnumBitField<Ip4Layout> {
 
 	/** The version. */
 	VERSION(Struct.IP4_STRUCT, "ip.version"),

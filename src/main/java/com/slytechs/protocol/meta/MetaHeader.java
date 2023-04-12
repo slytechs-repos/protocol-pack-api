@@ -125,6 +125,10 @@ public final class MetaHeader
 	}
 
 	/**
+	 * Gets the field.
+	 *
+	 * @param name the name
+	 * @return the field
 	 * @see com.slytechs.protocol.meta.MetaContext.MetaMapped#getField(java.lang.String)
 	 */
 	@Override

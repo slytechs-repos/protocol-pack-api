@@ -451,6 +451,9 @@ public class PaddedLayout implements PaddedField {
 	}
 
 	/**
+	 * As memory layout.
+	 *
+	 * @return the memory layout
 	 * @see com.slytechs.protocol.runtime.internal.foreign.PaddedField#asMemoryLayout()
 	 */
 	@Override

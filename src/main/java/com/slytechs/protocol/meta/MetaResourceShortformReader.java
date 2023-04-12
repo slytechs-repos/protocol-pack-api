@@ -22,22 +22,29 @@ import com.slytechs.protocol.runtime.internal.json.JsonObject;
 import com.slytechs.protocol.runtime.internal.json.JsonObjectBuilder;
 
 /**
+ * The Class MetaResourceShortformReader.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
- *
  */
 public class MetaResourceShortformReader extends MetaResourceReader {
 
 	/**
-	 * @param resourceName
-	 * @throws JsonException
+	 * Instantiates a new meta resource shortform reader.
+	 *
+	 * @param resourceName the resource name
+	 * @throws JsonException the json exception
 	 */
 	public MetaResourceShortformReader(String resourceName) throws JsonException {
 		super(resourceName);
 	}
 
 	/**
+	 * Process.
+	 *
+	 * @param sourceJsonObj the source json obj
+	 * @return the json object
 	 * @see com.slytechs.protocol.meta.MetaResourceReader#process(com.slytechs.protocol.runtime.internal.json.JsonObject)
 	 */
 	@Override
@@ -45,6 +52,12 @@ public class MetaResourceShortformReader extends MetaResourceReader {
 		return super.process(sourceJsonObj);
 	}
 
+	/**
+	 * Builds the top.
+	 *
+	 * @param sobj the sobj
+	 * @return the json object
+	 */
 	private JsonObject buildTop(JsonObject sobj) {
 
 		var b = new JsonObjectBuilder();
@@ -67,10 +80,22 @@ public class MetaResourceShortformReader extends MetaResourceReader {
 		return b.build();
 	}
 
+	/**
+	 * Builds the display.
+	 *
+	 * @param value the value
+	 * @return the json object
+	 */
 	private JsonObject buildDisplay(String value) {
 		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * Builds the meta.
+	 *
+	 * @param value the value
+	 * @return the json object
+	 */
 	private JsonObject buildMeta(String value) {
 		throw new UnsupportedOperationException();
 

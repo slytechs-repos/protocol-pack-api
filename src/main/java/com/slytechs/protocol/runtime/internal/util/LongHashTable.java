@@ -38,6 +38,10 @@ public abstract class LongHashTable implements OfLong {
 		private final Entry[][][] table = new Entry[256][][];
 
 		/**
+		 * Entry.
+		 *
+		 * @param key the key
+		 * @return the entry
 		 * @see com.slytechs.protocol.runtime.internal.util.LongHashTable#entry(int)
 		 */
 		@Override
@@ -71,6 +75,10 @@ public abstract class LongHashTable implements OfLong {
 		private final Entry[][] table = new Entry[256][];
 
 		/**
+		 * Entry.
+		 *
+		 * @param key the key
+		 * @return the entry
 		 * @see com.slytechs.protocol.runtime.internal.util.LongHashTable#entry(int)
 		 */
 		@Override
@@ -99,6 +107,10 @@ public abstract class LongHashTable implements OfLong {
 		private final Entry[] table = new Entry[256];
 
 		/**
+		 * Entry.
+		 *
+		 * @param key the key
+		 * @return the entry
 		 * @see com.slytechs.protocol.runtime.internal.util.LongHashTable#entry(int)
 		 */
 		@Override

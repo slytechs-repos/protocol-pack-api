@@ -26,26 +26,29 @@ import com.slytechs.protocol.runtime.util.UnitUtils.ConvertableUnit;
  * 
  * <p>
  * Note that a 64-bit long overflows after {@link #TERABYTES} bytes, thus other
- * higher units of PETABYTES, ZETA are not defined. Future extensions will have to
- * convert to {@link BigInteger} as storage, especially for the larger units.
+ * higher units of PETABYTES, ZETA are not defined. Future extensions will have
+ * to convert to {@link BigInteger} as storage, especially for the larger units.
  */
 public enum MemoryUnit implements ConvertableUnit<MemoryUnit> {
-	
+
 	/** The bits. */
 	BITS {
+		@Override
 		public long convert(long size, MemoryUnit sourceUnit) {
 			return sourceUnit.toBits(size);
 		}
 
+		@Override
 		public long toBits(long size) {
 			return size;
 		}
 
+		@Override
 		public long toBytes(long size) {
 			return size / 8;
 		}
 	},
-	
+
 	/** The bytes. */
 	BYTES,
 
@@ -89,10 +92,10 @@ public enum MemoryUnit implements ConvertableUnit<MemoryUnit> {
 
 	/** The base. */
 	private final long base;
-	
+
 	/** The basef. */
 	private final double basef;
-	
+
 	/** The symbol. */
 	private final String symbol;
 
@@ -117,8 +120,8 @@ public enum MemoryUnit implements ConvertableUnit<MemoryUnit> {
 	 *
 	 * @param inBytes the in bytes
 	 * @return the double
-	 * @see com.slytechs.jnet.runtime.util.UnitUtils.ConvertableUnit#convertf(double)
 	 */
+	@Override
 	public double convertf(double inBytes) {
 		return convertf(inBytes, MemoryUnit.BYTES);
 	}
@@ -129,9 +132,8 @@ public enum MemoryUnit implements ConvertableUnit<MemoryUnit> {
 	 * @param size       the size
 	 * @param sourceUnit the source unit
 	 * @return the double
-	 * @see com.slytechs.jnet.runtime.util.UnitUtils.ConvertableUnit#convertf(double,
-	 *      java.lang.Enum)
 	 */
+	@Override
 	public double convertf(double size, MemoryUnit sourceUnit) {
 		return sourceUnit.toBytesf(size) / this.base;
 	}
@@ -142,9 +144,8 @@ public enum MemoryUnit implements ConvertableUnit<MemoryUnit> {
 	 * @param size       the size
 	 * @param sourceUnit the source unit
 	 * @return the long
-	 * @see com.slytechs.jnet.runtime.util.UnitUtils.ConvertableUnit#convert(long,
-	 *      java.lang.Enum)
 	 */
+	@Override
 	public long convert(long size, MemoryUnit sourceUnit) {
 		return sourceUnit.toBytes(size) / this.base;
 	}
@@ -272,8 +273,8 @@ public enum MemoryUnit implements ConvertableUnit<MemoryUnit> {
 	 * Gets the symbol.
 	 *
 	 * @return the symbol
-	 * @see com.slytechs.jnet.runtime.util.UnitUtils.ConvertableUnit#getSymbol()
 	 */
+	@Override
 	public String getSymbol() {
 		return symbol;
 	}

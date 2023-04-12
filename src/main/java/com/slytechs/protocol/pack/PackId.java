@@ -57,13 +57,6 @@ import com.slytechs.protocol.runtime.NotFound;
  * records to record header offsets/length after packet dissection.
  * </p>
  * 
- * <p>
- * Masking off Id component from a record is easy using a simple bitwise AND
- * operation {@link PcakId#RECORD_MASK_UNPACK} constant such as
- * {@code record & RECORD_MASK_UNPACK} or use one of the utility methods
- * {@link PcapId#decodeRecordId(int)}.
- * </p>
- * 
  * <pre>
  * struct pack_record_s {
  * 	uint32_t
@@ -83,27 +76,56 @@ import com.slytechs.protocol.runtime.NotFound;
  */
 public interface PackId {
 
+	/** The pack mask ordinal. */
 	// @formatter:off
 	int PACK_MASK_ORDINAL  = 0x0000003F;  // 05:00 - 6 bits, protocol number
+	
+	/** The pack mask pack. */
 	int PACK_MASK_PACK     = 0x000003C0;  // 09:06 - 4 bits, protocol pack number
+	
+	/** The pack mask unpack. */
 	int PACK_MASK_UNPACK   = 0x000003FF;  // 09:00 - Pack + Ordinal
+	
+	/** The record mask ordinal. */
 	int RECORD_MASK_ORDINAL = 0x0000003F; // 05:00 - 6 bits, protocol number
+	
+	/** The record mask pack. */
 	int RECORD_MASK_PACK    = 0x000003C0; // 09:06 - 4 bits, protocol pack number
+	
+	/** The record mask unpack. */
 	int RECORD_MASK_UNPACK  = 0x000003FF; // 09:00 - Pack + Ordinal
+	
+	/** The record mask size. */
 	int RECORD_MASK_SIZE    = 0x001FFC00; // 20:10 - 11 bits (in units of 32 bits)
+	
+	/** The record mask offset. */
 	int RECORD_MASK_OFFSET  = 0xFFE00000; // 31:21 - 11 bits (in units of 8 bits)
 	// @formatter:on
 
+	/** The pack shift ordinal. */
 	// @formatter:off
 	int PACK_SHIFT_ORDINAL  = 0;
+	
+	/** The pack shift pack. */
 	int PACK_SHIFT_PACK     = 6;
+	
+	/** The record shift ordinal. */
 	int RECORD_SHIFT_ORDINAL = 0;
+	
+	/** The record shift pack. */
 	int RECORD_SHIFT_PACK    = 6;
+	
+	/** The record shift size. */
 	int RECORD_SHIFT_SIZE    = 10;
+	
+	/** The record shift offset. */
 	int RECORD_SHIFT_OFFSET  = 21;
 	// @formatter:on
 
+	/** The Constant PACK_MAXCOUNT_PACKS. */
 	static final int PACK_MAXCOUNT_PACKS = 16;
+
+	/** The Constant PACK_MAXCOUNT_ORDINALS. */
 	static final int PACK_MAXCOUNT_ORDINALS = 64;
 
 	/**
@@ -333,6 +355,13 @@ public interface PackId {
 		return CompactDescriptor.encode(id, offset, length, recordIndex);
 	}
 
+	/**
+	 * Gets the.
+	 *
+	 * @param id the id
+	 * @return the pack id
+	 * @throws NotFound the not found
+	 */
 	static PackId get(int id) throws NotFound {
 		PackId pid = peek(id);
 		if (pid == null)
@@ -341,6 +370,12 @@ public interface PackId {
 		return pid;
 	}
 
+	/**
+	 * Peek.
+	 *
+	 * @param id the id
+	 * @return the pack id
+	 */
 	static PackId peek(int id) {
 		int packComponent = decodePackId(id);
 		Pack<?> pack = Pack.getLoadedPack(packComponent);
@@ -354,10 +389,22 @@ public interface PackId {
 		return null;
 	}
 
+	/**
+	 * Find.
+	 *
+	 * @param id the id
+	 * @return the optional
+	 */
 	static Optional<PackId> find(int id) {
 		return Optional.ofNullable(peek(id));
 	}
 
+	/**
+	 * To string.
+	 *
+	 * @param id the id
+	 * @return the string
+	 */
 	static String toString(int id) {
 		return find(id)
 				.map(PackId::toString)

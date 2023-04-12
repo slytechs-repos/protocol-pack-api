@@ -65,6 +65,10 @@ public interface BinaryLayout {
 	public interface Proxy extends BinaryLayout {
 
 		/**
+		 * When enabled.
+		 *
+		 * @param enabled the enabled
+		 * @return the binary layout
 		 * @see com.slytechs.protocol.runtime.internal.layout.BinaryLayout#whenEnabled(boolean)
 		 */
 		@Override
@@ -73,6 +77,9 @@ public interface BinaryLayout {
 		}
 
 		/**
+		 * Checks if is enabled.
+		 *
+		 * @return true, if is enabled
 		 * @see com.slytechs.protocol.runtime.internal.layout.BinaryLayout#isEnabled()
 		 */
 		@Override
@@ -104,6 +111,10 @@ public interface BinaryLayout {
 		}
 
 		/**
+		 * Bit field.
+		 *
+		 * @param elements the elements
+		 * @return the bit field
 		 * @see com.slytechs.protocol.runtime.internal.layout.BinaryLayout#bitField(com.slytechs.protocol.runtime.internal.layout.Path[])
 		 */
 		@Override
@@ -210,6 +221,10 @@ public interface BinaryLayout {
 		}
 
 		/**
+		 * Array field.
+		 *
+		 * @param elements the elements
+		 * @return the array field
 		 * @see com.slytechs.protocol.runtime.internal.layout.BinaryLayout#arrayField(com.slytechs.protocol.runtime.internal.layout.Path[])
 		 */
 		@Override

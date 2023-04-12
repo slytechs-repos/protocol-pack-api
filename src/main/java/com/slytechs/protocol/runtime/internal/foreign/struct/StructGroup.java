@@ -75,6 +75,9 @@ public final class StructGroup<T> extends StructMember {
 	}
 
 	/**
+	 * Checks if is printable.
+	 *
+	 * @return true, if is printable
 	 * @see com.slytechs.protocol.runtime.internal.foreign.struct.StructMember#isPrintable()
 	 */
 	@Override
@@ -83,7 +86,13 @@ public final class StructGroup<T> extends StructMember {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.runtime.internal.foreign.struct.StructMember#toString(java.lang.StringBuilder, java.lang.foreign.MemorySegment)
+	 * To string.
+	 *
+	 * @param b       the b
+	 * @param segment the segment
+	 * @return the string builder
+	 * @see com.slytechs.protocol.runtime.internal.foreign.struct.StructMember#toString(java.lang.StringBuilder,
+	 *      java.lang.foreign.MemorySegment)
 	 */
 	@Override
 	public StringBuilder toString(StringBuilder b, MemorySegment segment) {

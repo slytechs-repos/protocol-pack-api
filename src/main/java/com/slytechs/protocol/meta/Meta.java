@@ -25,18 +25,16 @@ import java.lang.annotation.Target;
 
 import com.slytechs.protocol.meta.MetaValue.ValueFormatter;
 
-@Retention(RUNTIME)
-@Target({ TYPE,
-		METHOD,
-		FIELD })
-
 /**
  * The Interface Meta.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
+@Retention(RUNTIME)
+@Target({ TYPE,
+		METHOD,
+		FIELD })
 public @interface Meta {
 
 	/**
@@ -58,34 +56,34 @@ public @interface Meta {
 	 * The Enum Formatter.
 	 */
 	public enum Formatter implements ValueFormatter {
-		
+
 		/** The none. */
 		NONE(MetaValues::none),
-		
+
 		/** The auto. */
 		AUTO(MetaValues::auto),
-		
+
 		/** The mac address. */
 		MAC_ADDRESS(MetaValues::macAddress),
-		
+
 		/** The ip address. */
 		IP_ADDRESS(MetaValues::ipAddress),
-		
+
 		/** The I pv 4 ADDRESS. */
 		IPv4_ADDRESS(MetaValues::ip4Address),
-		
+
 		/** The I pv 6 ADDRESS. */
 		IPv6_ADDRESS(MetaValues::ip6Address),
-		
+
 		/** The hex lowercase. */
 		HEX_LOWERCASE(MetaValues::hexLowercase),
-		
+
 		/** The hex uppercase. */
 		HEX_UPPERCASE(MetaValues::hexUppercase),
-		
+
 		/** The hex uppercase 0x. */
 		HEX_UPPERCASE_0X(MetaValues::hexUppercase0x),
-		
+
 		/** The HE X LOWERCAS E 0 x. */
 		HEX_LOWERCASE_0x(MetaValues::hexLowercase0x),
 
@@ -108,7 +106,6 @@ public @interface Meta {
 		 *
 		 * @param value the value
 		 * @return the string
-		 * @see com.slytechs.jnet.protocol.packet.meta.MetaValue.ValueFormatter#format(java.lang.Object)
 		 */
 		@Override
 		public String format(Object value) {

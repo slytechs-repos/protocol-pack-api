@@ -100,7 +100,16 @@ class ArrayFieldImplementation implements ArrayField {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayField#getByteArrayAt(long, byte[], int, int, java.lang.Object)
+	 * Gets the byte array at.
+	 *
+	 * @param byteOffset the byte offset
+	 * @param array      the array
+	 * @param offset     the offset
+	 * @param length     the length
+	 * @param data       the data
+	 * @return the byte array at
+	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayField#getByteArrayAt(long,
+	 *      byte[], int, int, java.lang.Object)
 	 */
 	@Override
 	public byte[] getByteArrayAt(long byteOffset, byte[] array, int offset, int length, Object data) {

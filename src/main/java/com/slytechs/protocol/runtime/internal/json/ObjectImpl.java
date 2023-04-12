@@ -52,6 +52,8 @@ class ObjectImpl implements JsonObject {
 	}
 	
 	/**
+	 * Clear.
+	 *
 	 * @see com.slytechs.protocol.runtime.internal.json.JsonObject#clear()
 	 */
 	@Override
@@ -60,6 +62,9 @@ class ObjectImpl implements JsonObject {
 	}
 
 	/**
+	 * Entry set.
+	 *
+	 * @return the sets the
 	 * @see com.slytechs.protocol.runtime.internal.json.JsonObject#entrySet()
 	 */
 	@Override
@@ -93,6 +98,10 @@ class ObjectImpl implements JsonObject {
 	}
 
 	/**
+	 * Gets the boolean.
+	 *
+	 * @param name the name
+	 * @return the boolean
 	 * @see com.slytechs.protocol.runtime.internal.json.JsonObject#getBoolean(java.lang.String)
 	 */
 	@Override
@@ -101,7 +110,13 @@ class ObjectImpl implements JsonObject {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.runtime.internal.json.JsonObject#getBoolean(java.lang.String, boolean)
+	 * Gets the boolean.
+	 *
+	 * @param name         the name
+	 * @param defaultValue the default value
+	 * @return the boolean
+	 * @see com.slytechs.protocol.runtime.internal.json.JsonObject#getBoolean(java.lang.String,
+	 *      boolean)
 	 */
 	@Override
 	public boolean getBoolean(String name, boolean defaultValue) {
@@ -249,6 +264,9 @@ class ObjectImpl implements JsonObject {
 	}
 
 	/**
+	 * Checks if is empty.
+	 *
+	 * @return true, if is empty
 	 * @see com.slytechs.protocol.runtime.internal.json.JsonObject#isEmpty()
 	 */
 	@Override
@@ -269,6 +287,9 @@ class ObjectImpl implements JsonObject {
 	}
 
 	/**
+	 * Key set.
+	 *
+	 * @return the sets the
 	 * @see com.slytechs.protocol.runtime.internal.json.JsonObject#keySet()
 	 */
 	@Override
@@ -287,6 +308,9 @@ class ObjectImpl implements JsonObject {
 	}
 
 	/**
+	 * Size.
+	 *
+	 * @return the int
 	 * @see com.slytechs.protocol.runtime.internal.json.JsonObject#size()
 	 */
 	@Override
@@ -306,6 +330,9 @@ class ObjectImpl implements JsonObject {
 	}
 
 	/**
+	 * Values.
+	 *
+	 * @return the collection
 	 * @see com.slytechs.protocol.runtime.internal.json.JsonObject#values()
 	 */
 	@Override
