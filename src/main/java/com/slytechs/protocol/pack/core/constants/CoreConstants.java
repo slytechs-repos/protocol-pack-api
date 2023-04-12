@@ -322,6 +322,10 @@ public final class CoreConstants {
 
 	/** The Constant IPv4_FIELD_SRC. */
 	public static final int IPv4_FIELD_SRC = 12;
+	public static final int IPv4_FIELD_FLAGS = 6;
+	public static final int IPv4_MASK_FRAGOFF = 0x1FFF;
+	public static final int IPv4_FLAG_DF = 0x4000;
+	public static final int IPv4_FLAG_MF = 0x2000;
 
 	/** The Constant IPv4_ADDRESS_SIZE. */
 	public static final int IPv4_ADDRESS_SIZE = 4;
@@ -519,10 +523,10 @@ public final class CoreConstants {
 
 	/** The Constant TCP_FIELD_IHL. */
 	public static final int TCP_FIELD_IHL = 12;
-	
+
 	/** The Constant TCP_FIELD_SRC. */
 	public static final int TCP_FIELD_SRC = 0;
-	
+
 	/** The Constant TCP_FIELD_DST. */
 	public static final int TCP_FIELD_DST = 2;
 

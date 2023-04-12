@@ -494,6 +494,7 @@ public class Type2Descriptor extends PacketDescriptor {
 					.append("  l2FrameType=%d (%s)%n".formatted(l2FrameType(),
 							L2FrameType.valueOf(l2FrameType())))
 
+					.append("  color=%d%n".formatted(color()))
 					.append("  hash=0x%08X (type=%d [%s], 24-bits=0x%06X)%n"
 							.formatted(
 									hash32(),
@@ -501,7 +502,6 @@ public class Type2Descriptor extends PacketDescriptor {
 									HashType.valueOf(hashType()),
 									hash24()))
 
-					.append("  color=%d%n".formatted(color()))
 					.append("  recordCount=%d%n".formatted(recordCount()));
 
 			if (detail.isHigh())

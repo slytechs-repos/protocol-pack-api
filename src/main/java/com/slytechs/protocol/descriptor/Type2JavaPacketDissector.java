@@ -123,6 +123,12 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 	/** The l 2 type. */
 	private int l2Type;
 
+	/** The l 3 is frag. */
+	private boolean l3IsFrag;
+
+	/** The l 3 last frag. */
+	private boolean l3LastFrag;
+
 	/** The hash type. */
 	private int hashType;
 
@@ -145,7 +151,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 		reset();
 
 		this.extensions = Pack.wrapAllExtensions(PacketDescriptorType.TYPE2, this);
-		
+
 		this.extensions.setRecorder(this::addRecord);
 		this.extensions.setExtensions(extensions);
 	}
@@ -604,7 +610,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 
 			case IP_TYPE_UDP:
 				addRecord(CoreIdTable.CORE_ID_UDP, offset, UDP_HEADER_LEN);
-				
+
 				int src = Short.toUnsignedInt(buf.getShort(offset + TCP_FIELD_SRC));
 				int dst = Short.toUnsignedInt(buf.getShort(offset + TCP_FIELD_DST));
 
@@ -776,6 +782,13 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 			if (!addRecord(CoreIdTable.CORE_ID_IPv4, offset, len))
 				return;
 
+			int sword3 = buf.getShort(offset + IPv4_FIELD_FLAGS);
+			boolean mf = (sword3 & IPv4_FLAG_MF) > 0;
+			int fragOff = (sword3 & IPv4_MASK_FRAGOFF);
+
+			this.l3IsFrag = mf || (fragOff > 0);
+			this.l3LastFrag = !mf && (fragOff > 0);
+
 			dissectIp4Options(offset, len, nextHeader);
 
 		} else if (hasRemaining(offset, IPv6_HEADER_LEN)) {
@@ -916,6 +929,9 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 		L2_TYPE.setInt(l2Type, desc);
 		HASH_TYPE.setInt(hashType, desc);
 		RECORD_COUNT.setInt(recordCount, desc);
+		
+		L3_IS_FRAG.setShort((short) (l3IsFrag ? 1 : 0), desc);
+		L3_LAST_FRAG.setShort((short) (l3LastFrag ? 1 : 0), desc);
 
 		HASH24.setInt(hash, desc);
 		BITMASK.setInt(bitmask, desc);
