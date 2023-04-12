@@ -81,11 +81,11 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	 * Bind header extensions and options, but only if HeaderExtension is a
 	 * subclass, otherwise do nothing.
 	 *
-	 * @param packet the source buffer or typically the buffer containing the source
-	 *               packet
+	 * @param packet     the source buffer or typically the buffer containing the
+	 *                   source packet
 	 * @param descriptor the extension header lookup
-	 * @param meta   the meta data, such as descriptor/lookup specific data which
-	 *               aids in extension header lookup
+	 * @param meta       the meta data, such as descriptor/lookup specific data
+	 *                   which aids in extension header lookup
 	 */
 	void bindExtensionsToPacket(ByteBuffer packet, PacketDescriptor descriptor, int meta) {
 		// Do nothing by default
@@ -246,20 +246,26 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 		if (formatter != null)
 			return formatter.format(this, detail);
 
+		int offset = headerOffset();
+		int length = headerLength();
+
 		return switch (detail) {
 		case NONE -> "";
 		case LOW -> headerName();
 
 		case MEDIUM -> "%s [offset=%d, length=%d]"
-				.formatted(headerName(), headerOffset(), headerLength());
+				.formatted(headerName(), offset, length);
 
-		case HIGH -> "%s [offset=%d, length=%d]%n%s"
-				.formatted(headerName(), headerOffset(), headerLength(),
-						HexStrings.toHexTextDump(buffer(),
-								i -> "%04X: ".formatted(i + headerOffset())));
+		case HIGH -> "%s [offset=%d, length=%d]%n%s".formatted(
+				headerName(),
+				offset,
+				length,
+				HexStrings.toHexTextDump(
+						buffer(),
+						i -> "%04X: ".formatted(i + offset)));
 
 		case DEBUG -> "%s [offset=%d, length=%d, payload=%d, id=%04X]"
-				.formatted(headerName(), headerOffset(), headerLength(), payloadLength(), id());
+				.formatted(headerName(), offset, length, payloadLength(), id());
 		};
 	}
 }

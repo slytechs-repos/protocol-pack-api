@@ -15,7 +15,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.protocol.runtime.internal.util;
+package com.slytechs.protocol;
 
 import java.io.IOException;
 

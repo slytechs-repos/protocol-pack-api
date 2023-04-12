@@ -35,6 +35,14 @@ import com.slytechs.protocol.runtime.time.TimestampSource;
 public interface PacketDissector {
 
 	/**
+	 * Interface used to record new header records after dissection.
+	 */
+	@FunctionalInterface
+	public interface RecordRecorder {
+		boolean addRecord(int id, int offset, int length);
+	}
+
+	/**
 	 * Dissector.
 	 *
 	 * @param type the type
@@ -114,10 +122,8 @@ public interface PacketDissector {
 
 	/**
 	 * Reset.
-	 *
-	 * @return the packet dissector
 	 */
-	PacketDissector reset();
+	void reset();
 
 	/**
 	 * Sets the datalink type.
@@ -144,5 +150,9 @@ public interface PacketDissector {
 	 */
 	default int writeDescriptor(PacketDescriptor descriptor) {
 		return writeDescriptor(descriptor.buffer());
+	}
+
+	default void loadAllLoadedExtensions() {
+
 	}
 }

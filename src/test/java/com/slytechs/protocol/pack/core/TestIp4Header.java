@@ -69,7 +69,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_payloadLength() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -82,7 +82,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_totalLength() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -95,7 +95,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_src() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -109,7 +109,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_dst() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -123,7 +123,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_version() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -136,7 +136,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_dsField() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -149,7 +149,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_dsFieldDscp() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -162,7 +162,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_dsFieldDscpCode() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -175,7 +175,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_dsFieldDscpSelect() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -188,7 +188,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_dsFieldEcn() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -201,7 +201,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_dstByteArray() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -215,7 +215,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_dstByteArrayInt() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -229,7 +229,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_dstInt() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -242,7 +242,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_srcByteArray() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -256,7 +256,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_srcByteArrayInt() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -270,7 +270,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_srcInt() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -283,7 +283,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_flags() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -296,7 +296,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_flagsByte() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -309,7 +309,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_flagsDf() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -322,7 +322,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_flagsDfInfo() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -335,7 +335,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_flagsMf() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -348,7 +348,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_flagsNibble() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -361,7 +361,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_fragOffset() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -374,7 +374,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_hdrLen() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -387,7 +387,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_hdrLenBytes() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -400,7 +400,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_identification() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -413,7 +413,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_isReassembled() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -426,7 +426,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_protocol() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -439,7 +439,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_protocolInfo() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -452,7 +452,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_reassembledFragments() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -466,7 +466,7 @@ class TestIp4Header {
 
 	@Test
 	void test_Ip4_ttl() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN_1500BYTES.toPacket();
+		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);

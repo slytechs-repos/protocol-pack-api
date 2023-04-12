@@ -19,6 +19,7 @@ package com.slytechs.protocol.pack;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +31,9 @@ import com.slytechs.protocol.HeaderExtensionInfo;
 import com.slytechs.protocol.HeaderInfo;
 import com.slytechs.protocol.HeaderNotFound;
 import com.slytechs.protocol.Other;
+import com.slytechs.protocol.descriptor.DissectorExtension;
+import com.slytechs.protocol.descriptor.DissectorExtension.DissectorExtensionFactory;
+import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 
 /**
  * A protocol pack information and instance.
@@ -109,10 +113,10 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		 * @param id the id
 		 * @return the header
 		 * @throws HeaderNotFound the header not found
-		 * @see com.slytechs.protocol.pack.Pack#getHeader(int)
+		 * @see com.slytechs.protocol.pack.Pack#findHeader(int)
 		 */
 		@Override
-		public HeaderInfo getHeader(int id) throws HeaderNotFound {
+		public Optional<HeaderInfo> findHeader(int id) {
 			throw new UnsupportedOperationException("pack is not loaded");
 		}
 
@@ -156,10 +160,10 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		 * @param id the id
 		 * @return the header
 		 * @throws HeaderNotFound the header not found
-		 * @see com.slytechs.protocol.pack.Pack#getHeader(int)
+		 * @see com.slytechs.protocol.pack.Pack#findHeader(int)
 		 */
 		@Override
-		public HeaderInfo getHeader(int id) throws HeaderNotFound {
+		public Optional<HeaderInfo> findHeader(int id) {
 			throw new UnsupportedOperationException("not implemented yet");
 		}
 
@@ -186,18 +190,13 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 	 * @param id the header id
 	 * @return optional header information
 	 */
-	public static Optional<? extends HeaderInfo> findHeader(int id) {
+	public static Optional<? extends HeaderInfo> lookupHeader(int id) {
 		int packId = PackId.decodePackId(id);
 		Pack<?> pack = getLoadedPack(packId);
 		if (pack == null)
 			return Optional.empty();
 
-		try {
-			return Optional.of(pack.getHeader(id));
-		} catch (HeaderNotFound e) {
-			throw new IllegalStateException("Missing header in pack [%d]"
-					.formatted(id));
-		}
+		return pack.findHeader(id);
 	}
 
 	/**
@@ -209,7 +208,7 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 	 * @return optional header information
 	 */
 	public static Optional<? extends HeaderInfo> findExtension(int id, int extensionId) {
-		Optional<? extends HeaderInfo> parent = findHeader(id);
+		Optional<? extends HeaderInfo> parent = lookupHeader(id);
 		if (parent.isEmpty())
 			return Optional.empty();
 
@@ -220,14 +219,20 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 	}
 
 	public static String toString(int id) {
-		return findHeader(id)
+		return lookupHeader(id)
 				.map(HeaderInfo::name)
-				.orElse("N/A");
+				.orElse("N/A(%d)".formatted(id));
 	}
 
 	public static String toString(int id, int extId) {
-		var parent = findHeader(id).map(HeaderInfo::name).orElse("N/A");
-		var ext = findExtension(id, extId).map(HeaderInfo::name).orElse("N/A");
+
+		var parent = lookupHeader(id)
+				.map(HeaderInfo::name)
+				.orElse("N/A(%d)".formatted(id));
+
+		var ext = findExtension(id, extId)
+				.map(HeaderInfo::name)
+				.orElse("N/A(%d.%d)".formatted(id, extId));
 
 		return "%s:%s".formatted(parent, ext);
 	}
@@ -240,7 +245,7 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 	 * @return the header information, does not return null
 	 * @throws HeaderNotFound the header not found
 	 */
-	public abstract HeaderInfo getHeader(int id) throws HeaderNotFound;
+	public abstract Optional<HeaderInfo> findHeader(int id);
 
 	/**
 	 * Count all pack extensions.
@@ -412,6 +417,22 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 				.collect(Collectors.toList());
 	}
 
+	public static DissectorExtension wrapAllExtensions(PacketDescriptorType type, DissectorExtension core) {
+
+		final List<DissectorExtension> list = Pack.listAllLoadedPacks().stream()
+				.filter(Pack::isNotCore)
+				.map(Pack::extensionFactory)
+				.filter(Objects::nonNull)
+				.map(f -> f.newInstance(type))
+				.collect(Collectors.toList());
+
+		final var mutable = new ArrayList<DissectorExtension>();
+		mutable.add(core);
+		mutable.addAll(list);
+
+		return DissectorExtension.wrap(mutable);
+	}
+
 	/**
 	 * Load pack.
 	 *
@@ -442,6 +463,17 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 			return false;
 
 		packTable[protocolPackTable.ordinal()] = pack;
+
+		return true;
+	}
+
+	/**
+	 * Load all detected packs.
+	 *
+	 * @return true, if successful
+	 */
+	public static synchronized boolean loadAllDetectedPacks() {
+		listAllDeclaredPacks().forEach(p -> loadPack(p.protocolPackTable));
 
 		return true;
 	}
@@ -678,4 +710,17 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 				+ ", " + status
 				+ "]";
 	}
+
+	protected DissectorExtensionFactory extensionFactory() {
+		return null;
+	}
+
+	private boolean isNotCore() {
+		return !isCore();
+	}
+
+	public boolean isCore() {
+		return false;
+	}
+
 }

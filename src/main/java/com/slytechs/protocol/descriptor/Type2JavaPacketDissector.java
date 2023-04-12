@@ -27,12 +27,14 @@ import java.util.Arrays;
 import java.util.function.IntConsumer;
 
 import com.slytechs.protocol.HeaderExtensionInfo;
+import com.slytechs.protocol.pack.Pack;
 import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 import com.slytechs.protocol.pack.core.constants.Ip4OptionInfo;
 import com.slytechs.protocol.pack.core.constants.Ip6OptionInfo;
 import com.slytechs.protocol.pack.core.constants.L2FrameType;
+import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 import com.slytechs.protocol.pack.core.constants.TcpOptionInfo;
 import com.slytechs.protocol.runtime.time.TimestampUnit;
 import com.slytechs.protocol.runtime.util.Bits;
@@ -44,7 +46,7 @@ import com.slytechs.protocol.runtime.util.Bits;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-class Type2JavaPacketDissector extends JavaPacketDissector {
+class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorExtension {
 
 	/** The Constant RECORD_START. */
 	private static final int RECORD_START = CoreConstants.DESC_TYPE2_BYTE_SIZE_MIN;
@@ -140,18 +142,12 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 	 * Instantiates a new java dissector type 2.
 	 */
 	Type2JavaPacketDissector() {
-		this(DissectorExtension.EMPTY);
-	}
-
-	/**
-	 * Instantiates a new java dissector type 2.
-	 *
-	 * @param context the context
-	 */
-	Type2JavaPacketDissector(DissectorExtension context) {
-		this.extensions = context;
-
 		reset();
+
+		this.extensions = Pack.wrapAllExtensions(PacketDescriptorType.TYPE2, this);
+		
+		this.extensions.setRecorder(this::addRecord);
+		this.extensions.setExtensions(extensions);
 	}
 
 	/**
@@ -331,7 +327,11 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 
 		case ETHER_TYPE_ARP:
 		case ETHER_TYPE_RARP:
-			addRecord(CoreIdTable.CORE_ID_ARP, offset, CoreConstants.ARP_HEADER_LEN);
+			addRecord(CoreIdTable.CORE_ID_ARP, offset, ARP_HEADER_LEN);
+			break;
+
+		default:
+			extensions.dissectType(buf, offset, CoreIdTable.CORE_ID_ETHER, type);
 			break;
 		}
 	}
@@ -342,7 +342,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 	 * @param offset the offset
 	 */
 	private void dissectIpx(int offset) {
-		addRecord(CoreIdTable.CORE_ID_IPX, offset, CoreConstants.IPX_HEADER_LEN);
+		addRecord(CoreIdTable.CORE_ID_IPX, offset, IPX_HEADER_LEN);
 	}
 
 	private void dissectEthernet(int offset) {
@@ -442,8 +442,6 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 			}
 			break;
 
-		default:
-			l2Type = extensions.dissectL2(dlt, buf, offset);
 		}
 
 		return l2Type;
@@ -534,9 +532,9 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 
 			case TCP_OPTION_KIND_EOL:
 			case TCP_OPTION_KIND_NOP: {
-				int len =1;
+				int len = 1;
 				int id = TcpOptionInfo.mapKindToId(kind);
-				
+
 				addRecord(id, offset, len);
 				offset += 1;
 				break;
@@ -586,19 +584,33 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 				break EXIT;
 
 			case IP_TYPE_TCP:
-				if (hasRemaining(offset, CoreConstants.TCP_HEADER_LEN)) {
-					r0 = buf.get(offset + CoreConstants.TCP_FIELD_IHL);
+				if (hasRemaining(offset, TCP_HEADER_LEN)) {
+					r0 = buf.get(offset + TCP_FIELD_IHL);
 					len = ((r0 >> 4) & Bits.BITS_04) << 2;
 
 					addRecord(CoreIdTable.CORE_ID_TCP, offset, len);
 
 					dissectTcpOptions(offset, len);
+
+					int src = Short.toUnsignedInt(buf.getShort(offset + TCP_FIELD_SRC));
+					int dst = Short.toUnsignedInt(buf.getShort(offset + TCP_FIELD_DST));
+
+					offset += len;
+
+					extensions.dissectPorts(buf, offset, CoreIdTable.CORE_ID_TCP, src, dst);
 				}
 
 				break EXIT;
 
 			case IP_TYPE_UDP:
-				addRecord(CoreIdTable.CORE_ID_UDP, offset, CoreConstants.UDP_HEADER_LEN);
+				addRecord(CoreIdTable.CORE_ID_UDP, offset, UDP_HEADER_LEN);
+				
+				int src = Short.toUnsignedInt(buf.getShort(offset + TCP_FIELD_SRC));
+				int dst = Short.toUnsignedInt(buf.getShort(offset + TCP_FIELD_DST));
+
+				offset += UDP_HEADER_LEN;
+
+				extensions.dissectPorts(buf, offset, CoreIdTable.CORE_ID_UDP, src, dst);
 
 				break EXIT;
 
@@ -617,7 +629,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 				break EXIT;
 
 			case IP_TYPE_SCTP:
-				addRecord(CoreIdTable.CORE_ID_SCTP, offset, CoreConstants.SCTP_HEADER_LEN);
+				addRecord(CoreIdTable.CORE_ID_SCTP, offset, SCTP_HEADER_LEN);
 				break EXIT;
 
 			case IP_TYPE_ICMPv6:
@@ -628,6 +640,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 				return;
 
 			default:
+				extensions.dissectType(buf, offset, CoreIdTable.CORE_ID_IPv4, nextHeader);
 				break EXIT;
 			}
 		}
@@ -824,11 +837,10 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 	/**
 	 * Reset.
 	 *
-	 * @return the packet dissector
 	 * @see com.slytechs.protocol.descriptor.PacketDissector#reset()
 	 */
 	@Override
-	public PacketDissector reset() {
+	public void reset() {
 		timestamp = captureLength = wireLength = 0;
 		hash = hashType = l2Type = 0;
 		rxPort = txPort = 0;
@@ -836,8 +848,6 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 
 		recordCount = 0;
 		bitmask = defaultBitmask;
-
-		return this;
 	}
 
 	/**
@@ -1036,6 +1046,20 @@ class Type2JavaPacketDissector extends JavaPacketDissector {
 				+ ", txNow=" + txNow + ", txIgnore=" + txIgnore + ", txCrcOverride=" + txCrcOverride + ", txSetClock="
 				+ txSetClock + ", l2Type=" + l2Type + ", hashType=" + hashType + ", recordCount=" + recordCount
 				+ ", hash=" + hash + ", bitmask=" + bitmask + "]";
+	}
+
+	/**
+	 * @see com.slytechs.protocol.descriptor.DissectorExtension#setRecorder(com.slytechs.protocol.descriptor.PacketDissector.RecordRecorder)
+	 */
+	@Override
+	public void setRecorder(RecordRecorder recorder) {
+	}
+
+	/**
+	 * @see com.slytechs.protocol.descriptor.DissectorExtension#setExtensions(com.slytechs.protocol.descriptor.DissectorExtension)
+	 */
+	@Override
+	public void setExtensions(DissectorExtension ext) {
 	}
 
 }

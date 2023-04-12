@@ -67,7 +67,7 @@ class TestTcpHeader {
 
 	@Test
 	void test_Tcp_dstPort() throws HeaderNotFound {
-		var packet = PacketDefinition.ETH_IPv4_TCP_WCALEOPT.toPacket();
+		var packet = CorePackets.ETH_IPv4_TCP_WCALEOPT.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -80,7 +80,7 @@ class TestTcpHeader {
 
 	@Test
 	void test_Tcp_windowSizeScaledShiftCount7() throws HeaderNotFound {
-		var packet = PacketDefinition.ETH_IPv4_TCP_WCALEOPT.toPacket();
+		var packet = CorePackets.ETH_IPv4_TCP_WCALEOPT.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -93,7 +93,7 @@ class TestTcpHeader {
 
 	@Test
 	void test_Tcp_windowSizeScaledWithWScaleOptionManual() throws HeaderNotFound {
-		var packet = PacketDefinition.ETH_IPv4_TCP_WCALEOPT.toPacket();
+		var packet = CorePackets.ETH_IPv4_TCP_WCALEOPT.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -107,7 +107,7 @@ class TestTcpHeader {
 
 	@Test
 	void test_Tcp_windowSizeScaledWithWScaleOptionAuto() throws HeaderNotFound {
-		var packet = PacketDefinition.ETH_IPv4_TCP_WCALEOPT.toPacket();
+		var packet = CorePackets.ETH_IPv4_TCP_WCALEOPT.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);

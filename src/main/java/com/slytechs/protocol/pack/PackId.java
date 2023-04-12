@@ -19,7 +19,6 @@ package com.slytechs.protocol.pack;
 
 import java.util.Optional;
 
-import com.slytechs.protocol.HeaderNotFound;
 import com.slytechs.protocol.descriptor.CompactDescriptor;
 import com.slytechs.protocol.runtime.NotFound;
 
@@ -348,16 +347,11 @@ public interface PackId {
 		if (pack == null)
 			return null;
 
-		try {
-			var hdr = pack.getHeader(id);
-			if (hdr instanceof PackId packId)
-				return packId;
+		var hdr = pack.findHeader(id);
+		if (hdr.isPresent() && hdr.get() instanceof PackId packId)
+			return packId;
 
-			return null;
-		} catch (HeaderNotFound e) {
-			throw new IllegalStateException("Missing header in pack [%d]"
-					.formatted(id));
-		}
+		return null;
 	}
 
 	static Optional<PackId> find(int id) {

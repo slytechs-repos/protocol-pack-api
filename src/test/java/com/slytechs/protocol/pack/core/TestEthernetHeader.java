@@ -67,7 +67,7 @@ class TestEthernetHeader {
 
 	@Test
 	void test_Ethernet_destination() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN.toPacket();
+		var packet = CorePackets.VLAN.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -82,7 +82,7 @@ class TestEthernetHeader {
 
 	@Test
 	void test_Ethernet_source() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN.toPacket();
+		var packet = CorePackets.VLAN.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -97,7 +97,7 @@ class TestEthernetHeader {
 
 	@Test
 	void test_Ethernet_type() throws HeaderNotFound {
-		var packet = PacketDefinition.VLAN.toPacket();
+		var packet = CorePackets.VLAN.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);

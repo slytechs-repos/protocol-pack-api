@@ -69,11 +69,10 @@ public class NativePacketDissector extends AbstractPacketDissector {
 	/**
 	 * Reset.
 	 *
-	 * @return the packet dissector
 	 * @see com.slytechs.protocol.descriptor.PacketDissector#reset()
 	 */
 	@Override
-	public PacketDissector reset() {
+	public void reset() {
 		throw new UnsupportedOperationException("not implemented yet");
 	}
 
@@ -91,9 +90,6 @@ public class NativePacketDissector extends AbstractPacketDissector {
 	}
 
 	/**
-	 * Checks if is native.
-	 *
-	 * @return true, if is native
 	 * @see com.slytechs.protocol.descriptor.PacketDissector#isNative()
 	 */
 	@Override

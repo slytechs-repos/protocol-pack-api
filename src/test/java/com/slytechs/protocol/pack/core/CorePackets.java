@@ -31,7 +31,7 @@ import com.slytechs.protocol.runtime.util.HexStrings;
  * @author Mark Bednarczyk
  *
  */
-public enum PacketDefinition {
+public enum CorePackets {
 
 	/**
 	 * Cisco251_af:f4:54 Broadcast ARP 60 Who has 24.166.173.159? Tell 24.166.172.1
@@ -484,7 +484,7 @@ public enum PacketDefinition {
 	 *
 	 * @param hexbytes the hexbytes
 	 */
-	PacketDefinition(String hexbytes) {
+	CorePackets(String hexbytes) {
 		this.array = HexStrings.parseHexString(hexbytes);
 	}
 

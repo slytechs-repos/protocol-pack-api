@@ -18,9 +18,13 @@
 package com.slytechs.protocol.descriptor;
 
 import java.nio.ByteBuffer;
+import java.util.List;
+
+import com.slytechs.protocol.descriptor.PacketDissector.RecordRecorder;
+import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 
 /**
- * The Interface DissectorExtension.
+ * Dissector extension point for protocol packs.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
@@ -28,16 +32,103 @@ import java.nio.ByteBuffer;
  */
 public interface DissectorExtension {
 
-	/** The empty. */
-	DissectorExtension EMPTY = null;
+	interface DissectorExtensionFactory {
+		DissectorExtension newInstance(PacketDescriptorType type);
+	}
 
-	/**
-	 * Dissect L 2.
-	 *
-	 * @param dlt    the dlt
-	 * @param buffer the buffer
-	 * @param offset the offset
-	 * @return the int
-	 */
-	int dissectL2(int dlt, ByteBuffer buffer, int offset);
+	static DissectorExtension EMPTY = new DissectorExtension() {
+
+		@Override
+		public void setRecorder(RecordRecorder recorder) {
+		}
+
+		@Override
+		public boolean dissectEncaps(ByteBuffer buffer, int offset, int encapsId, int encapsOffset, int encapsLength) {
+			return false;
+		}
+
+		@Override
+		public boolean dissectType(ByteBuffer buffer, int offset, int encapsId, int type) {
+			return false;
+		}
+
+		@Override
+		public boolean dissectPorts(ByteBuffer buffer, int offset, int encapsId, int src, int dst) {
+			return false;
+		}
+
+		@Override
+		public void reset() {
+		}
+
+		@Override
+		public void setExtensions(DissectorExtension ext) {
+		}
+	};
+
+	static DissectorExtension wrap(List<DissectorExtension> list) {
+		return new DissectorExtension() {
+
+			@Override
+			public void setRecorder(RecordRecorder recorder) {
+				list.forEach(ext -> ext.setRecorder(recorder));
+			}
+
+			@Override
+			public void setExtensions(DissectorExtension ext) {
+				list.forEach(e -> e.setExtensions(ext));
+			}
+
+			@Override
+			public boolean dissectEncaps(ByteBuffer buffer, int offset, int encapsId, int encapsOffset,
+					int encapsLength) {
+				for (DissectorExtension ext : list)
+					if (ext.dissectEncaps(buffer, offset, encapsId, encapsOffset, encapsLength))
+						return true;
+
+				return false;
+			}
+
+			@Override
+			public boolean dissectType(ByteBuffer buffer, int offset, int encapsId, int type) {
+				for (DissectorExtension ext : list)
+					if (ext.dissectType(buffer, offset, encapsId, type))
+						return true;
+
+				return false;
+			}
+
+			@Override
+			public boolean dissectPorts(ByteBuffer buffer, int offset, int encapsId, int src, int dst) {
+				for (DissectorExtension ext : list)
+					if (ext.dissectPorts(buffer, offset, encapsId, src, dst))
+						return true;
+
+				return false;
+			}
+
+			@Override
+			public void reset() {
+			}
+
+		};
+	}
+
+	void setRecorder(RecordRecorder recorder);
+
+	void setExtensions(DissectorExtension ext);
+
+	default boolean dissectEncaps(ByteBuffer buffer, int offset, int encapsId, int encapsOffset, int encapsLength) {
+		return false;
+	}
+
+	default boolean dissectType(ByteBuffer buffer, int offset, int encapsId, int type) {
+		return false;
+	}
+
+	default boolean dissectPorts(ByteBuffer buffer, int offset, int encapsId, int src, int dst) {
+		return false;
+	}
+
+	void reset();
 }

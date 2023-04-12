@@ -67,7 +67,7 @@ class TestRarpRequestHeader {
 
 	@Test
 	void test_RarpRequest_hardwareType() throws HeaderNotFound {
-		var packet = PacketDefinition.RARP1_REQUEST.toPacket();
+		var packet = CorePackets.RARP1_REQUEST.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -81,7 +81,7 @@ class TestRarpRequestHeader {
 
 	@Test
 	void test_RarpRequest_protocolType() throws HeaderNotFound {
-		var packet = PacketDefinition.RARP1_REQUEST.toPacket();
+		var packet = CorePackets.RARP1_REQUEST.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -95,7 +95,7 @@ class TestRarpRequestHeader {
 
 	@Test
 	void test_RarpRequest_hardwareSize() throws HeaderNotFound {
-		var packet = PacketDefinition.RARP1_REQUEST.toPacket();
+		var packet = CorePackets.RARP1_REQUEST.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -109,7 +109,7 @@ class TestRarpRequestHeader {
 
 	@Test
 	void test_RarpRequest_protocolSize() throws HeaderNotFound {
-		var packet = PacketDefinition.RARP1_REQUEST.toPacket();
+		var packet = CorePackets.RARP1_REQUEST.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -123,7 +123,7 @@ class TestRarpRequestHeader {
 
 	@Test
 	void test_RarpRequest_operation() throws HeaderNotFound {
-		var packet = PacketDefinition.RARP1_REQUEST.toPacket();
+		var packet = CorePackets.RARP1_REQUEST.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -137,7 +137,7 @@ class TestRarpRequestHeader {
 
 	@Test
 	void test_RarpRequest_senderMacAddress() throws HeaderNotFound {
-		var packet = PacketDefinition.RARP1_REQUEST.toPacket();
+		var packet = CorePackets.RARP1_REQUEST.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -153,7 +153,7 @@ class TestRarpRequestHeader {
 
 	@Test
 	void test_RarpRequest_senderProtocolAddress() throws HeaderNotFound {
-		var packet = PacketDefinition.RARP1_REQUEST.toPacket();
+		var packet = CorePackets.RARP1_REQUEST.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -169,7 +169,7 @@ class TestRarpRequestHeader {
 
 	@Test
 	void test_RarpRequest_targetMacAddress() throws HeaderNotFound {
-		var packet = PacketDefinition.RARP1_REQUEST.toPacket();
+		var packet = CorePackets.RARP1_REQUEST.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -185,7 +185,7 @@ class TestRarpRequestHeader {
 
 	@Test
 	void test_RarpRequest_targetProtocolAddress() throws HeaderNotFound {
-		var packet = PacketDefinition.RARP1_REQUEST.toPacket();
+		var packet = CorePackets.RARP1_REQUEST.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 

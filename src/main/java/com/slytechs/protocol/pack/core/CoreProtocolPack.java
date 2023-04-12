@@ -17,11 +17,13 @@
  */
 package com.slytechs.protocol.pack.core;
 
+import java.util.Optional;
+
 import com.slytechs.protocol.HeaderInfo;
 import com.slytechs.protocol.HeaderNotFound;
-import com.slytechs.protocol.pack.ProtocolPackTable;
 import com.slytechs.protocol.pack.Pack;
 import com.slytechs.protocol.pack.PackId;
+import com.slytechs.protocol.pack.ProtocolPackTable;
 import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 
 /**
@@ -32,6 +34,14 @@ import com.slytechs.protocol.pack.core.constants.CoreIdTable;
  * @author Mark Bednarczyk
  */
 public final class CoreProtocolPack extends Pack<CoreIdTable> {
+
+	/**
+	 * @see com.slytechs.protocol.pack.Pack#isCore()
+	 */
+	@Override
+	public boolean isCore() {
+		return true;
+	}
 
 	/** Core Protocol Pack singleton definition. */
 	private static final CoreProtocolPack SINGLETON = new CoreProtocolPack();
@@ -58,23 +68,21 @@ public final class CoreProtocolPack extends Pack<CoreIdTable> {
 	 * @param id the id
 	 * @return the header
 	 * @throws HeaderNotFound the header not found
-	 * @see com.slytechs.protocol.pack.Pack#getHeader(int)
+	 * @see com.slytechs.protocol.pack.Pack#findHeader(int)
 	 */
 	@Override
-	public HeaderInfo getHeader(int id) throws HeaderNotFound {
+	public Optional<HeaderInfo> findHeader(int id) {
 		int packId = PackId.decodePackId(id);
 		int hdrOrdinal = PackId.decodeIdOrdinal(id);
 		if (packId != ProtocolPackTable.PACK_ID_CORE)
-			throw new HeaderNotFound("invalid pack id [%d] not applicable to [%s] pack"
-					.formatted(packId, super.getPackName()));
+			return Optional.empty();
 
 		var headers = CoreIdTable.values();
 
 		if (hdrOrdinal > headers.length)
-			throw new HeaderNotFound("header id [%d] in [%s] pack"
-					.formatted(id, super.getPackName()));
+			return Optional.empty();
 
-		return CoreIdTable.values()[hdrOrdinal];
+		return Optional.of(CoreIdTable.values()[hdrOrdinal]);
 	}
 
 }

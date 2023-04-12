@@ -519,13 +519,19 @@ public final class CoreConstants {
 
 	/** The Constant TCP_FIELD_IHL. */
 	public static final int TCP_FIELD_IHL = 12;
+	
+	/** The Constant TCP_FIELD_SRC. */
+	public static final int TCP_FIELD_SRC = 0;
+	
+	/** The Constant TCP_FIELD_DST. */
+	public static final int TCP_FIELD_DST = 2;
 
 	/** The Constant TCP_OPTION_FIELD_KIND. */
 	public static final int TCP_OPTION_FIELD_KIND = 0;
 
 	/** The Constant TCP_OPTION_FIELD_LENGTH. */
 	public static final int TCP_OPTION_FIELD_LENGTH = 1;
-	
+
 	/** The Constant TCP_OPTION_FIELD_DATA. */
 	public static final int TCP_OPTION_FIELD_DATA = 2;
 
