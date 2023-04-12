@@ -19,6 +19,18 @@ package com.slytechs.protocol.descriptor;
 
 public interface DescriptorType<T extends Descriptor> {
 
+	/** Either 16 bytes. */
+	int DESCRIPTOR_TYPE_PCAP = 0;
+
+	/** 16 byte CORE_PROTOCOLS descriptor. */
+	int DESCRIPTOR_TYPE_TYPE1 = 1;
+
+	/** The Constant DESCRIPTOR_TYPE_TYPE2. */
+	int DESCRIPTOR_TYPE_TYPE2 = 2;
+
+	/** 16 byte NT STD descriptor. */
+	int DESCRIPTOR_TYPE_NT_STD = 100;
+
 	int getAsInt();
 
 	T newDescriptor();

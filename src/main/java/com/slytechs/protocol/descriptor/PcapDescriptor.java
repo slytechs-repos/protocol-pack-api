@@ -33,7 +33,7 @@ import com.slytechs.protocol.runtime.util.Detail;
 public final class PcapDescriptor extends PacketDescriptor {
 
 	/** The Constant ID. */
-	public static final int ID = PacketDescriptorType.PACKET_DESCRIPTOR_TYPE_PCAP;
+	public static final int ID = PacketDescriptorType.DESCRIPTOR_TYPE_PCAP;
 	
 	/** The Constant PCAP_DESCRIPTOR_LENGTH. */
 	public final static int PCAP_DESCRIPTOR_LENGTH = 24;

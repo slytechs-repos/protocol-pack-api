@@ -678,16 +678,6 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * Word.
-	 *
-	 * @param index the index
-	 * @return the int
-	 */
-	private int word(int index) {
-		return ARRAY.getInt(buffer(), index);
-	}
-
-	/**
 	 * On unbind.
 	 *
 	 * @see com.slytechs.protocol.runtime.MemoryBinding#onUnbind()

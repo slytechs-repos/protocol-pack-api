@@ -30,54 +30,28 @@ import com.slytechs.protocol.descriptor.Type2Descriptor;
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
 public enum PacketDescriptorType implements DescriptorType<PacketDescriptor> {
 
 	/** 16 bytes PCAP descriptor. */
-	PCAP(PcapDescriptor::new),
+	PCAP(DESCRIPTOR_TYPE_PCAP, PcapDescriptor::new),
 
 	/** 16 byte descriptor, providing basic l2, l3 and l4 information. */
-	TYPE1(Type1Descriptor::new),
+	TYPE1(DESCRIPTOR_TYPE_TYPE1, Type1Descriptor::new),
 
 	/**
 	 * 24-152 byte descriptor, providing RX and TX capabilities, as well as protocol
 	 * dissection records.
 	 */
-	TYPE2(Type2Descriptor::new),
-
-	/** 16 byte Napatech STD descriptor. */
-	DESCRIPTOR_TYPE_NT_STD(100, null)
+	TYPE2(DESCRIPTOR_TYPE_TYPE2, Type2Descriptor::new),
 
 	; // EOF Constant table
-
-	/** Either 16 bytes. */
-	public static final int PACKET_DESCRIPTOR_TYPE_PCAP = 0; // 16 bytes
-
-	/** 16 byte CORE_PROTOCOLS descriptor. */
-	public static final int PACKET_DESCRIPTOR_TYPE_TYPE1 = 1; // 16 byte CORE_PROTOCOLS descriptor
-
-	/** The Constant DESCRIPTOR_TYPE_TYPE2. */
-	public static final int PACKET_DESCRIPTOR_TYPE_TYPE2 = 2;
-
-	/** 16 byte NT STD descriptor. */
-	public static final int PACKET_DESCRIPTOR_TYPE_NT_STD = 100; // 16 byte Napatech STD descriptor
 
 	/** The type. */
 	private final int type;
 
 	/** The factory. */
 	private final Supplier<PacketDescriptor> factory;
-
-	/**
-	 * Instantiates a new packet descriptor type.
-	 *
-	 * @param factory the factory
-	 */
-	PacketDescriptorType(Supplier<PacketDescriptor> factory) {
-		this.factory = factory;
-		this.type = ordinal();
-	}
 
 	/**
 	 * Instantiates a new packet descriptor type.

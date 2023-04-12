@@ -277,7 +277,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 */
 	@Meta(MetaType.ATTRIBUTE)
 	public Set<Ip4Flag> flagsSet() {
-		return Ip4Flag.valueOf(flags());
+		return Ip4Flag.valueOfInt03(flags());
 	}
 
 	/**

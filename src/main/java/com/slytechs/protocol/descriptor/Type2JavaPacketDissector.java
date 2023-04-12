@@ -40,11 +40,10 @@ import com.slytechs.protocol.runtime.time.TimestampUnit;
 import com.slytechs.protocol.runtime.util.Bits;
 
 /**
- * The Class JavaDissectorType2.
+ * Descriptor type 2 java based packet dissector.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
 class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorExtension {
 
@@ -783,8 +782,8 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 				return;
 
 			int sword3 = buf.getShort(offset + IPv4_FIELD_FLAGS);
-			boolean mf = (sword3 & IPv4_FLAG_MF) > 0;
-			int fragOff = (sword3 & IPv4_MASK_FRAGOFF);
+			boolean mf = (sword3 & IPv4_FLAG16_MF) > 0;
+			int fragOff = (sword3 & IPv4_MASK16_FRAGOFF);
 
 			this.l3IsFrag = mf || (fragOff > 0);
 			this.l3LastFrag = !mf && (fragOff > 0);
@@ -929,7 +928,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 		L2_TYPE.setInt(l2Type, desc);
 		HASH_TYPE.setInt(hashType, desc);
 		RECORD_COUNT.setInt(recordCount, desc);
-		
+
 		L3_IS_FRAG.setShort((short) (l3IsFrag ? 1 : 0), desc);
 		L3_LAST_FRAG.setShort((short) (l3LastFrag ? 1 : 0), desc);
 

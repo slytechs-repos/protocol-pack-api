@@ -28,40 +28,64 @@ import java.util.Set;
  * @author Mark Bednarczyk
  */
 public enum Ip4Flag {
-	
+
 	/** The reserved. */
 	RESERVED,
-	
+
 	/** The df. */
 	DF,
-	
+
 	/** The mf. */
 	MF,
 
 	;
 
 	/** The Constant IPv4_FLAG_RESERVED. */
-	public static final int IPv4_FLAG_RESERVED = 0x0;
-	
+	public static final int IPv4_FLAG_RESERVED = 0x4;
+
 	/** The Constant IPv4_FLAG_DF. */
-	public static final int IPv4_FLAG_DF = 0x2;
-	
+	public static final int IPv4_FLAG03_DF = 0x2;
+
 	/** The Constant IPv4_FLAG_MF. */
-	public static final int IPv4_FLAG_MF = 0x8;
+	public static final int IPv4_FLAG03_MF = 0x1;
+
+	/** The Constant IPv4_FLAG16_DF. */
+	public static final int IPv4_FLAG16_DF = 0x4000;
+
+	/** The Constant IPv4_FLAG16_MF. */
+	public static final int IPv4_FLAG16_MF = 0x2000;
 
 	/**
 	 * Value of.
 	 *
-	 * @param flags the flags
+	 * @param flags03 the flags
 	 * @return the sets the
 	 */
-	public static Set<Ip4Flag> valueOf(int flags) {
+	public static Set<Ip4Flag> valueOfInt03(int flags03) {
 		Set<Ip4Flag> set = EnumSet.noneOf(Ip4Flag.class);
-		
-		if ((flags & IPv4_FLAG_DF) > 0)
+
+		if ((flags03 & IPv4_FLAG03_DF) > 0)
 			set.add(DF);
 
-		if ((flags & IPv4_FLAG_MF) > 0)
+		if ((flags03 & IPv4_FLAG03_MF) > 0)
+			set.add(MF);
+
+		return set;
+	}
+
+	/**
+	 * Value of int 16.
+	 *
+	 * @param flags16 the flags 16
+	 * @return the sets the
+	 */
+	public static Set<Ip4Flag> valueOfInt16(int flags16) {
+		Set<Ip4Flag> set = EnumSet.noneOf(Ip4Flag.class);
+
+		if ((flags16 & IPv4_FLAG16_DF) > 0)
+			set.add(DF);
+
+		if ((flags16 & IPv4_FLAG16_MF) > 0)
 			set.add(MF);
 
 		return set;

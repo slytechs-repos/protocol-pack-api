@@ -322,10 +322,18 @@ public final class CoreConstants {
 
 	/** The Constant IPv4_FIELD_SRC. */
 	public static final int IPv4_FIELD_SRC = 12;
+
+	/** The Constant IPv4_FIELD_FLAGS. */
 	public static final int IPv4_FIELD_FLAGS = 6;
-	public static final int IPv4_MASK_FRAGOFF = 0x1FFF;
-	public static final int IPv4_FLAG_DF = 0x4000;
-	public static final int IPv4_FLAG_MF = 0x2000;
+
+	/** The Constant IPv4_MASK16_FRAGOFF. */
+	public static final int IPv4_MASK16_FRAGOFF = 0x1FFF;
+
+	/** The Constant IPv4_FLAG16_DF. */
+	public static final int IPv4_FLAG16_DF = 0x4000;
+
+	/** The Constant IPv4_FLAG16_MF. */
+	public static final int IPv4_FLAG16_MF = 0x2000;
 
 	/** The Constant IPv4_ADDRESS_SIZE. */
 	public static final int IPv4_ADDRESS_SIZE = 4;
