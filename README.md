@@ -1,9 +1,6 @@
 # Core Protocol Pack
 Core Protocol pack consisting of many common protocols and runtime support for other modules.
 
-### Latest status - [Pull Request #1](https://github.com/slytechs-repos/core-protocols/pull/4)
-The module is currently almost ready for initial API delopment. Please see [pull #1](https://github.com/slytechs-repos/core-protocols/pull/4) for the latest status.
-
 ## Where to use this module
 This module, **core-protocols** is an extension module which provides protocol level support for one of the main public APIs. You need to setup your application using either **jnetpcap-pro** or **jnetwork** modules which provide the main APIs for building applications using any of the protocol packs.
 
