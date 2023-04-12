@@ -1,0 +1,68 @@
+{
+	"display": "Ethernet II, src: %{source:R1}s dst=%{destination:R1}s offset=%{offset},d length=%{length},d",
+	"meta": {
+		"name": "Ethernet",
+		"abbr": "Eth"
+	},
+	"field": {
+		"destination": {
+			"meta": {
+				"ordinal": 1,
+				"formatter": "AUTO"
+			},
+			"display": {
+				"LOW": {
+					"value": "%{:F}s",
+					"label": "dst"
+				},
+				"MEDIUM": {
+					"value": "%{:F}s (%{:R1}s)"
+				},
+				"HIGH": {
+					"value": "%{:F}s (%{:R1}s) [OUI:%{:R2}s]"
+				}
+			},
+			"resolver": [
+				"ETHER_MAC_OUI_NAME_PREFIXED",
+				"ETHER_MAC_OUI_DESCRIPTION"
+			]
+		},
+		"source": {
+			"meta": {
+				"ordinal": 2,
+				"formatter": "AUTO"
+			},
+			"display": {
+				"LOW": {
+					"value": "%{:F}s",
+					"label": "dst"
+				},
+				"MEDIUM": {
+					"value": "%{:F}s (%{:R1}s)"
+				},
+				"HIGH": {
+					"value": "%{:F}s (%{:R1}s) [OUI:%{:R2}s]"
+				}
+			},
+			"resolver": [
+				"ETHER_MAC_OUI_NAME_PREFIXED",
+				"ETHER_MAC_OUI_DESCRIPTION"
+			]
+		},
+		"type": {
+			"meta": {
+				"ordinal": 3,
+				"formatter": "HEX_UPPERCASE_0X"
+			},
+			"display": {
+				"LOW": {
+					"value": "%{}04X (%{:R}s)",
+					"label": "type"
+				},
+				"MEDIUM": "%{}04X (%{:R}s)",
+				"HIGH": "%{}04X (%{:R1}s) [%1$d]"
+			},
+			"resolver": "ETHER_TYPE"
+		}
+	}
+}

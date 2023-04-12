@@ -1,0 +1,68 @@
+{
+	"display": "Address Resolution Protocol",
+	"meta": {
+		"name": "Arp",
+		"abbr": "Arp"
+	},
+	"field": {
+		"hardwareType": {
+			"ordinal": 1,
+			"meta": {
+				"ordinal": 1,
+				"formatter": "AUTO"
+			},
+			"display": {
+				"DEFAULT": {
+					"value": "Ethernet (%{}d)",
+					"label": "Hardware type"
+				}
+			}
+		},
+		"protocolType": {
+			"ordinal": 2,
+			"meta": {
+				"ordinal": 1,
+				"formatter": "AUTO"
+			},
+			"display": {
+				"DEFAULT": {
+					"value": "%{:R1}s (0x%{}04X)",
+					"label": "Protocol type"
+				}
+			},
+			"resolver": [
+				"ETHER_TYPE"
+			]
+		},
+		"hardwareSize": {
+			"ordinal": 3,
+			"display": {
+				"DEFAULT": {
+					"value": "%{}d bytes",
+					"label": "Hardware size"
+				}
+			}
+		},
+		"protocolSize": {
+			"ordinal": 4,
+			"display": {
+				"DEFAULT": {
+					"value": "%{}d bytes",
+					"label": "Protocol size"
+				}
+			}
+		},
+		"operation": {
+			"ordinal": 5,
+			"display": {
+				"DEFAULT": {
+					"value": "%{:R1}s %{}d",
+					"label": "Opcode"
+				}
+			},
+			"resolver": [
+				"ARP_OP"
+			]
+		}
+	}
+}

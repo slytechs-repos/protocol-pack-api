@@ -1,0 +1,10 @@
+{
+	"Arp": "Address Resolution Protocol",
+	"quick": {
+		"hardwareType": "Ethernet (%d)",
+		"protocolType": "%{:ETHER_TYPE}s (0x%04X)",
+		"hardwareSize": "%d bytes",
+		"protocolSize": "%d bytes",
+		"operation;Opcode": "%{:ARP_OP}s (%d)"
+	}
+}
