@@ -35,7 +35,7 @@ public final class PacketFormat extends MetaFormat {
 
 	/** The Constant HEADER_LINE_FORMAT_ATTRIBUTE. */
 	private static final String HEADER_LINE_FORMAT_ATTRIBUTE = "headerLineFormat";
-	
+
 	/** The Constant DEFAULT_LINE_FORMAT. */
 	private static final String DEFAULT_LINE_FORMAT = "%15s = %-30s";
 
@@ -117,7 +117,7 @@ public final class PacketFormat extends MetaFormat {
 
 			var valueArgs = buildDisplayArgs(field.getParentHeader(), field, displayFormat);
 			displayFormat = super.rewriteDisplayArgs(displayFormat);
-			
+
 //		System.out.printf("formatField::%s displayFormat=%s, args=%s%n", 
 //				field.name(), 
 ////				display.value(),
@@ -326,6 +326,18 @@ public final class PacketFormat extends MetaFormat {
 
 		throw new IllegalArgumentException("Unsupported Meta object [%s]"
 				.formatted(element.getClass().getSimpleName()));
+	}
+
+	/**
+	 * Format packet.
+	 *
+	 * @param packet     the packet
+	 * @param toAppendTo the to append to
+	 * @param detail     the detail
+	 * @return the string builder
+	 */
+	public StringBuilder formatPacket(Packet packet, StringBuilder toAppendTo, Detail detail) {
+		return formatPacket(new MetaPacket(this, packet), toAppendTo, detail);
 	}
 
 	/**
