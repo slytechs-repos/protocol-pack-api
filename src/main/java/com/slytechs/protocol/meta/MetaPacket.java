@@ -32,6 +32,8 @@ import com.slytechs.protocol.Packet;
 import com.slytechs.protocol.Payload;
 import com.slytechs.protocol.descriptor.CompactDescriptor;
 import com.slytechs.protocol.meta.MetaContext.MetaMapped;
+import com.slytechs.protocol.pack.PackId;
+import com.slytechs.protocol.pack.ProtocolPackTable;
 
 /**
  * The Class MetaPacket.
@@ -78,10 +80,22 @@ public final class MetaPacket
 		try {
 			headers.add(new MetaHeader(ctx, this, packet.getHeader(new Frame(), 0)));
 
+			int lastId = 0;
 			long[] compactArray = packet.descriptor().listHeaders();
 			for (long cp : compactArray) {
 				int id = CompactDescriptor.decodeId(cp);
-				Header header = headerFactory.get(id);
+				int packId = PackId.decodePackId(id);
+				boolean isOption = packId == ProtocolPackTable.PACK_ID_OPTIONS;
+
+				final Header header;
+				if (isOption) {
+					header = headerFactory.getExtension(lastId, id);
+
+				} else {
+					header = headerFactory.get(id);
+					lastId = id;
+				}
+
 				packet.getHeader(header, 0);
 
 				MetaHeader metaHdr = new MetaHeader(ctx, this, header);
@@ -225,17 +239,6 @@ public final class MetaPacket
 	 */
 	public ByteBuffer buffer() {
 		return packet.buffer();
-	}
-
-	/**
-	 * Parent.
-	 *
-	 * @return the meta domain
-	 * @see com.slytechs.protocol.meta.MetaDomain#parent()
-	 */
-	@Override
-	public MetaDomain parent() {
-		throw new UnsupportedOperationException("not implemented yet");
 	}
 
 	/**

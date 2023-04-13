@@ -457,6 +457,18 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 		return l2Type;
 	}
 
+	private void dissectIcmp4(int offset) {
+		if (!hasRemaining(offset, ICMPv4_HEADER_LEN))
+			return;
+		int type = Byte.toUnsignedInt(buf.get(offset + ICMPv4_FIELD_TYPE));
+		int code = Byte.toUnsignedInt(buf.get(offset + ICMPv4_FIELD_CODE));
+
+		int len = switch(code) {
+		
+		default -> ICMPv4_HEADER_LEN;
+		};
+	}
+
 	/**
 	 * Dissect icmp 6.
 	 *
@@ -590,7 +602,8 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 		EXIT: while (nextHeader != -1) {
 			switch (nextHeader) {
 			case IP_TYPE_ICMPv4:
-				addRecord(CoreIdTable.CORE_ID_ICMPv4, offset, CoreConstants.ICMPv4_HEADER_LEN);
+				
+				addRecord(CoreIdTable.CORE_ID_ICMPv4, offset, ICMPv4_HEADER_LEN);
 
 				break EXIT;
 

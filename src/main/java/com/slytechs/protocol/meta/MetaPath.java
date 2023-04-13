@@ -31,19 +31,21 @@ public final class MetaPath implements Iterable<String> {
 
 	/** The Constant GLOBAL_DOMAINNAME. */
 	public static final String GLOBAL_DOMAINNAME = "$$";
-	
+
 	/** The Constant ROOT_NAME. */
 	public static final String ROOT_NAME = "$";
-	
+
 	/** The Constant UP_NAME. */
 	public static final String UP_NAME = "..";
 
+	private static final boolean DEBUG = false;
+
 	/** The offset. */
 	private final int offset;
-	
+
 	/** The path. */
 	private final String path;
-	
+
 	/** The stack. */
 	private final String[] stack;
 
@@ -239,6 +241,9 @@ public final class MetaPath implements Iterable<String> {
 	 * @return the optional
 	 */
 	private <K, V> Optional<V> search(MetaDomain domain, int offset) {
+		assert domain != null : "null domain [%s]".formatted(toString());
+		assert domain != domain.parent() : "infinite recursion [%s]".formatted(toString());
+
 		if (offset >= stack.length)
 			return Optional.empty();
 
@@ -253,8 +258,31 @@ public final class MetaPath implements Iterable<String> {
 
 		if (isLast(offset)) {
 			Optional<V> field = domain.findKey(last());
-			if (field.isPresent())
+			if (field.isPresent()) {
+				if (Global.get().orElse("MetaPath.DEBUG", DEBUG))
+					System.out.printf("MetaPath::search(%s,%d) FOUND=[%s] FOUND!%n",
+							domain.name(),
+							offset,
+							stack[offset]);
+
 				return field;
+			}
+
+			if (domain.parent() == null) {
+				if (Global.get().orElse("MetaPath.DEBUG", DEBUG))
+					System.out.printf("MetaPath::search(%s,%d) NOT FOUND! [%s]%n",
+							domain.name(),
+							offset,
+							stack[offset]);
+
+				return Optional.empty();
+			}
+
+			if (Global.get().orElse("MetaPath.DEBUG", DEBUG))
+				System.out.printf("MetaPath::search(%s,%d) UP [%s]%n",
+						domain.name(),
+						offset,
+						stack[offset]);
 
 			return search(domain.parent(), offset);
 		}

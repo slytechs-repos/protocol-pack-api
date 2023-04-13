@@ -17,8 +17,11 @@
  */
 package com.slytechs.protocol.pack.core;
 
+import static com.slytechs.protocol.pack.core.constants.CoreConstants.*;
+
 import java.util.concurrent.locks.Lock;
 
+import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 
 /**
@@ -28,8 +31,9 @@ import com.slytechs.protocol.pack.core.constants.CoreIdTable;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
+@Meta
 public class Icmp4 extends Icmp {
-	
+
 	/** The Constant ID. */
 	public static final int ID = CoreIdTable.CORE_ID_ICMPv4;
 
@@ -47,6 +51,21 @@ public class Icmp4 extends Icmp {
 	 */
 	public Icmp4(Lock lock) {
 		super(ID, lock);
+	}
+
+	@Meta
+	public int type() {
+		return Byte.toUnsignedInt(buffer().get(ICMPv4_FIELD_TYPE));
+	}
+
+	@Meta
+	public int code() {
+		return Byte.toUnsignedInt(buffer().get(ICMPv4_FIELD_CODE));
+	}
+
+	@Meta
+	public int checksum() {
+		return Byte.toUnsignedInt(buffer().get(ICMPv4_FIELD_CHECKSUM));
 	}
 
 }

@@ -87,7 +87,7 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		 * @param id the id
 		 */
 		protected PackNotLoaded(ProtocolPackTable id) {
-			super(id, id.getPackName(), null);
+			super(id, id.getPackName(), new EmptyPack[0]);
 		}
 
 		/**
@@ -136,7 +136,7 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		 * Instantiates a new pack variable options.
 		 */
 		protected PackVariableOptions() {
-			super(ProtocolPackTable.OPTS, ProtocolPackTable.OPTS.getPackName(), null);
+			super(ProtocolPackTable.OPTS, ProtocolPackTable.OPTS.getPackName(), new EmptyPack[0]);
 		}
 
 		/**
@@ -602,7 +602,7 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 	protected Pack(ProtocolPackTable packs, String name, E[] headerIds) {
 		this.protocolPackTable = packs;
 		this.name = name;
-		this.headerIds = headerIds;
+		this.headerIds = Objects.requireNonNull(headerIds, "headerIds");
 		this.intId = packs.getPackIdAsInt();
 	}
 

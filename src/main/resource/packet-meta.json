@@ -1,0 +1,7 @@
+{
+	"display": "%{IPv4.src:F}s > %{IPv4.dst:F}s proto=%{IPv4.protocol:R}s len=%{Packet.captureLength}d bytes info=%{IPv4.protocol:R}s",
+	"meta": {
+		"name": "Packet",
+		"abbr": "Pkt"
+	}
+}

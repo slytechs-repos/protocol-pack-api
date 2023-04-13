@@ -48,11 +48,14 @@ public abstract class MetaElement
 	protected MetaElement(MetaDomain parent, ReflectedComponent metaContainer) {
 		this.meta = metaContainer;
 		this.metaType = metaContainer.getMetaType(MetaInfo.class).metaType();
+		
 
 		if (this instanceof MetaMapped mapped) {
 			this.parent = MetaMapped.Proxy.of(parent, mapped);
 		} else
 			this.parent = parent;
+		
+		assert this != parent() : "invalid domain parent";
 	}
 
 	/**
