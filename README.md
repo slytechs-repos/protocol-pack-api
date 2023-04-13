@@ -2,7 +2,7 @@
 Core Protocol pack consisting of many common protocols and runtime support for other modules.
 
 ## How to use this module
-This module, **core-protocols** is an extension module which provides protocol level support for one of the main public APIs. You need to setup your application using either **jnetpcap-pro** or **jnetwork** modules which provide the main APIs for building applications using any of the protocol packs.
+This module, **core-protocols** is an extension module which provides protocol level support for one of the main public APIs. You need to setup your application using either [**jnetpcap-pro**][jnetpcap-pro] or **jnetwork** modules which provide the main APIs for building applications using any of the protocol packs.
 
 ## What's inside
 The **core-protocols** module provides support for the following services:
@@ -50,3 +50,5 @@ Here is a table of all of the protocol definitions provided by this **core-proto
 [vlan]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Vlan.java
 [stp]: https://github.com/slytechs-repos/core-protocols/blob/develop/src/main/java/com/slytechs/protocol/pack/core/Stp.java
 [phase2]: https://github.com/slytechs-repos/core-protocols/pull/5
+[jnetpcap]: https://github.com/slytechs-repos/jnetpcap
+[jnetpcap-pro]: https://github.com/slytechs-repos/jnetpcap-pro
