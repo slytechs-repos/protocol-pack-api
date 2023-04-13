@@ -15,27 +15,31 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.protocol;
+package com.slytechs.protocol.pack.core.constants;
 
-import com.slytechs.protocol.meta.Meta;
+import com.slytechs.protocol.HeaderExtension;
 
 /**
- * A specialized builtin header type, which allows encapsulation of any header
- * type as long as we have offset and length information about it. This class is
- * identical to {@link Payload} but has more specific nomenclature for "Other"
- * or otherwise undefined, protocol header type.
- *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
+ *
  */
-@Meta
-public final class Other extends Payload {
+public class Icmp4Option extends HeaderExtension<Icmp4Option> {
 
-	/**
-	 * Instantiates a new other.
-	 */
-	public Other() {
-		super();
+	protected Icmp4Option(int id) {
+		super(id);
+	}
+
+	public static class Icmp4OptEchoRequest extends Icmp4Option {
+
+		/**
+		 * @param id
+		 */
+		protected Icmp4OptEchoRequest(int id) {
+			super(id);
+			// TODO Auto-generated constructor stub
+		}
+
 	}
 
 }

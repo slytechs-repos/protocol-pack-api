@@ -22,6 +22,7 @@ import static com.slytechs.protocol.pack.core.constants.CoreConstants.*;
 import java.nio.ByteBuffer;
 
 import com.slytechs.protocol.Header;
+import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.TcpOptionInfo;
 
@@ -33,6 +34,7 @@ public class TcpOption extends Header {
 	/**
 	 * The Class TcpEndOfListOption.
 	 */
+	@Meta
 	public static class TcpEndOfListOption extends TcpOption {
 
 		/** The Constant ID. */
@@ -60,6 +62,7 @@ public class TcpOption extends Header {
 	/**
 	 * The Class TcpFastOpenOption.
 	 */
+	@Meta
 	public static class TcpFastOpenOption extends TcpOption {
 
 		/** The Constant ID. */
@@ -90,6 +93,7 @@ public class TcpOption extends Header {
 	/**
 	 * The Class TcpMSSOption.
 	 */
+	@Meta
 	public static class TcpMSSOption extends TcpOption {
 
 		/** The Constant ID. */
@@ -116,6 +120,7 @@ public class TcpOption extends Header {
 	/**
 	 * The Class TcpSelectiveAckOption.
 	 */
+	@Meta
 	public static class TcpSelectiveAckOption extends TcpOption {
 
 		/** The Constant ID. */
@@ -200,6 +205,7 @@ public class TcpOption extends Header {
 	/**
 	 * The Class TcpNoOption.
 	 */
+	@Meta
 	public static class TcpNoOption extends TcpOption {
 
 		/** The Constant ID. */
@@ -227,6 +233,7 @@ public class TcpOption extends Header {
 	/**
 	 * The Class TcpTimestampOption.
 	 */
+	@Meta
 	public static class TcpTimestampOption extends TcpOption {
 
 		/** The Constant ID. */
@@ -262,6 +269,7 @@ public class TcpOption extends Header {
 	/**
 	 * The Class TcpWindowScaleOption.
 	 */
+	@Meta
 	public static class TcpWindowScaleOption extends TcpOption {
 
 		/** The Constant ID. */
@@ -331,6 +339,7 @@ public class TcpOption extends Header {
 	 *
 	 * @return the int
 	 */
+	@Meta
 	public int kind() {
 		return kind;
 	}
@@ -349,6 +358,7 @@ public class TcpOption extends Header {
 	 *
 	 * @return the int
 	 */
+	@Meta
 	public int length() {
 		return ((length != -1)
 				? length
