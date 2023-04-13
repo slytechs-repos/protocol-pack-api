@@ -17,6 +17,7 @@
  */
 package com.slytechs.protocol.pack.core;
 
+import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.pack.core.Ip.IpOption;
 import com.slytechs.protocol.pack.core.constants.Ip4OptionInfo;
 
@@ -28,8 +29,9 @@ public abstract class Ip4Option extends IpOption {
 	/**
 	 * The Class Ip4OptRouter.
 	 */
+	@Meta
 	public static class Ip4RouterOption extends Ip4Option {
-		
+
 		/** The Constant ID. */
 		public static final int ID = Ip4OptionInfo.IPv4_OPT_ID_RTRALT;
 
@@ -47,6 +49,16 @@ public abstract class Ip4Option extends IpOption {
 		 */
 		public boolean examinePacket() {
 			return buffer().getShort(2) == 0;
+		}
+
+		@Meta
+		public int optionType() {
+			return Byte.toUnsignedInt(buffer().get(0));
+		}
+
+		@Meta
+		public int optionLength() {
+			return Byte.toUnsignedInt(buffer().get(1));
 		}
 
 	}
