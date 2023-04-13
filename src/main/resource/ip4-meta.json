@@ -1,0 +1,42 @@
+{
+	"display": "Internet Protocol Version 4, offset=%{offset}d, length=%{length}d",
+	"meta": {
+		"name": "IPv4",
+		"abbr": "IPv4"
+	},
+	"field": {
+		"version": {
+			"meta": 10,
+			"display": "%{}d"
+		},
+		"hdrLen": {
+			"meta": 20,
+			"display": {
+				"DEFAULT": "%{}d [%{}d*4 = %{hdrLenBytes}d bytes]"
+			},
+			"resolver": "BITSHIFT_2"
+		},
+		"protocol": {
+			"display": {
+				"LOW": "%{}d [%{:R}s]",
+				"HIGH": "%{}d (%{:R}s)",
+				"DEBUG": "%{}d (%{:R}s)"
+			},
+			"resolver": "IP_TYPE"
+		},
+		"identification": {
+			"display": "%{},d [0x%{}04X]"
+		},
+		"flags": {
+			"display": "%{}x %{flagsSet}s"
+		},
+		"totalLength": {
+			"display": {
+				"LOW": {
+					"value": "%{}d bytes",
+					"label": "total length"
+				}
+			}
+		}
+	}
+}
