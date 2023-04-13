@@ -54,7 +54,7 @@ class BitOperatorShifter implements BitOperator {
 	 * @param mask  the mask
 	 * @return the 32
 	 */
-	private static int   get32(int   c, int shift, int   mask) { return (int)   ((c >> shift) & mask); }
+	private static int   get32(int   c, int shift, int   mask) { return (c >> shift) & mask; }
 	
 	/**
 	 * Gets the 64.
@@ -64,7 +64,7 @@ class BitOperatorShifter implements BitOperator {
 	 * @param mask  the mask
 	 * @return the 64
 	 */
-	private static long  get64(long  c, int shift, long  mask) { return (long)  ((c >> shift) & mask); }
+	private static long  get64(long  c, int shift, long  mask) { return (c >> shift) & mask; }
 	// @formatter:on
 
 	/**
@@ -77,7 +77,7 @@ class BitOperatorShifter implements BitOperator {
 	 * @return the byte
 	 */
 	// @formatter:off
-	private static byte  set08(byte  c, int shift, byte  mask, byte  v) { return (byte)  (c | (v & mask) << shift); }
+	private static byte  set08(byte  c, int shift, byte  mask, byte  v) { return (byte)  ((c & ~(mask << shift)) | (v & mask) << shift); }
 	
 	/**
 	 * Sets the 16.
@@ -88,7 +88,7 @@ class BitOperatorShifter implements BitOperator {
 	 * @param v     the v
 	 * @return the short
 	 */
-	private static short set16(short c, int shift, short mask, short v) { return (short) (c | (v & mask) << shift); }
+	private static short set16(short c, int shift, short mask, short v) { return (short) ((c & ~(mask << shift)) | (v & mask) << shift); }
 	
 	/**
 	 * Sets the 32.
@@ -99,7 +99,7 @@ class BitOperatorShifter implements BitOperator {
 	 * @param v     the v
 	 * @return the int
 	 */
-	private static int   set32(int   c, int shift, int   mask, int   v) { return (int)   (c | (v & mask) << shift); }
+	private static int   set32(int   c, int shift, int   mask, int   v) { return (c & ~(mask << shift)) | (v & mask) << shift; }
 	
 	/**
 	 * Sets the 64.
@@ -110,7 +110,7 @@ class BitOperatorShifter implements BitOperator {
 	 * @param v     the v
 	 * @return the long
 	 */
-	private static long  set64(long  c, int shift, long  mask, long  v) { return (long)  (c | (v & mask) << shift); }
+	private static long  set64(long  c, int shift, long  mask, long  v) { return (c & ~(mask << shift)) | (v & mask) << shift; }
 	// @formatter:on
 
 	/** The field context. */
@@ -129,7 +129,8 @@ class BitOperatorShifter implements BitOperator {
 	 * Bitmask.
 	 *
 	 * @return the long
-	 * @see com.slytechs.protocol.runtime.internal.layout.BitOperator#bitmask(long, long)
+	 * @see com.slytechs.protocol.runtime.internal.layout.BitOperator#bitmask(long,
+	 *      long)
 	 */
 	@Override
 	public long bitmask() {
@@ -141,7 +142,8 @@ class BitOperatorShifter implements BitOperator {
 	 *
 	 * @param strideOffset the stride offset
 	 * @return the int
-	 * @see com.slytechs.protocol.runtime.internal.layout.BitOperator#bitshift(long, long)
+	 * @see com.slytechs.protocol.runtime.internal.layout.BitOperator#bitshift(long,
+	 *      long)
 	 */
 	@Override
 	public int bitshift(long strideOffset) {
@@ -168,8 +170,8 @@ class BitOperatorShifter implements BitOperator {
 	 * @param carrier      the carrier
 	 * @param strideOffset the stride offset
 	 * @return the int
-	 * @see com.slytechs.protocol.runtime.internal.layout.BitOperator#getIntAtOffset(java.lang.Object, int,
-	 *      long, long)
+	 * @see com.slytechs.protocol.runtime.internal.layout.BitOperator#getIntAtOffset(java.lang.Object,
+	 *      int, long, long)
 	 */
 	@Override
 	public int getInt(int carrier, long strideOffset) {
@@ -187,7 +189,7 @@ class BitOperatorShifter implements BitOperator {
 	 */
 	@Override
 	public long getLong(long carrier, long strideOffset) {
-		return get64(carrier, bitshift(strideOffset), (long) bitmask());
+		return get64(carrier, bitshift(strideOffset), bitmask());
 	}
 
 	/**
@@ -226,8 +228,8 @@ class BitOperatorShifter implements BitOperator {
 	 * @param carrier      the carrier
 	 * @param strideOffset the stride offset
 	 * @return the int
-	 * @see com.slytechs.protocol.runtime.internal.layout.BitOperator#setIntAtOffset(int, java.lang.Object,
-	 *      int, long, long)
+	 * @see com.slytechs.protocol.runtime.internal.layout.BitOperator#setIntAtOffset(int,
+	 *      java.lang.Object, int, long, long)
 	 */
 	@Override
 	public int setInt(int value, int carrier, long strideOffset) {
@@ -246,7 +248,7 @@ class BitOperatorShifter implements BitOperator {
 	 */
 	@Override
 	public long setLong(long value, long carrier, long strideOffset) {
-		return set64(carrier, bitshift(strideOffset), (long) bitmask(), value);
+		return set64(carrier, bitshift(strideOffset), bitmask(), value);
 	}
 
 	/**
