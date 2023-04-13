@@ -140,7 +140,6 @@ public final class Frame extends Header {
 	 *
 	 * @return array containing copy of the frame contents
 	 */
-	@Meta
 	public byte[] data() {
 		byte[] array = new byte[headerLength()];
 
