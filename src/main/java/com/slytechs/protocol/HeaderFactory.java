@@ -18,7 +18,7 @@
 package com.slytechs.protocol;
 
 /**
- * A factory for creating Header objects.
+ * A factory for creating Header objects based on numerical IDs.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
@@ -27,7 +27,8 @@ package com.slytechs.protocol;
 public interface HeaderFactory {
 
 	/**
-	 * New instance.
+	 * A header factory which allocates a new header each time requested. Performs
+	 * no caching.
 	 *
 	 * @return the header factory
 	 */
