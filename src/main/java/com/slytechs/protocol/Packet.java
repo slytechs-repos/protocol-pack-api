@@ -450,7 +450,7 @@ public final class Packet
 
 		return switch (detail) {
 		case LOW -> "Packet [#%d: caplen=%d, timestamp=%s]"
-				.formatted(descriptor().frameNo(), captureLength(), new Timestamp(timestamp()));
+				.formatted(descriptor().frameNo(), captureLength(), new Timestamp(timestamp(), timestampUnit()));
 
 		case MEDIUM -> "Packet [#%d: caplen=%d, wirelen=%d, timestamp=%s]"
 				.formatted(descriptor().frameNo(), captureLength(), captureLength(), wireLength(), new Timestamp(
