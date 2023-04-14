@@ -20,8 +20,10 @@ package com.slytechs.protocol.meta;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -91,12 +93,18 @@ class ReflectedClass extends ReflectedComponent {
 	 * @param fields  the fields
 	 * @return the reflected member[]
 	 */
-	private static ReflectedMember[] toSortedArray(ReflectedMethod[] methods, ReflectedField[] fields) {
+	private static ReflectedMember[] toSortedUniqueArray(ReflectedMethod[] methods, ReflectedField[] fields) {
+		Set<String> dups = new HashSet<>();
+
 		List<ReflectedMember> list = new ArrayList<ReflectedMember>();
 		Arrays.stream(methods)
+				.filter(m -> !dups.contains(m.name()))
+				.peek(m -> dups.add(m.name()))
 				.forEach(list::add);
 
 		Arrays.stream(fields)
+				.filter(m -> !dups.contains(m.name()))
+				.peek(m -> dups.add(m.name()))
 				.forEach(list::add);
 
 		Collections.sort(list);
@@ -114,7 +122,7 @@ class ReflectedClass extends ReflectedComponent {
 	private final ReflectedField[] memberFields;
 
 	/** The fields array. */
-	private final ReflectedMember[] fieldsArray;
+	private final ReflectedMember[] memberArray;
 
 	/** The fields map. */
 	private final Map<String, ReflectedMember> fieldsMap;
@@ -134,8 +142,8 @@ class ReflectedClass extends ReflectedComponent {
 		this.classType = cl;
 		this.memberMethods = methods;
 		this.memberFields = fields;
-		this.fieldsArray = toSortedArray(methods, fields);
-		this.fieldsMap = Arrays.stream(this.fieldsArray)
+		this.memberArray = toSortedUniqueArray(methods, fields);
+		this.fieldsMap = Arrays.stream(this.memberArray)
 				.collect(Collectors.toMap(ReflectedMember::name, v -> v));
 	}
 
@@ -154,7 +162,7 @@ class ReflectedClass extends ReflectedComponent {
 	 * @return the fields
 	 */
 	public ReflectedMember[] getFields() {
-		return fieldsArray;
+		return memberArray;
 	}
 
 	/**

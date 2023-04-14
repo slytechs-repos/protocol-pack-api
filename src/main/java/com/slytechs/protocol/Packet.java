@@ -400,6 +400,15 @@ public final class Packet
 	}
 
 	/**
+	 * Gets the currently assigned packet formatter.
+	 *
+	 * @return the formatter if assigned, otherwise null
+	 */
+	public PacketFormat getFormatter() {
+		return this.formatter;
+	}
+
+	/**
 	 * Timestamp.
 	 *
 	 * @return the long

@@ -30,7 +30,7 @@ public interface MetaContext extends MetaDomain {
 	 * The Interface MetaIndexed.
 	 */
 	interface MetaIndexed extends MetaContext {
-		
+
 		/**
 		 * Append.
 		 *
@@ -153,7 +153,7 @@ public interface MetaContext extends MetaDomain {
 
 					@Override
 					public MetaDomain parent() {
-						return getProxy().parent();
+						return parent;
 					}
 
 					@Override
@@ -322,6 +322,14 @@ public interface MetaContext extends MetaDomain {
 				v = func.apply(key);
 				set(key, v);
 			}
+
+			return v;
+		}
+
+		default <K, V> V orElse(K key, V defaultValue) {
+			V v = get(key);
+			if (v == null)
+				return defaultValue;
 
 			return v;
 		}

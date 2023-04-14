@@ -53,10 +53,10 @@ public class HexStrings {
 				: (((col % 4) == 0) && (col != 0))
 						? "  " // 2 spaces
 						: " "; // 1 space
-		
+
 		/** The no space. */
 		Spacer NO_SPACE = (col) -> "";
-		
+
 		/** The hexdump to textdump. */
 		Spacer HEXDUMP_TO_TEXTDUMP = (width) -> "    ";
 
@@ -84,16 +84,16 @@ public class HexStrings {
 	// @formatter:on
 	/** The Constant DEFAULT_HEX_SEPARATOR. */
 	public static final char DEFAULT_HEX_SEPARATOR = ':';
-	
+
 	/** The Constant DEFAULT_HEX_ALT_SEPARATOR. */
 	public static final char DEFAULT_HEX_ALT_SEPARATOR = '-';
-	
+
 	/** The Constant DEFAULT_DEC_SEPARATOR. */
 	public static final char DEFAULT_DEC_SEPARATOR = '.';
-	
+
 	/** The Constant DEFAULT_CONTROL_CHAR. */
 	public static final char DEFAULT_CONTROL_CHAR = '.';
-	
+
 	/** The Constant DEFAULT_HEXDUMP_PREFIX. */
 	public static final IntFunction<String> DEFAULT_HEXDUMP_PREFIX = i -> "%04X: ".formatted(i);
 
@@ -254,16 +254,12 @@ public class HexStrings {
 				.collect(Collectors.joining(delimiter, prefix, suffix));
 	}
 
-	/**
-	 * To hex dump.
-	 *
-	 * @param array  the array
-	 * @param offset the offset
-	 * @param length the length
-	 * @param width  the width
-	 * @param prefix the prefix
-	 * @return the string
-	 */
+	public static String toHexDump(
+			byte[] array, int offset, int length) {
+		return toHexDump(new StringBuilder(), array, offset, length, DEFAULT_HEXDUMP_WIDTH, i -> "%04X: ".formatted(i))
+				.toString();
+	}
+
 	public static String toHexDump(
 			byte[] array, int offset, int length,
 			int width,
@@ -343,6 +339,21 @@ public class HexStrings {
 		}
 
 		return sb;
+	}
+
+	/**
+	 * To hex dump.
+	 *
+	 * @param buffer the buffer
+	 * @return the string
+	 */
+	public static String toHexDump(ByteBuffer buffer) {
+		int pos = buffer.position();
+		byte[] array = new byte[buffer.remaining()];
+
+		buffer.get(pos, array, 0, buffer.remaining());
+
+		return toHexDump(array, 0, array.length);
 	}
 
 	/**

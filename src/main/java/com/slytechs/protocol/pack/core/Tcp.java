@@ -218,7 +218,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 */
 	@Override
 	protected void onUnbind() {
-		super.unbind();
+		super.onUnbind();
 
 		if (wscaleOption != null)
 			wscaleOption.unbind();

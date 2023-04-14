@@ -144,7 +144,7 @@ public class MapMetaContext
 	 */
 	@Override
 	public <K, V> Optional<V> findKey(K key) {
-		return get(key);
+		return Optional.ofNullable(get(key));
 	}
 
 	/**

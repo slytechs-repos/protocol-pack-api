@@ -154,7 +154,7 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	 *
 	 * @return length in bytes
 	 */
-	@Meta(MetaType.ATTRIBUTE)
+	@Meta(name = "length", value = MetaType.ATTRIBUTE)
 	public final int headerLength() {
 		return headerLength;
 	}
@@ -165,7 +165,7 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	 *
 	 * @return the string
 	 */
-	@Meta(MetaType.ATTRIBUTE)
+	@Meta(name = "name", value = MetaType.ATTRIBUTE)
 	public String headerName() {
 		return getClass().getSimpleName();
 	}
@@ -175,7 +175,7 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	 *
 	 * @return offset in bytes
 	 */
-	@Meta(MetaType.ATTRIBUTE)
+	@Meta(name = "offset", value = MetaType.ATTRIBUTE)
 	public final int headerOffset() {
 		return headerOffset;
 	}

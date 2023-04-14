@@ -203,14 +203,19 @@ public final class CoreConstants {
 
 	/** The Constant IPX_HEADER_LEN. */
 	/* Descriptor IPX constants */
-	public static final int IPX_HEADER_LEN = 0;
+	public static final int IPX_HEADER_LEN = 30;
 
 	/** The Constant IPX_FIELD_VALUE_CHECKSUM. */
 	public static final int IPX_FIELD_VALUE_CHECKSUM = 0;
 
 	/** The Constant ICMPv4_HEADER_LEN. */
 	/* Descriptor ICMP constants */
-	public static final int ICMPv4_HEADER_LEN = 0;
+	public static final int ICMPv4_HEADER_LEN = 4;
+	public static final int ICMPv4_FIELD_TYPE = 0;
+	public static final int ICMPv4_FIELD_CODE = 1;
+	public static final int ICMPv4_FIELD_CHECKSUM = 2;
+	public static final int ICMPv4_TYPE_ECHO_REQUEST = 8;
+	public static final int ICMPv4_TYPE_ECHO_REPLY = 0;
 
 	/** The Constant ICMPv6_TYPE_RESERVED. */
 	public static final int ICMPv6_TYPE_RESERVED = 0;

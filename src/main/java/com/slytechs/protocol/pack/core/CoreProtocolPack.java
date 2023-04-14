@@ -20,7 +20,6 @@ package com.slytechs.protocol.pack.core;
 import java.util.Optional;
 
 import com.slytechs.protocol.HeaderInfo;
-import com.slytechs.protocol.HeaderNotFound;
 import com.slytechs.protocol.pack.Pack;
 import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.ProtocolPackTable;
