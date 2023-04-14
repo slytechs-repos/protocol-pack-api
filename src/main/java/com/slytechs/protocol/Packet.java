@@ -449,20 +449,29 @@ public final class Packet
 			return formatter.format(this, detail);
 
 		return switch (detail) {
-		case LOW -> "Packet [#%d: caplen=%d, timestamp=%s]"
-				.formatted(descriptor().frameNo(), captureLength(), new Timestamp(timestamp(), timestampUnit()));
+		case LOW -> "Packet [#%2d: caplen=%4d, timestamp=%s]"
+				.formatted(
+						descriptor().frameNo(),
+						captureLength(),
+						new Timestamp(timestamp(), timestampUnit()));
 
-		case MEDIUM -> "Packet [#%d: caplen=%d, wirelen=%d, timestamp=%s]"
-				.formatted(descriptor().frameNo(), captureLength(), captureLength(), wireLength(), new Timestamp(
-						timestamp(), timestampUnit()));
+		case MEDIUM -> "Packet [#%2d: caplen=%4d, wirelen=%4d, timestamp=%s]"
+				.formatted(
+						descriptor().frameNo(),
+						captureLength(),
+						wireLength(),
+						new Timestamp(timestamp(), timestampUnit()));
 
-		case HIGH -> "Packet [#%d: caplen=%d, wirelen=%d, timestamp=%s%n%s]"
-				.formatted(descriptor().frameNo(), captureLength(), captureLength(), wireLength(), new Timestamp(
-						timestamp(), timestampUnit()),
+		case HIGH -> "Packet [#%2d: caplen=%4d, wirelen=%4d, timestamp=%s%n%s]"
+				.formatted(
+						descriptor().frameNo(),
+						captureLength(),
+						wireLength(),
+						new Timestamp(timestamp(), timestampUnit()),
 						HexStrings.toHexTextDump(buffer()));
 
 		case DEBUG -> "Packet [#%d: caplen=%d, wirelen=%d, timestamp=%s, ]"
-				.formatted(descriptor().frameNo(), captureLength(), captureLength(), wireLength(), new Timestamp(
+				.formatted(descriptor().frameNo(), captureLength(), wireLength(), new Timestamp(
 						timestamp(), timestampUnit()), descriptor);
 		case NONE -> "";
 		default -> throw new IllegalArgumentException("Unexpected value: " + detail);
