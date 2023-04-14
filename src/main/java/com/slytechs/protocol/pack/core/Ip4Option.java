@@ -17,6 +17,7 @@
  */
 package com.slytechs.protocol.pack.core;
 
+import com.slytechs.protocol.meta.Display;
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.pack.core.Ip.IpOption;
 import com.slytechs.protocol.pack.core.constants.Ip4OptionInfo;
@@ -29,7 +30,8 @@ public abstract class Ip4Option extends IpOption {
 	/**
 	 * The Class Ip4OptRouter.
 	 */
-	@Meta
+	@Meta(name = "IPv4+Router Alert")
+	@Display("offset=%{offset}d length=%{length}d")
 	public static class Ip4RouterOption extends Ip4Option {
 
 		/** The Constant ID. */
@@ -51,16 +53,21 @@ public abstract class Ip4Option extends IpOption {
 			return buffer().getShort(2) == 0;
 		}
 
-		@Meta
-		public int optionType() {
+		@Meta(ordinal = 10)
+		public int type() {
 			return Byte.toUnsignedInt(buffer().get(0));
 		}
 
-		@Meta
-		public int optionLength() {
+		@Meta(ordinal = 20)
+		@Display("%{}d bytes")
+		public int len() {
 			return Byte.toUnsignedInt(buffer().get(1));
 		}
 
+		@Meta(name = "Router Alert", ordinal = 30)
+		public int routerAlert() {
+			return Short.toUnsignedInt(buffer().getShort(2));
+		}
 	}
 
 	/**
