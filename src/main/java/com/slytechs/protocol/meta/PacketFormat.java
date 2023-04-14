@@ -112,8 +112,10 @@ public final class PacketFormat extends MetaFormat {
 		var displayFormat = display.value();
 
 		try {
-			if (label.equals("HEXDUMP"))
+			if (label.equals("HEXDUMP")) {
+				toAppendTo.append("\n");
 				return formatHexdump(field, toAppendTo);
+			}
 
 			var valueArgs = buildDisplayArgs(field.getParentHeader(), field, displayFormat);
 			displayFormat = super.rewriteDisplayArgs(displayFormat);
