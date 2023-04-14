@@ -36,7 +36,7 @@ import com.slytechs.protocol.runtime.util.Detail;
 @Repeatable(Displays.class)
 @Retention(RUNTIME)
 @Target({ METHOD,
-		FIELD })
+		FIELD, TYPE })
 public @interface Display {
 
 	/**
