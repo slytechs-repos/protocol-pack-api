@@ -15,6 +15,7 @@
 		<maven.compiler.source>${jdk.version}</maven.compiler.source>
 		<maven.compiler.target>${jdk.version}</maven.compiler.target>
 	</properties>
+
 	<build>
 		<resources>
 			<resource>
@@ -68,12 +69,7 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	<licenses>
-		<license>
-			<name>Sly Technology's Free License</name>
-			<url>http://www.slytechs.com/free-license-text</url>
-		</license>
-	</licenses>
+
 	<developers>
 		<developer>
 			<id>markb</id>
@@ -83,6 +79,7 @@
 			<organizationUrl>http://slytechs.com</organizationUrl>
 		</developer>
 	</developers>
+
 	<dependencies>
 		<!--
 		https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
@@ -115,17 +112,25 @@
 			<artifactId>javax.json-api</artifactId>
 			<version>1.1.4</version>
 		</dependency>
-
 	</dependencies>
+
+	<licenses>
+		<license>
+			<name>Sly Technologies Free License</name>
+			<url>http://www.slytechs.com/free-license-text</url>
+		</license>
+	</licenses>
 
 	<organization>
 		<name>Sly Technologies Inc</name>
 		<url>http://slytechs.com</url>
 	</organization>
+
 	<issueManagement>
 		<system>Github Issue Tracking</system>
 		<url>https://github.com/slytechs-repos/core-protocols/issues</url>
 	</issueManagement>
+
 	<scm>
 		<connection>
 			scm:git:git://github.com/slytechs-repos/core-protocols.git</connection>
@@ -133,6 +138,7 @@
 			scm:git:ssh:git://github.com/slytechs-repos/core-protocols.git</developerConnection>
 		<url>https://github.com/slytechs-repos/core-protocols</url>
 	</scm>
+
 	<distributionManagement>
 		<!-- mvn clean site site:stage scm-publish:publish-scm -->
 		<site>
