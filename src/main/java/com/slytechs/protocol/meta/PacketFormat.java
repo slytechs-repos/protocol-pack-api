@@ -141,6 +141,10 @@ public final class PacketFormat extends MetaFormat {
 		}
 	}
 
+	public StringBuilder formatHeader(Header header, StringBuilder toAppendTo, Detail detail) {
+		return formatHeader(new MetaHeader(this, header), toAppendTo, detail);
+	}
+
 	/**
 	 * Format header.
 	 *
