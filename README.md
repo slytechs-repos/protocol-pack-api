@@ -15,8 +15,8 @@ The **core-protocols** module provides support for the following services:
 - IP Fragmentation processing
   - IP fragment reassembly into full IP datagrams
   - IP fragment tracking regardless if reassembly is enabled
-- A very efficient packet module using the `Packet` class
-  - Instrumentation module using `MetaPacket` class, similar to java beans
+- A very efficient packet implementation using the `Packet` class
+  - Instrumentation using `MetaPacket` class, similar to java beans
 - Packet formatters, various packet formatters for displaying packet state and fields
   - A pretty print formatter which dumps easy to read details about a packet and its headers
   - Coverters for XML, JSON and other output types
