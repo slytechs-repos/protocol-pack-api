@@ -33,6 +33,9 @@ public interface DescriptorType<T extends Descriptor> {
 	/** The Constant DESCRIPTOR_TYPE_TYPE2. */
 	int DESCRIPTOR_TYPE_TYPE2 = 2;
 
+	/** IP Fragmentation tracking and reassembly descriptor. */
+	int DESCRIPTOR_TYPE_IPF = 20;
+
 	/** 16 byte NT STD descriptor. */
 	int DESCRIPTOR_TYPE_NT_STD = 100;
 

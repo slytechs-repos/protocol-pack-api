@@ -31,8 +31,8 @@ import com.slytechs.protocol.descriptor.IpfDescriptor;
  */
 public enum IpfDescriptorType implements DescriptorType<IpfDescriptor> {
 
-	/** The ipf. */
-	IPF(20, IpfDescriptor::new),
+	/** IP fragmentation tracking and reassembly descriptor. */
+	IPF(DescriptorType.DESCRIPTOR_TYPE_IPF, IpfDescriptor::new),
 
 	;
 
