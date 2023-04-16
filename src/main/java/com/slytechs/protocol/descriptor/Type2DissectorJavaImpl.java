@@ -45,7 +45,7 @@ import com.slytechs.protocol.runtime.util.Bits;
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  */
-class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorExtension {
+class Type2DissectorJavaImpl extends JavaPacketDissector implements DissectorExtension {
 
 	/** The Constant RECORD_START. */
 	private static final int RECORD_START = CoreConstants.DESC_TYPE2_BYTE_SIZE_MIN;
@@ -146,7 +146,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 	/**
 	 * Instantiates a new java dissector type 2.
 	 */
-	Type2JavaPacketDissector() {
+	Type2DissectorJavaImpl() {
 		reset();
 
 		this.extensions = Pack.wrapAllExtensions(PacketDescriptorType.TYPE2, this);
@@ -908,7 +908,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 	 * @param hashType the hash type
 	 * @return the java dissector type 2
 	 */
-	public Type2JavaPacketDissector setHash(int hash, int hashType) {
+	public Type2DissectorJavaImpl setHash(int hash, int hashType) {
 		this.hashType = hashType;
 		this.hash = hash;
 
@@ -1006,7 +1006,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 	 *
 	 * @return the java dissector type 2
 	 */
-	public Type2JavaPacketDissector disableBitmaskRecording() {
+	public Type2DissectorJavaImpl disableBitmaskRecording() {
 		// Turning on all bits, effectively disables bitmask checks
 		bitmask = defaultBitmask = Bits.BITS_32;
 
@@ -1018,7 +1018,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 	 *
 	 * @return the java dissector type 2
 	 */
-	public Type2JavaPacketDissector disableExtensionRecordingForAll() {
+	public Type2DissectorJavaImpl disableExtensionRecordingForAll() {
 		this.recordExtensions = false;
 
 		return this;
@@ -1031,7 +1031,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 	 * @param extentionIds the extention ids
 	 * @return the java dissector type 2
 	 */
-	public Type2JavaPacketDissector disableExtensionRecordingFor(
+	public Type2DissectorJavaImpl disableExtensionRecordingFor(
 			CoreIdTable protocolId, HeaderExtensionInfo... extentionIds) {
 
 		return disableExtensionRecordingInCoreProtocol(protocolId.id(),
@@ -1047,7 +1047,7 @@ class Type2JavaPacketDissector extends JavaPacketDissector implements DissectorE
 	 * @param extensionIds the extension ids
 	 * @return the java dissector type 2
 	 */
-	public Type2JavaPacketDissector disableExtensionRecordingInCoreProtocol(int protocolId, int... extensionIds) {
+	public Type2DissectorJavaImpl disableExtensionRecordingInCoreProtocol(int protocolId, int... extensionIds) {
 
 		if (extensionIds.length > 0) {
 			IntConsumer bitmaskSet = switch (protocolId) {

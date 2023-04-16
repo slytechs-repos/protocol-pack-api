@@ -70,7 +70,7 @@ public interface PacketDissector {
 	static PacketDissector javaDissector(PacketDescriptorType type) {
 
 		return switch (type) {
-		case TYPE2 -> new Type2JavaPacketDissector();
+		case TYPE2 -> new Type2DissectorJavaImpl();
 
 		default -> throw new UnsupportedOperationException("Not implemented yet, dissector [%s]".formatted(type
 				.name()));

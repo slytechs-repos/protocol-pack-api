@@ -243,7 +243,7 @@ class TestDissectorType2 {
 
 		final long TIMESTAMP = System.currentTimeMillis();
 
-		Type2JavaPacketDissector diss2 = ((Type2JavaPacketDissector) dissector)
+		Type2DissectorJavaImpl diss2 = ((Type2DissectorJavaImpl) dissector)
 //				.disableBitmaskRecording()
 //				.disableExtensionRecordingForAll()
 				.disableExtensionRecordingFor(CoreIdTable.IPv4,

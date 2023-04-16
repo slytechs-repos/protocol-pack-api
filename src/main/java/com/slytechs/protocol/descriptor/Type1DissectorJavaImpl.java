@@ -27,7 +27,7 @@ import com.slytechs.protocol.pack.core.constants.L2FrameType;
  * @author repos@slytechs.com
  *
  */
-public class Type1JavaPacketDissector extends JavaPacketDissector {
+public class Type1DissectorJavaImpl extends JavaPacketDissector {
 
 	/**
 	 * @see com.slytechs.protocol.descriptor.JavaPacketDissector#dissectPacket(java.nio.ByteBuffer,
@@ -54,7 +54,7 @@ public class Type1JavaPacketDissector extends JavaPacketDissector {
 		throw new UnsupportedOperationException("not implemented yet");
 	}
 
-	public Type1JavaPacketDissector() {
+	public Type1DissectorJavaImpl() {
 	}
 
 	/**
