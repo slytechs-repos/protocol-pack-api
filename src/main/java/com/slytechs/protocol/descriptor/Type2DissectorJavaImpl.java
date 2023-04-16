@@ -45,7 +45,7 @@ import com.slytechs.protocol.runtime.util.Bits;
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  */
-class Type2DissectorJavaImpl extends JavaPacketDissector implements DissectorExtension {
+class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissectorExtension {
 
 	/** The Constant RECORD_START. */
 	private static final int RECORD_START = CoreConstants.DESC_TYPE2_BYTE_SIZE_MIN;
@@ -66,7 +66,7 @@ class Type2DissectorJavaImpl extends JavaPacketDissector implements DissectorExt
 	private final static L2FrameType DEFAULT_L2_TYPE = L2FrameType.ETHER;
 
 	/** The extensions. */
-	private final DissectorExtension extensions;
+	private final PacketDissectorExtension extensions;
 
 	/** The buf. */
 	private ByteBuffer buf;
@@ -276,7 +276,7 @@ class Type2DissectorJavaImpl extends JavaPacketDissector implements DissectorExt
 	/**
 	 * Destroy dissector.
 	 *
-	 * @see com.slytechs.protocol.descriptor.JavaPacketDissector#destroyDissector()
+	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#destroyDissector()
 	 */
 	@Override
 	protected void destroyDissector() {
@@ -1091,7 +1091,7 @@ class Type2DissectorJavaImpl extends JavaPacketDissector implements DissectorExt
 	 * Sets the recorder.
 	 *
 	 * @param recorder the new recorder
-	 * @see com.slytechs.protocol.descriptor.DissectorExtension#setRecorder(com.slytechs.protocol.descriptor.PacketDissector.RecordRecorder)
+	 * @see com.slytechs.protocol.descriptor.PacketDissectorExtension#setRecorder(com.slytechs.protocol.descriptor.PacketDissector.RecordRecorder)
 	 */
 	@Override
 	public void setRecorder(RecordRecorder recorder) {
@@ -1101,10 +1101,10 @@ class Type2DissectorJavaImpl extends JavaPacketDissector implements DissectorExt
 	 * Sets the extensions.
 	 *
 	 * @param ext the new extensions
-	 * @see com.slytechs.protocol.descriptor.DissectorExtension#setExtensions(com.slytechs.protocol.descriptor.DissectorExtension)
+	 * @see com.slytechs.protocol.descriptor.PacketDissectorExtension#setExtensions(com.slytechs.protocol.descriptor.PacketDissectorExtension)
 	 */
 	@Override
-	public void setExtensions(DissectorExtension ext) {
+	public void setExtensions(PacketDissectorExtension ext) {
 	}
 
 }

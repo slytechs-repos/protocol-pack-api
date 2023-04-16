@@ -27,10 +27,10 @@ import com.slytechs.protocol.pack.core.constants.L2FrameType;
  * @author repos@slytechs.com
  *
  */
-public class Type1DissectorJavaImpl extends JavaPacketDissector {
+public class Type1DissectorJavaImpl extends PacketDissectorJava {
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.JavaPacketDissector#dissectPacket(java.nio.ByteBuffer,
+	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#dissectPacket(java.nio.ByteBuffer,
 	 *      long, int, int)
 	 */
 	@Override
@@ -39,7 +39,7 @@ public class Type1DissectorJavaImpl extends JavaPacketDissector {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.JavaPacketDissector#setDatalinkType(com.slytechs.protocol.pack.core.constants.L2FrameType)
+	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#setDatalinkType(com.slytechs.protocol.pack.core.constants.L2FrameType)
 	 */
 	@Override
 	public PacketDissector setDatalinkType(L2FrameType l2Type) throws ProtocolException {
@@ -47,7 +47,7 @@ public class Type1DissectorJavaImpl extends JavaPacketDissector {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.JavaPacketDissector#writeDescriptor(java.nio.ByteBuffer)
+	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#writeDescriptor(java.nio.ByteBuffer)
 	 */
 	@Override
 	public int writeDescriptor(ByteBuffer buffer) {
@@ -58,7 +58,7 @@ public class Type1DissectorJavaImpl extends JavaPacketDissector {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.JavaPacketDissector#destroyDissector()
+	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#destroyDissector()
 	 */
 	@Override
 	protected void destroyDissector() {

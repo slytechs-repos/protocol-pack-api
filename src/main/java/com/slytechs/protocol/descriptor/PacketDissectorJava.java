@@ -24,12 +24,12 @@ package com.slytechs.protocol.descriptor;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public abstract class JavaPacketDissector extends AbstractPacketDissector {
+public abstract class PacketDissectorJava extends AbstractPacketDissector {
 
 	/**
 	 * Instantiates a new java dissector.
 	 */
-	public JavaPacketDissector() {
+	public PacketDissectorJava() {
 	}
 
 	/**
