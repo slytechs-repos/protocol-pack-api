@@ -17,11 +17,6 @@
  */
 package com.slytechs.protocol.descriptor;
 
-import java.net.ProtocolException;
-import java.nio.ByteBuffer;
-
-import com.slytechs.protocol.pack.core.constants.L2FrameType;
-
 /**
  * The Class JavaDissector.
  *
@@ -30,57 +25,6 @@ import com.slytechs.protocol.pack.core.constants.L2FrameType;
  * @author Mark Bednarczyk
  */
 public abstract class JavaPacketDissector extends AbstractPacketDissector {
-
-	/**
-	 * Dissect packet.
-	 *
-	 * @param buffer    the buffer
-	 * @param timestamp the timestamp
-	 * @param caplen    the caplen
-	 * @param wirelen   the wirelen
-	 * @return the int
-	 * @see com.slytechs.protocol.descriptor.PacketDissector#dissectPacket(java.nio.ByteBuffer,
-	 *      long, int, int)
-	 */
-	@Override
-	public int dissectPacket(ByteBuffer buffer, long timestamp, int caplen, int wirelen) {
-		throw new UnsupportedOperationException("not implemented yet");
-	}
-
-	/**
-	 * Reset.
-	 *
-	 * @see com.slytechs.protocol.descriptor.PacketDissector#reset()
-	 */
-	@Override
-	public void reset() {
-		throw new UnsupportedOperationException("not implemented yet");
-	}
-
-	/**
-	 * Sets the datalink type.
-	 *
-	 * @param l2Type the l 2 type
-	 * @return the packet dissector
-	 * @throws ProtocolException the protocol exception
-	 * @see com.slytechs.protocol.descriptor.PacketDissector#setDatalinkType(com.slytechs.protocol.pack.core.constants.L2FrameType)
-	 */
-	@Override
-	public PacketDissector setDatalinkType(L2FrameType l2Type) throws ProtocolException {
-		throw new UnsupportedOperationException("not implemented yet");
-	}
-
-	/**
-	 * Write descriptor.
-	 *
-	 * @param buffer the buffer
-	 * @return the int
-	 * @see com.slytechs.protocol.descriptor.PacketDissector#writeDescriptor(java.nio.ByteBuffer)
-	 */
-	@Override
-	public int writeDescriptor(ByteBuffer buffer) {
-		throw new UnsupportedOperationException("not implemented yet");
-	}
 
 	/**
 	 * Instantiates a new java dissector.

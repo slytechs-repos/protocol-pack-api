@@ -38,6 +38,9 @@ public final class CoreConstants {
 	 */
 	public static final int DESC_PKT_FLAG_PREAMBLE      = 0x0002;
 
+	/** The Constant DESC_TYPE1_BYTE_SIZE. */
+	public static final int DESC_TYPE1_BYTE_SIZE        = 16;
+
 	/** The Constant DESC_TYPE2_BYTE_SIZE_MIN. */
 	public static final int DESC_TYPE2_BYTE_SIZE_MIN    = 24;
 	

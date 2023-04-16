@@ -17,11 +17,15 @@
  */
 package com.slytechs.protocol.pack.core.constants;
 
+import java.util.function.IntSupplier;
+
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.HeaderInfo;
 import com.slytechs.protocol.HeaderSupplier;
 import com.slytechs.protocol.Other;
 import com.slytechs.protocol.pack.core.Ethernet;
+import com.slytechs.protocol.pack.core.Llc;
+import com.slytechs.protocol.pack.core.Snap;
 
 /**
  * The Enum L2FrameType.
@@ -29,32 +33,32 @@ import com.slytechs.protocol.pack.core.Ethernet;
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
-public enum L2FrameType implements HeaderInfo {
+public enum L2FrameType implements HeaderInfo, IntSupplier {
 
 	/** The other. */
 	OTHER(0),
-	
+
 	/** The ether. */
 	ETHER(CoreIdTable.CORE_ID_ETHER, Ethernet::new),
-	
+
 	/** The llc. */
-	LLC(CoreIdTable.CORE_ID_LLC),
-	
+	LLC(CoreIdTable.CORE_ID_LLC, Llc::new),
+
 	/** The snap. */
-	SNAP(CoreIdTable.CORE_ID_SNAP),
-	
+	SNAP(CoreIdTable.CORE_ID_SNAP, Snap::new),
+
 	/** The ppp. */
 	PPP(CoreIdTable.CORE_ID_PPP),
-	
+
 	/** The fddi. */
 	FDDI(CoreIdTable.CORE_ID_FDDI),
-	
+
 	/** The atm. */
 	ATM(CoreIdTable.CORE_ID_ATM),
-	
+
 	/** The novell raw. */
 	NOVELL_RAW(CoreIdTable.CORE_ID_ETHER),
-	
+
 	/** The isl. */
 	ISL(CoreIdTable.CORE_ID_ETHER),
 
@@ -62,7 +66,7 @@ public enum L2FrameType implements HeaderInfo {
 
 	/** The id. */
 	private final int id;
-	
+
 	/** The supplier. */
 	private final HeaderSupplier supplier;
 
@@ -89,41 +93,41 @@ public enum L2FrameType implements HeaderInfo {
 
 	/** The Constant L2_FRAME_TYPE_UNKNOWN. */
 	public final static int L2_FRAME_TYPE_UNKNOWN = -1;
-	
+
 	/** The Constant L2_FRAME_TYPE_OTHER. */
 	public final static int L2_FRAME_TYPE_OTHER = 0;
-	
+
 	/** The Constant L2_FRAME_TYPE_ETHER. */
 	public final static int L2_FRAME_TYPE_ETHER = 1;
-	
+
 	/** The Constant L2_FRAME_TYPE_LLC. */
 	public final static int L2_FRAME_TYPE_LLC = 2;
-	
+
 	/** The Constant L2_FRAME_TYPE_SNAP. */
 	public final static int L2_FRAME_TYPE_SNAP = 3;
-	
+
 	/** The Constant L2_FRAME_TYPE_NOVELL_RAW. */
 	public final static int L2_FRAME_TYPE_NOVELL_RAW = 4;
-	
+
 	/** The Constant L2_FRAME_TYPE_ISL. */
 	public final static int L2_FRAME_TYPE_ISL = 5;
-	
+
 	/** The Constant L2_FRAME_TYPE_PPP. */
 	public final static int L2_FRAME_TYPE_PPP = 6;
-	
+
 	/** The Constant L2_FRAME_TYPE_FDDI. */
 	public final static int L2_FRAME_TYPE_FDDI = 7;
-	
+
 	/** The Constant L2_FRAME_TYPE_ATM. */
 	public final static int L2_FRAME_TYPE_ATM = 8;
 
 	/**
-	 * Value of.
+	 * Value of integer l2 type to enum constant.
 	 *
-	 * @param l2FrameType the l 2 frame type
-	 * @return the l 2 frame type
+	 * @param l2FrameType the layer2 frame type
+	 * @return the enum constant
 	 */
-	public static L2FrameType valueOf(int l2FrameType) {
+	public static L2FrameType valueOfL2FrameType(int l2FrameType) {
 		return values()[l2FrameType];
 	}
 
@@ -156,6 +160,14 @@ public enum L2FrameType implements HeaderInfo {
 	@Override
 	public Header newHeaderInstance() {
 		return supplier != null ? supplier.newHeaderInstance() : null;
+	}
+
+	/**
+	 * @see java.util.function.IntSupplier#getAsInt()
+	 */
+	@Override
+	public int getAsInt() {
+		return ordinal();
 	}
 
 }

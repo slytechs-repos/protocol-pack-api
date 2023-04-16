@@ -17,6 +17,10 @@
  */
 package com.slytechs.protocol.descriptor;
 
+import static com.slytechs.protocol.descriptor.Type1DescriptorLayout.*;
+
+import com.slytechs.protocol.pack.core.constants.CoreConstants;
+import com.slytechs.protocol.pack.core.constants.L3FrameType;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 import com.slytechs.protocol.runtime.util.Detail;
 
@@ -29,12 +33,14 @@ import com.slytechs.protocol.runtime.util.Detail;
  */
 public class Type1Descriptor extends PacketDescriptor {
 
+	/** Length in bytes of type1 descriptor. */
+	public static final int LENGTH = CoreConstants.DESC_TYPE1_BYTE_SIZE;
+
 	/**
 	 * Instantiates a new type 1 descriptor.
 	 */
 	public Type1Descriptor() {
 		super(PacketDescriptorType.TYPE1);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -45,7 +51,7 @@ public class Type1Descriptor extends PacketDescriptor {
 	 */
 	@Override
 	public boolean isHeaderExtensionSupported() {
-		throw new UnsupportedOperationException("not implemented yet");
+		return false;
 	}
 
 	/**
@@ -80,12 +86,12 @@ public class Type1Descriptor extends PacketDescriptor {
 	 * @param depth           the depth
 	 * @param recordIndexHint the record index hint
 	 * @return the long
-	 * @see com.slytechs.protocol.HeaderLookup#lookupHeaderExtension(int,
-	 *      int, int, int)
+	 * @see com.slytechs.protocol.HeaderLookup#lookupHeaderExtension(int, int, int,
+	 *      int)
 	 */
 	@Override
 	public long lookupHeaderExtension(int headerId, int extId, int depth, int recordIndexHint) {
-		throw new UnsupportedOperationException("not implemented yet");
+		return CompactDescriptor.ID_NOT_FOUND;
 	}
 
 	/**
@@ -96,7 +102,7 @@ public class Type1Descriptor extends PacketDescriptor {
 	 */
 	@Override
 	public int byteSize() {
-		throw new UnsupportedOperationException("not implemented yet");
+		return LENGTH;
 	}
 
 	/**
@@ -107,7 +113,7 @@ public class Type1Descriptor extends PacketDescriptor {
 	 */
 	@Override
 	public long timestamp() {
-		throw new UnsupportedOperationException("not implemented yet");
+		return TIMESTAMP.getLong(buffer());
 	}
 
 	/**
@@ -118,7 +124,7 @@ public class Type1Descriptor extends PacketDescriptor {
 	 */
 	@Override
 	public int captureLength() {
-		throw new UnsupportedOperationException("not implemented yet");
+		return CAPLEN.getUnsignedShort(buffer());
 	}
 
 	/**
@@ -129,21 +135,75 @@ public class Type1Descriptor extends PacketDescriptor {
 	 */
 	@Override
 	public int wireLength() {
-		throw new UnsupportedOperationException("not implemented yet");
+		return WIRELEN.getUnsignedShort(buffer());
+	}
+
+	@Override
+	public int l2FrameType() {
+		return L2_FRAME_TYPE.getUnsignedShort(buffer());
+	}
+
+	public L3FrameType l3FrameTypeAsContant() {
+		return L3FrameType.valueOfL3FrameType(l3FrameType());
+	}
+
+	public int l3FrameType() {
+		return L3_FRAME_TYPE.getUnsignedShort(buffer());
+	}
+
+	public int l3Offset() {
+		return L3_OFFSET.getUnsignedShort(buffer());
+	}
+
+	public int l3Size() {
+		return L3_SIZE.getUnsignedShort(buffer());
+	}
+
+	public int l4FrameType() {
+		return L4_FRAME_TYPE.getUnsignedShort(buffer());
+	}
+
+	public int l4Offset() {
+		return l3Offset() + l3Size();
+	}
+
+	public int l4Size() {
+		return L4_SIZE.getUnsignedShort(buffer());
 	}
 
 	/**
 	 * Builds the detailed string.
 	 *
-	 * @param b      the b
-	 * @param detail the detail
+	 * @param toAppendTo the b
+	 * @param detail     the detail
 	 * @return the string builder
 	 * @see com.slytechs.protocol.descriptor.PacketDescriptor#buildDetailedString(java.lang.StringBuilder,
 	 *      com.slytechs.protocol.runtime.util.Detail)
 	 */
 	@Override
-	protected StringBuilder buildDetailedString(StringBuilder b, Detail detail) {
-		throw new UnsupportedOperationException("not implemented yet");
+	protected StringBuilder buildDetailedString(StringBuilder toAppendTo, Detail detail) {
+		if (detail == Detail.LOW) {
+			toAppendTo
+					.append("cap=%d".formatted(captureLength()))
+					.append(", ts=\"%tc\"%n".formatted(timestamp()));
+
+		} else if (detail == Detail.MEDIUM) {
+			toAppendTo
+					.append("cap=%d".formatted(captureLength()))
+					.append(", wire=%d".formatted(wireLength()))
+					.append(", l3=%s".formatted(L3FrameType.valueOfL3FrameType(l3FrameType())))
+					.append(", ts=\"%tc\"%n".formatted(timestamp()));
+
+		} else { // Detail.HIGH
+			toAppendTo
+					.append("captureLength=%d".formatted(captureLength()))
+					.append(", wireLength=%d".formatted(wireLength()))
+					.append(", l3FrameType=%s".formatted(L3FrameType.valueOfL3FrameType(l3FrameType())))
+					.append(", timestamp=\"%tc\"%n".formatted(timestamp()));
+
+		}
+
+		return toAppendTo;
 	}
 
 }
