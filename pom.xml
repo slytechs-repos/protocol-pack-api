@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.slytechs.jnet</groupId>
 	<artifactId>core-protocols</artifactId>
-	<version>0.9</version>
+	<version>0.9-SNAPSHOT</version>
 	<name>Core Protocol Pack</name>
 	<description>Protocol and runtime support for common protocols</description>
 	<url>https://www.slytechs.com</url>
