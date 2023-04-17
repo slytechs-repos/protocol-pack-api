@@ -35,11 +35,13 @@ enum Type1DescriptorLayout implements BitField.Proxy {
 	/** The timestamp. */
 	TIMESTAMP("timestamp"),
 
+	/** The capture length or at snaplen */
 	CAPLEN("caplen"),
 	L2_FRAME_TYPE("l2_frame_type"),
 	L3_OFFSET("l3_offset"),
 	L3_SIZE("l3_size"),
 
+	/** The length as seen on the wire */
 	WIRELEN("wirelen"),
 	VLAN_COUNT("vlan_count"),
 	MPLS_COUNT("mpls_count"),
@@ -54,7 +56,7 @@ enum Type1DescriptorLayout implements BitField.Proxy {
 	 */
 	private static class Struct {
 
-		/** The Constant TYPE2_STRUCT. */
+		/** The Constant STRUCT. */
 		private static final BinaryLayout STRUCT = structLayout(
 
 				/* Word0&1 */

@@ -139,7 +139,6 @@ public interface PacketDissectorExtension {
 	void setRecorder(RecordRecorder recorder);
 
 	/**
-	 * Sets the extensions.
 	 *
 	 * @param ext the new extensions
 	 */

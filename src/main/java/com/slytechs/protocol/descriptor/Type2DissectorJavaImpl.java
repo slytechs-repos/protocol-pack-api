@@ -20,7 +20,6 @@ package com.slytechs.protocol.descriptor;
 import static com.slytechs.protocol.descriptor.Type2DescriptorLayout.*;
 import static com.slytechs.protocol.pack.core.constants.CoreConstants.*;
 
-import java.net.ProtocolException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
@@ -33,10 +32,8 @@ import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 import com.slytechs.protocol.pack.core.constants.Ip4OptionInfo;
 import com.slytechs.protocol.pack.core.constants.Ip6OptionInfo;
-import com.slytechs.protocol.pack.core.constants.L2FrameType;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 import com.slytechs.protocol.pack.core.constants.TcpOptionInfo;
-import com.slytechs.protocol.runtime.time.TimestampUnit;
 import com.slytechs.protocol.runtime.util.Bits;
 
 /**
@@ -62,20 +59,11 @@ class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissec
 	/** The Constant WORD5. */
 	private static final int WORD5 = 20;
 
-	/** The Constant DEFAULT_L2_TYPE. */
-	private final static L2FrameType DEFAULT_L2_TYPE = L2FrameType.ETHER;
-
 	/** The extensions. */
 	private final PacketDissectorExtension extensions;
 
-	/** The buf. */
-	private ByteBuffer buf;
-
 	/** The record extensions. */
 	private boolean recordExtensions = true;
-
-	/** The timestamp unit. */
-	private TimestampUnit timestampUnit = TimestampUnit.PCAP_MICRO;
 
 	/** The ip 4 disable bitmask. */
 	private int ip4DisableBitmask = 0;
@@ -88,18 +76,6 @@ class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissec
 
 	/** The default bitmask. */
 	private int defaultBitmask = Bits.BITS_00;
-
-	/** The dlt type. */
-	private int dltType = DEFAULT_L2_TYPE.getL2FrameTypeAsInt();
-
-	/** The timestamp. */
-	private long timestamp;
-
-	/** The capture length. */
-	private int captureLength;
-
-	/** The wire length. */
-	private int wireLength;
 
 	/** The rx port. */
 	private int rxPort;
@@ -150,9 +126,6 @@ class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissec
 		reset();
 
 		this.extensions = Pack.wrapAllExtensions(PacketDescriptorType.TYPE2, this);
-
-		this.extensions.setRecorder(this::addRecord);
-		this.extensions.setExtensions(extensions);
 	}
 
 	/**
@@ -163,7 +136,8 @@ class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissec
 	 * @param length the length
 	 * @return true, if successful
 	 */
-	private boolean addRecord(int id, int offset, int length) {
+	@Override
+	protected boolean addRecord(int id, int offset, int length) {
 		if ((recordCount == DESC_TYPE2_RECORD_MAX_COUNT) || ((offset + length) > captureLength))
 			return false;
 
@@ -171,34 +145,6 @@ class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissec
 		bitmask = PackId.bitmaskSet(bitmask, id);
 
 		return true;
-	}
-
-	/**
-	 * Update record.
-	 *
-	 * @param recordIndex the record index
-	 * @param id          the id
-	 * @param offset      the offset
-	 * @param length      the length
-	 * @return true, if successful
-	 */
-	private boolean updateRecord(int recordIndex, int id, int offset, int length) {
-		if ((recordIndex >= recordCount) || ((offset + length) > captureLength))
-			return false;
-
-		record[recordIndex] = PackId.encodeRecord(id, offset, length);
-
-		return true;
-	}
-
-	/**
-	 * Calc ip version.
-	 *
-	 * @param versionField the version field
-	 * @return the int
-	 */
-	private int calcIpVersion(byte versionField) {
-		return (versionField >> 4) & Bits.BITS_04;
 	}
 
 	/**
@@ -265,6 +211,19 @@ class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissec
 	}
 
 	/**
+	 * Check bitmask.
+	 *
+	 * @param mask the mask
+	 * @param id   the id
+	 * @return true, if successful
+	 */
+	private boolean checkBitmask(int mask, int id) {
+		int index = PackId.decodeRecordOrdinal(id);
+
+		return (mask & (1 << index)) != 0;
+	}
+
+	/**
 	 * Descriptor length.
 	 *
 	 * @return the int
@@ -284,187 +243,113 @@ class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissec
 	}
 
 	/**
-	 * Dissect eth type.
+	 * Disable bitmask recording.
 	 *
-	 * @param offset the offset
-	 * @param type   the type
+	 * @return the java dissector type 2
 	 */
-	private void dissectEthType(int offset, int type) {
+	public Type2DissectorJavaImpl disableBitmaskRecording() {
+		// Turning on all bits, effectively disables bitmask checks
+		bitmask = defaultBitmask = Bits.BITS_32;
 
-		switch (type) {
-		case ETHER_TYPE_IPv4:
-		case ETHER_TYPE_IPv6:
-			dissectIp(offset);
+		return this;
+	}
 
-			break;
+	/**
+	 * Disable extension recording for.
+	 *
+	 * @param protocolId   the protocol id
+	 * @param extentionIds the extention ids
+	 * @return the java dissector type 2
+	 */
+	public Type2DissectorJavaImpl disableExtensionRecordingFor(
+			CoreIdTable protocolId, HeaderExtensionInfo... extentionIds) {
 
-		case ETHER_TYPE_VLAN:
-			if (addRecord(CoreIdTable.CORE_ID_VLAN, offset, VLAN_HEADER_LEN)) {
-				type = Short.toUnsignedInt(buf.getShort(offset + VLAN_FIELD_TYPE));
-				offset += VLAN_HEADER_LEN;
-				dissectEthType(offset, type);
-			}
+		return disableExtensionRecordingInCoreProtocol(protocolId.id(),
+				Arrays.stream(extentionIds)
+						.mapToInt(HeaderExtensionInfo::id)
+						.toArray());
+	}
 
-			break;
+	/**
+	 * Disable extension recording for all.
+	 *
+	 * @return the java dissector type 2
+	 */
+	public Type2DissectorJavaImpl disableExtensionRecordingForAll() {
+		this.recordExtensions = false;
 
-		case ETHER_TYPE_IPX:
-			dissectIpx(offset);
+		return this;
+	}
 
-			break;
+	/**
+	 * Disable extension recording in core protocol.
+	 *
+	 * @param protocolId   the protocol id
+	 * @param extensionIds the extension ids
+	 * @return the java dissector type 2
+	 */
+	public Type2DissectorJavaImpl disableExtensionRecordingInCoreProtocol(int protocolId, int... extensionIds) {
 
-		case ETHER_TYPE_MPLS:
-		case ETHER_TYPE_MPLS_UPSTREAM:
+		if (extensionIds.length > 0) {
+			IntConsumer bitmaskSet = switch (protocolId) {
+			case CoreIdTable.CORE_ID_IPv4 -> id -> ip4DisableBitmask = PackId.bitmaskSet(ip4DisableBitmask, id);
+			case CoreIdTable.CORE_ID_IPv6 -> id -> ip6DisableBitmask = PackId.bitmaskSet(ip6DisableBitmask, id);
+			case CoreIdTable.CORE_ID_TCP -> id -> tcpDisableBitmask = PackId.bitmaskSet(tcpDisableBitmask, id);
+			default -> id -> {};
+			};
 
-			boolean bottomOfstack = false;
-			do {
-				int label = buf.getInt(offset);
-				bottomOfstack = (label & MPLS_BITMASK_BOTTOM) != 0;
+			for (int extId : extensionIds)
+				bitmaskSet.accept(extId);
 
-				if (!addRecord(CoreIdTable.CORE_ID_MPLS, offset, MPLS_HEADER_LEN))
-					return;
-
-				offset += MPLS_HEADER_LEN; // MPLS header length
-			} while (!bottomOfstack);
-
-			dissectIp(offset);
-
-			break;
-
-		case ETHER_TYPE_ARP:
-		case ETHER_TYPE_RARP:
-			addRecord(CoreIdTable.CORE_ID_ARP, offset, ARP_HEADER_LEN);
-			break;
-
-		default:
-			extensions.dissectType(buf, offset, CoreIdTable.CORE_ID_ETHER, type);
-			break;
+		} else {
+			/* If no specifics extensions specified, disable them all */
+			switch (protocolId) {
+			case CoreIdTable.CORE_ID_IPv4 -> ip4DisableBitmask = Bits.BITS_32;
+			case CoreIdTable.CORE_ID_IPv6 -> ip6DisableBitmask = Bits.BITS_32;
+			case CoreIdTable.CORE_ID_TCP -> tcpDisableBitmask = Bits.BITS_32;
+			};
 		}
+
+		return this;
+	}
+
+	@Override
+	protected void dissectExtensionPorts(ByteBuffer buf, int offset, int id, int src, int dst) {
+		extensions.dissectPorts(buf, offset, id, src, dst);
 	}
 
 	/**
-	 * Dissect ipx.
-	 *
-	 * @param offset the offset
+	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#dissectExtensionType(java.nio.ByteBuffer,
+	 *      int, int, int)
 	 */
-	private void dissectIpx(int offset) {
-		addRecord(CoreIdTable.CORE_ID_IPX, offset, IPX_HEADER_LEN);
+	@Override
+	protected void dissectExtensionType(ByteBuffer buf, int offset, int id, int nextHeader) {
+		extensions.dissectType(buf, offset, id, nextHeader);
 	}
 
-	/**
-	 * Dissect ethernet.
-	 *
-	 * @param offset the offset
-	 */
-	private void dissectEthernet(int offset) {
-
-		if (!hasRemaining(offset, ETHER_HEADER_LEN))
+	@Override
+	protected void dissectGre(int offset) {
+		if (!hasRemaining(offset, GRE_HEADER_LEN))
 			return;
 
-		int type = Short.toUnsignedInt(buf.getShort(offset + ETHER_FIELD_TYPE));
+		short r0 = buf.getShort(offset + 0);
+		int len = calculateGreHeaderLength(r0);
 
-		if (type > ETHER_MIN_VALUE_FOR_TYPE) {
-			// Ethernet2 frame type
-
-			addRecord(CoreIdTable.CORE_ID_ETHER, offset, ETHER_HEADER_LEN);
-			l2Type = L2FrameType.L2_FRAME_TYPE_ETHER;
-			offset += ETHER_HEADER_LEN;
-
-			dissectEthType(offset, type);
-
-		} else if (hasRemaining(offset, LLC_HEADER_LEN)) { // Nope 802.3 frame
-			// THE 802.2 LOGICAL LINK CONTROL (LLC) HEADER
-
-			offset += ETHER_HEADER_LEN;
-			addRecord(CoreIdTable.CORE_ID_LLC, offset, LLC_HEADER_LEN);
-			l2Type = L2FrameType.L2_FRAME_TYPE_LLC;
-
-			int dsap = Byte.toUnsignedInt(buf.get(offset + LLC_FIELD_DSAP));
-			int ssap = Byte.toUnsignedInt(buf.get(offset + LLC_FIELD_SSAP));
-			int control = Byte.toUnsignedInt(buf.get(offset + LLC_FIELD_CONTROL));
-
-			offset += LLC_HEADER_LEN;
-
-			if ((control == LLC_TYPE_FRAME)
-					&& (ssap == LLC_TYPE_SNAP)
-					&& (dsap == LLC_TYPE_SNAP)
-					&& hasRemaining(offset, SNAP_HEADER_LEN)) { // Snap + Frame = SNAP
-				// THE SUB-NETWORK ACCESS PROTOCOL (SNAP) HEADER
-
-				addRecord(CoreIdTable.CORE_ID_SNAP, offset, SNAP_HEADER_LEN);
-				l2Type = L2FrameType.L2_FRAME_TYPE_SNAP;
-				type = buf.getShort(offset + SNAP_FIELD_TYPE);
-
-				offset += SNAP_HEADER_LEN;
-
-				dissectEthType(offset, type);
-
-			} else if ((control == LLC_TYPE_FRAME)
-					&& (dsap == LLC_TYPE_NETWARE)
-					&& (ssap == LLC_TYPE_NETWARE)
-					&& hasRemaining(offset, IPX_HEADER_LEN)) {
-
-				// Internetwork Packet Exchange
-				dissectIpx(offset);
-
-			} else if ((control == LLC_TYPE_FRAME)
-					&& (dsap == LLC_TYPE_STP)
-					&& (ssap == LLC_TYPE_STP)
-					&& hasRemaining(offset, STP_HEADER_LEN)) {
-
-				addRecord(CoreIdTable.CORE_ID_STP, offset, STP_HEADER_LEN);
-			} else {
-				return; // Its a pure LLC frame, no protocols
-
-			}
-		}
+		addRecord(CoreIdTable.CORE_ID_GRE, offset, len);
 	}
 
-	/**
-	 * Dissect L 2.
-	 *
-	 * @param dlt    the dlt
-	 * @param buf    the buf
-	 * @param offset the offset
-	 * @return the int
-	 */
-	private int dissectL2(int dlt, ByteBuffer buf, int offset) {
-		int l2Type = L2FrameType.L2_FRAME_TYPE_OTHER;
-
-		switch (dlt) { // L2 Datalink Type
-		case L2FrameType.L2_FRAME_TYPE_ETHER:
-			if (hasRemaining(offset, CoreConstants.ETHER_HEADER_LEN)) {
-				l2Type = L2FrameType.L2_FRAME_TYPE_ETHER;
-				dissectEthernet(offset);
-			}
-			break;
-
-		case L2FrameType.L2_FRAME_TYPE_NOVELL_RAW:
-			if (hasRemaining(offset, CoreConstants.ETHER_HEADER_LEN)) {
-				l2Type = L2FrameType.L2_FRAME_TYPE_ETHER;
-				int first2bytes = buf.getShort(ETHER_HEADER_LEN);
-
-				/*
-				 * In raw mode, IPX follows immediately 802.3 header instead of LLC/SNAP but 1st
-				 * two bytes must be 0xFFFF
-				 */
-				if (first2bytes == IPX_FIELD_VALUE_CHECKSUM)
-					dissectIpx(ETHER_HEADER_LEN); // Sets L3Type to IPX...
-			}
-			break;
-
-		}
-
-		return l2Type;
-	}
-
-	private void dissectIcmp4(int offset) {
+	@Override
+	protected void dissectIcmp4(int offset) {
 		if (!hasRemaining(offset, ICMPv4_HEADER_LEN))
 			return;
+
+		addRecord(CoreIdTable.CORE_ID_ICMPv4, offset, ICMPv4_HEADER_LEN);
+
 		int type = Byte.toUnsignedInt(buf.get(offset + ICMPv4_FIELD_TYPE));
 		int code = Byte.toUnsignedInt(buf.get(offset + ICMPv4_FIELD_CODE));
 
-		int len = switch(code) {
-		
+		int len = switch (code) {
+
 		default -> ICMPv4_HEADER_LEN;
 		};
 	}
@@ -474,7 +359,11 @@ class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissec
 	 *
 	 * @param offset the offset
 	 */
-	private void dissectIcmp6(int offset) {
+	@Override
+	protected void dissectIcmp6(int offset) {
+		if (!hasRemaining(offset, ICMPv6_HEADER_LEN))
+			return;
+
 		int type = Byte.toUnsignedInt(buf.get(offset)); // type field
 		int len = 0;
 
@@ -541,162 +430,14 @@ class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissec
 	}
 
 	/**
-	 * Dissect tcp options.
-	 *
-	 * @param offset         the offset
-	 * @param tcpHeaderLenth the tcp header lenth
-	 */
-	private void dissectTcpOptions(int offset, int tcpHeaderLenth) {
-
-		int limit = offset + tcpHeaderLenth;
-
-		// Advance to option start
-		offset += TCP_HEADER_LEN;
-
-		while (offset < limit) {
-			int kind = Byte.toUnsignedInt(buf.get(offset + TCP_OPTION_FIELD_KIND));
-
-			switch (kind) {
-
-			case TCP_OPTION_KIND_EOL:
-			case TCP_OPTION_KIND_NOP: {
-				int len = 1;
-				int id = TcpOptionInfo.mapKindToId(kind);
-
-				addRecord(id, offset, len);
-				offset += 1;
-				break;
-			}
-
-			case TCP_OPTION_KIND_MSS:
-			case TCP_OPTION_KIND_WIN_SCALE:
-			case TCP_OPTION_KIND_SACK:
-			case TCP_OPTION_KIND_TIMESTAMP:
-			case TCP_OPTION_KIND_FASTOPEN: {
-				int len = Byte.toUnsignedInt(buf.get(offset + TCP_OPTION_FIELD_LENGTH));
-				int id = TcpOptionInfo.mapKindToId(kind);
-
-				addRecord(id, offset, len);
-				offset += len;
-				break;
-			}
-
-			default: {
-				int len = Byte.toUnsignedInt(buf.get(offset + TCP_OPTION_FIELD_LENGTH));
-				offset += len;
-			}
-
-			}
-		}
-	}
-
-	/**
-	 * Dissect ip type.
-	 *
-	 * @param offset     the offset
-	 * @param nextHeader the next header
-	 */
-	private void dissectIpType(int offset, int nextHeader) {
-		int r0, len;
-
-		EXIT: while (nextHeader != -1) {
-			switch (nextHeader) {
-			case IP_TYPE_ICMPv4:
-				
-				addRecord(CoreIdTable.CORE_ID_ICMPv4, offset, ICMPv4_HEADER_LEN);
-
-				break EXIT;
-
-			case IP_TYPE_IPv4_IN_IP:
-				dissectIp(offset);
-
-				break EXIT;
-
-			case IP_TYPE_TCP:
-				if (hasRemaining(offset, TCP_HEADER_LEN)) {
-					r0 = buf.get(offset + TCP_FIELD_IHL);
-					len = ((r0 >> 4) & Bits.BITS_04) << 2;
-
-					addRecord(CoreIdTable.CORE_ID_TCP, offset, len);
-
-					dissectTcpOptions(offset, len);
-
-					int src = Short.toUnsignedInt(buf.getShort(offset + TCP_FIELD_SRC));
-					int dst = Short.toUnsignedInt(buf.getShort(offset + TCP_FIELD_DST));
-
-					offset += len;
-
-					extensions.dissectPorts(buf, offset, CoreIdTable.CORE_ID_TCP, src, dst);
-				}
-
-				break EXIT;
-
-			case IP_TYPE_UDP:
-				addRecord(CoreIdTable.CORE_ID_UDP, offset, UDP_HEADER_LEN);
-
-				int src = Short.toUnsignedInt(buf.getShort(offset + TCP_FIELD_SRC));
-				int dst = Short.toUnsignedInt(buf.getShort(offset + TCP_FIELD_DST));
-
-				offset += UDP_HEADER_LEN;
-
-				extensions.dissectPorts(buf, offset, CoreIdTable.CORE_ID_UDP, src, dst);
-
-				break EXIT;
-
-			case IP_TYPE_IPv6_IN_IP: // IPv6
-				dissectIp(offset);
-
-				break EXIT;
-
-			case IP_TYPE_GRE:
-				if (hasRemaining(offset, 2)) {
-					r0 = buf.getShort(offset + 0);
-					len = calculateGreHeaderLength((short) r0);
-
-					addRecord(CoreIdTable.CORE_ID_GRE, offset, len);
-				}
-				break EXIT;
-
-			case IP_TYPE_SCTP:
-				addRecord(CoreIdTable.CORE_ID_SCTP, offset, SCTP_HEADER_LEN);
-				break EXIT;
-
-			case IP_TYPE_ICMPv6:
-				dissectIcmp6(offset);
-				break EXIT;
-
-			case IP_TYPE_NO_NEXT:
-				return;
-
-			default:
-				extensions.dissectType(buf, offset, CoreIdTable.CORE_ID_IPv4, nextHeader);
-				break EXIT;
-			}
-		}
-
-	}
-
-	/**
-	 * Check bitmask.
-	 *
-	 * @param mask the mask
-	 * @param id   the id
-	 * @return true, if successful
-	 */
-	private boolean checkBitmask(int mask, int id) {
-		int index = PackId.decodeRecordOrdinal(id);
-
-		return (mask & (1 << index)) != 0;
-	}
-
-	/**
 	 * Dissect ip 4 options.
 	 *
 	 * @param offset     the offset
 	 * @param hlen       the hlen
 	 * @param nextHeader the next header
 	 */
-	private void dissectIp4Options(int offset, int hlen, int nextHeader) {
+	@Override
+	protected void dissectIp4Options(int offset, int hlen, int nextHeader) {
 		int l4Offset = offset + hlen;
 
 		/* check if any options are present */
@@ -733,7 +474,8 @@ class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissec
 	 * @param offset     the offset
 	 * @param nextHeader the next header
 	 */
-	private void dissectIp6Options(int offset, int nextHeader) {
+	@Override
+	protected void dissectIp6Options(int offset, int nextHeader) {
 		final int ip6RecordIndex = recordCount;
 		final int ip6OffsetStart = offset;
 
@@ -784,90 +526,90 @@ class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissec
 	}
 
 	/**
-	 * Dissect ip.
+	 * Dissect ipx.
 	 *
 	 * @param offset the offset
 	 */
-	private void dissectIp(int offset) {
-		if (!hasRemaining(offset, 1))
+	@Override
+	protected void dissectIpx(int offset) {
+		if (!hasRemaining(offset, IPX_HEADER_LEN))
 			return;
 
-		int r0 = buf.get(offset + IPv4_FIELD_VER); // 07:00 IP header len & version
-		int ver = calcIpVersion((byte) r0); // Common to IPv4 and IPv6
+		addRecord(CoreIdTable.CORE_ID_IPX, offset, IPX_HEADER_LEN);
+	}
 
-		int nextHeader = -1;
-		int len;
+	@Override
+	protected void dissectSctp(int offset) {
+		if (!hasRemaining(offset, SCTP_HEADER_LEN))
+			return;
 
-		if ((ver == 4) && hasRemaining(offset, IPv4_HEADER_LEN)) {
-			len = ((r0 >> 0) & Bits.BITS_04) << 2;
-			nextHeader = buf.get(offset + IPv4_FIELD_PROTOCOL);
+		addRecord(CoreIdTable.CORE_ID_SCTP, offset, SCTP_HEADER_LEN);
+	}
 
-			if (!addRecord(CoreIdTable.CORE_ID_IPv4, offset, len))
-				return;
+	/**
+	 * Dissect tcp options.
+	 *
+	 * @param offset         the offset
+	 * @param tcpHeaderLenth the tcp header lenth
+	 */
+	@Override
+	protected void dissectTcpOptions(int offset, int tcpHeaderLenth) {
 
-			int sword3 = buf.getShort(offset + IPv4_FIELD_FLAGS);
-			boolean mf = (sword3 & IPv4_FLAG16_MF) > 0;
-			int fragOff = (sword3 & IPv4_MASK16_FRAGOFF);
+		int limit = offset + tcpHeaderLenth;
 
-			this.l3IsFrag = mf || (fragOff > 0);
-			this.l3LastFrag = !mf && (fragOff > 0);
+		// Advance to option start
+		offset += TCP_HEADER_LEN;
 
-			dissectIp4Options(offset, len, nextHeader);
+		while (offset < limit) {
+			int kind = Byte.toUnsignedInt(buf.get(offset + TCP_OPTION_FIELD_KIND));
 
-		} else if (hasRemaining(offset, IPv6_HEADER_LEN)) {
-			nextHeader = Byte.toUnsignedInt(buf.get(offset + IPv6_FIELD_NEXT_HOP));
-			dissectIp6Options(offset, nextHeader);
+			switch (kind) {
+
+			case TCP_OPTION_KIND_EOL:
+			case TCP_OPTION_KIND_NOP: {
+				int len = 1;
+				int id = TcpOptionInfo.mapKindToId(kind);
+
+				addRecord(id, offset, len);
+				offset += 1;
+				break;
+			}
+
+			case TCP_OPTION_KIND_MSS:
+			case TCP_OPTION_KIND_WIN_SCALE:
+			case TCP_OPTION_KIND_SACK:
+			case TCP_OPTION_KIND_TIMESTAMP:
+			case TCP_OPTION_KIND_FASTOPEN: {
+				int len = Byte.toUnsignedInt(buf.get(offset + TCP_OPTION_FIELD_LENGTH));
+				int id = TcpOptionInfo.mapKindToId(kind);
+
+				addRecord(id, offset, len);
+				offset += len;
+				break;
+			}
+
+			default: {
+				int len = Byte.toUnsignedInt(buf.get(offset + TCP_OPTION_FIELD_LENGTH));
+				offset += len;
+			}
+
+			}
 		}
 	}
 
-	/**
-	 * Dissect packet.
-	 *
-	 * @param buffer        the buffer
-	 * @param timestamp     the timestamp
-	 * @param captureLength the capture length
-	 * @param wireLength    the wire length
-	 * @return the int
-	 * @see com.slytechs.protocol.descriptor.PacketDissector#dissectPacket(java.nio.ByteBuffer,
-	 *      long, int, int)
-	 */
 	@Override
-	public int dissectPacket(ByteBuffer buffer, long timestamp, int captureLength, int wireLength) {
-		this.buf = buffer;
-		this.timestamp = timestamp;
-		this.captureLength = captureLength;
-		this.wireLength = wireLength;
+	protected void dissectUdp(int offset) {
+		if (!hasRemaining(offset, UDP_HEADER_LEN))
+			return;
 
-		this.l2Type = dissectL2(dltType, buf, 0);
+		addRecord(CoreIdTable.CORE_ID_UDP, offset, UDP_HEADER_LEN);
 
-		/*
-		 * Advance the position manually, since we only reference the buffer data in
-		 * absolute mode.
-		 */
-		buffer.position(buffer.position() + captureLength);
+		int src = Short.toUnsignedInt(buf.getShort(offset + TCP_FIELD_SRC));
+		int dst = Short.toUnsignedInt(buf.getShort(offset + TCP_FIELD_DST));
 
-		return captureLength;
-	}
+		offset += UDP_HEADER_LEN;
 
-	/**
-	 * Checks for remaining.
-	 *
-	 * @param offset the offset
-	 * @return true, if successful
-	 */
-	private boolean hasRemaining(int offset) {
-		return offset <= captureLength;
-	}
-
-	/**
-	 * Checks for remaining.
-	 *
-	 * @param offset the offset
-	 * @param length the length
-	 * @return true, if successful
-	 */
-	private boolean hasRemaining(int offset, int length) {
-		return (offset + length) <= captureLength;
+		extensions.dissectPorts(buf, offset, CoreIdTable.CORE_ID_UDP, src, dst);
 	}
 
 	/**
@@ -877,8 +619,9 @@ class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissec
 	 */
 	@Override
 	public void reset() {
-		timestamp = captureLength = wireLength = 0;
-		hash = hashType = l2Type = 0;
+		super.reset();
+
+		hash = hashType = 0;
 		rxPort = txPort = 0;
 		txNow = txIgnore = txCrcOverride = txSetClock = 0;
 
@@ -887,18 +630,13 @@ class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissec
 	}
 
 	/**
-	 * Sets the datalink type.
+	 * Sets the extensions.
 	 *
-	 * @param l2Type the l 2 type
-	 * @return the packet dissector
-	 * @throws ProtocolException the protocol exception
-	 * @see com.slytechs.protocol.descriptor.PacketDissector#setDatalinkType(com.slytechs.protocol.pack.core.constants.L2FrameType)
+	 * @param ext the new extensions
+	 * @see com.slytechs.protocol.descriptor.PacketDissectorExtension#setExtensions(com.slytechs.protocol.descriptor.PacketDissectorExtension)
 	 */
 	@Override
-	public PacketDissector setDatalinkType(L2FrameType l2Type) throws ProtocolException {
-		this.dltType = l2Type.getL2FrameTypeAsInt();
-
-		return this;
+	public void setExtensions(PacketDissectorExtension ext) {
 	}
 
 	/**
@@ -916,6 +654,50 @@ class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissec
 	}
 
 	/**
+	 * Sets the recorder.
+	 *
+	 * @param recorder the new recorder
+	 * @see com.slytechs.protocol.descriptor.PacketDissectorExtension#setRecorder(com.slytechs.protocol.descriptor.PacketDissector.RecordRecorder)
+	 */
+	@Override
+	public void setRecorder(RecordRecorder recorder) {
+		// We are the recorder see addRecord(...)
+	}
+
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "JavaDissectorType2 [dltType=" + dltType + ", timestamp=" + timestamp + ", captureLength="
+				+ captureLength + ", wireLength=" + wireLength + ", rxPort=" + rxPort + ", txPort=" + txPort
+				+ ", txNow=" + txNow + ", txIgnore=" + txIgnore + ", txCrcOverride=" + txCrcOverride + ", txSetClock="
+				+ txSetClock + ", l2Type=" + l2Type + ", hashType=" + hashType + ", recordCount=" + recordCount
+				+ ", hash=" + hash + ", bitmask=" + bitmask + "]";
+	}
+
+	/**
+	 * Update record.
+	 *
+	 * @param recordIndex the record index
+	 * @param id          the id
+	 * @param offset      the offset
+	 * @param length      the length
+	 * @return true, if successful
+	 */
+	private boolean updateRecord(int recordIndex, int id, int offset, int length) {
+		if ((recordIndex >= recordCount) || ((offset + length) > captureLength))
+			return false;
+
+		record[recordIndex] = PackId.encodeRecord(id, offset, length);
+
+		return true;
+	}
+
+	/**
 	 * Write descriptor.
 	 *
 	 * @param desc the desc
@@ -929,40 +711,6 @@ class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissec
 		desc.position(desc.position() + len);
 
 		return len;
-	}
-
-	/**
-	 * Write descriptor using layout.
-	 *
-	 * @param desc the desc
-	 * @return the int
-	 */
-	public final int writeDescriptorUsingLayout(ByteBuffer desc) {
-		TIMESTAMP.setLong(timestamp, desc);
-
-		CAPLEN.setInt(captureLength, desc);
-		RX_PORT.setInt(rxPort, desc);
-		TX_PORT.setInt(txPort, desc);
-
-		WIRELEN.setInt(wireLength, desc);
-		TX_NOW.setInt(txNow, desc);
-		TX_IGNORE.setInt(txIgnore, desc);
-		TX_CRC_OVERRIDE.setInt(txCrcOverride, desc);
-		TX_SET_CLOCK.setInt(txSetClock, desc);
-		L2_TYPE.setInt(l2Type, desc);
-		HASH_TYPE.setInt(hashType, desc);
-		RECORD_COUNT.setInt(recordCount, desc);
-
-		L3_IS_FRAG.setShort((short) (l3IsFrag ? 1 : 0), desc);
-		L3_LAST_FRAG.setShort((short) (l3LastFrag ? 1 : 0), desc);
-
-		HASH24.setInt(hash, desc);
-		BITMASK.setInt(bitmask, desc);
-
-		for (int i = 0, j = 24; i < recordCount; i++, j += 4)
-			desc.putInt(j, record[i]);
-
-		return descriptorLength();
 	}
 
 	/**
@@ -1002,109 +750,37 @@ class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissec
 	}
 
 	/**
-	 * Disable bitmask recording.
+	 * Write descriptor using layout.
 	 *
-	 * @return the java dissector type 2
+	 * @param desc the desc
+	 * @return the int
 	 */
-	public Type2DissectorJavaImpl disableBitmaskRecording() {
-		// Turning on all bits, effectively disables bitmask checks
-		bitmask = defaultBitmask = Bits.BITS_32;
+	public final int writeDescriptorUsingLayout(ByteBuffer desc) {
+		TIMESTAMP.setLong(timestamp, desc);
 
-		return this;
-	}
+		CAPLEN.setInt(captureLength, desc);
+		RX_PORT.setInt(rxPort, desc);
+		TX_PORT.setInt(txPort, desc);
 
-	/**
-	 * Disable extension recording for all.
-	 *
-	 * @return the java dissector type 2
-	 */
-	public Type2DissectorJavaImpl disableExtensionRecordingForAll() {
-		this.recordExtensions = false;
+		WIRELEN.setInt(wireLength, desc);
+		TX_NOW.setInt(txNow, desc);
+		TX_IGNORE.setInt(txIgnore, desc);
+		TX_CRC_OVERRIDE.setInt(txCrcOverride, desc);
+		TX_SET_CLOCK.setInt(txSetClock, desc);
+		L2_TYPE.setInt(l2Type, desc);
+		HASH_TYPE.setInt(hashType, desc);
+		RECORD_COUNT.setInt(recordCount, desc);
 
-		return this;
-	}
+		L3_IS_FRAG.setShort((short) (l3IsFrag ? 1 : 0), desc);
+		L3_LAST_FRAG.setShort((short) (l3LastFrag ? 1 : 0), desc);
 
-	/**
-	 * Disable extension recording for.
-	 *
-	 * @param protocolId   the protocol id
-	 * @param extentionIds the extention ids
-	 * @return the java dissector type 2
-	 */
-	public Type2DissectorJavaImpl disableExtensionRecordingFor(
-			CoreIdTable protocolId, HeaderExtensionInfo... extentionIds) {
+		HASH24.setInt(hash, desc);
+		BITMASK.setInt(bitmask, desc);
 
-		return disableExtensionRecordingInCoreProtocol(protocolId.id(),
-				Arrays.stream(extentionIds)
-						.mapToInt(HeaderExtensionInfo::id)
-						.toArray());
-	}
+		for (int i = 0, j = 24; i < recordCount; i++, j += 4)
+			desc.putInt(j, record[i]);
 
-	/**
-	 * Disable extension recording in core protocol.
-	 *
-	 * @param protocolId   the protocol id
-	 * @param extensionIds the extension ids
-	 * @return the java dissector type 2
-	 */
-	public Type2DissectorJavaImpl disableExtensionRecordingInCoreProtocol(int protocolId, int... extensionIds) {
-
-		if (extensionIds.length > 0) {
-			IntConsumer bitmaskSet = switch (protocolId) {
-			case CoreIdTable.CORE_ID_IPv4 -> id -> ip4DisableBitmask = PackId.bitmaskSet(ip4DisableBitmask, id);
-			case CoreIdTable.CORE_ID_IPv6 -> id -> ip6DisableBitmask = PackId.bitmaskSet(ip6DisableBitmask, id);
-			case CoreIdTable.CORE_ID_TCP -> id -> tcpDisableBitmask = PackId.bitmaskSet(tcpDisableBitmask, id);
-			default -> id -> {};
-			};
-
-			for (int extId : extensionIds)
-				bitmaskSet.accept(extId);
-
-		} else {
-			/* If no specifics extensions specified, disable them all */
-			switch (protocolId) {
-			case CoreIdTable.CORE_ID_IPv4 -> ip4DisableBitmask = Bits.BITS_32;
-			case CoreIdTable.CORE_ID_IPv6 -> ip6DisableBitmask = Bits.BITS_32;
-			case CoreIdTable.CORE_ID_TCP -> tcpDisableBitmask = Bits.BITS_32;
-			};
-		}
-
-		return this;
-	}
-
-	/**
-	 * To string.
-	 *
-	 * @return the string
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "JavaDissectorType2 [dltType=" + dltType + ", timestamp=" + timestamp + ", captureLength="
-				+ captureLength + ", wireLength=" + wireLength + ", rxPort=" + rxPort + ", txPort=" + txPort
-				+ ", txNow=" + txNow + ", txIgnore=" + txIgnore + ", txCrcOverride=" + txCrcOverride + ", txSetClock="
-				+ txSetClock + ", l2Type=" + l2Type + ", hashType=" + hashType + ", recordCount=" + recordCount
-				+ ", hash=" + hash + ", bitmask=" + bitmask + "]";
-	}
-
-	/**
-	 * Sets the recorder.
-	 *
-	 * @param recorder the new recorder
-	 * @see com.slytechs.protocol.descriptor.PacketDissectorExtension#setRecorder(com.slytechs.protocol.descriptor.PacketDissector.RecordRecorder)
-	 */
-	@Override
-	public void setRecorder(RecordRecorder recorder) {
-	}
-
-	/**
-	 * Sets the extensions.
-	 *
-	 * @param ext the new extensions
-	 * @see com.slytechs.protocol.descriptor.PacketDissectorExtension#setExtensions(com.slytechs.protocol.descriptor.PacketDissectorExtension)
-	 */
-	@Override
-	public void setExtensions(PacketDissectorExtension ext) {
+		return descriptorLength();
 	}
 
 }
