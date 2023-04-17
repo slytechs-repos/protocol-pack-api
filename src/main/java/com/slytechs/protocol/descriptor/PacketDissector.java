@@ -90,6 +90,25 @@ public interface PacketDissector {
 
 	/**
 	 * Checks if is native dissector supported of given type.
+	 * <p>
+	 * The native dissector API consists of a native library and header files. The
+	 * native dissector class calls on the native dissector from java.
+	 * <p>
+	 * The following native API makes up the dissector API and is utilized by the
+	 * native dissector class:
+	 * 
+	 * <pre>
+	 * <code>
+	int pkt_is_dissector_supported(PktDescriptorType_e type);
+		PktDissector pkt_allocate_dissector(PktDescriptorType_e type);
+	int pkt_free_dissector(PktDissector dissector);
+	int pkt_dissect(PktDissector dissector, uint8_t *packet, uint64_t timestamp, uint32_t captureLength, uint32_t wireLength);
+	int pkt_dissect_and_write(PktDissector dissector, uint8_t *descriptor, size_t descriptorOffset, uint8_t *packet, size_t packetOffset, uint64_t timestamp, uint32_t captureLength, uint32_t wireLength);
+	int pkt_write_descriptor(PktDissector dissector, uint8_t *descriptor);
+	int pkt_reset_dissector(PktDissector dissector);
+	int pkt_set_dissector_datalink(PktDissector dissector, L2FrameType_e l2Type);
+	 * </code>
+	 * </pre>
 	 *
 	 * @param type the descriptor type
 	 * @return true, if is native dissector supported
@@ -99,8 +118,27 @@ public interface PacketDissector {
 	}
 
 	/**
-	 * Allocated a new packet dissector of the given type. A native implemented
+	 * Allocates a new packet dissector of the given type. A native implemented
 	 * dissector is allocated.
+	 * <p>
+	 * The native dissector API consists of a native library and header files. The
+	 * native dissector class calls on the native dissector from java.
+	 * <p>
+	 * The following native API makes up the dissector API and is utilized by the
+	 * native dissector class:
+	 * 
+	 * <pre>
+	 * <code>
+	int pkt_is_dissector_supported(PktDescriptorType_e type);
+		PktDissector pkt_allocate_dissector(PktDescriptorType_e type);
+	int pkt_free_dissector(PktDissector dissector);
+	int pkt_dissect(PktDissector dissector, uint8_t *packet, uint64_t timestamp, uint32_t captureLength, uint32_t wireLength);
+	int pkt_dissect_and_write(PktDissector dissector, uint8_t *descriptor, size_t descriptorOffset, uint8_t *packet, size_t packetOffset, uint64_t timestamp, uint32_t captureLength, uint32_t wireLength);
+	int pkt_write_descriptor(PktDissector dissector, uint8_t *descriptor);
+	int pkt_reset_dissector(PktDissector dissector);
+	int pkt_set_dissector_datalink(PktDissector dissector, L2FrameType_e l2Type);
+	 * </code>
+	 * </pre>
 	 *
 	 * @param type the descriptor type for which appropriate dissector is found
 	 * @return newly allocated packet dissector
