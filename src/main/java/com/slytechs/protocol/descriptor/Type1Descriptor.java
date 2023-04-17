@@ -29,6 +29,7 @@ import com.slytechs.protocol.pack.core.constants.L2FrameType;
 import com.slytechs.protocol.pack.core.constants.L3FrameType;
 import com.slytechs.protocol.pack.core.constants.L4FrameType;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
+import com.slytechs.protocol.runtime.time.Timestamp;
 import com.slytechs.protocol.runtime.util.Detail;
 
 /**
@@ -273,18 +274,18 @@ public class Type1Descriptor extends PacketDescriptor {
 		if (detail == Detail.LOW) {
 			toAppendTo
 					.append("cap=%d".formatted(captureLength()))
-					.append(", ts=\"%tc\"%n".formatted(timestamp()));
+					.append(", ts=\"%s\"%n".formatted(new Timestamp(timestamp(), timestampUnit())));
 
 		} else if (detail == Detail.MEDIUM) {
 			toAppendTo
 					.append("cap=%d".formatted(captureLength()))
 					.append(", wire=%d".formatted(wireLength()))
 					.append(", l3=%s".formatted(L3FrameType.valueOfL3FrameType(l3FrameType())))
-					.append(", ts=\"%tc\"%n".formatted(timestamp()));
+					.append(", ts=\"%s\"%n".formatted(new Timestamp(timestamp(), timestampUnit())));
 
 		} else { // Detail.HIGH
 			toAppendTo
-					.append("  timestap=\"%tc\"%n".formatted(timestamp()))
+					.append("  timestap=\"%s\"%n".formatted(new Timestamp(timestamp(), timestampUnit())))
 
 					.append("  captureLength=%d%n".formatted(captureLength()))
 					.append("  l2FrameType=%d (%s)%n".formatted(l2FrameType(), L2FrameType.valueOfL2FrameType(
