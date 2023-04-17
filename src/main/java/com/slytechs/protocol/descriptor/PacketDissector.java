@@ -26,11 +26,15 @@ import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 import com.slytechs.protocol.runtime.time.TimestampSource;
 
 /**
- * The Interface PacketDissector.
+ * A packet dissector which records the state of the packet. A dissectors
+ * decodes the contents of the packet and breaks it down into individual headers
+ * and other relevant information. The dissector stores the result internally
+ * until the next reset on it called. The dissectors state is written to a
+ * descriptor buffer which for the specific descriptor type that was specified
+ * at the time the dissector was allocated.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
 public interface PacketDissector {
 
@@ -39,7 +43,7 @@ public interface PacketDissector {
 	 */
 	@FunctionalInterface
 	public interface RecordRecorder {
-		
+
 		/**
 		 * Adds the record.
 		 *
@@ -52,24 +56,30 @@ public interface PacketDissector {
 	}
 
 	/**
-	 * Dissector.
+	 * Allocated a new packet dissector of the given type. First a native dissector
+	 * is allocated if available otherwise a java implemented dissector is
+	 * allocated.
 	 *
-	 * @param type the type
-	 * @return the packet dissector
+	 * @param type the descriptor type for which appropriate dissector is found
+	 * @return newly allocated packet dissector
 	 */
 	static PacketDissector dissector(PacketDescriptorType type) {
-		return javaDissector(type);
+		return isNativeDissectorSupported(type)
+				? nativeDissector(type)
+				: javaDissector(type);
 	}
 
 	/**
-	 * Java dissector.
+	 * Allocated a new packet dissector of the given type. A java implemented
+	 * dissector is allocated.
 	 *
-	 * @param type the type
-	 * @return the packet dissector
+	 * @param type the descriptor type for which appropriate dissector is found
+	 * @return newly allocated packet dissector
 	 */
 	static PacketDissector javaDissector(PacketDescriptorType type) {
 
 		return switch (type) {
+		case TYPE1 -> new Type1DissectorJavaImpl();
 		case TYPE2 -> new Type2DissectorJavaImpl();
 
 		default -> throw new UnsupportedOperationException("Not implemented yet, dissector [%s]".formatted(type
@@ -79,20 +89,35 @@ public interface PacketDissector {
 	}
 
 	/**
-	 * Native dissector.
+	 * Checks if is native dissector supported of given type.
 	 *
-	 * @param type the type
-	 * @return the packet dissector
+	 * @param type the descriptor type
+	 * @return true, if is native dissector supported
 	 */
-	static PacketDissector nativeDissector(PacketDescriptorType type) {
-		throw new UnsupportedOperationException();
+	static boolean isNativeDissectorSupported(PacketDescriptorType type) {
+		return PacketDissectorNative.isSupported(type);
 	}
 
 	/**
-	 * Dissect packet.
+	 * Allocated a new packet dissector of the given type. A native implemented
+	 * dissector is allocated.
 	 *
-	 * @param buffer the buffer
-	 * @return the int
+	 * @param type the descriptor type for which appropriate dissector is found
+	 * @return newly allocated packet dissector
+	 */
+	static PacketDissector nativeDissector(PacketDescriptorType type) {
+		if (!isNativeDissectorSupported(type))
+			throw new UnsupportedOperationException("No native implementation for dissector type %s was found"
+					.formatted(type.name()));
+
+		return new PacketDissectorNative(type);
+	}
+
+	/**
+	 * Dissect a packet and store its state.
+	 *
+	 * @param buffer the packet buffer
+	 * @return number of bytes processed in the buffer
 	 */
 	default int dissectPacket(ByteBuffer buffer) {
 		int caplen = buffer.remaining();
@@ -102,23 +127,23 @@ public interface PacketDissector {
 	}
 
 	/**
-	 * Dissect packet.
+	 * Dissect a packet and store its state.
 	 *
 	 * @param packet the packet
-	 * @return the int
+	 * @return number of bytes processed in the buffer
 	 */
 	default int dissectPacket(Packet packet) {
 		return dissectPacket(packet.buffer());
 	}
 
 	/**
-	 * Dissect packet.
+	 * Dissect a packet and store its state.
 	 *
-	 * @param buffer    the buffer
+	 * @param buffer    the packet buffer
 	 * @param timestamp the timestamp
 	 * @param caplen    the caplen
 	 * @param wirelen   the wirelen
-	 * @return the int
+	 * @return number of bytes processed in the buffer
 	 */
 	int dissectPacket(ByteBuffer buffer, long timestamp, int caplen, int wirelen);
 
@@ -130,12 +155,13 @@ public interface PacketDissector {
 	boolean isNative();
 
 	/**
-	 * Reset.
+	 * Reset the state of the dissector. Calling a reset on a dissector will reset
+	 * it state and get it ready for the next dissection.
 	 */
 	void reset();
 
 	/**
-	 * Sets the datalink type.
+	 * Sets a datalink type for all packets being dissected.
 	 *
 	 * @param l2Type the l 2 type
 	 * @return the packet dissector
@@ -144,27 +170,21 @@ public interface PacketDissector {
 	PacketDissector setDatalinkType(L2FrameType l2Type) throws ProtocolException;
 
 	/**
-	 * Write descriptor.
+	 * Write the state of the dissection into the provided descriptor.
 	 *
-	 * @param buffer the buffer
-	 * @return the int
+	 * @param buffer the descriptor buffer
+	 * @return number of byte written
 	 */
 	int writeDescriptor(ByteBuffer buffer);
 
 	/**
-	 * Write descriptor.
+	 * Write the state of the dissection into the provided descriptor.
 	 *
 	 * @param descriptor the descriptor
-	 * @return the int
+	 * @return number of byte written
 	 */
 	default int writeDescriptor(PacketDescriptor descriptor) {
 		return writeDescriptor(descriptor.buffer());
 	}
 
-	/**
-	 * Load all loaded extensions.
-	 */
-	default void loadAllLoadedExtensions() {
-
-	}
 }
