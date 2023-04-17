@@ -38,6 +38,9 @@ public final class CoreConstants {
 	 */
 	public static final int DESC_PKT_FLAG_PREAMBLE      = 0x0002;
 
+	/** The Constant DESC_TYPE1_BYTE_SIZE. */
+	public static final int DESC_TYPE1_BYTE_SIZE        = 16;
+
 	/** The Constant DESC_TYPE2_BYTE_SIZE_MIN. */
 	public static final int DESC_TYPE2_BYTE_SIZE_MIN    = 24;
 	
@@ -216,6 +219,8 @@ public final class CoreConstants {
 	public static final int ICMPv4_FIELD_CHECKSUM = 2;
 	public static final int ICMPv4_TYPE_ECHO_REQUEST = 8;
 	public static final int ICMPv4_TYPE_ECHO_REPLY = 0;
+
+	public static final int ICMPv6_HEADER_LEN = 4;
 
 	/** The Constant ICMPv6_TYPE_RESERVED. */
 	public static final int ICMPv6_TYPE_RESERVED = 0;
@@ -543,8 +548,9 @@ public final class CoreConstants {
 	public static final int IPv6_OPTION_TYPE_FRAGMENT_LEN   = 8;
 	// @formatter:on
 
+	/* TCP constants */
+
 	/** The Constant TCP_HEADER_LEN. */
-	/* Descriptor TCP constants */
 	public static final int TCP_HEADER_LEN = 20;
 
 	/** The Constant TCP_FIELD_IHL. */
@@ -611,6 +617,9 @@ public final class CoreConstants {
 	/** The Constant SCTP_HEADER_LEN. */
 	/* Descriptor SCTP constants */
 	public static final int SCTP_HEADER_LEN = 0;
+
+	/** The Constant GRE_HEADER_LEN. */
+	public static final int GRE_HEADER_LEN = 2;
 
 	/** The Constant GRE_BITMASK_CHKSUM_FLAG. */
 	/* Descriptor GRE constants */

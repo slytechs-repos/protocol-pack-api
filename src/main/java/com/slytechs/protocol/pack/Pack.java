@@ -30,8 +30,8 @@ import com.slytechs.protocol.Header;
 import com.slytechs.protocol.HeaderExtensionInfo;
 import com.slytechs.protocol.HeaderInfo;
 import com.slytechs.protocol.Other;
-import com.slytechs.protocol.descriptor.DissectorExtension;
-import com.slytechs.protocol.descriptor.DissectorExtension.DissectorExtensionFactory;
+import com.slytechs.protocol.descriptor.PacketDissectorExtension;
+import com.slytechs.protocol.descriptor.PacketDissectorExtension.DissectorExtensionFactory;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 
 /**
@@ -442,20 +442,20 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 	 * @param core the core
 	 * @return the dissector extension
 	 */
-	public static DissectorExtension wrapAllExtensions(PacketDescriptorType type, DissectorExtension core) {
+	public static PacketDissectorExtension wrapAllExtensions(PacketDescriptorType type, PacketDissectorExtension core) {
 
-		final List<DissectorExtension> list = Pack.listAllLoadedPacks().stream()
+		final List<PacketDissectorExtension> list = Pack.listAllLoadedPacks().stream()
 				.filter(Pack::isNotCore)
 				.map(Pack::extensionFactory)
 				.filter(Objects::nonNull)
 				.map(f -> f.newInstance(type))
 				.collect(Collectors.toList());
 
-		final var mutable = new ArrayList<DissectorExtension>();
+		final var mutable = new ArrayList<PacketDissectorExtension>();
 		mutable.add(core);
 		mutable.addAll(list);
 
-		return DissectorExtension.wrap(mutable);
+		return PacketDissectorExtension.wrap(mutable);
 	}
 
 	/**

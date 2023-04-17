@@ -30,7 +30,7 @@ import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public interface DissectorExtension {
+public interface PacketDissectorExtension {
 
 	/**
 	 * A factory for creating DissectorExtension objects.
@@ -43,11 +43,11 @@ public interface DissectorExtension {
 		 * @param type the type
 		 * @return the dissector extension
 		 */
-		DissectorExtension newInstance(PacketDescriptorType type);
+		PacketDissectorExtension newInstance(PacketDescriptorType type);
 	}
 
 	/** The empty. */
-	static DissectorExtension EMPTY = new DissectorExtension() {
+	static PacketDissectorExtension EMPTY = new PacketDissectorExtension() {
 
 		@Override
 		public void setRecorder(RecordRecorder recorder) {
@@ -73,7 +73,7 @@ public interface DissectorExtension {
 		}
 
 		@Override
-		public void setExtensions(DissectorExtension ext) {
+		public void setExtensions(PacketDissectorExtension ext) {
 		}
 	};
 
@@ -83,8 +83,8 @@ public interface DissectorExtension {
 	 * @param list the list
 	 * @return the dissector extension
 	 */
-	static DissectorExtension wrap(List<DissectorExtension> list) {
-		return new DissectorExtension() {
+	static PacketDissectorExtension wrap(List<PacketDissectorExtension> list) {
+		return new PacketDissectorExtension() {
 
 			@Override
 			public void setRecorder(RecordRecorder recorder) {
@@ -92,14 +92,14 @@ public interface DissectorExtension {
 			}
 
 			@Override
-			public void setExtensions(DissectorExtension ext) {
+			public void setExtensions(PacketDissectorExtension ext) {
 				list.forEach(e -> e.setExtensions(ext));
 			}
 
 			@Override
 			public boolean dissectEncaps(ByteBuffer buffer, int offset, int encapsId, int encapsOffset,
 					int encapsLength) {
-				for (DissectorExtension ext : list)
+				for (PacketDissectorExtension ext : list)
 					if (ext.dissectEncaps(buffer, offset, encapsId, encapsOffset, encapsLength))
 						return true;
 
@@ -108,7 +108,7 @@ public interface DissectorExtension {
 
 			@Override
 			public boolean dissectType(ByteBuffer buffer, int offset, int encapsId, int type) {
-				for (DissectorExtension ext : list)
+				for (PacketDissectorExtension ext : list)
 					if (ext.dissectType(buffer, offset, encapsId, type))
 						return true;
 
@@ -117,7 +117,7 @@ public interface DissectorExtension {
 
 			@Override
 			public boolean dissectPorts(ByteBuffer buffer, int offset, int encapsId, int src, int dst) {
-				for (DissectorExtension ext : list)
+				for (PacketDissectorExtension ext : list)
 					if (ext.dissectPorts(buffer, offset, encapsId, src, dst))
 						return true;
 
@@ -139,11 +139,10 @@ public interface DissectorExtension {
 	void setRecorder(RecordRecorder recorder);
 
 	/**
-	 * Sets the extensions.
 	 *
 	 * @param ext the new extensions
 	 */
-	void setExtensions(DissectorExtension ext);
+	void setExtensions(PacketDissectorExtension ext);
 
 	/**
 	 * Dissect encaps.
