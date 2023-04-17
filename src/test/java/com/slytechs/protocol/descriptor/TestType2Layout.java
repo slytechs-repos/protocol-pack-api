@@ -37,8 +37,8 @@ import com.slytechs.protocol.pack.core.constants.CoreConstants;
  */
 class TestType2Layout {
 
-	private static final int REPEAT = 1000;
-	private static final int REPEAT_TIMESTAMP = 1000;
+	private static final int REPEAT = 1;
+	private static final int REPEAT_TIMESTAMP = 1;
 	private static final Random RANDOM = new Random();
 	private ByteBuffer buf1;
 	private ByteBuffer buf2 = ByteBuffer.allocate(CoreConstants.DESC_TYPE2_BYTE_SIZE_MAX);

@@ -58,7 +58,8 @@ class BitCarrierImplementation implements BitCarrier {
 	 */
 	private static Number getPrimitive(long byteOffset, long maxBytes, Number data, long mask, boolean big) {
 		if (byteOffset >= maxBytes)
-			throw new IndexOutOfBoundsException();
+			throw new IndexOutOfBoundsException("byteOffset=%d, maxBytes=%d"
+					.formatted(byteOffset, maxBytes));
 
 		long r0 = data.longValue();
 		r0 >>= (byteOffset * 8);
@@ -279,9 +280,9 @@ class BitCarrierImplementation implements BitCarrier {
 		case ByteBuffer d    -> d.order(bo).getShort((int) byteOffset);
 		case MemorySegment d -> d.get(JAVA_SHORT(big), byteOffset);
 		case Byte d          -> throwDataTypeTooShort(data);
-		case Short d         -> getPrimitive(byteOffset, 1, d, MASK_16, big).shortValue();
-		case Integer d       -> getPrimitive(byteOffset, 2, d, MASK_16, big).shortValue();
-		case Long d          -> getPrimitive(byteOffset, 4, d, MASK_16, big).shortValue();
+		case Short d         -> getPrimitive(byteOffset, 2, d, MASK_16, big).shortValue();
+		case Integer d       -> getPrimitive(byteOffset, 4, d, MASK_16, big).shortValue();
+		case Long d          -> getPrimitive(byteOffset, 8, d, MASK_16, big).shortValue();
 //		case short[] d       -> ArrayUtils.getShort(d, (int) byteOffset, context.order());
 //		case int[] d         -> ArrayUtils.getShort(d, (int) byteOffset, context.order());
 //		case long[] d        -> ArrayUtils.getShort(d, (int) byteOffset, context.order());

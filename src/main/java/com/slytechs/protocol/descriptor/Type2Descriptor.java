@@ -480,7 +480,7 @@ public class Type2Descriptor extends PacketDescriptor {
 					.append(", rxPort").append(rxPort())
 					.append(", hash16=0x").append(Integer.toHexString(hash32() & Bits.BITS_16))
 					.append(", l2=%d (%s)".formatted(l2FrameType(),
-							L2FrameType.valueOf(l2FrameType())))
+							L2FrameType.valueOfL2FrameType(l2FrameType())))
 
 					.append(", rc=").append(recordCount())
 					.append(", ts=\"%tT\"".formatted(timestamp()));
@@ -506,7 +506,7 @@ public class Type2Descriptor extends PacketDescriptor {
 
 			b.append("")
 					.append("  l2FrameType=%d (%s)%n".formatted(l2FrameType(),
-							L2FrameType.valueOf(l2FrameType())))
+							L2FrameType.valueOfL2FrameType(l2FrameType())))
 
 					.append("  color=%d%n".formatted(color()))
 					.append("  hash=0x%08X (type=%d [%s], 24-bits=0x%06X)%n"

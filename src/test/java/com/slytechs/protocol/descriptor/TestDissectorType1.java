@@ -30,17 +30,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
 import com.slytechs.protocol.Packet;
-import com.slytechs.protocol.descriptor.PacketDissector;
-import com.slytechs.protocol.descriptor.Type2Descriptor;
 import com.slytechs.protocol.pack.core.Ethernet;
 import com.slytechs.protocol.pack.core.Ip4;
 import com.slytechs.protocol.pack.core.Ip4Option.Ip4RouterOption;
 import com.slytechs.protocol.pack.core.Ip6;
 import com.slytechs.protocol.pack.core.Ip6Option.Ip6FragmentOption;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
-import com.slytechs.protocol.pack.core.constants.CoreIdTable;
-import com.slytechs.protocol.pack.core.constants.HashType;
-import com.slytechs.protocol.pack.core.constants.Ip4OptionInfo;
 import com.slytechs.protocol.pack.core.constants.L2FrameType;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 import com.slytechs.protocol.runtime.internal.Benchmark;
@@ -53,7 +48,7 @@ import com.slytechs.protocol.runtime.util.HexStrings;
  * @author Mark Bednarczyk
  *
  */
-class TestDissectorType2 {
+class TestDissectorType1 {
 	/**
 	 * (Source wireshark capture and copy/paste)
 	 * 
@@ -159,7 +154,7 @@ class TestDissectorType2 {
 	@BeforeEach
 	void setUp(TestInfo info) throws Exception {
 		testName = info.getTestMethod().get().getName();
-		dissector = PacketDissector.javaDissector(PacketDescriptorType.TYPE2);
+		dissector = PacketDissector.javaDissector(PacketDescriptorType.TYPE1);
 
 		if (defaultLevel.intValue() >= displayLevel.intValue())
 			System.out.printf("> --- %s() ---%n", testName);
@@ -190,25 +185,21 @@ class TestDissectorType2 {
 		dissector.writeDescriptor(dsc);
 		dsc.clear();
 
-		Type2Descriptor type2 = new Type2Descriptor()
+		Type1Descriptor type1 = new Type1Descriptor()
 				.withBinding(dsc)
-				.hash(0x12345, HashType.ROUND_ROBIN)
-				.rxPort(10)
-				.txPort(15)
-				.txIgnore(1)
 
 		;
 
-		log("%s%n", type2);
+		log("%s%n", type1);
 
-		assertEquals(TIMESTAMP, type2.timestamp(), "timestamp");
-		assertEquals(PACKET.length, type2.captureLength(), "captureLength");
+		assertEquals(TIMESTAMP, type1.timestamp(), "timestamp");
+		assertEquals(PACKET.length, type1.captureLength(), "captureLength");
 
-		assertEquals(L2FrameType.L2_FRAME_TYPE_ETHER, type2.l2FrameType(), "l2FrameType");
+		assertEquals(L2FrameType.L2_FRAME_TYPE_ETHER, type1.l2FrameType(), "l2FrameType");
 
-		assertEquals(PACKET.length, type2.wireLength(), "wireLength");
+		assertEquals(PACKET.length, type1.wireLength(), "wireLength");
 
-		Packet packet = new Packet(type2)
+		Packet packet = new Packet(type1)
 				.withBinding(pkt);
 
 		Ethernet eth = new Ethernet();
@@ -243,33 +234,23 @@ class TestDissectorType2 {
 
 		final long TIMESTAMP = System.currentTimeMillis();
 
-		Type2DissectorJavaImpl diss2 = ((Type2DissectorJavaImpl) dissector)
-//				.disableBitmaskRecording()
-//				.disableExtensionRecordingForAll()
-				.disableExtensionRecordingFor(CoreIdTable.IPv4,
-//						Ip4OptionId.ROUTER_ALERT,
-						Ip4OptionInfo.NO_OPERATION,
-						Ip4OptionInfo.END_OF_OPTIONS)
+		Type1DissectorJavaImpl diss1 = ((Type1DissectorJavaImpl) dissector)
 
 		;
 
 		dissector.dissectPacket(pkt, TIMESTAMP, PACKET.length, PACKET.length);
 		dissector.writeDescriptor(desc1);
 
-		diss2.writeDescriptorUsingLayout(desc2);
+		diss1.writeDescriptor(desc2);
 
 //		System.out.printf("desc1=%s%n", HexStrings.toHexString(desc1.array(), 0, 24));
 //		System.out.printf("desc2=%s%n", HexStrings.toHexString(desc2.array(), 0, 24));
 
-		Type2Descriptor type2 = new Type2Descriptor()
-				.withBinding(desc2)
-				.hash(0x12345, HashType.ROUND_ROBIN)
-				.rxPort(10)
-				.txPort(15)
-				.txIgnore(1);
-		System.out.printf("type2=%s%n", type2.buildString(Detail.HIGH));
+		Type2Descriptor type1 = new Type2Descriptor()
+				.withBinding(desc2);
+		System.out.printf("type1=%s%n", type1.buildString(Detail.HIGH));
 
-		Packet packet = new Packet(type2)
+		Packet packet = new Packet(type1)
 				.withBinding(pkt);
 
 		Ethernet eth = new Ethernet();
