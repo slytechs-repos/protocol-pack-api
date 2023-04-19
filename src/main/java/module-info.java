@@ -44,6 +44,8 @@ module com.slytechs.protocol {
 	exports com.slytechs.protocol.runtime.internal.layout;
 	exports com.slytechs.protocol.runtime.internal.foreign;
 	exports com.slytechs.protocol.runtime.internal.concurrent;
+	exports com.slytechs.protocol.runtime.internal.util to
+			com.slytechs.jnetpcap.pro;
 	exports com.slytechs.protocol.runtime.internal.json to
 			com.slytechs.protocol.pack.web;
 
@@ -55,6 +57,7 @@ module com.slytechs.protocol {
 	exports com.slytechs.protocol.descriptor;
 	exports com.slytechs.protocol.meta;
 	exports com.slytechs.protocol.runtime;
+	exports com.slytechs.protocol.runtime.hash;
 	exports com.slytechs.protocol.runtime.time;
 	exports com.slytechs.protocol.runtime.util;
 	exports com.slytechs.protocol.runtime.internal.util.function;
