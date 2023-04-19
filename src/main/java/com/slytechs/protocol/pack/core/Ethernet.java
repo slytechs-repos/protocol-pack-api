@@ -26,7 +26,7 @@ import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 import com.slytechs.protocol.pack.core.constants.EtherType;
-import com.slytechs.protocol.runtime.util.Checksums;
+import com.slytechs.protocol.runtime.hash.Checksums;
 import com.slytechs.protocol.runtime.util.HexStrings;
 
 /**

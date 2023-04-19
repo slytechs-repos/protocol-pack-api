@@ -206,7 +206,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 *
 	 * @return the int
 	 */
-	public int dstAsInt() {
+	public int dstGetAsInt() {
 		return Ip4Layout.DST.getInt(buffer());
 	}
 

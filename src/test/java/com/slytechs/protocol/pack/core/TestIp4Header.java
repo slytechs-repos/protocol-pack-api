@@ -237,7 +237,7 @@ class TestIp4Header {
 
 		var ip4 = packet.getHeader(new Ip4());
 
-		assertEquals(0x83972015, ip4.dstAsInt());
+		assertEquals(0x83972015, ip4.dstGetAsInt());
 	}
 
 	@Test
