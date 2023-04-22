@@ -22,25 +22,25 @@ import com.slytechs.protocol.runtime.util.UnitUtils.ConvertableUnit;
 /**
  * Unit definition for counting large numbers.
  */
-public enum CountUnit implements ConvertableUnit<CountUnit> {
+public enum CountUnit implements ConvertableUnit<CountUnit>, Unit {
 
 	/** The uni. */
 	COUNT(1L),
 
 	/** The kilo. */
-	KILO(1_000L),
+	KILO(1_000L, "k"),
 
 	/** The mega. */
-	MEGA(1_000_000L),
+	MEGA(1_000_000L, "m", "meg"),
 
 	/** The giga. */
-	GIGA(1_000_000_000L),
+	GIGA(1_000_000_000L, "g", "gig"),
 
 	/** The tera. */
-	TERA(1_000_000_000_000L),
+	TERA(1_000_000_000_000L, "t"),
 
 	/** The peta. */
-	PETA(1_000_000_000_000_000L),
+	PETA(1_000_000_000_000_000L, "p"),
 
 	;
 
@@ -51,17 +51,17 @@ public enum CountUnit implements ConvertableUnit<CountUnit> {
 	private final double basef;
 
 	/** The symbol. */
-	private final String symbol;
+	private final String[] symbols;
 
 	/**
 	 * Instantiates a new count unit.
 	 *
 	 * @param baseSpeed the base speed
 	 */
-	CountUnit(long baseSpeed) {
+	CountUnit(long baseSpeed, String... symbols) {
 		this.base = baseSpeed;
 		this.basef = baseSpeed;
-		this.symbol = "" + name().charAt(0);
+		this.symbols = symbols;
 	}
 
 	/**
@@ -180,16 +180,6 @@ public enum CountUnit implements ConvertableUnit<CountUnit> {
 	}
 
 	/**
-	 * Gets the symbol.
-	 *
-	 * @return the symbol
-	 */
-	@Override
-	public String getSymbol() {
-		return symbol;
-	}
-
-	/**
 	 * Nearest.
 	 *
 	 * @param inUni the in uni
@@ -208,6 +198,22 @@ public enum CountUnit implements ConvertableUnit<CountUnit> {
 	 */
 	public static String formatCount(String fmt, long inUni) {
 		return UnitUtils.format(fmt, inUni, CountUnit.class, COUNT);
+	}
+
+	/**
+	 * @see com.slytechs.protocol.runtime.util.Unit#toBase(long)
+	 */
+	@Override
+	public long toBase(long value) {
+		return toCount(value);
+	}
+
+	/**
+	 * @see com.slytechs.protocol.runtime.util.Unit#getSymbols()
+	 */
+	@Override
+	public String[] getSymbols() {
+		return symbols;
 	}
 
 }

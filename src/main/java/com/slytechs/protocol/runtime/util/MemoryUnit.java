@@ -29,10 +29,10 @@ import com.slytechs.protocol.runtime.util.UnitUtils.ConvertableUnit;
  * higher units of PETABYTES, ZETA are not defined. Future extensions will have
  * to convert to {@link BigInteger} as storage, especially for the larger units.
  */
-public enum MemoryUnit implements ConvertableUnit<MemoryUnit> {
+public enum MemoryUnit implements ConvertableUnit<MemoryUnit>, Unit {
 
 	/** The bits. */
-	BITS {
+	BITS("bit") {
 		@Override
 		public long convert(long size, MemoryUnit sourceUnit) {
 			return sourceUnit.toBits(size);
@@ -50,43 +50,43 @@ public enum MemoryUnit implements ConvertableUnit<MemoryUnit> {
 	},
 
 	/** The bytes. */
-	BYTES,
+	BYTES("b", "byte"),
 
 	/**
 	 * A Kilo byte of 1024 bytes. Storage units are always based on 1024 byte
 	 * multiple.
 	 */
-	KILOBYTES,
+	KILOBYTES("kb", "kbytes", "kilo"),
 
 	/**
 	 * A Mega byte or 1024 * Kilo bytes or 1,048,576 bytes. Storage units are always
 	 * based on 1024 byte multiple.
 	 */
-	MEGABYTES,
+	MEGABYTES("mb", "mbytes", "mega"),
 
 	/**
 	 * A Giga byte or 1024 * Mega bytes or 1,073,741,824 bytes. Storage units are
 	 * always based on 1024 byte multiple.
 	 */
-	GIGABYTES,
+	GIGABYTES("gb", "gbytes", "gig", "giga"),
 
 	/**
 	 * A Tera byte or 1024 * Giga bytes or 1,099,511,627,776 bytes. Storage units
 	 * are always based on 1024 byte multiple.
 	 */
-	TERABYTES,
+	TERABYTES("tb", "tbytes", "tera"),
 
 	/**
 	 * A Peta byte or 1024 * Tera bytes or 1,099,511,627,776 bytes. Storage units
 	 * are always based on 1024 byte multiple.
 	 */
-	PETABYTES,
+	PETABYTES("pb", "pbytes", "peta"),
 
 	/**
 	 * A Exa byte or 1024 * Peta bytes or 1,099,511,627,776 bytes. Storage units are
 	 * always based on 1024 byte multiple.
 	 */
-	EXABYTES,
+	EXABYTES("eb", "ebytes", "exa"),
 
 	;
 
@@ -97,12 +97,12 @@ public enum MemoryUnit implements ConvertableUnit<MemoryUnit> {
 	private final double basef;
 
 	/** The symbol. */
-	private final String symbol;
+	private final String[] symbols;
 
 	/**
 	 * Instantiates a new memory unit.
 	 */
-	MemoryUnit() {
+	MemoryUnit(String... symbols) {
 		final int ordinal = ordinal() - 1;
 		long t = 1;
 
@@ -112,7 +112,10 @@ public enum MemoryUnit implements ConvertableUnit<MemoryUnit> {
 
 		this.base = t;
 		this.basef = t;
-		this.symbol = name().equals("BYTES") ? "" : "" + name().charAt(0);
+		if (symbols == null)
+			this.symbols = new String[] { "" + name().charAt(0) };
+		else
+			this.symbols = symbols;
 	}
 
 	/**
@@ -276,7 +279,23 @@ public enum MemoryUnit implements ConvertableUnit<MemoryUnit> {
 	 */
 	@Override
 	public String getSymbol() {
-		return symbol;
+		return symbols.length == 0 ? name() : symbols[0];
+	}
+
+	/**
+	 * @see com.slytechs.protocol.runtime.util.Unit#toBase(long)
+	 */
+	@Override
+	public long toBase(long value) {
+		return toBytes(value);
+	}
+
+	/**
+	 * @see com.slytechs.protocol.runtime.util.Unit#getSymbols()
+	 */
+	@Override
+	public String[] getSymbols() {
+		return symbols;
 	}
 
 }

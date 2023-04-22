@@ -24,7 +24,7 @@ package com.slytechs.protocol.runtime.util;
  * @author repos@slytechs.com
  */
 class UnitUtils {
-	
+
 	/**
 	 * The Interface ConvertableUnit.
 	 *
@@ -32,7 +32,7 @@ class UnitUtils {
 	 * @author repos@slytechs.com
 	 * @param <T> the generic type
 	 */
-	interface ConvertableUnit<T extends Enum<T>> {
+	interface ConvertableUnit<T extends Enum<T>> extends Unit {
 
 		/**
 		 * Convert.
@@ -60,12 +60,6 @@ class UnitUtils {
 		 */
 		double convertf(double source, T sourceUnit);
 
-		/**
-		 * Gets the symbol.
-		 *
-		 * @return the symbol
-		 */
-		String getSymbol();
 	}
 
 	/**
@@ -112,7 +106,48 @@ class UnitUtils {
 			Class<T> type,
 			T base) {
 		T unit = nearest(value, type, base);
-		return String.format(fmt, unit.convertf((double) value), unit.getSymbol());
+		return String.format(fmt, unit.convertf(value), unit.getSymbol());
 	}
 
+	static <U extends Unit> U[] values(Class<U> cl) {
+		if (!(Enum.class.isAssignableFrom(cl)))
+			throw new IllegalArgumentException("only enum based units are supported [%s]"
+					.formatted(cl));
+
+		U[] values = cl.getEnumConstants();
+
+		return values;
+	}
+
+	static <U extends Unit> U parseUnits(String valueAndUnits, Class<U> cl) {
+		U[] values = values(cl);
+		String str = valueAndUnits.toLowerCase().strip();
+
+		for (U u : values) {
+			String[] symbols = u.getSymbols();
+			for (String sym : symbols) {
+				String regex = "[^\\s-_@]+[\\s-_@]*\\(?" + sym + "\\)?$";
+				if (str.matches(regex))
+					return u;
+			}
+		}
+
+		return null;
+	}
+
+	static String stripUnits(String valueAndUnits, Class<? extends Unit> cl) {
+		Unit[] values = values(cl);
+		String str = valueAndUnits.toLowerCase();
+
+		for (Unit u : values) {
+			String[] symbols = u.getSymbols();
+			for (String sym : symbols) {
+				String regex = "([^\\s-_@]+)[\\s-_@]*\\(?" + sym + "\\)?$";
+				if (str.matches(regex))
+					return str.replaceFirst(regex, "$1");
+			}
+		}
+
+		return valueAndUnits;
+	}
 }
