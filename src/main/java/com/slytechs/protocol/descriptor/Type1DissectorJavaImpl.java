@@ -26,10 +26,10 @@ import com.slytechs.protocol.pack.core.constants.CoreConstants;
  * @author repos@slytechs.com
  *
  */
-public class Type1DissectorJavaImpl extends PacketDissectorJava {
+public class Type1DissectorJavaImpl extends PacketL3DissectorJava {
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#writeDescriptor(java.nio.ByteBuffer)
+	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#writeDescriptor(java.nio.ByteBuffer)
 	 */
 	@Override
 	public int writeDescriptor(ByteBuffer desc) {
@@ -69,7 +69,7 @@ public class Type1DissectorJavaImpl extends PacketDissectorJava {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#destroyDissector()
+	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#destroyDissector()
 	 */
 	@Override
 	protected void destroyDissector() {
@@ -83,7 +83,7 @@ public class Type1DissectorJavaImpl extends PacketDissectorJava {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#dissectExtensionType(java.nio.ByteBuffer,
+	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectExtensionType(java.nio.ByteBuffer,
 	 *      int, int, int)
 	 */
 	@Override
@@ -91,7 +91,7 @@ public class Type1DissectorJavaImpl extends PacketDissectorJava {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#dissectIp4Options(int,
+	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectIp4Options(int,
 	 *      int, int)
 	 */
 	@Override
@@ -99,7 +99,7 @@ public class Type1DissectorJavaImpl extends PacketDissectorJava {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#dissectIp6Options(int,
+	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectIp6Options(int,
 	 *      int)
 	 */
 	@Override
@@ -107,7 +107,7 @@ public class Type1DissectorJavaImpl extends PacketDissectorJava {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#addRecord(int, int,
+	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#addRecord(int, int,
 	 *      int)
 	 */
 	@Override
@@ -116,42 +116,42 @@ public class Type1DissectorJavaImpl extends PacketDissectorJava {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#dissectUdp(int)
+	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectUdp(int)
 	 */
 	@Override
 	protected void dissectUdp(int offset) {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#dissectGre(int)
+	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectGre(int)
 	 */
 	@Override
 	protected void dissectGre(int offset) {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#dissectIcmp6(int)
+	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectIcmp6(int)
 	 */
 	@Override
 	protected void dissectIcmp6(int offset) {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#dissectIcmp4(int)
+	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectIcmp4(int)
 	 */
 	@Override
 	protected void dissectIcmp4(int offset) {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#dissectSctp(int)
+	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectSctp(int)
 	 */
 	@Override
 	protected void dissectSctp(int offset) {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#dissectExtensionPorts(java.nio.ByteBuffer,
+	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectExtensionPorts(java.nio.ByteBuffer,
 	 *      int, int, int, int)
 	 */
 	@Override
@@ -159,7 +159,7 @@ public class Type1DissectorJavaImpl extends PacketDissectorJava {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#dissectTcpOptions(int,
+	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectTcpOptions(int,
 	 *      int)
 	 */
 	@Override

@@ -33,7 +33,7 @@ import com.slytechs.protocol.runtime.util.MemoryUnit;
 class AbstractFieldCache {
 
 	/** The Constant DEFAULT_CACHE_SIZE. */
-	private static final int DEFAULT_CACHE_SIZE = MemoryUnit.KILOBYTES.toIntBytes(1);
+	private static final int DEFAULT_CACHE_SIZE = MemoryUnit.KILOBYTES.toBytesAsInt(1);
 
 	/**
 	 * The Class Entry.

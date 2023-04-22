@@ -135,7 +135,7 @@ public enum MemoryUnit implements ConvertableUnit<MemoryUnit> {
 	 */
 	@Override
 	public double convertf(double size, MemoryUnit sourceUnit) {
-		return sourceUnit.toBytesf(size) / this.base;
+		return sourceUnit.toBytesAsDouble(size) / this.base;
 	}
 
 	/**
@@ -166,7 +166,7 @@ public enum MemoryUnit implements ConvertableUnit<MemoryUnit> {
 	 * @param size the size
 	 * @return the int
 	 */
-	public int toIntBits(long size) {
+	public int toBitsAsInt(long size) {
 		long bits = (toBytes(size) * 8);
 
 		if (bits > Integer.MAX_VALUE)
@@ -191,7 +191,7 @@ public enum MemoryUnit implements ConvertableUnit<MemoryUnit> {
 	 * @param size the size
 	 * @return the int
 	 */
-	public int toIntBytes(long size) {
+	public int toBytesAsInt(long size) {
 		if (size > Integer.MAX_VALUE)
 			throw new IllegalArgumentException("integer overflow on conversion from long to int");
 
@@ -204,7 +204,7 @@ public enum MemoryUnit implements ConvertableUnit<MemoryUnit> {
 	 * @param size the size
 	 * @return the double
 	 */
-	private double toBytesf(double size) {
+	private double toBytesAsDouble(double size) {
 		return size * basef;
 	}
 

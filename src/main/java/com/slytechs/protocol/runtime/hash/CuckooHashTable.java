@@ -120,14 +120,19 @@ public final class CuckooHashTable<T> extends HashTable<T> {
 		this(DEFAULT_TABLE_SIZE, DEFAULT_ENTRIES_PER_BUCKET_COUNT);
 	}
 
-	public CuckooHashTable(int entriesCount, int indexesPerBucket) {
-		super(entriesCount);
+	public CuckooHashTable(int tableSize) {
+		this(tableSize, DEFAULT_ENTRIES_PER_BUCKET_COUNT);
+	}
+
+	public CuckooHashTable(int tableSize, int indexesPerBucket) {
+		super(tableSize);
 
 		this.indexesPerBucket = indexesPerBucket;
 		assert Integer.bitCount(indexesPerBucket) == 1 : "indexes per bucket must be a power of 2";
 
-		this.bucketCount = entriesCount / indexesPerBucket;
-		assert Integer.bitCount(bucketCount) == 1 : "table size must be a power of 2";
+		this.bucketCount = tableSize / indexesPerBucket;
+		assert (bucketCount & 1) == 0 : ""
+				+ "table size not a power of 2 [%d]".formatted(bucketCount);
 
 		// Turn into bitmask since we're a power 2 size/count
 		this.bucketBitmask = bucketCount - 1;
@@ -145,7 +150,11 @@ public final class CuckooHashTable<T> extends HashTable<T> {
 	 */
 	@Override
 	public int add(ByteBuffer key, T data, long hashcode) {
-		int index = getPrimaryBucketIndex(hashcode);
+		int index = lookup(key, hashcode);
+		if (index != -1)
+			return index;
+		
+		index = getPrimaryBucketIndex(hashcode);
 
 		BucketEntry empty = findEmptyAndEvictIfNeccessary(index);
 		if (empty == null)
@@ -217,19 +226,19 @@ public final class CuckooHashTable<T> extends HashTable<T> {
 		int signature = getShortSignature(hashcode);
 		int bucketIndex = getPrimaryBucketIndex(hashcode);
 
-		int index = lookupInBucket(bucketIndex, key, signature);
+		int index = findEntryIndex(bucketIndex, key, signature);
 		if (index != -1)
 			return buckets[bucketIndex].bucketEntries[index].index;
 
 		index = getAlternativeBucketIndex(index, signature);
-		index = lookupInBucket(index, key, signature);
+		index = findEntryIndex(index, key, signature);
 		if (index != -1)
 			return buckets[bucketIndex].bucketEntries[index].index;
 
 		return -1;
 	}
 
-	private int lookupInBucket(int index, ByteBuffer key, int signature) {
+	private int findEntryIndex(int index, ByteBuffer key, int signature) {
 		Bucket bucket = buckets[index];
 
 		for (int i = 0; i < indexesPerBucket; i++) {

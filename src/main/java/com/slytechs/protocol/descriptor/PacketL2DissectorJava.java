@@ -25,61 +25,37 @@ import java.nio.ByteBuffer;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 import com.slytechs.protocol.pack.core.constants.L2FrameType;
-import com.slytechs.protocol.pack.core.constants.L3FrameType;
-import com.slytechs.protocol.pack.core.constants.L4FrameType;
 import com.slytechs.protocol.runtime.time.TimestampUnit;
-import com.slytechs.protocol.runtime.util.Bits;
 
 /**
- * The Class JavaDissector.
- *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
+ *
  */
-abstract class PacketDissectorJava extends AbstractPacketDissector {
+public abstract class PacketL2DissectorJava extends AbstractPacketDissector {
 
 	protected static final int NO_NEXT_HEADER = -1;
-
 	/** The Constant DEFAULT_L2_TYPE. */
-	protected final static L2FrameType DEFAULT_L2_TYPE = L2FrameType.ETHER;
-
+	protected static final L2FrameType DEFAULT_L2_TYPE = L2FrameType.ETHER;
 	/** The timestamp unit. */
 	protected TimestampUnit timestampUnit = TimestampUnit.PCAP_MICRO;
-
 	protected ByteBuffer buf;
 	protected long timestamp;
 	protected int captureLength;
 	protected int wireLength;
 	protected int dltType = DEFAULT_L2_TYPE.getAsInt();
 	protected int l2Type;
-	protected int l3Type;
-	protected int l3Offset;
-	protected int l3Size;
-	protected boolean l3IsFrag;
-	protected boolean l3LastFrag;
-	protected int l4Type;
-	protected int l4Size;
 	protected int vlanCount;
 	protected int mplsCount;
 
 	/**
-	 * Instantiates a new java dissector.
+	 * 
 	 */
-	protected PacketDissectorJava() {
+	public PacketL2DissectorJava() {
+		super();
 	}
 
 	protected abstract boolean addRecord(int id, int offset, int length);
-
-	/**
-	 * Calc ip version.
-	 *
-	 * @param versionField the version field
-	 * @return the int
-	 */
-	protected final int calcIpVersion(byte versionField) {
-		return (versionField >> 4) & Bits.BITS_04;
-	}
 
 	/**
 	 * Destroy dissector.
@@ -150,6 +126,8 @@ abstract class PacketDissectorJava extends AbstractPacketDissector {
 		}
 	}
 
+	protected abstract void dissectIp(int offset);
+
 	/**
 	 * Dissect eth type.
 	 *
@@ -212,137 +190,9 @@ abstract class PacketDissectorJava extends AbstractPacketDissector {
 		}
 	}
 
-	protected abstract void dissectExtensionPorts(ByteBuffer buf, int offset, int id, int src, int dst);
-
 	protected abstract void dissectExtensionType(ByteBuffer buf, int offset, int id, int nextHeader);
 
-	protected abstract void dissectGre(int offset);
-
-	protected abstract void dissectIcmp4(int offset);
-
-	protected abstract void dissectIcmp6(int offset);
-
-	/**
-	 * Dissect ip.
-	 *
-	 * @param l3Offset the offset
-	 */
-	protected final void dissectIp(int offset) {
-		if (!hasRemaining(offset, 1))
-			return;
-
-		this.l3Offset = offset;
-
-		int r0 = Byte.toUnsignedInt(buf.get(l3Offset + IPv4_FIELD_VER)); // 07:00 IP header len & version
-		int ver = calcIpVersion((byte) r0); // Common to IPv4 and IPv6
-
-		int nextHeader = NO_NEXT_HEADER;
-
-		if ((ver == 4) && hasRemaining(l3Offset, IPv4_HEADER_LEN)) {
-			this.l3Type = L3FrameType.L3_FRAME_TYPE_IPv4;
-			this.l3Size = ((r0 >> 0) & Bits.BITS_04);
-			int len = l3Size << 2;
-			nextHeader = buf.get(l3Offset + IPv4_FIELD_PROTOCOL);
-
-			if (!addRecord(CoreIdTable.CORE_ID_IPv4, l3Offset, len))
-				return;
-
-			int sword3 = buf.getShort(l3Offset + IPv4_FIELD_FLAGS);
-			boolean mf = (sword3 & IPv4_FLAG16_MF) > 0;
-			int fragOff = (sword3 & IPv4_MASK16_FRAGOFF);
-
-			this.l3IsFrag = mf || (fragOff > 0);
-			this.l3LastFrag = !mf && (fragOff > 0);
-
-			dissectIp4Options(l3Offset, len, nextHeader);
-
-			dissectIpType(offset + len, nextHeader);
-
-		} else if (hasRemaining(l3Offset, IPv6_HEADER_LEN)) {
-			this.l3Type = L3FrameType.L3_FRAME_TYPE_IPv6;
-			this.l3Size = IPv6_HEADER_LEN >> 2;
-
-			nextHeader = Byte.toUnsignedInt(buf.get(l3Offset + IPv6_FIELD_NEXT_HOP));
-
-			dissectIp6Options(l3Offset, nextHeader);
-		}
-	}
-
-	protected abstract void dissectIp4Options(int offset, int hlen, int nextHeader);
-
-	protected abstract void dissectIp6Options(int offset, int nextHeader);
-
-	/**
-	 * Dissect ip type.
-	 *
-	 * @param offset     the offset
-	 * @param nextHeader the next header
-	 */
-	protected final void dissectIpType(int offset, int nextHeader) {
-
-		EXIT: while (nextHeader != NO_NEXT_HEADER) {
-			switch (nextHeader) {
-			case IP_TYPE_ICMPv4:
-				dissectIcmp4(offset);
-
-				break EXIT;
-
-			case IP_TYPE_IPv4_IN_IP:
-				dissectIp(offset);
-
-				break EXIT;
-
-			case IP_TYPE_TCP:
-				dissectTcp(offset);
-
-				break EXIT;
-
-			case IP_TYPE_UDP:
-				dissectUdp(offset);
-
-				break EXIT;
-
-			case IP_TYPE_IPv6_IN_IP: // IPv6
-				dissectIp(offset);
-
-				break EXIT;
-
-			case IP_TYPE_GRE:
-				dissectGre(offset);
-
-				break EXIT;
-
-			case IP_TYPE_SCTP:
-				dissectSctp(offset);
-
-				break EXIT;
-
-			case IP_TYPE_ICMPv6:
-				dissectIcmp6(offset);
-
-				break EXIT;
-
-			case IP_TYPE_NO_NEXT:
-				dissectSctp(offset);
-
-				return;
-
-			default:
-				dissectExtensionType(buf, offset, CoreIdTable.CORE_ID_IPv4, nextHeader);
-				break EXIT;
-			}
-		}
-
-	}
-
-	protected void dissectIpx(int offset) {
-		if (!hasRemaining(offset, IPX_HEADER_LEN))
-			return;
-
-		this.l3Type = L3FrameType.L3_FRAME_TYPE_IPX;
-		this.l3Offset = offset;
-		this.l3Size = IPX_HEADER_LEN;
-	}
+	protected abstract void dissectIpx(int offset);
 
 	/**
 	 * Dissect L 2.
@@ -411,34 +261,6 @@ abstract class PacketDissectorJava extends AbstractPacketDissector {
 		return captureLength;
 	}
 
-	protected abstract void dissectSctp(int offset);
-
-	protected final void dissectTcp(int offset) {
-		if (!hasRemaining(offset, TCP_HEADER_LEN))
-			return;
-
-		this.l4Type = L4FrameType.L4_FRAME_TYPE_TCP;
-
-		int r0 = buf.get(offset + TCP_FIELD_IHL);
-		this.l4Size = ((r0 >> 4) & Bits.BITS_04);
-		int len = l4Size << 2;
-
-		addRecord(CoreIdTable.CORE_ID_TCP, offset, len);
-
-		dissectTcpOptions(offset, len);
-
-		int src = Short.toUnsignedInt(buf.getShort(offset + TCP_FIELD_SRC));
-		int dst = Short.toUnsignedInt(buf.getShort(offset + TCP_FIELD_DST));
-
-		offset += len;
-
-		dissectExtensionPorts(buf, offset, CoreIdTable.CORE_ID_TCP, src, dst);
-	}
-
-	protected abstract void dissectTcpOptions(int offset, int tcpHeaderLenth);
-
-	protected abstract void dissectUdp(int offset);
-
 	/**
 	 * Checks for remaining.
 	 *
@@ -479,11 +301,6 @@ abstract class PacketDissectorJava extends AbstractPacketDissector {
 		timestamp = captureLength = wireLength = 0;
 
 		l2Type = 0;
-
-		l3Type = l3Offset = l3Size = 0;
-		l3IsFrag = l3LastFrag = false;
-
-		l4Type = l4Size = 0;
 
 		vlanCount = mplsCount = 0;
 	}

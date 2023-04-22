@@ -15,14 +15,15 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.protocol.pack.core;
+package com.slytechs.protocol.descriptor;
 
 import static com.slytechs.protocol.runtime.internal.layout.BinaryLayout.*;
 
 import com.slytechs.protocol.runtime.internal.layout.BinaryLayout;
 import com.slytechs.protocol.runtime.internal.layout.BitField;
-import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int32;
+import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int16;
 import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int64;
+import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int8;
 
 /**
  * The Enum IpfLayout structure for a IpfDescriptor type.
@@ -31,28 +32,17 @@ import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int64;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-enum IpfLayout implements BitField.Proxy {
+enum IpfTrackLayout implements BitField.Proxy {
 
-	/** The assembled bytes. */
-	ASSEMBLED_BYTES("assembled_bytes"),
-	
-	/** The remaining bytes. */
-	REMAINING_BYTES("remaining_bytes"),
-	
-	/** The duplicate bytes. */
-	DUPLICATE_BYTES("duplicate_bytes"),
-	
-	/** The flags. */
 	FLAGS("flags"),
-	
-	/** The frame no. */
-	FRAME_NO("frame_no"),
-	
-	/** The prev no. */
-	PREV_NO("prev_no"),
-	
-	/** The next no. */
-	NEXT_NO("next_no"),
+	IP_IS_REASSEMBLED("ip_is_reassembled"),
+	IP_IS_COMPLETE("ip_is_complete"),
+	IP_IS_TIMEOUT("ip_is_timeout"),
+	IP_IS_HOLE("ip_is_hole"),
+	IP_IS_OVERLAP("ip_is_overlap"),
+	TABLE_SIZE("table_size"),
+	REASSEMBLED_BYTES("reassembled_bytes"),
+	REASSEMBLED_MILLI("reassembled_milli"),
 
 	;
 
@@ -62,21 +52,36 @@ enum IpfLayout implements BitField.Proxy {
 	private static class Struct {
 
 		/** The Constant TYPE2_STRUCT. */
-		private static final BinaryLayout STRUCT = unionLayout(
-				structLayout(
+		private static final BinaryLayout STRUCT = structLayout(
 
-						Int32.BITS_16.withName("assembled_bytes"),
-						Int32.BITS_16.withName("remaining_bytes"),
-						Int32.BITS_16.withName("duplicate_bytes"),
-						Int32.BITS_16.withName("flags"),
+				/* Word0 */
+				unionLayout(
+						structLayout(
+								Int8.BITS_01.withName("ip_is_reassembled"),
+								Int8.BITS_01.withName("ip_is_complete"),
+								Int8.BITS_01.withName("ip_is_timeout"),
+								Int8.BITS_01.withName("ip_is_hole"),
+								Int8.BITS_01.withName("ip_is_overlap"),
+								Int8.BITS_03),
+						Int8.BITS_08.withName("flags")),
 
-						Int64.BITS_64.withName("frame_no"),
-						Int64.BITS_64.withName("frame_no"),
-						Int64.BITS_64.withName("prev_no"),
-						Int64.BITS_64.withName("next_no")
+				Int8.BITS_08.withName("table_size"),
+				Int16.BITS_16.withName("reassembled_bytes"),
 
-				),
-				sequenceLayout(6, Int32.BITS_32).withName("array")
+				/* Word1 */
+				Int16.BITS_16.withName("hole_bytes"),
+				Int16.BITS_16.withName("overlap_bytes"),
+
+				/* Word2&3 */
+				Int64.BITS_64.withName("reassembled_milli"),
+
+				/* Word4+ */
+				sequenceLayout(32, structLayout(
+
+						Int64.BITS_64.withName("frag_pkt_index"),
+						Int16.BITS_16.withName("frag_length")
+
+				).withName("frag_table"))
 
 		);
 	}
@@ -89,7 +94,7 @@ enum IpfLayout implements BitField.Proxy {
 	 *
 	 * @param path the path
 	 */
-	IpfLayout(String path) {
+	IpfTrackLayout(String path) {
 		this.field = Struct.STRUCT.bitField(path);
 	}
 

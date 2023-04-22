@@ -153,8 +153,8 @@ class ArrayCarrierImplementation implements ArrayCarrier {
 	 * @param data       the data
 	 * @param byteOffset the byte offset
 	 * @return the byte array at offset
-	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayCarrier#getByteArrayAtOffset(byte[], int, int,
-	 *      java.lang.Object, long)
+	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayCarrier#getByteArrayAtOffset(byte[],
+	 *      int, int, java.lang.Object, long)
 	 */
 	@Override
 	public byte[] getByteArrayAtOffset(byte[] array, int offset, int length, Object data, long byteOffset) {
@@ -178,8 +178,8 @@ class ArrayCarrierImplementation implements ArrayCarrier {
 	 * @param data       the data
 	 * @param byteOffset the byte offset
 	 * @return the int array at offset
-	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayCarrier#getIntArrayAtOffset(int[], int, int,
-	 *      java.lang.Object, long)
+	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayCarrier#getIntArrayAtOffset(int[],
+	 *      int, int, java.lang.Object, long)
 	 */
 	@Override
 	public int[] getIntArrayAtOffset(int[] array, int offset, int length, Object data, long byteOffset) {
@@ -202,8 +202,8 @@ class ArrayCarrierImplementation implements ArrayCarrier {
 	 * @param data       the data
 	 * @param byteOffset the byte offset
 	 * @return the long array at offset
-	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayCarrier#getLongArrayAtOffset(long[], int, int,
-	 *      java.lang.Object, long)
+	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayCarrier#getLongArrayAtOffset(long[],
+	 *      int, int, java.lang.Object, long)
 	 */
 	@Override
 	public long[] getLongArrayAtOffset(long[] array, int offset, int length, Object data, long byteOffset) {
@@ -226,8 +226,8 @@ class ArrayCarrierImplementation implements ArrayCarrier {
 	 * @param data       the data
 	 * @param byteOffset the byte offset
 	 * @return the short array at offset
-	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayCarrier#getShortArrayAtOffset(short[], int, int,
-	 *      java.lang.Object, long)
+	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayCarrier#getShortArrayAtOffset(short[],
+	 *      int, int, java.lang.Object, long)
 	 */
 	@Override
 	public short[] getShortArrayAtOffset(short[] array, int offset, int length, Object data, long byteOffset) {
@@ -250,14 +250,16 @@ class ArrayCarrierImplementation implements ArrayCarrier {
 	 * @param data       the data
 	 * @param byteOffset the byte offset
 	 * @return the byte[]
-	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayCarrier#setByteArrayAtOffset(byte[], int, int,
-	 *      java.lang.Object, long)
+	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayCarrier#setByteArrayAtOffset(byte[],
+	 *      int, int, java.lang.Object, long)
 	 */
 	@Override
 	public byte[] setByteArrayAtOffset(byte[] array, int offset, int length, Object data, long byteOffset) {
+
 		switch (data) {
 		case byte[] d -> System.arraycopy(array, offset, d, (int) byteOffset, length);
 		case MemorySegment seg -> arrayToMemory(array, offset, seg, byteOffset, length);
+		case ByteBuffer b -> b.put((int) byteOffset, array, offset, length);
 
 		default -> throw new IllegalArgumentException("unsupported data type " + data.getClass());
 		}
@@ -274,8 +276,8 @@ class ArrayCarrierImplementation implements ArrayCarrier {
 	 * @param data       the data
 	 * @param byteOffset the byte offset
 	 * @return the int[]
-	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayCarrier#setIntArrayAtOffset(int[], int, int,
-	 *      java.lang.Object, long)
+	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayCarrier#setIntArrayAtOffset(int[],
+	 *      int, int, java.lang.Object, long)
 	 */
 	@Override
 	public int[] setIntArrayAtOffset(int[] array, int offset, int length, Object data, long byteOffset) {
@@ -298,8 +300,8 @@ class ArrayCarrierImplementation implements ArrayCarrier {
 	 * @param data       the data
 	 * @param byteOffset the byte offset
 	 * @return the long[]
-	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayCarrier#setLongArrayAtOffset(long[], int, int,
-	 *      java.lang.Object, long)
+	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayCarrier#setLongArrayAtOffset(long[],
+	 *      int, int, java.lang.Object, long)
 	 */
 	@Override
 	public long[] setLongArrayAtOffset(long[] array, int offset, int length, Object data, long byteOffset) {
@@ -322,8 +324,8 @@ class ArrayCarrierImplementation implements ArrayCarrier {
 	 * @param data       the data
 	 * @param byteOffset the byte offset
 	 * @return the short[]
-	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayCarrier#setShortArrayAtOffset(short[], int, int,
-	 *      java.lang.Object, long)
+	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayCarrier#setShortArrayAtOffset(short[],
+	 *      int, int, java.lang.Object, long)
 	 */
 	@Override
 	public short[] setShortArrayAtOffset(short[] array, int offset, int length, Object data, long byteOffset) {
@@ -344,7 +346,8 @@ class ArrayCarrierImplementation implements ArrayCarrier {
 	 * @param byteOffset the byte offset
 	 * @param byteSize   the byte size
 	 * @return the byte array
-	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayCarrier#wrapAtOffset(byte[], long, long)
+	 * @see com.slytechs.protocol.runtime.internal.layout.ArrayCarrier#wrapAtOffset(byte[],
+	 *      long, long)
 	 */
 	@Override
 	public ByteArray wrapAtOffset(byte[] data, long byteOffset, long byteSize) {

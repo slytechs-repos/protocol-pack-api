@@ -29,6 +29,10 @@ import java.time.InstantSource;
  */
 public interface TimestampSource extends InstantSource {
 
+	public interface AssignableTimestampSource extends TimestampSource {
+		void timestamp(long newTimestamp);
+	}
+
 	/**
 	 * System.
 	 *
@@ -47,6 +51,29 @@ public interface TimestampSource extends InstantSource {
 			public Instant instant() {
 				return clock.instant();
 			}
+		};
+	}
+
+	public static AssignableTimestampSource assignable() {
+		return new AssignableTimestampSource() {
+
+			long ts;
+
+			@Override
+			public long timestamp() {
+				return ts;
+			}
+
+			@Override
+			public Instant instant() {
+				return Instant.ofEpochMilli(ts);
+			}
+
+			@Override
+			public void timestamp(long newTimestamp) {
+				ts = newTimestamp;
+			}
+
 		};
 	}
 

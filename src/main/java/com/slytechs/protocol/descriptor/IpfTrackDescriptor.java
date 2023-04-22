@@ -15,40 +15,37 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.protocol.pack.core;
+package com.slytechs.protocol.descriptor;
 
-import com.slytechs.protocol.descriptor.Descriptor;
 import com.slytechs.protocol.pack.core.constants.IpfDescriptorType;
+import com.slytechs.protocol.runtime.util.Detail;
 
 /**
- * A IP fragment tracking descriptor. This descriptor type, tracks IP fragments
- * as they are captured, reassembled and dispatched to program packet handlers.
- * This descriptor is supplied in addition to the regular type descriptors and
- * can forward header lookup calls for protocol resolution.
+ * Ip fragmentation descriptor. A fragmentation descriptor provides information
+ * about tracking and reassembly of IP fragments.
  * 
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
- *
  */
-public final class IpfDescriptor extends Descriptor {
+public class IpfTrackDescriptor extends Ipfdescriptor {
 
 	/**
 	 * Instantiates a new ipf descriptor.
 	 */
-	public IpfDescriptor() {
-		super(IpfDescriptorType.IPF);
+	public IpfTrackDescriptor() {
+		super(IpfDescriptorType.IPF_TRACK);
+	}
+
+	public int flags() {
+		return IpfTrackLayout.FLAGS.getInt(buffer());
 	}
 
 	/**
-	 * Type.
-	 *
-	 * @return the ipf descriptor type
-	 * @see com.slytechs.protocol.descriptor.Descriptor#type()
+	 * @see com.slytechs.protocol.descriptor.Descriptor#buildDetailedString(java.lang.StringBuilder,
+	 *      com.slytechs.protocol.runtime.util.Detail)
 	 */
 	@Override
-	public IpfDescriptorType type() {
-		return IpfDescriptorType.IPF;
+	protected StringBuilder buildDetailedString(StringBuilder b, Detail detail) {
+		throw new UnsupportedOperationException("not implemented yet");
 	}
-
 }

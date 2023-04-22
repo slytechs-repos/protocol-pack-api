@@ -42,7 +42,7 @@ import com.slytechs.protocol.runtime.util.Bits;
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  */
-class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissectorExtension {
+class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDissectorExtension {
 
 	/** The Constant RECORD_START. */
 	private static final int RECORD_START = CoreConstants.DESC_TYPE2_BYTE_SIZE_MIN;
@@ -235,7 +235,7 @@ class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissec
 	/**
 	 * Destroy dissector.
 	 *
-	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#destroyDissector()
+	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#destroyDissector()
 	 */
 	@Override
 	protected void destroyDissector() {
@@ -319,7 +319,7 @@ class Type2DissectorJavaImpl extends PacketDissectorJava implements PacketDissec
 	}
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.PacketDissectorJava#dissectExtensionType(java.nio.ByteBuffer,
+	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectExtensionType(java.nio.ByteBuffer,
 	 *      int, int, int)
 	 */
 	@Override

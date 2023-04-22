@@ -18,42 +18,17 @@
 package com.slytechs.protocol.descriptor;
 
 /**
- * The Interface DescriptorType.
+ * @author Sly Technologies Inc
+ * @author repos@slytechs.com
  *
- * @param <T> the generic type
  */
-public interface DescriptorType<T extends Descriptor> {
-
-	/** Either 16 bytes. */
-	int DESCRIPTOR_TYPE_PCAP = 0;
-
-	/** 16 byte CORE_PROTOCOLS descriptor. */
-	int DESCRIPTOR_TYPE_TYPE1 = 1;
-
-	/** The Constant DESCRIPTOR_TYPE_TYPE2. */
-	int DESCRIPTOR_TYPE_TYPE2 = 2;
-
-	/** IP fragmentation reassembly descriptor. */
-	int DESCRIPTOR_TYPE_IPF_FRAG = 20;
-
-	/** IP Fragmentation tracking descriptor. */
-	int DESCRIPTOR_TYPE_IPF_TRACK = 21;
-
-	/** 16 byte NT STD descriptor. */
-	int DESCRIPTOR_TYPE_NT_STD = 100;
+public abstract class Ipfdescriptor extends Descriptor {
 
 	/**
-	 * Gets the as int.
-	 *
-	 * @return the as int
+	 * @param type
 	 */
-	int getAsInt();
-
-	/**
-	 * New descriptor.
-	 *
-	 * @return the t
-	 */
-	T newDescriptor();
+	public Ipfdescriptor(DescriptorType<?> type) {
+		super(type);
+	}
 
 }

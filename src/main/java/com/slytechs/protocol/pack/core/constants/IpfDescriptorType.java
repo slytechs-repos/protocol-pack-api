@@ -20,7 +20,9 @@ package com.slytechs.protocol.pack.core.constants;
 import java.util.function.Supplier;
 
 import com.slytechs.protocol.descriptor.DescriptorType;
-import com.slytechs.protocol.descriptor.IpfDescriptor;
+import com.slytechs.protocol.descriptor.IpfFragDescriptor;
+import com.slytechs.protocol.descriptor.IpfTrackDescriptor;
+import com.slytechs.protocol.descriptor.Ipfdescriptor;
 
 /**
  * The Enum IpfDescriptorType.
@@ -29,18 +31,28 @@ import com.slytechs.protocol.descriptor.IpfDescriptor;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public enum IpfDescriptorType implements DescriptorType<IpfDescriptor> {
+public enum IpfDescriptorType implements DescriptorType<Ipfdescriptor> {
 
-	/** IP fragmentation tracking and reassembly descriptor. */
-	IPF(DescriptorType.DESCRIPTOR_TYPE_IPF, IpfDescriptor::new),
+	/**
+	 * A descriptor used to describe the state on incoming IP fragments. The
+	 * corresponding dissector identifies IP fragments, both IPv4 and IPv6 and
+	 * creates a descriptor which provides information about the state and contents
+	 * of a fragment. This information is then further used in IP reassembly and
+	 * tracking.
+	 */
+	IPF_FRAG(DescriptorType.DESCRIPTOR_TYPE_IPF_FRAG, IpfFragDescriptor::new),
 
-	;
+	/**
+	 * A descriptor used in tracking IP fragments after they have been processed by
+	 * the IPF services.
+	 */
+	IPF_TRACK(DescriptorType.DESCRIPTOR_TYPE_IPF_TRACK, IpfTrackDescriptor::new);
 
 	/** The type. */
 	private final int type;
 
 	/** The factory. */
-	private final Supplier<IpfDescriptor> factory;
+	private final Supplier<? extends Ipfdescriptor> factory;
 
 	/**
 	 * Instantiates a new packet descriptor type.
@@ -48,7 +60,7 @@ public enum IpfDescriptorType implements DescriptorType<IpfDescriptor> {
 	 * @param type    the type
 	 * @param factory the factory
 	 */
-	IpfDescriptorType(int type, Supplier<IpfDescriptor> factory) {
+	IpfDescriptorType(int type, Supplier<? extends Ipfdescriptor> factory) {
 		this.factory = factory;
 		this.type = type;
 	}
@@ -71,7 +83,7 @@ public enum IpfDescriptorType implements DescriptorType<IpfDescriptor> {
 	 * @see com.slytechs.protocol.descriptor.DescriptorType#newDescriptor()
 	 */
 	@Override
-	public IpfDescriptor newDescriptor() {
+	public Ipfdescriptor newDescriptor() {
 		return factory.get();
 	}
 

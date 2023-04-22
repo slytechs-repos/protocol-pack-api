@@ -188,8 +188,11 @@ public class HashTable<T> implements KeyedTable<T> {
 		 * @param newKey the new key
 		 */
 		public void setKey(ByteBuffer newKey) {
-			key.put(newKey);
-			key.flip();
+
+			this.key.clear()
+					.put(newKey)
+					.flip();
+
 			newKey.flip();
 		}
 
@@ -247,7 +250,8 @@ public class HashTable<T> implements KeyedTable<T> {
 		this.tableSize = entriesCount;
 		this.table = new HashEntry[entriesCount];
 		this.tableMask = entriesCount - 1;
-		assert Integer.bitCount(entriesCount) == 1 : "hash table size not a power of 2";
+		assert (entriesCount & 1) == 0 : ""
+				+ "hash table size not a power of 2 [%d]".formatted(entriesCount);
 
 		/* Allocate all the entries */
 		IntStream
@@ -309,8 +313,10 @@ public class HashTable<T> implements KeyedTable<T> {
 	 * @param b if true, data will be sticky, otherwise it will be cleared when no
 	 *          longer used
 	 */
-	public void enableStickyData(boolean b) {
+	public HashTable<T> enableStickyData(boolean b) {
 		this.stickyData = b;
+
+		return this;
 	}
 
 	/**
@@ -448,8 +454,10 @@ public class HashTable<T> implements KeyedTable<T> {
 	 *
 	 * @param newAlgorithm the new hash algorithm
 	 */
-	public final void setHashAlgorithm(HashAlgorithm newAlgorithm) {
+	public final HashTable<T> setHashAlgorithm(HashAlgorithm newAlgorithm) {
 		this.hashAlgorithm = Objects.requireNonNull(newAlgorithm, "newAlgorithm");
+
+		return this;
 	}
 
 	public int size() {
@@ -464,10 +472,12 @@ public class HashTable<T> implements KeyedTable<T> {
 	 * @param factory the factory supplying data objects based on entry's index
 	 *                value
 	 */
-	public void fill(IntFunction<T> factory) {
+	public HashTable<T> fill(IntFunction<T> factory) {
 		IntStream
 				.range(0, tableSize)
 				.forEach(i -> table[i].setData(factory.apply(i)));
+
+		return this;
 	}
 
 	/**

@@ -22,6 +22,7 @@ import java.util.Optional;
 
 import com.slytechs.protocol.runtime.Binding;
 import com.slytechs.protocol.runtime.MemoryBinding;
+import com.slytechs.protocol.runtime.util.Detail;
 
 /**
  * Common base class for all descriptors.
@@ -37,7 +38,7 @@ public abstract class Descriptor
 
 	/** The type. */
 	private final DescriptorType<?> type;
-	
+
 	/** The next. */
 	private Descriptor next;
 
@@ -155,4 +156,45 @@ public abstract class Descriptor
 		return type;
 	}
 
+	/**
+	 * Builds the detailed string.
+	 *
+	 * @param b      the b
+	 * @param detail the detail
+	 * @return the string builder
+	 */
+	protected abstract StringBuilder buildDetailedString(StringBuilder b, Detail detail);
+
+	/**
+	 * Builds the string.
+	 *
+	 * @param b      the b
+	 * @param detail the detail
+	 * @return the string builder
+	 * @see com.slytechs.protocol.runtime.util.StringBuildable#buildString(java.lang.StringBuilder,
+	 *      com.slytechs.protocol.runtime.util.Detail)
+	 */
+	public final StringBuilder buildString(StringBuilder b, Detail detail) {
+		String newLine = detail.isLow() ? "" : "\n";
+
+		b.append(getClass().getSimpleName());
+		b.append(" [").append(newLine);
+
+		buildDetailedString(b, detail);
+
+		b.append("]");
+
+		return b;
+	}
+
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public final String toString() {
+		return buildString(new StringBuilder(), Detail.DEFAULT).toString();
+	}
 }

@@ -65,7 +65,7 @@ class TestType1Layout {
 
 	@Test
 	void test_CAPLEN() {
-		final int VALUE = RANDOM.nextInt(0, KILOBYTES.toIntBytes(64));
+		final int VALUE = RANDOM.nextInt(0, KILOBYTES.toBytesAsInt(64));
 		final Type1DescriptorLayout LAYOUT = CAPLEN;
 
 		LAYOUT.setInt(VALUE, buf1);

@@ -15,24 +15,27 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.protocol.descriptor;
+package com.slytechs.protocol.runtime.util;
 
-import com.slytechs.protocol.pack.core.constants.IpfDescriptorType;
+import java.util.concurrent.TimeUnit;
 
-/**
- * Ip fragmentation descriptor. A fragmentation descriptor provides information
- * about tracking and reassembly of IP fragments.
- * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
- */
-public class IpfDescriptor extends Descriptor {
+import com.slytechs.protocol.runtime.time.TimestampSource;
 
-	/**
-	 * Instantiates a new ipf descriptor.
-	 */
-	public IpfDescriptor() {
-		super(IpfDescriptorType.IPF);
+public interface IsExpirable {
+
+	static boolean isExpirable(IsExpirable obj) {
+		return obj == null || obj.isExpired();
 	}
 
+	boolean isExpired();
+
+	default boolean isNotExpired() {
+		return !isExpired();
+	}
+
+	long expiresIn(TimeUnit unit);
+
+	TimestampSource timestampSource();
+
+	void expire();
 }

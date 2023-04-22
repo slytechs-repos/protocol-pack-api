@@ -23,7 +23,6 @@ import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.pack.core.constants.L2FrameType;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 import com.slytechs.protocol.runtime.time.TimestampUnit;
-import com.slytechs.protocol.runtime.util.Detail;
 import com.slytechs.protocol.runtime.util.StringBuildable;
 
 /**
@@ -39,7 +38,7 @@ public abstract class PacketDescriptor
 
 	/** The frame no. */
 	@Meta(MetaType.ATTRIBUTE)
-	public long frameNo;
+	private long frameNo;
 
 	/** The flags. */
 	private int flags;
@@ -54,38 +53,6 @@ public abstract class PacketDescriptor
 	 */
 	protected PacketDescriptor(PacketDescriptorType type) {
 		super(type);
-	}
-
-	/**
-	 * Builds the detailed string.
-	 *
-	 * @param b      the b
-	 * @param detail the detail
-	 * @return the string builder
-	 */
-	protected abstract StringBuilder buildDetailedString(StringBuilder b, Detail detail);
-
-	/**
-	 * Builds the string.
-	 *
-	 * @param b      the b
-	 * @param detail the detail
-	 * @return the string builder
-	 * @see com.slytechs.protocol.runtime.util.StringBuildable#buildString(java.lang.StringBuilder,
-	 *      com.slytechs.protocol.runtime.util.Detail)
-	 */
-	@Override
-	public final StringBuilder buildString(StringBuilder b, Detail detail) {
-		String newLine = detail.isLow() ? "" : "\n";
-
-		b.append(getClass().getSimpleName());
-		b.append(" [").append(newLine);
-
-		buildDetailedString(b, detail);
-
-		b.append("]");
-
-		return b;
 	}
 
 	/**
@@ -191,17 +158,6 @@ public abstract class PacketDescriptor
 	 */
 	public void timestampUnit(TimestampUnit timestampUnit) {
 		this.timestampUnit = timestampUnit;
-	}
-
-	/**
-	 * To string.
-	 *
-	 * @return the string
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public final String toString() {
-		return buildString();
 	}
 
 	/**

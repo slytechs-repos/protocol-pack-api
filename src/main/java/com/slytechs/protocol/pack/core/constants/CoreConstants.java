@@ -50,6 +50,12 @@ public final class CoreConstants {
 	/** The Constant DESC_TYPE2_RECORD_MAX_COUNT. */
 	public static final int DESC_TYPE2_RECORD_MAX_COUNT = 32;
 	
+	public static final int DESC_IPF_FRAG_KEY = 12;
+	public static final int DESC_IPF_FRAG_IPv4_KEY_BYTE_SIZE = 12;
+	public static final int DESC_IPF_FRAG_IPv6_KEY_BYTE_SIZE = 36;
+	public static final int DESC_IPF_FRAG_BYTE_SIZE = 0 
+			+ DESC_IPF_FRAG_KEY + DESC_IPF_FRAG_IPv6_KEY_BYTE_SIZE;
+	
 	/** The Constant DESC_TYPE2_BYTE_SIZE_MAX. */
 	public static final int DESC_TYPE2_BYTE_SIZE_MAX    = 0
 			+ DESC_TYPE2_BYTE_SIZE_MIN
@@ -337,17 +343,19 @@ public final class CoreConstants {
 	/** The Constant IPv4_FIELD_DST_LEN. */
 	public static final int IPv4_FIELD_DST_LEN = 4;
 
+	/** The Constant IPv4_FIELD_SRC. */
+	public static final int IPv4_FIELD_SRC = 12;
+
 	/** The Constant IPv4_FIELD_DST. */
 	public static final int IPv4_FIELD_DST = 16;
 
 	/** The Constant IPv4_FIELD_SRC_LEN. */
 	public static final int IPv4_FIELD_SRC_LEN = 4;
 
-	/** The Constant IPv4_FIELD_SRC. */
-	public static final int IPv4_FIELD_SRC = 12;
-
 	/** The Constant IPv4_FIELD_FLAGS. */
 	public static final int IPv4_FIELD_FLAGS = 6;
+	public static final int IPv4_FIELD_IDENT = 4;
+	public static final int IPv4_FIELD_TOTAL_LEN = 2;
 
 	/** The Constant IPv4_MASK16_FRAGOFF. */
 	public static final int IPv4_MASK16_FRAGOFF = 0x1FFF;
@@ -366,6 +374,17 @@ public final class CoreConstants {
 
 	/** The Constant IPv6_ADDRESS_STRING_SIZE. */
 	public static final int IPv6_ADDRESS_STRING_SIZE = 39;
+
+	public static final int IPv6_FIELD_FRAG_OFFSET = 2;
+	public static final int IPv6_FIELD_IDENTIFICATION = 4;
+	public static final int IPv6_FLAG16_MF = 0x8000;
+	public static final int IPv6_MASK16_FRAGOFF = 0x1FFF;
+
+	/** The Constant IPv4_FIELD_SRC. */
+	public static final int IPv6_FIELD_SRC = 8;
+
+	/** The Constant IPv4_FIELD_DST. */
+	public static final int IPv6_FIELD_DST = 24;
 
 	/** The Constant IP_TYPE_ICMPv4. */
 	public static final int IP_TYPE_ICMPv4 = 1;

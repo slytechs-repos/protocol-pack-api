@@ -22,6 +22,8 @@ import static com.slytechs.protocol.descriptor.CompactDescriptor.*;
 import java.nio.ByteBuffer;
 
 import com.slytechs.protocol.descriptor.CompactDescriptor;
+import com.slytechs.protocol.descriptor.Descriptor;
+import com.slytechs.protocol.descriptor.DescriptorType;
 import com.slytechs.protocol.descriptor.PacketDescriptor;
 import com.slytechs.protocol.descriptor.Type2Descriptor;
 import com.slytechs.protocol.meta.Meta;
@@ -252,8 +254,8 @@ public final class Packet
 	 * @return the d
 	 */
 	@SuppressWarnings("unchecked")
-	public <D extends PacketDescriptor> D descriptor(Class<D> descriptorType) {
-		return (D) descriptor;
+	public <D extends Descriptor> D descriptor(DescriptorType<?> type) {
+		return (D) descriptor.peekDescriptor(type);
 	}
 
 	/**

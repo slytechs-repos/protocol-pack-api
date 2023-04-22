@@ -25,7 +25,7 @@ import com.slytechs.protocol.runtime.util.UnitUtils.ConvertableUnit;
 public enum CountUnit implements ConvertableUnit<CountUnit> {
 
 	/** The uni. */
-	UNI(1L),
+	COUNT(1L),
 
 	/** The kilo. */
 	KILO(1_000L),
@@ -85,7 +85,7 @@ public enum CountUnit implements ConvertableUnit<CountUnit> {
 	 */
 	@Override
 	public long convert(long value, CountUnit sourceUnit) {
-		return sourceUnit.toUni(value) / this.base;
+		return sourceUnit.toCount(value) / this.base;
 	}
 
 	/**
@@ -94,8 +94,18 @@ public enum CountUnit implements ConvertableUnit<CountUnit> {
 	 * @param value the value
 	 * @return the long
 	 */
-	public long toUni(long value) {
+	public long toCount(long value) {
 		return value * base;
+	}
+
+	/**
+	 * To int uni.
+	 *
+	 * @param value the value
+	 * @return the int
+	 */
+	public int toCountAsInt(long value) {
+		return (int) toCount(value);
 	}
 
 	/**
@@ -166,7 +176,7 @@ public enum CountUnit implements ConvertableUnit<CountUnit> {
 	 */
 	@Override
 	public double convertf(double inUni) {
-		return convertf(inUni, UNI);
+		return convertf(inUni, COUNT);
 	}
 
 	/**
@@ -186,7 +196,7 @@ public enum CountUnit implements ConvertableUnit<CountUnit> {
 	 * @return the count unit
 	 */
 	public static CountUnit nearest(long inUni) {
-		return UnitUtils.nearest(inUni, CountUnit.class, UNI);
+		return UnitUtils.nearest(inUni, CountUnit.class, COUNT);
 	}
 
 	/**
@@ -197,7 +207,7 @@ public enum CountUnit implements ConvertableUnit<CountUnit> {
 	 * @return the string
 	 */
 	public static String formatCount(String fmt, long inUni) {
-		return UnitUtils.format(fmt, inUni, CountUnit.class, UNI);
+		return UnitUtils.format(fmt, inUni, CountUnit.class, COUNT);
 	}
 
 }

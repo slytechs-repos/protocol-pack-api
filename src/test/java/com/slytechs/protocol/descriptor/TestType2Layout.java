@@ -68,7 +68,7 @@ class TestType2Layout {
 	@Test
 	@RepeatedTest(value = REPEAT)
 	void test_CAPLEN() {
-		final int VALUE = RANDOM.nextInt(0, KILOBYTES.toIntBytes(64));
+		final int VALUE = RANDOM.nextInt(0, KILOBYTES.toBytesAsInt(64));
 		final Type2DescriptorLayout LAYOUT = CAPLEN;
 
 		LAYOUT.setInt(VALUE, buf1);
