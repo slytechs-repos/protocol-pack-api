@@ -195,6 +195,10 @@ public abstract class Descriptor
 	 */
 	@Override
 	public final String toString() {
-		return buildString(new StringBuilder(), Detail.DEFAULT).toString();
+		return toString(Detail.DEFAULT);
+	}
+
+	public final String toString(Detail detail) {
+		return buildString(new StringBuilder(), detail).toString();
 	}
 }

@@ -25,9 +25,11 @@ import com.slytechs.protocol.pack.core.constants.L3FrameType;
 import com.slytechs.protocol.runtime.util.Bits;
 
 /**
+ * An IP fragment dissector which generates a IpfFragment descriptor for further
+ * IPF reassembly and tracking.
+ * 
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- *
  */
 public class IpfFragDissector extends PacketL2DissectorJava {
 
@@ -66,7 +68,7 @@ public class IpfFragDissector extends PacketL2DissectorJava {
 		IpfFragLayout.FIELD_IDENTIFIER.setInt(ipIdent, buffer);
 		IpfFragLayout.FRAG_DATA_OFFSET.setInt(fragDataOffset, buffer);
 		IpfFragLayout.FRAG_DATA_LEN.setInt(fragDataLength, buffer);
-		
+
 		if (ipType == L3FrameType.L3_FRAME_TYPE_IPv4) {
 			IpfFragLayout.KEY_IPv4_SRC.setByteArray(ip4_src, buffer);
 			IpfFragLayout.KEY_IPv4_DST.setByteArray(ip4_dst, buffer);
@@ -122,7 +124,6 @@ public class IpfFragDissector extends PacketL2DissectorJava {
 			this.ipHeaderSize = IPv6_HEADER_LEN >> 2;
 
 			nextHeader = Byte.toUnsignedInt(buf.get(ipOffset + IPv6_FIELD_NEXT_HOP));
-
 
 			buf.get(offset + IPv6_FIELD_SRC, ip6_src);
 			buf.get(offset + IPv6_FIELD_DST, ip6_dst);

@@ -34,19 +34,19 @@ import com.slytechs.protocol.runtime.util.HexStrings;
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  */
-public class IpfFragDescriptor extends Ipfdescriptor {
+public class IpfFragment extends Ipfdescriptor {
 
 	/**
 	 * Instantiates a new ipf descriptor.
 	 */
-	public IpfFragDescriptor() {
+	public IpfFragment() {
 		super(IpfDescriptorType.IPF_FRAG);
 	}
 
 	/**
 	 * @param ipfDescBuffer
 	 */
-	public IpfFragDescriptor(ByteBuffer descBuf) {
+	public IpfFragment(ByteBuffer descBuf) {
 		super(IpfDescriptorType.IPF_FRAG);
 		bind(descBuf);
 	}
@@ -173,7 +173,12 @@ public class IpfFragDescriptor extends Ipfdescriptor {
 	protected StringBuilder buildDetailedString(StringBuilder toAppendTo, Detail detail) {
 		if (detail == Detail.LOW) {
 			toAppendTo
-					.append("ipType=%s".formatted(ipTypeAsL3FrameType()));
+					.append("ipType=%s".formatted(ipTypeAsL3FrameType()))
+					.append(" %5d-%-5d (%4d bytes)".formatted(
+							fragOffset(), 
+							fragOffset() + dataLength() -1,
+							dataLength()
+							));
 
 		} else if (detail == Detail.MEDIUM) {
 			toAppendTo

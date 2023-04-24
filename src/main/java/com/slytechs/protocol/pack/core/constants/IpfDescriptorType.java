@@ -20,7 +20,7 @@ package com.slytechs.protocol.pack.core.constants;
 import java.util.function.Supplier;
 
 import com.slytechs.protocol.descriptor.DescriptorType;
-import com.slytechs.protocol.descriptor.IpfFragDescriptor;
+import com.slytechs.protocol.descriptor.IpfFragment;
 import com.slytechs.protocol.descriptor.IpfTrackDescriptor;
 import com.slytechs.protocol.descriptor.Ipfdescriptor;
 
@@ -40,7 +40,7 @@ public enum IpfDescriptorType implements DescriptorType<Ipfdescriptor> {
 	 * of a fragment. This information is then further used in IP reassembly and
 	 * tracking.
 	 */
-	IPF_FRAG(DescriptorType.DESCRIPTOR_TYPE_IPF_FRAG, IpfFragDescriptor::new),
+	IPF_FRAG(DescriptorType.DESCRIPTOR_TYPE_IPF_FRAG, IpfFragment::new),
 
 	/**
 	 * A descriptor used in tracking IP fragments after they have been processed by
