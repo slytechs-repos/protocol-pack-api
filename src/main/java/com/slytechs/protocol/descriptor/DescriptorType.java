@@ -37,7 +37,13 @@ public interface DescriptorType<T extends Descriptor> {
 	int DESCRIPTOR_TYPE_IPF_FRAG = 20;
 
 	/** IP Fragmentation tracking descriptor. */
-	int DESCRIPTOR_TYPE_IPF_TRACK = 21;
+	int DESCRIPTOR_TYPE_IPF_TRACKING = 21;
+
+	/** IP Fragmentation reassembly descriptor. */
+	int DESCRIPTOR_TYPE_IPF_REASSEMBLY = 22;
+
+	/** The descriptor type ipf buffer. */
+	int DESCRIPTOR_TYPE_IPF_BUFFER = 23;
 
 	/** 16 byte NT STD descriptor. */
 	int DESCRIPTOR_TYPE_NT_STD = 100;

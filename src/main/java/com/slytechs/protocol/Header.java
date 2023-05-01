@@ -57,6 +57,8 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	 */
 	private PacketFormat formatter;
 
+	private PacketDescriptor descriptor;
+
 	/**
 	 * Instantiates a new header.
 	 *
@@ -92,6 +94,15 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	}
 
 	/**
+	 * Gets the usable packet descriptor.
+	 *
+	 * @return the packet descriptor
+	 */
+	protected PacketDescriptor descriptor() {
+		return descriptor;
+	}
+
+	/**
 	 * Bind header to packet.
 	 *
 	 * @param packet     the packet
@@ -103,6 +114,7 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 		this.headerOffset = offset;
 		this.headerLength = length;
 		this.payloadLength = calcPayloadLength(packet, descriptor, offset, length);
+		this.descriptor = descriptor;
 
 		super.bind(packet.slice(offset, length));
 	}
@@ -188,6 +200,7 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	@Override
 	protected void onUnbind() {
 		headerOffset = headerLength = payloadLength = 0;
+		descriptor = null;
 	}
 
 	/**

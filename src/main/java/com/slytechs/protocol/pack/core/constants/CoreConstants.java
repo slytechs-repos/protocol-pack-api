@@ -328,6 +328,12 @@ public final class CoreConstants {
 	/* Descriptor IP constants */
 	public static final int IPv4_HEADER_LEN = 20;
 
+	/**
+	 * The longest Internet Header (IP header) size can be 15*32 Bits = 480 Bits =
+	 * 60 Bytes.
+	 */
+	public static final int IPv4_HEADER_MAX_LEN = 60;
+
 	/** The Constant IPv6_HEADER_LEN. */
 	public static final int IPv6_HEADER_LEN = 40;
 

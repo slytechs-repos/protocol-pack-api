@@ -58,23 +58,23 @@ public class IpfFragDissector extends PacketL2DissectorJava {
 		if (!ipIsFrag)
 			return 0;
 
-		IpfFragLayout.IP_TYPE.setInt(ipType, buffer);
-		IpfFragLayout.IP_IS_FRAG.setInt(ipIsFrag ? 1 : 0, buffer);
-		IpfFragLayout.IP_IS_LAST.setInt(ipLastFrag ? 1 : 0, buffer);
-		IpfFragLayout.IP_HDR_OFFSET.setInt(ipOffset, buffer);
-		IpfFragLayout.IP_HDR_LEN.setInt(ipHeaderSize, buffer);
-		IpfFragLayout.IP_NEXT.setInt(ipNextHeader, buffer);
-		IpfFragLayout.FIELD_FRAG_OFFSET.setInt(ipFragOffset, buffer);
-		IpfFragLayout.FIELD_IDENTIFIER.setInt(ipIdent, buffer);
-		IpfFragLayout.FRAG_DATA_OFFSET.setInt(fragDataOffset, buffer);
-		IpfFragLayout.FRAG_DATA_LEN.setInt(fragDataLength, buffer);
+		IpfFragmentLayout.IP_TYPE.setInt(ipType, buffer);
+		IpfFragmentLayout.IP_IS_FRAG.setInt(ipIsFrag ? 1 : 0, buffer);
+		IpfFragmentLayout.IP_IS_LAST.setInt(ipLastFrag ? 1 : 0, buffer);
+		IpfFragmentLayout.IP_HDR_OFFSET.setInt(ipOffset, buffer);
+		IpfFragmentLayout.IP_HDR_LEN.setInt(ipHeaderSize, buffer);
+		IpfFragmentLayout.IP_NEXT.setInt(ipNextHeader, buffer);
+		IpfFragmentLayout.FIELD_FRAG_OFFSET.setInt(ipFragOffset, buffer);
+		IpfFragmentLayout.FIELD_IDENTIFIER.setInt(ipIdent, buffer);
+		IpfFragmentLayout.FRAG_DATA_OFFSET.setInt(fragDataOffset, buffer);
+		IpfFragmentLayout.FRAG_DATA_LEN.setInt(fragDataLength, buffer);
 
 		if (ipType == L3FrameType.L3_FRAME_TYPE_IPv4) {
-			IpfFragLayout.KEY_IPv4_SRC.setByteArray(ip4_src, buffer);
-			IpfFragLayout.KEY_IPv4_DST.setByteArray(ip4_dst, buffer);
+			IpfFragmentLayout.KEY_IPv4_SRC.setByteArray(ip4_src, buffer);
+			IpfFragmentLayout.KEY_IPv4_DST.setByteArray(ip4_dst, buffer);
 		} else {
-			IpfFragLayout.KEY_IPv6_SRC.setByteArray(ip6_src, buffer);
-			IpfFragLayout.KEY_IPv6_DST.setByteArray(ip6_dst, buffer);
+			IpfFragmentLayout.KEY_IPv6_SRC.setByteArray(ip6_src, buffer);
+			IpfFragmentLayout.KEY_IPv6_DST.setByteArray(ip6_dst, buffer);
 		}
 
 		buffer.position(buffer.position() + DESC_IPF_FRAG_BYTE_SIZE);

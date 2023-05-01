@@ -52,7 +52,7 @@ public class IpfFragment extends Ipfdescriptor {
 	}
 
 	public int ipType() {
-		return IpfFragLayout.IP_TYPE.getByte(buffer());
+		return IpfFragmentLayout.IP_TYPE.getByte(buffer());
 	}
 
 	public L3FrameType ipTypeAsL3FrameType() {
@@ -60,19 +60,19 @@ public class IpfFragment extends Ipfdescriptor {
 	}
 
 	public boolean isIp4() {
-		return !IpfFragLayout.IP_TYPE.getBit(buffer());
+		return !IpfFragmentLayout.IP_TYPE.getBit(buffer());
 	}
 
 	public boolean isIp6() {
-		return IpfFragLayout.IP_TYPE.getBit(buffer());
+		return IpfFragmentLayout.IP_TYPE.getBit(buffer());
 	}
 
 	public boolean isFrag() {
-		return IpfFragLayout.IP_IS_FRAG.getBit(buffer());
+		return IpfFragmentLayout.IP_IS_FRAG.getBit(buffer());
 	}
 
 	public boolean isLastFrag() {
-		return IpfFragLayout.IP_IS_LAST.getBit(buffer());
+		return IpfFragmentLayout.IP_IS_LAST.getBit(buffer());
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class IpfFragment extends Ipfdescriptor {
 	 * @return true, if this fragment overlapped a previous one
 	 */
 	public boolean isOverlap() {
-		return IpfFragLayout.IP_IS_OVERLAP.getBit(buffer());
+		return IpfFragmentLayout.IP_IS_OVERLAP.getBit(buffer());
 	}
 
 	/**
@@ -96,19 +96,19 @@ public class IpfFragment extends Ipfdescriptor {
 	 * @return true, if is duplicate
 	 */
 	public boolean isDuplicate() {
-		return IpfFragLayout.IP_IS_OVERLAP.getBit(buffer());
+		return IpfFragmentLayout.IP_IS_OVERLAP.getBit(buffer());
 	}
 
 	public int headerOffset() {
-		return IpfFragLayout.IP_HDR_OFFSET.getByte(buffer());
+		return IpfFragmentLayout.IP_HDR_OFFSET.getByte(buffer());
 	}
 
 	public int headerAndRequiredOptionsLength() {
-		return IpfFragLayout.IP_HDR_LEN.getByte(buffer());
+		return IpfFragmentLayout.IP_HDR_LEN.getByte(buffer());
 	}
 
 	public int nextHeader() {
-		return IpfFragLayout.IP_NEXT.getByte(buffer());
+		return IpfFragmentLayout.IP_NEXT.getByte(buffer());
 	}
 
 	public IpType nextHeaderAsIpType() {
@@ -116,26 +116,26 @@ public class IpfFragment extends Ipfdescriptor {
 	}
 
 	public int fragOffset() {
-		return IpfFragLayout.FIELD_FRAG_OFFSET.getUnsignedShort(buffer());
+		return IpfFragmentLayout.FIELD_FRAG_OFFSET.getUnsignedShort(buffer());
 	}
 
 	public int identifier() {
-		return IpfFragLayout.FIELD_IDENTIFIER.getUnsignedShort(buffer());
+		return IpfFragmentLayout.FIELD_IDENTIFIER.getUnsignedShort(buffer());
 	}
 
 	public int dataOffset() {
-		return IpfFragLayout.FRAG_DATA_OFFSET.getUnsignedShort(buffer());
+		return IpfFragmentLayout.FRAG_DATA_OFFSET.getUnsignedShort(buffer());
 	}
 
 	public int dataLength() {
-		return IpfFragLayout.FRAG_DATA_LEN.getUnsignedShort(buffer());
+		return IpfFragmentLayout.FRAG_DATA_LEN.getUnsignedShort(buffer());
 	}
 
 	public byte[] ipSrc() {
 		if (ipType() == L3FrameType.L3_FRAME_TYPE_IPv4)
-			return IpfFragLayout.KEY_IPv4_SRC.getByteArray(buffer());
+			return IpfFragmentLayout.KEY_IPv4_SRC.getByteArray(buffer());
 		else
-			return IpfFragLayout.KEY_IPv6_SRC.getByteArray(buffer());
+			return IpfFragmentLayout.KEY_IPv6_SRC.getByteArray(buffer());
 	}
 
 	public String ipSrcAsString() {
@@ -144,9 +144,9 @@ public class IpfFragment extends Ipfdescriptor {
 
 	public byte[] ipDst() {
 		if (ipType() == L3FrameType.L3_FRAME_TYPE_IPv4)
-			return IpfFragLayout.KEY_IPv4_DST.getByteArray(buffer());
+			return IpfFragmentLayout.KEY_IPv4_DST.getByteArray(buffer());
 		else
-			return IpfFragLayout.KEY_IPv6_DST.getByteArray(buffer());
+			return IpfFragmentLayout.KEY_IPv6_DST.getByteArray(buffer());
 	}
 
 	public ByteBuffer keyBuffer() {

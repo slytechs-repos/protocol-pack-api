@@ -20,6 +20,9 @@ package com.slytechs.protocol.runtime.time;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.InstantSource;
+import java.util.concurrent.Exchanger;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * The Interface TimestampSource.
@@ -38,8 +41,8 @@ public interface TimestampSource extends InstantSource {
 	 *
 	 * @return the timestamp source
 	 */
-	public static TimestampSource system() {
-		return new TimestampSource() {
+	public static AssignableTimestampSource system() {
+		return new AssignableTimestampSource() {
 			Clock clock = Clock.systemUTC();
 
 			@Override
@@ -51,11 +54,21 @@ public interface TimestampSource extends InstantSource {
 			public Instant instant() {
 				return clock.instant();
 			}
+
+			@Override
+			public void sleep(long duration, TimeUnit unit) throws InterruptedException {
+				unit.sleep(duration);
+			}
+
+			@Override
+			public void timestamp(long newTimestamp) {
+			}
 		};
 	}
 
 	public static AssignableTimestampSource assignable() {
 		return new AssignableTimestampSource() {
+			final Exchanger<Long> exch = new Exchanger<>();;
 
 			long ts;
 
@@ -72,8 +85,34 @@ public interface TimestampSource extends InstantSource {
 			@Override
 			public void timestamp(long newTimestamp) {
 				ts = newTimestamp;
+
+				try {
+					exch.exchange(newTimestamp, 1, TimeUnit.NANOSECONDS);
+				} catch (InterruptedException | TimeoutException e) {}
+
 			}
 
+			@Override
+			public void sleep(long duration, TimeUnit unit) throws InterruptedException {
+				long oldTime = ts;
+				long newTime = 0;
+
+				for (;;) {
+					try {
+						newTime = exch.exchange(null, duration, unit);
+					} catch (TimeoutException e) {
+						// Interrupt on system time, if packet time hasn't arrived yet.
+					}
+
+					if (newTime - oldTime >= unit.toMillis(duration))
+						return;
+				}
+			}
+
+			@Override
+			public void close() {
+				timestamp(Long.MAX_VALUE);
+			}
 		};
 	}
 
@@ -109,5 +148,16 @@ public interface TimestampSource extends InstantSource {
 	 */
 	default TimestampUnit unit() {
 		return TimestampUnit.EPOCH_MILLI;
+	}
+
+	void sleep(long duration, TimeUnit unit) throws InterruptedException;
+
+	default void timer(long duration, TimeUnit unit, Runnable action) throws InterruptedException {
+		sleep(duration, unit);
+
+		action.run();
+	}
+
+	default void close() {
 	}
 }

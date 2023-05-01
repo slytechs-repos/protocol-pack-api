@@ -21,7 +21,8 @@ import java.util.function.Supplier;
 
 import com.slytechs.protocol.descriptor.DescriptorType;
 import com.slytechs.protocol.descriptor.IpfFragment;
-import com.slytechs.protocol.descriptor.IpfTrackDescriptor;
+import com.slytechs.protocol.descriptor.IpfReassembly;
+import com.slytechs.protocol.descriptor.IpfTracking;
 import com.slytechs.protocol.descriptor.Ipfdescriptor;
 
 /**
@@ -46,7 +47,12 @@ public enum IpfDescriptorType implements DescriptorType<Ipfdescriptor> {
 	 * A descriptor used in tracking IP fragments after they have been processed by
 	 * the IPF services.
 	 */
-	IPF_TRACK(DescriptorType.DESCRIPTOR_TYPE_IPF_TRACK, IpfTrackDescriptor::new);
+	IPF_TRACKING(DescriptorType.DESCRIPTOR_TYPE_IPF_TRACKING, IpfTracking::new),
+
+	/** A descriptor used in IP fragment reassembly. */
+	IPF_REASSEMBLY(DescriptorType.DESCRIPTOR_TYPE_IPF_REASSEMBLY, IpfReassembly::new),
+
+	;
 
 	/** The type. */
 	private final int type;

@@ -19,7 +19,6 @@ package com.slytechs.protocol.pack.core;
 
 import java.util.Set;
 
-import com.slytechs.protocol.Packet;
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
@@ -331,15 +330,6 @@ public final class Ip4 extends Ip<Ip4Option> {
 	}
 
 	/**
-	 * Checks if is reassembled.
-	 *
-	 * @return true, if is reassembled
-	 */
-	public boolean isReassembled() {
-		return false;
-	}
-
-	/**
 	 * Payload length.
 	 *
 	 * @return the int
@@ -367,15 +357,6 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 */
 	public String protocolInfo() {
 		return IpType.valueOfIpType(protocol()).name();
-	}
-
-	/**
-	 * Reassembled fragments.
-	 *
-	 * @return the packet[]
-	 */
-	public Packet[] reassembledFragments() {
-		return new Packet[0];
 	}
 
 	/**
@@ -465,4 +446,5 @@ public final class Ip4 extends Ip<Ip4Option> {
 	public int version() {
 		return Ip4Layout.VERSION.getUnsignedByte(buffer());
 	}
+
 }

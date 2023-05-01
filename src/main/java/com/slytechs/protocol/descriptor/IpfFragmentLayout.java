@@ -33,7 +33,7 @@ import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int8;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-enum IpfFragLayout implements BitField.Proxy {
+enum IpfFragmentLayout implements BitField.Proxy {
 
 	/* Word0 */
 	IP_TYPE("ip_type"),
@@ -114,7 +114,7 @@ enum IpfFragLayout implements BitField.Proxy {
 	 *
 	 * @param path the path
 	 */
-	IpfFragLayout(String path) {
+	IpfFragmentLayout(String path) {
 		this.field = Struct.STRUCT.bitField(path);
 	}
 

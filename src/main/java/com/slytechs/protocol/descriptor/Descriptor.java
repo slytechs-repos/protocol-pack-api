@@ -116,6 +116,16 @@ public abstract class Descriptor
 	}
 
 	/**
+	 * Checks for descriptor.
+	 *
+	 * @param type the type
+	 * @return true, if successful
+	 */
+	public final boolean hasDescriptor(DescriptorType<?> type) {
+		return peekDescriptor(type) != null;
+	}
+
+	/**
 	 * On unbind.
 	 *
 	 * @see com.slytechs.protocol.runtime.MemoryBinding#onUnbind()

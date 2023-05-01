@@ -27,17 +27,17 @@ import com.slytechs.protocol.runtime.util.Detail;
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  */
-public class IpfTrackDescriptor extends Ipfdescriptor {
+public class IpfReassembly extends Ipfdescriptor {
 
 	/**
 	 * Instantiates a new ipf descriptor.
 	 */
-	public IpfTrackDescriptor() {
-		super(IpfDescriptorType.IPF_TRACK);
+	public IpfReassembly() {
+		super(IpfDescriptorType.IPF_TRACKING);
 	}
 
 	public int flags() {
-		return IpfTrackLayout.FLAGS.getInt(buffer());
+		return IpfTrackingLayout.FLAGS.getInt(buffer());
 	}
 
 	/**

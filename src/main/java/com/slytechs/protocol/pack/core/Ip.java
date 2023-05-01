@@ -17,12 +17,16 @@
  */
 package com.slytechs.protocol.pack.core;
 
+import java.nio.ByteBuffer;
 import java.util.Objects;
 
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.HeaderExtension;
+import com.slytechs.protocol.descriptor.IpfReassembly;
+import com.slytechs.protocol.descriptor.IpfTracking;
 import com.slytechs.protocol.pack.core.Ip.IpOption;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
+import com.slytechs.protocol.pack.core.constants.IpfDescriptorType;
 
 /**
  * Internet Protocol base definition.
@@ -264,4 +268,47 @@ public abstract class Ip<T extends IpOption> extends HeaderExtension<T> {
 	 */
 	@Override
 	public abstract int payloadLength();
+
+	/**
+	 * Checks if this IP datagram has been reassembled.
+	 *
+	 * @return true, if is reassembled
+	 */
+	public final boolean isReassembled() {
+		return super.descriptor().hasDescriptor(IpfDescriptorType.IPF_REASSEMBLY);
+	}
+
+	/**
+	 * Checks if is reassembly tracking.
+	 *
+	 * @return true, if is reassembly tracking
+	 */
+	public final boolean isTrackingReassembly() {
+		return super.descriptor().hasDescriptor(IpfDescriptorType.IPF_TRACKING);
+	}
+
+	/**
+	 * A list of reassembled IP fragments.
+	 *
+	 * @return array of frame numbers for each of the fragments that were used to
+	 *         reassemble this IP datagram. This method never returns null.
+	 */
+	public final long[] reassembledFragmentIndexes() {
+		if (isTrackingReassembly())
+			throw new UnsupportedOperationException("tracking retrieval not implemented yet");
+		else
+			return new long[0];
+	}
+
+	public final ByteBuffer reassembledBuffer() {
+		throw new UnsupportedOperationException("not implemented yet");
+	}
+
+	public final IpfReassembly ipfReassembly() {
+		return (IpfReassembly) super.descriptor().peekDescriptor(IpfDescriptorType.IPF_REASSEMBLY);
+	}
+
+	public final IpfTracking ipfTracking() {
+		return (IpfTracking) super.descriptor().peekDescriptor(IpfDescriptorType.IPF_TRACKING);
+	}
 }

@@ -32,7 +32,7 @@ import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int8;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-enum IpfTrackLayout implements BitField.Proxy {
+enum IpfTrackingLayout implements BitField.Proxy {
 
 	FLAGS("flags"),
 	IP_IS_REASSEMBLED("ip_is_reassembled"),
@@ -79,6 +79,7 @@ enum IpfTrackLayout implements BitField.Proxy {
 				sequenceLayout(32, structLayout(
 
 						Int64.BITS_64.withName("frag_pkt_index"),
+						Int16.BITS_16.withName("frag_offset"),
 						Int16.BITS_16.withName("frag_length")
 
 				).withName("frag_table"))
@@ -94,7 +95,7 @@ enum IpfTrackLayout implements BitField.Proxy {
 	 *
 	 * @param path the path
 	 */
-	IpfTrackLayout(String path) {
+	IpfTrackingLayout(String path) {
 		this.field = Struct.STRUCT.bitField(path);
 	}
 

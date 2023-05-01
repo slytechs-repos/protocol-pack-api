@@ -27,7 +27,6 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import com.slytechs.protocol.HeaderNotFound;
-import com.slytechs.protocol.Packet;
 import com.slytechs.protocol.descriptor.PacketDissector;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
@@ -459,9 +458,9 @@ class TestIp4Header {
 		DISSECTOR.writeDescriptor(packet.descriptor());
 
 		var ip4 = packet.getHeader(new Ip4());
-		var EXPECTED_FRAG_ARRAY = new Packet[0];
+		var EXPECTED_FRAG_ARRAY = new long[0];
 
-		assertArrayEquals(EXPECTED_FRAG_ARRAY, ip4.reassembledFragments());
+		assertArrayEquals(EXPECTED_FRAG_ARRAY, ip4.reassembledFragmentIndexes());
 	}
 
 	@Test
