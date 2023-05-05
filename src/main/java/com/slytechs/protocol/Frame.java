@@ -44,7 +44,7 @@ public final class Frame extends Header {
 		 * @return the frame number supplier
 		 */
 		static FrameNumber of() {
-			return starting(0);
+			return starting(1);
 		}
 
 		/**
@@ -54,7 +54,7 @@ public final class Frame extends Header {
 		 * @return the frame number supplier
 		 */
 		static FrameNumber starting(long startingNo) {
-			return starting(startingNo, () -> 0);
+			return starting(startingNo, () -> 1);
 		}
 
 		/**
