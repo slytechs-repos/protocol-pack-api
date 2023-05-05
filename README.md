@@ -52,3 +52,6 @@ Here is a table of all of the protocol definitions provided by this **core-proto
 [phase2]: https://github.com/slytechs-repos/core-protocols/pull/5
 [jnetpcap]: https://github.com/slytechs-repos/jnetpcap
 [jnetpcap-pro]: https://github.com/slytechs-repos/jnetpcap-pro
+
+## Status and Updates
+* May 5th, 2023 - Currently working IP fragmentation and reassembly. Check this [pull request #11](https://github.com/slytechs-repos/core-protocols/pull/11) for the latest on IPF support, including some examples!
