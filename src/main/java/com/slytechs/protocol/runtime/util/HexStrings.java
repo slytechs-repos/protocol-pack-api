@@ -362,6 +362,19 @@ public class HexStrings {
 	 * @param array the array
 	 * @return the string
 	 */
+	public static String toHexString(ByteBuffer buffer) {
+		byte[] array = new byte[buffer.remaining()];
+		buffer.get(buffer.position(), array);
+
+		return toHexString(array);
+	}
+
+	/**
+	 * To hex string.
+	 *
+	 * @param array the array
+	 * @return the string
+	 */
 	public static String toHexString(byte[] array) {
 		return toStringInRadix(16, array, 0, array.length);
 	}
