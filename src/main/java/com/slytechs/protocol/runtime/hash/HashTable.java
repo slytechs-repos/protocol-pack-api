@@ -182,6 +182,11 @@ public class HashTable<T> implements KeyedTable<T> {
 			this.isEmpty = b;
 		}
 
+		public void clearKey() {
+			this.key.putLong(0, 0);
+			this.key.putLong(1, 0);
+		}
+
 		/**
 		 * Sets the key.
 		 *
