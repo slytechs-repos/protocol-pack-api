@@ -1508,6 +1508,29 @@ public interface BitField extends BinaryField, Constable {
 	byte setByte(byte value, Object data, long... sequences);
 	
 	/**
+	 * Sets the boolean.
+	 *
+	 * @param b    the b
+	 * @param data the data
+	 * @return true, if successful
+	 */
+	default boolean setBoolean(boolean b, Object data) {
+		return setByte(b ? (byte) 1 : 0, data) == (byte) 1;
+	}
+	
+	/**
+	 * Sets the boolean.
+	 *
+	 * @param b         the b
+	 * @param data      the data
+	 * @param sequences the sequences
+	 * @return true, if successful
+	 */
+	default boolean setBoolean(boolean b, Object data, long... sequences) {
+		return setByte(b ? (byte) 1 : 0, data, sequences) == (byte) 1;
+	}
+	
+	/**
 	 * Sets the double.
 	 *
 	 * @param value the value
