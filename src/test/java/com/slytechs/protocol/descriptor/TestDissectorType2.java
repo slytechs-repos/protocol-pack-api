@@ -38,7 +38,7 @@ import com.slytechs.protocol.pack.core.Ip4Option.Ip4RouterOption;
 import com.slytechs.protocol.pack.core.Ip6;
 import com.slytechs.protocol.pack.core.Ip6Option.Ip6FragmentOption;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
-import com.slytechs.protocol.pack.core.constants.CoreIdTable;
+import com.slytechs.protocol.pack.core.constants.CoreId;
 import com.slytechs.protocol.pack.core.constants.HashType;
 import com.slytechs.protocol.pack.core.constants.Ip4OptionInfo;
 import com.slytechs.protocol.pack.core.constants.L2FrameType;
@@ -246,7 +246,7 @@ class TestDissectorType2 {
 		Type2DissectorJavaImpl diss2 = ((Type2DissectorJavaImpl) dissector)
 //				.disableBitmaskRecording()
 //				.disableExtensionRecordingForAll()
-				.disableExtensionRecordingFor(CoreIdTable.IPv4,
+				.disableExtensionRecordingFor(CoreId.IPv4,
 //						Ip4OptionId.ROUTER_ALERT,
 						Ip4OptionInfo.NO_OPERATION,
 						Ip4OptionInfo.END_OF_OPTIONS)

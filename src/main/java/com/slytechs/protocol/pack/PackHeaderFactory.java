@@ -22,7 +22,7 @@ import static com.slytechs.protocol.pack.PackId.*;
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.HeaderFactory;
 import com.slytechs.protocol.HeaderInfo;
-import com.slytechs.protocol.pack.core.constants.CoreIdTable;
+import com.slytechs.protocol.pack.core.constants.CoreId;
 
 /**
  * A factory for creating PackHeader objects.
@@ -89,7 +89,7 @@ public final class PackHeaderFactory implements HeaderFactory {
 		for (int i = 0; i < table.length; i++)
 			table[i] = LazySupplier.EMPTY;
 
-		CoreIdTable[] core = CoreIdTable.values();
+		CoreId[] core = CoreId.values();
 		for (int i = 0; i < core.length; i++)
 			table[i] = new LazySupplier(core[i]);
 

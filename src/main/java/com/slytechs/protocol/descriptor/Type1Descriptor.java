@@ -19,7 +19,7 @@ package com.slytechs.protocol.descriptor;
 
 import static com.slytechs.protocol.descriptor.Type1DescriptorLayout.*;
 import static com.slytechs.protocol.pack.core.constants.CoreConstants.*;
-import static com.slytechs.protocol.pack.core.constants.CoreIdTable.*;
+import static com.slytechs.protocol.pack.core.constants.CoreId.*;
 import static com.slytechs.protocol.pack.core.constants.L2FrameType.*;
 import static com.slytechs.protocol.pack.core.constants.L3FrameType.*;
 import static com.slytechs.protocol.pack.core.constants.L4FrameType.*;

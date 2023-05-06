@@ -17,7 +17,7 @@
  */
 package com.slytechs.protocol.pack.core;
 
-import com.slytechs.protocol.pack.core.constants.CoreIdTable;
+import com.slytechs.protocol.pack.core.constants.CoreId;
 
 /**
  * Internet Protocol Version 6 (IPv6).
@@ -55,7 +55,7 @@ import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 public final class Ip6 extends Ip<Ip6Option> {
 
 	/** The Constant ID. */
-	public static final int ID = CoreIdTable.CORE_ID_IPv6;
+	public static final int ID = CoreId.CORE_ID_IPv6;
 
 	/**
 	 * Instantiates a new ip 6.

@@ -29,7 +29,7 @@ import com.slytechs.protocol.HeaderExtensionInfo;
 import com.slytechs.protocol.pack.Pack;
 import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
-import com.slytechs.protocol.pack.core.constants.CoreIdTable;
+import com.slytechs.protocol.pack.core.constants.CoreId;
 import com.slytechs.protocol.pack.core.constants.Ip4OptionInfo;
 import com.slytechs.protocol.pack.core.constants.Ip6OptionInfo;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
@@ -262,7 +262,7 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 	 * @return the java dissector type 2
 	 */
 	public Type2DissectorJavaImpl disableExtensionRecordingFor(
-			CoreIdTable protocolId, HeaderExtensionInfo... extentionIds) {
+			CoreId protocolId, HeaderExtensionInfo... extentionIds) {
 
 		return disableExtensionRecordingInCoreProtocol(protocolId.id(),
 				Arrays.stream(extentionIds)
@@ -292,9 +292,9 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 
 		if (extensionIds.length > 0) {
 			IntConsumer bitmaskSet = switch (protocolId) {
-			case CoreIdTable.CORE_ID_IPv4 -> id -> ip4DisableBitmask = PackId.bitmaskSet(ip4DisableBitmask, id);
-			case CoreIdTable.CORE_ID_IPv6 -> id -> ip6DisableBitmask = PackId.bitmaskSet(ip6DisableBitmask, id);
-			case CoreIdTable.CORE_ID_TCP -> id -> tcpDisableBitmask = PackId.bitmaskSet(tcpDisableBitmask, id);
+			case CoreId.CORE_ID_IPv4 -> id -> ip4DisableBitmask = PackId.bitmaskSet(ip4DisableBitmask, id);
+			case CoreId.CORE_ID_IPv6 -> id -> ip6DisableBitmask = PackId.bitmaskSet(ip6DisableBitmask, id);
+			case CoreId.CORE_ID_TCP -> id -> tcpDisableBitmask = PackId.bitmaskSet(tcpDisableBitmask, id);
 			default -> id -> {};
 			};
 
@@ -304,9 +304,9 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 		} else {
 			/* If no specifics extensions specified, disable them all */
 			switch (protocolId) {
-			case CoreIdTable.CORE_ID_IPv4 -> ip4DisableBitmask = Bits.BITS_32;
-			case CoreIdTable.CORE_ID_IPv6 -> ip6DisableBitmask = Bits.BITS_32;
-			case CoreIdTable.CORE_ID_TCP -> tcpDisableBitmask = Bits.BITS_32;
+			case CoreId.CORE_ID_IPv4 -> ip4DisableBitmask = Bits.BITS_32;
+			case CoreId.CORE_ID_IPv6 -> ip6DisableBitmask = Bits.BITS_32;
+			case CoreId.CORE_ID_TCP -> tcpDisableBitmask = Bits.BITS_32;
 			};
 		}
 
@@ -335,7 +335,7 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 		short r0 = buf.getShort(offset + 0);
 		int len = calculateGreHeaderLength(r0);
 
-		addRecord(CoreIdTable.CORE_ID_GRE, offset, len);
+		addRecord(CoreId.CORE_ID_GRE, offset, len);
 	}
 
 	@Override
@@ -343,7 +343,7 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 		if (!hasRemaining(offset, ICMPv4_HEADER_LEN))
 			return;
 
-		addRecord(CoreIdTable.CORE_ID_ICMPv4, offset, ICMPv4_HEADER_LEN);
+		addRecord(CoreId.CORE_ID_ICMPv4, offset, ICMPv4_HEADER_LEN);
 
 		int type = Byte.toUnsignedInt(buf.get(offset + ICMPv4_FIELD_TYPE));
 		int code = Byte.toUnsignedInt(buf.get(offset + ICMPv4_FIELD_CODE));
@@ -372,7 +372,7 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 		case ICMPv6_TYPE_TIME_EXEEDED:
 		case ICMPv6_TYPE_PARAMETER_PROBLEM:
 			len = 8;
-			if (!addRecord(CoreIdTable.CORE_ID_ICMPv6, offset, len))
+			if (!addRecord(CoreId.CORE_ID_ICMPv6, offset, len))
 				return;
 			offset += len;
 			dissectIp(offset);
@@ -381,31 +381,31 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 		case ICMPv6_TYPE_ECHO_REQUEST:
 		case ICMPv6_TYPE_ECHO_REPLY:
 			len = 8;
-			addRecord(CoreIdTable.CORE_ID_ICMPv6, offset, len);
+			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
 			return;
 
 		case ICMPv6_TYPE_ROUTER_SOLICITATION:
 			len = 8;
-			addRecord(CoreIdTable.CORE_ID_ICMPv6, offset, len);
+			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
 			// TODO: parse options
 			break;
 
 		case ICMPv6_TYPE_ROUTER_ADVERTISEMENT:
 			len = 16;
-			addRecord(CoreIdTable.CORE_ID_ICMPv6, offset, len);
+			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
 			// TODO: parse options
 			break;
 
 		case ICMPv6_TYPE_NEIGHBOR_SOLICITATION:
 		case ICMPv6_TYPE_NEIGHBOR_ADVERTISEMENT:
 			len = 24;
-			addRecord(CoreIdTable.CORE_ID_ICMPv6, offset, len);
+			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
 			// TODO: parse options
 			break;
 
 		case ICMPv6_TYPE_REDIRECT:
 			len = 40;
-			addRecord(CoreIdTable.CORE_ID_ICMPv6, offset, len);
+			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
 			// TODO: parse options
 			break;
 
@@ -424,7 +424,7 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 		case ICMPv6_TYPE_MOBILE_PREFIX_SOLICITATION:
 		case ICMPv6_TYPE_MOBILE_PREFIX_ADVERTISEMENT:
 			len = 4;
-			addRecord(CoreIdTable.CORE_ID_ICMPv6, offset, len);
+			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
 			return;
 		}
 	}
@@ -479,7 +479,7 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 		final int ip6RecordIndex = recordCount;
 		final int ip6OffsetStart = offset;
 
-		if (!addRecord(CoreIdTable.CORE_ID_IPv6, offset, IPv6_HEADER_LEN))
+		if (!addRecord(CoreId.CORE_ID_IPv6, offset, IPv6_HEADER_LEN))
 			return;
 
 		int extLen = 0;
@@ -518,7 +518,7 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 
 		} // End LOOP:
 
-		if ((extLen > 0) && !updateRecord(ip6RecordIndex, CoreIdTable.CORE_ID_IPv6,
+		if ((extLen > 0) && !updateRecord(ip6RecordIndex, CoreId.CORE_ID_IPv6,
 				ip6OffsetStart, IPv6_HEADER_LEN + extLen))
 			return;
 
@@ -535,7 +535,7 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 		if (!hasRemaining(offset, IPX_HEADER_LEN))
 			return;
 
-		addRecord(CoreIdTable.CORE_ID_IPX, offset, IPX_HEADER_LEN);
+		addRecord(CoreId.CORE_ID_IPX, offset, IPX_HEADER_LEN);
 	}
 
 	@Override
@@ -543,7 +543,7 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 		if (!hasRemaining(offset, SCTP_HEADER_LEN))
 			return;
 
-		addRecord(CoreIdTable.CORE_ID_SCTP, offset, SCTP_HEADER_LEN);
+		addRecord(CoreId.CORE_ID_SCTP, offset, SCTP_HEADER_LEN);
 	}
 
 	/**
@@ -602,14 +602,14 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 		if (!hasRemaining(offset, UDP_HEADER_LEN))
 			return;
 
-		addRecord(CoreIdTable.CORE_ID_UDP, offset, UDP_HEADER_LEN);
+		addRecord(CoreId.CORE_ID_UDP, offset, UDP_HEADER_LEN);
 
 		int src = Short.toUnsignedInt(buf.getShort(offset + TCP_FIELD_SRC));
 		int dst = Short.toUnsignedInt(buf.getShort(offset + TCP_FIELD_DST));
 
 		offset += UDP_HEADER_LEN;
 
-		extensions.dissectPorts(buf, offset, CoreIdTable.CORE_ID_UDP, src, dst);
+		extensions.dissectPorts(buf, offset, CoreId.CORE_ID_UDP, src, dst);
 	}
 
 	/**

@@ -23,7 +23,7 @@ import com.slytechs.protocol.HeaderInfo;
 import com.slytechs.protocol.pack.Pack;
 import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.ProtocolPackTable;
-import com.slytechs.protocol.pack.core.constants.CoreIdTable;
+import com.slytechs.protocol.pack.core.constants.CoreId;
 
 /**
  * Core protocol pack definition.
@@ -32,7 +32,7 @@ import com.slytechs.protocol.pack.core.constants.CoreIdTable;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public final class CoreProtocolPack extends Pack<CoreIdTable> {
+public final class CoreProtocolPack extends Pack<CoreId> {
 
 	/**
 	 * Checks if is core.
@@ -61,7 +61,7 @@ public final class CoreProtocolPack extends Pack<CoreIdTable> {
 	 * Pack definitions are designed to be singltons.
 	 */
 	private CoreProtocolPack() {
-		super(ProtocolPackTable.CORE, CoreIdTable.values());
+		super(ProtocolPackTable.CORE, CoreId.values());
 	}
 
 	/**
@@ -78,12 +78,12 @@ public final class CoreProtocolPack extends Pack<CoreIdTable> {
 		if (packId != ProtocolPackTable.PACK_ID_CORE)
 			return Optional.empty();
 
-		var headers = CoreIdTable.values();
+		var headers = CoreId.values();
 
 		if (hdrOrdinal > headers.length)
 			return Optional.empty();
 
-		return Optional.of(CoreIdTable.values()[hdrOrdinal]);
+		return Optional.of(CoreId.values()[hdrOrdinal]);
 	}
 
 }

@@ -19,7 +19,7 @@ package com.slytechs.protocol;
 
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.MetaResource;
-import com.slytechs.protocol.pack.core.constants.CoreIdTable;
+import com.slytechs.protocol.pack.core.constants.CoreId;
 
 /**
  * A builtin model of a payload. A payload may be applied to a {@link Packet} or
@@ -45,7 +45,7 @@ import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 public sealed class Payload extends Header permits Other {
 
 	/** The Constant ID. */
-	public static final int ID = CoreIdTable.CORE_ID_PAYLOAD;
+	public static final int ID = CoreId.CORE_ID_PAYLOAD;
 
 	/**
 	 * Instantiates a new payload.

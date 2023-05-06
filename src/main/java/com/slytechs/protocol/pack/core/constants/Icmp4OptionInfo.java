@@ -117,7 +117,7 @@ public enum Icmp4OptionInfo implements HeaderExtensionInfo {
 	 */
 	@Override
 	public int getParentHeaderId() {
-		return CoreIdTable.CORE_ID_TCP;
+		return CoreId.CORE_ID_TCP;
 	}
 
 	/**

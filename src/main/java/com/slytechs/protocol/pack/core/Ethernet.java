@@ -24,7 +24,7 @@ import com.slytechs.protocol.descriptor.PacketDescriptor;
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
-import com.slytechs.protocol.pack.core.constants.CoreIdTable;
+import com.slytechs.protocol.pack.core.constants.CoreId;
 import com.slytechs.protocol.pack.core.constants.EtherType;
 import com.slytechs.protocol.runtime.hash.Checksums;
 import com.slytechs.protocol.runtime.util.HexStrings;
@@ -50,7 +50,7 @@ import com.slytechs.protocol.runtime.util.HexStrings;
 public final class Ethernet extends Header {
 
 	/** Core protocol pack assigned header ID. */
-	public static final int ID = CoreIdTable.CORE_ID_ETHER;
+	public static final int ID = CoreId.CORE_ID_ETHER;
 
 	/** The Constant ETHER_FIELD_DST_MASK64. */
 	private static final long ETHER_FIELD_DST_MASK64 = 0xFFFF_FFFFFFFFl;

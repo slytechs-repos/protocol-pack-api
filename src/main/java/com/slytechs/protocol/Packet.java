@@ -30,7 +30,7 @@ import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.meta.PacketFormat;
-import com.slytechs.protocol.pack.core.constants.CoreIdTable;
+import com.slytechs.protocol.pack.core.constants.CoreId;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 import com.slytechs.protocol.runtime.MemoryBinding;
 import com.slytechs.protocol.runtime.time.Timestamp;
@@ -356,10 +356,10 @@ public final class Packet
 
 		int id = header.id();
 
-		if ((id == CoreIdTable.CORE_ID_FRAME) && (header instanceof Frame frame)) {
+		if ((id == CoreId.CORE_ID_FRAME) && (header instanceof Frame frame)) {
 			bindFrameHeader(frame);
 
-		} else if (id == CoreIdTable.CORE_ID_PAYLOAD && (header instanceof Payload payload)) {
+		} else if (id == CoreId.CORE_ID_PAYLOAD && (header instanceof Payload payload)) {
 			bindPayloadHeader(payload);
 
 		} else {

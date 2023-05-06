@@ -48,7 +48,7 @@ import com.slytechs.protocol.pack.core.Udp;
  * @author Mark Bednarczyk
  *
  */
-public enum CoreIdTable implements HeaderInfo, PackId {
+public enum CoreId implements HeaderInfo, PackId {
 
 	/** The payload. */
 	PACK(),
@@ -210,7 +210,7 @@ public enum CoreIdTable implements HeaderInfo, PackId {
 	 * @param id the id
 	 * @return the core header info
 	 */
-	public static CoreIdTable valueOf(int id) {
+	public static CoreId valueOf(int id) {
 		int pack = PackId.decodePackId(id);
 		if (pack != ProtocolPackTable.PACK_ID_CORE)
 			return null;
@@ -231,7 +231,7 @@ public enum CoreIdTable implements HeaderInfo, PackId {
 	/**
 	 * Instantiates a new core header info.
 	 */
-	CoreIdTable() {
+	CoreId() {
 		this.id = PackId.encodeId(ProtocolPackTable.CORE, ordinal());
 		this.supplier = Other::new;
 		this.extensionsSupplier = () -> HeaderExtensionInfo.EMPTY_ARRAY;
@@ -242,7 +242,7 @@ public enum CoreIdTable implements HeaderInfo, PackId {
 	 *
 	 * @param supplier the supplier
 	 */
-	CoreIdTable(HeaderSupplier supplier) {
+	CoreId(HeaderSupplier supplier) {
 		this.id = PackId.encodeId(ProtocolPackTable.CORE, ordinal());
 		this.supplier = supplier;
 		this.extensionsSupplier = () -> HeaderExtensionInfo.EMPTY_ARRAY;
@@ -254,7 +254,7 @@ public enum CoreIdTable implements HeaderInfo, PackId {
 	 * @param supplier           the supplier
 	 * @param extensionsSupplier the extensions supplier
 	 */
-	CoreIdTable(HeaderSupplier supplier, Supplier<HeaderExtensionInfo[]> extensionsSupplier) {
+	CoreId(HeaderSupplier supplier, Supplier<HeaderExtensionInfo[]> extensionsSupplier) {
 		this.id = PackId.encodeId(ProtocolPackTable.CORE, ordinal());
 		this.supplier = supplier;
 		this.extensionsSupplier = extensionsSupplier;
@@ -288,7 +288,7 @@ public enum CoreIdTable implements HeaderInfo, PackId {
 	 * @param id the id
 	 * @return the core header info
 	 */
-	public static CoreIdTable toStringId(int id) {
+	public static CoreId toStringId(int id) {
 		return values()[PackId.decodeIdOrdinal(id)];
 	}
 

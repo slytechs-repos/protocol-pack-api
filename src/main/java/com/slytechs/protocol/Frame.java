@@ -22,7 +22,7 @@ import java.util.function.LongSupplier;
 import com.slytechs.protocol.descriptor.PacketDescriptor;
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.MetaResource;
-import com.slytechs.protocol.pack.core.constants.CoreIdTable;
+import com.slytechs.protocol.pack.core.constants.CoreId;
 
 /**
  * Frames are small parts of a message in the network.
@@ -104,7 +104,7 @@ public final class Frame extends Header {
 	}
 
 	/** The Constant ID. */
-	public static final int ID = CoreIdTable.CORE_ID_FRAME;
+	public static final int ID = CoreId.CORE_ID_FRAME;
 
 	/** The descriptor. */
 	private PacketDescriptor descriptor;

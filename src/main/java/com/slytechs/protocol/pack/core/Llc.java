@@ -21,7 +21,7 @@ import java.util.concurrent.locks.Lock;
 
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.meta.Meta;
-import com.slytechs.protocol.pack.core.constants.CoreIdTable;
+import com.slytechs.protocol.pack.core.constants.CoreId;
 
 /**
  * Logical Link Control header (LLC).
@@ -34,7 +34,7 @@ import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 public final class Llc extends Header {
 
 	/** Core protocol pack assigned header ID. */
-	public static final int ID = CoreIdTable.CORE_ID_LLC;
+	public static final int ID = CoreId.CORE_ID_LLC;
 
 	/**
 	 * Instantiates a new llc.

@@ -294,19 +294,6 @@ class TestIp4Header {
 	}
 
 	@Test
-	void test_Ip4_flagsByte() throws HeaderNotFound {
-		var packet = CorePackets.VLAN_1500BYTES.toPacket();
-		packet.descriptor().bind(DESC_BUFFER);
-
-		DISSECTOR.dissectPacket(packet);
-		DISSECTOR.writeDescriptor(packet.descriptor());
-
-		var ip4 = packet.getHeader(new Ip4());
-
-		assertEquals(0x40, ip4.flagsByte());
-	}
-
-	@Test
 	void test_Ip4_flagsDf() throws HeaderNotFound {
 		var packet = CorePackets.VLAN_1500BYTES.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
@@ -316,7 +303,7 @@ class TestIp4Header {
 
 		var ip4 = packet.getHeader(new Ip4());
 
-		assertEquals(1, ip4.flagsDf());
+		assertEquals(1, ip4.flags_DF());
 	}
 
 	@Test
@@ -342,20 +329,7 @@ class TestIp4Header {
 
 		var ip4 = packet.getHeader(new Ip4());
 
-		assertEquals(0, ip4.flagsMf());
-	}
-
-	@Test
-	void test_Ip4_flagsNibble() throws HeaderNotFound {
-		var packet = CorePackets.VLAN_1500BYTES.toPacket();
-		packet.descriptor().bind(DESC_BUFFER);
-
-		DISSECTOR.dissectPacket(packet);
-		DISSECTOR.writeDescriptor(packet.descriptor());
-
-		var ip4 = packet.getHeader(new Ip4());
-
-		assertEquals(4, ip4.flagsNibble());
+		assertEquals(0, ip4.flags_MF());
 	}
 
 	@Test

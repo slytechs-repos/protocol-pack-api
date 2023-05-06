@@ -29,7 +29,7 @@ import org.junit.jupiter.api.Test;
 import com.slytechs.protocol.HeaderNotFound;
 import com.slytechs.protocol.descriptor.PacketDissector;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
-import com.slytechs.protocol.pack.core.constants.CoreIdTable;
+import com.slytechs.protocol.pack.core.constants.CoreId;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 import com.slytechs.protocol.runtime.util.HexStrings;
 
@@ -181,7 +181,7 @@ class TestIp6Header {
 		DISSECTOR.dissectPacket(packet);
 		DISSECTOR.writeDescriptor(packet.descriptor());
 		
-		assertTrue(packet.hasHeader(CoreIdTable.CORE_ID_TCP));
+		assertTrue(packet.hasHeader(CoreId.CORE_ID_TCP));
 	}
 
 }

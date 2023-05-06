@@ -21,7 +21,7 @@ import static com.slytechs.protocol.pack.core.constants.CoreConstants.*;
 
 import java.nio.ByteBuffer;
 
-import com.slytechs.protocol.pack.core.constants.CoreIdTable;
+import com.slytechs.protocol.pack.core.constants.CoreId;
 import com.slytechs.protocol.pack.core.constants.L3FrameType;
 import com.slytechs.protocol.pack.core.constants.L4FrameType;
 import com.slytechs.protocol.runtime.util.Bits;
@@ -108,7 +108,7 @@ abstract class PacketL3DissectorJava extends PacketL2DissectorJava {
 			int len = l3Size << 2;
 			nextHeader = buf.get(l3Offset + IPv4_FIELD_PROTOCOL);
 
-			if (!addRecord(CoreIdTable.CORE_ID_IPv4, l3Offset, len))
+			if (!addRecord(CoreId.CORE_ID_IPv4, l3Offset, len))
 				return;
 
 			int sword3 = buf.getShort(l3Offset + IPv4_FIELD_FLAGS);
@@ -192,7 +192,7 @@ abstract class PacketL3DissectorJava extends PacketL2DissectorJava {
 				return;
 
 			default:
-				dissectExtensionType(buf, offset, CoreIdTable.CORE_ID_IPv4, nextHeader);
+				dissectExtensionType(buf, offset, CoreId.CORE_ID_IPv4, nextHeader);
 				break EXIT;
 			}
 		}
@@ -211,7 +211,7 @@ abstract class PacketL3DissectorJava extends PacketL2DissectorJava {
 		this.l4Size = ((r0 >> 4) & Bits.BITS_04);
 		int len = l4Size << 2;
 
-		addRecord(CoreIdTable.CORE_ID_TCP, offset, len);
+		addRecord(CoreId.CORE_ID_TCP, offset, len);
 
 		dissectTcpOptions(offset, len);
 
@@ -220,7 +220,7 @@ abstract class PacketL3DissectorJava extends PacketL2DissectorJava {
 
 		offset += len;
 
-		dissectExtensionPorts(buf, offset, CoreIdTable.CORE_ID_TCP, src, dst);
+		dissectExtensionPorts(buf, offset, CoreId.CORE_ID_TCP, src, dst);
 	}
 
 	protected abstract void dissectTcpOptions(int offset, int tcpHeaderLenth);

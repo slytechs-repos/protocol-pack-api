@@ -32,9 +32,9 @@ import com.slytechs.protocol.pack.core.Ip4;
  * @author repos@slytechs.com
  */
 public enum L3FrameType implements HeaderInfo, IntSupplier {
-	IPv4(CoreIdTable.CORE_ID_IPv4, Ip4::new),
-	IPv6(CoreIdTable.CORE_ID_IPv4, Ip4::new),
-	IPX(CoreIdTable.CORE_ID_IPv4, Ip4::new),
+	IPv4(CoreId.CORE_ID_IPv4, Ip4::new),
+	IPv6(CoreId.CORE_ID_IPv4, Ip4::new),
+	IPX(CoreId.CORE_ID_IPv4, Ip4::new),
 	OTHER(0, Other::new),
 
 	;

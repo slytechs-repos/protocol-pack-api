@@ -75,7 +75,7 @@ class TestTcpHeader {
 
 		var tcp = packet.getHeader(new Tcp());
 
-		assertEquals(80, tcp.dstPort());
+		assertEquals(80, tcp.destination());
 	}
 
 	@Test
@@ -88,7 +88,7 @@ class TestTcpHeader {
 
 		var tcp = packet.getHeader(new Tcp());
 
-		assertEquals(5840 << 7, tcp.windowSizeScaled(7));
+		assertEquals(5840 << 7, tcp.windowScaled(7));
 	}
 
 	@Test
@@ -102,7 +102,7 @@ class TestTcpHeader {
 		var tcp = packet.getHeader(new Tcp());
 		var wscale = tcp.getExtension(new TcpWindowScaleOption());
 
-		assertEquals(5840 << 7, tcp.windowSizeScaled(wscale.shiftCount()));
+		assertEquals(5840 << 7, tcp.windowScaled(wscale.shiftCount()));
 	}
 
 	@Test
@@ -115,7 +115,7 @@ class TestTcpHeader {
 
 		var tcp = packet.getHeader(new Tcp());
 
-		assertEquals(5840 << 7, tcp.windowSizeScaled());
+		assertEquals(5840 << 7, tcp.windowScaled());
 	}
 
 }

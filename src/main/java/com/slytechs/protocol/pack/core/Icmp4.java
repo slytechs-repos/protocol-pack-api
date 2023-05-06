@@ -22,7 +22,7 @@ import static com.slytechs.protocol.pack.core.constants.CoreConstants.*;
 import java.util.concurrent.locks.Lock;
 
 import com.slytechs.protocol.meta.Meta;
-import com.slytechs.protocol.pack.core.constants.CoreIdTable;
+import com.slytechs.protocol.pack.core.constants.CoreId;
 
 /**
  * The Class Icmp4.
@@ -35,7 +35,7 @@ import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 public class Icmp4 extends Icmp {
 
 	/** The Constant ID. */
-	public static final int ID = CoreIdTable.CORE_ID_ICMPv4;
+	public static final int ID = CoreId.CORE_ID_ICMPv4;
 
 	/**
 	 * Instantiates a new icmp 4.

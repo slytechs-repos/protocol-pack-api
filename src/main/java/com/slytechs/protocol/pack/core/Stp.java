@@ -21,7 +21,7 @@ import java.util.concurrent.locks.Lock;
 
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.meta.Meta;
-import com.slytechs.protocol.pack.core.constants.CoreIdTable;
+import com.slytechs.protocol.pack.core.constants.CoreId;
 
 /**
  * The Spanning Tree Protocol (STP).
@@ -34,7 +34,7 @@ import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 public final class Stp extends Header {
 
 	/** Core protocol pack assigned header ID. */
-	public static int ID = CoreIdTable.CORE_ID_STP;
+	public static int ID = CoreId.CORE_ID_STP;
 
 	/**
 	 * Instantiates a new STP header.

@@ -23,7 +23,7 @@ import java.net.ProtocolException;
 import java.nio.ByteBuffer;
 
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
-import com.slytechs.protocol.pack.core.constants.CoreIdTable;
+import com.slytechs.protocol.pack.core.constants.CoreId;
 import com.slytechs.protocol.pack.core.constants.L2FrameType;
 import com.slytechs.protocol.runtime.time.TimestampUnit;
 
@@ -72,7 +72,7 @@ public abstract class PacketL2DissectorJava extends AbstractPacketDissector {
 		if (type > ETHER_MIN_VALUE_FOR_TYPE) {
 			// Ethernet2 frame type
 
-			addRecord(CoreIdTable.CORE_ID_ETHER, offset, ETHER_HEADER_LEN);
+			addRecord(CoreId.CORE_ID_ETHER, offset, ETHER_HEADER_LEN);
 			l2Type = L2FrameType.L2_FRAME_TYPE_ETHER;
 			offset += ETHER_HEADER_LEN;
 
@@ -82,7 +82,7 @@ public abstract class PacketL2DissectorJava extends AbstractPacketDissector {
 			// THE 802.2 LOGICAL LINK CONTROL (LLC) HEADER
 
 			offset += ETHER_HEADER_LEN;
-			addRecord(CoreIdTable.CORE_ID_LLC, offset, LLC_HEADER_LEN);
+			addRecord(CoreId.CORE_ID_LLC, offset, LLC_HEADER_LEN);
 			l2Type = L2FrameType.L2_FRAME_TYPE_LLC;
 
 			int dsap = Byte.toUnsignedInt(buf.get(offset + LLC_FIELD_DSAP));
@@ -97,7 +97,7 @@ public abstract class PacketL2DissectorJava extends AbstractPacketDissector {
 					&& hasRemaining(offset, SNAP_HEADER_LEN)) { // Snap + Frame = SNAP
 				// THE SUB-NETWORK ACCESS PROTOCOL (SNAP) HEADER
 
-				addRecord(CoreIdTable.CORE_ID_SNAP, offset, SNAP_HEADER_LEN);
+				addRecord(CoreId.CORE_ID_SNAP, offset, SNAP_HEADER_LEN);
 				l2Type = L2FrameType.L2_FRAME_TYPE_SNAP;
 				type = buf.getShort(offset + SNAP_FIELD_TYPE);
 
@@ -118,7 +118,7 @@ public abstract class PacketL2DissectorJava extends AbstractPacketDissector {
 					&& (ssap == LLC_TYPE_STP)
 					&& hasRemaining(offset, STP_HEADER_LEN)) {
 
-				addRecord(CoreIdTable.CORE_ID_STP, offset, STP_HEADER_LEN);
+				addRecord(CoreId.CORE_ID_STP, offset, STP_HEADER_LEN);
 			} else {
 				return; // Its a pure LLC frame, no protocols
 
@@ -144,7 +144,7 @@ public abstract class PacketL2DissectorJava extends AbstractPacketDissector {
 			break;
 
 		case ETHER_TYPE_VLAN:
-			if (addRecord(CoreIdTable.CORE_ID_VLAN, offset, VLAN_HEADER_LEN)) {
+			if (addRecord(CoreId.CORE_ID_VLAN, offset, VLAN_HEADER_LEN)) {
 				this.vlanCount++;
 
 				type = Short.toUnsignedInt(buf.getShort(offset + VLAN_FIELD_TYPE));
@@ -169,7 +169,7 @@ public abstract class PacketL2DissectorJava extends AbstractPacketDissector {
 				int label = buf.getInt(offset);
 				bottomOfstack = (label & MPLS_BITMASK_BOTTOM) != 0;
 
-				if (!addRecord(CoreIdTable.CORE_ID_MPLS, offset, MPLS_HEADER_LEN))
+				if (!addRecord(CoreId.CORE_ID_MPLS, offset, MPLS_HEADER_LEN))
 					return;
 
 				offset += MPLS_HEADER_LEN; // MPLS header length
@@ -181,11 +181,11 @@ public abstract class PacketL2DissectorJava extends AbstractPacketDissector {
 
 		case ETHER_TYPE_ARP:
 		case ETHER_TYPE_RARP:
-			addRecord(CoreIdTable.CORE_ID_ARP, offset, ARP_HEADER_LEN);
+			addRecord(CoreId.CORE_ID_ARP, offset, ARP_HEADER_LEN);
 			break;
 
 		default:
-			dissectExtensionType(buf, offset, CoreIdTable.CORE_ID_ETHER, type);
+			dissectExtensionType(buf, offset, CoreId.CORE_ID_ETHER, type);
 			break;
 		}
 	}

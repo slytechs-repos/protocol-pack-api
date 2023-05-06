@@ -188,7 +188,7 @@ public enum Ip6OptionInfo implements IpOptionInfo {
 	 */
 	@Override
 	public int getParentHeaderId() {
-		return CoreIdTable.CORE_ID_IPv6;
+		return CoreId.CORE_ID_IPv6;
 	}
 
 	/**

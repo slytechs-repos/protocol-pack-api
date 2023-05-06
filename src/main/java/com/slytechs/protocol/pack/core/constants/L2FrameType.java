@@ -39,28 +39,28 @@ public enum L2FrameType implements HeaderInfo, IntSupplier {
 	OTHER(0),
 
 	/** The ether. */
-	ETHER(CoreIdTable.CORE_ID_ETHER, Ethernet::new),
+	ETHER(CoreId.CORE_ID_ETHER, Ethernet::new),
 
 	/** The llc. */
-	LLC(CoreIdTable.CORE_ID_LLC, Llc::new),
+	LLC(CoreId.CORE_ID_LLC, Llc::new),
 
 	/** The snap. */
-	SNAP(CoreIdTable.CORE_ID_SNAP, Snap::new),
+	SNAP(CoreId.CORE_ID_SNAP, Snap::new),
 
 	/** The ppp. */
-	PPP(CoreIdTable.CORE_ID_PPP),
+	PPP(CoreId.CORE_ID_PPP),
 
 	/** The fddi. */
-	FDDI(CoreIdTable.CORE_ID_FDDI),
+	FDDI(CoreId.CORE_ID_FDDI),
 
 	/** The atm. */
-	ATM(CoreIdTable.CORE_ID_ATM),
+	ATM(CoreId.CORE_ID_ATM),
 
 	/** The novell raw. */
-	NOVELL_RAW(CoreIdTable.CORE_ID_ETHER),
+	NOVELL_RAW(CoreId.CORE_ID_ETHER),
 
 	/** The isl. */
-	ISL(CoreIdTable.CORE_ID_ETHER),
+	ISL(CoreId.CORE_ID_ETHER),
 
 	;
 

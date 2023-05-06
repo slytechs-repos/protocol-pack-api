@@ -640,6 +640,36 @@ public final class CoreConstants {
 	/** The Constant TCP_OPTION_LEN_EOL. */
 	public static final int TCP_OPTION_LEN_EOL = 1;
 
+	/** The Constant FLAG_ACK. */
+	public static final int TCP_FLAG_ACK = 0x10;
+
+	/** The Constant FLAG_CONG. */
+	public static final int TCP_FLAG_CONG = 0x80;
+
+	/** The Constant FLAG_CWR. */
+	public static final int TCP_FLAG_CWR = 0x80;
+
+	/** The Constant FLAG_ECE. */
+	public static final int TCP_FLAG_ECE = 0x40;
+
+	/** The Constant FLAG_ECN. */
+	public static final int TCP_FLAG_ECN = 0x40;
+
+	/** The Constant FLAG_FIN. */
+	public static final int TCP_FLAG_FIN = 0x01;
+
+	/** The Constant FLAG_PSH. */
+	public static final int TCP_FLAG_PSH = 0x08;
+
+	/** The Constant FLAG_RST. */
+	public static final int TCP_FLAG_RST = 0x04;
+
+	/** The Constant FLAG_SYN. */
+	public static final int TCP_FLAG_SYN = 0x02;
+
+	/** The Constant FLAG_URG. */
+	public static final int TCP_FLAG_URG = 0x20;
+
 	/** The Constant UDP_HEADER_LEN. */
 	/* Descriptor UDP constants */
 	public static final int UDP_HEADER_LEN = 8;
