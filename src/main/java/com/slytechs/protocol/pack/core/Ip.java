@@ -27,6 +27,8 @@ import com.slytechs.protocol.descriptor.IpfTracking;
 import com.slytechs.protocol.pack.core.Ip.IpOption;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.IpfDescriptorType;
+import com.slytechs.protocol.runtime.internal.util.collection.IntArrayList;
+import com.slytechs.protocol.runtime.internal.util.collection.IntList;
 
 /**
  * Internet Protocol base definition.
@@ -283,7 +285,7 @@ public abstract class Ip<T extends IpOption> extends HeaderExtension<T> {
 	 *
 	 * @return true, if is reassembly tracking
 	 */
-	public final boolean isTrackingReassembly() {
+	public final boolean hasIpfTrackingDescriptor() {
 		return super.descriptor().hasDescriptor(IpfDescriptorType.IPF_TRACKING);
 	}
 
@@ -293,22 +295,23 @@ public abstract class Ip<T extends IpOption> extends HeaderExtension<T> {
 	 * @return array of frame numbers for each of the fragments that were used to
 	 *         reassemble this IP datagram. This method never returns null.
 	 */
-	public final long[] reassembledFragmentIndexes() {
-		if (isTrackingReassembly())
+	public final long[] getIpfFrameIndexes() {
+		IntList list = new IntArrayList();
+		if (hasIpfTrackingDescriptor())
 			throw new UnsupportedOperationException("tracking retrieval not implemented yet");
 		else
 			return new long[0];
 	}
 
-	public final ByteBuffer reassembledBuffer() {
+	public final ByteBuffer getReassembledBuffer() {
 		throw new UnsupportedOperationException("not implemented yet");
 	}
 
-	public final IpfReassembly ipfReassembly() {
+	public final IpfReassembly getIpfReassemblyDescriptor() {
 		return (IpfReassembly) super.descriptor().peekDescriptor(IpfDescriptorType.IPF_REASSEMBLY);
 	}
 
-	public final IpfTracking ipfTracking() {
+	public final IpfTracking getIpfTrackingDescriptor() {
 		return (IpfTracking) super.descriptor().peekDescriptor(IpfDescriptorType.IPF_TRACKING);
 	}
 }

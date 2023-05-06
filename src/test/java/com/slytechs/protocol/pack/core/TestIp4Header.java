@@ -460,7 +460,7 @@ class TestIp4Header {
 		var ip4 = packet.getHeader(new Ip4());
 		var EXPECTED_FRAG_ARRAY = new long[0];
 
-		assertArrayEquals(EXPECTED_FRAG_ARRAY, ip4.reassembledFragmentIndexes());
+		assertArrayEquals(EXPECTED_FRAG_ARRAY, ip4.getIpfFrameIndexes());
 	}
 
 	@Test
