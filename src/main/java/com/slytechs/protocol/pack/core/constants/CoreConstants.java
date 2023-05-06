@@ -56,6 +56,11 @@ public final class CoreConstants {
 	public static final int DESC_IPF_FRAG_BYTE_SIZE = 0 
 			+ DESC_IPF_FRAG_KEY + DESC_IPF_FRAG_IPv6_KEY_BYTE_SIZE;
 	
+	public static final int DESC_IPF_REASSEMBLY_BYTE_MIN_SIZE = 20 ;
+	public static final int DESC_IPF_REASSEMBLY_RECORD_SIZE = 16 ;
+	public static final int DESC_IPF_REASSEMBLY_BYTE_SIZE = 0 
+			+ DESC_IPF_REASSEMBLY_BYTE_MIN_SIZE + DESC_IPF_REASSEMBLY_RECORD_SIZE * 32;
+	
 	/** The Constant DESC_TYPE2_BYTE_SIZE_MAX. */
 	public static final int DESC_TYPE2_BYTE_SIZE_MAX    = 0
 			+ DESC_TYPE2_BYTE_SIZE_MIN
