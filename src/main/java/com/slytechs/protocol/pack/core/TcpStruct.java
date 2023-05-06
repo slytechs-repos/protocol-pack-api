@@ -38,31 +38,31 @@ public enum TcpStruct implements EnumBitField<TcpStruct> {
 
 	/** The src port. */
 	SRC_PORT(Layout.TCP_STRUCT, "tcp.srcport"),
-	
+
 	/** The dst port. */
 	DST_PORT(Layout.TCP_STRUCT, "tcp.dstport"),
-	
+
 	/** The seq. */
 	SEQ(Layout.TCP_STRUCT, "tcp.seq"),
-	
+
 	/** The ack. */
 	ACK(Layout.TCP_STRUCT, "tcp.ack"),
-	
+
 	/** The hdr len. */
 	HDR_LEN(Layout.TCP_STRUCT, "tcp.hdr_len"),
-	
+
 	/** The reserved. */
 	RESERVED(Layout.TCP_STRUCT, "tcp.res"),
-	
+
 	/** The flags. */
 	FLAGS(Layout.TCP_STRUCT, "tcp.flags"),
-	
+
 	/** The win size. */
 	WIN_SIZE(Layout.TCP_STRUCT, "tcp.window_size_value"),
-	
+
 	/** The checksum. */
 	CHECKSUM(Layout.TCP_STRUCT, "tcp.checksum"),
-	
+
 	/** The urgent pointer. */
 	URGENT_POINTER(Layout.TCP_STRUCT, "tcp.urgent_pointer"),
 
@@ -70,27 +70,39 @@ public enum TcpStruct implements EnumBitField<TcpStruct> {
 
 	/** The opt kind. */
 	OPT_KIND(Layout.OPTION_LAYOUT, "tcp.opt.kind"),
-	
+
 	/** The opt len. */
 	OPT_LEN(Layout.OPTION_LAYOUT, "tcp.opt.len"),
-	
+
 	/** The opt mss. */
 	OPT_MSS(Layout.OPTION_LAYOUT, "tcp.opt.mss"),
-	
+
 	/** The opt tssend. */
 	OPT_TSSEND(Layout.OPTION_LAYOUT, "tcp.opt.ts.send_ts"),
-	
+
 	/** The opt tsrecv. */
 	OPT_TSRECV(Layout.OPTION_LAYOUT, "tcp.opt.ts.recv_ts"),
-	
+
 	/** The opt win scale. */
-	OPT_WIN_SCALE(Layout.OPTION_LAYOUT, "tcp.opt.win_scale");
+	OPT_WIN_SCALE(Layout.OPTION_LAYOUT, "tcp.opt.win_scale"),
+	
+	FLAGS_CWR(Layout.TCP_STRUCT, "tcp.flags.cwr"),
+	FLAGS_ECE(Layout.TCP_STRUCT, "tcp.flags.ece"),
+	FLAGS_URG(Layout.TCP_STRUCT, "tcp.flags.urg"),
+	FLAGS_ACK(Layout.TCP_STRUCT, "tcp.flags.ack"),
+	FLAGS_PSH(Layout.TCP_STRUCT, "tcp.flags.psh"),
+	FLAGS_RST(Layout.TCP_STRUCT, "tcp.flags.rst"),
+	FLAGS_SYN(Layout.TCP_STRUCT, "tcp.flags.syn"),
+	FLAGS_FIN(Layout.TCP_STRUCT, "tcp.flags.fin"),
+	
+	
+	;
 
 	/**
 	 * The Class Layout.
 	 */
 	private static class Layout {
-		
+
 		/** The Constant TCP_STRUCT. */
 		private static final BinaryLayout TCP_STRUCT = unionLayout(
 				structLayout(
@@ -107,8 +119,18 @@ public enum TcpStruct implements EnumBitField<TcpStruct> {
 
 						/* Word3 */
 						Int16be.BITS_04.withName("tcp.hdr_len"),
-						Int16be.BITS_03.withName("tcp.res"),
-						Int16be.BITS_09.withName("tcp.flags"),
+						Int16be.BITS_04.withName("tcp.res"),
+						unionLayout(
+								Int16be.BITS_08.withName("tcp.flags"),
+								structLayout(
+										Int16be.BITS_01.withName("tcp.flags.cwr"),
+										Int16be.BITS_01.withName("tcp.flags.ece"),
+										Int16be.BITS_01.withName("tcp.flags.urg"),
+										Int16be.BITS_01.withName("tcp.flags.ack"),
+										Int16be.BITS_01.withName("tcp.flags.psh"),
+										Int16be.BITS_01.withName("tcp.flags.rst"),
+										Int16be.BITS_01.withName("tcp.flags.syn"),
+										Int16be.BITS_01.withName("tcp.flags.fin"))),
 						Int16be.BITS_16.withName("tcp.window_size_value"),
 
 						/* Word4 */
@@ -146,13 +168,13 @@ public enum TcpStruct implements EnumBitField<TcpStruct> {
 
 	/** The Constant HEADER_BYTES. */
 	public static final ArrayField HEADER_BYTES = Layout.TCP_STRUCT.arrayField("tcp.bytes");
-	
+
 	/** The Constant HEADER_SHORTS. */
 	public static final ArrayField HEADER_SHORTS = Layout.TCP_STRUCT.arrayField("tcp.shorts");
-	
+
 	/** The Constant HEADER_INTS. */
 	public static final ArrayField HEADER_INTS = Layout.TCP_STRUCT.arrayField("tcp.ints");
-	
+
 	/** The Constant OPT_COOKIE. */
 	public static final ArrayField OPT_COOKIE = Layout.OPTION_LAYOUT.arrayField("tcp.opt.fastopen.cookie");
 

@@ -10,7 +10,9 @@
 		},
 		"checksum": {
 			"meta": 20
+		},
+		"flags": {
+			"display": "%{}x %{flagsEnum}s"
 		}
-
 	}
 }

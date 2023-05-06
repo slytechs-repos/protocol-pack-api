@@ -150,7 +150,7 @@ public enum TcpOptionInfo implements HeaderExtensionInfo {
 	 */
 	@Override
 	public int getParentHeaderId() {
-		return CoreIdTable.CORE_ID_TCP;
+		return CoreId.CORE_ID_TCP;
 	}
 
 	/**

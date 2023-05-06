@@ -17,12 +17,17 @@
  */
 package com.slytechs.protocol.pack.core;
 
+import java.util.Set;
+
 import com.slytechs.protocol.HeaderExtension;
 import com.slytechs.protocol.Packet;
 import com.slytechs.protocol.meta.Meta;
+import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.TcpOption.TcpWindowScaleOption;
-import com.slytechs.protocol.pack.core.constants.CoreIdTable;
+import com.slytechs.protocol.pack.core.constants.CoreId;
+import com.slytechs.protocol.pack.core.constants.TcpFlag;
+import com.slytechs.protocol.runtime.internal.util.format.BitFormat;
 
 /**
  * Transmission Control Protocol (TCP).
@@ -34,11 +39,12 @@ import com.slytechs.protocol.pack.core.constants.CoreIdTable;
 public final class Tcp extends HeaderExtension<TcpOption> {
 
 	/** The Constant ID. */
-	public static final int ID = CoreIdTable.CORE_ID_TCP;
+	public static final int ID = CoreId.CORE_ID_TCP;
 
 	/** The Constant FLAGS_FORMAT. */
 	@SuppressWarnings("unused")
 	private static final String FLAGS_FORMAT = "..B WEUA PRSF";
+	private static final BitFormat FLAGS_FORMATTER = new BitFormat(FLAGS_FORMAT);
 
 	/**
 	 * The wscale option. We persist the object, once its lazily created in case it
@@ -52,6 +58,24 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 */
 	public Tcp() {
 		super(ID);
+	}
+
+	/**
+	 * Formats all the TCP flag bits as string.
+	 *
+	 * @return the string representing all of the flag bits
+	 */
+	public String flagsFormatted() {
+		return FLAGS_FORMATTER.format(flags());
+	}
+
+	public String flagsAsString() {
+		return flagsEnum().toString();
+	}
+
+	@Meta(MetaType.ATTRIBUTE)
+	public Set<TcpFlag> flagsEnum() {
+		return TcpFlag.valueOfInt(flags());
 	}
 
 	/**
@@ -131,7 +155,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 * @return the int
 	 */
 	@Meta
-	public int dstPort() {
+	public int destination() {
 		return TcpStruct.DST_PORT.getUnsignedShort(buffer());
 	}
 
@@ -140,7 +164,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 *
 	 * @param newPort the new port
 	 */
-	public void dstPort(int newPort) {
+	public void destination(int newPort) {
 		TcpStruct.DST_PORT.setInt(newPort, buffer());
 	}
 
@@ -191,6 +215,207 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 */
 	public void flags(int flags) {
 		TcpStruct.FLAGS.setInt(flags, buffer());
+	}
+
+	/**
+	 * ACK (1 bit): Indicates that the Acknowledgment field is significant. All
+	 * packets after the initial SYN packet sent by the client should have this flag
+	 * set.
+	 * 
+	 * @return true, if the flag bit is set, otherwise false
+	 */
+	public boolean flags_ACK() {
+		return TcpStruct.FLAGS_ACK.getBit(buffer());
+	}
+
+	/**
+	 * ACK (1 bit): Indicates that the Acknowledgment field is significant. All
+	 * packets after the initial SYN packet sent by the client should have this flag
+	 * set
+	 * 
+	 * @param b if true, sets the flag bit to on (1), otherwise the bit is turned
+	 *          off (0)
+	 * @return this tcp header instance for Fluent pattern usage
+	 */
+	public Tcp flags_ACK(boolean b) {
+		TcpStruct.FLAGS_ACK.setBoolean(b, buffer());
+		return this;
+	}
+
+	/**
+	 * CWR (1 bit): Congestion window reduced (CWR) flag is set by the sending host
+	 * to indicate that it received a TCP segment with the ECE flag set and had
+	 * responded in congestion control mechanism.
+	 *
+	 * @return true, if the flag bit is set, otherwise false
+	 */
+	public boolean flags_CWR() {
+		return TcpStruct.FLAGS_CWR.getBit(buffer());
+	}
+
+	/**
+	 * CWR (1 bit): Congestion window reduced (CWR) flag is set by the sending host
+	 * to indicate that it received a TCP segment with the ECE flag set and had
+	 * responded in congestion control mechanism
+	 *
+	 * @param b if true, sets the flag bit to on (1), otherwise the bit is turned
+	 *          off (0)
+	 * @return this tcp header instance for Fluent pattern usage
+	 */
+	public Tcp flags_CWR(boolean b) {
+		TcpStruct.FLAGS_CWR.setBoolean(b, buffer());
+		return this;
+	}
+
+	/**
+	 * ECE (1 bit): ECN-Echo has a dual role, depending on the value of the SYN
+	 * flag. It indicates:
+	 * <dl>
+	 * <dt>If the SYN flag is set (1)</dt>
+	 * <dd>the TCP peer is ECN capable</dd>
+	 * <dt>If the SYN flag is clear (0)</dt>
+	 * <dd>a packet with Congestion Experienced flag set (ECN=11) in the IP header
+	 * was received during normal transmission.[a] This serves as an indication of
+	 * network congestion (or impending congestion) to the TCP sender.</dd>
+	 * </dl>
+	 * * @return true, if the flag bit is set, otherwise false
+	 */
+	public boolean flags_ECE() {
+		return TcpStruct.FLAGS_ECE.getBit(buffer());
+	}
+
+	/**
+	 * ECE (1 bit): ECN-Echo has a dual role, depending on the value of the SYN
+	 * flag. It indicates:
+	 * <dl>
+	 * <dt>If the SYN flag is set (1)</dt>
+	 * <dd>the TCP peer is ECN capable</dd>
+	 * <dt>If the SYN flag is clear (0)</dt>
+	 * <dd>a packet with Congestion Experienced flag set (ECN=11) in the IP header
+	 * was received during normal transmission.[a] This serves as an indication of
+	 * network congestion (or impending congestion) to the TCP sender.</dd>
+	 * </dl>
+	 * 
+	 * @param b if true, sets the flag bit to on (1), otherwise the bit is turned
+	 *          off (0)
+	 * @return this tcp header instance for Fluent pattern usage
+	 */
+	public Tcp flags_ECE(boolean b) {
+		TcpStruct.FLAGS_ECE.setBoolean(b, buffer());
+		return this;
+	}
+
+	/**
+	 * FIN (1 bit): Last packet from sender
+	 * 
+	 * @return true, if the flag bit is set, otherwise false
+	 */
+	public boolean flags_FIN() {
+		return TcpStruct.FLAGS_FIN.getBit(buffer());
+	}
+
+	/**
+	 * FIN (1 bit): Last packet from sender
+	 * 
+	 * @param b if true, sets the flag bit to on (1), otherwise the bit is turned
+	 *          off (0)
+	 * @return this tcp header instance for Fluent pattern usage
+	 */
+	public Tcp flags_FIN(boolean b) {
+		TcpStruct.FLAGS_FIN.setBoolean(b, buffer());
+		return this;
+	}
+
+	/**
+	 * PSH (1 bit): Push function. Asks to push the buffered data to the receiving
+	 * application
+	 * 
+	 * @return true, if the flag bit is set, otherwise false
+	 */
+	public boolean flags_PSH() {
+		return TcpStruct.FLAGS_PSH.getBit(buffer());
+	}
+
+	/**
+	 * PSH (1 bit): Push function. Asks to push the buffered data to the receiving
+	 * application
+	 * 
+	 * @param b if true, sets the flag bit to on (1), otherwise the bit is turned
+	 *          off (0)
+	 * @return this tcp header instance for Fluent pattern usage
+	 */
+	public Tcp flags_PSH(boolean b) {
+		TcpStruct.FLAGS_PSH.setBoolean(b, buffer());
+		return this;
+	}
+
+	/**
+	 * RST (1 bit): Reset the connection
+	 * 
+	 * @return true, if the flag bit is set, otherwise false
+	 */
+	public boolean flags_RST() {
+		return TcpStruct.FLAGS_RST.getBit(buffer());
+	}
+
+	/**
+	 * RST (1 bit): Reset the connection
+	 * 
+	 * @param b if true, sets the flag bit to on (1), otherwise the bit is turned
+	 *          off (0)
+	 * @return this tcp header instance for Fluent pattern usage
+	 */
+	public Tcp flags_RST(boolean b) {
+		TcpStruct.FLAGS_RST.setBoolean(b, buffer());
+		return this;
+	}
+
+	/**
+	 * SYN (1 bit): Synchronize sequence numbers. Only the first packet sent from
+	 * each end should have this flag set. Some other flags and fields change
+	 * meaning based on this flag, and some are only valid when it is set, and
+	 * others when it is clear.
+	 * 
+	 * @return true, if the flag bit is set, otherwise false
+	 */
+	public boolean flags_SYN() {
+		return TcpStruct.FLAGS_SYN.getBit(buffer());
+	}
+
+	/**
+	 * SYN (1 bit): Synchronize sequence numbers. Only the first packet sent from
+	 * each end should have this flag set. Some other flags and fields change
+	 * meaning based on this flag, and some are only valid when it is set, and
+	 * others when it is clear.
+	 * 
+	 * @param b if true, sets the flag bit to on (1), otherwise the bit is turned
+	 *          off (0)
+	 * @return this tcp header instance for Fluent pattern usage
+	 */
+	public Tcp flags_SYN(boolean b) {
+		TcpStruct.FLAGS_SYN.setBoolean(b, buffer());
+		return this;
+	}
+
+	/**
+	 * URG (1 bit): Indicates that the Urgent pointer field is significant
+	 * 
+	 * @return true, if the flag bit is set, otherwise false
+	 */
+	public boolean flags_URG() {
+		return TcpStruct.FLAGS_URG.getBit(buffer());
+	}
+
+	/**
+	 * URG (1 bit): Indicates that the Urgent pointer field is significant
+	 * 
+	 * @param b if true, sets the flag bit to on (1), otherwise the bit is turned
+	 *          off (0)
+	 * @return this tcp header instance for Fluent pattern usage
+	 */
+	public Tcp flags_URG(boolean b) {
+		TcpStruct.FLAGS_URG.setBoolean(b, buffer());
+		return this;
 	}
 
 	/**
@@ -288,7 +513,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 * @return the int
 	 */
 	@Meta
-	public int srcPort() {
+	public int source() {
 		return TcpStruct.SRC_PORT.getUnsignedShort(buffer());
 	}
 
@@ -297,7 +522,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 *
 	 * @param newPort the new port
 	 */
-	public void srcPort(int newPort) {
+	public void source(int newPort) {
 		TcpStruct.SRC_PORT.setInt(newPort, buffer());
 	}
 
@@ -307,7 +532,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 *
 	 * @return the int
 	 */
-	public int urgentPointer() {
+	public int urgent() {
 		return TcpStruct.URGENT_POINTER.getUnsignedShort(buffer());
 	}
 
@@ -316,7 +541,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 *
 	 * @param urgentPointer the urgent pointer
 	 */
-	public void urgentPointer(int urgentPointer) {
+	public void urgent(int urgentPointer) {
 		TcpStruct.URGENT_POINTER.setInt(urgentPointer, buffer());
 	}
 
@@ -327,7 +552,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 *
 	 * @return the int
 	 */
-	public int windowSize() {
+	public int window() {
 		return TcpStruct.WIN_SIZE.getUnsignedShort(buffer());
 	}
 
@@ -336,7 +561,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 *
 	 * @param size the size
 	 */
-	public void windowSize(int size) {
+	public void window(int size) {
 		TcpStruct.WIN_SIZE.setInt(size, buffer());
 	}
 
@@ -347,7 +572,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 *
 	 * @return the scaled window value
 	 */
-	public int windowSizeScaled() {
+	public int windowScaled() {
 
 		if (wscaleOption == null)
 			wscaleOption = new TcpWindowScaleOption();
@@ -356,7 +581,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 		if (hasExtension(wscaleOption))
 			shiftCount = wscaleOption.shiftCount();
 
-		return windowSizeScaled(shiftCount);
+		return windowScaled(shiftCount);
 	}
 
 	/**
@@ -365,7 +590,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 * @param scale the bitshift scale to use
 	 * @return the scaled window value
 	 */
-	public int windowSizeScaled(int scale) {
-		return windowSize() << scale;
+	public int windowScaled(int scale) {
+		return window() << scale;
 	}
 }

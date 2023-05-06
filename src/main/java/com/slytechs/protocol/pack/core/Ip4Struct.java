@@ -32,7 +32,7 @@ import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Padding;
 /**
  * The Enum Ip4Layout.
  */
-enum Ip4Layout implements EnumBitField<Ip4Layout> {
+enum Ip4Struct implements EnumBitField<Ip4Struct> {
 
 	/** The version. */
 	VERSION(Struct.IP4_STRUCT, "ip.version"),
@@ -228,7 +228,7 @@ enum Ip4Layout implements EnumBitField<Ip4Layout> {
 	 * @param path      the path
 	 * @param formatter the formatter
 	 */
-	private Ip4Layout(BinaryLayout layout, String path, BitFieldFormatter formatter) {
+	private Ip4Struct(BinaryLayout layout, String path, BitFieldFormatter formatter) {
 		this.bits = layout.bitField(path)
 				.formatted()
 				.formatter(formatter);
@@ -240,7 +240,7 @@ enum Ip4Layout implements EnumBitField<Ip4Layout> {
 	 * @param layout the layout
 	 * @param path   the path
 	 */
-	private Ip4Layout(BinaryLayout layout, String path) {
+	private Ip4Struct(BinaryLayout layout, String path) {
 		this.bits = layout.bitField(path)
 				.formatted()
 				.format("%d");
@@ -253,7 +253,7 @@ enum Ip4Layout implements EnumBitField<Ip4Layout> {
 	 * @param path   the path
 	 * @param format the format
 	 */
-	private Ip4Layout(BinaryLayout layout, String path, String format) {
+	private Ip4Struct(BinaryLayout layout, String path, String format) {
 		this.bits = layout.bitField(path)
 				.formatted()
 				.format("%d");

@@ -23,9 +23,10 @@ import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
-import com.slytechs.protocol.pack.core.constants.CoreIdTable;
+import com.slytechs.protocol.pack.core.constants.CoreId;
 import com.slytechs.protocol.pack.core.constants.Ip4Flag;
 import com.slytechs.protocol.pack.core.constants.IpType;
+import com.slytechs.protocol.runtime.internal.util.format.BitFormat;
 
 /**
  * Internet Protocol Version 4 (IPv4).
@@ -58,7 +59,9 @@ import com.slytechs.protocol.pack.core.constants.IpType;
 public final class Ip4 extends Ip<Ip4Option> {
 
 	/** The Constant ID. */
-	public static final int ID = CoreIdTable.CORE_ID_IPv4;
+	public static final int ID = CoreId.CORE_ID_IPv4;
+	private static final String FLAGS_FORMAT = ".DM";
+	private static final BitFormat FLAGS_FORMATTER = new BitFormat(FLAGS_FORMAT);
 
 	/**
 	 * Instantiates a new ip 4.
@@ -73,7 +76,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 * @return the int
 	 */
 	public int dsfield() {
-		return Ip4Layout.DSFIELD.getInt(buffer());
+		return Ip4Struct.DSFIELD.getInt(buffer());
 	}
 
 	/**
@@ -82,7 +85,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 * @return the int
 	 */
 	public int dsfieldDscp() {
-		return Ip4Layout.DSFIELD_DSCP.getInt(buffer());
+		return Ip4Struct.DSFIELD_DSCP.getInt(buffer());
 	}
 
 	/**
@@ -91,7 +94,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 * @return the int
 	 */
 	public int dsfieldDscpCode() {
-		return Ip4Layout.DSFIELD_DSCP_CODE.getInt(buffer());
+		return Ip4Struct.DSFIELD_DSCP_CODE.getInt(buffer());
 	}
 
 	/**
@@ -119,7 +122,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 * @return the int
 	 */
 	int dsfieldDscpSelect() {
-		return Ip4Layout.DSFIELD_DSCP_SELECT.getInt(buffer());
+		return Ip4Struct.DSFIELD_DSCP_SELECT.getInt(buffer());
 	}
 
 	/**
@@ -128,7 +131,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 * @return the int
 	 */
 	int dsfieldEcn() {
-		return Ip4Layout.DSFIELD_ECN.getInt(buffer());
+		return Ip4Struct.DSFIELD_ECN.getInt(buffer());
 	}
 
 	/**
@@ -206,7 +209,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 * @return the int
 	 */
 	public int dstGetAsInt() {
-		return Ip4Layout.DST.getInt(buffer());
+		return Ip4Struct.DST.getInt(buffer());
 	}
 
 	/**
@@ -216,16 +219,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 */
 	@Meta
 	public int flags() {
-		return Ip4Layout.FLAGS.getInt(buffer());
-	}
-
-	/**
-	 * Flags byte.
-	 *
-	 * @return the int
-	 */
-	public int flagsByte() {
-		return Ip4Layout.FLAGS_BYTE.getInt(buffer());
+		return Ip4Struct.FLAGS.getInt(buffer());
 	}
 
 	/**
@@ -233,8 +227,8 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 *
 	 * @return the int
 	 */
-	public int flagsDf() {
-		return Ip4Layout.FLAGS_DF.getInt(buffer());
+	public int flags_DF() {
+		return Ip4Struct.FLAGS_DF.getInt(buffer());
 	}
 
 	/**
@@ -244,13 +238,21 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 */
 	@Meta(MetaType.ATTRIBUTE)
 	public String flagsInfo() {
-		if (flagsDf() != 0)
+		if (flags_DF() != 0)
 			return "Don't fragment";
 
-		if (flagsMf() != 0)
+		if (flags_MF() != 0)
 			return "More fragments";
 
 		return "No flags";
+	}
+
+	public String flagsFormatted() {
+		return FLAGS_FORMATTER.format(flags());
+	}
+
+	public String flagsAsString() {
+		return flagsEnum().toString();
 	}
 
 	/**
@@ -258,26 +260,17 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 *
 	 * @return the int
 	 */
-	public int flagsMf() {
-		return Ip4Layout.FLAGS_MF.getInt(buffer());
+	public int flags_MF() {
+		return Ip4Struct.FLAGS_MF.getInt(buffer());
 	}
 
 	/**
-	 * Flags nibble.
+	 * Flags reserved.
 	 *
 	 * @return the int
 	 */
-	public int flagsNibble() {
-		return Ip4Layout.FLAGS_NIBBLE.getInt(buffer());
-	}
-
-	/**
-	 * Flags rb.
-	 *
-	 * @return the int
-	 */
-	public int flagsRb() {
-		return Ip4Layout.FLAGS_RB.getInt(buffer());
+	public int flags_Reserved() {
+		return Ip4Struct.FLAGS_RB.getInt(buffer());
 	}
 
 	/**
@@ -286,7 +279,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 * @return the sets the
 	 */
 	@Meta(MetaType.ATTRIBUTE)
-	public Set<Ip4Flag> flagsSet() {
+	public Set<Ip4Flag> flagsEnum() {
 		return Ip4Flag.valueOfInt03(flags());
 	}
 
@@ -296,7 +289,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 * @return the int
 	 */
 	public int fragOffset() {
-		return Ip4Layout.FRAG_OFFSET.getInt(buffer());
+		return Ip4Struct.FRAG_OFFSET.getInt(buffer());
 	}
 
 	/**
@@ -306,7 +299,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 */
 	@Meta
 	public int hdrLen() {
-		return Ip4Layout.HDR_LEN.getInt(buffer());
+		return Ip4Struct.HDR_LEN.getInt(buffer());
 	}
 
 	/**
@@ -326,7 +319,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 */
 	@Meta
 	public int identification() {
-		return Ip4Layout.ID.getUnsignedShort(buffer());
+		return Ip4Struct.ID.getUnsignedShort(buffer());
 	}
 
 	/**
@@ -347,7 +340,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 */
 	@Meta
 	public int protocol() {
-		return Ip4Layout.PROTO.getInt(buffer());
+		return Ip4Struct.PROTO.getInt(buffer());
 	}
 
 	/**
@@ -413,7 +406,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 * @return the int
 	 */
 	public int srcGetAsInt() {
-		return Ip4Layout.SRC.getInt(buffer());
+		return Ip4Struct.SRC.getInt(buffer());
 	}
 
 	/**
@@ -423,7 +416,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 */
 	@Meta
 	public int totalLength() {
-		return Ip4Layout.TOTAL_LENGTH.getUnsignedShort(buffer());
+		return Ip4Struct.TOTAL_LENGTH.getUnsignedShort(buffer());
 	}
 
 	/**
@@ -433,7 +426,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 */
 	@Meta
 	public int ttl() {
-		return Ip4Layout.TTL.getUnsignedByte(buffer());
+		return Ip4Struct.TTL.getUnsignedByte(buffer());
 	}
 
 	/**
@@ -444,7 +437,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	@Override
 	@Meta
 	public int version() {
-		return Ip4Layout.VERSION.getUnsignedByte(buffer());
+		return Ip4Struct.VERSION.getUnsignedByte(buffer());
 	}
 
 }

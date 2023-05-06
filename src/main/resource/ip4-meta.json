@@ -28,7 +28,7 @@
 			"display": "%{},d [0x%{}04X]"
 		},
 		"flags": {
-			"display": "%{}x %{flagsSet}s"
+			"display": "%{}x %{flagsEnum}s"
 		},
 		"totalLength": {
 			"display": {

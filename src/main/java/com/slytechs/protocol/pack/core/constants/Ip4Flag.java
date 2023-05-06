@@ -21,26 +21,37 @@ import java.util.EnumSet;
 import java.util.Set;
 
 /**
- * The Enum Ip4Flag.
+ * A three-bit field follows and is used to control or identify fragments.
+ * 
+ * <p>
+ * If the DF flag is set, and fragmentation is required to route the packet,
+ * then the packet is dropped. This can be used when sending packets to a host
+ * that does not have resources to perform reassembly of fragments. It can also
+ * be used for path MTU discovery, either automatically by the host IP software,
+ * or manually using diagnostic tools such as ping or traceroute. For
+ * unfragmented packets, the MF flag is cleared. For fragmented packets, all
+ * fragments except the last have the MF flag set. The last fragment has a
+ * non-zero Fragment Offset field, differentiating it from an unfragmented
+ * packet.
+ * </p>
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
 public enum Ip4Flag {
 
-	/** The reserved. */
+	/** Reserved; must be zero. */
 	RESERVED,
 
-	/** The df. */
+	/** Don't Fragment. */
 	DF,
 
-	/** The mf. */
+	/** More Fragments. */
 	MF,
 
 	;
 
-	/** The Constant IPv4_FLAG_RESERVED. */
+	/** The Constant Reserved; must be zero. */
 	public static final int IPv4_FLAG_RESERVED = 0x4;
 
 	/** The Constant IPv4_FLAG_DF. */
