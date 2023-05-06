@@ -58,8 +58,9 @@ public abstract class Descriptor
 	 * @return the next descriptor added
 	 */
 	public final Descriptor addDescriptor(Descriptor nextDescriptor) {
+		if (nextDescriptor != null)
+			nextDescriptor.next = this.next;
 
-		nextDescriptor.next = this.next;
 		this.next = nextDescriptor;
 
 		return nextDescriptor;
