@@ -22,17 +22,30 @@ import static com.slytechs.protocol.runtime.internal.layout.BinaryLayout.*;
 import com.slytechs.protocol.runtime.internal.layout.BinaryLayout;
 import com.slytechs.protocol.runtime.internal.layout.BitField;
 import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int16;
+import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int32;
 import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int64;
 import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int8;
 
 /**
- * The Enum IpfLayout structure for a IpfDescriptor type.
+ * IPF tracking descriptor attached to IP fragment packets. Provides information
+ * about each IP fragment and reassembled data-gram information.
+ * <p>
+ * All the flags and counters are snapshots at the time the IP fragment was
+ * processed and dispatched.
+ * </p>
+ * <p>
+ * The constant {@code FRAG_PKT_INDEX} is an index into the packet stream of
+ * where the fully reassembled IP data-gram resides. The frameNo of the
+ * reassembled datagram may not be known during the reassembly process until all
+ * of the fragments are processed, for this reason the value of the packet index
+ * will be set to 0 initially and should be set post fragment reassembly in user
+ * handler, the IP fragment packets are retained.
+ * </p>
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
-enum IpfTrackingLayout implements BitField.Proxy {
+public enum IpfTrackingLayout implements BitField.Proxy {
 
 	FLAGS("flags"),
 	IP_IS_REASSEMBLED("ip_is_reassembled"),
@@ -42,7 +55,13 @@ enum IpfTrackingLayout implements BitField.Proxy {
 	IP_IS_OVERLAP("ip_is_overlap"),
 	TABLE_SIZE("table_size"),
 	REASSEMBLED_BYTES("reassembled_bytes"),
+	HOLE_BYTES("hole_bytes"),
+	OVERLAP_BYTES("overlap_bytes"),
 	REASSEMBLED_MILLI("reassembled_milli"),
+
+	FRAG_PKT_INDEX("frag_pkt_index"),
+	FRAG_OFFSET("frag_offset"),
+	FRAG_LENGTH("frag_length"),
 
 	;
 
@@ -54,7 +73,15 @@ enum IpfTrackingLayout implements BitField.Proxy {
 		/** The Constant TYPE2_STRUCT. */
 		private static final BinaryLayout STRUCT = structLayout(
 
-				/* Word0 */
+				/* Word0&1 */
+				Int64.BITS_64.withName("reassembled_milli"),
+
+				/* Word2 */
+				Int16.BITS_16.withName("hole_bytes"),
+				Int16.BITS_16.withName("overlap_bytes"),
+
+				/* Word2 */
+				Int16.BITS_16.withName("reassembled_bytes"),
 				unionLayout(
 						structLayout(
 								Int8.BITS_01.withName("ip_is_reassembled"),
@@ -64,23 +91,16 @@ enum IpfTrackingLayout implements BitField.Proxy {
 								Int8.BITS_01.withName("ip_is_overlap"),
 								Int8.BITS_03),
 						Int8.BITS_08.withName("flags")),
-
 				Int8.BITS_08.withName("table_size"),
-				Int16.BITS_16.withName("reassembled_bytes"),
 
-				/* Word1 */
-				Int16.BITS_16.withName("hole_bytes"),
-				Int16.BITS_16.withName("overlap_bytes"),
-
-				/* Word2&3 */
-				Int64.BITS_64.withName("reassembled_milli"),
-
-				/* Word4+ */
+				/* Word3+ */
 				sequenceLayout(32, structLayout(
 
 						Int64.BITS_64.withName("frag_pkt_index"),
 						Int16.BITS_16.withName("frag_offset"),
-						Int16.BITS_16.withName("frag_length")
+						Int16.BITS_16.withName("frag_length"),
+
+						Int32.BITS_32
 
 				).withName("frag_table"))
 

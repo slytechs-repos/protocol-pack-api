@@ -21,7 +21,9 @@ import static com.slytechs.protocol.runtime.internal.layout.BinaryLayout.*;
 
 import com.slytechs.protocol.runtime.internal.layout.BinaryLayout;
 import com.slytechs.protocol.runtime.internal.layout.BitField;
+import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout;
 import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int16;
+import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int32;
 import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int64;
 import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int8;
 
@@ -32,9 +34,10 @@ import com.slytechs.protocol.runtime.internal.layout.PredefinedLayout.Int8;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-enum IpfReassemblyLayout implements BitField.Proxy {
+public enum IpfReassemblyLayout implements BitField.Proxy {
 
 	FLAGS("flags"),
+	IP_TYPE("ip_type"),
 	IP_IS_REASSEMBLED("ip_is_reassembled"),
 	IP_IS_COMPLETE("ip_is_complete"),
 	IP_IS_TIMEOUT("ip_is_timeout"),
@@ -43,7 +46,13 @@ enum IpfReassemblyLayout implements BitField.Proxy {
 	TABLE_SIZE("table_size"),
 	REASSEMBLED_BYTES("reassembled_bytes"),
 	REASSEMBLED_MILLI("reassembled_milli"),
+	HOLE_BYTES("hole_bytes"),
+	OVERLAP_BYTES("overlap_bytes"),
 
+	FRAG_PKT_INDEX("frag_pkt_index"),
+	FRAG_OFFSET("frag_offset"),
+	FRAG_LENGTH("frag_length"),
+	FRAG_OVERLAY_BYTES("frag_overlay_bytes"),
 	;
 
 	/**
@@ -57,12 +66,13 @@ enum IpfReassemblyLayout implements BitField.Proxy {
 				/* Word0 */
 				unionLayout(
 						structLayout(
+								Int8.BITS_01.withName("ip_type"),
 								Int8.BITS_01.withName("ip_is_reassembled"),
 								Int8.BITS_01.withName("ip_is_complete"),
 								Int8.BITS_01.withName("ip_is_timeout"),
 								Int8.BITS_01.withName("ip_is_hole"),
 								Int8.BITS_01.withName("ip_is_overlap"),
-								Int8.BITS_03),
+								Int8.BITS_02),
 						Int8.BITS_08.withName("flags")),
 
 				Int8.BITS_08.withName("table_size"),
@@ -72,15 +82,21 @@ enum IpfReassemblyLayout implements BitField.Proxy {
 				Int16.BITS_16.withName("hole_bytes"),
 				Int16.BITS_16.withName("overlap_bytes"),
 
-				/* Word2&3 */
-				Int64.BITS_64.withName("reassembled_milli"),
+				/* Word2 */
+				Int32.BITS_32.withName("reassembled_milli"),
 
-				/* Word4+ */
+				/* Word3&4 */
+				PredefinedLayout.ADDRESS.withName("buffer"),
+
+				/* Word5+ */
 				sequenceLayout(32, structLayout(
 
 						Int64.BITS_64.withName("frag_pkt_index"),
 						Int16.BITS_16.withName("frag_offset"),
-						Int16.BITS_16.withName("frag_length")
+						Int16.BITS_16.withName("frag_length"),
+
+						Int16.BITS_16.withName("frag_overlay_bytes"),
+						Int16.BITS_16
 
 				).withName("frag_table"))
 
