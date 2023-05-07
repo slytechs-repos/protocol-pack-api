@@ -252,6 +252,9 @@ public abstract class PacketL2DissectorJava extends AbstractPacketDissector {
 
 		this.l2Type = dissectL2(dltType, buf, 0);
 
+		if (!isDissectionSuccess())
+			return 0;
+
 		/*
 		 * Advance the position manually, since we only reference the buffer data in
 		 * absolute mode.
@@ -259,6 +262,10 @@ public abstract class PacketL2DissectorJava extends AbstractPacketDissector {
 		buffer.position(buffer.position() + captureLength);
 
 		return captureLength;
+	}
+
+	protected boolean isDissectionSuccess() {
+		return true;
 	}
 
 	/**

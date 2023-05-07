@@ -74,6 +74,21 @@ public final class SystemProperties {
 	 * @param defaultValue the default value
 	 * @return the int
 	 */
+	public static double doubleValue(String property, double defaultValue) {
+		return numberValue(property, Double::parseDouble, defaultValue, CountUnit.COUNT).doubleValue();
+	}
+
+	public static double doubleValue(String property, double defaultValue, Unit unit) {
+		return numberValue(property, Double::parseDouble, defaultValue, unit).doubleValue();
+	}
+
+	/**
+	 * Int value.
+	 *
+	 * @param property     the property name
+	 * @param defaultValue the default value
+	 * @return the int
+	 */
 	public static int intValue(String property, int defaultValue) {
 		return numberValue(property, Integer::parseInt, defaultValue, CountUnit.COUNT).intValue();
 	}

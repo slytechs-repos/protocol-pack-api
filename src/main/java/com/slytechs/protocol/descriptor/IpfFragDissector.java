@@ -215,4 +215,9 @@ public class IpfFragDissector extends PacketL2DissectorJava {
 	protected void dissectIpx(int offset) {
 	}
 
+	@Override
+	protected boolean isDissectionSuccess() {
+		return ipIsFrag;
+	}
+
 }
