@@ -57,8 +57,10 @@ class BitFieldImplementation implements BitField {
 		this.context = context;
 
 		this.carrierSize = (int) context.carrierSize();
-		this.isCarrierSize = context.fieldSize() == context.carrierSize();
 		this.big = (context.order() == ByteOrder.BIG_ENDIAN);
+		this.isCarrierSize = true
+				&& (context.fieldSize() == context.carrierSize())
+				&& (context.carrierOffset(0) == 0);
 
 		this.carrier = new BitCarrierImplementation(context);
 
@@ -78,8 +80,10 @@ class BitFieldImplementation implements BitField {
 		this.context = context;
 
 		this.carrierSize = (int) context.carrierSize();
-		this.isCarrierSize = context.fieldSize() == context.carrierSize();
 		this.big = (context.order() == ByteOrder.BIG_ENDIAN);
+		this.isCarrierSize = true
+				&& (context.fieldSize() == context.carrierSize())
+				&& (context.carrierOffset(0) == 0);
 
 		this.carrier = carrier;
 		if (isCarrierSize)
