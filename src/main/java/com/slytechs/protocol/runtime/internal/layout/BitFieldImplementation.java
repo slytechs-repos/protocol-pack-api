@@ -46,6 +46,8 @@ class BitFieldImplementation implements BitField {
 	/** The big. */
 	private final boolean big;
 
+	private final boolean isCarrierSize;
+
 	/**
 	 * Instantiates a new bit field implementation.
 	 *
@@ -55,11 +57,12 @@ class BitFieldImplementation implements BitField {
 		this.context = context;
 
 		this.carrierSize = (int) context.carrierSize();
+		this.isCarrierSize = context.fieldSize() == context.carrierSize();
 		this.big = (context.order() == ByteOrder.BIG_ENDIAN);
 
 		this.carrier = new BitCarrierImplementation(context);
 
-		if (context.fieldSize() == context.carrierSize())
+		if (isCarrierSize)
 			this.op = new BitOperatorNop(context);
 		else
 			this.op = new BitOperatorShifter(context);
@@ -75,10 +78,11 @@ class BitFieldImplementation implements BitField {
 		this.context = context;
 
 		this.carrierSize = (int) context.carrierSize();
+		this.isCarrierSize = context.fieldSize() == context.carrierSize();
 		this.big = (context.order() == ByteOrder.BIG_ENDIAN);
 
 		this.carrier = carrier;
-		if (context.fieldSize() == context.carrierSize())
+		if (isCarrierSize)
 			this.op = new BitOperatorNop(context);
 		else
 			this.op = new BitOperatorShifter(context);
@@ -880,6 +884,27 @@ class BitFieldImplementation implements BitField {
 	 */
 	public Number routeNumberSetterAtOffset(Number value, Object data, long strideOffset) {
 		final long byteOffset = context.carrierByteOffset(strideOffset);
+
+		if (isCarrierSize) {
+			return switch (carrierSize) {
+
+			case 8 -> {
+				yield carrier.setByteAtOffset(value.byteValue(), data, byteOffset, big);
+			}
+
+			case 16 -> {
+				yield carrier.setShortAtOffset(value.shortValue(), data, byteOffset, big);
+			}
+			case 32 -> {
+				yield carrier.setIntAtOffset(value.intValue(), data, byteOffset, big);
+			}
+			case 64 -> {
+				yield carrier.setLongAtOffset(value.longValue(), data, byteOffset, big);
+			}
+
+			default -> throw new IllegalStateException();
+			};
+		}
 
 		return switch (carrierSize) {
 
