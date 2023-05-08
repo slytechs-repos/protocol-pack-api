@@ -92,7 +92,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	 */
 	@Override
 	public int captureLength() {
-		return CAPLEN.getInt(buffer());
+		return CAPLEN.getUnsignedShort(buffer());
 	}
 
 	/**
@@ -249,7 +249,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	 */
 	@Override
 	public int l2FrameType() {
-		return L2_TYPE.getInt(buffer());
+		return L2_TYPE.getUnsignedByte(buffer());
 	}
 
 	/**
@@ -425,7 +425,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	 * @return the int
 	 */
 	public int rxPort() {
-		return RX_PORT.getInt(buffer());
+		return RX_PORT.getUnsignedByte(buffer());
 	}
 
 	/**
@@ -571,7 +571,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	 * @return the int
 	 */
 	public int txCrcOverride() {
-		return TX_CRC_OVERRIDE.getInt(buffer());
+		return TX_CRC_OVERRIDE.getUnsignedByte(buffer());
 	}
 
 	/**
@@ -592,7 +592,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	 * @return the int
 	 */
 	public int txIgnore() {
-		return TX_IGNORE.getInt(buffer());
+		return TX_IGNORE.getUnsignedByte(buffer());
 	}
 
 	/**
@@ -613,7 +613,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	 * @return the int
 	 */
 	public int txNow() {
-		return TX_NOW.getInt(buffer());
+		return TX_NOW.getUnsignedByte(buffer());
 	}
 
 	/**
@@ -634,7 +634,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	 * @return the int
 	 */
 	public int txPort() {
-		return TX_PORT.getInt(buffer());
+		return TX_PORT.getUnsignedByte(buffer());
 	}
 
 	/**
@@ -678,7 +678,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	 */
 	@Override
 	public int wireLength() {
-		return WIRELEN.getInt(buffer());
+		return WIRELEN.getUnsignedShort(buffer());
 	}
 
 	/**
