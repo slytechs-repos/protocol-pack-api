@@ -20,6 +20,7 @@ package com.slytechs.protocol;
 import static com.slytechs.protocol.descriptor.CompactDescriptor.*;
 
 import java.nio.ByteBuffer;
+import java.util.Objects;
 
 import com.slytechs.protocol.descriptor.CompactDescriptor;
 import com.slytechs.protocol.descriptor.Descriptor;
@@ -352,32 +353,44 @@ public final class Packet
 	 */
 	@Override
 	public <T extends Header> T peekHeader(T header, int depth) {
-		header.unbind();
+		Objects.requireNonNull(header, "header"); // User error
 
-		int id = header.id();
+		try {
+			header.unbind();
 
-		if ((id == CoreId.CORE_ID_FRAME) && (header instanceof Frame frame)) {
-			bindFrameHeader(frame);
+			int id = header.id();
 
-		} else if (id == CoreId.CORE_ID_PAYLOAD && (header instanceof Payload payload)) {
-			bindPayloadHeader(payload);
+			if ((id == CoreId.CORE_ID_FRAME) && (header instanceof Frame frame)) {
+				bindFrameHeader(frame);
 
-		} else {
+			} else if (id == CoreId.CORE_ID_PAYLOAD && (header instanceof Payload payload)) {
+				bindPayloadHeader(payload);
 
-			long compact = lookupHeader(id, depth);
-			if (compact == CompactDescriptor.ID_NOT_FOUND) {
-				header.unbind();
-				return null;
+			} else {
+
+				long compact = lookupHeader(id, depth);
+				if (compact == CompactDescriptor.ID_NOT_FOUND) {
+					header.unbind();
+					return null;
+				}
+
+				int offset = CompactDescriptor.decodeOffset(compact);
+				int length = CompactDescriptor.decodeLength(compact);
+				int meta = CompactDescriptor.decodeMeta(compact);
+
+				bindHeader(header, offset, length, meta);
 			}
 
-			int offset = CompactDescriptor.decodeOffset(compact);
-			int length = CompactDescriptor.decodeLength(compact);
-			int meta = CompactDescriptor.decodeMeta(compact);
+			return header;
 
-			bindHeader(header, offset, length, meta);
+			/*
+			 * Any exceptions inside here are illegal and a bug. The code inside is designed
+			 * to handle all errors without throwing ANY exceptions.
+			 */
+		} catch (Throwable e) {
+			throw new IllegalStateException("Unexpected error in %s"
+					.formatted(toString(Detail.MEDIUM, null)), e);
 		}
-
-		return header;
 	}
 
 	/**
@@ -436,7 +449,7 @@ public final class Packet
 	 */
 	@Override
 	public String toString() {
-		return toString(Detail.LOW);
+		return toString(Detail.LOW, formatter);
 	}
 
 	/**
@@ -447,6 +460,17 @@ public final class Packet
 	 */
 	@Override
 	public String toString(Detail detail) {
+		return toString(detail, formatter);
+	}
+
+	/**
+	 * To string.
+	 *
+	 * @param detail    the detail
+	 * @param formatter the formatter
+	 * @return the string
+	 */
+	private String toString(Detail detail, PacketFormat formatter) {
 		if (formatter != null)
 			return formatter.format(this, detail);
 
