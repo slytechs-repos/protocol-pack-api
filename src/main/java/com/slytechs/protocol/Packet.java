@@ -20,6 +20,7 @@ package com.slytechs.protocol;
 import static com.slytechs.protocol.descriptor.CompactDescriptor.*;
 
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.Objects;
 
 import com.slytechs.protocol.descriptor.CompactDescriptor;
@@ -470,35 +471,46 @@ public final class Packet
 	 * @param formatter the formatter
 	 * @return the string
 	 */
-	private String toString(Detail detail, PacketFormat formatter) {
+	public String toString(Detail detail, PacketFormat formatter) {
 		if (formatter != null)
 			return formatter.format(this, detail);
 
+		String ifWirelenIsDifferent = (captureLength() != wireLength())
+				? "/%d".formatted(wireLength())
+				: "";
+
 		return switch (detail) {
-		case LOW -> "Packet [#%2d: caplen=%4d, timestamp=%s]"
+		case LOW -> "Packet [#%2d: length=%4d%s, timestamp=%s]"
 				.formatted(
 						descriptor().frameNo(),
 						captureLength(),
+						ifWirelenIsDifferent,
 						new Timestamp(timestamp(), timestampUnit()));
 
-		case MEDIUM -> "Packet [#%2d: caplen=%4d, wirelen=%4d, timestamp=%s]"
+		case MEDIUM -> "Packet [#%2d: length=%4d, wireLength=%4d, timestamp=%s]"
 				.formatted(
 						descriptor().frameNo(),
 						captureLength(),
 						wireLength(),
 						new Timestamp(timestamp(), timestampUnit()));
 
-		case HIGH -> "Packet [#%2d: caplen=%4d, wirelen=%4d, timestamp=%s%n%s]"
+		case HIGH -> "Packet [#%2d: length=%4d, wireLength=%4d, timestamp=%s%n%s]"
 				.formatted(
 						descriptor().frameNo(),
 						captureLength(),
 						wireLength(),
 						new Timestamp(timestamp(), timestampUnit()),
-						HexStrings.toHexTextDump(buffer()));
+						HexStrings.toHexTextDump(buffer().slice(0, 16)));
 
-		case DEBUG -> "Packet [#%d: caplen=%d, wirelen=%d, timestamp=%s, ]"
-				.formatted(descriptor().frameNo(), captureLength(), wireLength(), new Timestamp(
-						timestamp(), timestampUnit()), descriptor);
+		case DEBUG -> "Packet [#%d: length=%4d, wireLength=%4d, %s]"
+				.formatted(
+						descriptor().frameNo(),
+						captureLength(),
+						wireLength(),
+						Arrays.asList(descriptor.toDescriptorArray())
+//						descriptor.peekDescriptor(IpfDescriptorType.IPF_FRAG)
+
+				);
 		case NONE -> "";
 		default -> throw new IllegalArgumentException("Unexpected value: " + detail);
 		};
