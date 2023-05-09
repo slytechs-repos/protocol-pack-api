@@ -17,6 +17,7 @@
  */
 package com.slytechs.protocol.descriptor;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Optional;
 
@@ -29,8 +30,6 @@ import com.slytechs.protocol.runtime.util.Detail;
  * 
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
- *
  */
 public abstract class Descriptor
 		extends MemoryBinding
@@ -199,6 +198,24 @@ public abstract class Descriptor
 	}
 
 	/**
+	 * To array.
+	 *
+	 * @return the descriptor[]
+	 */
+	public Descriptor[] toDescriptorArray() {
+		var list = new ArrayList<Descriptor>();
+		Descriptor d = this;
+
+		while (d != null) {
+			list.add(d);
+
+			d = d.next;
+		}
+
+		return list.toArray(Descriptor[]::new);
+	}
+
+	/**
 	 * To string.
 	 *
 	 * @return the string
@@ -206,7 +223,7 @@ public abstract class Descriptor
 	 */
 	@Override
 	public final String toString() {
-		return toString(Detail.DEFAULT);
+		return toString(Detail.LOW);
 	}
 
 	public final String toString(Detail detail) {
