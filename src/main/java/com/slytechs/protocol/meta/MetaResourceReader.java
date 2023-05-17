@@ -19,7 +19,6 @@ package com.slytechs.protocol.meta;
 
 import java.io.InputStream;
 
-import com.slytechs.protocol.runtime.NotFound;
 import com.slytechs.protocol.runtime.internal.json.Json;
 import com.slytechs.protocol.runtime.internal.json.JsonException;
 import com.slytechs.protocol.runtime.internal.json.JsonObject;

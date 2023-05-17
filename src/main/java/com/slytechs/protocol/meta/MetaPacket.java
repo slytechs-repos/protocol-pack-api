@@ -34,6 +34,7 @@ import com.slytechs.protocol.descriptor.CompactDescriptor;
 import com.slytechs.protocol.meta.MetaContext.MetaMapped;
 import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.ProtocolPackTable;
+import com.slytechs.protocol.runtime.util.Detail;
 
 /**
  * The Class MetaPacket.
@@ -45,6 +46,36 @@ import com.slytechs.protocol.pack.ProtocolPackTable;
 public final class MetaPacket
 		extends MetaElement
 		implements Iterable<MetaHeader>, MetaMapped {
+
+	@Meta(name = "*** Exception")
+	private static class InternarErrorHeaderStub extends Header {
+
+		private final String errorMessage;
+		private final String headerName;
+		private String cause;
+
+		protected InternarErrorHeaderStub(String headerName, String errorMessage, Throwable cause) {
+			super(-1);
+			this.headerName = headerName;
+			this.errorMessage = errorMessage;
+			this.cause = (cause == null) ? "<not specified>" : cause.getMessage();
+		}
+
+		@Meta
+		public String header() {
+			return headerName;
+		}
+
+		@Meta
+		public String error() {
+			return errorMessage;
+		}
+
+		@Meta
+		public String cause() {
+			return cause == null ? "" : cause;
+		}
+	}
 
 	/** The header factory. */
 	private final HeaderFactory headerFactory = HeaderFactory.newInstance();
@@ -80,27 +111,41 @@ public final class MetaPacket
 		try {
 			headers.add(new MetaHeader(ctx, this, packet.getHeader(new Frame(), 0)));
 
+			String lastHeaderName = "";
 			int lastId = 0;
 			long[] compactArray = packet.descriptor().listHeaders();
 			for (long cp : compactArray) {
-				int id = CompactDescriptor.decodeId(cp);
-				int packId = PackId.decodePackId(id);
-				boolean isOption = packId == ProtocolPackTable.PACK_ID_OPTIONS;
+				try {
+					int id = CompactDescriptor.decodeId(cp);
+					int packId = PackId.decodePackId(id);
+					boolean isOption = packId == ProtocolPackTable.PACK_ID_OPTIONS;
 
-				final Header header;
-				if (isOption) {
-					header = headerFactory.getExtension(lastId, id);
+					final Header header;
+					if (isOption) {
+						header = headerFactory.getExtension(lastId, id);
 
-				} else {
-					header = headerFactory.get(id);
-					lastId = id;
+					} else {
+						header = headerFactory.get(id);
+						lastId = id;
+					}
+
+					lastHeaderName = header.headerName();
+
+					packet.getHeader(header, 0);
+					lastHeaderName = header.toString(Detail.MEDIUM, null);
+
+					MetaHeader metaHdr = new MetaHeader(ctx, this, header);
+					headers.add(metaHdr);
+
+				} catch (RuntimeException e) {
+					MetaHeader errorHeaders = new MetaHeader(
+							ctx,
+							this,
+							new InternarErrorHeaderStub(lastHeaderName, e.getMessage(), e.getCause()));
+					headers.add(errorHeaders);
+
+//					e.printStackTrace();
 				}
-
-				packet.getHeader(header, 0);
-
-				MetaHeader metaHdr = new MetaHeader(ctx, this, header);
-
-				headers.add(metaHdr);
 			}
 
 			this.lastHeader = headers.get(headers.size() - 1);
