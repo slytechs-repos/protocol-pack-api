@@ -60,6 +60,9 @@ public enum Ip4Flag {
 	/** The Constant IPv4_FLAG_MF. */
 	public static final int IPv4_FLAG03_MF = 0x1;
 
+	/** The Constant IPv4_FLAG_MF. */
+	public static final int IPv4_FLAG08 = 0x70;
+
 	/** The Constant IPv4_FLAG16_DF. */
 	public static final int IPv4_FLAG16_DF = 0x4000;
 
