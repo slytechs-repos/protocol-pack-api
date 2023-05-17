@@ -31,7 +31,6 @@ import com.slytechs.protocol.Packet;
 import com.slytechs.protocol.Payload;
 import com.slytechs.protocol.descriptor.PacketDissector;
 import com.slytechs.protocol.descriptor.Type2Descriptor;
-import com.slytechs.protocol.meta.PacketFormat;
 import com.slytechs.protocol.pack.core.Ethernet;
 import com.slytechs.protocol.pack.core.Ip4;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
@@ -151,9 +150,10 @@ class TestMetaHeader {
 				.txIgnore(1);
 
 		descriptorType2.frameNo(7);
-		
-		packet = new Packet(descriptorType2)
-				.withBinding(packetData);
+
+		try (Packet packet = new Packet(descriptorType2)) {
+			packet.bind(PACKET);
+		}
 	}
 
 	/**

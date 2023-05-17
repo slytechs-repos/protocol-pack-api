@@ -30,8 +30,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
 import com.slytechs.protocol.Packet;
-import com.slytechs.protocol.descriptor.PacketDissector;
-import com.slytechs.protocol.descriptor.Type2Descriptor;
 import com.slytechs.protocol.pack.core.Ethernet;
 import com.slytechs.protocol.pack.core.Ip4;
 import com.slytechs.protocol.pack.core.Ip4Option.Ip4RouterOption;
@@ -208,25 +206,26 @@ class TestDissectorType2 {
 
 		assertEquals(PACKET.length, type2.wireLength(), "wireLength");
 
-		Packet packet = new Packet(type2)
-				.withBinding(pkt);
+		try (Packet packet = new Packet(type2)) {
+			packet.bind(PACKET);
 
-		Ethernet eth = new Ethernet();
-		Ip4 ip4 = new Ip4();
-		Ip6 ip6 = new Ip6();
-		Ip4RouterOption router4 = new Ip4RouterOption();
-		Ip6FragmentOption frag6 = new Ip6FragmentOption();
+			Ethernet eth = new Ethernet();
+			Ip4 ip4 = new Ip4();
+			Ip6 ip6 = new Ip6();
+			Ip4RouterOption router4 = new Ip4RouterOption();
+			Ip6FragmentOption frag6 = new Ip6FragmentOption();
 
-		if (packet.hasHeader(eth)) {
-			log("ETH.type=0x%04X%n", eth.type());
-		}
+			if (packet.hasHeader(eth)) {
+				log("ETH.type=0x%04X%n", eth.type());
+			}
 
-		if (packet.hasHeader(ip4) && ip4.hasExtension(router4)) {
-			log("IPv4.protocol=%d examinePacket=%s%n", ip4.protocol(), router4.examinePacket());
-		}
+			if (packet.hasHeader(ip4) && ip4.hasExtension(router4)) {
+				log("IPv4.protocol=%d examinePacket=%s%n", ip4.protocol(), router4.examinePacket());
+			}
 
-		if (packet.hasHeader(ip6) && ip6.hasExtension(frag6)) {
-			log("IPv6.next=%d%n", ip6.nextHeader());
+			if (packet.hasHeader(ip6) && ip6.hasExtension(frag6)) {
+				log("IPv6.next=%d%n", ip6.nextHeader());
+			}
 		}
 	}
 
@@ -269,46 +268,47 @@ class TestDissectorType2 {
 				.txIgnore(1);
 		System.out.printf("type2=%s%n", type2.buildString(Detail.HIGH));
 
-		Packet packet = new Packet(type2)
-				.withBinding(pkt);
+		try (Packet packet = new Packet(type2)) {
+			packet.bind(PACKET);
 
-		Ethernet eth = new Ethernet();
-		Ip4 ip4 = new Ip4();
-		Ip6 ip6 = new Ip6();
-		Ip4RouterOption router4 = new Ip4RouterOption();
-		Ip6FragmentOption frag6 = new Ip6FragmentOption();
+			Ethernet eth = new Ethernet();
+			Ip4 ip4 = new Ip4();
+			Ip6 ip6 = new Ip6();
+			Ip4RouterOption router4 = new Ip4RouterOption();
+			Ip6FragmentOption frag6 = new Ip6FragmentOption();
 
 //		final long COUNT = 3_000_000_000l;
 //		final long COUNT = 300_000_000;
 //		final long COUNT = 30_000_000;
 //		final long COUNT = 3_000_000;
-		final long COUNT = 1;
-		long count = COUNT;
+			final long COUNT = 1;
+			long count = COUNT;
 
-		Benchmark benchmark = Benchmark.setup()
-				.reportRate(COUNT, this::logPacketsPerSecond);
+			Benchmark benchmark = Benchmark.setup()
+					.reportRate(COUNT, this::logPacketsPerSecond);
 
-		while (count-- > 0) {
-			dissector.dissectPacket(pkt.clear(), TIMESTAMP, PACKET.length, PACKET.length);
-			dissector.writeDescriptor(desc1.clear());
+			while (count-- > 0) {
+				dissector.dissectPacket(pkt.clear(), TIMESTAMP, PACKET.length, PACKET.length);
+				dissector.writeDescriptor(desc1.clear());
 
-			if (packet.hasHeader(eth)) {
-				System.out.println(eth);
+				if (packet.hasHeader(eth)) {
+					System.out.println(eth);
+				}
+
+				if (packet.hasHeader(ip4)) {
+					System.out.println(ip4);
+				}
+
+				if (packet.hasHeader(ip4) && ip4.hasExtension(router4)) {
+					System.out.println(router4);
+				}
+
+				if (packet.hasHeader(ip6) && ip6.hasExtension(frag6)) {
+				}
 			}
 
-			if (packet.hasHeader(ip4)) {
-				System.out.println(ip4);
-			}
-
-			if (packet.hasHeader(ip4) && ip4.hasExtension(router4)) {
-				System.out.println(router4);
-			}
-
-			if (packet.hasHeader(ip6) && ip6.hasExtension(frag6)) {
-			}
+			benchmark.complete();
 		}
-
-		benchmark.complete();
 
 	}
 }

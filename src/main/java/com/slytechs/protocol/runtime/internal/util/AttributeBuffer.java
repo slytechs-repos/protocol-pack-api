@@ -569,7 +569,7 @@ public class AttributeBuffer extends MemoryBinding implements Iterable<Attribute
 	 * To array.
 	 *
 	 * @return the value[]
-	 * @see com.slytechs.jnet.runtime.util.Attribute.Attributes#toArray()
+	 * @see com.slytechs.jnet.runtime.util.Attribute.Attributes#toDescriptorArray()
 	 */
 	public Value[] toArray() {
 		int recordCount = this.recordCount.getInt();
