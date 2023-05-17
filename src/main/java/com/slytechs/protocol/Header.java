@@ -258,6 +258,20 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	 */
 	@Override
 	public final String toString(Detail detail) {
+		return toString(detail, formatter);
+	}
+
+	/**
+	 * Generates a simple string representing the state of this header or uses the
+	 * supplied formatter if not null.
+	 *
+	 * @param detail    generates the header string at specified detail level
+	 * @param formatter the packet formatter, or if null default to builtin
+	 *                  formatting
+	 * @return the generated string from the fields of this header
+	 * @see java.lang.Object#toString()
+	 */
+	public final String toString(Detail detail, PacketFormat formatter) {
 		if (formatter != null)
 			return formatter.format(this, detail);
 
