@@ -27,6 +27,7 @@ import java.lang.annotation.Target;
 import com.slytechs.protocol.meta.MetaValue.ValueResolver;
 import com.slytechs.protocol.pack.core.constants.ArpOp;
 import com.slytechs.protocol.pack.core.constants.EtherType;
+import com.slytechs.protocol.pack.core.constants.Icmp4Type;
 import com.slytechs.protocol.pack.core.constants.IeeeOuiAssignments;
 import com.slytechs.protocol.pack.core.constants.IpType;
 import com.slytechs.protocol.runtime.time.Timestamp;
@@ -108,6 +109,8 @@ public @interface Resolver {
 
 		/** The bitshift 8. */
 		BITSHIFT_8(v -> DisplayUtil.bitshiftIntLeft(v, 8)),
+		
+		ICMPv4_TYPE(Icmp4Type::resolve),
 		;
 
 		/** The resolver. */

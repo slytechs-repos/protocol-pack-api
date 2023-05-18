@@ -120,7 +120,8 @@ abstract class PacketL3DissectorJava extends PacketL2DissectorJava {
 
 			dissectIp4Options(l3Offset, len, nextHeader);
 
-			dissectIpType(offset + len, nextHeader);
+			if (fragOff == 0)
+				dissectIpType(offset + len, nextHeader);
 
 		} else if (hasRemaining(l3Offset, IPv6_HEADER_LEN)) {
 			this.l3Type = L3FrameType.L3_FRAME_TYPE_IPv6;
