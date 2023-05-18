@@ -288,6 +288,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 *
 	 * @return the int
 	 */
+	@Meta
 	public int fragOffset() {
 		return Ip4Struct.FRAG_OFFSET.getInt(buffer());
 	}

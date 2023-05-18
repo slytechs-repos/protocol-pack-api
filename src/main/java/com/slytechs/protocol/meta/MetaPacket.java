@@ -144,7 +144,7 @@ public final class MetaPacket
 							new InternarErrorHeaderStub(lastHeaderName, e.getMessage(), e.getCause()));
 					headers.add(errorHeaders);
 
-//					e.printStackTrace();
+					e.printStackTrace();
 				}
 			}
 
