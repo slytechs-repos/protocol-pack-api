@@ -465,7 +465,6 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 			}
 		}
 
-		dissectIpType(l4Offset, nextHeader);
 	}
 
 	/**
