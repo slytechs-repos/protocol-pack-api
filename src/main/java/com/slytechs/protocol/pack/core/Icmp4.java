@@ -22,6 +22,7 @@ import static com.slytechs.protocol.pack.core.constants.CoreConstants.*;
 import java.util.concurrent.locks.Lock;
 
 import com.slytechs.protocol.meta.Meta;
+import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.constants.CoreId;
 
 /**
@@ -31,7 +32,7 @@ import com.slytechs.protocol.pack.core.constants.CoreId;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-@Meta
+@MetaResource("icmp4-meta.json")
 public class Icmp4 extends Icmp {
 
 	/** The Constant ID. */
@@ -65,7 +66,7 @@ public class Icmp4 extends Icmp {
 
 	@Meta
 	public int checksum() {
-		return Byte.toUnsignedInt(buffer().get(ICMPv4_FIELD_CHECKSUM));
+		return Short.toUnsignedInt(buffer().get(ICMPv4_FIELD_CHECKSUM));
 	}
 
 }

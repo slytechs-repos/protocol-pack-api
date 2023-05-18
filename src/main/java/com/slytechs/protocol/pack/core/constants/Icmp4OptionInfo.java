@@ -19,17 +19,20 @@ package com.slytechs.protocol.pack.core.constants;
 
 import static com.slytechs.protocol.pack.ProtocolPackTable.*;
 
+import java.util.function.IntSupplier;
+
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.HeaderExtensionInfo;
 import com.slytechs.protocol.HeaderSupplier;
 import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.ProtocolPackTable;
 import com.slytechs.protocol.pack.core.TcpOption.TcpEndOfListOption;
+import com.slytechs.protocol.runtime.util.Enums;
 
 /**
  * The Enum TcpOptionInfo.
  */
-public enum Icmp4OptionInfo implements HeaderExtensionInfo {
+public enum Icmp4OptionInfo implements HeaderExtensionInfo, IntSupplier {
 
 	/** The eol. */
 	ECHO_REQUEST(CoreConstants.ICMPv4_TYPE_ECHO_REQUEST, "REQEST", TcpEndOfListOption::new),
@@ -93,6 +96,16 @@ public enum Icmp4OptionInfo implements HeaderExtensionInfo {
 		this.id = PackId.encodeId(ProtocolPackTable.OPTS, ordinal());
 		this.supplier = supplier;
 	}
+	
+	/**
+	 * Resolve.
+	 *
+	 * @param type the type
+	 * @return the string
+	 */
+	public static String resolve(Object type) {
+		return Enums.resolve(type, Icmp4OptionInfo.class);
+	}
 
 	/**
 	 * Value of.
@@ -100,7 +113,7 @@ public enum Icmp4OptionInfo implements HeaderExtensionInfo {
 	 * @param id the id
 	 * @return the tcp option info
 	 */
-	public static Icmp4OptionInfo valueOf(int id) {
+	public static Icmp4OptionInfo valueOfIcmp4Type(int id) {
 		int pack = PackId.decodePackId(id);
 		if (pack != ProtocolPackTable.PACK_ID_OPTIONS)
 			return null;
@@ -151,6 +164,14 @@ public enum Icmp4OptionInfo implements HeaderExtensionInfo {
 	@Override
 	public Header newHeaderInstance() {
 		return supplier != null ? supplier.newHeaderInstance() : null;
+	}
+
+	/**
+	 * @see java.util.function.IntSupplier#getAsInt()
+	 */
+	@Override
+	public int getAsInt() {
+		return ordinal();
 	}
 
 }
