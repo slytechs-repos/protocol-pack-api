@@ -82,8 +82,13 @@ class ReflectedClass extends ReflectedComponent {
 	 * @throws JsonException the json exception
 	 */
 	static JsonObject readMetaResource(String resourceName) throws JsonException {
-		return new MetaResourceShortformReader(resourceName)
+		JsonObject conf = new MetaResourceShortformReader(resourceName)
 				.toJsonObj();
+		
+		if (conf == null)
+			throw new IllegalStateException("meta resource not found [%s]".formatted(resourceName));
+		
+		return conf;
 	}
 
 	/**
