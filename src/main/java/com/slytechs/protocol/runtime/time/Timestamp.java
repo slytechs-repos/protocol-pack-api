@@ -42,9 +42,12 @@ public class Timestamp extends Date implements TimestampPrecisionInfo, StringBui
 
 	/** The Constant TS_MICROS_PER_SECOND. */
 	static final long TS_MICROS_PER_SECOND = 1000_000l;
-
+	
 	/** The Constant TS_MILLIS_PER_SECOND. */
 	static final long TS_MILLIS_PER_SECOND = 1000l;
+
+	/** The Constant TS_MICROS_IN_MILLIS. */
+	static final long TS_MICROS_IN_MILLIS = 1000l;
 
 	/** The Constant TS_NANOS_IN_MILLIS. */
 	static final long TS_NANOS_IN_MILLIS = 1000_000l;

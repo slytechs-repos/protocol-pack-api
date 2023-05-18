@@ -35,8 +35,10 @@ public enum TimestampUnit implements TimestampPrecisionInfo {
 	 * time stamp descriptor field, so the time resolution is 1 ns. The start time
 	 * is January 1st 1970.
 	 */
-	PCAP_NANO(9, ts -> ((ts >> TS_MSB_SHIFT) & TS_LSB_MASK), ts -> (ts & TS_LSB_MASK), (msb,
-			lsb) -> (msb << TS_MSB_SHIFT) | (lsb & TS_LSB_MASK)) {
+	PCAP_NANO(9,
+			ts -> ((ts >> TS_MSB_SHIFT) & TS_LSB_MASK),
+			ts -> (ts & TS_LSB_MASK),
+			(msb, lsb) -> (msb << TS_MSB_SHIFT) | (lsb & TS_LSB_MASK)) {
 		@Override
 		public long toPcapNano(long ts) {
 			return ts;
@@ -48,8 +50,10 @@ public enum TimestampUnit implements TimestampPrecisionInfo {
 	 * in MSBs of the time stamp descriptor field, and a 32-bit second counter in
 	 * LSBs of the time stamp descriptor field. The start time is January 1st 1970.
 	 */
-	PCAP_MICRO(6, ts -> ((ts >> TS_MSB_SHIFT) & TS_LSB_MASK), ts -> (ts & TS_LSB_MASK) * 1000l, (msb,
-			lsb) -> (msb << TS_MSB_SHIFT) | (lsb & TS_LSB_MASK)) {
+	PCAP_MICRO(6,
+			ts -> ((ts >> TS_MSB_SHIFT) & TS_LSB_MASK),
+			ts -> (ts & TS_LSB_MASK) * 1000l,
+			(msb, lsb) -> (msb << TS_MSB_SHIFT) | (lsb & TS_LSB_MASK)) {
 		@Override
 		public long toPcapMicro(long ts) {
 			return ts;
@@ -60,8 +64,10 @@ public enum TimestampUnit implements TimestampPrecisionInfo {
 	 * Native UNIX format is based on a 1 ns unit with a 64-bit unit counter. The
 	 * start time is January 1st 1970.
 	 */
-	EPOCH_NANO(9, ts -> (ts / TS_NANOS_IN_SECOND), ts -> (ts % TS_NANOS_IN_SECOND), (msb, lsb) -> ((msb
-			* TS_NANOS_IN_SECOND) + lsb)) {
+	EPOCH_NANO(9,
+			ts -> (ts / TS_NANOS_IN_SECOND),
+			ts -> (ts % TS_NANOS_IN_SECOND),
+			(msb, lsb) -> ((msb * TS_NANOS_IN_SECOND) + lsb)) {
 		@Override
 		public long toEpochNano(long ts) {
 			return ts;
@@ -72,8 +78,10 @@ public enum TimestampUnit implements TimestampPrecisionInfo {
 	 * Native UNIX format is based on a 10 ns unit with a 64-bit unit counter. The
 	 * start time is January 1st 1970.
 	 */
-	EPOCH_10NANO(8, ts -> (ts / TS_TENS_NANOS_PER_SECOND), ts -> (ts % TS_TENS_NANOS_PER_SECOND) * 10l, (msb,
-			lsb) -> ((msb * TS_TENS_NANOS_PER_SECOND) + lsb)) {
+	EPOCH_10NANO(8,
+			ts -> (ts / TS_TENS_NANOS_PER_SECOND),
+			ts -> (ts % TS_TENS_NANOS_PER_SECOND) * 10l,
+			(msb, lsb) -> ((msb * TS_TENS_NANOS_PER_SECOND) + lsb)) {
 		@Override
 		public long toEpoch10Nano(long ts) {
 			return ts;
@@ -84,8 +92,10 @@ public enum TimestampUnit implements TimestampPrecisionInfo {
 	 * Native UNIX format is based on a 1 us unit with a 64-bit unit counter. The
 	 * start time is January 1st 1970.
 	 */
-	EPOCH_MICRO(6, ts -> (ts / TS_MICROS_PER_SECOND), ts -> (ts % TS_MICROS_PER_SECOND) * 1000l, (msb, lsb) -> ((msb
-			* TS_MICROS_PER_SECOND) + lsb)) {
+	EPOCH_MICRO(6,
+			ts -> (ts / TS_MICROS_PER_SECOND),
+			ts -> (ts % TS_MICROS_PER_SECOND) * 1000l,
+			(msb, lsb) -> ((msb * TS_MICROS_PER_SECOND) + lsb)) {
 		@Override
 		public long toEpochMicro(long ts) {
 			return ts;
@@ -96,8 +106,10 @@ public enum TimestampUnit implements TimestampPrecisionInfo {
 	 * Native UNIX format is based on a 1 ms unit with a 64-bit unit counter. The
 	 * start time is January 1st 1970.
 	 */
-	EPOCH_MILLI(3, ts -> (ts / TS_MILLIS_PER_SECOND), ts -> (ts % TS_MILLIS_PER_SECOND) * 1000_000l, (msb, lsb) -> ((msb
-			* TS_MILLIS_PER_SECOND) + lsb)) {
+	EPOCH_MILLI(3,
+			ts -> (ts / TS_MILLIS_PER_SECOND),
+			ts -> (ts % TS_MILLIS_PER_SECOND) * 1000_000l,
+			(msb, lsb) -> ((msb * TS_MILLIS_PER_SECOND) + lsb)) {
 		@Override
 		public long toEpochMilli(long ts) {
 			return ts;
@@ -278,6 +290,18 @@ public enum TimestampUnit implements TimestampPrecisionInfo {
 	 */
 	public long toEpochSecond(long ts) {
 		return seconds.applyAsLong(ts);
+	}
+
+	/**
+	 * To epoch second fraction.
+	 *
+	 * @param timestamp the timestamp
+	 * @return the long
+	 */
+	public long toEpochSecondFraction(long timestamp) {
+		long nanos = toEpochNano(timestamp) % TS_NANOS_PER_SECOND;
+
+		return precisionTimeUnit.convert(nanos, TimeUnit.NANOSECONDS);
 	}
 
 	/**

@@ -116,6 +116,14 @@ public interface TimestampSource extends InstantSource {
 		};
 	}
 
+	default void init(long initialTimestamp) {
+
+	}
+
+	default void update(long newTimestamp) throws InterruptedException {
+
+	}
+
 	/**
 	 * Timestamp.
 	 *
@@ -141,21 +149,38 @@ public interface TimestampSource extends InstantSource {
 		return System.currentTimeMillis();
 	}
 
+	default long epochNano() {
+		long nano = nanoTime();
+		long millis = milliTime();
+
+		return millis + (nano % 1000);
+	}
+
 	/**
 	 * Unit.
 	 *
 	 * @return the timestamp unit
 	 */
-	default TimestampUnit unit() {
-		return TimestampUnit.EPOCH_MILLI;
+	default TimestampUnit timestampUnit() {
+		return TimestampUnit.EPOCH_NANO;
 	}
 
-	void sleep(long duration, TimeUnit unit) throws InterruptedException;
+	default TimeUnit timeUnit() {
+		return TimeUnit.NANOSECONDS;
+	}
+
+	default void sleep(long duration, TimeUnit unit) throws InterruptedException {
+		unit.sleep(duration);
+	}
 
 	default void timer(long duration, TimeUnit unit, Runnable action) throws InterruptedException {
 		sleep(duration, unit);
 
 		action.run();
+	}
+
+	default boolean isRealtime() {
+		return false;
 	}
 
 	default void close() {
