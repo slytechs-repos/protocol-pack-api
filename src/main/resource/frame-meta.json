@@ -1,7 +1,6 @@
 {
 	"meta": {
-		"name": "Packet",
-		"abbr": "Pkt"
+		"name": "Frame"
 	},
 	"field": {
 		"timestamp": {
@@ -12,10 +11,10 @@
 					"label": "timestamp"
 				},
 				"MEDIUM": {
-					"value": "%{:R}s [%{}016X]"
+					"value": "%{:R}s [0x%{}016X]"
 				},
 				"HIGH": {
-					"value": "%{:R}s [%{}016X] (%{}d)"
+					"value": "%{:R}s [0x%{}016X]"
 				}
 			},
 			"resolver": [
