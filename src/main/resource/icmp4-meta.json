@@ -1,22 +1,8 @@
 {
-	"display": "Internet Control Message Protocol Version 4, offset=%{offset}d, length=%{length}d",
-	"meta": {
-		"name": "ICMPv4",
-		"abbr": "ICMPv4"
-	},
-	"field": {
-		"type": {
-			"meta": 10,
-			"display": "%{}d (%{:R}s)",
-			"resolver": "ICMPv4_TYPE"
-		},
-		"code": {
-			"meta": 20,
-			"display": "%{}d"
-		},
-		"checksum": {
-			"meta": 30,
-			"display": "%{}d"
-		}
+	"ICMPv4": "Internet Control Message Protocol Version 4, offset=%{offset}d, length=%{length}d",
+	"TRACE,DEBUG,HIGH,MEDIUM,LOW": {
+		"type": "%{}d (%{:ICMPv4_TYPE}s)",
+		"code": "%{}d",
+		"checksum": "0x%{}04X"
 	}
 }

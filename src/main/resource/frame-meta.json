@@ -1,60 +1,10 @@
 {
-	"meta": {
-		"name": "Frame"
-	},
-	"field": {
-		"timestamp": {
-			"meta": 2,
-			"display": {
-				"LOW": {
-					"value": "%{:R}s",
-					"label": "timestamp"
-				},
-				"MEDIUM": {
-					"value": "%{:R}s [0x%{}016X]"
-				},
-				"HIGH": {
-					"value": "%{:R}s [0x%{}016X]"
-				}
-			},
-			"resolver": [
-				"TIMESTAMP_IN_PCAP_MICRO",
-				"TIMESTAMP_UNIT"
-			]
-		},
-		"wireLength": {
-			"meta": 3,
-			"display": {
-				"LOW": {
-					"value": "%{}d",
-					"label": "wirelen"
-				},
-				"MEDIUM": {
-					"value": "%{},d bytes",
-					"label": "wirelen"
-				},
-				"HIGH": {
-					"value": "%{},d bytes",
-					"label": "wire length"
-				}
-			}
-		},
-		"captureLength": {
-			"meta": 4,
-			"display": {
-				"LOW": {
-					"value": "%{}d",
-					"label": "caplen"
-				},
-				"MEDIUM": {
-					"value": "%{},d bytes",
-					"label": "caplen"
-				},
-				"HIGH": {
-					"value": "%{},d bytes",
-					"label": "captured length"
-				}
-			}
-		}
+	"Frame": "",
+	"HIGH,MEDIUM,LOW": {
+		"portNo;Interface id": "%{}d (%{portName}s)",
+		"frameNo;Frame Number": "%{}d",
+		"timestamp;Arrival Time": "%{:TIMESTAMP_IN_PCAP_MICRO}s [0x%{}016X]",
+		"captureLength;Capture Length": "%{}d bytes (%{captureLengthBits}d bits)",
+		"wireLength;Frame Length": "%{}d bytes (%{wireLengthBits}d bits)"
 	}
 }

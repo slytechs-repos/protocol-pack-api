@@ -1,42 +1,24 @@
 {
-	"display": "Internet Protocol Version 4, offset=%{offset}d, length=%{length}d",
-	"meta": {
-		"name": "IPv4",
-		"abbr": "IPv4"
+	"IPv4": {
+		"HIGH,MEDIUM": "Internet Protocol Version 4, offset=%{offset}d, length=%{length}d",
+		"LOW": "%{src:F}s -> %{dst:F}s > %{protocol:R1}s"
 	},
-	"field": {
-		"version": {
-			"meta": 10,
-			"display": "%{}d"
-		},
-		"hdrLen": {
-			"meta": 20,
-			"display": {
-				"DEFAULT": "%{}d [%{}d*4 = %{hdrLenBytes}d bytes]"
-			},
-			"resolver": "BITSHIFT_2"
-		},
-		"protocol": {
-			"display": {
-				"LOW": "%{}d [%{:R}s]",
-				"HIGH": "%{}d (%{:R}s)",
-				"DEBUG": "%{}d (%{:R}s)"
-			},
-			"resolver": "IP_TYPE"
-		},
-		"identification": {
-			"display": "%{},d [0x%{}04X]"
-		},
-		"flags": {
-			"display": "%{}x %{flagsEnum}s"
-		},
-		"totalLength": {
-			"display": {
-				"LOW": {
-					"value": "%{}d bytes",
-					"label": "total length"
-				}
-			}
-		}
+	"HIGH": {
+		"version;Version": "%{}d",
+		"hdrLen;Header Length": "%{}d [%{}d*4 = %{hdrLenBytes}d bytes]",
+		"totalLength;Total Length": "%{}d bytes",
+		"identification;Identification": "0x%{}04X [%{}d]",
+		"flags;Flags": "%{}x %{flagsEnum}s",
+		"fragOffset;Fragment Offset": "%{}d [%{}d*8 = %{fragOffsetBytes}d]",
+		"ttl;Time to Live": "%{}d",
+		"protocol;Protocol": "%{}d [%{:IP_TYPE}s]",
+		"src;Source Address": "%{:F}s",
+		"dst;Destination Address": "%{:F}s"
+	},
+	"LOW": {
+		"totalLength;Total Length": "%{}d bytes ordinal=%{:O}d",
+		"protocol;Protocol": "%{}d [%{:IP_TYPE}s] ordinal=%{:O}d",
+		"src;Source Address": "%{:F}s ordinal=%{:O}d",
+		"dst;Destination Address": "%{:F}s ordinal=%{:O}d"
 	}
 }
