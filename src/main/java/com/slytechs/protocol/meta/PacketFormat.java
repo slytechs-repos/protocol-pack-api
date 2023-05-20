@@ -17,6 +17,7 @@
  */
 package com.slytechs.protocol.meta;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 import com.slytechs.protocol.Header;
@@ -37,7 +38,7 @@ public final class PacketFormat extends MetaFormat {
 	private static final String HEADER_LINE_FORMAT_ATTRIBUTE = "headerLineFormat";
 
 	/** The Constant DEFAULT_LINE_FORMAT. */
-	private static final String DEFAULT_LINE_FORMAT = "%15s = %-30s";
+	private static final String DEFAULT_LINE_FORMAT = "%20s = %-30s";
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -729988509291767979L;
@@ -106,10 +107,13 @@ public final class PacketFormat extends MetaFormat {
 		var display = field.getMeta(DisplaysInfo.class).select(detail);
 		if (display == null) // Not visible
 			return toAppendTo;
+		
+		String fieldName = field.name();
 
 		var meta = field.getMeta(MetaInfo.class);
 		var label = display.label(meta);
 		var displayFormat = display.value();
+		var valueArgs = buildDisplayArgs(field.getParentHeader(), field, displayFormat);
 
 		try {
 			if (label.equals("HEXDUMP")) {
@@ -117,7 +121,6 @@ public final class PacketFormat extends MetaFormat {
 				return formatHexdump(field, toAppendTo);
 			}
 
-			var valueArgs = buildDisplayArgs(field.getParentHeader(), field, displayFormat);
 			displayFormat = super.rewriteDisplayArgs(displayFormat);
 
 //		System.out.printf("formatField::%s displayFormat=%s, args=%s%n", 
@@ -134,10 +137,10 @@ public final class PacketFormat extends MetaFormat {
 
 			return toAppendTo;
 		} catch (Throwable e) {
-			throw e;
-//			throw new IllegalStateException("Field '%s.%s': %s"
-//					.formatted(field.getParentHeader().name(), field.name(), e
-//							.getMessage()));
+//			throw e;
+			throw new IllegalStateException("Field '%s.%s': %s [fmt=%s, args=%s]"
+					.formatted(field.getParentHeader().name(), field.name(), e
+							.getMessage(), displayFormat, Arrays.asList(valueArgs)));
 		}
 	}
 
@@ -172,6 +175,9 @@ public final class PacketFormat extends MetaFormat {
 		formatLeft(label, toAppendTo).append("\n");
 
 		for (MetaField field : fields) {
+			if (!field.isDisplayable(detail))
+				continue;
+			
 			formatLeft(label, toAppendTo);
 
 			formatField(field, toAppendTo, detail);

@@ -30,7 +30,7 @@ public class MetaValue {
 	 * The Interface ValueFormatter.
 	 */
 	public interface ValueFormatter {
-		
+
 		/**
 		 * Format.
 		 *
@@ -44,7 +44,7 @@ public class MetaValue {
 	 * The Interface ValueResolver.
 	 */
 	public interface ValueResolver {
-		
+
 		/**
 		 * Checks if is default to formatted.
 		 *
@@ -77,6 +77,16 @@ public class MetaValue {
 		 * @return the string
 		 */
 		String resolveValue(Object value);
+	}
+
+	public interface ValueResolver2Tuple extends ValueResolver {
+		String resolveValue(Object first, Object second);
+
+		@Override
+		default String resolveValue(Object value) {
+			return null;
+		}
+
 	}
 
 	/**

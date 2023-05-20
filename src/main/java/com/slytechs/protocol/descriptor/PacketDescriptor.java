@@ -40,6 +40,9 @@ public abstract class PacketDescriptor
 	@Meta(MetaType.ATTRIBUTE)
 	private long frameNo;
 
+	private int portNo;
+	private String portName = "";
+
 	/** The flags. */
 	private int flags;
 
@@ -112,6 +115,22 @@ public abstract class PacketDescriptor
 	 */
 	public long frameNo() {
 		return frameNo;
+	}
+
+	public int portNo() {
+		return portNo;
+	}
+
+	public String portName() {
+		return portName;
+	}
+
+	public void portNo(int portNo) {
+		this.portNo = portNo;
+	}
+
+	public void portName(String name) {
+		this.portName = name;
 	}
 
 	/**

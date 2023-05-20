@@ -25,11 +25,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import com.slytechs.protocol.meta.MetaValue.ValueResolver;
+import com.slytechs.protocol.pack.core.constants.ArpHardwareType;
 import com.slytechs.protocol.pack.core.constants.ArpOp;
 import com.slytechs.protocol.pack.core.constants.EtherType;
 import com.slytechs.protocol.pack.core.constants.Icmp4Type;
 import com.slytechs.protocol.pack.core.constants.IeeeOuiAssignments;
 import com.slytechs.protocol.pack.core.constants.IpType;
+import com.slytechs.protocol.pack.core.constants.TcpFlag;
 import com.slytechs.protocol.runtime.time.Timestamp;
 
 /**
@@ -76,6 +78,10 @@ public @interface Resolver {
 
 		/** The ip type. */
 		ARP_OP(ArpOp::resolve),
+		ARP_CODE(ArpOp::resolve),
+		
+		/** The arp hwtype. */
+		ARP_HWTYPE(ArpHardwareType::resolve),
 
 		/** The ether mac oui name. */
 		ETHER_MAC_OUI_NAME(IeeeOuiAssignments::resolveMacOuiName),
@@ -109,8 +115,11 @@ public @interface Resolver {
 
 		/** The bitshift 8. */
 		BITSHIFT_8(v -> DisplayUtil.bitshiftIntLeft(v, 8)),
-		
+
 		ICMPv4_TYPE(Icmp4Type::resolve),
+		
+		TCP_FLAGS(TcpFlag::resolve),
+		PORT_LOOKUP(o -> "UNKNOWN"),
 		;
 
 		/** The resolver. */

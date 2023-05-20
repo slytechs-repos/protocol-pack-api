@@ -26,6 +26,10 @@ package com.slytechs.protocol.runtime.internal.json;
  */
 public interface JsonString extends JsonValue {
 
+	static JsonString ofString(String value) {
+		return new StringImpl(value);
+	}
+
 	/**
 	 * Gets the string.
 	 *

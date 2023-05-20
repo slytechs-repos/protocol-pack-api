@@ -17,7 +17,9 @@
  */
 package com.slytechs.protocol.runtime.internal.json;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,8 +27,31 @@ import java.util.Map;
  */
 public final class JsonObjectBuilder {
 
+	public static JsonObjectBuilder wrapOrElseNewInstance(JsonObject source) {
+		if (source == null)
+			return new JsonObjectBuilder();
+
+		if (!(source instanceof ObjectImpl jsObj)) {
+			throw new IllegalStateException("can not wrap around non-standard json object implementation [%s]"
+					.formatted(source.getClass()));
+		}
+
+		return new JsonObjectBuilder(jsObj.map, jsObj.list);
+	}
+
 	/** The map. */
-	private Map<String, JsonValue> map = new HashMap<>();
+	private final Map<String, JsonValue> map;
+	private final List<String> list;
+
+	public JsonObjectBuilder() {
+		this.map = new HashMap<>();
+		this.list = new ArrayList<>();
+	}
+
+	private JsonObjectBuilder(Map<String, JsonValue> map, List<String> list) {
+		this.map = map;
+		this.list = list;
+	}
 
 	/**
 	 * Adds the.
@@ -37,6 +62,7 @@ public final class JsonObjectBuilder {
 	 */
 	public JsonObjectBuilder add(String key, String value) {
 		map.put(key, new StringImpl(value));
+		list.add(key);
 
 		return this;
 	}
@@ -50,6 +76,7 @@ public final class JsonObjectBuilder {
 	 */
 	public JsonObjectBuilder add(String key, Number value) {
 		map.put(key, new NumberImpl(value));
+		list.add(key);
 
 		return this;
 	}
@@ -63,8 +90,42 @@ public final class JsonObjectBuilder {
 	 */
 	public JsonObjectBuilder add(String key, JsonValue value) {
 		map.put(key, value);
+		list.add(key);
 
 		return this;
+	}
+
+	/**
+	 * Gets the json object.
+	 *
+	 * @param name the name
+	 * @return the json object
+	 */
+	public JsonObject getJsonObject(String name) {
+		return get(name, JsonObject.class);
+	}
+
+	/**
+	 * Gets the json array.
+	 *
+	 * @param name the name
+	 * @return the json array
+	 */
+	public JsonArray getJsonArray(String name) {
+		return get(name, JsonArray.class);
+	}
+
+	/**
+	 * Gets the.
+	 *
+	 * @param <T>  the generic type
+	 * @param name the name
+	 * @param type the type
+	 * @return the t
+	 */
+	@SuppressWarnings("unchecked")
+	private <T extends JsonValue> T get(String name, Class<T> type) {
+		return (T) map.get(name);
 	}
 
 	/**
@@ -73,6 +134,6 @@ public final class JsonObjectBuilder {
 	 * @return the json object
 	 */
 	public JsonObject build() {
-		return new ObjectImpl(map);
+		return new ObjectImpl(map, list);
 	}
 }

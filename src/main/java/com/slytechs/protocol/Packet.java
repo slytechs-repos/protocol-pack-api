@@ -450,7 +450,7 @@ public final class Packet
 	 */
 	@Override
 	public String toString() {
-		return toString(Detail.LOW, formatter);
+		return toString(Detail.HIGH, formatter);
 	}
 
 	/**
@@ -511,7 +511,7 @@ public final class Packet
 //						descriptor.peekDescriptor(IpfDescriptorType.IPF_FRAG)
 
 				);
-		case NONE -> "";
+		case OFF -> "";
 		default -> throw new IllegalArgumentException("Unexpected value: " + detail);
 		};
 	}

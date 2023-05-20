@@ -119,7 +119,7 @@ public @interface Meta {
 	 *
 	 * @return the int
 	 */
-	int ordinal() default -1;
+	int ordinal() default Integer.MAX_VALUE;
 
 	/**
 	 * Abbr.

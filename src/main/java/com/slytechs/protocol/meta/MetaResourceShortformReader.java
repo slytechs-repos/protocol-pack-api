@@ -17,9 +17,20 @@
  */
 package com.slytechs.protocol.meta;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.regex.Pattern;
+
+import com.slytechs.protocol.meta.Resolver.ResolverType;
+import com.slytechs.protocol.runtime.internal.json.JsonArray;
+import com.slytechs.protocol.runtime.internal.json.JsonArrayBuilder;
 import com.slytechs.protocol.runtime.internal.json.JsonException;
 import com.slytechs.protocol.runtime.internal.json.JsonObject;
 import com.slytechs.protocol.runtime.internal.json.JsonObjectBuilder;
+import com.slytechs.protocol.runtime.internal.json.JsonString;
+import com.slytechs.protocol.runtime.internal.json.JsonValue;
+import com.slytechs.protocol.runtime.util.Detail;
 
 /**
  * The Class MetaResourceShortformReader.
@@ -29,6 +40,9 @@ import com.slytechs.protocol.runtime.internal.json.JsonObjectBuilder;
  * @author Mark Bednarczyk
  */
 public class MetaResourceShortformReader extends MetaResourceReader {
+
+	private int ordinalInc;
+	private int ordinal;
 
 	/**
 	 * Instantiates a new meta resource shortform reader.
@@ -49,55 +63,326 @@ public class MetaResourceShortformReader extends MetaResourceReader {
 	 */
 	@Override
 	protected JsonObject process(JsonObject sourceJsonObj) {
-		return super.process(sourceJsonObj);
+
+		if (sourceJsonObj.isPresent("meta") || sourceJsonObj.isPresent("display"))
+			return sourceJsonObj;
+
+		return inflateShortform(sourceJsonObj);
 	}
 
-	/**
-	 * Builds the top.
-	 *
-	 * @param sobj the sobj
-	 * @return the json object
-	 */
-	private JsonObject buildTop(JsonObject sobj) {
+	private JsonObject inflateShortform(JsonObject sobj) {
+		var topBuilder = new JsonObjectBuilder();
+		var fieldsBuilder = new JsonObjectBuilder();
 
-		var b = new JsonObjectBuilder();
+		for (final String key : sobj.keyOrderedList()) {
 
-		for (String key : sobj.keySet()) {
-
-			if (key.startsWith("display")) {
-				b.add(key, sobj.getJsonObject(key));
-
-			} else if (key.equals("meta")) {
-				b.add(key, sobj.getJsonObject(key));
+			final Detail[] detailArray = findDetail(key); // Ex. HIGH,LOW,MEDIUM - comma sep
+			if (detailArray == null) {
+				/* Inflate header checks and prevents duplicate header declarations */
+				inflateHeader(topBuilder, key, sobj.get(key));
 
 			} else {
-				b.add("display", buildDisplay(sobj.getString(key)));
+				for (Detail detail : detailArray) {
+					inflateFieldsGroup(fieldsBuilder, detail, sobj.getJsonObject(key));
+				}
 
 			}
-
 		}
 
-		return b.build();
+		topBuilder.add("field", fieldsBuilder.build());
+
+		return topBuilder.build();
 	}
 
 	/**
-	 * Builds the display.
-	 *
-	 * @param value the value
-	 * @return the json object
+	 * @param fieldsBuilder
+	 * @param object
+	 * @param jsDetailGroup
 	 */
-	private JsonObject buildDisplay(String value) {
-		throw new UnsupportedOperationException();
+	private void inflateFieldsGroup(JsonObjectBuilder fieldsBuilder, Detail detail, JsonObject jsDetailGroup) {
+
+		if (detail == null) {
+			for (Detail d : Detail.values()) {
+				if (d == Detail.OFF)
+					continue;
+
+				inflateFieldsGroup(fieldsBuilder, d, jsDetailGroup);
+			}
+
+			return;
+		}
+
+		for (String key : jsDetailGroup.keyOrderedList()) {
+			inflateFieldDeclaration(fieldsBuilder, detail, key, jsDetailGroup.getString(key));
+		}
+
+	}
+
+	private void inflateFieldDeclaration(
+			JsonObjectBuilder fieldsBuilder,
+			Detail detail,
+			String metaString,
+			String displayString) {
+
+		String fieldName = stripName(metaString);
+		JsonObjectBuilder jsFieldBuilder = JsonObjectBuilder
+				.wrapOrElseNewInstance(fieldsBuilder.getJsonObject(fieldName));
+
+		if (jsFieldBuilder.getJsonObject("meta") == null) {
+			JsonObject jsMetaObj = inflateFieldMeta(metaString);
+
+			jsFieldBuilder.add("meta", jsMetaObj);
+		}
+
+		List<ResolverType> resolverList = getResolversOrListFromDisplay(jsFieldBuilder, displayString);
+
+		JsonObjectBuilder jsDisplayBuilder = JsonObjectBuilder
+				.wrapOrElseNewInstance(jsFieldBuilder.getJsonObject("display"));
+
+		String label = stripLabel(metaString);
+		inflateDisplay(jsDisplayBuilder, detail, label, displayString, resolverList);
+		jsFieldBuilder.add("display", jsDisplayBuilder.build());
+
+		fieldsBuilder.add(fieldName, jsFieldBuilder.build());
+	}
+
+	private List<ResolverType> getResolversOrListFromDisplay(JsonObjectBuilder jsFieldBuilder, String displayString) {
+		List<ResolverType> resolverList = null;
+		if (jsFieldBuilder.getJsonArray("resolver") == null) {
+			resolverList = listResolvers(displayString);
+
+			if (!resolverList.isEmpty())
+				jsFieldBuilder.add("resolver", inflateResolvers(resolverList));
+
+		} else {
+			resolverList = new ArrayList<>();
+			for (JsonValue str : jsFieldBuilder.getJsonArray("resolver")) {
+				String resolverName = ((JsonString) str).getString();
+
+				resolverList.add(ResolverType.valueOf(resolverName));
+			}
+		}
+
+		return resolverList;
+	}
+
+	/**
+	 * Sets the ordinal attributes in the form "100+10" and so on.
+	 *
+	 * @param metaString the new ordinal attributes
+	 */
+	private void setOrdinalAttributes(String metaString) {
+		this.ordinal = 10;
+		this.ordinalInc = 10;
+
+		String[] split = metaString.split(";");
+
+		for (String c : split) {
+			if (Character.isDigit(c.charAt(0))) {
+				split = c.split("\\+");
+
+				ordinal = Integer.parseInt(split[0]);
+				if (split.length == 2)
+					ordinalInc = Integer.parseInt(split[1]);
+
+				break;
+			}
+		}
 	}
 
 	/**
 	 * Builds the meta.
 	 *
-	 * @param value the value
+	 * @param value      the value
+	 * @param jsonObject
 	 * @return the json object
 	 */
-	private JsonObject buildMeta(String value) {
-		throw new UnsupportedOperationException();
+	private void inflateHeader(JsonObjectBuilder top, String metaString, JsonValue jsHeader) {
 
+		if (top.getJsonObject("meta") != null)
+			throw new IllegalStateException("header meta resource already defined [%s]"
+					.formatted(metaString));
+
+		var displayBuilder = new JsonObjectBuilder();
+
+		setOrdinalAttributes(metaString);
+		top.add("meta", inflateHeaderMeta(metaString));
+
+		String label = stripLabel(metaString);
+
+		if (jsHeader instanceof JsonString jsStringHeader) {
+
+			String displayValue = jsStringHeader.getString();
+			inflateDisplay(displayBuilder, null, label, displayValue, Collections.emptyList());
+
+		} else if (jsHeader instanceof JsonObject jsObjHeader) {
+			for (String key : jsObjHeader.keyOrderedList()) {
+
+				Detail[] detailArray = findDetail(key);
+				if (detailArray == null)
+					continue;
+
+				String displayValue = jsObjHeader.getString(key);
+
+				for (Detail detail : detailArray)
+					inflateDisplay(displayBuilder, detail, label, displayValue, Collections.emptyList());
+			}
+
+		} else
+			throw new IllegalStateException("expecting json object for display");
+
+		top.add("display", displayBuilder.build());
+	}
+
+	/**
+	 * @param displayBuilder
+	 * @param detail
+	 * @param displayValue
+	 */
+	private void inflateDisplay(JsonObjectBuilder displayBuilder, Detail detail, String label,
+			String displayValue,
+			List<ResolverType> resolverList) {
+
+		if (detail == null) {
+			for (Detail d : Detail.values()) {
+				if (d == Detail.OFF)
+					continue;
+
+				inflateDisplay(displayBuilder, d, label, displayValue, resolverList);
+			}
+
+			return;
+		}
+
+		assert detail != null;
+
+		JsonObjectBuilder detailBuilder = new JsonObjectBuilder();
+
+		detailBuilder.add("label", label);
+		detailBuilder.add("detail", detail.name());
+		detailBuilder.add("value", inflateDisplayFormat(displayValue, resolverList));
+
+		displayBuilder.add(detail.name(), detailBuilder.build());
+	}
+
+	private JsonArray inflateResolvers(List<ResolverType> resolverList) {
+		if (resolverList.isEmpty())
+			return null;
+
+		var resolverBuilder = new JsonArrayBuilder();
+
+		for (ResolverType resolverType : resolverList) {
+			resolverBuilder.add(resolverType.name());
+		}
+
+		return resolverBuilder.build();
+	}
+
+	private String fieldName(String metaValue) {
+		String c[] = metaValue.split(";");
+
+		return c[0];
+	}
+
+	private JsonObject inflateHeaderMeta(String metaValue) {
+		String c[] = metaValue.split(";");
+
+		var metaBuilder = new JsonObjectBuilder();
+		// We have 'name;abbr' pair
+		if (c.length == 2)
+			metaBuilder.add("abbr", c[1]);
+
+		// We have 'name' attribute
+		if (c.length >= 1)
+			metaBuilder.add("name", c[0]);
+
+		return metaBuilder.build();
+	}
+
+	private JsonObject inflateFieldMeta(String metaValue) {
+		String c[] = metaValue.split(";");
+
+		var metaBuilder = new JsonObjectBuilder();
+		// We have 'name;abbr' pair
+		if (c.length == 2)
+			metaBuilder.add("abbr", c[1]);
+
+		// We have 'name' attribute
+		if (c.length >= 1)
+			metaBuilder.add("name", c[0]);
+
+		metaBuilder.add("ordinal", ordinal);
+		ordinal += ordinalInc;
+
+		return metaBuilder.build();
+	}
+
+	private String stripLabel(String line) {
+		String c[] = line.split(";");
+
+		return c[c.length - 1];
+	}
+
+	private String stripName(String line) {
+		String c[] = line.split(";");
+
+		return c[0];
+	}
+
+	private static final Pattern RESOLVER_EMBED = Pattern.compile("%\\{:(\\w+)\\}");
+
+	private String inflateDisplayFormat(String line, List<ResolverType> resolverList) {
+
+		for (int i = 0; i < resolverList.size(); i++) {
+			ResolverType rt = resolverList.get(i);
+
+			line = line.replaceAll(":%s".formatted(rt), ":R%d".formatted(i + 1));
+		}
+
+		return line;
+	}
+
+	private List<ResolverType> listResolvers(String line) {
+		var matcher = RESOLVER_EMBED.matcher(line);
+		var list = new ArrayList<ResolverType>();
+
+		while (matcher.find()) {
+			String candidate = matcher.group(1);
+			if (candidate == null)
+				continue;
+
+			ResolverType resolverType = findResolver(candidate);
+			if (resolverType == null)
+				continue;
+
+			if (!list.contains(resolverType)) {
+				list.add(resolverType);
+			}
+		}
+
+		return list;
+	}
+
+	private Detail[] findDetail(String possibleDetailName) {
+		try {
+			String[] c = possibleDetailName.split(",");
+			List<Detail> detailList = new ArrayList<>();
+
+			for (String detailName : c) {
+				detailList.add(Detail.valueOf(detailName));
+			}
+
+			return detailList.toArray(Detail[]::new);
+		} catch (Throwable e) {
+			return null;
+		}
+	}
+
+	private ResolverType findResolver(String resolverName) {
+		try {
+			return ResolverType.valueOf(resolverName);
+		} catch (Throwable e) {
+			return null;
+		}
 	}
 }

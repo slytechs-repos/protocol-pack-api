@@ -293,6 +293,11 @@ public final class Ip4 extends Ip<Ip4Option> {
 		return Ip4Struct.FRAG_OFFSET.getInt(buffer());
 	}
 
+	@Meta(value = MetaType.ATTRIBUTE)
+	public int fragOffsetBytes() {
+		return fragOffset() << 3;
+	}
+
 	/**
 	 * Hdr len.
 	 *

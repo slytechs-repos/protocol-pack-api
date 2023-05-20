@@ -49,21 +49,24 @@ package com.slytechs.protocol.runtime.util;
  * </pre>
  */
 public enum Detail {
-	
-	/** The none. */
-	NONE,
-	
-	/** The low. */
+
+	/** Do not display. */
+	OFF,
+
+	/** The low detail. */
 	LOW,
-	
-	/** The medium. */
+
+	/** The medium detail. */
 	MEDIUM,
-	
-	/** The high. */
+
+	/** The high detail. */
 	HIGH,
-	
-	/** The debug. */
-	DEBUG;
+
+	/** The debug level detail. */
+	DEBUG,
+
+	/** The trace level detail. */
+	TRACE,;
 
 	/** The Constant DEFAULT. */
 	public static final Detail DEFAULT = HIGH;
@@ -73,8 +76,8 @@ public enum Detail {
 	 *
 	 * @return true, if is none
 	 */
-	public boolean isNone() {
-		return compareTo(NONE) == 0;
+	public boolean isOff() {
+		return compareTo(OFF) == 0;
 	}
 
 	/**
@@ -111,6 +114,15 @@ public enum Detail {
 	 */
 	public boolean isDebug() {
 		return compareTo(DEBUG) == 0;
+	}
+
+	/**
+	 * Checks if is debug.
+	 *
+	 * @return true, if is debug
+	 */
+	public boolean isTrace() {
+		return compareTo(TRACE) == 0;
 	}
 
 }

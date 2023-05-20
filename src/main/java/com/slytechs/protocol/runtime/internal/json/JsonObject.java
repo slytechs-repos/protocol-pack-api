@@ -18,6 +18,7 @@
 package com.slytechs.protocol.runtime.internal.json;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -161,7 +162,7 @@ public interface JsonObject extends JsonStructure {
 	 *
 	 * @return the sets the
 	 */
-	Set<String> keySet();
+	List<String> keyOrderedList();
 
 	/**
 	 * Size.

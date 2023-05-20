@@ -21,6 +21,7 @@ import java.util.function.LongSupplier;
 
 import com.slytechs.protocol.descriptor.PacketDescriptor;
 import com.slytechs.protocol.meta.Meta;
+import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.constants.CoreId;
 
@@ -136,6 +137,16 @@ public final class Frame extends Header {
 	}
 
 	/**
+	 * Capture length in bits.
+	 *
+	 * @return the capture length in unit of bits
+	 */
+	@Meta(value = MetaType.ATTRIBUTE)
+	public int captureLengthBits() {
+		return captureLength() * 8;
+	}
+
+	/**
 	 * Copies the frame contents to a new array.
 	 *
 	 * @return array containing copy of the frame contents
@@ -186,6 +197,16 @@ public final class Frame extends Header {
 		return descriptor.frameNo();
 	}
 
+	@Meta
+	public int portNo() {
+		return descriptor.portNo();
+	}
+
+	@Meta(MetaType.ATTRIBUTE)
+	public String portName() {
+		return descriptor.portName();
+	}
+
 	/**
 	 * On unbind.
 	 *
@@ -214,5 +235,15 @@ public final class Frame extends Header {
 	@Meta
 	public int wireLength() {
 		return descriptor.wireLength();
+	}
+
+	/**
+	 * Wire length in bits.
+	 *
+	 * @return the wire length in units of bits
+	 */
+	@Meta(value = MetaType.ATTRIBUTE)
+	public int wireLengthBits() {
+		return wireLength() * 8;
 	}
 }

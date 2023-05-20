@@ -135,7 +135,7 @@ public class MetaInfo implements Comparable<MetaInfo>, MetaInfoType {
 		if (!ma.note().isBlank())
 			meta.note = ma.note();
 
-		if (ma.ordinal() != -1)
+		if (ma.ordinal() != Integer.MAX_VALUE)
 			meta.ordinal = ma.ordinal();
 
 		if (meta.formatter == null || ma.formatter() != Formatter.NONE) {

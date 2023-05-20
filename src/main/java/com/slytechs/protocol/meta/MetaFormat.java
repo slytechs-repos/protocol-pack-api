@@ -160,7 +160,7 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 
 	/** The Constant DISPLAY_ATTRIBUTE_PATTERN. */
 	private static final Pattern DISPLAY_ATTRIBUTE_PATTERN = Pattern.compile(""
-			+ "%\\{([\\w.]*):?([VFR]?[12345]*)\\}" // F=Formatted, R=Resolved
+			+ "%\\{([\\w.]*):?([VFRO]?[12345]*)\\}" // F=Formatted, R=Resolved
 			+ "");
 
 	/**
@@ -227,6 +227,7 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 			case "R3" -> selected.getResolved(2);
 			case "R4" -> selected.getResolved(3);
 			case "R5" -> selected.getResolved(4);
+			case "O" -> element.getMeta(MetaInfo.class).ordinal();
 			default -> selected.get();
 			};
 

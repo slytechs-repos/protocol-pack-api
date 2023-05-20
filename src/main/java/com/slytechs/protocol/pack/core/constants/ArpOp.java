@@ -28,19 +28,82 @@ import java.util.function.IntSupplier;
 public enum ArpOp implements IntSupplier {
 
 	/** The noop. */
-	NOOP,
-	
+	RESERVED1,
+
 	/** The request. */
 	REQUEST,
-	
+
 	/** The reply. */
 	REPLY,
-	
+
 	/** The reverse request. */
 	REVERSE_REQUEST,
-	
+
 	/** The reserse reply. */
 	RESERSE_REPLY,
+
+	/** The drarp request. */
+	DRARP_REQUEST,
+
+	/** The drarp reply. */
+	DRARP_REPLY,
+
+	/** The drarp error. */
+	DRARP_ERROR,
+
+	/** The in arp request. */
+	IN_ARP_REQUEST,
+
+	/** The in arp reply. */
+	IN_ARP_REPLY,
+
+	/** The arp nak. */
+	ARP_NAK,
+
+	/** The mars request. */
+	MARS_REQUEST,
+
+	/** The mars multi. */
+	MARS_MULTI,
+
+	/** The mars mserv. */
+	MARS_MSERV,
+
+	/** The mars join. */
+	MARS_JOIN,
+
+	/** The mars leave. */
+	MARS_LEAVE,
+
+	/** The mars nak. */
+	MARS_NAK,
+
+	/** The mars unserv. */
+	MARS_UNSERV,
+
+	/** The mars sjoin. */
+	MARS_SJOIN,
+
+	/** The mars slean. */
+	MARS_SLEAN,
+
+	/** The mars grouplist request. */
+	MARS_GROUPLIST_REQUEST,
+
+	/** The mars grouplist reply. */
+	MARS_GROUPLIST_REPLY,
+
+	/** The mars redirect map. */
+	MARS_REDIRECT_MAP,
+
+	/** The mapos unarp. */
+	MAPOS_UNARP,
+
+	/** The op exp1. */
+	OP_EXP1,
+
+	/** The op exp2. */
+	OP_EXP2
 
 	;
 
@@ -78,7 +141,7 @@ public enum ArpOp implements IntSupplier {
 	public static ArpOp valueOfArpOp(int operation) {
 		return values()[operation];
 	}
-	
+
 	/**
 	 * Resolve.
 	 *
@@ -88,7 +151,7 @@ public enum ArpOp implements IntSupplier {
 	public static String resolve(Object intValue) {
 		if (intValue instanceof Number n)
 			return valueOfArpOp(n.intValue()).name();
-		
+
 		return intValue.toString();
 	}
 

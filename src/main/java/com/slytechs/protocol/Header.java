@@ -279,7 +279,7 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 		int length = headerLength();
 
 		return switch (detail) {
-		case NONE -> "";
+		case OFF -> "";
 		case LOW -> headerName();
 
 		case MEDIUM -> "%s [offset=%d, length=%d]"
@@ -293,7 +293,7 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 						buffer(),
 						i -> "%04X: ".formatted(i + offset)));
 
-		case DEBUG -> "%s [offset=%d, length=%d, payload=%d, id=%04X]"
+		case TRACE, DEBUG -> "%s [offset=%d, length=%d, payload=%d, id=%04X]"
 				.formatted(headerName(), offset, length, payloadLength(), id());
 		};
 	}

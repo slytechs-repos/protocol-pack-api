@@ -23,6 +23,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 
 import com.slytechs.protocol.meta.MetaValue.ValueResolver;
+import com.slytechs.protocol.runtime.util.Detail;
 
 /**
  * The Class MetaField.
@@ -35,13 +36,13 @@ public final class MetaField extends MetaElement {
 
 	/** The header. */
 	private final MetaHeader header;
-	
+
 	/** The member. */
 	private final ReflectedMember member;
-	
+
 	/** The resolvers. */
 	private final ValueResolver[] resolvers;
-	
+
 	/** The target. */
 	private final Object target;
 
@@ -169,6 +170,16 @@ public final class MetaField extends MetaElement {
 	@Override
 	public MetaDomain findDomain(String name) {
 		return null;
+	}
+
+	/**
+	 * @param detail
+	 * @return
+	 */
+	public boolean isDisplayable(Detail detail) {
+		DisplaysInfo displays = getMeta(DisplaysInfo.class);
+
+		return displays != null && displays.select(detail) != null;
 	}
 
 }

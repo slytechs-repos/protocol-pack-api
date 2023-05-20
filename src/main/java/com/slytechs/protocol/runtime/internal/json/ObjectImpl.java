@@ -17,8 +17,10 @@
  */
 package com.slytechs.protocol.runtime.internal.json;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -33,13 +35,15 @@ import java.util.Set;
 class ObjectImpl implements JsonObject {
 
 	/** The map. */
-	private final Map<String, JsonValue> map;
+	final Map<String, JsonValue> map;
+	final List<String> list;
 
 	/**
 	 * Instantiates a new object impl.
 	 */
 	public ObjectImpl() {
 		this.map = new HashMap<>();
+		this.list = new ArrayList<>();
 	}
 
 	/**
@@ -47,10 +51,11 @@ class ObjectImpl implements JsonObject {
 	 *
 	 * @param map the map
 	 */
-	public ObjectImpl(Map<String, JsonValue> map) {
+	public ObjectImpl(Map<String, JsonValue> map, List<String> list) {
 		this.map = map;
+		this.list = list;
 	}
-	
+
 	/**
 	 * Clear.
 	 *
@@ -290,11 +295,11 @@ class ObjectImpl implements JsonObject {
 	 * Key set.
 	 *
 	 * @return the sets the
-	 * @see com.slytechs.protocol.runtime.internal.json.JsonObject#keySet()
+	 * @see com.slytechs.protocol.runtime.internal.json.JsonObject#keyOrderedList()
 	 */
 	@Override
-	public Set<String> keySet() {
-		return map.keySet();
+	public List<String> keyOrderedList() {
+		return list;
 	}
 
 	/**
@@ -305,6 +310,7 @@ class ObjectImpl implements JsonObject {
 	 */
 	public void put(String name, JsonValue value) {
 		map.put(name, value);
+		list.add(name);
 	}
 
 	/**

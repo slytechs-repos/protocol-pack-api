@@ -19,6 +19,9 @@ package com.slytechs.protocol.pack.core.constants;
 
 import java.util.EnumSet;
 import java.util.Set;
+import java.util.function.IntSupplier;
+
+import com.slytechs.protocol.runtime.util.Enums;
 
 /**
  * TCP flag which act as control bits.
@@ -26,7 +29,7 @@ import java.util.Set;
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  */
-public enum TcpFlag {
+public enum TcpFlag implements IntSupplier {
 
 	/** Congestion window reduced. */
 	CWR(TcpFlag.TCP_FLAG_CWR, "Congestion window reduced"),
@@ -83,6 +86,16 @@ public enum TcpFlag {
 
 	/** The Constant Urgent pointer. */
 	public static final int TCP_FLAG_URG = 0x20;
+
+	/**
+	 * Resolve.
+	 *
+	 * @param type the type
+	 * @return the string
+	 */
+	public static String resolve(Object type) {
+		return Enums.resolve(type, TcpFlag.class);
+	}
 
 	/** The bitmask. */
 	private final int bitmask;
@@ -154,5 +167,13 @@ public enum TcpFlag {
 	 */
 	public String description() {
 		return description;
+	}
+
+	/**
+	 * @see java.util.function.IntSupplier#getAsInt()
+	 */
+	@Override
+	public int getAsInt() {
+		return bitmask;
 	}
 }
