@@ -49,6 +49,7 @@ import com.slytechs.protocol.pack.core.Udp;
  *
  */
 public enum CoreId implements HeaderInfo, PackId {
+	
 
 	/** The payload. */
 	PACK(),
@@ -126,6 +127,37 @@ public enum CoreId implements HeaderInfo, PackId {
 	IGMP
 
 	;
+	
+	/*
+	 * <pre>
+	 * struct pack_record_s {
+	 * 	uint32_t
+	 * 		ordinal:5,  // Index within the protocol pack
+	 *      meta1:1,    // Meta protocol #1 (like IP vs IPv4, ICMP & ICMPv4 vs ICMPv4_ECHO_HDR
+	 *      meta2:2     // Meta protocol #2 
+	 * 		pack:4,     // Protocol pack unique number
+	 * 		size:11,    // (Optional) Size of the protocol header (in units of 32-bits)
+	 * 		offset:9;  // (Optional) Offset into the packet (in units of 8-bit bytes)
+	 * }
+	 * </pre>
+	 * <p>
+	 * For an ID, offset and size fields are both set to 0.
+	 * </p>
+	 * 
+	 * @author Sly Technologies Inc
+	 * @author repos@slytechs.com
+	 *
+	 */
+
+		int CORE_ID2_IP = 1 << 6 | PACK_ID_CORE;
+		int CORE_ID2_ICMP = 2 << 6 | PACK_ID_CORE;
+		int CORE_ID2_DHCP = 3 << 6 | PACK_ID_CORE;
+
+		int CORE_ID2_ICMPv4 = CORE_ID2_ICMP | 0 << 5 | PACK_ID_CORE;
+		int CORE_ID2_ICMPv6 = CORE_ID2_ICMP | 1 << 5 | PACK_ID_CORE;
+
+		int CORE_ID2_DHCPv4 = CORE_ID2_ICMP | 0 << 5 | PACK_ID_CORE;
+		int CORE_ID2_DHCPv6 = CORE_ID2_ICMP | 1 << 5 | PACK_ID_CORE;
 
 	/** The Constant CORE_ID_PACK. */
 	// @formatter:off

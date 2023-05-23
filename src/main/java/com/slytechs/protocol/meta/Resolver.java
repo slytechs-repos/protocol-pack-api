@@ -25,9 +25,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 import com.slytechs.protocol.meta.MetaValue.ValueResolver;
+import com.slytechs.protocol.meta.MetaValue.ValueResolverTuple2;
 import com.slytechs.protocol.pack.core.constants.ArpHardwareType;
 import com.slytechs.protocol.pack.core.constants.ArpOp;
 import com.slytechs.protocol.pack.core.constants.EtherType;
+import com.slytechs.protocol.pack.core.constants.Icmp4Code;
 import com.slytechs.protocol.pack.core.constants.Icmp4Type;
 import com.slytechs.protocol.pack.core.constants.IeeeOuiAssignments;
 import com.slytechs.protocol.pack.core.constants.IpType;
@@ -56,7 +58,7 @@ public @interface Resolver {
 	public enum ResolverType {
 
 		/** The none. */
-		NONE(null),
+		NONE((ValueResolver) null),
 
 		/** The timestamp. */
 		TIMESTAMP(Timestamp::formatTimestamp),
@@ -78,8 +80,7 @@ public @interface Resolver {
 
 		/** The ip type. */
 		ARP_OP(ArpOp::resolve),
-		ARP_CODE(ArpOp::resolve),
-		
+
 		/** The arp hwtype. */
 		ARP_HWTYPE(ArpHardwareType::resolve),
 
@@ -116,10 +117,15 @@ public @interface Resolver {
 		/** The bitshift 8. */
 		BITSHIFT_8(v -> DisplayUtil.bitshiftIntLeft(v, 8)),
 
+		/** The ICM pv 4 TYPE. */
 		ICMPv4_TYPE(Icmp4Type::resolve),
-		
+
+		/** The ICM pv 4 CODE. */
+		ICMPv4_CODE(Icmp4Code::resolve),
+
 		TCP_FLAGS(TcpFlag::resolve),
 		PORT_LOOKUP(o -> "UNKNOWN"),
+
 		;
 
 		/** The resolver. */
@@ -132,6 +138,21 @@ public @interface Resolver {
 		 */
 		ResolverType(ValueResolver resolver) {
 			this.resolver = resolver;
+		}
+
+		ResolverType(ValueResolverTuple2 resolver) {
+			this.resolver = new ValueResolver() {
+
+				@Override
+				public String resolveValue(Object value) {
+					throw new UnsupportedOperationException("not implemented yet");
+				}
+
+				@Override
+				public String resolveValue(MetaField field, Object value) {
+					return resolver.resolveValue(field, value);
+				}
+			};
 		}
 
 		/**

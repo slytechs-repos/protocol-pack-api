@@ -77,16 +77,14 @@ public class MetaValue {
 		 * @return the string
 		 */
 		String resolveValue(Object value);
+
+		default String resolveValue(MetaField field, Object value) {
+			return resolveValue(value);
+		}
 	}
 
-	public interface ValueResolver2Tuple extends ValueResolver {
-		String resolveValue(Object first, Object second);
-
-		@Override
-		default String resolveValue(Object value) {
-			return null;
-		}
-
+	public interface ValueResolverTuple2 {
+		String resolveValue(MetaField field, Object value);
 	}
 
 	/**

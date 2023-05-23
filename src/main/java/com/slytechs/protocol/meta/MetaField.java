@@ -140,7 +140,7 @@ public final class MetaField extends MetaElement {
 		if (resolverIndex >= resolvers.length)
 			return "";
 
-		return resolvers[resolverIndex].resolveValue(get());
+		return resolvers[resolverIndex].resolveValue(this, get());
 	}
 
 	/**

@@ -17,6 +17,8 @@
  */
 package com.slytechs.protocol.pack;
 
+import static com.slytechs.protocol.pack.ProtocolPackTable.*;
+
 import java.util.Optional;
 
 import com.slytechs.protocol.descriptor.CompactDescriptor;
@@ -66,6 +68,18 @@ import com.slytechs.protocol.runtime.NotFound;
  * 		offset:11;  // (Optional) Offset into the packet (in units of 8-bit bytes)
  * }
  * </pre>
+ * 
+ * <pre>
+ * struct pack_record_s {
+ * 	uint32_t
+ * 		ordinal:5,  // Index within the protocol pack
+ *      meta1:1,    // Meta protocol #1 (like IP vs IPv4, ICMP & ICMPv4 vs ICMPv4_ECHO_HDR
+ *      meta2:2     // Meta protocol #2 
+ * 		pack:4,     // Protocol pack unique number
+ * 		size:11,    // (Optional) Size of the protocol header (in units of 32-bits)
+ * 		offset:9;  // (Optional) Offset into the packet (in units of 8-bit bytes)
+ * }
+ * </pre>
  * <p>
  * For an ID, offset and size fields are both set to 0.
  * </p>
@@ -75,6 +89,13 @@ import com.slytechs.protocol.runtime.NotFound;
  *
  */
 public interface PackId {
+
+	int CORE_ID_IP = 1 << 6 | PACK_ID_CORE;
+	int CORE_ID_ICMP = 2 << 6 | PACK_ID_CORE;
+	int CORE_ID_DHCP = 3 << 6 | PACK_ID_CORE;
+
+	int CORE_ID_ICMPv4 = CORE_ID_ICMP | 0 << 5 | PACK_ID_CORE;
+	int CORE_ID_ICMPv6 = CORE_ID_ICMP | 1 << 5 | PACK_ID_CORE;
 
 	/** The pack mask ordinal. */
 	// @formatter:off
@@ -248,8 +269,8 @@ public interface PackId {
 	 * @return the int
 	 */
 	static int encodeId(int packOrdinal, int ordinal) {
-		return ((ordinal << RECORD_SHIFT_ORDINAL) & RECORD_MASK_ORDINAL) |
-				((packOrdinal << RECORD_SHIFT_PACK) & RECORD_MASK_PACK);
+		return ((ordinal << RECORD_SHIFT_ORDINAL) & RECORD_MASK_ORDINAL)
+				| ((packOrdinal << RECORD_SHIFT_PACK) & RECORD_MASK_PACK);
 	}
 
 	/**
@@ -274,9 +295,8 @@ public interface PackId {
 	static int encodeRecord(int id, int offset, int size) {
 		assert (id & PACK_MASK_UNPACK) == id : "id has offset/length encoded";
 
-		return id |
-				((offset << RECORD_SHIFT_OFFSET) & RECORD_MASK_OFFSET) |
-				((size << RECORD_SHIFT_SIZE) & RECORD_MASK_SIZE);
+		return id | ((offset << RECORD_SHIFT_OFFSET) & RECORD_MASK_OFFSET)
+				| ((size << RECORD_SHIFT_SIZE) & RECORD_MASK_SIZE);
 	}
 
 	/**
@@ -406,9 +426,7 @@ public interface PackId {
 	 * @return the string
 	 */
 	static String toString(int id) {
-		return find(id)
-				.map(PackId::toString)
-				.orElse("0x04X".formatted(id));
+		return find(id).map(PackId::toString).orElse("0x04X".formatted(id));
 	}
 
 	/**

@@ -2,7 +2,7 @@
 	"ICMPv4": "Internet Control Message Protocol Version 4, offset=%{offset}d, length=%{length}d",
 	"TRACE,DEBUG,HIGH,MEDIUM,LOW": {
 		"type": "%{}d (%{:ICMPv4_TYPE}s)",
-		"code": "%{}d",
+		"code": "%{}d (%{:ICMPv4_CODE}s)",
 		"checksum": "0x%{}04X"
 	}
 }

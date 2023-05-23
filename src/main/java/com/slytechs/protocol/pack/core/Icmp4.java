@@ -35,6 +35,10 @@ import com.slytechs.protocol.pack.core.constants.CoreId;
 @MetaResource("icmp4-meta.json")
 public class Icmp4 extends Icmp {
 
+	public static class Echo extends Icmp4 {
+
+	}
+
 	/** The Constant ID. */
 	public static final int ID = CoreId.CORE_ID_ICMPv4;
 
