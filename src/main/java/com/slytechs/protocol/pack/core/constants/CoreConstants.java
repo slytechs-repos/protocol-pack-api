@@ -42,13 +42,13 @@ public final class CoreConstants {
 	public static final int DESC_TYPE1_BYTE_SIZE        = 16;
 
 	/** The Constant DESC_TYPE2_BYTE_SIZE_MIN. */
-	public static final int DESC_TYPE2_BYTE_SIZE_MIN    = 24;
+	public static final int DESC_TYPE2_BYTE_SIZE_MIN    = 28;
 	
 	/** The Constant DESC_TYPE2_RECORD_BYTE_SIZE. */
-	public static final int DESC_TYPE2_RECORD_BYTE_SIZE = 4;
+	public static final int DESC_TYPE2_RECORD_BYTE_SIZE = 8;
 	
 	/** The Constant DESC_TYPE2_RECORD_MAX_COUNT. */
-	public static final int DESC_TYPE2_RECORD_MAX_COUNT = 32;
+	public static final int DESC_TYPE2_RECORD_MAX_COUNT = 16;
 	
 	public static final int DESC_IPF_FRAG_KEY = 12;
 	public static final int DESC_IPF_FRAG_IPv4_KEY_BYTE_SIZE = 12;

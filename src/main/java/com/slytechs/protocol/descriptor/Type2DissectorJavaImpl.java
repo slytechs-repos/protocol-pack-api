@@ -66,16 +66,16 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 	private boolean recordExtensions = true;
 
 	/** The ip 4 disable bitmask. */
-	private int ip4DisableBitmask = 0;
+	private long ip4DisableBitmask = 0;
 
 	/** The ip 6 disable bitmask. */
-	private int ip6DisableBitmask = 0;
+	private long ip6DisableBitmask = 0;
 
 	/** The tcp disable bitmask. */
-	private int tcpDisableBitmask = 0;
+	private long tcpDisableBitmask = 0;
 
 	/** The default bitmask. */
-	private int defaultBitmask = Bits.BITS_00;
+	private long defaultBitmask = Bits.BITS_00;
 
 	/** The rx port. */
 	private int rxPort;
@@ -114,10 +114,10 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 	private int hash;
 
 	/** The bitmask. */
-	private int bitmask;
+	private long bitmask;
 
 	/** The record. */
-	private final int[] record = new int[DESC_TYPE2_RECORD_MAX_COUNT];
+	private final long[] record = new long[DESC_TYPE2_RECORD_MAX_COUNT];
 
 	/**
 	 * Instantiates a new java dissector type 2.
@@ -217,10 +217,10 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 	 * @param id   the id
 	 * @return true, if successful
 	 */
-	private boolean checkBitmask(int mask, int id) {
+	private boolean checkBitmask(long mask, int id) {
 		int index = PackId.decodeRecordOrdinal(id);
 
-		return (mask & (1 << index)) != 0;
+		return (mask & (1L << index)) != 0;
 	}
 
 	/**
@@ -739,11 +739,11 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 				.putInt(WORD2, word2)    // 11-08 Word2
 				.putInt(WORD3, word3)    // 15-12 Word3
 				                         // 19-16 Word4 hash/color2 which is not set by the dissector
-				.putInt(WORD5, bitmask); // 23-20 Word5 recorded protocol bitmask (1 bit per proto)
+				.putLong(WORD5, bitmask); // 23-20 Word5 recorded protocol bitmask (1 bit per proto)
 		// @formatter:on
 
-		for (int i = 0, j = RECORD_START; i < recordCount; i++, j += 4)
-			desc.putInt(j, record[i]); // 152-24 (up to 152 bytes eq. (32 * 4) + 24)
+		for (int i = 0, j = RECORD_START; i < recordCount; i++, j += DESC_TYPE2_RECORD_BYTE_SIZE)
+			desc.putLong(j, record[i]); // 152-24 (up to 152 bytes eq. (32 * 4) + 24)
 
 		return descriptorLength();
 	}
@@ -774,10 +774,10 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 		L3_LAST_FRAG.setShort((short) (l3LastFrag ? 1 : 0), desc);
 
 		HASH24.setInt(hash, desc);
-		BITMASK.setInt(bitmask, desc);
+		BITMASK.setLong(bitmask, desc);
 
-		for (int i = 0, j = 24; i < recordCount; i++, j += 4)
-			desc.putInt(j, record[i]);
+		for (int i = 0, j = DESC_TYPE2_BYTE_SIZE_MIN; i < recordCount; i++, j += DESC_TYPE2_RECORD_BYTE_SIZE)
+			desc.putLong(j, record[i]);
 
 		return descriptorLength();
 	}

@@ -18,6 +18,7 @@
 package com.slytechs.protocol.descriptor;
 
 import static com.slytechs.protocol.descriptor.Type2DescriptorLayout.*;
+import static com.slytechs.protocol.pack.core.constants.CoreConstants.*;
 
 import java.nio.ByteBuffer;
 
@@ -280,7 +281,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	private long lookupExtension(int extId, int start, int recordCount) {
 
 		for (int i = start; i < recordCount; i++) {
-			final int record = record(i);
+			final long record = record(i);
 			final int id = PackId.decodeRecordId(record);
 			final int pack = PackId.decodeRecordPackId(record);
 
@@ -314,7 +315,7 @@ public class Type2Descriptor extends PacketDescriptor {
 
 		final int recordCount = recordCount();
 		for (int i = 0; i < recordCount; i++) {
-			final int record = record(i);
+			final long record = record(i);
 
 			if (PackId.recordEqualsId(record, headerId) && (depth-- == 0))
 				return PackId.recordToCompactDescriptor(record, headerId, i); // Record with a hint (i)!
@@ -347,7 +348,7 @@ public class Type2Descriptor extends PacketDescriptor {
 
 		final int recordCount = recordCount();
 		for (int i = 0; i < recordCount; i++) {
-			final int record = record(i);
+			final long record = record(i);
 
 			if (PackId.recordEqualsId(record, headerId) && (depth-- == 0)) {
 				if (extId == CoreId.CORE_ID_PAYLOAD)
@@ -366,7 +367,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	 * @param record the record
 	 * @return the long
 	 */
-	private long lookupPayload(int record) {
+	private long lookupPayload(long record) {
 		int off = PackId.decodeRecordOffset(record);
 		int len = PackId.decodeRecordSize(record);
 		int poff = off + len;
@@ -400,11 +401,11 @@ public class Type2Descriptor extends PacketDescriptor {
 	 * @param index the index
 	 * @return the int
 	 */
-	public int record(int index) {
+	public long record(int index) {
 //		return RECORD.getInt(buffer(), index);
 
 		// TODO: Faster implementation
-		return buffer().getInt(CoreConstants.DESC_TYPE2_BYTE_SIZE_MIN + (index * 4));
+		return buffer().getLong(CoreConstants.DESC_TYPE2_BYTE_SIZE_MIN + (index * DESC_TYPE2_RECORD_BYTE_SIZE));
 	}
 
 	/**
@@ -509,7 +510,7 @@ public class Type2Descriptor extends PacketDescriptor {
 							L2FrameType.valueOfL2FrameType(l2FrameType())))
 
 					.append("  color=%d%n".formatted(color()))
-					.append("  hash=0x%08X (type=%d [%s], 24-bits=0x%06X)%n"
+					.append("  hash=0x%016X (type=%d [%s], 24-bits=0x%06X)%n"
 							.formatted(
 									hash32(),
 									hashType(),
@@ -519,7 +520,7 @@ public class Type2Descriptor extends PacketDescriptor {
 					.append("  recordCount=%d%n".formatted(recordCount()));
 
 			if (detail.isHigh())
-				b.append("  bitmask=0x%08X (0b%s)%n".formatted(
+				b.append("  bitmask=0x%016X (0b%s)%n".formatted(
 						bitmask(),
 						Integer.toBinaryString(bitmask())));
 		}
@@ -530,33 +531,40 @@ public class Type2Descriptor extends PacketDescriptor {
 
 			for (int i = 0; i < recordCount; i++) {
 
-				int record = record(i);
+				long record = record(i);
 				int pack = PackId.decodeRecordPackId(record);
 				int id = PackId.decodeRecordId(record);
+				int classMask = PackId.decodeRecordClassMask(record);
 				int offset = PackId.decodeRecordOffset(record);
 				int length = PackId.decodeRecordSize(record);
 
 				if (pack != ProtocolPackTable.PACK_ID_OPTIONS) {
 					lastId = id;
-					b.append("    [%d]=0x%08X (id=0x%03X [%-20s], off=%2d, len=%2d)%n"
+					b.append("    [%d]=0x%016X (id=0x%04X [%-20s], off=%2d, len=%2d, classMask=0x%X/%s[%s])%n"
 							.formatted(
 									i,
 									record,
 									id,
 									Pack.toString(id),
 									offset,
-									length));
+									length,
+									classMask,
+									CoreId.CORE_CLASS_BIT_STRING.apply(classMask),
+									CoreId.CORE_CLASS_BIT_FORMAT.format(classMask)));
 
 				} else {
 					// Protocol specific extensions/options
-					b.append("    [%d]=0x%08X (id=0x%03X [%-20s], off=%2d, len=%2d)%n"
+					b.append("    [%d]=0x%016X (id=0x%04X [%-20s], off=%2d, len=%2d, classMask=0x%X/%s[%s])%n"
 							.formatted(
 									i,
 									record,
 									id,
 									Pack.toString(lastId, id),
 									offset,
-									length));
+									length,
+									classMask,
+									CoreId.CORE_CLASS_BIT_STRING.apply(classMask),
+									CoreId.CORE_CLASS_BIT_FORMAT.format(classMask)));
 
 				}
 			}

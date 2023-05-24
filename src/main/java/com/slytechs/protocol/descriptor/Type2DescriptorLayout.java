@@ -17,6 +17,7 @@
  */
 package com.slytechs.protocol.descriptor;
 
+import static com.slytechs.protocol.pack.core.constants.CoreConstants.*;
 import static com.slytechs.protocol.runtime.internal.layout.BinaryLayout.*;
 
 import com.slytechs.protocol.runtime.internal.layout.BinaryLayout;
@@ -134,10 +135,10 @@ enum Type2DescriptorLayout implements BitField.Proxy {
 										Int32.BITS_05.withName("hash_type"))),
 
 						/* Word5 */
-						Int32.BITS_32.withName("bitmask"),
+						Int64.BITS_64.withName("bitmask"),
 
 						/* Word6-38 */
-						sequenceLayout(32, Int32.BITS_32).withName("record")
+						sequenceLayout(DESC_TYPE2_RECORD_MAX_COUNT, Int64.BITS_64).withName("record")
 
 				),
 				sequenceLayout(32 + 6, Int32.BITS_32).withName("array")
