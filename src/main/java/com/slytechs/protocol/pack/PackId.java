@@ -43,11 +43,12 @@ import com.slytechs.protocol.runtime.NotFound;
  * 
  * <pre>
  * struct pack_id_s {
- * 	uint32_t
- * 		ordinal:6, // Index within the protocol pack
- * 		pack:4,    // Protocol pack unique number
- * 	    unused:22  // Unused bits in a unique ID use case
- * }
+ * 	 uint16_t
+ * 		ordinal:8,  // Index within the protocol pack
+ * 		pack:8;     // Protocol pack unique number
+ * 
+ * 	 uint16_t
+ *      	class_mask;
  * </pre>
  * 
  * <h2>32-bit 'record' encoding</h2>
@@ -59,11 +60,13 @@ import com.slytechs.protocol.runtime.NotFound;
  * 
  * <pre>
  * struct pack_record_s {
- * 	uint32_t
- * 		ordinal:6,  // Index within the protocol pack
- * 		pack:4,     // Protocol pack unique number
- * 		size:11,    // (Optional) Size of the protocol header (in units of 32-bits)
- * 		offset:11;  // (Optional) Offset into the packet (in units of 8-bit bytes)
+ * 	uint64_t
+ * 		ordinal:8,    // Index within the protocol pack
+ * 		pack:8,       // Protocol pack unique number
+ *      class_mask:16;// Classification mask
+ * 
+ * 		size:16,     // (Optional) Size of the protocol header (in units of 8-bits)
+ * 		offset:16;   // (Optional) Offset into the packet (in units of 8-bit bytes)
  * }
  * </pre>
  * <p>
@@ -78,55 +81,68 @@ public interface PackId {
 
 	/** The pack mask ordinal. */
 	// @formatter:off
-	int PACK_MASK_ORDINAL  = 0x0000003F;  // 05:00 - 6 bits, protocol number
+	int PACK_MASK_ORDINAL  = 0x000000FF;  // 07:00 - 8 bits, protocol number
 	
 	/** The pack mask pack. */
-	int PACK_MASK_PACK     = 0x000003C0;  // 09:06 - 4 bits, protocol pack number
+	int PACK_MASK_PACK     = 0x0000FF00;  // 15:08 - 8 bits, protocol pack number
+	
+	/** The pack mask pack. */
+	int PACK_MASK_CLASS_MASK = 0xFFFF_0000;  // 31:16 - 16 bits, classification bitmask
 	
 	/** The pack mask unpack. */
-	int PACK_MASK_UNPACK   = 0x000003FF;  // 09:00 - Pack + Ordinal
+	int PACK_MASK_UNPACK   = 0xFFFFFFFF;  // 09:00 - Pack + Ordinal
 	
 	/** The record mask ordinal. */
-	int RECORD_MASK_ORDINAL = 0x0000003F; // 05:00 - 6 bits, protocol number
+	long RECORD_MASK_ORDINAL = 0x00000000_000000FFL; // 05:00 - 6 bits, protocol number
+	
+	long RECORD_MASK_CLASS_MASK = 0x00000000_FFFF000FL; // 05:00 - 6 bits, protocol number
 	
 	/** The record mask pack. */
-	int RECORD_MASK_PACK    = 0x000003C0; // 09:06 - 4 bits, protocol pack number
+	long RECORD_MASK_PACK    = 0x00000000_0000FF00L; // 09:06 - 4 bits, protocol pack number
 	
 	/** The record mask unpack. */
-	int RECORD_MASK_UNPACK  = 0x000003FF; // 09:00 - Pack + Ordinal
+	long RECORD_MASK_UNPACK  = 0x00000000_0000FFFFL; // 09:00 - Pack + Ordinal
 	
 	/** The record mask size. */
-	int RECORD_MASK_SIZE    = 0x001FFC00; // 20:10 - 11 bits (in units of 32 bits)
+	long RECORD_MASK_SIZE    = 0x0000FFFF_00000000L; // 20:10 - 11 bits (in units of 32 bits)
 	
 	/** The record mask offset. */
-	int RECORD_MASK_OFFSET  = 0xFFE00000; // 31:21 - 11 bits (in units of 8 bits)
+	long RECORD_MASK_OFFSET  = 0xFFFF0000_00000000L; // 31:21 - 11 bits (in units of 8 bits)
 	// @formatter:on
 
 	/** The pack shift ordinal. */
 	// @formatter:off
 	int PACK_SHIFT_ORDINAL  = 0;
 	
+	int PACK_SHIFT_CLASS_MASK = 16;
+	
 	/** The pack shift pack. */
-	int PACK_SHIFT_PACK     = 6;
+	int PACK_SHIFT_PACK     = 8;
 	
 	/** The record shift ordinal. */
 	int RECORD_SHIFT_ORDINAL = 0;
 	
 	/** The record shift pack. */
-	int RECORD_SHIFT_PACK    = 6;
+	int RECORD_SHIFT_PACK    = 8;
+	
+	/** The record shift classification mask. */
+	int RECORD_SHIFT_CLASS_MASK    = 16;
 	
 	/** The record shift size. */
-	int RECORD_SHIFT_SIZE    = 10;
+	int RECORD_SHIFT_SIZE    = 32;
 	
 	/** The record shift offset. */
-	int RECORD_SHIFT_OFFSET  = 21;
+	int RECORD_SHIFT_OFFSET  = 48;
 	// @formatter:on
 
 	/** The Constant PACK_MAXCOUNT_PACKS. */
-	static final int PACK_MAXCOUNT_PACKS = 16;
+	int PACK_MAXCOUNT_PACKS = 256;
 
 	/** The Constant PACK_MAXCOUNT_ORDINALS. */
-	static final int PACK_MAXCOUNT_ORDINALS = 64;
+	int PACK_MAXCOUNT_ORDINALS = 256;
+
+	/** The pack maxcount class mask bits. */
+	int PACK_MAXCOUNT_CLASS_MASK_BITS = 16;
 
 	/**
 	 * Bitmask check.
@@ -135,8 +151,8 @@ public interface PackId {
 	 * @param id   the id
 	 * @return true, if successful
 	 */
-	static boolean bitmaskCheck(int mask, int id) {
-		return ((1 << decodeIdOrdinal(id)) & mask) != 0;
+	static boolean bitmaskCheck(long mask, int id) {
+		return ((1L << decodeIdOrdinal(id)) & mask) != 0;
 	}
 
 	/**
@@ -146,8 +162,8 @@ public interface PackId {
 	 * @param id   the id
 	 * @return the int
 	 */
-	static int bitmaskSet(int mask, int id) {
-		return (1 << decodeIdOrdinal(id)) | mask;
+	static long bitmaskSet(long mask, int id) {
+		return (1L << decodeIdOrdinal(id)) | mask;
 	}
 
 	/**
@@ -168,6 +184,10 @@ public interface PackId {
 	 */
 	static int decodePackId(int id) {
 		return (id & PACK_MASK_PACK);
+	}
+
+	static int decodePackClassMask(int id) {
+		return (id & PACK_MASK_CLASS_MASK) >> PACK_SHIFT_CLASS_MASK;
 	}
 
 	/**
@@ -196,8 +216,8 @@ public interface PackId {
 	 * @param record the record
 	 * @return the int
 	 */
-	static int decodeRecordOffset(int record) {
-		return (record & RECORD_MASK_OFFSET) >> RECORD_SHIFT_OFFSET;
+	static int decodeRecordOffset(long record) {
+		return (int) ((record & RECORD_MASK_OFFSET) >> RECORD_SHIFT_OFFSET);
 	}
 
 	/**
@@ -206,8 +226,8 @@ public interface PackId {
 	 * @param record the record
 	 * @return the int
 	 */
-	static int decodeRecordOrdinal(int record) {
-		return (record & RECORD_MASK_ORDINAL) >> RECORD_SHIFT_ORDINAL;
+	static int decodeRecordOrdinal(long record) {
+		return (int) ((record & RECORD_MASK_ORDINAL) >> RECORD_SHIFT_ORDINAL);
 	}
 
 	/**
@@ -216,8 +236,8 @@ public interface PackId {
 	 * @param record the record
 	 * @return the int
 	 */
-	static int decodeRecordPackOrdinal(int record) {
-		return (record & RECORD_MASK_PACK) >> RECORD_SHIFT_PACK;
+	static int decodeRecordPackOrdinal(long record) {
+		return (int) ((record & RECORD_MASK_PACK) >> RECORD_SHIFT_PACK);
 	}
 
 	/**
@@ -226,8 +246,12 @@ public interface PackId {
 	 * @param record the record
 	 * @return the int
 	 */
-	static int decodeRecordPackId(int record) {
-		return (record & RECORD_MASK_PACK);
+	static int decodeRecordPackId(long record) {
+		return (int) (record & RECORD_MASK_PACK);
+	}
+	
+	static int decodeRecordClassMask(long record) {
+		return (int) (record & RECORD_MASK_CLASS_MASK) >> RECORD_SHIFT_CLASS_MASK;
 	}
 
 	/**
@@ -236,8 +260,8 @@ public interface PackId {
 	 * @param record the record
 	 * @return the int
 	 */
-	static int decodeRecordSize(int record) {
-		return (record & RECORD_MASK_SIZE) >> RECORD_SHIFT_SIZE;
+	static int decodeRecordSize(long record) {
+		return (int) ((record & RECORD_MASK_SIZE) >> RECORD_SHIFT_SIZE);
 	}
 
 	/**
@@ -248,8 +272,8 @@ public interface PackId {
 	 * @return the int
 	 */
 	static int encodeId(int packOrdinal, int ordinal) {
-		return ((ordinal << RECORD_SHIFT_ORDINAL) & RECORD_MASK_ORDINAL) |
-				((packOrdinal << RECORD_SHIFT_PACK) & RECORD_MASK_PACK);
+		return ((ordinal << PACK_SHIFT_ORDINAL) & PACK_MASK_ORDINAL) |
+				((packOrdinal << PACK_SHIFT_PACK) & PACK_MASK_PACK);
 	}
 
 	/**
@@ -271,12 +295,10 @@ public interface PackId {
 	 * @param size   the size
 	 * @return the int
 	 */
-	static int encodeRecord(int id, int offset, int size) {
-		assert (id & PACK_MASK_UNPACK) == id : "id has offset/length encoded";
-
-		return id |
-				((offset << RECORD_SHIFT_OFFSET) & RECORD_MASK_OFFSET) |
-				((size << RECORD_SHIFT_SIZE) & RECORD_MASK_SIZE);
+	static long encodeRecord(int id, int offset, int size) {
+		return (id) |
+				(((long) size << RECORD_SHIFT_SIZE) & RECORD_MASK_SIZE) |
+				(((long) offset << RECORD_SHIFT_OFFSET) & RECORD_MASK_OFFSET);
 	}
 
 	/**
@@ -285,18 +307,8 @@ public interface PackId {
 	 * @param record the record
 	 * @return the int
 	 */
-	static int encodeRecordId(int record) {
-		return record & PACK_MASK_UNPACK;
-	}
-
-	/**
-	 * Encode record pack id.
-	 *
-	 * @param record the record
-	 * @return the int
-	 */
-	static int encodeRecordPackId(int record) {
-		return (record & RECORD_MASK_PACK);
+	static int decodeRecordId(long record) {
+		return (int) (record & RECORD_MASK_UNPACK);
 	}
 
 	/**
@@ -307,9 +319,7 @@ public interface PackId {
 	 *
 	 * @return true, if protocol IDs of both id and encoded are equals
 	 */
-	static boolean recordEqualsId(int record, int id) {
-		assert (id & PACK_MASK_UNPACK) == id : "id has offset/length encoded";
-
+	static boolean recordEqualsId(long record, int id) {
 		return (record & PACK_MASK_UNPACK) == id;
 	}
 
@@ -321,8 +331,6 @@ public interface PackId {
 	 * @return true, if successful
 	 */
 	static boolean recordEqualsPack(int record, int pack) {
-		pack <<= PACK_SHIFT_PACK;
-
 		return (record & PACK_MASK_PACK) == pack;
 	}
 
@@ -332,10 +340,10 @@ public interface PackId {
 	 * @param record the record
 	 * @return the long
 	 */
-	static long recordToCompactDescriptor(int record) {
+	static long recordToCompactDescriptor(long record) {
 		int offset = decodeRecordOffset(record);
 		int length = decodeRecordSize(record);
-		int id = encodeRecordId(record);
+		int id = decodeRecordId(record);
 
 		return CompactDescriptor.encode(id, offset, length);
 	}
@@ -348,7 +356,7 @@ public interface PackId {
 	 * @param recordIndex the record index
 	 * @return the long
 	 */
-	static long recordToCompactDescriptor(int record, int id, int recordIndex) {
+	static long recordToCompactDescriptor(long record, int id, int recordIndex) {
 		int offset = decodeRecordOffset(record);
 		int length = decodeRecordSize(record);
 

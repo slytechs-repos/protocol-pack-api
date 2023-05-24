@@ -19,6 +19,7 @@ package com.slytechs.protocol.pack.core.constants;
 
 import static com.slytechs.protocol.pack.ProtocolPackTable.*;
 
+import java.util.function.IntFunction;
 import java.util.function.Supplier;
 
 import com.slytechs.protocol.Frame;
@@ -38,6 +39,7 @@ import com.slytechs.protocol.pack.core.Ip4;
 import com.slytechs.protocol.pack.core.Ip6;
 import com.slytechs.protocol.pack.core.Tcp;
 import com.slytechs.protocol.pack.core.Udp;
+import com.slytechs.protocol.runtime.internal.util.format.BitFormat;
 
 /**
  * Core protocol pack. Table of all protocols included in the core protocol
@@ -49,7 +51,6 @@ import com.slytechs.protocol.pack.core.Udp;
  *
  */
 public enum CoreId implements HeaderInfo, PackId {
-	
 
 	/** The payload. */
 	PACK(),
@@ -62,6 +63,9 @@ public enum CoreId implements HeaderInfo, PackId {
 
 	/** The ether. */
 	ETHER(Ethernet::new),
+
+	/** The ip. */
+	IP(Ip4::new),
 
 	/** The I pv 4. */
 	IPv4(Ip4::new, Ip4OptionInfo::values),
@@ -77,12 +81,6 @@ public enum CoreId implements HeaderInfo, PackId {
 
 	/** The sctp. */
 	SCTP,
-
-	/** The ICM pv 4. */
-	ICMPv4(Icmp4::new),
-
-	/** The ICM pv 6. */
-	ICMPv6(Icmp6::new),
 
 	/** The llc. */
 	LLC,
@@ -117,6 +115,9 @@ public enum CoreId implements HeaderInfo, PackId {
 	/** The stp. */
 	STP,
 
+	/** The dhcp. */
+	DHCP,
+
 	/** The DHC pv 4. */
 	DHCPv4,
 
@@ -124,43 +125,67 @@ public enum CoreId implements HeaderInfo, PackId {
 	DHCPv6,
 
 	/** The igmp. */
-	IGMP
+	IGMP,
+
+	/** The icmp. */
+	ICMP(Icmp4::new),
+
+	/** The ICM pv 4. */
+	ICMPv4(Icmp4::new),
+
+	/** The ICM pv 6. */
+	ICMPv6(Icmp6::new),
+
+	/** The ICM pv 4. */
+	ICMPv4_ECHO(Icmp4::new),
+
+	/** The ICM pv 6. */
+	ICMPv6_ECHO(Icmp6::new),
 
 	;
-	
-	/*
-	 * <pre>
-	 * struct pack_record_s {
-	 * 	uint32_t
-	 * 		ordinal:5,  // Index within the protocol pack
-	 *      meta1:1,    // Meta protocol #1 (like IP vs IPv4, ICMP & ICMPv4 vs ICMPv4_ECHO_HDR
-	 *      meta2:2     // Meta protocol #2 
-	 * 		pack:4,     // Protocol pack unique number
-	 * 		size:11,    // (Optional) Size of the protocol header (in units of 32-bits)
-	 * 		offset:9;  // (Optional) Offset into the packet (in units of 8-bit bytes)
-	 * }
-	 * </pre>
-	 * <p>
-	 * For an ID, offset and size fields are both set to 0.
-	 * </p>
-	 * 
-	 * @author Sly Technologies Inc
-	 * @author repos@slytechs.com
-	 *
-	 */
 
-		int CORE_ID2_IP = 1 << 6 | PACK_ID_CORE;
-		int CORE_ID2_ICMP = 2 << 6 | PACK_ID_CORE;
-		int CORE_ID2_DHCP = 3 << 6 | PACK_ID_CORE;
+	public static final BitFormat CORE_CLASS_BIT_FORMAT = new BitFormat("DCI64", '.');
+	public static final IntFunction<String> CORE_CLASS_BIT_STRING = v -> "0b%5s"
+			.formatted(Integer.toBinaryString(v))
+			.replace(' ', '0');
 
-		int CORE_ID2_ICMPv4 = CORE_ID2_ICMP | 0 << 5 | PACK_ID_CORE;
-		int CORE_ID2_ICMPv6 = CORE_ID2_ICMP | 1 << 5 | PACK_ID_CORE;
-
-		int CORE_ID2_DHCPv4 = CORE_ID2_ICMP | 0 << 5 | PACK_ID_CORE;
-		int CORE_ID2_DHCPv6 = CORE_ID2_ICMP | 1 << 5 | PACK_ID_CORE;
-
-	/** The Constant CORE_ID_PACK. */
+	/** The Constant CORE_CLASS_V4. */
 	// @formatter:off
+	public static final int CORE_CLASS_V4     = 1 << (0 + PACK_SHIFT_CLASS_MASK);
+	
+	/** The Constant CORE_CLASS_V6. */
+	public static final int CORE_CLASS_V6     = 1 << (1 + PACK_SHIFT_CLASS_MASK);
+	
+	/** The Constant CORE_CLASS_IP. */
+	public static final int CORE_CLASS_IP     = 1 << (2 + PACK_SHIFT_CLASS_MASK);
+	
+	/** The Constant CORE_CLASS_ICMP. */
+	public static final int CORE_CLASS_ICMP   = 1 << (3 + PACK_SHIFT_CLASS_MASK);
+	
+	/** The Constant CORE_CLASS_DHCP. */
+	public static final int CORE_CLASS_DHCP   = 1 << (4 + PACK_SHIFT_CLASS_MASK);
+	
+	/** The Constant CORE_CLASS_IPv4. */
+	public static final int CORE_CLASS_IPv4   = CORE_CLASS_IP | CORE_CLASS_V4;
+	
+	/** The Constant CORE_CLASS_IPv6. */
+	public static final int CORE_CLASS_IPv6   = CORE_CLASS_IP | CORE_CLASS_V6;
+	
+	/** The Constant CORE_CLASS_ICMPv4. */
+	public static final int CORE_CLASS_ICMPv4 = CORE_CLASS_ICMP | CORE_CLASS_V4;
+	
+	/** The Constant CORE_CLASS_ICMPv6. */
+	public static final int CORE_CLASS_ICMPv6 = CORE_CLASS_ICMP | CORE_CLASS_V6;
+	
+	/** The Constant CORE_CLASS_DHCPv4. */
+	public static final int CORE_CLASS_DHCPv4 = CORE_CLASS_DHCP | CORE_CLASS_V4;
+	
+	/** The Constant CORE_CLASS_DHCPv6. */
+	public static final int CORE_CLASS_DHCPv6 = CORE_CLASS_DHCP | CORE_CLASS_V6;
+	// @formatter:on
+
+	// @formatter:off
+	/** The Constant CORE_ID_PACK. */
 	public static final int CORE_ID_PACK     = 0  | PACK_ID_CORE;
 	
 	/** The Constant CORE_ID_PAYLOAD. */
@@ -172,68 +197,83 @@ public enum CoreId implements HeaderInfo, PackId {
 	/** The Constant CORE_ID_ETHER. */
 	public static final int CORE_ID_ETHER    = 3  | PACK_ID_CORE;
 	
+	/** The Constant CORE_ID_IP. */
+	public static final int CORE_ID_IP       = 4 | PACK_ID_CORE | CORE_CLASS_IP;
+
 	/** The Constant CORE_ID_IPv4. */
-	public static final int CORE_ID_IPv4     = 4  | PACK_ID_CORE;
+	public static final int CORE_ID_IPv4     = 5 | PACK_ID_CORE | CORE_CLASS_IPv4;
 	
 	/** The Constant CORE_ID_IPv6. */
-	public static final int CORE_ID_IPv6     = 5  | PACK_ID_CORE;
+	public static final int CORE_ID_IPv6     = 6 | PACK_ID_CORE | CORE_CLASS_IPv6;
 	
 	/** The Constant CORE_ID_UDP. */
-	public static final int CORE_ID_UDP      = 6  | PACK_ID_CORE;
+	public static final int CORE_ID_UDP      = 7  | PACK_ID_CORE;
 	
 	/** The Constant CORE_ID_TCP. */
-	public static final int CORE_ID_TCP      = 7  | PACK_ID_CORE;
+	public static final int CORE_ID_TCP      = 8  | PACK_ID_CORE;
 	
 	/** The Constant CORE_ID_SCTP. */
-	public static final int CORE_ID_SCTP     = 8  | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_ICMPv4. */
-	public static final int CORE_ID_ICMPv4   = 9  | PACK_ID_CORE;
-	
-	/** The Constant CORE_ID_ICMPv6. */
-	public static final int CORE_ID_ICMPv6   = 10 | PACK_ID_CORE;
+	public static final int CORE_ID_SCTP     = 9  | PACK_ID_CORE;
 	
 	/** The Constant CORE_ID_LLC. */
-	public static final int CORE_ID_LLC      = 11 | PACK_ID_CORE;
+	public static final int CORE_ID_LLC      = 10 | PACK_ID_CORE;
 	
 	/** The Constant CORE_ID_SNAP. */
-	public static final int CORE_ID_SNAP     = 12 | PACK_ID_CORE;
+	public static final int CORE_ID_SNAP     = 11 | PACK_ID_CORE;
 	
 	/** The Constant CORE_ID_VLAN. */
-	public static final int CORE_ID_VLAN     = 13 | PACK_ID_CORE;
+	public static final int CORE_ID_VLAN     = 12 | PACK_ID_CORE;
 	
 	/** The Constant CORE_ID_MPLS. */
-	public static final int CORE_ID_MPLS     = 14 | PACK_ID_CORE;
+	public static final int CORE_ID_MPLS     = 13 | PACK_ID_CORE;
 	
 	/** The Constant CORE_ID_IPX. */
-	public static final int CORE_ID_IPX      = 15 | PACK_ID_CORE;
+	public static final int CORE_ID_IPX      = 14 | PACK_ID_CORE;
 	
 	/** The Constant CORE_ID_GRE. */
-	public static final int CORE_ID_GRE      = 16 | PACK_ID_CORE;
+	public static final int CORE_ID_GRE      = 15 | PACK_ID_CORE;
 	
 	/** The Constant CORE_ID_PPP. */
-	public static final int CORE_ID_PPP      = 17 | PACK_ID_CORE;
+	public static final int CORE_ID_PPP      = 16 | PACK_ID_CORE;
 	
 	/** The Constant CORE_ID_FDDI. */
-	public static final int CORE_ID_FDDI     = 18 | PACK_ID_CORE;
+	public static final int CORE_ID_FDDI     = 17 | PACK_ID_CORE;
 	
 	/** The Constant CORE_ID_ATM. */
-	public static final int CORE_ID_ATM      = 19 | PACK_ID_CORE;
+	public static final int CORE_ID_ATM      = 18 | PACK_ID_CORE;
 	
 	/** The Constant CORE_ID_ARP. */
-	public static final int CORE_ID_ARP      = 20 | PACK_ID_CORE;
+	public static final int CORE_ID_ARP      = 19 | PACK_ID_CORE;
 	
 	/** The Constant CORE_ID_STP. */
-	public static final int CORE_ID_STP      = 21 | PACK_ID_CORE;
+	public static final int CORE_ID_STP      = 20 | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_DHCP. */
+	public static final int CORE_ID_DHCP     = 21 | PACK_ID_CORE | CORE_CLASS_DHCP;
 	
 	/** The Constant CORE_ID_DHCPv4. */
-	public static final int CORE_ID_DHCPv4   = 22 | PACK_ID_CORE;
+	public static final int CORE_ID_DHCPv4   = 22 | PACK_ID_CORE | CORE_CLASS_DHCPv4;
 	
 	/** The Constant CORE_ID_DHCPv6. */
-	public static final int CORE_ID_DHCPv6   = 23 | PACK_ID_CORE;
+	public static final int CORE_ID_DHCPv6   = 23 | PACK_ID_CORE | CORE_CLASS_DHCPv6;
 	
 	/** The Constant CORE_ID_IGMP. */
 	public static final int CORE_ID_IGMP     = 24 | PACK_ID_CORE;
+	
+	/** The Constant CORE_ID_ICMP. */
+	public static final int CORE_ID_ICMP     = 25 | PACK_ID_CORE | CORE_CLASS_ICMP;
+	
+	/** The Constant CORE_ID_ICMPv4. */
+	public static final int CORE_ID_ICMPv4   = 26 | PACK_ID_CORE | CORE_CLASS_ICMPv4;
+	
+	/** The Constant CORE_ID_ICMPv6. */
+	public static final int CORE_ID_ICMPv6   = 27 | PACK_ID_CORE | CORE_CLASS_ICMPv6; 
+	
+	/** The Constant CORE_ID_ICMPv4. */
+	public static final int CORE_ID_ICMPv4_ECHO   = 28 |  PACK_ID_CORE | CORE_CLASS_ICMPv4;
+	
+	/** The Constant CORE_ID_ICMPv6. */
+	public static final int CORE_ID_ICMPv6_ECHO   = 29 | PACK_ID_CORE | CORE_CLASS_ICMPv6;
 	// @formatter:on
 
 	/**
