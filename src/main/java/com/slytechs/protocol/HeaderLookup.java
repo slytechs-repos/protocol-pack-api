@@ -18,6 +18,7 @@
 package com.slytechs.protocol;
 
 import com.slytechs.protocol.descriptor.CompactDescriptor;
+import com.slytechs.protocol.descriptor.HeaderDescriptor;
 
 /**
  * Interface which defines specific lookup operations within a descriptor for
@@ -45,17 +46,6 @@ public interface HeaderLookup {
 	long[] listHeaders();
 
 	/**
-	 * Lookup a primary header and at specific inner tunnel depth.
-	 *
-	 * @param id    a header id
-	 * @param depth the tunnel inner depth
-	 * @return A {@link CompactDescriptor} encoded long value with information about
-	 *         the header or {@link CompactDescriptor#ID_NOT_FOUND} if header at
-	 *         depth is not found or available
-	 */
-	long lookupHeader(int id, int depth);
-
-	/**
 	 * Lookup a header extension and at specific inner tunnel depth.
 	 *
 	 * @param headerId        the primary header id
@@ -70,4 +60,14 @@ public interface HeaderLookup {
 	 */
 	long lookupHeaderExtension(int headerId, int extId, int depth, int recordIndexHint);
 
+	/**
+	 * Lookup a primary header and at specific inner tunnel depth.
+	 *
+	 * @param id    a header id
+	 * @param depth the tunnel inner depth
+	 * @return A {@link CompactDescriptor} encoded long value with information about
+	 *         the header or {@link CompactDescriptor#ID_NOT_FOUND} if header at
+	 *         depth is not found or available
+	 */
+	boolean lookupHeader(int id, int depth, HeaderDescriptor descriptor);
 }
