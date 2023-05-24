@@ -24,6 +24,6 @@ import com.slytechs.protocol.HeaderExtensionInfo;
  * @author repos@slytechs.com
  *
  */
-public interface Icmp4TypeInfo extends HeaderExtensionInfo {
+interface Icmp4TypeInfo extends HeaderExtensionInfo {
 
 }

@@ -196,10 +196,10 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 * Dst address.
 	 *
 	 * @return the ip 4 address
-	 * @see com.slytechs.protocol.pack.core.Ip#dstAddress()
+	 * @see com.slytechs.protocol.pack.core.Ip#dstAsAddress()
 	 */
 	@Override
-	public Ip4Address dstAddress() {
+	public Ip4Address dstAsAddress() {
 		return new Ip4Address(dst());
 	}
 
@@ -399,10 +399,10 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 * Src get as address.
 	 *
 	 * @return the ip 4 address
-	 * @see com.slytechs.protocol.pack.core.Ip#srcGetAsAddress()
+	 * @see com.slytechs.protocol.pack.core.Ip#srcAsAddress()
 	 */
 	@Override
-	public Ip4Address srcGetAsAddress() {
+	public Ip4Address srcAsAddress() {
 		return new Ip4Address(src());
 	}
 
@@ -411,7 +411,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 *
 	 * @return the int
 	 */
-	public int srcGetAsInt() {
+	public int srcAsInt() {
 		return Ip4Struct.SRC.getInt(buffer());
 	}
 

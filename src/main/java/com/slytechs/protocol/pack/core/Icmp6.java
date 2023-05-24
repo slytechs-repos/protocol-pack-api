@@ -28,7 +28,7 @@ import com.slytechs.protocol.pack.core.constants.CoreId;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public class Icmp6 extends Icmp {
+public final class Icmp6 extends Icmp {
 	
 	/** The Constant ID. */
 	public static final int ID = CoreId.CORE_ID_ICMPv6;

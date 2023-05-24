@@ -231,6 +231,10 @@ public final class CoreConstants {
 	public static final int ICMPv4_TYPE_ECHO_REQUEST = 8;
 	public static final int ICMPv4_TYPE_ECHO_REPLY = 0;
 
+	public static final int ICMPv4_ECHO_HEADER_LEN = 8;
+	public static final int ICMPv4_ECHO_FIELD_IDENTIFIER = 4;
+	public static final int ICMPv4_ECHO_FIELD_SEQUENCE = 6;
+
 	public static final int ICMPv6_HEADER_LEN = 4;
 
 	/** The Constant ICMPv6_TYPE_RESERVED. */
@@ -393,9 +397,11 @@ public final class CoreConstants {
 
 	/** The Constant IPv4_FIELD_SRC. */
 	public static final int IPv6_FIELD_SRC = 8;
+	public static final int IPv6_FIELD_SRC_LEN = 16;
 
 	/** The Constant IPv4_FIELD_DST. */
 	public static final int IPv6_FIELD_DST = 24;
+	public static final int IPv6_FIELD_DST_LEN = 16;
 
 	/** The Constant IP_TYPE_ICMPv4. */
 	public static final int IP_TYPE_ICMPv4 = 1;

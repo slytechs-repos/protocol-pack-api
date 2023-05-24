@@ -23,6 +23,7 @@ import java.util.concurrent.locks.Lock;
 
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.MetaResource;
+import com.slytechs.protocol.pack.core.Icmp4.Echo;
 import com.slytechs.protocol.pack.core.constants.CoreId;
 
 /**
@@ -33,10 +34,26 @@ import com.slytechs.protocol.pack.core.constants.CoreId;
  * @author Mark Bednarczyk
  */
 @MetaResource("icmp4-meta.json")
-public class Icmp4 extends Icmp {
+public sealed class Icmp4 extends Icmp
+		permits Echo {
 
-	public static class Echo extends Icmp4 {
+	@Meta
+	public static final class Echo extends Icmp4 {
+		public static final int ID = CoreId.CORE_ID_ICMPv4_ECHO;
 
+		public Echo() {
+			super(ID);
+		}
+
+		@Meta
+		public int identifier() {
+			return Short.toUnsignedInt(buffer().getShort(ICMPv4_ECHO_FIELD_IDENTIFIER));
+		}
+
+		@Meta
+		public int sequence() {
+			return Short.toUnsignedInt(buffer().getShort(ICMPv4_ECHO_FIELD_SEQUENCE));
+		}
 	}
 
 	/** The Constant ID. */
@@ -49,6 +66,10 @@ public class Icmp4 extends Icmp {
 		super(ID);
 	}
 
+	protected Icmp4(int id) {
+		super(id);
+	}
+
 	/**
 	 * Instantiates a new icmp 4.
 	 *
@@ -58,19 +79,22 @@ public class Icmp4 extends Icmp {
 		super(ID, lock);
 	}
 
-	@Meta
-	public int type() {
-		return Byte.toUnsignedInt(buffer().get(ICMPv4_FIELD_TYPE));
-	}
-
-	@Meta
-	public int code() {
-		return Byte.toUnsignedInt(buffer().get(ICMPv4_FIELD_CODE));
-	}
-
-	@Meta
-	public int checksum() {
-		return Short.toUnsignedInt(buffer().get(ICMPv4_FIELD_CHECKSUM));
-	}
+//	@Override
+//	@Meta
+//	public int type() {
+//		return Byte.toUnsignedInt(buffer().get(ICMPv4_FIELD_TYPE));
+//	}
+//
+//	@Override
+//	@Meta
+//	public int code() {
+//		return Byte.toUnsignedInt(buffer().get(ICMPv4_FIELD_CODE));
+//	}
+//
+//	@Override
+//	@Meta
+//	public int checksum() {
+//		return Short.toUnsignedInt(buffer().get(ICMPv4_FIELD_CHECKSUM));
+//	}
 
 }

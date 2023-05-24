@@ -71,7 +71,11 @@ public final class Ip6Address extends IpAddress {
 	private final long low;
 
 	/** The bytes. */
-	private byte[] bytes;
+	private final byte[] bytes;
+
+	public Ip6Address() {
+		this(new byte[IP6_ADDRESS_SIZE]);
+	}
 
 	/**
 	 * Instantiates a new ip 6 address.
@@ -80,6 +84,7 @@ public final class Ip6Address extends IpAddress {
 	 */
 	public Ip6Address(byte[] address) {
 		super(AddressType.IPv6);
+		bytes = address;
 
 		this.high = ArrayUtils.getLong(address, 0, true);
 		this.low = ArrayUtils.getLong(address, 8, true);
@@ -90,10 +95,8 @@ public final class Ip6Address extends IpAddress {
 	 *
 	 * @return the byte[]
 	 */
-	public byte[] toArray() {
-		if (bytes == null)
-			bytes = Ip6Address.toIp6AddressArray(high, low);
-
+	@Override
+	public byte[] asArray() {
 		return bytes;
 	}
 

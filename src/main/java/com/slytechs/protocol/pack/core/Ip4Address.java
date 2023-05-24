@@ -18,7 +18,6 @@
 package com.slytechs.protocol.pack.core;
 
 import com.slytechs.protocol.AddressType;
-import com.slytechs.protocol.runtime.util.HexStrings;
 
 /**
  * The Class Ip4Address.
@@ -52,6 +51,10 @@ public final class Ip4Address extends IpAddress {
 	/** The bytes. */
 	private final byte[] bytes;
 
+	public Ip4Address() {
+		this(new byte[IP4_ADDRESS_SIZE]);
+	}
+
 	/**
 	 * Instantiates a new ip 4 address.
 	 *
@@ -59,7 +62,6 @@ public final class Ip4Address extends IpAddress {
 	 */
 	public Ip4Address(byte[] address) {
 		super(AddressType.IPv4);
-
 		this.bytes = address;
 
 		if (address.length != 4)
@@ -72,18 +74,9 @@ public final class Ip4Address extends IpAddress {
 	 *
 	 * @return the byte[]
 	 */
-	public byte[] toArray() {
+	@Override
+	public byte[] asArray() {
 		return bytes;
 	}
 
-	/**
-	 * To string.
-	 *
-	 * @return the string
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return HexStrings.toIp4String(bytes);
-	}
 }

@@ -17,9 +17,16 @@
  */
 package com.slytechs.protocol.pack.core;
 
+import static com.slytechs.protocol.pack.core.constants.CoreConstants.*;
+
 import java.util.concurrent.locks.Lock;
 
 import com.slytechs.protocol.Header;
+import com.slytechs.protocol.meta.Meta;
+import com.slytechs.protocol.meta.Meta.MetaType;
+import com.slytechs.protocol.meta.MetaResource;
+import com.slytechs.protocol.pack.PackId;
+import com.slytechs.protocol.pack.core.constants.CoreId;
 
 /**
  * The Class Icmp.
@@ -28,7 +35,16 @@ import com.slytechs.protocol.Header;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-public class Icmp extends Header {
+@MetaResource("icmp-meta.json")
+public sealed class Icmp extends Header
+		permits Icmp4, Icmp6 {
+
+	public static int ID = CoreId.CORE_ID_ICMP;
+	private int version;
+
+	public Icmp() {
+		super(ID);
+	}
 
 	/**
 	 * Instantiates a new icmp.
@@ -49,4 +65,35 @@ public class Icmp extends Header {
 		super(id, lock);
 	}
 
+	@Meta
+	public int type() {
+		return Byte.toUnsignedInt(buffer().get(ICMPv4_FIELD_TYPE));
+	}
+
+	@Meta
+	public int code() {
+		return Byte.toUnsignedInt(buffer().get(ICMPv4_FIELD_CODE));
+	}
+
+	@Meta
+	public int checksum() {
+		return Short.toUnsignedInt(buffer().get(ICMPv4_FIELD_CHECKSUM));
+	}
+
+	@Override
+	protected void onBind() {
+		super.onBind();
+
+		int effectiveId = getHeaderDescriptor().getEffectiveId();
+
+		this.version = PackId.classmaskCheck(CoreId.CORE_CLASS_V4, effectiveId)
+				? 4
+				: 6;
+
+	}
+
+	@Meta(MetaType.ATTRIBUTE)
+	public int version() {
+		return this.version;
+	}
 }

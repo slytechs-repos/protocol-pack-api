@@ -97,10 +97,10 @@ public final class Ip6 extends Ip<Ip6Option> {
 	 * Dst address.
 	 *
 	 * @return the ip address
-	 * @see com.slytechs.protocol.pack.core.Ip#dstAddress()
+	 * @see com.slytechs.protocol.pack.core.Ip#dstAsAddress()
 	 */
 	@Override
-	public IpAddress dstAddress() {
+	public IpAddress dstAsAddress() {
 		return new Ip6Address(dst());
 	}
 
@@ -233,10 +233,10 @@ public final class Ip6 extends Ip<Ip6Option> {
 	 * Src get as address.
 	 *
 	 * @return the ip address
-	 * @see com.slytechs.protocol.pack.core.Ip#srcGetAsAddress()
+	 * @see com.slytechs.protocol.pack.core.Ip#srcAsAddress()
 	 */
 	@Override
-	public IpAddress srcGetAsAddress() {
+	public IpAddress srcAsAddress() {
 		return new Ip6Address(src());
 	}
 
