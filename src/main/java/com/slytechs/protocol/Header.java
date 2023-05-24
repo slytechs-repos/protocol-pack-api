@@ -22,6 +22,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Supplier;
 
+import com.slytechs.protocol.descriptor.HeaderDescriptor;
 import com.slytechs.protocol.descriptor.PacketDescriptor;
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.Meta.MetaType;
@@ -38,6 +39,8 @@ import com.slytechs.protocol.runtime.util.HexStrings;
  * @author repos@slytechs.com
  */
 public abstract class Header extends MemoryBinding implements DetailedString {
+
+	private final HeaderDescriptor headerDescriptor = new HeaderDescriptor();
 
 	/** The lock factory. */
 	private static Supplier<Lock> LOCK_FACTORY = ReentrantLock::new;
@@ -89,6 +92,10 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	 * @param meta       the meta data, such as descriptor/lookup specific data
 	 *                   which aids in extension header lookup
 	 */
+	void bindExtensionsToPacket(ByteBuffer packet, PacketDescriptor descriptor) {
+		// Do nothing by default
+	}
+	
 	void bindExtensionsToPacket(ByteBuffer packet, PacketDescriptor descriptor, int meta) {
 		// Do nothing by default
 	}
@@ -110,6 +117,15 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	 * @param offset     the offset
 	 * @param length     the length
 	 */
+	final void bindHeaderToPacket(ByteBuffer packet, PacketDescriptor descriptor) {
+		this.headerOffset = headerDescriptor.getOffset();
+		this.headerLength = headerDescriptor.getLength();
+		this.payloadLength = calcPayloadLength(packet, descriptor, this.headerOffset, this.headerLength);
+		this.descriptor = descriptor;
+
+		super.bind(packet.slice(this.headerOffset, this.headerLength));
+	}
+	
 	final void bindHeaderToPacket(ByteBuffer packet, PacketDescriptor descriptor, int offset, int length) {
 		this.headerOffset = offset;
 		this.headerLength = length;
@@ -296,5 +312,14 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 		case TRACE, DEBUG -> "%s [offset=%d, length=%d, payload=%d, id=%04X]"
 				.formatted(headerName(), offset, length, payloadLength(), id());
 		};
+	}
+
+	/**
+	 * Header descriptor.
+	 *
+	 * @return the header descriptor
+	 */
+	public HeaderDescriptor getHeaderDescriptor() {
+		return headerDescriptor;
 	}
 }

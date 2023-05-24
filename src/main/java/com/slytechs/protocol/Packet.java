@@ -17,8 +17,6 @@
  */
 package com.slytechs.protocol;
 
-import static com.slytechs.protocol.descriptor.CompactDescriptor.*;
-
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Objects;
@@ -26,12 +24,14 @@ import java.util.Objects;
 import com.slytechs.protocol.descriptor.CompactDescriptor;
 import com.slytechs.protocol.descriptor.Descriptor;
 import com.slytechs.protocol.descriptor.DescriptorType;
+import com.slytechs.protocol.descriptor.HeaderDescriptor;
 import com.slytechs.protocol.descriptor.PacketDescriptor;
 import com.slytechs.protocol.descriptor.Type2Descriptor;
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.meta.PacketFormat;
+import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.core.constants.CoreId;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 import com.slytechs.protocol.runtime.MemoryBinding;
@@ -143,25 +143,18 @@ public final class Packet
 	 * @param frame the frame
 	 */
 	private void bindFrameHeader(Frame frame) {
-		bindHeader(frame, 0, captureLength(), 0);
+		var hd = frame.getHeaderDescriptor();
+		hd.assign(CoreId.CORE_ID_FRAME, 0, 0, captureLength(), descriptor.type());
+
+		bindHeader(frame);
 		frame.bindDescriptor(descriptor);
 	}
 
-	/**
-	 * Bind header.
-	 *
-	 * @param <T>    the generic type
-	 * @param header the header
-	 * @param offset the offset
-	 * @param length the length
-	 * @param meta   the meta
-	 * @return true, if successful
-	 */
-	private <T extends Header> boolean bindHeader(T header, int offset, int length, int meta) {
+	private <T extends Header> boolean bindHeader(T header) {
 		ByteBuffer buffer = buffer();
 
-		header.bindHeaderToPacket(buffer, descriptor, offset, length);
-		header.bindExtensionsToPacket(buffer, descriptor, meta);
+		header.bindHeaderToPacket(buffer, descriptor);
+		header.bindExtensionsToPacket(buffer, descriptor);
 
 		header.setFormatter(formatter);
 
@@ -177,16 +170,23 @@ public final class Packet
 		var headers = lookup.listHeaders();
 
 		if (headers.length == 0) {
-			bindHeader(payload, 0, captureLength(), 0);
-			return;
+			var hd = payload.getHeaderDescriptor();
+			hd.assign(CoreId.CORE_ID_PAYLOAD, 0, 0, captureLength(), descriptor.type());
+
+			bindHeader(payload);
+
+		} else {
+
+			var lastHeader = headers[headers.length - 1];
+			int offset = PackId.decodeRecordOffset(lastHeader)
+					+ PackId.decodeRecordSize(lastHeader);
+			int length = captureLength() - offset;
+
+			var hd = payload.getHeaderDescriptor();
+			hd.assign(CoreId.CORE_ID_PAYLOAD, 0, offset, length, descriptor.type());
+
+			bindHeader(payload);
 		}
-
-		var lastHeader = headers[headers.length - 1];
-		int offset = CompactDescriptor.decodeOffset(lastHeader)
-				+ CompactDescriptor.decodeLength(lastHeader);
-		int length = captureLength() - offset;
-
-		bindHeader(payload, offset, length, 0);
 	}
 
 	/**
@@ -288,7 +288,7 @@ public final class Packet
 	 */
 	@Override
 	public final boolean hasHeader(int headerId, int depth) {
-		return lookupHeader(headerId, depth) != ID_NOT_FOUND;
+		return lookupHeader(headerId, depth, HeaderDescriptor.EMPTY);
 	}
 
 	/**
@@ -319,8 +319,8 @@ public final class Packet
 	 * @param depth the depth
 	 * @return the long
 	 */
-	protected final long lookupHeader(int id, int depth) {
-		return lookup.lookupHeader(id, 0);
+	private final boolean lookupHeader(int id, int depth, HeaderDescriptor headerDescriptor) {
+		return lookup.lookupHeader(id, 0, headerDescriptor);
 	}
 
 	/**
@@ -367,20 +367,10 @@ public final class Packet
 			} else if (id == CoreId.CORE_ID_PAYLOAD && (header instanceof Payload payload)) {
 				bindPayloadHeader(payload);
 
-			} else {
-
-				long compact = lookupHeader(id, depth);
-				if (compact == CompactDescriptor.ID_NOT_FOUND) {
-					header.unbind();
-					return null;
-				}
-
-				int offset = CompactDescriptor.decodeOffset(compact);
-				int length = CompactDescriptor.decodeLength(compact);
-				int meta = CompactDescriptor.decodeMeta(compact);
-
-				bindHeader(header, offset, length, meta);
-			}
+			} else if (lookupHeader(id, depth, header.getHeaderDescriptor()))
+				bindHeader(header); // HeaderDescriptor is filled in
+			else
+				return null;
 
 			return header;
 
@@ -510,7 +500,7 @@ public final class Packet
 						Arrays.asList(descriptor.toDescriptorArray())
 //						descriptor.peekDescriptor(IpfDescriptorType.IPF_FRAG)
 
-				);
+			);
 		case OFF -> "";
 		default -> throw new IllegalArgumentException("Unexpected value: " + detail);
 		};

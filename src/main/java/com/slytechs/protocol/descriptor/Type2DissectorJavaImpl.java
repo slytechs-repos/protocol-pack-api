@@ -343,15 +343,16 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 		if (!hasRemaining(offset, ICMPv4_HEADER_LEN))
 			return;
 
-		addRecord(CoreId.CORE_ID_ICMPv4, offset, ICMPv4_HEADER_LEN);
-
-		int type = Byte.toUnsignedInt(buf.get(offset + ICMPv4_FIELD_TYPE));
 		int code = Byte.toUnsignedInt(buf.get(offset + ICMPv4_FIELD_CODE));
+		int type = Byte.toUnsignedInt(buf.get(offset + ICMPv4_FIELD_TYPE));
 
-		int len = switch (code) {
+		switch (type) {
+		case ICMPv4_TYPE_ECHO_REQUEST, ICMPv4_TYPE_ECHO_REPLY ->
+			addRecord(CoreId.CORE_ID_ICMPv4_ECHO, offset, ICMPv4_ECHO_HEADER_LEN);
 
-		default -> ICMPv4_HEADER_LEN;
+		default -> addRecord(CoreId.CORE_ID_ICMPv4, offset, ICMPv4_HEADER_LEN);
 		};
+
 	}
 
 	/**

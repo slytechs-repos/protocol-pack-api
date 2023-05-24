@@ -53,7 +53,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	private int hash24, hash32;
 
 	/** The expanded header arrays. */
-	private long[] expandedHeaderArrays;
+	private long[] recordArray;
 
 	/**
 	 * Instantiates a new type 2 descriptor.
@@ -262,12 +262,12 @@ public class Type2Descriptor extends PacketDescriptor {
 	@Override
 	public long[] listHeaders() {
 		int recordCount = recordCount();
-		expandedHeaderArrays = new long[recordCount];
+		recordArray = new long[recordCount];
 
 		for (int i = 0; i < recordCount; i++)
-			expandedHeaderArrays[i] = PackId.recordToCompactDescriptor(record(i));
+			recordArray[i] = record(i);
 
-		return expandedHeaderArrays;
+		return recordArray;
 	}
 
 	/**
@@ -296,32 +296,25 @@ public class Type2Descriptor extends PacketDescriptor {
 		return CompactDescriptor.ID_NOT_FOUND;
 	}
 
-	/**
-	 * Lookup header.
-	 *
-	 * @param headerId the header id
-	 * @param depth    the depth
-	 * @return the long
-	 * @see com.slytechs.protocol.HeaderLookup#lookupHeader(int, int)
-	 */
 	@Override
-	public long lookupHeader(int headerId, int depth) {
+	public boolean lookupHeader(int headerId, int depth, HeaderDescriptor descriptor) {
 		if (headerId == CoreId.CORE_ID_PAYLOAD)
-			return lookupPayloadEntirePacket();
+			return false;
 
 		final int mask = bitmask();
-		if (!PackId.bitmaskCheck(mask, headerId))
-			return CompactDescriptor.ID_NOT_FOUND;
+		if (!PackId.bitmaskCheck(mask, headerId) && PackId.classBitmaskIsEmpty(headerId))
+			return false;
 
+		int effectiveDepth = depth;
 		final int recordCount = recordCount();
 		for (int i = 0; i < recordCount; i++) {
 			final long record = record(i);
 
-			if (PackId.recordEqualsId(record, headerId) && (depth-- == 0))
-				return PackId.recordToCompactDescriptor(record, headerId, i); // Record with a hint (i)!
+			if (PackId.recordEqualsId(record, headerId) && (effectiveDepth-- == 0))
+				return descriptor.assignFromRecord(record, depth, i, type());
 		}
 
-		return CompactDescriptor.ID_NOT_FOUND;
+		return false;
 	}
 
 	/**
@@ -343,7 +336,7 @@ public class Type2Descriptor extends PacketDescriptor {
 			return lookupExtension(extId, recordIndexHint + 1, recordCount());
 
 		final int mask = bitmask();
-		if (!PackId.bitmaskCheck(mask, headerId))
+		if (!PackId.bitmaskCheck(mask, headerId) && PackId.classBitmaskIsEmpty(headerId))
 			return CompactDescriptor.ID_NOT_FOUND;
 
 		final int recordCount = recordCount();
@@ -376,15 +369,6 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * Lookup payload entire packet.
-	 *
-	 * @return the long
-	 */
-	private long lookupPayloadEntirePacket() {
-		return CompactDescriptor.encode(CoreId.CORE_ID_PAYLOAD, 0, captureLength());
-	}
-
-	/**
 	 * On bind.
 	 *
 	 * @see com.slytechs.protocol.runtime.MemoryBinding#onBind()
@@ -392,7 +376,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	@Override
 	protected void onBind() {
 		mask = hashType = hash24 = hash32 = -1;
-		expandedHeaderArrays = null;
+		recordArray = null;
 	}
 
 	/**
@@ -520,9 +504,10 @@ public class Type2Descriptor extends PacketDescriptor {
 					.append("  recordCount=%d%n".formatted(recordCount()));
 
 			if (detail.isHigh())
-				b.append("  bitmask=0x%016X (0b%s)%n".formatted(
+				b.append("  bitmask=0x%016X (0b%s) %s%n".formatted(
 						bitmask(),
-						Integer.toBinaryString(bitmask())));
+						Integer.toBinaryString(bitmask()),
+						CoreId.toSetFromBitmask(bitmask())));
 		}
 
 		if (detail.isHigh()) {
@@ -534,7 +519,7 @@ public class Type2Descriptor extends PacketDescriptor {
 				long record = record(i);
 				int pack = PackId.decodeRecordPackId(record);
 				int id = PackId.decodeRecordId(record);
-				int classMask = PackId.decodeRecordClassMask(record);
+				int classMask = PackId.decodeRecordClassBitmask(record);
 				int offset = PackId.decodeRecordOffset(record);
 				int length = PackId.decodeRecordSize(record);
 
@@ -712,4 +697,5 @@ public class Type2Descriptor extends PacketDescriptor {
 		super.onUnbind();
 		hash24 = hash32 = hashType = mask = -1;
 	}
+
 }

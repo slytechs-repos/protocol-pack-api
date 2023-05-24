@@ -96,19 +96,6 @@ public final class PcapDescriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * Lookup header.
-	 *
-	 * @param headerId the header id
-	 * @param depth    the depth
-	 * @return the long
-	 * @see com.slytechs.protocol.HeaderLookup#lookupHeader(int, int)
-	 */
-	@Override
-	public long lookupHeader(int headerId, int depth) {
-		return CompactDescriptor.ID_NOT_FOUND;
-	}
-
-	/**
 	 * Timestamp.
 	 *
 	 * @return the long
@@ -198,5 +185,14 @@ public final class PcapDescriptor extends PacketDescriptor {
 	@Override
 	public long lookupHeaderExtension(int headerId, int extId, int depth, int recordIndexHint) {
 		return CompactDescriptor.ID_NOT_FOUND;
+	}
+
+	/**
+	 * @see com.slytechs.protocol.HeaderLookup#lookupHeader(int, int,
+	 *      com.slytechs.protocol.descriptor.HeaderDescriptor)
+	 */
+	@Override
+	public boolean lookupHeader(int id, int depth, HeaderDescriptor descriptor) {
+		return false;
 	}
 }

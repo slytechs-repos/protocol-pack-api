@@ -82,81 +82,76 @@ public class Type1Descriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * Lookup header.
-	 *
-	 * @param id    the id
-	 * @param depth the depth
-	 * @return the long
-	 * @see com.slytechs.protocol.HeaderLookup#lookupHeader(int, int)
+	 * @see com.slytechs.protocol.HeaderLookup#lookupHeader(int, int,
+	 *      com.slytechs.protocol.descriptor.HeaderDescriptor)
 	 */
 	@Override
-	public long lookupHeader(int id, int depth) {
-
+	public boolean lookupHeader(int id, int depth, HeaderDescriptor descriptor) {
 		if (id == CORE_ID_VLAN) {
 			if (depth < vlanCount()) {
 				int offset = ETHER_HEADER_LEN + depth * VLAN_HEADER_LEN;
 
-				return CompactDescriptor.encode(id, offset, VLAN_HEADER_LEN);
+				return descriptor.assign(id, depth, offset, VLAN_HEADER_LEN, type());
 			}
 
-			return CompactDescriptor.ID_NOT_FOUND;
+			return false;
 		}
 
 		if (id == CORE_ID_MPLS) {
 			if (depth < mplsCount()) {
 				int offset = ETHER_HEADER_LEN + depth * MPLS_HEADER_LEN;
 
-				return CompactDescriptor.encode(id, offset, MPLS_HEADER_LEN);
+				return descriptor.assign(id, depth, offset, MPLS_HEADER_LEN, type());
 			}
 
-			return CompactDescriptor.ID_NOT_FOUND;
+			return false;
 		}
 
 		/*
 		 * With Type1 besides VLAN and MPLS there is no depth
 		 */
 		if (depth != 0)
-			return CompactDescriptor.ID_NOT_FOUND;
+			return false;
 
 		return switch (id) {
 
-		case CORE_ID_ETHER -> l2(L2_FRAME_TYPE_ETHER, id, 0, ETHER_HEADER_LEN);
-		case CORE_ID_LLC -> l2(L2_FRAME_TYPE_LLC, id, ETHER_HEADER_LEN, LLC_HEADER_LEN);
-		case CORE_ID_SNAP -> l2(L2_FRAME_TYPE_SNAP, id, ETHER_HEADER_LEN + LLC_HEADER_LEN, SNAP_HEADER_LEN);
+		case CORE_ID_ETHER -> l2(L2_FRAME_TYPE_ETHER, id, 0, ETHER_HEADER_LEN, descriptor);
+		case CORE_ID_LLC -> l2(L2_FRAME_TYPE_LLC, id, ETHER_HEADER_LEN, LLC_HEADER_LEN, descriptor);
+		case CORE_ID_SNAP -> l2(L2_FRAME_TYPE_SNAP, id, ETHER_HEADER_LEN + LLC_HEADER_LEN, SNAP_HEADER_LEN, descriptor);
 
-		case CORE_ID_IPv4 -> l3(L3_FRAME_TYPE_IPv4, id);
-		case CORE_ID_IPv6 -> l3(L3_FRAME_TYPE_IPv6, id);
-		case CORE_ID_IPX -> l3(L3_FRAME_TYPE_IPX, id);
+		case CORE_ID_IPv4 -> l3(L3_FRAME_TYPE_IPv4, id, descriptor);
+		case CORE_ID_IPv6 -> l3(L3_FRAME_TYPE_IPv6, id, descriptor);
+		case CORE_ID_IPX -> l3(L3_FRAME_TYPE_IPX, id, descriptor);
 
-		case CORE_ID_TCP -> l4(L4_FRAME_TYPE_TCP, id);
-		case CORE_ID_UDP -> l4(L4_FRAME_TYPE_UDP, id);
-		case CORE_ID_ICMPv4 -> l4(L4_FRAME_TYPE_ICMP, id);
-		case CORE_ID_GRE -> l4(L4_FRAME_TYPE_GRE, id);
-		case CORE_ID_SCTP -> l4(L4_FRAME_TYPE_SCTP, id);
+		case CORE_ID_TCP -> l4(L4_FRAME_TYPE_TCP, id, descriptor);
+		case CORE_ID_UDP -> l4(L4_FRAME_TYPE_UDP, id, descriptor);
+		case CORE_ID_ICMPv4 -> l4(L4_FRAME_TYPE_ICMP, id, descriptor);
+		case CORE_ID_GRE -> l4(L4_FRAME_TYPE_GRE, id, descriptor);
+		case CORE_ID_SCTP -> l4(L4_FRAME_TYPE_SCTP, id, descriptor);
 
-		default -> CompactDescriptor.ID_NOT_FOUND;
+		default -> false;
 		};
 	}
 
-	private long l4(int l4, int id) {
+	private boolean l4(int l4, int id, HeaderDescriptor descriptor) {
 		if (l4 == l4FrameType())
-			return CompactDescriptor.encode(id, l4Offset(), l4SizeBytes());
+			return descriptor.assign(id, 0, l4Offset(), l4SizeBytes(), type());
 
-		return CompactDescriptor.ID_NOT_FOUND;
+		return false;
 	}
 
-	private long l3(int l3, int id) {
+	private boolean l3(int l3, int id, HeaderDescriptor descriptor) {
 		if (l3 == l3FrameType())
-			return CompactDescriptor.encode(id, l3Offset(), l3SizeBytes());
+			return descriptor.assign(id, 0, l3Offset(), l3SizeBytes(), type());
 
-		return CompactDescriptor.ID_NOT_FOUND;
+		return false;
 	}
 
-	private long l2(int l2, int id, int offset, int length) {
+	private boolean l2(int l2, int id, int offset, int length, HeaderDescriptor descriptor) {
 		if (l2 == l2FrameType())
-			return CompactDescriptor.encode(id, offset, length);
+			return descriptor.assign(id, 0, offset, length, type());
 
-		return CompactDescriptor.ID_NOT_FOUND;
+		return false;
 	}
 
 	/**

@@ -81,27 +81,38 @@ public interface PackId {
 
 	/** The pack mask ordinal. */
 	// @formatter:off
+	
+	/** RECORD not found in the record table */
+	long RECORD_NOT_FOUND = -1;
+	
+	/** The pack id not found. */
+	int ID_NOT_FOUND = -1;
+	
 	int PACK_MASK_ORDINAL  = 0x000000FF;  // 07:00 - 8 bits, protocol number
 	
 	/** The pack mask pack. */
 	int PACK_MASK_PACK     = 0x0000FF00;  // 15:08 - 8 bits, protocol pack number
 	
 	/** The pack mask pack. */
-	int PACK_MASK_CLASS_MASK = 0xFFFF_0000;  // 31:16 - 16 bits, classification bitmask
+	int PACK_MASK_CLASSBITMASK = 0xFFFF_0000;  // 31:16 - 16 bits, classification bitmask
 	
 	/** The pack mask unpack. */
-	int PACK_MASK_UNPACK   = 0xFFFFFFFF;  // 09:00 - Pack + Ordinal
+	int PACK_MASK_ID   = 0xFFFFFFFF;  // 09:00 - Pack + Ordinal
+	
+	/** The pack mask unpack. */
+	int PACK_MASK_PACK_ORDINAL   = 0x0000FFFF;  // 09:00 - Pack + Ordinal
 	
 	/** The record mask ordinal. */
 	long RECORD_MASK_ORDINAL = 0x00000000_000000FFL; // 05:00 - 6 bits, protocol number
 	
-	long RECORD_MASK_CLASS_MASK = 0x00000000_FFFF000FL; // 05:00 - 6 bits, protocol number
+	long RECORD_MASK_CLASSBITMASK = 0x00000000_FFFF000FL; // 05:00 - 6 bits, protocol number
 	
 	/** The record mask pack. */
 	long RECORD_MASK_PACK    = 0x00000000_0000FF00L; // 09:06 - 4 bits, protocol pack number
 	
 	/** The record mask unpack. */
-	long RECORD_MASK_UNPACK  = 0x00000000_0000FFFFL; // 09:00 - Pack + Ordinal
+	long RECORD_MASK_ID     = 0x00000000_FFFFFFFFL; // 09:00 - Pack + Ordinal
+	long RECORD_MASK_PACK_ORDINAL  = 0x00000000_0000FFFFL; // 09:00 - Pack + Ordinal
 	
 	/** The record mask size. */
 	long RECORD_MASK_SIZE    = 0x0000FFFF_00000000L; // 20:10 - 11 bits (in units of 32 bits)
@@ -114,7 +125,7 @@ public interface PackId {
 	// @formatter:off
 	int PACK_SHIFT_ORDINAL  = 0;
 	
-	int PACK_SHIFT_CLASS_MASK = 16;
+	int PACK_SHIFT_CLASSBITMASK = 16;
 	
 	/** The pack shift pack. */
 	int PACK_SHIFT_PACK     = 8;
@@ -126,7 +137,7 @@ public interface PackId {
 	int RECORD_SHIFT_PACK    = 8;
 	
 	/** The record shift classification mask. */
-	int RECORD_SHIFT_CLASS_MASK    = 16;
+	int RECORD_SHIFT_CLASSBITMASK    = 16;
 	
 	/** The record shift size. */
 	int RECORD_SHIFT_SIZE    = 32;
@@ -166,6 +177,20 @@ public interface PackId {
 		return (1L << decodeIdOrdinal(id)) | mask;
 	}
 
+	static boolean classBitmaskIsEmpty(int idSrcMask) {
+		return (idSrcMask & PACK_MASK_CLASSBITMASK) == 0;
+	}
+
+	static boolean classBitmaskIsPresent(int idSrcMask) {
+		return (idSrcMask & PACK_MASK_CLASSBITMASK) > 0;
+	}
+
+	static boolean classmaskCheck(int classBitmask, int id) {
+		int mask = (classBitmask & PACK_MASK_CLASSBITMASK);
+
+		return (id & mask) == mask;
+	}
+
 	/**
 	 * Decode id ordinal.
 	 *
@@ -186,8 +211,8 @@ public interface PackId {
 		return (id & PACK_MASK_PACK);
 	}
 
-	static int decodePackClassMask(int id) {
-		return (id & PACK_MASK_CLASS_MASK) >> PACK_SHIFT_CLASS_MASK;
+	static int decodePackClassBitmask(int id) {
+		return (id & PACK_MASK_CLASSBITMASK);
 	}
 
 	/**
@@ -197,7 +222,7 @@ public interface PackId {
 	 * @return the int
 	 */
 	static int decodeRecordId(int id) {
-		return (id & PACK_MASK_UNPACK);
+		return (id & PACK_MASK_ID);
 	}
 
 	/**
@@ -249,9 +274,9 @@ public interface PackId {
 	static int decodeRecordPackId(long record) {
 		return (int) (record & RECORD_MASK_PACK);
 	}
-	
-	static int decodeRecordClassMask(long record) {
-		return (int) (record & RECORD_MASK_CLASS_MASK) >> RECORD_SHIFT_CLASS_MASK;
+
+	static int decodeRecordClassBitmask(long record) {
+		return (int) (record & RECORD_MASK_CLASSBITMASK) >> RECORD_SHIFT_CLASSBITMASK;
 	}
 
 	/**
@@ -308,7 +333,7 @@ public interface PackId {
 	 * @return the int
 	 */
 	static int decodeRecordId(long record) {
-		return (int) (record & RECORD_MASK_UNPACK);
+		return (int) (record & RECORD_MASK_ID);
 	}
 
 	/**
@@ -320,7 +345,11 @@ public interface PackId {
 	 * @return true, if protocol IDs of both id and encoded are equals
 	 */
 	static boolean recordEqualsId(long record, int id) {
-		return (record & PACK_MASK_UNPACK) == id;
+		int recordId = (int) (record & RECORD_MASK_ID);
+
+		return false
+				|| (recordId == id)
+				|| classmaskCheck(id, recordId);
 	}
 
 	/**

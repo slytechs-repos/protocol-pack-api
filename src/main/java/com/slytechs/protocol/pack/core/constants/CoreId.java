@@ -19,6 +19,8 @@ package com.slytechs.protocol.pack.core.constants;
 
 import static com.slytechs.protocol.pack.ProtocolPackTable.*;
 
+import java.util.EnumSet;
+import java.util.Set;
 import java.util.function.IntFunction;
 import java.util.function.Supplier;
 
@@ -149,21 +151,21 @@ public enum CoreId implements HeaderInfo, PackId {
 			.formatted(Integer.toBinaryString(v))
 			.replace(' ', '0');
 
-	/** The Constant CORE_CLASS_V4. */
 	// @formatter:off
-	public static final int CORE_CLASS_V4     = 1 << (0 + PACK_SHIFT_CLASS_MASK);
+	/** The Constant CORE_CLASS_V4. */
+	public static final int CORE_CLASS_V4     = 1 << (0 + PACK_SHIFT_CLASSBITMASK);
 	
 	/** The Constant CORE_CLASS_V6. */
-	public static final int CORE_CLASS_V6     = 1 << (1 + PACK_SHIFT_CLASS_MASK);
+	public static final int CORE_CLASS_V6     = 1 << (1 + PACK_SHIFT_CLASSBITMASK);
 	
 	/** The Constant CORE_CLASS_IP. */
-	public static final int CORE_CLASS_IP     = 1 << (2 + PACK_SHIFT_CLASS_MASK);
+	public static final int CORE_CLASS_IP     = 1 << (2 + PACK_SHIFT_CLASSBITMASK);
 	
 	/** The Constant CORE_CLASS_ICMP. */
-	public static final int CORE_CLASS_ICMP   = 1 << (3 + PACK_SHIFT_CLASS_MASK);
+	public static final int CORE_CLASS_ICMP   = 1 << (3 + PACK_SHIFT_CLASSBITMASK);
 	
 	/** The Constant CORE_CLASS_DHCP. */
-	public static final int CORE_CLASS_DHCP   = 1 << (4 + PACK_SHIFT_CLASS_MASK);
+	public static final int CORE_CLASS_DHCP   = 1 << (4 + PACK_SHIFT_CLASSBITMASK);
 	
 	/** The Constant CORE_CLASS_IPv4. */
 	public static final int CORE_CLASS_IPv4   = CORE_CLASS_IP | CORE_CLASS_V4;
@@ -277,6 +279,27 @@ public enum CoreId implements HeaderInfo, PackId {
 	// @formatter:on
 
 	/**
+	 * To string id.
+	 *
+	 * @param id the id
+	 * @return the core header info
+	 */
+	public static CoreId toStringId(int id) {
+		return values()[PackId.decodeIdOrdinal(id)];
+	}
+
+	public static Set<CoreId> toSetFromBitmask(long bitmask) {
+		var set = EnumSet.noneOf(CoreId.class);
+
+		for (CoreId e : values()) {
+			if (PackId.bitmaskCheck(bitmask, e.id))
+				set.add(e);
+		}
+
+		return set;
+	}
+
+	/**
 	 * Value of.
 	 *
 	 * @param id the id
@@ -352,16 +375,6 @@ public enum CoreId implements HeaderInfo, PackId {
 	@Override
 	public int id() {
 		return id;
-	}
-
-	/**
-	 * To string id.
-	 *
-	 * @param id the id
-	 * @return the core header info
-	 */
-	public static CoreId toStringId(int id) {
-		return values()[PackId.decodeIdOrdinal(id)];
 	}
 
 	/**

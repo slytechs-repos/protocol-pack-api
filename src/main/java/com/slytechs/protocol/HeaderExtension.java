@@ -144,6 +144,13 @@ public abstract class HeaderExtension<T extends Header>
 	 *      com.slytechs.protocol.HeaderLookup, int)
 	 */
 	@Override
+	void bindExtensionsToPacket(ByteBuffer packet, PacketDescriptor descriptor) {
+		this.packet = packet;
+		this.descriptor = descriptor;
+		this.meta = super.getHeaderDescriptor().getMeta();
+	}
+	
+	@Override
 	void bindExtensionsToPacket(ByteBuffer packet, PacketDescriptor descriptor, int meta) {
 		this.packet = packet;
 		this.descriptor = descriptor;
