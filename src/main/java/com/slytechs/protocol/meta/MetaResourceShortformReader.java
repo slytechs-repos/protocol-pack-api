@@ -170,8 +170,9 @@ public class MetaResourceShortformReader extends MetaResourceReader {
 	 * Sets the ordinal attributes in the form "100+10" and so on.
 	 *
 	 * @param metaString the new ordinal attributes
+	 * @return 
 	 */
-	private void setOrdinalAttributes(String metaString) {
+	private String setOrdinalAttributes(String metaString) {
 		this.ordinal = 10;
 		this.ordinalInc = 10;
 
@@ -188,6 +189,10 @@ public class MetaResourceShortformReader extends MetaResourceReader {
 				break;
 			}
 		}
+		
+		metaString = metaString.replaceFirst(";[\\d\\+]+", "");
+		
+		return metaString;
 	}
 
 	/**
@@ -205,7 +210,7 @@ public class MetaResourceShortformReader extends MetaResourceReader {
 
 		var displayBuilder = new JsonObjectBuilder();
 
-		setOrdinalAttributes(metaString);
+		metaString = setOrdinalAttributes(metaString);
 		top.add("meta", inflateHeaderMeta(metaString));
 
 		String label = stripLabel(metaString);
