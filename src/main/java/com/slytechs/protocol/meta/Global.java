@@ -52,7 +52,7 @@ class Global extends MapMetaContext {
 	 * @param func the func
 	 * @return the v
 	 */
-	public static <K, V> V compute(K key, Function<K, V> func) {
+	public synchronized static <K, V> V compute(K key, Function<K, V> func) {
 		return get().getOrCompute(key, func);
 	}
 }

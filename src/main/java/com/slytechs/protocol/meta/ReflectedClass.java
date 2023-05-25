@@ -20,10 +20,12 @@ package com.slytechs.protocol.meta;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -43,13 +45,66 @@ class ReflectedClass extends ReflectedComponent {
 	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger.getLogger(ReflectedClass.class.getPackageName());
 
+	private static final Function<Class<?>, ReflectedClass> STORAGE = cl -> Global.compute(cl, ReflectedClass::parse);
+
+	static ReflectedClass parse(Class<?> cl) {
+
+		ReflectedClass sup = getReflectedParentClass(cl);
+
+		if (sup == null)
+			return parseClassNoMerge(cl);
+		else
+			return parseClassAndMerge(cl, sup);
+	}
+
+	private static ReflectedClass getReflectedParentClass(Class<?> cl) {
+		Class<?> supCl = cl.getSuperclass();
+		boolean isMetaClass = (supCl != null)
+				&& (supCl != Object.class)
+				&& (supCl.isAnnotationPresent(Meta.class) || supCl.isAnnotationPresent(MetaResource.class));
+
+		if (!isMetaClass)
+			return null;
+
+		return STORAGE.apply(supCl);
+	}
+
+	static ReflectedClass parseClassAndMerge(Class<?> cl, ReflectedClass parentReflectedClass) {
+
+		ReflectedClass unmerged = parseClassNoMerge(cl);
+
+		return mergeReflectedClasses(parentReflectedClass, unmerged, unmerged.getMetaType(MetaInfo.class));
+	}
+
+	static ReflectedClass mergeReflectedClasses(ReflectedClass baseClass, ReflectedClass subClass, MetaInfo metaInfo) {
+		Map<String, ReflectedMember> rm1 = baseClass.fieldsMap;
+		Map<String, ReflectedMember> rm2 = subClass.fieldsMap;
+
+		/* Populate with subClass fields first */
+		Map<String, ReflectedMember> combined = new HashMap<>(rm2);
+
+		/* Now add any missing baseClass fields */
+		for (String key : rm1.keySet())
+			combined.putIfAbsent(key, rm1.get(key));
+
+		ReflectedMethod[] methods = combined.values().stream()
+				.filter(ReflectedMember::isClassMethod)
+				.toArray(ReflectedMethod[]::new);
+
+		ReflectedField[] fields = combined.values().stream()
+				.filter(ReflectedMember::isClassField)
+				.toArray(ReflectedField[]::new);
+
+		return new ReflectedClass(subClass.classType, metaInfo, methods, fields);
+	}
+
 	/**
 	 * Parses the.
 	 *
 	 * @param cl the cl
 	 * @return the reflected class
 	 */
-	static ReflectedClass parse(Class<?> cl) {
+	static ReflectedClass parseClassNoMerge(Class<?> cl) {
 		JsonObject jsonConf = null;
 		JsonObject jsonFields = null;
 
@@ -84,10 +139,10 @@ class ReflectedClass extends ReflectedComponent {
 	static JsonObject readMetaResource(String resourceName) throws JsonException {
 		JsonObject conf = new MetaResourceShortformReader(resourceName)
 				.toJsonObj();
-		
+
 		if (conf == null)
 			throw new IllegalStateException("meta resource not found [%s]".formatted(resourceName));
-		
+
 		return conf;
 	}
 
@@ -175,7 +230,7 @@ class ReflectedClass extends ReflectedComponent {
 	 *
 	 * @return the member fields
 	 */
-	public ReflectedField[] getMemberFields() {
+	private ReflectedField[] getMemberFields() {
 		return memberFields;
 	}
 
@@ -184,7 +239,7 @@ class ReflectedClass extends ReflectedComponent {
 	 *
 	 * @return the member methods
 	 */
-	public ReflectedMethod[] getMemberMethods() {
+	private ReflectedMethod[] getMemberMethods() {
 		return memberMethods;
 	}
 

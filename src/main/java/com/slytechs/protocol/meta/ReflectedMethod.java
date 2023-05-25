@@ -62,10 +62,10 @@ class ReflectedMethod extends ReflectedMember {
 	 */
 	private static void parseMethodsRecursively(Class<?> cl, List<ReflectedMethod> list, JsonObject jsonFields) {
 
-		if (cl.getSuperclass() == Object.class)
-			return;
-
-		parseMethodsRecursively(cl.getSuperclass(), list, jsonFields);
+//		if (cl.getSuperclass() == Object.class)
+//			return;
+//
+//		parseMethodsRecursively(cl.getSuperclass(), list, jsonFields);
 
 		for (Method m : cl.getDeclaredMethods()) {
 			if (m.isAnnotationPresent(Meta.class))
@@ -180,5 +180,13 @@ class ReflectedMethod extends ReflectedMember {
 	@Override
 	protected Member getMember() {
 		return getMethod();
+	}
+
+	/**
+	 * @see com.slytechs.protocol.meta.ReflectedMember#isClassMethod()
+	 */
+	@Override
+	public boolean isClassMethod() {
+		return true;
 	}
 }

@@ -192,4 +192,12 @@ class ReflectedField extends ReflectedMember {
 	protected Member getMember() {
 		return getField();
 	}
+
+	/**
+	 * @see com.slytechs.protocol.meta.ReflectedMember#isClassMethod()
+	 */
+	@Override
+	public boolean isClassMethod() {
+		return false;
+	}
 }

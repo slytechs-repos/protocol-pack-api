@@ -69,6 +69,12 @@ public abstract class ReflectedMember extends ReflectedComponent {
 	 */
 	protected abstract Member getMember();
 
+	public abstract boolean isClassMethod();
+
+	public boolean isClassField() {
+		return !isClassMethod();
+	}
+
 	/**
 	 * To string.
 	 *
