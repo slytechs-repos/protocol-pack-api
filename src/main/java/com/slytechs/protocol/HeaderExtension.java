@@ -21,6 +21,7 @@ import java.nio.ByteBuffer;
 
 import com.slytechs.protocol.descriptor.CompactDescriptor;
 import com.slytechs.protocol.descriptor.PacketDescriptor;
+import com.slytechs.protocol.meta.Meta;
 
 /**
  * A specialized header subclass implemented by all header extensions and
@@ -30,6 +31,7 @@ import com.slytechs.protocol.descriptor.PacketDescriptor;
  * @author repos@slytechs.com
  * @param <T> the generic header extension type
  */
+@Meta
 public abstract class HeaderExtension<T extends Header>
 		extends Header
 		implements HasExtension<T> {

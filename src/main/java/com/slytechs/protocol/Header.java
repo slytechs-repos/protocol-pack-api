@@ -38,6 +38,7 @@ import com.slytechs.protocol.runtime.util.HexStrings;
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
+@Meta
 public abstract class Header extends MemoryBinding implements DetailedString {
 
 	private final HeaderDescriptor headerDescriptor = new HeaderDescriptor();
