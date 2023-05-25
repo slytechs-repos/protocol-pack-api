@@ -37,7 +37,7 @@ import com.slytechs.protocol.pack.core.constants.CoreId;
 public sealed class Icmp4 extends Icmp
 		permits Echo {
 
-	@Meta
+	@MetaResource("icmp-echo-meta.json")
 	public static final class Echo extends Icmp4 {
 		public static final int ID = CoreId.CORE_ID_ICMPv4_ECHO;
 

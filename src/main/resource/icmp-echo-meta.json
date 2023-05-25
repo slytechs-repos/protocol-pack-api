@@ -1,0 +1,7 @@
+{
+	"ICMP::Echo;200": "Internet Control Message Protocol Version %{version}d, Echo (PING), offset=%{offset}d, length=%{length}d",
+	"TRACE,DEBUG,HIGH,MEDIUM,LOW": {
+		"identifier;Identifier": "%{}d (0x%{}04X)",
+		"sequence;Sequence Number": "%{}d"
+	}
+}

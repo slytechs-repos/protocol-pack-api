@@ -139,7 +139,7 @@ public enum CoreId implements HeaderInfo, PackId {
 	ICMPv6(Icmp6::new),
 
 	/** The ICM pv 4. */
-	ICMPv4_ECHO(Icmp4::new),
+	ICMPv4_ECHO(Icmp4.Echo::new),
 
 	/** The ICM pv 6. */
 	ICMPv6_ECHO(Icmp6::new),
