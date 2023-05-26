@@ -183,8 +183,9 @@ public final class PcapDescriptor extends PacketDescriptor {
 	 *      int)
 	 */
 	@Override
-	public long lookupHeaderExtension(int headerId, int extId, int depth, int recordIndexHint) {
-		return CompactDescriptor.ID_NOT_FOUND;
+	public boolean lookupHeaderExtension(int headerId, int extId, int depth, int recordIndexHint,
+			HeaderDescriptor descriptor) {
+		return false;
 	}
 
 	/**

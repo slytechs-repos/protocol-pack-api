@@ -32,8 +32,9 @@ import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.CoreId;
 import com.slytechs.protocol.pack.core.constants.Ip4OptionInfo;
 import com.slytechs.protocol.pack.core.constants.Ip6OptionInfo;
+import com.slytechs.protocol.pack.core.constants.L2FrameType;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
-import com.slytechs.protocol.pack.core.constants.TcpOptionInfo;
+import com.slytechs.protocol.pack.core.constants.TcpOptionId;
 import com.slytechs.protocol.runtime.util.Bits;
 
 /**
@@ -95,15 +96,6 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 	/** The tx set clock. */
 	private int txSetClock;
 
-	/** The l 2 type. */
-	private int l2Type;
-
-	/** The l 3 is frag. */
-	private boolean l3IsFrag;
-
-	/** The l 3 last frag. */
-	private boolean l3LastFrag;
-
 	/** The hash type. */
 	private int hashType;
 
@@ -126,6 +118,7 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 		reset();
 
 		this.extensions = Pack.wrapAllExtensions(PacketDescriptorType.TYPE2, this);
+		this.l2Type = L2FrameType.L2_FRAME_TYPE_ETHER;
 	}
 
 	/**
@@ -568,7 +561,7 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 			case TCP_OPTION_KIND_EOL:
 			case TCP_OPTION_KIND_NOP: {
 				int len = 1;
-				int id = TcpOptionInfo.mapKindToId(kind);
+				int id = TcpOptionId.mapKindToId(kind);
 
 				addRecord(id, offset, len);
 				offset += 1;
@@ -577,11 +570,12 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 
 			case TCP_OPTION_KIND_MSS:
 			case TCP_OPTION_KIND_WIN_SCALE:
+			case TCP_OPTION_KIND_SACK_PERMITTED:
 			case TCP_OPTION_KIND_SACK:
 			case TCP_OPTION_KIND_TIMESTAMP:
 			case TCP_OPTION_KIND_FASTOPEN: {
 				int len = Byte.toUnsignedInt(buf.get(offset + TCP_OPTION_FIELD_LENGTH));
-				int id = TcpOptionInfo.mapKindToId(kind);
+				int id = TcpOptionId.mapKindToId(kind);
 
 				addRecord(id, offset, len);
 				offset += len;

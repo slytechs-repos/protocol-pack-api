@@ -44,7 +44,7 @@ public abstract class PacketL2DissectorJava extends AbstractPacketDissector {
 	protected int captureLength;
 	protected int wireLength;
 	protected int dltType = DEFAULT_L2_TYPE.getAsInt();
-	protected int l2Type;
+	protected int l2Type = L2FrameType.L2_FRAME_TYPE_ETHER;
 	protected int vlanCount;
 	protected int mplsCount;
 
@@ -53,6 +53,7 @@ public abstract class PacketL2DissectorJava extends AbstractPacketDissector {
 	 */
 	public PacketL2DissectorJava() {
 		super();
+		
 	}
 
 	protected abstract boolean addRecord(int id, int offset, int length);

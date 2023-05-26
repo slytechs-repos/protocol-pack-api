@@ -243,11 +243,12 @@ class TestDissectorType1 {
 		dissector.writeDescriptor(desc1);
 
 		diss1.writeDescriptor(desc2);
+		desc2.flip();
 
 //		System.out.printf("desc1=%s%n", HexStrings.toHexString(desc1.array(), 0, 24));
 //		System.out.printf("desc2=%s%n", HexStrings.toHexString(desc2.array(), 0, 24));
 
-		Type2Descriptor type1 = new Type2Descriptor()
+		Type1Descriptor type1 = new Type1Descriptor()
 				.withBinding(desc2);
 		System.out.printf("type1=%s%n", type1.buildString(Detail.HIGH));
 

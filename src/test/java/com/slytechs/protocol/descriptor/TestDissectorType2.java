@@ -198,6 +198,8 @@ class TestDissectorType2 {
 		;
 
 		log("%s%n", type2);
+		
+		System.out.println(type2.toString(Detail.HIGH));
 
 		assertEquals(TIMESTAMP, type2.timestamp(), "timestamp");
 		assertEquals(PACKET.length, type2.captureLength(), "captureLength");
