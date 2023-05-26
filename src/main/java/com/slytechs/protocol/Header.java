@@ -31,6 +31,7 @@ import com.slytechs.protocol.runtime.MemoryBinding;
 import com.slytechs.protocol.runtime.util.Detail;
 import com.slytechs.protocol.runtime.util.DetailedString;
 import com.slytechs.protocol.runtime.util.HexStrings;
+import com.slytechs.protocol.runtime.util.ToHexdump;
 
 /**
  * A "reusable" protocol header that can be bound and unbound to data in memory.
@@ -39,7 +40,7 @@ import com.slytechs.protocol.runtime.util.HexStrings;
  * @author repos@slytechs.com
  */
 @Meta
-public abstract class Header extends MemoryBinding implements DetailedString {
+public abstract class Header extends MemoryBinding implements DetailedString, ToHexdump {
 
 	private final HeaderDescriptor headerDescriptor = new HeaderDescriptor();
 
@@ -96,7 +97,7 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 	void bindExtensionsToPacket(ByteBuffer packet, PacketDescriptor descriptor) {
 		// Do nothing by default
 	}
-	
+
 	void bindExtensionsToPacket(ByteBuffer packet, PacketDescriptor descriptor, int meta) {
 		// Do nothing by default
 	}
@@ -126,7 +127,7 @@ public abstract class Header extends MemoryBinding implements DetailedString {
 
 		super.bind(packet.slice(this.headerOffset, this.headerLength));
 	}
-	
+
 	final void bindHeaderToPacket(ByteBuffer packet, PacketDescriptor descriptor, int offset, int length) {
 		this.headerOffset = offset;
 		this.headerLength = length;

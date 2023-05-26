@@ -40,6 +40,7 @@ import com.slytechs.protocol.runtime.time.TimestampUnit;
 import com.slytechs.protocol.runtime.util.Detail;
 import com.slytechs.protocol.runtime.util.DetailedString;
 import com.slytechs.protocol.runtime.util.HexStrings;
+import com.slytechs.protocol.runtime.util.ToHexdump;
 
 /**
  * Main packet class which encapsulates raw packet data and retains reference to
@@ -61,7 +62,7 @@ import com.slytechs.protocol.runtime.util.HexStrings;
 @MetaResource("packet-meta.json")
 public final class Packet
 		extends MemoryBinding
-		implements HasHeader, Cloneable, AutoCloseable, DetailedString {
+		implements HasHeader, Cloneable, AutoCloseable, DetailedString, ToHexdump {
 
 	/** The Constant MAX_PACKET_LENGTH. */
 	public static final int MAX_PACKET_LENGTH = 1538;
