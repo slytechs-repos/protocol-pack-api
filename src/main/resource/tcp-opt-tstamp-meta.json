@@ -1,0 +1,7 @@
+{
+	"TCP:TS;200": "Timestamp Option",
+	"HIGH,MEDIUM,LOW": {
+		"tsValue;Timestamp": "%{}X",
+		"tsEchoReply;Timestamp Echo Reply": "%{}X"
+	}
+}

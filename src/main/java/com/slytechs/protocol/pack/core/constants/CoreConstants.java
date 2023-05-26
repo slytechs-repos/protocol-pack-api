@@ -619,8 +619,11 @@ public final class CoreConstants {
 	/** The Constant TCP_OPTION_KIND_WIN_SCALE. */
 	public static final int TCP_OPTION_KIND_WIN_SCALE = 3;
 
+	/** The Constant TCP_OPTION_KIND_SACK_PERMITTED. */
+	public static final int TCP_OPTION_KIND_SACK_PERMITTED = 4;
+	
 	/** The Constant TCP_OPTION_KIND_SACK. */
-	public static final int TCP_OPTION_KIND_SACK = 4;
+	public static final int TCP_OPTION_KIND_SACK = 5;
 
 	/** The Constant TCP_OPTION_KIND_TIMESTAMP. */
 	public static final int TCP_OPTION_KIND_TIMESTAMP = 8;

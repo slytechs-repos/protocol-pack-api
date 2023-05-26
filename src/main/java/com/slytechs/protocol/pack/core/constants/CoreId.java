@@ -79,7 +79,7 @@ public enum CoreId implements HeaderInfo, PackId {
 	UDP(Udp::new),
 
 	/** The tcp. */
-	TCP(Tcp::new, TcpOptionInfo::values),
+	TCP(Tcp::new, TcpOptionId::values),
 
 	/** The sctp. */
 	SCTP,
@@ -146,7 +146,7 @@ public enum CoreId implements HeaderInfo, PackId {
 
 	;
 
-	public static final BitFormat CORE_CLASS_BIT_FORMAT = new BitFormat("DCI64", '.');
+	public static final BitFormat CORE_CLASS_BIT_FORMAT = new BitFormat("TDCI64", '.');
 	public static final IntFunction<String> CORE_CLASS_BIT_STRING = v -> "0b%5s"
 			.formatted(Integer.toBinaryString(v))
 			.replace(' ', '0');
@@ -166,6 +166,9 @@ public enum CoreId implements HeaderInfo, PackId {
 	
 	/** The Constant CORE_CLASS_DHCP. */
 	public static final int CORE_CLASS_DHCP   = 1 << (4 + PACK_SHIFT_CLASSBITMASK);
+	
+	/** The Constant CORE_CLASS_TCP_OPT. */
+	public static final int CORE_CLASS_TCP_OPT = 1 << (5 + PACK_SHIFT_CLASSBITMASK);
 	
 	/** The Constant CORE_CLASS_IPv4. */
 	public static final int CORE_CLASS_IPv4   = CORE_CLASS_IP | CORE_CLASS_V4;

@@ -30,7 +30,43 @@ import com.slytechs.protocol.pack.core.constants.TcpFlag;
 import com.slytechs.protocol.runtime.internal.util.format.BitFormat;
 
 /**
- * Transmission Control Protocol (TCP).
+ * Transmission Control Protocol (TCP) header.
+ * <p>
+ * The Transmission Control Protocol (TCP) is a connection-oriented protocol
+ * that provides a reliable, ordered, and error-checked delivery of a stream of
+ * octets (bytes) between applications running on hosts communicating via an IP
+ * network. Major internet applications such as the World Wide Web, email,
+ * remote administration, and file transfer rely on TCP, which is part of the
+ * Transport Layer of the TCP/IP suite. SSL/TLS often runs on top of TCP.
+ * </p>
+ * <p>
+ * TCP is a connection-oriented protocol, which means that a connection is
+ * established between the two hosts before any data is sent. This connection is
+ * used to keep track of the data that is being sent and received, and to ensure
+ * that the data is delivered in the correct order.
+ * </p>
+ * <p>
+ * TCP provides a number of features that make it a reliable protocol:
+ * </p>
+ * <ul>
+ * <li><b>Connection establishment:</b> TCP uses a three-way handshake to
+ * establish a connection between two hosts. This ensures that both hosts are
+ * ready to receive data before any data is sent.</li>
+ * <li><b>Flow control:</b> TCP uses flow control to ensure that the sender does
+ * not send data too quickly for the receiver to handle. This is done by using a
+ * window size, which is the maximum amount of data that the sender can send
+ * without waiting for an acknowledgment from the receiver.</li>
+ * <li><b>Error detection:</b> TCP uses a checksum to detect errors in the data
+ * that is being sent. If an error is detected, the sender will resend the
+ * data.</li>
+ * <li><b>Retransmission:</b> If data is lost or corrupted, TCP will retransmit
+ * the data. This ensures that all of the data is eventually delivered to the
+ * receiver.</li>
+ * </ul>
+ * </p>
+ * TCP is a complex protocol, but it is essential for reliable communication
+ * over the internet.
+ * </p>
  *
  * @author Sly Technologies
  * @author repos@slytechs.com
@@ -38,7 +74,7 @@ import com.slytechs.protocol.runtime.internal.util.format.BitFormat;
 @MetaResource("tcp-meta.json")
 public final class Tcp extends HeaderExtension<TcpOption> {
 
-	/** The Constant ID. */
+	/** Numerical TCP protocol ID constant. */
 	public static final int ID = CoreId.CORE_ID_TCP;
 
 	/** The Constant FLAGS_FORMAT. */
@@ -54,7 +90,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	private TcpWindowScaleOption wscaleOption;
 
 	/**
-	 * Instantiates a new tcp.
+	 * Instantiates a new tcp header instance.
 	 */
 	public Tcp() {
 		super(ID);
@@ -69,23 +105,54 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 		return FLAGS_FORMATTER.format(flags());
 	}
 
+	/**
+	 * Tcp Flags as string.
+	 *
+	 * @return the string
+	 */
 	public String flagsAsString() {
 		return flagsEnum().toString();
 	}
 
+	/**
+	 * Flags enum set.
+	 *
+	 * @return the sets the
+	 */
 	@Meta(MetaType.ATTRIBUTE)
 	public Set<TcpFlag> flagsEnum() {
 		return TcpFlag.valueOfInt(flags());
 	}
 
 	/**
-	 * Acknowledgment number (32 bits). If the ACK flag is set then the value of
-	 * this field is the next sequence number that the sender of the ACK is
-	 * expecting. This acknowledges receipt of all prior bytes (if any). The first
-	 * ACK sent by each end acknowledges the other end's initial sequence number
-	 * itself, but no data.
-	 *
-	 * @return the long
+	 * Gets a TCP 32-bit Acknowledgment number.
+	 * <p>
+	 * The TCP ACK field is a 32-bit field in the TCP header that specifies the
+	 * sequence number of the next byte of data that the sender expects to receive.
+	 * The ACK field is used to acknowledge the receipt of data from the sender.
+	 * When the receiver receives data, it increments the ACK field and sends it
+	 * back to the sender. This tells the sender that the receiver has received the
+	 * data and is ready for more.
+	 * </p>
+	 * <p>
+	 * The ACK field is used to ensure that data is delivered in the correct order.
+	 * If the sender sends data with a sequence number that is higher than the
+	 * sequence number of the last data that the receiver received, the receiver
+	 * will discard the data. This ensures that the receiver never receives data out
+	 * of order.
+	 * </p>
+	 * <p>
+	 * The ACK field is also used to detect lost data. If the receiver does not
+	 * receive an ACK for a certain amount of time, the sender will assume that the
+	 * data was lost and will retransmit it. This ensures that all of the data is
+	 * eventually delivered to the receiver.
+	 * </p>
+	 * <p>
+	 * The ACK field is an important part of the TCP protocol and is essential for
+	 * reliable communication over the internet.
+	 * </p>
+	 * 
+	 * @param ack the new ack value in header
 	 */
 	@Meta
 	public long ack() {
@@ -93,22 +160,81 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * Set a new ack number.
-	 *
-	 * @param ack the ack
+	 * Sets a TCP 32-bit Acknowledgment number.
+	 * <p>
+	 * The TCP ACK field is a 32-bit field in the TCP header that specifies the
+	 * sequence number of the next byte of data that the sender expects to receive.
+	 * The ACK field is used to acknowledge the receipt of data from the sender.
+	 * When the receiver receives data, it increments the ACK field and sends it
+	 * back to the sender. This tells the sender that the receiver has received the
+	 * data and is ready for more.
+	 * </p>
+	 * <p>
+	 * The ACK field is used to ensure that data is delivered in the correct order.
+	 * If the sender sends data with a sequence number that is higher than the
+	 * sequence number of the last data that the receiver received, the receiver
+	 * will discard the data. This ensures that the receiver never receives data out
+	 * of order.
+	 * </p>
+	 * <p>
+	 * The ACK field is also used to detect lost data. If the receiver does not
+	 * receive an ACK for a certain amount of time, the sender will assume that the
+	 * data was lost and will retransmit it. This ensures that all of the data is
+	 * eventually delivered to the receiver.
+	 * </p>
+	 * <p>
+	 * The ACK field is an important part of the TCP protocol and is essential for
+	 * reliable communication over the internet.
+	 * </p>
+	 * 
+	 * @param newAck the new ack value in header
+	 * @return this tcp header instance
 	 */
-	public void ack(long ack) {
-		TcpStruct.ACK.setInt((int) ack, buffer());
+	public Tcp ack(long newAck) {
+		TcpStruct.ACK.setInt((int) newAck, buffer());
+
+		return this;
 	}
 
 	/**
-	 * Checksum (16 bits). The 16-bit checksum field is used for error-checking of
-	 * the TCP header, the payload and an IP pseudo-header. The pseudo-header
-	 * consists of the source IP address, the destination IP address, the protocol
-	 * number for the TCP protocol (6) and the length of the TCP headers and payload
-	 * (in bytes).
+	 * Gets the TCP header's 16-bit checksum field.
+	 * <p>
+	 * The TCP checksum field is a 16-bit field in the TCP header that is used to
+	 * verify the integrity of the TCP header and payload. The checksum is
+	 * calculated by taking the one's complement of the one's complement sum of all
+	 * the 16-bit words in the TCP header and payload. The checksum is then placed
+	 * in the checksum field.
+	 * </p>
+	 * <p>
+	 * When the TCP segment arrives at the destination, the receiving TCP
+	 * implementation recalculates the checksum and compares it to the checksum in
+	 * the TCP header. If the two checksums do not match, the TCP segment is
+	 * discarded. This ensures that the TCP segment has not been corrupted in
+	 * transit.
+	 * </p>
+	 * <p>
+	 * The TCP checksum is an important part of the TCP protocol and is essential
+	 * for reliable communication over the internet.
+	 * </p>
+	 * <p>
+	 * Here are the steps on how to calculate the TCP checksum:
+	 * </p>
+	 * <ol>
+	 * <li>Set the checksum field to zero.</li>
+	 * <li>Concatenate the source and destination IP addresses, the reserved field,
+	 * the protocol field (set to 6 for TCP), the TCP length, and the TCP data.</li>
+	 * <li>Treat the resulting binary value as a large integer and perform a
+	 * bit-wise ones complement.</li>
+	 * <li>Convert the resulting value to 16-bit binary and place it in the checksum
+	 * field of the TCP header.</li>
+	 * </ol>
+	 * <p>
+	 * If the calculated checksum does not match the checksum in the TCP header, the
+	 * TCP segment is discarded. This ensures that the TCP segment has not been
+	 * corrupted in transit.
+	 * </p>
 	 * 
-	 * @return the int
+	 * @return the value of the of checksum field
 	 */
 	@Meta
 	public int checksum() {
@@ -116,24 +242,82 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * Set a new checksum value.
-	 *
-	 * @param checksum the checksum
+	 * Sets the TCP header's 16-bit checksum field.
+	 * <p>
+	 * The TCP checksum field is a 16-bit field in the TCP header that is used to
+	 * verify the integrity of the TCP header and payload. The checksum is
+	 * calculated by taking the one's complement of the one's complement sum of all
+	 * the 16-bit words in the TCP header and payload. The checksum is then placed
+	 * in the checksum field.
+	 * </p>
+	 * <p>
+	 * When the TCP segment arrives at the destination, the receiving TCP
+	 * implementation recalculates the checksum and compares it to the checksum in
+	 * the TCP header. If the two checksums do not match, the TCP segment is
+	 * discarded. This ensures that the TCP segment has not been corrupted in
+	 * transit.
+	 * </p>
+	 * <p>
+	 * The TCP checksum is an important part of the TCP protocol and is essential
+	 * for reliable communication over the internet.
+	 * </p>
+	 * <p>
+	 * Here are the steps on how to calculate the TCP checksum:
+	 * </p>
+	 * <ol>
+	 * <li>Set the checksum field to zero.</li>
+	 * <li>Concatenate the source and destination IP addresses, the reserved field,
+	 * the protocol field (set to 6 for TCP), the TCP length, and the TCP data.</li>
+	 * <li>Treat the resulting binary value as a large integer and perform a
+	 * bit-wise ones complement.</li>
+	 * <li>Convert the resulting value to 16-bit binary and place it in the checksum
+	 * field of the TCP header.</li>
+	 * </ol>
+	 * <p>
+	 * If the calculated checksum does not match the checksum in the TCP header, the
+	 * TCP segment is discarded. This ensures that the TCP segment has not been
+	 * corrupted in transit.
+	 * </p>
+	 * *
+	 * 
+	 * @param checksum new value for the checksum field
+	 * @return this tcp header instance
 	 */
-	public void checksum(int checksum) {
+	public Tcp checksum(int checksum) {
 		TcpStruct.CHECKSUM.setInt(checksum, buffer());
+
+		return this;
 	}
 
 	/**
-	 * Data offset in 32-bit words (4 bits). Specifies the size of the TCP header in
-	 * 32-bit words. The minimum size header is 5 words and the maximum is 15 words
-	 * thus giving the minimum size of 20 bytes and maximum of 60 bytes, allowing
-	 * for up to 40 bytes of options in the header. This field gets its name from
-	 * the fact that it is also the offset from the start of the TCP segment to the
-	 * actual data.
-	 *
+	 * Gets the TCP 4-bit data offset field (aka. header length) in units of 32-bit
+	 * words.
+	 * <p>
+	 * The TCP data offset field is a 4-bit field in the TCP header that specifies
+	 * the size of the TCP header, expressed in 32-bit words. One word represents
+	 * four bytes. The TCP header can be anywhere from 20 to 60 bytes long, so the
+	 * data offset field tells the receiving host where the data payload starts.
+	 * </p>
+	 * <p>
+	 * The data offset field is located in the first byte of the TCP header. The
+	 * first bit of the data offset field is always set to 0, and the remaining
+	 * three bits indicate the number of 32-bit words in the TCP header. For
+	 * example, if the data offset field is set to 5, then the TCP header is 20
+	 * bytes long.
+	 * </p>
+	 * <p>
+	 * The data offset field is used by the receiving host to determine where the
+	 * data payload starts. The data payload is the part of the TCP segment that
+	 * contains the actual data that is being sent between the two hosts. The data
+	 * offset field ensures that the receiving host can correctly interpret the TCP
+	 * segment and deliver the data to the correct application.
+	 * </p>
+	 * <p>
+	 * The data offset field is an important part of the TCP protocol and is
+	 * essential for reliable communication over the internet.
+	 * </p>
 	 * 
-	 * @return the int
+	 * @return the 16-bit data offset value in units of 32-bit words.
 	 */
 	@Meta
 	public int dataOffset() {
@@ -141,18 +325,121 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * Set a new data offset.
+	 * Sets the TCP 4-bit data offset field (aka. header length) in units of 32-bit
+	 * words.
+	 * <p>
+	 * The TCP data offset field is a 4-bit field in the TCP header that specifies
+	 * the size of the TCP header, expressed in 32-bit words. One word represents
+	 * four bytes. The TCP header can be anywhere from 20 to 60 bytes long, so the
+	 * data offset field tells the receiving host where the data payload starts.
+	 * </p>
+	 * <p>
+	 * The data offset field is located in the first byte of the TCP header. The
+	 * first bit of the data offset field is always set to 0, and the remaining
+	 * three bits indicate the number of 32-bit words in the TCP header. For
+	 * example, if the data offset field is set to 5, then the TCP header is 20
+	 * bytes long.
+	 * </p>
+	 * <p>
+	 * The data offset field is used by the receiving host to determine where the
+	 * data payload starts. The data payload is the part of the TCP segment that
+	 * contains the actual data that is being sent between the two hosts. The data
+	 * offset field ensures that the receiving host can correctly interpret the TCP
+	 * segment and deliver the data to the correct application.
+	 * </p>
+	 * <p>
+	 * The data offset field is an important part of the TCP protocol and is
+	 * essential for reliable communication over the internet.
+	 * </p>
 	 *
-	 * @param newOffset the hdr len
+	 * @param newOffset the new data offset value
+	 * @return this tcp header instance
 	 */
-	public void dataOffset(int newOffset) {
+	public Tcp dataOffset(int newOffset) {
 		TcpStruct.HDR_LEN.setInt(newOffset, buffer());
+
+		return this;
 	}
 
 	/**
-	 * Destination port (16 bits). Identifies the receiving port.
-	 *
-	 * @return the int
+	 * Computes the TCP 32-bit data offset field (aka. header length) in units of
+	 * 8-bit bytes.
+	 * <p>
+	 * The TCP data offset field is a 4-bit field in the TCP header that specifies
+	 * the size of the TCP header, expressed in 32-bit words. One word represents
+	 * four bytes. The TCP header can be anywhere from 20 to 60 bytes long, so the
+	 * data offset field tells the receiving host where the data payload starts.
+	 * </p>
+	 * <p>
+	 * The data offset field is located in the first byte of the TCP header. The
+	 * first bit of the data offset field is always set to 0, and the remaining
+	 * three bits indicate the number of 32-bit words in the TCP header. For
+	 * example, if the data offset field is set to 5, then the TCP header is 20
+	 * bytes long.
+	 * </p>
+	 * <p>
+	 * The data offset field is used by the receiving host to determine where the
+	 * data payload starts. The data payload is the part of the TCP segment that
+	 * contains the actual data that is being sent between the two hosts. The data
+	 * offset field ensures that the receiving host can correctly interpret the TCP
+	 * segment and deliver the data to the correct application.
+	 * </p>
+	 * <p>
+	 * The data offset field is an important part of the TCP protocol and is
+	 * essential for reliable communication over the internet.
+	 * </p>
+	 * 
+	 * @return the calculated 32-bit data offset value in units of 8-bit bytes.
+	 */
+	public int dataOffsetInBytes() {
+		return dataOffset() << 2;
+	}
+
+	/**
+	 * Gets the TCP destination port field, a 16-bit field value.
+	 * <p>
+	 * The TCP destination port field is a 16-bit field in the TCP header that
+	 * specifies the port number of the destination host. The port number is used by
+	 * the receiving host to determine which application to deliver the data to.
+	 * </p>
+	 * <p>
+	 * The destination port field is located in the second byte of the TCP header.
+	 * The port number is a 16-bit value that identifies the application that is
+	 * listening for data on the destination host. For example, the port number for
+	 * HTTP is 80, and the port number for HTTPS is 443.
+	 * </p>
+	 * <p>
+	 * The destination port field is used by the receiving host to determine which
+	 * application to deliver the data to. When a TCP segment arrives at the
+	 * destination host, the receiving host looks up the port number in its routing
+	 * table to find the application that is listening for data on that port. The
+	 * receiving host then delivers the data to the application.
+	 * </p>
+	 * <p>
+	 * The destination port field is an important part of the TCP protocol and is
+	 * essential for reliable communication over the internet.
+	 * </p>
+	 * <p>
+	 * Here are some examples of common TCP destination ports:
+	 * </p>
+	 * <ul>
+	 * <li>HTTP: 80
+	 * </p>
+	 * <li>HTTPS: 443
+	 * </p>
+	 * <li>FTP: 21
+	 * </p>
+	 * <li>SMTP: 25
+	 * </p>
+	 * <li>POP3: 110
+	 * </p>
+	 * <li>IMAP: 143
+	 * </p>
+	 * </ul>
+	 * These are just a few examples of the many TCP destination ports that are used
+	 * on the internet. *
+	 * 
+	 * @return the 16-bit TCP destination port value
 	 */
 	@Meta
 	public int destination() {
@@ -160,48 +447,108 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * Set a new destination port.
+	 * Sets the TCP destination port field, a 16-bit field value.
+	 * <p>
+	 * The TCP destination port field is a 16-bit field in the TCP header that
+	 * specifies the port number of the destination host. The port number is used by
+	 * the receiving host to determine which application to deliver the data to.
+	 * </p>
+	 * <p>
+	 * The destination port field is located in the second byte of the TCP header.
+	 * The port number is a 16-bit value that identifies the application that is
+	 * listening for data on the destination host. For example, the port number for
+	 * HTTP is 80, and the port number for HTTPS is 443.
+	 * </p>
+	 * <p>
+	 * The destination port field is used by the receiving host to determine which
+	 * application to deliver the data to. When a TCP segment arrives at the
+	 * destination host, the receiving host looks up the port number in its routing
+	 * table to find the application that is listening for data on that port. The
+	 * receiving host then delivers the data to the application.
+	 * </p>
+	 * <p>
+	 * The destination port field is an important part of the TCP protocol and is
+	 * essential for reliable communication over the internet.
+	 * </p>
+	 * <p>
+	 * Here are some examples of common TCP destination ports:
+	 * </p>
+	 * <ul>
+	 * <li>HTTP: 80
+	 * </p>
+	 * <li>HTTPS: 443
+	 * </p>
+	 * <li>FTP: 21
+	 * </p>
+	 * <li>SMTP: 25
+	 * </p>
+	 * <li>POP3: 110
+	 * </p>
+	 * <li>IMAP: 143
+	 * </p>
+	 * </ul>
+	 * These are just a few examples of the many TCP destination ports that are used
+	 * on the internet. *
 	 *
-	 * @param newPort the new port
+	 * @param newPort a new TCP destination port number
+	 * @return this tcp header instance
 	 */
-	public void destination(int newPort) {
+	public Tcp destination(int newPort) {
 		TcpStruct.DST_PORT.setInt(newPort, buffer());
+
+		return this;
 	}
 
 	/**
-	 * Flags (8 bits).
+	 * Gets the 6-bit TCP flags header field.
 	 * <p>
-	 * Contains 8 1-bit flags (control bits) as follows:
+	 * The TCP flags header field is a 6-bit field in the TCP header that specifies
+	 * the state of the connection and the actions that the sender and receiver
+	 * should take. The flags are:
 	 * </p>
 	 * <ul>
-	 * <li>CWR (1 bit): Congestion window reduced (CWR) flag is set by the sending
-	 * host to indicate that it received a TCP segment with the ECE flag set and had
-	 * responded in congestion control mechanism.</li>
-	 * <li>ECE (1 bit): ECN-Echo has a dual role, depending on the value of the SYN
-	 * flag. It indicates:
+	 * <li>SYN: The SYN flag is used to initiate a connection. When the SYN flag is
+	 * set, the sender is requesting to establish a connection with the
+	 * receiver.</li>
+	 * <li>ACK: The ACK flag is used to acknowledge the receipt of data. When the
+	 * ACK flag is set, the sender is acknowledging that it has received data from
+	 * the receiver.</li>
+	 * <li>FIN: The FIN flag is used to terminate a connection. When the FIN flag is
+	 * set, the sender is requesting to close the connection.</li>
+	 * <li>URG: The URG flag is used to indicate that the data in the segment is
+	 * urgent and should be processed immediately.</li>
+	 * <li>PSH: The PSH flag is used to request that the receiver push the data in
+	 * the segment up to the application layer.</li>
+	 * <li>RST: The RST flag is used to reset a connection. When the RST flag is
+	 * set, the sender is indicating that the connection is broken and should be
+	 * discarded.</li>
+	 * </ul>
+	 * <p>
+	 * The TCP flags are used by the sender and receiver to coordinate the
+	 * establishment, maintenance, and termination of a connection. The flags ensure
+	 * that data is delivered in the correct order and that errors are detected and
+	 * corrected.
+	 * </p>
+	 * <p>
+	 * Here are some examples of how the TCP flags are used:
+	 * </p>
 	 * <ul>
-	 * <li>If the SYN flag is set (1), that the TCP peer is ECN capable.</li>
-	 * <li>If the SYN flag is clear (0), that a packet with Congestion Experienced
-	 * flag set (ECN=11) in the IP header was received during normal
-	 * transmission.[a] This serves as an indication of network congestion (or
-	 * impending congestion) to the TCP sender.</li>
+	 * <li>When a client wants to connect to a server, it sends a TCP segment with
+	 * the SYN flag set. The server responds with a TCP segment with the SYN and ACK
+	 * flags set. This establishes the connection.</li>
+	 * <li>When a client wants to send data to a server, it sends a TCP segment with
+	 * the ACK flag set. The server responds with a TCP segment with the ACK flag
+	 * set. This acknowledges the receipt of data.</li>
+	 * <li>When a client wants to close a connection, it sends a TCP segment with
+	 * the FIN flag set. The server responds with a TCP segment with the ACK flag
+	 * set. This closes the connection.</li>
 	 * </ul>
-	 * </li>
-	 * <li>URG (1 bit): Indicates that the Urgent pointer field is significant</li>
-	 * <li>ACK (1 bit): Indicates that the Acknowledgment field is significant. All
-	 * packets after the initial SYN packet sent by the client should have this flag
-	 * set.</li>
-	 * <li>PSH (1 bit): Push function. Asks to push the buffered data to the
-	 * receiving application.</li>
-	 * <li>RST (1 bit): Reset the connection</li>
-	 * <li>SYN (1 bit): Synchronize sequence numbers. Only the first packet sent
-	 * from each end should have this flag set. Some other flags and fields change
-	 * meaning based on this flag, and some are only valid when it is set, and
-	 * others when it is clear.</li>
-	 * <li>FIN (1 bit): Last packet from sender</li>
-	 * </ul>
+	 * </p>
+	 * The TCP flags are an important part of the TCP protocol and are essential for
+	 * reliable communication over the internet.
+	 * </p>
 	 *
-	 * @return the int
+	 * @return the 6-bit flags field value
 	 */
 	@Meta
 	public int flags() {
@@ -209,18 +556,101 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * Sets new flags.
+	 * Sets the 6-bit TCP flags header field.
+	 * <p>
+	 * The TCP flags header field is a 6-bit field in the TCP header that specifies
+	 * the state of the connection and the actions that the sender and receiver
+	 * should take. The flags are:
+	 * </p>
+	 * <ul>
+	 * <li>SYN: The SYN flag is used to initiate a connection. When the SYN flag is
+	 * set, the sender is requesting to establish a connection with the
+	 * receiver.</li>
+	 * <li>ACK: The ACK flag is used to acknowledge the receipt of data. When the
+	 * ACK flag is set, the sender is acknowledging that it has received data from
+	 * the receiver.</li>
+	 * <li>FIN: The FIN flag is used to terminate a connection. When the FIN flag is
+	 * set, the sender is requesting to close the connection.</li>
+	 * <li>URG: The URG flag is used to indicate that the data in the segment is
+	 * urgent and should be processed immediately.</li>
+	 * <li>PSH: The PSH flag is used to request that the receiver push the data in
+	 * the segment up to the application layer.</li>
+	 * <li>RST: The RST flag is used to reset a connection. When the RST flag is
+	 * set, the sender is indicating that the connection is broken and should be
+	 * discarded.</li>
+	 * </ul>
+	 * <p>
+	 * The TCP flags are used by the sender and receiver to coordinate the
+	 * establishment, maintenance, and termination of a connection. The flags ensure
+	 * that data is delivered in the correct order and that errors are detected and
+	 * corrected.
+	 * </p>
+	 * <p>
+	 * Here are some examples of how the TCP flags are used:
+	 * </p>
+	 * <ul>
+	 * <li>When a client wants to connect to a server, it sends a TCP segment with
+	 * the SYN flag set. The server responds with a TCP segment with the SYN and ACK
+	 * flags set. This establishes the connection.</li>
+	 * <li>When a client wants to send data to a server, it sends a TCP segment with
+	 * the ACK flag set. The server responds with a TCP segment with the ACK flag
+	 * set. This acknowledges the receipt of data.</li>
+	 * <li>When a client wants to close a connection, it sends a TCP segment with
+	 * the FIN flag set. The server responds with a TCP segment with the ACK flag
+	 * set. This closes the connection.</li>
+	 * </ul>
+	 * </p>
+	 * The TCP flags are an important part of the TCP protocol and are essential for
+	 * reliable communication over the internet.
+	 * </p>
 	 *
-	 * @param flags the flags
+	 * @param newFlags the 6-bit flags field value
+	 * @return this tcp header instance
 	 */
-	public void flags(int flags) {
-		TcpStruct.FLAGS.setInt(flags, buffer());
+	public Tcp flags(int newFlags) {
+		TcpStruct.FLAGS.setInt(newFlags, buffer());
+
+		return this;
 	}
 
 	/**
-	 * ACK (1 bit): Indicates that the Acknowledgment field is significant. All
-	 * packets after the initial SYN packet sent by the client should have this flag
-	 * set.
+	 * Checks if the TCP ack flag bit is set.
+	 * <p>
+	 * The TCP ACK flag is a 1-bit field in the TCP header that indicates whether
+	 * the sender is acknowledging the receipt of data from the receiver. When the
+	 * ACK flag is set, the sender is acknowledging that it has received data from
+	 * the receiver. The ACK flag is used to ensure that data is delivered in the
+	 * correct order and that errors are detected and corrected.
+	 * </p>
+	 * <p>
+	 * The ACK flag is set in the TCP header of every packet that is sent after the
+	 * initial connection setup. This ensures that the receiver knows which data has
+	 * been received and which data is still outstanding. If the receiver does not
+	 * receive an ACK for a certain amount of time, it will assume that the data was
+	 * lost and will request a retransmission.
+	 * </p>
+	 * <p>
+	 * The ACK flag is an important part of the TCP protocol and is essential for
+	 * reliable communication over the internet.
+	 * </p>
+	 * <p>
+	 * Here are some examples of how the ACK flag is used:
+	 * </p>
+	 * <ul>
+	 * <li>When a client wants to connect to a server, it sends a TCP segment with
+	 * the SYN flag set. The server responds with a TCP segment with the SYN and ACK
+	 * flags set. This establishes the connection.</li>
+	 * <li>When a client wants to send data to a server, it sends a TCP segment with
+	 * the ACK flag set. The server responds with a TCP segment with the ACK flag
+	 * set. This acknowledges the receipt of data.</li>
+	 * <li>When a client wants to close a connection, it sends a TCP segment with
+	 * the FIN flag set. The server responds with a TCP segment with the ACK flag
+	 * set. This closes the connection.</li>
+	 * </ul>
+	 * <p>
+	 * The ACK flag is an important part of the TCP protocol and is essential for
+	 * reliable communication over the internet.
+	 * </p>
 	 * 
 	 * @return true, if the flag bit is set, otherwise false
 	 */
@@ -229,13 +659,47 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * ACK (1 bit): Indicates that the Acknowledgment field is significant. All
-	 * packets after the initial SYN packet sent by the client should have this flag
-	 * set
+	 * Set the TCP ack flag bit to 1 or 0.
+	 * <p>
+	 * The TCP ACK flag is a 1-bit field in the TCP header that indicates whether
+	 * the sender is acknowledging the receipt of data from the receiver. When the
+	 * ACK flag is set, the sender is acknowledging that it has received data from
+	 * the receiver. The ACK flag is used to ensure that data is delivered in the
+	 * correct order and that errors are detected and corrected.
+	 * </p>
+	 * <p>
+	 * The ACK flag is set in the TCP header of every packet that is sent after the
+	 * initial connection setup. This ensures that the receiver knows which data has
+	 * been received and which data is still outstanding. If the receiver does not
+	 * receive an ACK for a certain amount of time, it will assume that the data was
+	 * lost and will request a retransmission.
+	 * </p>
+	 * <p>
+	 * The ACK flag is an important part of the TCP protocol and is essential for
+	 * reliable communication over the internet.
+	 * </p>
+	 * <p>
+	 * Here are some examples of how the ACK flag is used:
+	 * </p>
+	 * <ul>
+	 * <li>When a client wants to connect to a server, it sends a TCP segment with
+	 * the SYN flag set. The server responds with a TCP segment with the SYN and ACK
+	 * flags set. This establishes the connection.</li>
+	 * <li>When a client wants to send data to a server, it sends a TCP segment with
+	 * the ACK flag set. The server responds with a TCP segment with the ACK flag
+	 * set. This acknowledges the receipt of data.</li>
+	 * <li>When a client wants to close a connection, it sends a TCP segment with
+	 * the FIN flag set. The server responds with a TCP segment with the ACK flag
+	 * set. This closes the connection.</li>
+	 * </ul>
+	 * <p>
+	 * The ACK flag is an important part of the TCP protocol and is essential for
+	 * reliable communication over the internet.
+	 * </p>
 	 * 
 	 * @param b if true, sets the flag bit to on (1), otherwise the bit is turned
 	 *          off (0)
-	 * @return this tcp header instance for Fluent pattern usage
+	 * @return this tcp header instance
 	 */
 	public Tcp flags_ACK(boolean b) {
 		TcpStruct.FLAGS_ACK.setBoolean(b, buffer());
@@ -243,24 +707,87 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * CWR (1 bit): Congestion window reduced (CWR) flag is set by the sending host
-	 * to indicate that it received a TCP segment with the ECE flag set and had
-	 * responded in congestion control mechanism.
-	 *
-	 * @return true, if the flag bit is set, otherwise false
+	 * Checks if the TCP CWR flag bit is set.
+	 * <p>
+	 * The TCP CWR flag is a 1-bit field in the TCP header that indicates whether
+	 * the sender is requesting that the receiver reduce its congestion window. When
+	 * the CWR flag is set, the sender is indicating that it has experienced
+	 * congestion and is asking the receiver to reduce its sending rate.
+	 * </p>
+	 * <p>
+	 * The CWR flag is used to help prevent congestion in the network. When a sender
+	 * experiences congestion, it sets the CWR flag in the TCP header of the next
+	 * packet that it sends. This tells the receiver to reduce its congestion
+	 * window, which will help to reduce the amount of traffic that is flowing
+	 * through the network.
+	 * </p>
+	 * <p>
+	 * The CWR flag is an important part of the TCP congestion control mechanism. It
+	 * helps to prevent congestion in the network and to ensure that data is
+	 * delivered reliably.
+	 * </p>
+	 * <p>
+	 * Here are some examples of how the CWR flag is used:
+	 * </p>
+	 * <ul>
+	 * <li>When a sender experiences congestion, it sets the CWR flag in the TCP
+	 * header of the next packet that it sends.</li>
+	 * <li>The receiver receives the packet with the CWR flag set and reduces its
+	 * congestion window.</li>
+	 * <li>The sender sends fewer packets, which helps to reduce the amount of
+	 * congestion in the network.</li>
+	 * </ul>
+	 * <p>
+	 * The CWR flag is an important part of the TCP congestion control mechanism and
+	 * helps to ensure that data is delivered reliably. *
+	 * </p>
+	 * *
+	 * 
+	 * @return true, if the CWR flag bit is set, otherwise false
 	 */
 	public boolean flags_CWR() {
 		return TcpStruct.FLAGS_CWR.getBit(buffer());
 	}
 
 	/**
-	 * CWR (1 bit): Congestion window reduced (CWR) flag is set by the sending host
-	 * to indicate that it received a TCP segment with the ECE flag set and had
-	 * responded in congestion control mechanism
-	 *
+	 * Sets the TCP CWR flag bit to 1 or 0.
+	 * <p>
+	 * The TCP CWR flag is a 1-bit field in the TCP header that indicates whether
+	 * the sender is requesting that the receiver reduce its congestion window. When
+	 * the CWR flag is set, the sender is indicating that it has experienced
+	 * congestion and is asking the receiver to reduce its sending rate.
+	 * </p>
+	 * <p>
+	 * The CWR flag is used to help prevent congestion in the network. When a sender
+	 * experiences congestion, it sets the CWR flag in the TCP header of the next
+	 * packet that it sends. This tells the receiver to reduce its congestion
+	 * window, which will help to reduce the amount of traffic that is flowing
+	 * through the network.
+	 * </p>
+	 * <p>
+	 * The CWR flag is an important part of the TCP congestion control mechanism. It
+	 * helps to prevent congestion in the network and to ensure that data is
+	 * delivered reliably.
+	 * </p>
+	 * <p>
+	 * Here are some examples of how the CWR flag is used:
+	 * </p>
+	 * <ul>
+	 * <li>When a sender experiences congestion, it sets the CWR flag in the TCP
+	 * header of the next packet that it sends.</li>
+	 * <li>The receiver receives the packet with the CWR flag set and reduces its
+	 * congestion window.</li>
+	 * <li>The sender sends fewer packets, which helps to reduce the amount of
+	 * congestion in the network.</li>
+	 * </ul>
+	 * <p>
+	 * The CWR flag is an important part of the TCP congestion control mechanism and
+	 * helps to ensure that data is delivered reliably. *
+	 * </p>
+	 * 
 	 * @param b if true, sets the flag bit to on (1), otherwise the bit is turned
 	 *          off (0)
-	 * @return this tcp header instance for Fluent pattern usage
+	 * @return this tcp header instance
 	 */
 	public Tcp flags_CWR(boolean b) {
 		TcpStruct.FLAGS_CWR.setBoolean(b, buffer());
@@ -268,33 +795,81 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * ECE (1 bit): ECN-Echo has a dual role, depending on the value of the SYN
-	 * flag. It indicates:
-	 * <dl>
-	 * <dt>If the SYN flag is set (1)</dt>
-	 * <dd>the TCP peer is ECN capable</dd>
-	 * <dt>If the SYN flag is clear (0)</dt>
-	 * <dd>a packet with Congestion Experienced flag set (ECN=11) in the IP header
-	 * was received during normal transmission.[a] This serves as an indication of
-	 * network congestion (or impending congestion) to the TCP sender.</dd>
-	 * </dl>
-	 * * @return true, if the flag bit is set, otherwise false
+	 * Checks if TCP ECE flag bit is set.
+	 * <p>
+	 * The TCP ECE flag is a 1-bit field in the TCP header that indicates whether
+	 * the sender is using Explicit Congestion Notification (ECN). When the ECE flag
+	 * is set, the sender is indicating that it is willing to use ECN to signal
+	 * congestion to the receiver.
+	 * </p>
+	 * <p>
+	 * ECN is a congestion control mechanism that allows routers to signal
+	 * congestion to end hosts without dropping packets. When a router experiences
+	 * congestion, it marks the packets that it sends to the end hosts with the ECN
+	 * bit set. The end hosts can then use this information to reduce their sending
+	 * rates and avoid congestion.
+	 * </p>
+	 * <p>
+	 * The ECE flag is an important part of the ECN congestion control mechanism. It
+	 * allows end hosts to cooperate with routers to prevent congestion and to
+	 * ensure that data is delivered reliably.
+	 * </p>
+	 * <p>
+	 * Here are some examples of how the ECE flag is used:
+	 * </p>
+	 * <ul>
+	 * <li>When a router experiences congestion, it marks the packets that it sends
+	 * to the end hosts with the ECN bit set.</li>
+	 * <li>The end hosts receive the packets with the ECN bit set and reduce their
+	 * sending rates.</li>
+	 * <li>The router experiences less congestion, which helps to ensure that data
+	 * is delivered reliably.</li></li>
+	 * <p>
+	 * The ECE flag is an important part of the ECN congestion control mechanism and
+	 * helps to ensure that data is delivered reliably. * * @return true, if the
+	 * flag bit is set, otherwise false
+	 * </p>
+	 *
+	 * @return if true the ECE flag bit is set, otherwise false
 	 */
 	public boolean flags_ECE() {
 		return TcpStruct.FLAGS_ECE.getBit(buffer());
 	}
 
 	/**
-	 * ECE (1 bit): ECN-Echo has a dual role, depending on the value of the SYN
-	 * flag. It indicates:
-	 * <dl>
-	 * <dt>If the SYN flag is set (1)</dt>
-	 * <dd>the TCP peer is ECN capable</dd>
-	 * <dt>If the SYN flag is clear (0)</dt>
-	 * <dd>a packet with Congestion Experienced flag set (ECN=11) in the IP header
-	 * was received during normal transmission.[a] This serves as an indication of
-	 * network congestion (or impending congestion) to the TCP sender.</dd>
-	 * </dl>
+	 * Sets TCP ECE flag bit to 1 or 0.
+	 * <p>
+	 * The TCP ECE flag is a 1-bit field in the TCP header that indicates whether
+	 * the sender is using Explicit Congestion Notification (ECN). When the ECE flag
+	 * is set, the sender is indicating that it is willing to use ECN to signal
+	 * congestion to the receiver.
+	 * </p>
+	 * <p>
+	 * ECN is a congestion control mechanism that allows routers to signal
+	 * congestion to end hosts without dropping packets. When a router experiences
+	 * congestion, it marks the packets that it sends to the end hosts with the ECN
+	 * bit set. The end hosts can then use this information to reduce their sending
+	 * rates and avoid congestion.
+	 * </p>
+	 * <p>
+	 * The ECE flag is an important part of the ECN congestion control mechanism. It
+	 * allows end hosts to cooperate with routers to prevent congestion and to
+	 * ensure that data is delivered reliably.
+	 * </p>
+	 * <p>
+	 * Here are some examples of how the ECE flag is used:
+	 * </p>
+	 * <ul>
+	 * <li>When a router experiences congestion, it marks the packets that it sends
+	 * to the end hosts with the ECN bit set.</li>
+	 * <li>The end hosts receive the packets with the ECN bit set and reduce their
+	 * sending rates.</li>
+	 * <li>The router experiences less congestion, which helps to ensure that data
+	 * is delivered reliably.</li></li>
+	 * <p>
+	 * The ECE flag is an important part of the ECN congestion control mechanism and
+	 * helps to ensure that data is delivered reliably. * * @return true, if the
+	 * flag bit is set, otherwise false
 	 * 
 	 * @param b if true, sets the flag bit to on (1), otherwise the bit is turned
 	 *          off (0)
@@ -306,7 +881,38 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * FIN (1 bit): Last packet from sender
+	 * Checks if the TCP FIN flag bit is set.
+	 * <p>
+	 * The TCP FIN flag is a 1-bit field in the TCP header that indicates whether
+	 * the sender is requesting to close the connection. When the FIN flag is set,
+	 * the sender is indicating that it has no more data to send and is requesting
+	 * that the receiver close the connection.
+	 * </p>
+	 * <p>
+	 * The FIN flag is used to close a TCP connection. When a sender wants to close
+	 * a connection, it sends a TCP segment with the FIN flag set. The receiver
+	 * responds with a TCP segment with the ACK flag set. This acknowledges the
+	 * receipt of the FIN flag and indicates that the receiver is ready to close the
+	 * connection.
+	 * </p>
+	 * <p>
+	 * The FIN flag is an important part of the TCP connection termination process.
+	 * It ensures that both sides of the connection are aware that the connection is
+	 * being closed and that no more data will be sent.
+	 * </p>
+	 * <p>
+	 * Here are some examples of how the FIN flag is used:
+	 * </p>
+	 * <ul>
+	 * <li>When a client wants to close a connection to a server, it sends a TCP
+	 * segment with the FIN flag set.</li>
+	 * <li>The server responds with a TCP segment with the ACK flag set.</li>
+	 * <li>The client and server both close their respective sockets.</li>
+	 * </ul>
+	 * <p>
+	 * The FIN flag is an important part of the TCP connection termination process
+	 * and helps to ensure that connections are closed gracefully.
+	 * </p>
 	 * 
 	 * @return true, if the flag bit is set, otherwise false
 	 */
@@ -315,11 +921,42 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * FIN (1 bit): Last packet from sender
+	 * Sets the TCP FIN flag bit to 1 or 0.
+	 * <p>
+	 * The TCP FIN flag is a 1-bit field in the TCP header that indicates whether
+	 * the sender is requesting to close the connection. When the FIN flag is set,
+	 * the sender is indicating that it has no more data to send and is requesting
+	 * that the receiver close the connection.
+	 * </p>
+	 * <p>
+	 * The FIN flag is used to close a TCP connection. When a sender wants to close
+	 * a connection, it sends a TCP segment with the FIN flag set. The receiver
+	 * responds with a TCP segment with the ACK flag set. This acknowledges the
+	 * receipt of the FIN flag and indicates that the receiver is ready to close the
+	 * connection.
+	 * </p>
+	 * <p>
+	 * The FIN flag is an important part of the TCP connection termination process.
+	 * It ensures that both sides of the connection are aware that the connection is
+	 * being closed and that no more data will be sent.
+	 * </p>
+	 * <p>
+	 * Here are some examples of how the FIN flag is used:
+	 * </p>
+	 * <ul>
+	 * <li>When a client wants to close a connection to a server, it sends a TCP
+	 * segment with the FIN flag set.</li>
+	 * <li>The server responds with a TCP segment with the ACK flag set.</li>
+	 * <li>The client and server both close their respective sockets.</li>
+	 * </ul>
+	 * <p>
+	 * The FIN flag is an important part of the TCP connection termination process
+	 * and helps to ensure that connections are closed gracefully.
+	 * </p>
 	 * 
 	 * @param b if true, sets the flag bit to on (1), otherwise the bit is turned
 	 *          off (0)
-	 * @return this tcp header instance for Fluent pattern usage
+	 * @return this tcp header instance
 	 */
 	public Tcp flags_FIN(boolean b) {
 		TcpStruct.FLAGS_FIN.setBoolean(b, buffer());
@@ -327,8 +964,36 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * PSH (1 bit): Push function. Asks to push the buffered data to the receiving
-	 * application
+	 * Checks if the TCP PSH flag bit is set.
+	 * <p>
+	 * The TCP PUSH flag is a 1-bit field in the TCP header that indicates whether
+	 * the sender is requesting that the receiver push the data in the segment up to
+	 * the application layer. When the PUSH flag is set, the sender is indicating
+	 * that the receiver should not wait for any more data to be sent before
+	 * delivering the data to the application layer.
+	 * </p>
+	 * <p>
+	 * The PUSH flag is used to ensure that data is delivered to the application
+	 * layer as quickly as possible. When the PUSH flag is set, the receiver will
+	 * deliver the data to the application layer immediately, even if there is more
+	 * data that has not yet been sent. This is useful for applications that need to
+	 * receive data as quickly as possible, such as real-time audio and video
+	 * streaming.
+	 * </p>
+	 * <p>
+	 * Here are some examples of how the PUSH flag is used:
+	 * </p>
+	 * <ul>
+	 * <li>When a client wants to send data to a server, it sends a TCP segment with
+	 * the PUSH flag set.</li>
+	 * <li>The server responds with a TCP segment with the ACK flag set.</li>
+	 * <li>The data is delivered to the application layer on the server
+	 * immediately.</li>
+	 * </ul>
+	 * <p>
+	 * The PUSH flag is an important part of the TCP protocol and helps to ensure
+	 * that data is delivered to applications as quickly as possible. * </pL
+	 * </p>
 	 * 
 	 * @return true, if the flag bit is set, otherwise false
 	 */
@@ -337,12 +1002,40 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * PSH (1 bit): Push function. Asks to push the buffered data to the receiving
-	 * application
+	 * Sets the TCP PSH flag bit to 1 or 0.
+	 * <p>
+	 * The TCP PUSH flag is a 1-bit field in the TCP header that indicates whether
+	 * the sender is requesting that the receiver push the data in the segment up to
+	 * the application layer. When the PUSH flag is set, the sender is indicating
+	 * that the receiver should not wait for any more data to be sent before
+	 * delivering the data to the application layer.
+	 * </p>
+	 * <p>
+	 * The PUSH flag is used to ensure that data is delivered to the application
+	 * layer as quickly as possible. When the PUSH flag is set, the receiver will
+	 * deliver the data to the application layer immediately, even if there is more
+	 * data that has not yet been sent. This is useful for applications that need to
+	 * receive data as quickly as possible, such as real-time audio and video
+	 * streaming.
+	 * </p>
+	 * <p>
+	 * Here are some examples of how the PUSH flag is used:
+	 * </p>
+	 * <ul>
+	 * <li>When a client wants to send data to a server, it sends a TCP segment with
+	 * the PUSH flag set.</li>
+	 * <li>The server responds with a TCP segment with the ACK flag set.</li>
+	 * <li>The data is delivered to the application layer on the server
+	 * immediately.</li>
+	 * </ul>
+	 * <p>
+	 * The PUSH flag is an important part of the TCP protocol and helps to ensure
+	 * that data is delivered to applications as quickly as possible. * </pL
+	 * </p>
 	 * 
 	 * @param b if true, sets the flag bit to on (1), otherwise the bit is turned
 	 *          off (0)
-	 * @return this tcp header instance for Fluent pattern usage
+	 * @return this tcp header instance
 	 */
 	public Tcp flags_PSH(boolean b) {
 		TcpStruct.FLAGS_PSH.setBoolean(b, buffer());
@@ -350,7 +1043,41 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * RST (1 bit): Reset the connection
+	 * Checks if the TCP RST flag bit is set.
+	 * <p>
+	 * The TCP RST flag is a 1-bit field in the TCP header that indicates whether
+	 * the sender is requesting to reset the connection. When the RST flag is set,
+	 * the sender is indicating that the connection is no longer valid and should be
+	 * closed immediately.
+	 * </p>
+	 * <p>
+	 * The RST flag is used to close a TCP connection forcefully. When a sender
+	 * wants to close a connection forcefully, it sends a TCP segment with the RST
+	 * flag set. The receiver will not respond to this packet, and the connection
+	 * will be closed immediately.
+	 * </p>
+	 * <p>
+	 * The RST flag is an important part of the TCP connection termination process.
+	 * It ensures that both sides of the connection are aware that the connection is
+	 * being closed and that no more data will be sent.
+	 * </p>
+	 * <p>
+	 * Here are some examples of how the RST flag is used:
+	 * </p>
+	 * <ul>
+	 * <li>When a client tries to connect to a server that is not running, the
+	 * server will send a TCP segment with the RST flag set.</li>
+	 * <li>When a client tries to send data to a server that has closed the
+	 * connection, the server will send a TCP segment with the RST flag set.</li>
+	 * <li>When a client tries to send data to a server that is under attack, the
+	 * server may send a TCP segment with the RST flag set to prevent the attack
+	 * from succeeding.</li>
+	 * </ul>
+	 * </p>
+	 * The RST flag is an important part of the TCP protocol and helps to ensure
+	 * that connections are closed gracefully and that attacks are prevented.
+	 * </p>
+	 * *
 	 * 
 	 * @return true, if the flag bit is set, otherwise false
 	 */
@@ -359,11 +1086,44 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * RST (1 bit): Reset the connection
+	 * Sets the TCP RST flag bit to 1 or 0.
+	 * <p>
+	 * The TCP RST flag is a 1-bit field in the TCP header that indicates whether
+	 * the sender is requesting to reset the connection. When the RST flag is set,
+	 * the sender is indicating that the connection is no longer valid and should be
+	 * closed immediately.
+	 * </p>
+	 * <p>
+	 * The RST flag is used to close a TCP connection forcefully. When a sender
+	 * wants to close a connection forcefully, it sends a TCP segment with the RST
+	 * flag set. The receiver will not respond to this packet, and the connection
+	 * will be closed immediately.
+	 * </p>
+	 * <p>
+	 * The RST flag is an important part of the TCP connection termination process.
+	 * It ensures that both sides of the connection are aware that the connection is
+	 * being closed and that no more data will be sent.
+	 * </p>
+	 * <p>
+	 * Here are some examples of how the RST flag is used:
+	 * </p>
+	 * <ul>
+	 * <li>When a client tries to connect to a server that is not running, the
+	 * server will send a TCP segment with the RST flag set.</li>
+	 * <li>When a client tries to send data to a server that has closed the
+	 * connection, the server will send a TCP segment with the RST flag set.</li>
+	 * <li>When a client tries to send data to a server that is under attack, the
+	 * server may send a TCP segment with the RST flag set to prevent the attack
+	 * from succeeding.</li>
+	 * </ul>
+	 * </p>
+	 * The RST flag is an important part of the TCP protocol and helps to ensure
+	 * that connections are closed gracefully and that attacks are prevented.
+	 * </p>
 	 * 
 	 * @param b if true, sets the flag bit to on (1), otherwise the bit is turned
 	 *          off (0)
-	 * @return this tcp header instance for Fluent pattern usage
+	 * @return this tcp header instance
 	 */
 	public Tcp flags_RST(boolean b) {
 		TcpStruct.FLAGS_RST.setBoolean(b, buffer());
@@ -371,10 +1131,52 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * SYN (1 bit): Synchronize sequence numbers. Only the first packet sent from
-	 * each end should have this flag set. Some other flags and fields change
-	 * meaning based on this flag, and some are only valid when it is set, and
-	 * others when it is clear.
+	 * Checks if the TCP SYN flag bit is set.
+	 * <p>
+	 * The TCP SYN flag is a 1-bit field in the TCP header that indicates whether
+	 * the sender is requesting to synchronize sequence numbers. When the SYN flag
+	 * is set, the sender is indicating that it wants to establish a connection with
+	 * the receiver and is requesting that the receiver send its sequence number.
+	 * </p>
+	 * <p>
+	 * The SYN flag is used to initiate a TCP connection. When a sender wants to
+	 * establish a connection with a receiver, it sends a TCP segment with the SYN
+	 * flag set. The receiver responds with a TCP segment with the SYN and ACK flags
+	 * set. This establishes the connection and allows data to be sent between the
+	 * sender and receiver.
+	 * </p>
+	 * <p>
+	 * The SYN flag is an important part of the TCP connection establishment
+	 * process. It ensures that both sides of the connection are aware of the
+	 * sequence numbers that will be used to send data.
+	 * </p>
+	 * <p>
+	 * Here are some examples of how the SYN flag is used:
+	 * </p>
+	 * <ul>
+	 * <li>When a client wants to connect to a server, it sends a TCP segment with
+	 * the SYN flag set.</li>
+	 * <li>The server responds with a TCP segment with the SYN and ACK flags
+	 * set.</li>
+	 * <li>The connection is established and data can be sent between the client and
+	 * server.</li>
+	 * </ul>
+	 * <p>
+	 * The SYN flag is an important part of the TCP protocol and helps to ensure
+	 * that connections are established reliably.
+	 * </p>
+	 * <p>
+	 * Here are some additional details about the SYN flag:
+	 * </p>
+	 * <ul>
+	 * <li>The SYN flag is always set in the first packet of a TCP connection.</li>
+	 * <li>The SYN flag is always cleared in subsequent packets of a TCP
+	 * connection.</li>
+	 * <li>The SYN flag is used to synchronize the sequence numbers of the sender
+	 * and receiver.</li>
+	 * <li>The SYN flag is an important part of the TCP connection establishment
+	 * process.</li>
+	 * </ul>
 	 * 
 	 * @return true, if the flag bit is set, otherwise false
 	 */
@@ -383,10 +1185,52 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * SYN (1 bit): Synchronize sequence numbers. Only the first packet sent from
-	 * each end should have this flag set. Some other flags and fields change
-	 * meaning based on this flag, and some are only valid when it is set, and
-	 * others when it is clear.
+	 * Sets the TCP SYN flag bit to 1 or 0.
+	 * <p>
+	 * The TCP SYN flag is a 1-bit field in the TCP header that indicates whether
+	 * the sender is requesting to synchronize sequence numbers. When the SYN flag
+	 * is set, the sender is indicating that it wants to establish a connection with
+	 * the receiver and is requesting that the receiver send its sequence number.
+	 * </p>
+	 * <p>
+	 * The SYN flag is used to initiate a TCP connection. When a sender wants to
+	 * establish a connection with a receiver, it sends a TCP segment with the SYN
+	 * flag set. The receiver responds with a TCP segment with the SYN and ACK flags
+	 * set. This establishes the connection and allows data to be sent between the
+	 * sender and receiver.
+	 * </p>
+	 * <p>
+	 * The SYN flag is an important part of the TCP connection establishment
+	 * process. It ensures that both sides of the connection are aware of the
+	 * sequence numbers that will be used to send data.
+	 * </p>
+	 * <p>
+	 * Here are some examples of how the SYN flag is used:
+	 * </p>
+	 * <ul>
+	 * <li>When a client wants to connect to a server, it sends a TCP segment with
+	 * the SYN flag set.</li>
+	 * <li>The server responds with a TCP segment with the SYN and ACK flags
+	 * set.</li>
+	 * <li>The connection is established and data can be sent between the client and
+	 * server.</li>
+	 * </ul>
+	 * <p>
+	 * The SYN flag is an important part of the TCP protocol and helps to ensure
+	 * that connections are established reliably.
+	 * </p>
+	 * <p>
+	 * Here are some additional details about the SYN flag:
+	 * </p>
+	 * <ul>
+	 * <li>The SYN flag is always set in the first packet of a TCP connection.</li>
+	 * <li>The SYN flag is always cleared in subsequent packets of a TCP
+	 * connection.</li>
+	 * <li>The SYN flag is used to synchronize the sequence numbers of the sender
+	 * and receiver.</li>
+	 * <li>The SYN flag is an important part of the TCP connection establishment
+	 * process.</li>
+	 * </ul>
 	 * 
 	 * @param b if true, sets the flag bit to on (1), otherwise the bit is turned
 	 *          off (0)
@@ -398,7 +1242,47 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * URG (1 bit): Indicates that the Urgent pointer field is significant
+	 * Checks if the TCP URG flag bit is set.
+	 * <p>
+	 * The TCP URG flag is a 1-bit field in the TCP header that indicates whether
+	 * the sender is requesting that the receiver deliver the data in the segment
+	 * immediately. When the URG flag is set, the sender is indicating that the
+	 * receiver should not wait for any more data to be sent before delivering the
+	 * data to the application layer.
+	 * </p>
+	 * <p>
+	 * The URG flag is used to ensure that urgent data is delivered to the
+	 * application layer as quickly as possible. Urgent data is data that needs to
+	 * be processed immediately, such as a notification that a user has sent a chat
+	 * message. When the URG flag is set, the receiver will deliver the data to the
+	 * application layer immediately, even if there is more data that has not yet
+	 * been sent.
+	 * </p>
+	 * <p>
+	 * Here are some examples of how the URG flag is used:
+	 * </p>
+	 * <ul>
+	 * <li>When a client wants to send an urgent chat message to a server, it sends
+	 * a TCP segment with the URG flag set.</li>
+	 * <li>The server responds with a TCP segment with the ACK flag set.</li>
+	 * <li>The urgent chat message is delivered to the application layer on the
+	 * server immediately.</li>
+	 * </ul>
+	 * <p>
+	 * The URG flag is an important part of the TCP protocol and helps to ensure
+	 * that urgent data is delivered to applications as quickly as possible.
+	 * </p>
+	 * <p>
+	 * Here are some additional details about the URG flag:
+	 * </p>
+	 * <ul>
+	 * <li>The URG flag is only set in segments that contain urgent data.</li>
+	 * <li>The URG flag is cleared in segments that do not contain urgent data.</li>
+	 * <li>The URG flag is used to indicate that the data in the segment should be
+	 * delivered to the application layer immediately.</li>
+	 * <li>The URG flag is an important part of the TCP protocol and helps to ensure
+	 * that urgent data is delivered to applications as quickly as possible.</li>
+	 * </ul>
 	 * 
 	 * @return true, if the flag bit is set, otherwise false
 	 */
@@ -407,7 +1291,47 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * URG (1 bit): Indicates that the Urgent pointer field is significant
+	 * Sets the TCP URG flag bit to 1 or 0.
+	 * <p>
+	 * The TCP URG flag is a 1-bit field in the TCP header that indicates whether
+	 * the sender is requesting that the receiver deliver the data in the segment
+	 * immediately. When the URG flag is set, the sender is indicating that the
+	 * receiver should not wait for any more data to be sent before delivering the
+	 * data to the application layer.
+	 * </p>
+	 * <p>
+	 * The URG flag is used to ensure that urgent data is delivered to the
+	 * application layer as quickly as possible. Urgent data is data that needs to
+	 * be processed immediately, such as a notification that a user has sent a chat
+	 * message. When the URG flag is set, the receiver will deliver the data to the
+	 * application layer immediately, even if there is more data that has not yet
+	 * been sent.
+	 * </p>
+	 * <p>
+	 * Here are some examples of how the URG flag is used:
+	 * </p>
+	 * <ul>
+	 * <li>When a client wants to send an urgent chat message to a server, it sends
+	 * a TCP segment with the URG flag set.</li>
+	 * <li>The server responds with a TCP segment with the ACK flag set.</li>
+	 * <li>The urgent chat message is delivered to the application layer on the
+	 * server immediately.</li>
+	 * </ul>
+	 * <p>
+	 * The URG flag is an important part of the TCP protocol and helps to ensure
+	 * that urgent data is delivered to applications as quickly as possible.
+	 * </p>
+	 * <p>
+	 * Here are some additional details about the URG flag:
+	 * </p>
+	 * <ul>
+	 * <li>The URG flag is only set in segments that contain urgent data.</li>
+	 * <li>The URG flag is cleared in segments that do not contain urgent data.</li>
+	 * <li>The URG flag is used to indicate that the data in the segment should be
+	 * delivered to the application layer immediately.</li>
+	 * <li>The URG flag is an important part of the TCP protocol and helps to ensure
+	 * that urgent data is delivered to applications as quickly as possible.</li>
+	 * </ul>
 	 * 
 	 * @param b if true, sets the flag bit to on (1), otherwise the bit is turned
 	 *          off (0)
@@ -416,15 +1340,6 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	public Tcp flags_URG(boolean b) {
 		TcpStruct.FLAGS_URG.setBoolean(b, buffer());
 		return this;
-	}
-
-	/**
-	 * Data offset in bytes (4 bits).
-	 *
-	 * @return the int
-	 */
-	public int hdrLenBytes() {
-		return TcpStruct.HDR_LEN.getUnsignedShort(buffer()) << 2;
 	}
 
 	/**
@@ -473,15 +1388,60 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 * Set a new value in reserved field.
 	 *
 	 * @param res the res
+	 * @return this tcp header instance for Fluent pattern usage
 	 */
-	public void reserved(int res) {
+	public Tcp reserved(int res) {
 		TcpStruct.RESERVED.setInt(res, buffer());
+
+		return this;
 	}
 
 	/**
-	 * Sequence number (32 bits).
+	 * Gets the TCP sequence number field from the header.
 	 * <p>
-	 * Has a dual role:
+	 * The TCP sequence number is a 32-bit number in the TCP header that indicates
+	 * the order of data bytes in a TCP connection. The sequence number is used to
+	 * ensure that data is delivered in the correct order and to detect lost or
+	 * corrupted data.
+	 * </p>
+	 * <p>
+	 * The sequence number is assigned by the sender of data. The first byte of data
+	 * sent in a TCP connection will have a sequence number of 0. The next byte of
+	 * data will have a sequence number of 1, and so on. The sequence number is
+	 * incremented by 1 for each byte of data sent.
+	 * </p>
+	 * <p>
+	 * The receiver of data uses the sequence number to determine the order of the
+	 * data bytes. The receiver will not accept data bytes that are out of order. If
+	 * the receiver receives a data byte with a sequence number that is less than
+	 * the expected sequence number, it will discard the data byte.
+	 * </p>
+	 * <p>
+	 * The sequence number is also used to detect lost or corrupted data. If the
+	 * receiver does not receive a data byte with the expected sequence number, it
+	 * will assume that the data byte was lost or corrupted. The receiver will then
+	 * request that the sender resend the data byte.
+	 * </p>
+	 * <p>
+	 * The TCP sequence number is an important part of the TCP protocol. It ensures
+	 * that data is delivered in the correct order and to detect lost or corrupted
+	 * data.
+	 * </p>
+	 * <p>
+	 * Here are some additional details about the TCP sequence number:
+	 * </p>
+	 * <ul>
+	 * <li>The TCP sequence number is a 32-bit number.</li>
+	 * <li>The sequence number is assigned by the sender of data.</li>
+	 * <li>The sequence number is incremented by 1 for each byte of data sent.</li>
+	 * <li>The receiver of data uses the sequence number to determine the order of
+	 * the data bytes.</li>
+	 * <li>The receiver will not accept data bytes that are out of order.</li>
+	 * <li>The sequence number is also used to detect lost or corrupted data.</li>
+	 * The TCP sequence number is an important part of the TCP protocol.</li>
+	 * </ul>
+	 * <p>
+	 * The sequence number a dual role:
 	 * </p>
 	 * <ul>
 	 * <li>If the SYN flag is set (1), then this is the initial sequence number. The
@@ -491,7 +1451,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 * number of the first data byte of this segment for the current session.</li>
 	 * </ul>
 	 *
-	 * @return the long
+	 * @return the unsigned 32-bit sequence number
 	 */
 	@Meta
 	public long seq() {
@@ -499,18 +1459,110 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * Sets a new sequence number.
+	 * Sets the TCP sequence number field in the header.
+	 * <p>
+	 * The TCP sequence number is a 32-bit number in the TCP header that indicates
+	 * the order of data bytes in a TCP connection. The sequence number is used to
+	 * ensure that data is delivered in the correct order and to detect lost or
+	 * corrupted data.
+	 * </p>
+	 * <p>
+	 * The sequence number is assigned by the sender of data. The first byte of data
+	 * sent in a TCP connection will have a sequence number of 0. The next byte of
+	 * data will have a sequence number of 1, and so on. The sequence number is
+	 * incremented by 1 for each byte of data sent.
+	 * </p>
+	 * <p>
+	 * The receiver of data uses the sequence number to determine the order of the
+	 * data bytes. The receiver will not accept data bytes that are out of order. If
+	 * the receiver receives a data byte with a sequence number that is less than
+	 * the expected sequence number, it will discard the data byte.
+	 * </p>
+	 * <p>
+	 * The sequence number is also used to detect lost or corrupted data. If the
+	 * receiver does not receive a data byte with the expected sequence number, it
+	 * will assume that the data byte was lost or corrupted. The receiver will then
+	 * request that the sender resend the data byte.
+	 * </p>
+	 * <p>
+	 * The TCP sequence number is an important part of the TCP protocol. It ensures
+	 * that data is delivered in the correct order and to detect lost or corrupted
+	 * data.
+	 * </p>
+	 * <p>
+	 * Here are some additional details about the TCP sequence number:
+	 * </p>
+	 * <ul>
+	 * <li>The TCP sequence number is a 32-bit number.</li>
+	 * <li>The sequence number is assigned by the sender of data.</li>
+	 * <li>The sequence number is incremented by 1 for each byte of data sent.</li>
+	 * <li>The receiver of data uses the sequence number to determine the order of
+	 * the data bytes.</li>
+	 * <li>The receiver will not accept data bytes that are out of order.</li>
+	 * <li>The sequence number is also used to detect lost or corrupted data.</li>
+	 * The TCP sequence number is an important part of the TCP protocol.</li>
+	 * </ul>
+	 * <p>
+	 * The sequence number a dual role:
+	 * </p>
+	 * <ul>
+	 * <li>If the SYN flag is set (1), then this is the initial sequence number. The
+	 * sequence number of the actual first data byte and the acknowledged number in
+	 * the corresponding ACK are then this sequence number plus 1.</li>
+	 * <li>If the SYN flag is clear (0), then this is the accumulated sequence
+	 * number of the first data byte of this segment for the current session.</li>
+	 * </ul>
 	 *
-	 * @param seq the seq
+	 * @param newSeq the new unsigned 32-bit sequence number
+	 * @return this tcp header instance for Fluent pattern usage
 	 */
-	public void seq(long seq) {
-		TcpStruct.SEQ.setInt((int) seq, buffer());
+	public Tcp seq(long newSeq) {
+		TcpStruct.SEQ.setInt((int) newSeq, buffer());
+
+		return this;
 	}
 
 	/**
-	 * Source port (16 bits). Identifies the sending port.
+	 * Gets the TCP source port number.
+	 * <p>
+	 * The TCP source port is a 16-bit number in the TCP header that identifies the
+	 * process on the sending host that is sending the data. The source port is used
+	 * to uniquely identify the sending process and to ensure that data is delivered
+	 * to the correct process on the receiving host.
+	 * </p>
+	 * <p>
+	 * The source port is assigned by the sending host. The first 1024 ports are
+	 * reserved for well-known services, such as HTTP (port 80), HTTPS (port 443),
+	 * and FTP (port 21). Applications that use well-known services will typically
+	 * use the same port number for all connections. Applications that use
+	 * non-standard services will typically choose a random port number for each
+	 * connection.
+	 * </p>
+	 * <p>
+	 * The receiving host uses the source port to determine which process on the
+	 * receiving host should receive the data. The receiving host will keep track of
+	 * the source port for each connection and will deliver data to the process on
+	 * the receiving host that has the same source port as the sending process.
+	 * </p>
+	 * <p>
+	 * The TCP source port is an important part of the TCP protocol. It ensures that
+	 * data is delivered to the correct process on the receiving host.
+	 * </p>
+	 * <p>
+	 * Here are some additional details about the TCP source port:
+	 * </p>
+	 * <ul>
+	 * <li>The TCP source port is a 16-bit number.</li>
+	 * <li>The source port is assigned by the sending host.</li>
+	 * <li>The source port is used to uniquely identify the sending process.</li>
+	 * <li>The source port is used to ensure that data is delivered to the correct
+	 * process on the receiving host.</li>
+	 * </ul>
+	 * <p>
+	 * The TCP source port is an important part of the TCP protocol.
+	 * </p>
 	 * 
-	 * @return the int
+	 * @return the unsigned 16-bit port number
 	 */
 	@Meta
 	public int source() {
@@ -518,58 +1570,282 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * Sets a new source prot.
+	 * Sets the TCP source port number.
+	 * <p>
+	 * The TCP source port is a 16-bit number in the TCP header that identifies the
+	 * process on the sending host that is sending the data. The source port is used
+	 * to uniquely identify the sending process and to ensure that data is delivered
+	 * to the correct process on the receiving host.
+	 * </p>
+	 * <p>
+	 * The source port is assigned by the sending host. The first 1024 ports are
+	 * reserved for well-known services, such as HTTP (port 80), HTTPS (port 443),
+	 * and FTP (port 21). Applications that use well-known services will typically
+	 * use the same port number for all connections. Applications that use
+	 * non-standard services will typically choose a random port number for each
+	 * connection.
+	 * </p>
+	 * <p>
+	 * The receiving host uses the source port to determine which process on the
+	 * receiving host should receive the data. The receiving host will keep track of
+	 * the source port for each connection and will deliver data to the process on
+	 * the receiving host that has the same source port as the sending process.
+	 * </p>
+	 * <p>
+	 * The TCP source port is an important part of the TCP protocol. It ensures that
+	 * data is delivered to the correct process on the receiving host.
+	 * </p>
+	 * <p>
+	 * Here are some additional details about the TCP source port:
+	 * </p>
+	 * <ul>
+	 * <li>The TCP source port is a 16-bit number.</li>
+	 * <li>The source port is assigned by the sending host.</li>
+	 * <li>The source port is used to uniquely identify the sending process.</li>
+	 * <li>The source port is used to ensure that data is delivered to the correct
+	 * process on the receiving host.</li>
+	 * </ul>
+	 * <p>
+	 * The TCP source port is an important part of the TCP protocol.
+	 * </p>
 	 *
-	 * @param newPort the new port
+	 * @param newPort new unsigned 16-bit port number
+	 * @return this tcp header instance for Fluent pattern usage
 	 */
-	public void source(int newPort) {
+	public Tcp source(int newPort) {
 		TcpStruct.SRC_PORT.setInt(newPort, buffer());
+
+		return this;
 	}
 
 	/**
-	 * Urgent pointer (16 bits). If the URG flag is set, then this 16-bit field is
-	 * an offset from the sequence number indicating the last urgent data byte.
+	 * Gets the TCP urgent pointer field value.
+	 * <p>
+	 * The TCP urgent pointer is a 16-bit field in the TCP header that indicates the
+	 * last byte of urgent data in a TCP segment. Urgent data is data that needs to
+	 * be processed immediately, such as a notification that a user has sent a chat
+	 * message. When the urgent pointer is set, the receiver will deliver the urgent
+	 * data to the application layer immediately, even if there is more data that
+	 * has not yet been sent.
+	 * </p>
+	 * <p>
+	 * The urgent pointer is calculated by adding the sequence number of the segment
+	 * to the value of the urgent pointer. For example, if the sequence number is
+	 * 1000 and the urgent pointer is 100, the last byte of urgent data in the
+	 * segment is byte 1100.
+	 * </p>
+	 * <p>
+	 * The urgent pointer is only set in segments that contain urgent data. When the
+	 * urgent pointer is not set, the receiver will deliver the data in the segment
+	 * to the application layer in the order that it was sent.
+	 * </p>
+	 * <p>
+	 * The urgent pointer is an important part of the TCP protocol. It allows
+	 * applications to send urgent data that needs to be processed immediately.
+	 * </p>
+	 * <p>
+	 * Here are some additional details about the TCP urgent pointer:
+	 * </p>
+	 * <ul>
+	 * <li>The urgent pointer is a 16-bit field in the TCP header.</li>
+	 * <li>The urgent pointer is only set in segments that contain urgent data.</li>
+	 * <li>The urgent pointer indicates the last byte of urgent data in the
+	 * segment.</li>
+	 * <li>The receiver will deliver the urgent data to the application layer
+	 * immediately.</li>
+	 * </ul>
+	 * <p>
+	 * The urgent pointer is an important part of the TCP protocol.
+	 * </p>
 	 *
-	 * @return the int
+	 * @return the unsigned 16-bit urgent pointer value
 	 */
+	@Meta
 	public int urgent() {
 		return TcpStruct.URGENT_POINTER.getUnsignedShort(buffer());
 	}
 
 	/**
-	 * Sets a new urgent pointer.
+	 * Sets the TCP urgent pointer field value.
+	 * <p>
+	 * The TCP urgent pointer is a 16-bit field in the TCP header that indicates the
+	 * last byte of urgent data in a TCP segment. Urgent data is data that needs to
+	 * be processed immediately, such as a notification that a user has sent a chat
+	 * message. When the urgent pointer is set, the receiver will deliver the urgent
+	 * data to the application layer immediately, even if there is more data that
+	 * has not yet been sent.
+	 * </p>
+	 * <p>
+	 * The urgent pointer is calculated by adding the sequence number of the segment
+	 * to the value of the urgent pointer. For example, if the sequence number is
+	 * 1000 and the urgent pointer is 100, the last byte of urgent data in the
+	 * segment is byte 1100.
+	 * </p>
+	 * <p>
+	 * The urgent pointer is only set in segments that contain urgent data. When the
+	 * urgent pointer is not set, the receiver will deliver the data in the segment
+	 * to the application layer in the order that it was sent.
+	 * </p>
+	 * <p>
+	 * The urgent pointer is an important part of the TCP protocol. It allows
+	 * applications to send urgent data that needs to be processed immediately.
+	 * </p>
+	 * <p>
+	 * Here are some additional details about the TCP urgent pointer:
+	 * </p>
+	 * <ul>
+	 * <li>The urgent pointer is a 16-bit field in the TCP header.</li>
+	 * <li>The urgent pointer is only set in segments that contain urgent data.</li>
+	 * <li>The urgent pointer indicates the last byte of urgent data in the
+	 * segment.</li>
+	 * <li>The receiver will deliver the urgent data to the application layer
+	 * immediately.</li>
+	 * </ul>
+	 * <p>
+	 * The urgent pointer is an important part of the TCP protocol.
+	 * </p>
 	 *
-	 * @param urgentPointer the urgent pointer
+	 * @param newUrgentPointer new unsigned 16-bit urgent pointer value
+	 * @return this tcp header instance for Fluent pattern usage
 	 */
-	public void urgent(int urgentPointer) {
-		TcpStruct.URGENT_POINTER.setInt(urgentPointer, buffer());
+	public Tcp urgent(int newUrgentPointer) {
+		TcpStruct.URGENT_POINTER.setInt(newUrgentPointer, buffer());
+
+		return this;
 	}
 
 	/**
-	 * Window size in "receiver window" units (16 bits). The size of the receive
-	 * window, which specifies the number of window size units that the sender of
-	 * this segment is currently willing to receive.
+	 * Gets the TCP window field value.
+	 * <p>
+	 * The TCP window field is a 16-bit field in the TCP header that indicates the
+	 * amount of data that the sender is allowed to send before it must wait for an
+	 * acknowledgment from the receiver. The window size is negotiated during the
+	 * TCP connection establishment process and can be changed during the connection
+	 * lifetime.
+	 * </p>
+	 * <p>
+	 * The window size is used to control the flow of data between the sender and
+	 * receiver. When the sender has data to send, it will send up to the amount of
+	 * data specified by the window size. The receiver will then acknowledge the
+	 * data that it has received and the sender can then send more data.
+	 * </p>
+	 * <p>
+	 * The window size is an important part of the TCP protocol. It ensures that
+	 * data is not sent too quickly and that the receiver has time to process the
+	 * data that it has received.
+	 * </p>
+	 * <p>
+	 * Here are some additional details about the TCP window field:
+	 * </p>
+	 * <ul>
+	 * <li>The TCP window field is a 16-bit field in the TCP header.</li>
+	 * <li>The window size is negotiated during the TCP connection establishment
+	 * process.</li>
+	 * <li>The window size can be changed during the connection lifetime.</li>
+	 * <li>The window size is used to control the flow of data between the sender
+	 * and receiver.</li>
+	 * <li>The window size is an important part of the TCP protocol.</li>
+	 * </ul>
+	 * <p>
+	 * The TCP window field is a critical part of the TCP protocol. It ensures that
+	 * data is transferred reliably and efficiently between two hosts.
+	 * </p>
 	 *
-	 * @return the int
+	 * @return the unsigned 16-bit window field value
 	 */
+	@Meta
 	public int window() {
 		return TcpStruct.WIN_SIZE.getUnsignedShort(buffer());
 	}
 
 	/**
-	 * Sets a new window size (16 bits).
+	 * Sets the TCP window field value.
+	 * <p>
+	 * The TCP window field is a 16-bit field in the TCP header that indicates the
+	 * amount of data that the sender is allowed to send before it must wait for an
+	 * acknowledgment from the receiver. The window size is negotiated during the
+	 * TCP connection establishment process and can be changed during the connection
+	 * lifetime.
+	 * </p>
+	 * <p>
+	 * The window size is used to control the flow of data between the sender and
+	 * receiver. When the sender has data to send, it will send up to the amount of
+	 * data specified by the window size. The receiver will then acknowledge the
+	 * data that it has received and the sender can then send more data.
+	 * </p>
+	 * <p>
+	 * The window size is an important part of the TCP protocol. It ensures that
+	 * data is not sent too quickly and that the receiver has time to process the
+	 * data that it has received.
+	 * </p>
+	 * <p>
+	 * Here are some additional details about the TCP window field:
+	 * </p>
+	 * <ul>
+	 * <li>The TCP window field is a 16-bit field in the TCP header.</li>
+	 * <li>The window size is negotiated during the TCP connection establishment
+	 * process.</li>
+	 * <li>The window size can be changed during the connection lifetime.</li>
+	 * <li>The window size is used to control the flow of data between the sender
+	 * and receiver.</li>
+	 * <li>The window size is an important part of the TCP protocol.</li>
+	 * </ul>
+	 * <p>
+	 * The TCP window field is a critical part of the TCP protocol. It ensures that
+	 * data is transferred reliably and efficiently between two hosts.
+	 * </p>
 	 *
-	 * @param size the size
+	 * @param newSize the new unsigned 16-bit window field value
+	 * @return this tcp header instance for Fluent pattern usage
+	 * @see #windowScaled()
 	 */
-	public void window(int size) {
-		TcpStruct.WIN_SIZE.setInt(size, buffer());
+	public Tcp window(int newSize) {
+		TcpStruct.WIN_SIZE.setInt(newSize, buffer());
+
+		return this;
 	}
 
 	/**
-	 * A scaled window size in units of bytes. If the TCP header has the
-	 * window-scale option the shift count of the option will be used. If no TCP
-	 * window-scale option, then a shift 0 will be used.
-	 *
+	 * A scaled window size in units of bytes.
+	 * <p>
+	 * If the TCP header has the window-scale option the shift count of the option
+	 * will be used. If no TCP window-scale option, then a shift 0 will be used.
+	 * </p>
+	 * <p>
+	 * TCP window scaling is a technique used to increase the window size of a TCP
+	 * connection beyond the default 65,535 bytes. This is done by using a window
+	 * scale factor, which is a 3-bit field in the TCP header. The window scale
+	 * factor can be set from 0 to 14, which allows for a maximum window size of
+	 * 1,073,741,824 bytes.
+	 * </p>
+	 * <p>
+	 * To calculate the actual window size, the window scale factor is multiplied by
+	 * 2^14, or 16,384. For example, if the window scale factor is 3, the actual
+	 * window size will be 1,073,741,824 bytes.
+	 * </p>
+	 * <p>
+	 * TCP window scaling is used to improve the performance of TCP connections by
+	 * allowing the sender to send more data before it must wait for an
+	 * acknowledgment from the receiver. This can be especially beneficial for
+	 * connections with high bandwidth and low latency.
+	 * </p>
+	 * <p>
+	 * Here are some additional details about TCP window scaling:
+	 * </p>
+	 * <ul>
+	 * <li>The window scale factor is a 3-bit field in the TCP header.</li>
+	 * <li>The window scale factor can be set from 0 to 14.</li>
+	 * <li>The maximum window size is 1,073,741,824 bytes.</li>
+	 * <li>TCP window scaling is used to improve the performance of TCP connections
+	 * by allowing the sender to send more data before it must wait for an
+	 * acknowledgment from the receiver.</li>
+	 * </ul>
+	 * <p>
+	 * TCP window scaling is a valuable tool for improving the performance of TCP
+	 * connections. It is especially beneficial for connections with high bandwidth
+	 * and low latency.
+	 * </p>
+	 * 
 	 * @return the scaled window value
 	 */
 	public int windowScaled() {
@@ -585,7 +1861,46 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * A scaled window size in units of bytes.
+	 * A scaled window size in units of bytes using the supplied scaling bitshift
+	 * size.
+	 * <p>
+	 * If the TCP header has the window-scale option the shift count of the option
+	 * will be used. If no TCP window-scale option, then a shift 0 will be used.
+	 * </p>
+	 * <p>
+	 * TCP window scaling is a technique used to increase the window size of a TCP
+	 * connection beyond the default 65,535 bytes. This is done by using a window
+	 * scale factor, which is a 3-bit field in the TCP header. The window scale
+	 * factor can be set from 0 to 14, which allows for a maximum window size of
+	 * 1,073,741,824 bytes.
+	 * </p>
+	 * <p>
+	 * To calculate the actual window size, the window scale factor is multiplied by
+	 * 2^14, or 16,384. For example, if the window scale factor is 3, the actual
+	 * window size will be 1,073,741,824 bytes.
+	 * </p>
+	 * <p>
+	 * TCP window scaling is used to improve the performance of TCP connections by
+	 * allowing the sender to send more data before it must wait for an
+	 * acknowledgment from the receiver. This can be especially beneficial for
+	 * connections with high bandwidth and low latency.
+	 * </p>
+	 * <p>
+	 * Here are some additional details about TCP window scaling:
+	 * </p>
+	 * <ul>
+	 * <li>The window scale factor is a 3-bit field in the TCP header.</li>
+	 * <li>The window scale factor can be set from 0 to 14.</li>
+	 * <li>The maximum window size is 1,073,741,824 bytes.</li>
+	 * <li>TCP window scaling is used to improve the performance of TCP connections
+	 * by allowing the sender to send more data before it must wait for an
+	 * acknowledgment from the receiver.</li>
+	 * </ul>
+	 * <p>
+	 * TCP window scaling is a valuable tool for improving the performance of TCP
+	 * connections. It is especially beneficial for connections with high bandwidth
+	 * and low latency.
+	 * </p>
 	 *
 	 * @param scale the bitshift scale to use
 	 * @return the scaled window value

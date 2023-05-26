@@ -26,11 +26,11 @@ import java.util.stream.Collectors;
 
 import com.slytechs.protocol.Frame;
 import com.slytechs.protocol.Header;
+import com.slytechs.protocol.HeaderExtension;
 import com.slytechs.protocol.HeaderFactory;
 import com.slytechs.protocol.HeaderNotFound;
 import com.slytechs.protocol.Packet;
 import com.slytechs.protocol.Payload;
-import com.slytechs.protocol.descriptor.CompactDescriptor;
 import com.slytechs.protocol.meta.MetaContext.MetaMapped;
 import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.ProtocolPackTable;
@@ -113,25 +113,34 @@ public final class MetaPacket
 
 			String lastHeaderName = "";
 			int lastId = 0;
+			HeaderExtension<? super Header> lastHeaderExt = null;
 			long[] compactArray = packet.descriptor().listHeaders();
 			for (long cp : compactArray) {
 				try {
-					int id = CompactDescriptor.decodeId(cp);
+					int id = PackId.decodeRecordId(cp);
 					int packId = PackId.decodePackId(id);
-					boolean isOption = packId == ProtocolPackTable.PACK_ID_OPTIONS;
+					boolean isOption = (packId == ProtocolPackTable.PACK_ID_OPTIONS);
 
 					final Header header;
-					if (isOption) {
+					if (isOption && lastHeaderExt != null) {
 						header = headerFactory.getExtension(lastId, id);
+						lastHeaderName = header.headerName();
+
+						lastHeaderExt.getExtension(header, 0);
 
 					} else {
 						header = headerFactory.get(id);
+						lastHeaderName = header.headerName();
 						lastId = id;
+
+						if (header instanceof HeaderExtension<?> ext)
+							lastHeaderExt = (HeaderExtension<? super Header>) ext;
+						else
+							lastHeaderExt = null;
+
+						packet.getHeader(header, 0);
 					}
 
-					lastHeaderName = header.headerName();
-
-					packet.getHeader(header, 0);
 					lastHeaderName = header.toString(Detail.MEDIUM, null);
 
 					MetaHeader metaHdr = new MetaHeader(ctx, this, header);

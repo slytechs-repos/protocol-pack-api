@@ -1,0 +1,6 @@
+{
+	"TCP:SACK;200": "Selective Acknowledgment Option",
+	"HIGH,MEDIUM,LOW": {
+		"mss;Max segment size": "%{}d"
+	}
+}

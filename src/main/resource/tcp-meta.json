@@ -3,7 +3,12 @@
 	"TRACE,DEBUG,HIGH,MEDIUM,LOW": {
 		"src;Source Port": "%{:PORT_LOOKUP}s (%{}d)",
 		"dst;Destination Port": "%{:PORT_LOOKUP}s (%{}d)",
-		"ack;Acknoledgment number": "%{}d",
-		"flags": "0x%{}03X (%{:TCP_FLAGS}s)"
+		"seq;Sequence Number (raw)": "%{}d",
+		"ack;Acknowledgment Number (raw)": "%{}d",
+		"dataOffset;Header Length": "%{length}d bytes (%{}d)",
+		"flags;Flags": "0x%{}03X (%{:TCP_FLAGS}s)",
+		"window;Window": "%{}d",
+		"checksum;Checksum": "0x%{}X",
+		"urgent;Urgent Pointer": "%{}d"
 	}
 }

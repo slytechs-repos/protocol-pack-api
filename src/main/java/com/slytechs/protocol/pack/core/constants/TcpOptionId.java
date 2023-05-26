@@ -24,18 +24,23 @@ import com.slytechs.protocol.HeaderExtensionInfo;
 import com.slytechs.protocol.HeaderSupplier;
 import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.ProtocolPackTable;
+import com.slytechs.protocol.pack.core.TcpOption;
 import com.slytechs.protocol.pack.core.TcpOption.TcpEndOfListOption;
 import com.slytechs.protocol.pack.core.TcpOption.TcpFastOpenOption;
 import com.slytechs.protocol.pack.core.TcpOption.TcpMSSOption;
 import com.slytechs.protocol.pack.core.TcpOption.TcpNoOption;
-import com.slytechs.protocol.pack.core.TcpOption.TcpSelectiveAckOption;
+import com.slytechs.protocol.pack.core.TcpOption.TcpSackOption;
+import com.slytechs.protocol.pack.core.TcpOption.TcpSackPermOption;
 import com.slytechs.protocol.pack.core.TcpOption.TcpTimestampOption;
 import com.slytechs.protocol.pack.core.TcpOption.TcpWindowScaleOption;
 
 /**
- * The Enum TcpOptionInfo.
+ * TCP header option ID constants.
  */
-public enum TcpOptionInfo implements HeaderExtensionInfo {
+public enum TcpOptionId implements HeaderExtensionInfo, PackId {
+
+	/** The option. */
+	OPTION(254, "OPT", TcpOption::new),
 
 	/** The eol. */
 	EOL(CoreConstants.TCP_OPTION_KIND_EOL, "EOL", TcpEndOfListOption::new),
@@ -50,7 +55,10 @@ public enum TcpOptionInfo implements HeaderExtensionInfo {
 	WIN_SCALE(CoreConstants.TCP_OPTION_KIND_WIN_SCALE, "WIN", TcpWindowScaleOption::new),
 
 	/** The sack. */
-	SACK(CoreConstants.TCP_OPTION_KIND_SACK, "SACK", TcpSelectiveAckOption::new),
+	SACK_PERMITTED(CoreConstants.TCP_OPTION_KIND_SACK_PERMITTED, "SACK_PERM", TcpSackPermOption::new),
+
+	/** The sack. */
+	SACK(CoreConstants.TCP_OPTION_KIND_SACK, "SACK", TcpSackOption::new),
 
 	/** The timestamp. */
 	TIMESTAMP(CoreConstants.TCP_OPTION_KIND_TIMESTAMP, "TS", TcpTimestampOption::new),
@@ -60,34 +68,43 @@ public enum TcpOptionInfo implements HeaderExtensionInfo {
 
 	;
 
-	/** The Constant TCP_OPT_ID_EOL. */
+	/** The Constant TCP_OPT_CLASS_OPTION. */
+	public static final int TCP_OPT_CLASS_OPTION = CoreId.CORE_CLASS_TCP_OPT;
+
 	// @formatter:off
-	public static final int TCP_OPT_ID_EOL       = 0 | PACK_ID_OPTIONS;
+	/** The Constant TCP_OPT_ID_OPTION. */
+	public static final int TCP_OPT_ID_OPTION    = 0 | PACK_ID_OPTIONS | TCP_OPT_CLASS_OPTION;
+	
+	/** The Constant TCP_OPT_ID_EOL. */
+	public static final int TCP_OPT_ID_EOL       = 1 | PACK_ID_OPTIONS | TCP_OPT_CLASS_OPTION;
 	
 	/** The Constant TCP_OPT_ID_NOP. */
-	public static final int TCP_OPT_ID_NOP       = 1 | PACK_ID_OPTIONS;
+	public static final int TCP_OPT_ID_NOP       = 2 | PACK_ID_OPTIONS | TCP_OPT_CLASS_OPTION;
 	
 	/** The Constant TCP_OPT_ID_MSS. */
-	public static final int TCP_OPT_ID_MSS       = 2 | PACK_ID_OPTIONS;
+	public static final int TCP_OPT_ID_MSS       = 3 | PACK_ID_OPTIONS | TCP_OPT_CLASS_OPTION;
 	
 	/** The Constant TCP_OPT_ID_WIN_SCALE. */
-	public static final int TCP_OPT_ID_WIN_SCALE = 3 | PACK_ID_OPTIONS;
+	public static final int TCP_OPT_ID_WIN_SCALE = 4 | PACK_ID_OPTIONS | TCP_OPT_CLASS_OPTION;
 	
 	/** The Constant TCP_OPT_ID_SACK. */
-	public static final int TCP_OPT_ID_SACK      = 4 | PACK_ID_OPTIONS;
+	public static final int TCP_OPT_ID_SACK_PERMITTED      = 5 | PACK_ID_OPTIONS | TCP_OPT_CLASS_OPTION;
+	
+	/** The Constant TCP_OPT_ID_SACK. */
+	public static final int TCP_OPT_ID_SACK      = 6 | PACK_ID_OPTIONS | TCP_OPT_CLASS_OPTION;
 	
 	/** The Constant TCP_OPT_ID_TIMESTAMP. */
-	public static final int TCP_OPT_ID_TIMESTAMP = 5 | PACK_ID_OPTIONS;
+	public static final int TCP_OPT_ID_TIMESTAMP = 7 | PACK_ID_OPTIONS | TCP_OPT_CLASS_OPTION;
 	
 	/** The Constant TCP_OPT_ID_FASTOPEN. */
-	public static final int TCP_OPT_ID_FASTOPEN  = 6 | PACK_ID_OPTIONS;
+	public static final int TCP_OPT_ID_FASTOPEN  = 8 | PACK_ID_OPTIONS | TCP_OPT_CLASS_OPTION;
 	// @formatter:on
 
 	/** The Constant MAP_TABLE. */
 	private static final int[] MAP_TABLE = new int[256];
 
 	static {
-		for (TcpOptionInfo opt : values())
+		for (TcpOptionId opt : values())
 			MAP_TABLE[opt.type] = opt.id;
 	}
 
@@ -120,10 +137,10 @@ public enum TcpOptionInfo implements HeaderExtensionInfo {
 	 * @param abbr     the abbr
 	 * @param supplier the supplier
 	 */
-	TcpOptionInfo(int type, String abbr, HeaderSupplier supplier) {
+	TcpOptionId(int type, String abbr, HeaderSupplier supplier) {
 		this.type = type;
 		this.abbr = abbr;
-		this.id = PackId.encodeId(ProtocolPackTable.OPTS, ordinal());
+		this.id = PackId.encodeId(ProtocolPackTable.OPTS, ordinal(), TCP_OPT_CLASS_OPTION);
 		this.supplier = supplier;
 	}
 
@@ -133,7 +150,7 @@ public enum TcpOptionInfo implements HeaderExtensionInfo {
 	 * @param id the id
 	 * @return the tcp option info
 	 */
-	public static TcpOptionInfo valueOf(int id) {
+	public static TcpOptionId valueOf(int id) {
 		int pack = PackId.decodePackId(id);
 		if (pack != ProtocolPackTable.PACK_ID_OPTIONS)
 			return null;

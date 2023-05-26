@@ -25,6 +25,7 @@ import java.nio.ByteOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 
 import com.slytechs.protocol.HeaderNotFound;
 import com.slytechs.protocol.descriptor.PacketDissector;
@@ -55,7 +56,7 @@ class TestTcpHeader {
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
-	void setUp() throws Exception {
+	void setUp(TestInfo info) throws Exception {
 		DISSECTOR.reset();
 
 		DESC_BUFFER.clear();
@@ -63,6 +64,8 @@ class TestTcpHeader {
 			DESC_BUFFER.put((byte) 0);
 
 		DESC_BUFFER.clear();
+		
+		System.out.println("---- " + info.getDisplayName() + " ----");
 	}
 
 	@Test
