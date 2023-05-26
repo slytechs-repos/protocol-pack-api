@@ -88,6 +88,7 @@ public interface PackId {
 	/** The pack id not found. */
 	int ID_NOT_FOUND = -1;
 	
+	/** The pack mask ordinal. */
 	int PACK_MASK_ORDINAL  = 0x000000FF;  // 07:00 - 8 bits, protocol number
 	
 	/** The pack mask pack. */
@@ -105,6 +106,7 @@ public interface PackId {
 	/** The record mask ordinal. */
 	long RECORD_MASK_ORDINAL = 0x00000000_000000FFL; // 05:00 - 6 bits, protocol number
 	
+	/** The record mask classbitmask. */
 	long RECORD_MASK_CLASSBITMASK = 0x00000000_FFFF000FL; // 05:00 - 6 bits, protocol number
 	
 	/** The record mask pack. */
@@ -112,6 +114,8 @@ public interface PackId {
 	
 	/** The record mask unpack. */
 	long RECORD_MASK_ID     = 0x00000000_FFFFFFFFL; // 09:00 - Pack + Ordinal
+	
+	/** The record mask pack ordinal. */
 	long RECORD_MASK_PACK_ORDINAL  = 0x00000000_0000FFFFL; // 09:00 - Pack + Ordinal
 	
 	/** The record mask size. */
@@ -125,6 +129,7 @@ public interface PackId {
 	// @formatter:off
 	int PACK_SHIFT_ORDINAL  = 0;
 	
+	/** The pack shift classbitmask. */
 	int PACK_SHIFT_CLASSBITMASK = 16;
 	
 	/** The pack shift pack. */
@@ -177,18 +182,37 @@ public interface PackId {
 		return (1L << decodeIdOrdinal(id)) | mask;
 	}
 
+	/**
+	 * Class bitmask is empty.
+	 *
+	 * @param idSrcMask the id src mask
+	 * @return true, if successful
+	 */
 	static boolean classBitmaskIsEmpty(int idSrcMask) {
 		return (idSrcMask & PACK_MASK_CLASSBITMASK) == 0;
 	}
 
+	/**
+	 * Class bitmask is present.
+	 *
+	 * @param idSrcMask the id src mask
+	 * @return true, if successful
+	 */
 	static boolean classBitmaskIsPresent(int idSrcMask) {
 		return (idSrcMask & PACK_MASK_CLASSBITMASK) > 0;
 	}
 
+	/**
+	 * Classmask check.
+	 *
+	 * @param classBitmask the class bitmask
+	 * @param id           the id
+	 * @return true, if successful
+	 */
 	static boolean classmaskCheck(int classBitmask, int id) {
 		int mask = (classBitmask & PACK_MASK_CLASSBITMASK);
 
-		return (id & mask) == mask;
+		return (mask != 0) && (id & mask) == mask;
 	}
 
 	/**
@@ -211,6 +235,12 @@ public interface PackId {
 		return (id & PACK_MASK_PACK);
 	}
 
+	/**
+	 * Decode pack class bitmask.
+	 *
+	 * @param id the id
+	 * @return the int
+	 */
 	static int decodePackClassBitmask(int id) {
 		return (id & PACK_MASK_CLASSBITMASK);
 	}
@@ -275,6 +305,12 @@ public interface PackId {
 		return (int) (record & RECORD_MASK_PACK);
 	}
 
+	/**
+	 * Decode record class bitmask.
+	 *
+	 * @param record the record
+	 * @return the int
+	 */
 	static int decodeRecordClassBitmask(long record) {
 		return (int) (record & RECORD_MASK_CLASSBITMASK) >> RECORD_SHIFT_CLASSBITMASK;
 	}
