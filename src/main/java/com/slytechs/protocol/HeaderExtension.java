@@ -19,7 +19,7 @@ package com.slytechs.protocol;
 
 import java.nio.ByteBuffer;
 
-import com.slytechs.protocol.descriptor.CompactDescriptor;
+import com.slytechs.protocol.descriptor.HeaderDescriptor;
 import com.slytechs.protocol.descriptor.PacketDescriptor;
 import com.slytechs.protocol.meta.Meta;
 
@@ -99,9 +99,7 @@ public abstract class HeaderExtension<T extends Header>
 	 */
 	@Override
 	public boolean hasExtension(int extensionId, int depth) {
-		long cp = descriptor.lookupHeaderExtension(super.id, extensionId, depth, meta);
-
-		return (cp != CompactDescriptor.ID_NOT_FOUND);
+		return descriptor.lookupHeaderExtension(super.id, extensionId, depth, meta, HeaderDescriptor.EMPTY);
 	}
 
 	/**
@@ -116,24 +114,17 @@ public abstract class HeaderExtension<T extends Header>
 	 */
 	@Override
 	public <E extends T> E peekExtension(E extension, int depth) {
+		
+		if (descriptor.lookupHeaderExtension(super.id, extension.id(), depth, meta, extension.getHeaderDescriptor())) {
+			extension.bindHeaderToPacket(packet, descriptor);
 
-		long cp = descriptor.lookupHeaderExtension(super.id, extension.id(), depth, meta);
-		if (cp == CompactDescriptor.ID_NOT_FOUND) {
-			/*
-			 * Make sure extension is unbound from any previous bindings. We don't want user
-			 * accidently accessing previous extension binding.
-			 */
+			return extension;
+		} else {
 			extension.unbind();
 
 			return null;
+
 		}
-
-		int offset = CompactDescriptor.decodeOffset(cp);
-		int length = CompactDescriptor.decodeLength(cp);
-
-		extension.bindHeaderToPacket(packet, descriptor, offset, length);
-
-		return extension;
 	}
 
 	/**
@@ -151,7 +142,7 @@ public abstract class HeaderExtension<T extends Header>
 		this.descriptor = descriptor;
 		this.meta = super.getHeaderDescriptor().getMeta();
 	}
-	
+
 	@Override
 	void bindExtensionsToPacket(ByteBuffer packet, PacketDescriptor descriptor, int meta) {
 		this.packet = packet;

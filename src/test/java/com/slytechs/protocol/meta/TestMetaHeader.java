@@ -151,9 +151,8 @@ class TestMetaHeader {
 
 		descriptorType2.frameNo(7);
 
-		try (Packet packet = new Packet(descriptorType2)) {
-			packet.bind(PACKET);
-		}
+		packet = new Packet(descriptorType2);
+		packet.bind(PACKET);
 	}
 
 	/**

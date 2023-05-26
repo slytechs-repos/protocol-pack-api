@@ -155,22 +155,6 @@ public class Type1Descriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * Lookup header extension.
-	 *
-	 * @param headerId        the header id
-	 * @param extId           the ext id
-	 * @param depth           the depth
-	 * @param recordIndexHint the record index hint
-	 * @return the long
-	 * @see com.slytechs.protocol.HeaderLookup#lookupHeaderExtension(int, int, int,
-	 *      int)
-	 */
-	@Override
-	public long lookupHeaderExtension(int headerId, int extId, int depth, int recordIndexHint) {
-		return CompactDescriptor.ID_NOT_FOUND;
-	}
-
-	/**
 	 * Byte size.
 	 *
 	 * @return the int
@@ -300,6 +284,16 @@ public class Type1Descriptor extends PacketDescriptor {
 		}
 
 		return toAppendTo;
+	}
+
+	/**
+	 * @see com.slytechs.protocol.HeaderLookup#lookupHeaderExtension(int, int, int,
+	 *      int, com.slytechs.protocol.descriptor.HeaderDescriptor)
+	 */
+	@Override
+	public boolean lookupHeaderExtension(int headerId, int extId, int depth, int recordIndexHint,
+			HeaderDescriptor descriptor) {
+		return false;
 	}
 
 }

@@ -59,7 +59,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	 * Instantiates a new type 2 descriptor.
 	 */
 	public Type2Descriptor() {
-		super(PacketDescriptorType.TYPE1);
+		super(PacketDescriptorType.TYPE2);
 	}
 
 	/**
@@ -278,7 +278,7 @@ public class Type2Descriptor extends PacketDescriptor {
 	 * @param recordCount the record count
 	 * @return the long
 	 */
-	private long lookupExtension(int extId, int start, int recordCount) {
+	private boolean lookupExtension(int extId, int start, int recordCount, HeaderDescriptor descriptor) {
 
 		for (int i = start; i < recordCount; i++) {
 			final long record = record(i);
@@ -290,10 +290,10 @@ public class Type2Descriptor extends PacketDescriptor {
 				break;
 
 			if (id == extId)
-				return PackId.recordToCompactDescriptor(record, extId, i);
+				return descriptor.assignFromRecord(record, 0, i, type());
 		}
 
-		return CompactDescriptor.ID_NOT_FOUND;
+		return false;
 	}
 
 	@Override
@@ -318,26 +318,20 @@ public class Type2Descriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * Lookup header extension.
-	 *
-	 * @param headerId        the header id
-	 * @param extId           the ext id
-	 * @param depth           the depth
-	 * @param recordIndexHint the record index hint
-	 * @return the long
 	 * @see com.slytechs.protocol.HeaderLookup#lookupHeaderExtension(int, int, int,
-	 *      int)
+	 *      int, com.slytechs.protocol.descriptor.HeaderDescriptor)
 	 */
 	@Override
-	public long lookupHeaderExtension(int headerId, int extId, int depth, int recordIndexHint) {
+	public boolean lookupHeaderExtension(int headerId, int extId, int depth, int recordIndexHint,
+			HeaderDescriptor descriptor) {
 
 		/* If we have a hint, then we can skip directly to extension lookup */
 		if (recordIndexHint > 0)
-			return lookupExtension(extId, recordIndexHint + 1, recordCount());
+			return lookupExtension(extId, recordIndexHint + 1, recordCount(), descriptor);
 
 		final int mask = bitmask();
 		if (!PackId.bitmaskCheck(mask, headerId) && PackId.classBitmaskIsEmpty(headerId))
-			return CompactDescriptor.ID_NOT_FOUND;
+			return false;
 
 		final int recordCount = recordCount();
 		for (int i = 0; i < recordCount; i++) {
@@ -345,13 +339,13 @@ public class Type2Descriptor extends PacketDescriptor {
 
 			if (PackId.recordEqualsId(record, headerId) && (depth-- == 0)) {
 				if (extId == CoreId.CORE_ID_PAYLOAD)
-					return lookupPayload(record);
+					return lookupPayload(record, descriptor);
 
-				return lookupExtension(extId, i + 1, recordCount);
+				return lookupExtension(extId, i + 1, recordCount, descriptor);
 			}
 		}
 
-		return CompactDescriptor.ID_NOT_FOUND;
+		return false;
 	}
 
 	/**
@@ -360,12 +354,12 @@ public class Type2Descriptor extends PacketDescriptor {
 	 * @param record the record
 	 * @return the long
 	 */
-	private long lookupPayload(long record) {
+	private boolean lookupPayload(long record, HeaderDescriptor descriptor) {
 		int off = PackId.decodeRecordOffset(record);
 		int len = PackId.decodeRecordSize(record);
 		int poff = off + len;
 
-		return CompactDescriptor.encode(CoreId.CORE_ID_PAYLOAD, poff, captureLength() - poff);
+		return descriptor.assign(CoreId.CORE_ID_PAYLOAD, off, poff, len, type());
 	}
 
 	/**

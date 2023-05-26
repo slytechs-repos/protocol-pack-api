@@ -333,8 +333,21 @@ public interface PackId {
 	 * @return the int
 	 */
 	static int encodeId(int packOrdinal, int ordinal) {
-		return ((ordinal << PACK_SHIFT_ORDINAL) & PACK_MASK_ORDINAL) |
-				((packOrdinal << PACK_SHIFT_PACK) & PACK_MASK_PACK);
+		return encodeId(packOrdinal, ordinal, 0);
+	}
+
+	/**
+	 * Encode id.
+	 *
+	 * @param packOrdinal the pack ordinal
+	 * @param ordinal     the ordinal
+	 * @return the int
+	 */
+	static int encodeId(int packOrdinal, int ordinal, int classBitmask) {
+		return 0
+				| ((ordinal << PACK_SHIFT_ORDINAL) & PACK_MASK_ORDINAL)
+				| ((packOrdinal << PACK_SHIFT_PACK) & PACK_MASK_PACK)
+				| classBitmask;
 	}
 
 	/**
@@ -346,6 +359,18 @@ public interface PackId {
 	 */
 	static int encodeId(ProtocolPackTable pack, int ordinal) {
 		return PackId.encodeId(pack.ordinal(), ordinal);
+	}
+
+	/**
+	 * Encode id.
+	 *
+	 * @param pack         the pack
+	 * @param ordinal      the ordinal
+	 * @param classBitmask the class bitmask
+	 * @return the int
+	 */
+	static int encodeId(ProtocolPackTable pack, int ordinal, int classBitmask) {
+		return PackId.encodeId(pack.ordinal(), ordinal, classBitmask);
 	}
 
 	/**

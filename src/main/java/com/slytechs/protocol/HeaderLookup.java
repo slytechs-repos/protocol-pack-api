@@ -58,16 +58,32 @@ public interface HeaderLookup {
 	 *         the header or {@link CompactDescriptor#ID_NOT_FOUND} if header at
 	 *         depth is not found or available
 	 */
-	long lookupHeaderExtension(int headerId, int extId, int depth, int recordIndexHint);
+//	long lookupHeaderExtension(int headerId, int extId, int depth, int recordIndexHint);
 
 	/**
 	 * Lookup a primary header and at specific inner tunnel depth.
 	 *
-	 * @param id    a header id
-	 * @param depth the tunnel inner depth
-	 * @return A {@link CompactDescriptor} encoded long value with information about
-	 *         the header or {@link CompactDescriptor#ID_NOT_FOUND} if header at
-	 *         depth is not found or available
+	 * @param id         a header id
+	 * @param depth      the tunnel inner depth
+	 * @param descriptor (out) the header descriptor where matched header
+	 *                   information will be stored
+	 * @return if true, the header was found, otherwise false
 	 */
 	boolean lookupHeader(int id, int depth, HeaderDescriptor descriptor);
+
+	/**
+	 * Lookup a header extension and at specific inner tunnel depth.
+	 *
+	 * @param headerId        the primary header id
+	 * @param extId           the header extension id
+	 * @param depth           the tunnel inner depth
+	 * @param recordIndexHint the record index hint, this information is typically
+	 *                        index of where info about this header resides within a
+	 *                        descriptor, if repeated call and available
+	 * @param descriptor      (out) the header descriptor where matched header
+	 *                        extension information will be stored
+	 * @return if true, the header extension was found, otherwise false
+	 */
+	boolean lookupHeaderExtension(int headerId, int extId, int depth, int recordIndexHint, HeaderDescriptor descriptor);
+
 }
