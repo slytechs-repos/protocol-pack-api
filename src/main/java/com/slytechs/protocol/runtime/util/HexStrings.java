@@ -180,7 +180,7 @@ public class HexStrings {
 	 * @return the byte[]
 	 */
 	public static byte[] parseHexString(String hexString) {
-		hexString = hexString.replaceAll("[:\\-\\s]", "");
+		hexString = hexString.replaceAll("[:\\-\\s]|;.*$", "");
 		if ((hexString.length() % 2) != 0)
 			throw new IllegalArgumentException("odd number of hex digits [%d]"
 					.formatted(hexString.length()));
@@ -254,12 +254,30 @@ public class HexStrings {
 				.collect(Collectors.joining(delimiter, prefix, suffix));
 	}
 
+	/**
+	 * To hex dump.
+	 *
+	 * @param array  the array
+	 * @param offset the offset
+	 * @param length the length
+	 * @return the string
+	 */
 	public static String toHexDump(
 			byte[] array, int offset, int length) {
 		return toHexDump(new StringBuilder(), array, offset, length, DEFAULT_HEXDUMP_WIDTH, i -> "%04X: ".formatted(i))
 				.toString();
 	}
 
+	/**
+	 * To hex dump.
+	 *
+	 * @param array  the array
+	 * @param offset the offset
+	 * @param length the length
+	 * @param width  the width
+	 * @param prefix the prefix
+	 * @return the string
+	 */
 	public static String toHexDump(
 			byte[] array, int offset, int length,
 			int width,
@@ -359,7 +377,7 @@ public class HexStrings {
 	/**
 	 * To hex string.
 	 *
-	 * @param array the array
+	 * @param buffer the buffer
 	 * @return the string
 	 */
 	public static String toHexString(ByteBuffer buffer) {
