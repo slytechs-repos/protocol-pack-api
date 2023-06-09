@@ -15,41 +15,29 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.protocol;
+package com.slytechs.protocol.pack.core;
 
-import java.util.function.IntSupplier;
+import com.slytechs.protocol.meta.MetaResource;
+import com.slytechs.protocol.pack.core.constants.Ip6IdOption;
 
 /**
- * A constant network address type.
+ * IPv6 HOP-BY-HOP Jumbo packet option.
+ * <p>
+ * A "jumbogram" is an IPv6 packet containing a payload longer than 65,535
+ * octets. The IPv6 Jumbo Payload option, provides the means of specifying such
+ * large payload lengths.
+ * </p>
  */
-public enum AddressType implements IntSupplier {
+@MetaResource("ip6-opt-padN-meta.json")
+public final class Ip6OptPadN extends Ip6Option {
 
-	/** The ip4. */
-	IPv4,
-
-	/** The ip6. */
-	IPv6,
-
-	/** The mac. */
-	MAC,
-
-	/** The mac64. */
-	MAC64,
-
-	/** The ipx. */
-	IPX,
-
-	/** The appletalk. */
-	APPLETALK,;
+	public static final int ID = Ip6IdOption.IPv6_ID_OPT_PADN;
 
 	/**
-	 * Gets the as int.
-	 *
-	 * @return the as int
-	 * @see java.util.function.IntSupplier#getAsInt()
+	 * Instantiates a new IPv6 jumbo payload hop-by-hop option.
 	 */
-	@Override
-	public int getAsInt() {
-		return ordinal();
+	public Ip6OptPadN() {
+		super(ID);
 	}
+
 }

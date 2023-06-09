@@ -31,7 +31,7 @@ import com.slytechs.protocol.runtime.util.HexStrings;
  * @author Mark Bednarczyk
  *
  */
-public enum CorePackets {
+public enum CoreTestPackets {
 
 	/**
 	 * Cisco251_af:f4:54 Broadcast ARP 60 Who has 24.166.173.159? Tell 24.166.172.1
@@ -295,7 +295,8 @@ public enum CorePackets {
 			+ "0000000000054000000160000000c0004003b00c0004000020000000000080002003b00"
 			+ "c0000c0007003b00c0000f000200890000000000000006000000160000000c000700450"
 			+ "0c0000f00c0008c000000000000009a000000160000000c0004003c00c0004000020000"
-			+ "000000080002003c00c0000c0007003c00c0000f00020023010000"),
+			+ "000000080002003c00c0000c0007003c00c0000f00020023010000"
+			+ ""),
 
 	/**
 	 * Cisco_0a:d7:40 STP-UplinkFast LLC 60 U, func=UI; SNAP, OUI 0x00000C (Cisco
@@ -319,7 +320,8 @@ public enum CorePackets {
 	IEEE8023_SNAP(""
 			+ "01000ccdcdcd001de50ad740002e"
 			+ "aa aa 03"
-			+ "00000c 0115"),
+			+ "00000c 0115"
+			+ ""),
 
 	/**
 	 * Cisco_87:85:04 Spanning-tree-(for-bridges)_00 STP 60 Conf. Root =
@@ -359,7 +361,8 @@ public enum CorePackets {
 			+ "0180c2000000001c0e8785040026"
 			+ "424203"
 			+ "0000 00 00 00 8064001c0e877800 00000004 8064001c0e878500"
-			+ "8004 0100 1400 0200 0f00"),
+			+ "8004 0100 1400 0200 0f00"
+			+ ""),
 
 	/**
 	 * fc00:2:0:2::1 fc00:2:0:1::1 TCP 94 43424 → http-alt(8080) [SYN] Seq=0
@@ -383,7 +386,8 @@ public enum CorePackets {
 	ETH_IPv6_TCP(""
 			+ "221a95d67a23869323d3378e86dd"
 			+ "600d684a00280640fc000002000000020000000000000001fc000002000000010000000000000001"
-			+ "a9a01f90021b638c00000000a002675c8eb9000002040b7c0402080a801da5220000000001030307"),
+			+ "a9a01f90021b638c00000000a002675c8eb9000002040b7c0402080a801da5220000000001030307"
+			+ ""),
 
 	/**
 	 * 192.168.29.58 192.168.29.160 SNMP 108 get-request
@@ -427,7 +431,8 @@ public enum CorePackets {
 			+ "000b86648ba0005056ae76f50800"
 			+ "4500005e5c65000080110000c0a81d3ac0a81da0"
 			+ "ebd800a1004abc86"
-			+ "3040020103300f02030091c8020205dc040104020103041530130400020100020100040561646d696e04000400301304000400a00d02030091c80201000201003000"),
+			+ "3040020103300f02030091c8020205dc040104020103041530130400020100020100040561646d696e04000400301304000400a00d02030091c80201000201003000"
+			+ ""),
 
 	/**
 	 * 192.168.1.140 174.143.213.184 TCP 74 57678 → http(80) [SYN] Seq=0 Win=5840
@@ -472,7 +477,141 @@ public enum CorePackets {
 	ETH_IPv4_TCP_WCALEOPT(""
 			+ "0026622f4787001d60b301840800"
 			+ "4500003ccb5b4000400628e4c0a8018cae8fd5b8"
-			+ "e14e00508e50190100000000a00216d08f470000020405b40402080a0021d25a0000000001030307"),
+			+ "e14e00508e50190100000000a00216d08f470000020405b40402080a0021d25a0000000001030307"
+			+ ""),
+
+	/**
+	 * 17.3.3.3 16.2.2.2 RSVP 306 PATH Message. SESSION: IPv4-LSP, Destination
+	 * 16.2.2.2, Short Call ID 0, Tunnel ID 1, Ext ID 11030303. SENDER TEMPLATE:
+	 * IPv4-LSP, Tunnel Source: 17.3.3.3, Short Call ID: 0, LSP ID: 1.
+	 * 
+	 * mpls-rsvp-ip4-w-options.cap#3
+	 * 
+	 * <pre>
+	Frame 3: 306 bytes on wire (2448 bits), 306 bytes captured (2448 bits)
+		Encapsulation type: Ethernet (1)
+		Arrival Time: Feb 10, 2000 08:49:03.806994000 EST
+		[Time shift for this packet: 0.000000000 seconds]
+		Epoch Time: 950190543.806994000 seconds
+		[Time delta from previous captured frame: 2.016143000 seconds]
+		[Time delta from previous displayed frame: 0.000000000 seconds]
+		[Time since reference or first frame: 8.024159000 seconds]
+		Frame Number: 3
+		Frame Length: 306 bytes (2448 bits)
+		Capture Length: 306 bytes (2448 bits)
+		[Frame is marked: False]
+		[Frame is ignored: False]
+		[Protocols in frame: eth:ethertype:ip:rsvp]
+	Ethernet II, Src: Cisco_9d:94:01 (00:90:92:9d:94:01), Dst: Cisco_c3:b8:47 (00:d0:63:c3:b8:47)
+		Destination: Cisco_c3:b8:47 (00:d0:63:c3:b8:47)
+		Source: Cisco_9d:94:01 (00:90:92:9d:94:01)
+		Type: IPv4 (0x0800)
+		Frame check sequence: 0x7ba170eb [unverified]
+		[FCS Status: Unverified]
+	Internet Protocol Version 4, Src: 17.3.3.3, Dst: 16.2.2.2
+		0100 .... = Version: 4
+		.... 0110 = Header Length: 24 bytes (6)
+		Differentiated Services Field: 0x00 (DSCP: CS0, ECN: Not-ECT)
+		Total Length: 288
+		Identification: 0x0000 (0)
+		000. .... = Flags: 0x0
+		...0 0000 0000 0000 = Fragment Offset: 0
+		Time to Live: 254
+		Protocol: Reservation Protocol (46)
+		Header Checksum: 0x00a2 [validation disabled]
+		[Header checksum status: Unverified]
+		Source Address: 17.3.3.3
+		Destination Address: 16.2.2.2
+		Options: (4 bytes), Router Alert
+		    IP Option - Router Alert (4 bytes): Router shall examine packet (0)
+		        Type: 148
+		        Length: 4
+		        Router Alert: Router shall examine packet (0)
+	Resource ReserVation Protocol (RSVP): PATH Message. SESSION: IPv4-LSP, Destination 16.2.2.2, Short Call ID 0, Tunnel ID 1, Ext ID 11030303. SENDER TEMPLATE: IPv4-LSP, Tunnel Source: 17.3.3.3, Short Call ID: 0, LSP ID: 1. 
+		RSVP Header. PATH Message. 
+		SESSION: IPv4-LSP, Destination 16.2.2.2, Short Call ID 0, Tunnel ID 1, Ext ID 11030303. 
+		HOP: IPv4, 210.0.0.1
+		TIME VALUES: 30000 ms
+		EXPLICIT ROUTE: IPv4 210.0.0.2, IPv4 204.0.0.1, IPv4 207.0.0.1, ...
+		LABEL REQUEST: Basic: L3PID: IPv4 (0x0800)
+		SESSION ATTRIBUTE: SetupPrio 0, HoldPrio 0, SE Style,  [sys17-3_t1]
+		SENDER TEMPLATE: IPv4-LSP, Tunnel Source: 17.3.3.3, Short Call ID: 0, LSP ID: 1. 
+		SENDER TSPEC: IntServ, Token Bucket, 625000 bytes/sec. 
+		ADSPEC
+	 * </pre>
+	 */
+	ETH_IPv4_OPT_RSVP(""
+			+ "00d063c3b8470090929d94010800"
+			+ "4600012000000000fe2e00a2110303031002020294040000"
+			+ "1001db58fe00010800100107100202020000000111030303000c0301d2000001000000000008050100007530003c14010108d200000220000108cc00000120000108cf00000120000108ca00000120000108c900000120000108c80000012000010810020202200000081301000008000014cf070000040a73797331372d335f74310000000c0b07110303030000000100240c0200000007010000067f00000549189680447a000049189680000000000000000000540d0200000013010000080400000100000001060000014998968008000001000000000a000001000005dc02000008850000010002961c86000001000004b0870000010002961c88000001000004b005000000"
+			+ ";mpls-rsvp-ip4-w-options.cap#3"),
+
+	/**
+	 * fe80::9c09:b416:768:ff42 ff02::16 ICMPv6 90 Multicast Listener Report Message
+	 * v2
+	 * 
+	 * <pre>
+	Frame 41: 90 bytes on wire (720 bits), 90 bytes captured (720 bits)
+	    Encapsulation type: Ethernet (1)
+	    Arrival Time: Feb  9, 2010 21:31:51.146069000 EST
+	    [Time shift for this packet: 0.000000000 seconds]
+	    Epoch Time: 1265769111.146069000 seconds
+	    [Time delta from previous captured frame: 0.294816400 seconds]
+	    [Time delta from previous displayed frame: 0.954216400 seconds]
+	    [Time since reference or first frame: 1.523758100 seconds]
+	    Frame Number: 41
+	    Frame Length: 90 bytes (720 bits)
+	    Capture Length: 90 bytes (720 bits)
+	    [Frame is marked: False]
+	    [Frame is ignored: False]
+	    [Protocols in frame: eth:ethertype:ipv6:ipv6.hopopts:icmpv6]
+	    [Coloring Rule Name: ICMP]
+	    [Coloring Rule String: icmp || icmpv6]
+	Ethernet II, Src: Dell_97:92:01 (00:12:3f:97:92:01), Dst: IPv6mcast_16 (33:33:00:00:00:16)
+		Destination: IPv6mcast_16 (33:33:00:00:00:16)
+		Source: Dell_97:92:01 (00:12:3f:97:92:01)
+		Type: IPv6 (0x86dd)
+	Internet Protocol Version 6, Src: fe80::9c09:b416:768:ff42, Dst: ff02::16
+		0110 .... = Version: 6
+		.... 0000 0000 .... .... .... .... .... = Traffic Class: 0x00 (DSCP: CS0, ECN: Not-ECT)
+		.... 0000 0000 0000 0000 0000 = Flow Label: 0x00000
+		Payload Length: 36
+		Next Header: IPv6 Hop-by-Hop Option (0)
+		Hop Limit: 1
+		Source Address: fe80::9c09:b416:768:ff42
+		Destination Address: ff02::16
+		IPv6 Hop-by-Hop Option
+		    Next Header: ICMPv6 (58)
+		    Length: 0
+		    [Length: 8 bytes]
+		    Router Alert
+		        Type: Router Alert (0x05)
+		        Length: 2
+		        Router Alert: MLD (0)
+		    PadN
+		        Type: PadN (0x01)
+		        Length: 0
+		        PadN: <none>
+	Internet Control Message Protocol v6
+		Type: Multicast Listener Report Message v2 (143)
+		Code: 0
+		Checksum: 0x1a3c [correct]
+		[Checksum Status: Good]
+		Reserved: 0000
+		Number of Multicast Address Records: 1
+		Multicast Address Record Changed to include: ff02::1:3
+		    Record Type: Changed to include (3)
+		    Aux Data Len: 0
+		    Number of Sources: 0
+		    Multicast Address: ff02::1:3
+	 * 
+	 * </pre>
+	 */
+	ETH_IPv6_HOP_BY_HOP_ROUTER_ALERT_ICMPv6(""
+			+ "33330000001600123f97920186dd"
+			+ "6000000000240001fe800000000000009c09b4160768ff42ff0200000000000000000000000000163a00050200000100"
+			+ "8f001a3c0000000103000000ff020000000000000000000000010003"
+			+ ";iphttps.cap#41"),
 
 	;
 
@@ -484,7 +623,7 @@ public enum CorePackets {
 	 *
 	 * @param hexbytes the hexbytes
 	 */
-	CorePackets(String hexbytes) {
+	CoreTestPackets(String hexbytes) {
 		this.array = HexStrings.parseHexString(hexbytes);
 	}
 

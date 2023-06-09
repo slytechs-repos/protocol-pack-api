@@ -75,7 +75,6 @@ public interface ToHexdump {
 	 * a default detail level and offset to the end of the buffer.
 	 *
 	 * @param offset the offset
-	 * @param detail the detail
 	 * @return the generated hexdump string
 	 */
 	default String toHexdump(int offset) {

@@ -22,6 +22,7 @@ import static java.lang.Integer.*;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.function.IntFunction;
+import java.util.function.IntUnaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -30,11 +31,10 @@ import java.util.stream.IntStream;
 import com.slytechs.protocol.runtime.internal.util.ByteArraySlice;
 
 /**
- * The Class HexStrings.
+ * Utilities for various byte array to hex string conversions and parsing.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
 public class HexStrings {
 
@@ -642,7 +642,33 @@ public class HexStrings {
 	 * @return the string
 	 */
 	public static String toIp4String(byte[] array) {
+		assert array.length == 4;
+
 		return toDecStringPrefixed(array, 0, array.length, "" + DEFAULT_DEC_SEPARATOR, "", "");
+	}
+
+	public static String toIp4String(byte[] array, int offset) {
+		assert (array.length - offset) == 4;
+
+		final IntUnaryOperator UBYTE = i -> {
+			return Byte.toUnsignedInt(array[offset + i]);
+		};
+
+		StringBuilder toStringBuffer = new StringBuilder();
+
+		toStringBuffer
+
+				.append(UBYTE.applyAsInt(offset + 0))
+				.append(DEFAULT_DEC_SEPARATOR)
+				.append(UBYTE.applyAsInt(offset + 1))
+				.append(DEFAULT_DEC_SEPARATOR)
+				.append(UBYTE.applyAsInt(offset + 2))
+				.append(DEFAULT_DEC_SEPARATOR)
+				.append(UBYTE.applyAsInt(offset + 3))
+
+		;
+
+		return toStringBuffer.toString();
 	}
 
 	/**
@@ -652,7 +678,76 @@ public class HexStrings {
 	 * @return the string
 	 */
 	public static String toIp6String(byte[] array) {
-		return toHexStringPrefixed(array, 0, array.length, "" + DEFAULT_HEX_SEPARATOR, "", "");
+		assert array.length == 16;
+
+		return toIp6StringCompressed(array, 0);
+	}
+
+	public static String toIp6String(byte[] array, boolean compress) {
+		assert array.length == 16;
+
+		return compress
+				? toIp6StringCompressed(array, 0)
+				: toUncompressedIp6String(array, 0);
+	}
+
+	public static String toUncompressedIp6String(byte[] array, int offset) {
+		assert (array.length - offset) >= 16;
+
+		final IntUnaryOperator USHORT = i -> {
+			return Byte.toUnsignedInt(array[offset + i]) << 8 | Byte.toUnsignedInt(array[offset + i + 1]);
+		};
+
+		StringBuilder toStringBuffer = new StringBuilder();
+
+		for (int i = 0; i < 16; i += 2) {
+			int f = USHORT.applyAsInt(i);
+
+			if (i != 0)
+				toStringBuffer.append(DEFAULT_HEX_SEPARATOR);
+
+			toStringBuffer.append(Integer.toHexString(f));
+		}
+
+		return toStringBuffer.toString();
+	}
+
+	public static String toIp6StringCompressed(byte[] array, int offset) {
+		assert (array.length - offset) >= 16;
+
+		final IntUnaryOperator USHORT = i -> {
+			return Byte.toUnsignedInt(array[offset + i]) << 8 | Byte.toUnsignedInt(array[offset + i + 1]);
+		};
+
+		StringBuilder toStringBuffer = new StringBuilder();
+
+		/* Do compression only once on the first series of zeros */
+		int i;
+		for (i = 0; i < 16; i += 2) {
+			int f = USHORT.applyAsInt(i);
+
+			if (i != 0 && toStringBuffer.charAt(toStringBuffer.length() - 2) != ':')
+				toStringBuffer.append(DEFAULT_HEX_SEPARATOR);
+
+			boolean compressed = (i != 0) && (toStringBuffer.charAt(toStringBuffer.length() - 2) == ':');
+
+			if (f != 0)
+				toStringBuffer.append(Integer.toHexString(f));
+
+			if (f != 0 && compressed) {
+				i += 2;
+				break;
+			}
+		}
+
+		/* Finish the remainder with no compression */
+		for (; i < 16; i += 2) {
+			toStringBuffer
+					.append(DEFAULT_HEX_SEPARATOR)
+					.append(Integer.toHexString(USHORT.applyAsInt(i)));
+		}
+
+		return toStringBuffer.toString();
 	}
 
 	/**

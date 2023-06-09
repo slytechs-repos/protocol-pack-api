@@ -30,8 +30,9 @@ import com.slytechs.protocol.pack.Pack;
 import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.CoreId;
-import com.slytechs.protocol.pack.core.constants.Ip4OptionInfo;
-import com.slytechs.protocol.pack.core.constants.Ip6OptionInfo;
+import com.slytechs.protocol.pack.core.constants.Ip4IdOptions;
+import com.slytechs.protocol.pack.core.constants.Ip6ExtType;
+import com.slytechs.protocol.pack.core.constants.Ip6IdOption;
 import com.slytechs.protocol.pack.core.constants.L2FrameType;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 import com.slytechs.protocol.pack.core.constants.TcpOptionId;
@@ -340,9 +341,14 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 		int type = Byte.toUnsignedInt(buf.get(offset + ICMPv4_FIELD_TYPE));
 
 		switch (type) {
-		case ICMPv4_TYPE_ECHO_REQUEST, ICMPv4_TYPE_ECHO_REPLY ->
-			addRecord(CoreId.CORE_ID_ICMPv4_ECHO, offset, ICMPv4_ECHO_HEADER_LEN);
-
+		case ICMPv4_TYPE_ECHO_REQUEST -> {
+//			addRecord(CoreId.CORE_ID_ICMPv4, offset, ICMPv4_ECHO_HEADER_LEN);
+			addRecord(CoreId.CORE_ID_ICMPv4_ECHO_REQUEST, offset, ICMPv4_ECHO_HEADER_LEN);
+		}
+		case ICMPv4_TYPE_ECHO_REPLY -> {
+//			addRecord(CoreId.CORE_ID_ICMPv4, offset, ICMPv4_ECHO_HEADER_LEN);
+			addRecord(CoreId.CORE_ID_ICMPv4_ECHO_REPLY, offset, ICMPv4_ECHO_HEADER_LEN);
+		}
 		default -> addRecord(CoreId.CORE_ID_ICMPv4, offset, ICMPv4_HEADER_LEN);
 		};
 
@@ -373,9 +379,15 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 			return;
 
 		case ICMPv6_TYPE_ECHO_REQUEST:
+			len = 8;
+//			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
+			addRecord(CoreId.CORE_ID_ICMPv6_ECHO_REQUEST, offset, len);
+			return;
+
 		case ICMPv6_TYPE_ECHO_REPLY:
 			len = 8;
-			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
+//			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
+			addRecord(CoreId.CORE_ID_ICMPv6_ECHO_REPLY, offset, len);
 			return;
 
 		case ICMPv6_TYPE_ROUTER_SOLICITATION:
@@ -400,6 +412,13 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 		case ICMPv6_TYPE_REDIRECT:
 			len = 40;
 			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
+			// TODO: parse options
+			break;
+
+		case ICMPv6_TYPE_MULTICAST_LISTENER_REPORTv2:
+			len = 28;
+//			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
+			addRecord(CoreId.CORE_ID_ICMPv6_MULTICAST_LISTENER_REPORTv2, offset, len);
 			// TODO: parse options
 			break;
 
@@ -444,19 +463,61 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 
 				int id = 0;
 				switch (type) {
-				case Ip4OptionInfo.IPv4_OPTION_TYPE_EOOL:
-				case Ip4OptionInfo.IPv4_OPTION_TYPE_NOP:
+				case Ip4IdOptions.IPv4_OPTION_TYPE_EOOL:
+				case Ip4IdOptions.IPv4_OPTION_TYPE_NOP:
 					len = 1;
 
 					// fall through for all options
 				default:
-					id = Ip4OptionInfo.mapKindToId(type);
+					id = Ip4IdOptions.mapTypeToId(type);
 				}
 
 				if (recordExtensions && !checkBitmask(ip4DisableBitmask, id))
 					addRecord(id, offset, len);
 				offset += len;
 			}
+		}
+
+	}
+
+	protected void dissectIp6OptHopByHop(int offset, int totLen) {
+
+		int end = offset + totLen;
+
+		while (offset < end) {
+			int type = Byte.toUnsignedInt(buf.get(offset));
+			
+			switch (type) {
+
+			case Ip6IdOption.IPv6_OPTION_PAD1: {
+				if (!addRecord(Ip6IdOption.IPv6_ID_OPT_PAD1, offset, 1))
+					break;
+
+				offset += 1;
+				break;
+			}
+
+			case Ip6IdOption.IPv6_OPTION_PADN: {
+				int len = Byte.toUnsignedInt(buf.get(offset + 1)) + 2;
+				if (!addRecord(Ip6IdOption.IPv6_ID_OPT_PADN, offset, len))
+					break;
+
+				offset += len;
+				break;
+			}
+
+			case Ip6IdOption.IPv6_OPTION_ROUTER_ALERT: {
+				int len = Byte.toUnsignedInt(buf.get(offset + 1)) + 2;
+				if (!addRecord(Ip6IdOption.IPv6_ID_OPT_ROUTER_ALERT, offset, len))
+					break;
+
+				offset += len;
+				break;
+			}
+			default:
+				break;
+			}
+
 		}
 
 	}
@@ -479,35 +540,26 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 		offset += IPv6_HEADER_LEN;
 
 		// Calculate IPv6 header size including options
-		LOOP: while (hasRemaining(offset + 2)) {
+		while (hasRemaining(offset + 2)) {
+			if (nextHeader == Ip6ExtType.IPv6_EXT_TYPE_NO_NEXT)
+				return; // No upper layer header
 
-			// IPv6 options
-			switch (nextHeader) {
-			case IP_TYPE_IPv6_FRAGMENT_HEADER:
-			case IP_TYPE_IPv6_HOP_BY_HOP:
-			case IP_TYPE_IPv6_DESTINATION_OPTIONS:
-			case IP_TYPE_IPv6_ROUTING_HEADER:
-			case IP_TYPE_IPv6_ENCAPSULATING_SECURITY_PAYLOAD:
-			case IP_TYPE_IPv6_AUTHENTICATION_HEADER: // Authentication header
-			case IP_TYPE_IPv6_MOBILITY_HEADER: // Mobility header
-			case IP_TYPE_IPv6_HOST_IDENTITY_PROTOCOL: // Host identity
-			case IP_TYPE_IPv6_SHIM6_PROTOCOL: // Shim6 protocol
-				nextHeader = buf.get(offset + extLen + 0);
-				int len = (buf.get(offset + extLen + 1) << 3) + 8; // (in units of 8 bytes)
+			int id = Ip6ExtType.mapTypeToId(nextHeader);
+			if (id == -1)
+				break; // Not an extension header
 
-				int id = Ip6OptionInfo.mapTypeToId(nextHeader);
+			int len = (Byte.toUnsignedInt(buf.get(offset + extLen + 1)) << 3) + 8; // (in units of 8 bytes)
 
-				if (recordExtensions && !checkBitmask(ip4DisableBitmask, id))
-					addRecord(id, offset, len);
+			if (recordExtensions && !checkBitmask(ip4DisableBitmask, id))
+				addRecord(id, offset, len);
 
-				extLen += len;
-				offset += len;
-				break;
+			if (nextHeader == Ip6ExtType.IPv6_EXT_TYPE_HOP_BY_HOP_OPTIONS)
+				dissectIp6OptHopByHop(offset + 2, len -2);
 
-			case IP_TYPE_NO_NEXT: // No Next Header
-			default:
-				break LOOP;
-			}
+			nextHeader = Byte.toUnsignedInt(buf.get(offset));
+
+			extLen += len;
+			offset += len;
 
 		} // End LOOP:
 

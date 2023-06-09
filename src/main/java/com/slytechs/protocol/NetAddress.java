@@ -18,18 +18,44 @@
 package com.slytechs.protocol;
 
 /**
- * The Interface Address.
+ * An address interface implemented by all defined core-protocol-pack network
+ * addresses.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author mark
  */
-public interface Address {
+public interface NetAddress {
 
 	/**
-	 * Type.
+	 * A type of address.
 	 *
-	 * @return the address type
+	 * @return the address type constant
 	 */
-	AddressType type();
+	NetAddressType type();
+
+	/**
+	 * A binary representation of this address.
+	 * <p>
+	 * The length of the returned array depends on type of of address implementing
+	 * this interface and its native address size in bytes.
+	 *
+	 * @return an array containing this address
+	 */
+	byte[] toArray();
+
+	/**
+	 * Address size in bits.
+	 *
+	 * @return number of bits
+	 */
+	default int bitSize() {
+		return byteSize() << 3;
+	}
+
+	/**
+	 * Address size in bytes.
+	 *
+	 * @return the number of bytes
+	 */
+	int byteSize();
 }

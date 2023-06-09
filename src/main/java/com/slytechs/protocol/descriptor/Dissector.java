@@ -20,11 +20,20 @@ package com.slytechs.protocol.descriptor;
 import java.nio.ByteBuffer;
 
 /**
+ * The Interface Dissector.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  */
 public interface Dissector {
 
+	/**
+	 * Dissect.
+	 *
+	 * @param buffer the buffer
+	 * @param offset the offset
+	 * @return the int
+	 */
 	int dissect(ByteBuffer buffer, int offset);
 
 }

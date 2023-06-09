@@ -17,8 +17,7 @@
  */
 package com.slytechs.protocol.pack.core;
 
-import java.util.concurrent.locks.Lock;
-
+import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.constants.CoreId;
 
 /**
@@ -26,10 +25,11 @@ import com.slytechs.protocol.pack.core.constants.CoreId;
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
-public final class Icmp6 extends Icmp {
-	
+@MetaResource("icmp6-meta.json")
+public sealed class Icmp6 extends Icmp
+		permits Icmp6Echo, Icmp6Mlr2 {
+
 	/** The Constant ID. */
 	public static final int ID = CoreId.CORE_ID_ICMPv6;
 
@@ -40,13 +40,8 @@ public final class Icmp6 extends Icmp {
 		super(ID);
 	}
 
-	/**
-	 * Instantiates a new icmp 6.
-	 *
-	 * @param lock the lock
-	 */
-	public Icmp6(Lock lock) {
-		super(ID, lock);
+	protected Icmp6(int id) {
+		super(id);
 	}
 
 }

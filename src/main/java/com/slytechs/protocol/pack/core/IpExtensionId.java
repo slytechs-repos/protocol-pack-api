@@ -15,31 +15,16 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.protocol.pack.core.constants;
+package com.slytechs.protocol.pack.core;
 
-import com.slytechs.protocol.HeaderExtension;
+import com.slytechs.protocol.HeaderExtensionInfo;
 
 /**
+ * IP option ID, information and header factory interface API.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- *
  */
-public class Icmp4Option extends HeaderExtension<Icmp4Option> {
-
-	protected Icmp4Option(int id) {
-		super(id);
-	}
-
-	public static class Icmp4OptEchoRequest extends Icmp4Option {
-
-		/**
-		 * @param id
-		 */
-		protected Icmp4OptEchoRequest(int id) {
-			super(id);
-			// TODO Auto-generated constructor stub
-		}
-
-	}
+public interface IpExtensionId extends HeaderExtensionInfo {
 
 }

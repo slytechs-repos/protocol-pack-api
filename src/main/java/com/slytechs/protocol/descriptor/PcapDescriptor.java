@@ -28,7 +28,8 @@ import com.slytechs.protocol.runtime.time.TimestampUnit;
 import com.slytechs.protocol.runtime.util.Detail;
 
 /**
- * The Class PcapDescriptor.
+ * The pcap packet header descriptor is a structure that is used to describe a
+ * packet that has been captured by the pcap library.
  */
 public final class PcapDescriptor extends PacketDescriptor {
 
@@ -74,9 +75,6 @@ public final class PcapDescriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * Capture length.
-	 *
-	 * @return the int
 	 * @see com.slytechs.protocol.descriptor.PacketDescriptor#captureLength()
 	 */
 	@Override
@@ -85,10 +83,7 @@ public final class PcapDescriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * List headers included headers.
-	 *
-	 * @return the list is always empty as Pcap header descriptor provides no
-	 *         information about the included packet headers
+	 * @see com.slytechs.protocol.HeaderLookup#listHeaders()
 	 */
 	@Override
 	public long[] listHeaders() {
@@ -96,9 +91,6 @@ public final class PcapDescriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * Timestamp.
-	 *
-	 * @return the long
 	 * @see com.slytechs.protocol.descriptor.PacketDescriptor#timestamp()
 	 */
 	@Override
@@ -128,9 +120,6 @@ public final class PcapDescriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * Wire length.
-	 *
-	 * @return the int
 	 * @see com.slytechs.protocol.descriptor.PacketDescriptor#wireLength()
 	 */
 	@Override
@@ -139,10 +128,7 @@ public final class PcapDescriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * Clone to.
-	 *
-	 * @param dst the dst
-	 * @return the pcap descriptor
+	 * @see com.slytechs.protocol.runtime.MemoryBinding#cloneTo(java.nio.ByteBuffer)
 	 */
 	@Override
 	public PcapDescriptor cloneTo(ByteBuffer dst) {
@@ -150,9 +136,6 @@ public final class PcapDescriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * Checks if is header extension supported.
-	 *
-	 * @return true, if is header extension supported
 	 * @see com.slytechs.protocol.HeaderLookup#isHeaderExtensionSupported()
 	 */
 	@Override
@@ -161,9 +144,6 @@ public final class PcapDescriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * Byte size.
-	 *
-	 * @return the int
 	 * @see com.slytechs.protocol.descriptor.PacketDescriptor#byteSize()
 	 */
 	@Override
@@ -172,15 +152,7 @@ public final class PcapDescriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * Lookup header extension.
-	 *
-	 * @param headerId        the header id
-	 * @param extId           the ext id
-	 * @param depth           the depth
-	 * @param recordIndexHint the record index hint
-	 * @return the long
-	 * @see com.slytechs.protocol.HeaderLookup#lookupHeaderExtension(int, int, int,
-	 *      int)
+	 * @see com.slytechs.protocol.HeaderLookup#lookupHeaderExtension(int, int, int, int, com.slytechs.protocol.descriptor.HeaderDescriptor)
 	 */
 	@Override
 	public boolean lookupHeaderExtension(int headerId, int extId, int depth, int recordIndexHint,
@@ -189,8 +161,7 @@ public final class PcapDescriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.HeaderLookup#lookupHeader(int, int,
-	 *      com.slytechs.protocol.descriptor.HeaderDescriptor)
+	 * @see com.slytechs.protocol.HeaderLookup#lookupHeader(int, int, com.slytechs.protocol.descriptor.HeaderDescriptor)
 	 */
 	@Override
 	public boolean lookupHeader(int id, int depth, HeaderDescriptor descriptor) {

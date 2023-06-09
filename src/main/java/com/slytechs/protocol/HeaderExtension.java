@@ -29,12 +29,10 @@ import com.slytechs.protocol.meta.Meta;
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @param <T> the generic header extension type
  */
 @Meta
-public abstract class HeaderExtension<T extends Header>
-		extends Header
-		implements HasExtension<T> {
+public abstract class HeaderExtension
+		extends Header {
 
 	/** The source buffer. */
 	private ByteBuffer packet;
@@ -80,9 +78,8 @@ public abstract class HeaderExtension<T extends Header>
 	 * @see com.slytechs.protocol.HasExtension#getExtension(com.slytechs.protocol.Header,
 	 *      int)
 	 */
-	@Override
-	public <E extends T> E getExtension(E extension, int depth) throws HeaderNotFound {
-		E t = peekExtension(extension, depth);
+	protected final <E extends Header> E getExtensionHeader(E extension, int depth) throws HeaderNotFound {
+		E t = peekExtensionHeader(extension, depth);
 		if (t == null)
 			throw new HeaderNotFound(extension.headerName());
 
@@ -97,8 +94,7 @@ public abstract class HeaderExtension<T extends Header>
 	 * @return true, if successful
 	 * @see com.slytechs.protocol.HasExtension#hasExtension(int, int)
 	 */
-	@Override
-	public boolean hasExtension(int extensionId, int depth) {
+	protected final boolean hasExtensionHeader(int extensionId, int depth) {
 		return descriptor.lookupHeaderExtension(super.id, extensionId, depth, meta, HeaderDescriptor.EMPTY);
 	}
 
@@ -112,9 +108,8 @@ public abstract class HeaderExtension<T extends Header>
 	 * @see com.slytechs.protocol.HasExtension#peekExtension(com.slytechs.protocol.Header,
 	 *      int)
 	 */
-	@Override
-	public <E extends T> E peekExtension(E extension, int depth) {
-		
+	protected final <E extends Header> E peekExtensionHeader(E extension, int depth) {
+
 		if (descriptor.lookupHeaderExtension(super.id, extension.id(), depth, meta, extension.getHeaderDescriptor())) {
 			extension.bindHeaderToPacket(packet, descriptor);
 
@@ -133,21 +128,12 @@ public abstract class HeaderExtension<T extends Header>
 	 * @param packet     the packet
 	 * @param descriptor the descriptor
 	 * @param meta       the meta
-	 * @see com.slytechs.protocol.Header#bindExtensionsToPacket(java.nio.ByteBuffer,
-	 *      com.slytechs.protocol.HeaderLookup, int)
 	 */
 	@Override
 	void bindExtensionsToPacket(ByteBuffer packet, PacketDescriptor descriptor) {
 		this.packet = packet;
 		this.descriptor = descriptor;
 		this.meta = super.getHeaderDescriptor().getMeta();
-	}
-
-	@Override
-	void bindExtensionsToPacket(ByteBuffer packet, PacketDescriptor descriptor, int meta) {
-		this.packet = packet;
-		this.descriptor = descriptor;
-		this.meta = meta;
 	}
 
 }

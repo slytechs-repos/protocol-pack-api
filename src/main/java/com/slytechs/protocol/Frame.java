@@ -197,11 +197,21 @@ public final class Frame extends Header {
 		return descriptor.frameNo();
 	}
 
+	/**
+	 * Port no.
+	 *
+	 * @return the int
+	 */
 	@Meta
 	public int portNo() {
 		return descriptor.portNo();
 	}
 
+	/**
+	 * Port name.
+	 *
+	 * @return the string
+	 */
 	@Meta(MetaType.ATTRIBUTE)
 	public String portName() {
 		return descriptor.portName();

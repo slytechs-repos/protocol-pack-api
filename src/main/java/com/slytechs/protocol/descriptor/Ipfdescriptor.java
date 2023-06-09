@@ -18,14 +18,17 @@
 package com.slytechs.protocol.descriptor;
 
 /**
+ * The Class Ipfdescriptor.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- *
  */
 public abstract class Ipfdescriptor extends Descriptor {
 
 	/**
-	 * @param type
+	 * Instantiates a new ipfdescriptor.
+	 *
+	 * @param type the type
 	 */
 	public Ipfdescriptor(DescriptorType<?> type) {
 		super(type);

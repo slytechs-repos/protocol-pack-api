@@ -6,7 +6,7 @@
 		"seq;Sequence Number (raw)": "%{}d",
 		"ack;Acknowledgment Number (raw)": "%{}d",
 		"dataOffset;Header Length": "%{length}d bytes (%{}d)",
-		"flags;Flags": "0x%{}03X (%{:TCP_FLAGS}s)",
+		"flags;Flags": "0x%{}03X (%{:TCP_FLAGS}s) [%{:TCP_BITS}s]",
 		"window;Window": "%{}d",
 		"checksum;Checksum": "0x%{}X",
 		"urgent;Urgent Pointer": "%{}d"

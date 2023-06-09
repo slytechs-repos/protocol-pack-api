@@ -22,51 +22,126 @@ import java.util.function.IntSupplier;
 import com.slytechs.protocol.runtime.util.Enums;
 
 /**
+ * The Enum Icmp4Type.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- *
  */
 public enum Icmp4Type implements IntSupplier {
-	ECHO_REPLY(Icmp4Type.ICMPv4_TYPE_ECHO_REPLY),
-	DESTINATION_UNREACHABLE(Icmp4Type.ICMPv4_TYPE_DESTINATION_UNREACHABLE),
-	SOURCE_QUENCE(Icmp4Type.ICMPv4_TYPE_SOURCE_QUENCE),
-	REDIRECT(Icmp4Type.ICMPv4_TYPE_REDIRECT),
+
+	/** The echo request. */
 	ECHO_REQUEST(Icmp4Type.ICMPv4_TYPE_ECHO_REQUEST),
+
+	/** The echo reply. */
+	ECHO_REPLY(Icmp4Type.ICMPv4_TYPE_ECHO_REPLY),
+
+	/** The destination unreachable. */
+	DESTINATION_UNREACHABLE(Icmp4Type.ICMPv4_TYPE_DESTINATION_UNREACHABLE),
+
+	/** The source quence. */
+	SOURCE_QUENCE(Icmp4Type.ICMPv4_TYPE_SOURCE_QUENCE),
+
+	/** The redirect. */
+	REDIRECT(Icmp4Type.ICMPv4_TYPE_REDIRECT),
+
+	/** The router advertisement. */
 	ROUTER_ADVERTISEMENT(Icmp4Type.ICMPv4_TYPE_ROUTER_ADVERTISEMENT),
+
+	/** The router solicitation. */
 	ROUTER_SOLICITATION(Icmp4Type.ICMPv4_TYPE_ROUTER_SOLICITATION),
+
+	/** The time exceeded. */
 	TIME_EXCEEDED(Icmp4Type.ICMPv4_TYPE_TIME_EXCEEDED),
+
+	/** The paramter problem bad ip. */
 	PARAMTER_PROBLEM_BAD_IP(Icmp4Type.ICMPv4_TYPE_PARAMTER_PROBLEM_BAD_IP),
+
+	/** The timestamp. */
 	TIMESTAMP(Icmp4Type.ICMPv4_TYPE_TIMESTAMP),
+
+	/** The timestamp reply. */
 	TIMESTAMP_REPLY(Icmp4Type.ICMPv4_TYPE_TIMESTAMP_REPLY),
+
+	/** The info request. */
 	INFO_REQUEST(Icmp4Type.ICMPv4_TYPE_INFO_REQUEST),
+
+	/** The info reply. */
 	INFO_REPLY(Icmp4Type.ICMPv4_TYPE_INFO_REPLY),
+
+	/** The address mask request. */
 	ADDRESS_MASK_REQUEST(Icmp4Type.ICMPv4_TYPE_ADDRESS_MASK_REQUEST),
+
+	/** The address mask reply. */
 	ADDRESS_MASK_REPLY(Icmp4Type.ICMPv4_TYPE_ADDRESS_MASK_REPLY),
+
+	/** The traceroute. */
 	TRACEROUTE(Icmp4Type.ICMPv4_TYPE_TRACEROUTE),
+
+	/** The extended request. */
 	EXTENDED_REQUEST(Icmp4Type.ICMPv4_TYPE_EXTENDED_REQUEST),
+
+	/** The extended reply. */
 	EXTENDED_REPLY(Icmp4Type.ICMPv4_TYPE_EXTENDED_REPLY),
+
 	;
 
-	/** The Constant ICMPv6_TYPE_RESERVED. */
-	public static final int ICMPv4_TYPE_ECHO_REPLY = 0;
-	public static final int ICMPv4_TYPE_DESTINATION_UNREACHABLE = 3;
-	public static final int ICMPv4_TYPE_SOURCE_QUENCE = 4;
-	public static final int ICMPv4_TYPE_REDIRECT = 5;
-	public static final int ICMPv4_TYPE_ECHO_REQUEST = 8;
-	public static final int ICMPv4_TYPE_ROUTER_ADVERTISEMENT = 9;
-	public static final int ICMPv4_TYPE_ROUTER_SOLICITATION = 10;
-	public static final int ICMPv4_TYPE_TIME_EXCEEDED = 11;
-	public static final int ICMPv4_TYPE_PARAMTER_PROBLEM_BAD_IP = 12;
-	public static final int ICMPv4_TYPE_TIMESTAMP = 13;
-	public static final int ICMPv4_TYPE_TIMESTAMP_REPLY = 14;
-	public static final int ICMPv4_TYPE_INFO_REQUEST = 15;
-	public static final int ICMPv4_TYPE_INFO_REPLY = 16;
-	public static final int ICMPv4_TYPE_ADDRESS_MASK_REQUEST = 17;
-	public static final int ICMPv4_TYPE_ADDRESS_MASK_REPLY = 18;
-	public static final int ICMPv4_TYPE_TRACEROUTE = 30;
-	public static final int ICMPv4_TYPE_EXTENDED_REQUEST = 42;
-	public static final int ICMPv4_TYPE_EXTENDED_REPLY = 43;
+	/** The Constant ICMPv4_TYPE_ECHO_REPLY. */
+	// @formatter:off
+	public static final int ICMPv4_TYPE_ECHO_REPLY              = 0;
 	
+	/** The Constant ICMPv4_TYPE_DESTINATION_UNREACHABLE. */
+	public static final int ICMPv4_TYPE_DESTINATION_UNREACHABLE = 3;
+	
+	/** The Constant ICMPv4_TYPE_SOURCE_QUENCE. */
+	public static final int ICMPv4_TYPE_SOURCE_QUENCE           = 4;
+	
+	/** The Constant ICMPv4_TYPE_REDIRECT. */
+	public static final int ICMPv4_TYPE_REDIRECT                = 5;
+	
+	/** The Constant ICMPv4_TYPE_ECHO_REQUEST. */
+	public static final int ICMPv4_TYPE_ECHO_REQUEST            = 8;
+	
+	/** The Constant ICMPv4_TYPE_ROUTER_ADVERTISEMENT. */
+	public static final int ICMPv4_TYPE_ROUTER_ADVERTISEMENT    = 9;
+	
+	/** The Constant ICMPv4_TYPE_ROUTER_SOLICITATION. */
+	public static final int ICMPv4_TYPE_ROUTER_SOLICITATION     = 10;
+	
+	/** The Constant ICMPv4_TYPE_TIME_EXCEEDED. */
+	public static final int ICMPv4_TYPE_TIME_EXCEEDED           = 11;
+	
+	/** The Constant ICMPv4_TYPE_PARAMTER_PROBLEM_BAD_IP. */
+	public static final int ICMPv4_TYPE_PARAMTER_PROBLEM_BAD_IP = 12;
+	
+	/** The Constant ICMPv4_TYPE_TIMESTAMP. */
+	public static final int ICMPv4_TYPE_TIMESTAMP               = 13;
+	
+	/** The Constant ICMPv4_TYPE_TIMESTAMP_REPLY. */
+	public static final int ICMPv4_TYPE_TIMESTAMP_REPLY         = 14;
+	
+	/** The Constant ICMPv4_TYPE_INFO_REQUEST. */
+	public static final int ICMPv4_TYPE_INFO_REQUEST            = 15;
+	
+	/** The Constant ICMPv4_TYPE_INFO_REPLY. */
+	public static final int ICMPv4_TYPE_INFO_REPLY              = 16;
+	
+	/** The Constant ICMPv4_TYPE_ADDRESS_MASK_REQUEST. */
+	public static final int ICMPv4_TYPE_ADDRESS_MASK_REQUEST    = 17;
+	
+	/** The Constant ICMPv4_TYPE_ADDRESS_MASK_REPLY. */
+	public static final int ICMPv4_TYPE_ADDRESS_MASK_REPLY      = 18;
+	
+	/** The Constant ICMPv4_TYPE_TRACEROUTE. */
+	public static final int ICMPv4_TYPE_TRACEROUTE              = 30;
+	
+	/** The Constant ICMPv4_TYPE_EXTENDED_REQUEST. */
+	public static final int ICMPv4_TYPE_EXTENDED_REQUEST        = 42;
+	
+	/** The Constant ICMPv4_TYPE_EXTENDED_REPLY. */
+	public static final int ICMPv4_TYPE_EXTENDED_REPLY          = 43;
+
+	// @formatter:on
+
 	/**
 	 * Resolve.
 	 *
@@ -90,6 +165,9 @@ public enum Icmp4Type implements IntSupplier {
 	}
 
 	/**
+	 * Gets the as int.
+	 *
+	 * @return the as int
 	 * @see java.util.function.IntSupplier#getAsInt()
 	 */
 	@Override
@@ -97,13 +175,4 @@ public enum Icmp4Type implements IntSupplier {
 		return type;
 	}
 
-	/**
-	 * Value of.
-	 *
-	 * @param intValue the int value
-	 * @return the icmp 4 type
-	 */
-	public static Icmp4Type valueOf(int intValue) {
-		return values()[intValue];
-	}
 }

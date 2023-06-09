@@ -44,33 +44,65 @@ public class IpfFragment extends Ipfdescriptor {
 	}
 
 	/**
-	 * @param ipfDescBuffer
+	 * Instantiates a new ipf fragment.
+	 *
+	 * @param descBuf the desc buf
 	 */
 	public IpfFragment(ByteBuffer descBuf) {
 		super(IpfDescriptorType.IPF_FRAG);
 		bind(descBuf);
 	}
 
+	/**
+	 * Ip type.
+	 *
+	 * @return the int
+	 */
 	public int ipType() {
 		return IpfFragmentLayout.IP_TYPE.getByte(buffer());
 	}
 
+	/**
+	 * Ip type as L 3 frame type.
+	 *
+	 * @return the l 3 frame type
+	 */
 	public L3FrameType ipTypeAsL3FrameType() {
 		return L3FrameType.valueOfL3FrameType(ipType());
 	}
 
+	/**
+	 * Checks if is ip 4.
+	 *
+	 * @return true, if is ip 4
+	 */
 	public boolean isIp4() {
 		return !IpfFragmentLayout.IP_TYPE.getBit(buffer());
 	}
 
+	/**
+	 * Checks if is ip 6.
+	 *
+	 * @return true, if is ip 6
+	 */
 	public boolean isIp6() {
 		return IpfFragmentLayout.IP_TYPE.getBit(buffer());
 	}
 
+	/**
+	 * Checks if is frag.
+	 *
+	 * @return true, if is frag
+	 */
 	public boolean isFrag() {
 		return IpfFragmentLayout.IP_IS_FRAG.getBit(buffer());
 	}
 
+	/**
+	 * Checks if is last frag.
+	 *
+	 * @return true, if is last frag
+	 */
 	public boolean isLastFrag() {
 		return IpfFragmentLayout.IP_IS_LAST.getBit(buffer());
 	}
@@ -99,38 +131,83 @@ public class IpfFragment extends Ipfdescriptor {
 		return IpfFragmentLayout.IP_IS_OVERLAP.getBit(buffer());
 	}
 
+	/**
+	 * Header offset.
+	 *
+	 * @return the int
+	 */
 	public int headerOffset() {
 		return IpfFragmentLayout.IP_HDR_OFFSET.getByte(buffer());
 	}
 
+	/**
+	 * Header and required options length.
+	 *
+	 * @return the int
+	 */
 	public int headerAndRequiredOptionsLength() {
 		return IpfFragmentLayout.IP_HDR_LEN.getByte(buffer());
 	}
 
+	/**
+	 * Next header.
+	 *
+	 * @return the int
+	 */
 	public int nextHeader() {
 		return IpfFragmentLayout.IP_NEXT.getByte(buffer());
 	}
 
+	/**
+	 * Next header as ip type.
+	 *
+	 * @return the ip type
+	 */
 	public IpType nextHeaderAsIpType() {
 		return IpType.valueOfIpType(nextHeader());
 	}
 
+	/**
+	 * Frag offset.
+	 *
+	 * @return the int
+	 */
 	public int fragOffset() {
 		return IpfFragmentLayout.FIELD_FRAG_OFFSET.getUnsignedShort(buffer());
 	}
 
+	/**
+	 * Identifier.
+	 *
+	 * @return the int
+	 */
 	public int identifier() {
 		return IpfFragmentLayout.FIELD_IDENTIFIER.getUnsignedShort(buffer());
 	}
 
+	/**
+	 * Data offset.
+	 *
+	 * @return the int
+	 */
 	public int dataOffset() {
 		return IpfFragmentLayout.FRAG_DATA_OFFSET.getUnsignedShort(buffer());
 	}
 
+	/**
+	 * Data length.
+	 *
+	 * @return the int
+	 */
 	public int dataLength() {
 		return IpfFragmentLayout.FRAG_DATA_LEN.getUnsignedShort(buffer());
 	}
 
+	/**
+	 * Ip src.
+	 *
+	 * @return the byte[]
+	 */
 	public byte[] ipSrc() {
 		if (ipType() == L3FrameType.L3_FRAME_TYPE_IPv4)
 			return IpfFragmentLayout.KEY_IPv4_SRC.getByteArray(buffer());
@@ -138,10 +215,20 @@ public class IpfFragment extends Ipfdescriptor {
 			return IpfFragmentLayout.KEY_IPv6_SRC.getByteArray(buffer());
 	}
 
+	/**
+	 * Ip src as string.
+	 *
+	 * @return the string
+	 */
 	public String ipSrcAsString() {
 		return HexStrings.toIpString(ipSrc());
 	}
 
+	/**
+	 * Ip dst.
+	 *
+	 * @return the byte[]
+	 */
 	public byte[] ipDst() {
 		if (ipType() == L3FrameType.L3_FRAME_TYPE_IPv4)
 			return IpfFragmentLayout.KEY_IPv4_DST.getByteArray(buffer());
@@ -149,6 +236,11 @@ public class IpfFragment extends Ipfdescriptor {
 			return IpfFragmentLayout.KEY_IPv6_DST.getByteArray(buffer());
 	}
 
+	/**
+	 * Key buffer.
+	 *
+	 * @return the byte buffer
+	 */
 	public ByteBuffer keyBuffer() {
 		if (ipType() == L3FrameType.L3_FRAME_TYPE_IPv4)
 			return buffer().slice(DESC_IPF_FRAG_KEY, DESC_IPF_FRAG_IPv4_KEY_BYTE_SIZE);
@@ -156,6 +248,11 @@ public class IpfFragment extends Ipfdescriptor {
 			return buffer().slice(DESC_IPF_FRAG_KEY, DESC_IPF_FRAG_IPv6_KEY_BYTE_SIZE);
 	}
 
+	/**
+	 * Ip dst as string.
+	 *
+	 * @return the string
+	 */
 	public String ipDstAsString() {
 		return HexStrings.toIpString(ipDst());
 	}
@@ -175,10 +272,9 @@ public class IpfFragment extends Ipfdescriptor {
 			toAppendTo
 					.append("ipType=%s".formatted(ipTypeAsL3FrameType()))
 					.append(" %5d-%-5d (%4d bytes)".formatted(
-							fragOffset(), 
-							fragOffset() + dataLength() -1,
-							dataLength()
-							));
+							fragOffset(),
+							fragOffset() + dataLength() - 1,
+							dataLength()));
 
 		} else if (detail == Detail.MEDIUM) {
 			toAppendTo

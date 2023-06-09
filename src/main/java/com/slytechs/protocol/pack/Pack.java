@@ -173,6 +173,13 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 			throw new UnsupportedOperationException("not implemented yet");
 		}
 
+		/**
+		 * @see com.slytechs.protocol.pack.Pack#isOptions()
+		 */
+		@Override
+		public boolean isOptions() {
+			return true;
+		}
 	}
 
 	/** The Constant packTable. */
@@ -201,6 +208,10 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		Pack<?> pack = getLoadedPack(packId);
 		if (pack == null)
 			return Optional.empty();
+
+		if (pack.isOptions())
+			throw new IllegalStateException("id[0x%X] is of unknown OPTIONAL pack"
+					.formatted(id));
 
 		return pack.findHeader(id);
 	}
@@ -232,7 +243,7 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 	 */
 	public static String toString(int id) {
 		return lookupHeader(id)
-				.map(HeaderInfo::name)
+				.map(HeaderInfo::abbr)
 				.orElse("N/A(%d)".formatted(id));
 	}
 
@@ -246,11 +257,11 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 	public static String toString(int id, int extId) {
 
 		var parent = lookupHeader(id)
-				.map(HeaderInfo::name)
+				.map(HeaderInfo::abbr)
 				.orElse("N/A(%d)".formatted(id));
 
 		var ext = findExtension(id, extId)
-				.map(HeaderInfo::name)
+				.map(HeaderInfo::abbr)
 				.orElse("N/A(%d.%d)".formatted(id, extId));
 
 		return "%s:%s".formatted(parent, ext);
@@ -760,6 +771,15 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 	 * @return true, if is core
 	 */
 	public boolean isCore() {
+		return false;
+	}
+
+	/**
+	 * Checks if is options.
+	 *
+	 * @return true, if is options
+	 */
+	public boolean isOptions() {
 		return false;
 	}
 

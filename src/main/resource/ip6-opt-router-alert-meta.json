@@ -1,0 +1,6 @@
+{
+	"IPv6;200": "Router Alert: %{routerAlertDescription}s, offset=%{offset}d, length=%{length}d",
+	"HIGH,MEDIUM,LOW": {
+		"routerAlert;Router Alert": "%{}d - %{routerAlertDescription}s"
+	}
+}

@@ -28,13 +28,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import com.slytechs.protocol.pack.core.MacAddress;
 import com.slytechs.protocol.runtime.internal.ArrayUtils;
 import com.slytechs.protocol.runtime.util.HexStrings;
+import com.slytechs.protocol.runtime.util.SystemProperties;
 
 /**
  * The Class IeeeOuiAssignments.
  */
-public final class IeeeOuiAssignments {
+public final class I3eOuiAssignments {
 
 	/**
 	 * The Class OuiEntry.
@@ -200,6 +202,9 @@ public final class IeeeOuiAssignments {
 		/** The map 24 bit hash. */
 		private final Map<Integer, OuiEntry[]> map24BitHash = new HashMap<>();
 
+		/** The map by oui name. */
+		private final Map<String, OuiEntry> mapByOuiName = new HashMap<>();
+
 		/** The size. */
 		private int size = 0;
 
@@ -208,6 +213,15 @@ public final class IeeeOuiAssignments {
 		 */
 		public OuiTable() {
 
+		}
+
+		/**
+		 * Adds the default oui entries.
+		 */
+		private void addDefaultOuiEntries() {
+			addEntry(new byte[] { 0x33,
+					0x33,
+					0x00 }, 24, "IPv6mcast", "IPv6 multicast");;
 		}
 
 		/**
@@ -226,11 +240,20 @@ public final class IeeeOuiAssignments {
 			OuiEntry[] row = map24BitHash.getOrDefault(hash, new OuiEntry[0]);
 			row = Arrays.copyOf(row, row.length + 1);
 			map24BitHash.put(hash, row);
+			mapByOuiName.put(name, entry);
 
 			row[row.length - 1] = entry;
 			Arrays.sort(row, (e1, e2) -> e2.mask - e1.mask); // longest bit-mask match first
 
 			size++;
+		}
+
+		/**
+		 * Clear.
+		 */
+		public void clear() {
+			map24BitHash.clear();
+			size = 0;
 		}
 
 		/**
@@ -249,11 +272,13 @@ public final class IeeeOuiAssignments {
 		 * @throws IOException Signals that an I/O exception has occurred.
 		 */
 		public void loadCvsTable(String cvsResourceName) throws IOException {
-			InputStream in = IeeeOuiAssignments.class.getResourceAsStream(cvsResourceName);
+			InputStream in = I3eOuiAssignments.class.getResourceAsStream(cvsResourceName);
 			if (in == null)
 				throw new FileNotFoundException("resource: " + cvsResourceName);
 
 			readTable(in);
+
+			addDefaultOuiEntries();
 		}
 
 		/**
@@ -275,6 +300,16 @@ public final class IeeeOuiAssignments {
 					return Optional.of(e[i]);
 
 			return Optional.empty();
+		}
+
+		/**
+		 * Lookup entry.
+		 *
+		 * @param ouiName the oui name
+		 * @return the optional
+		 */
+		public Optional<OuiEntry> lookupEntry(String ouiName) {
+			return Optional.ofNullable(mapByOuiName.getOrDefault(ouiName, null));
 		}
 
 		/**
@@ -339,21 +374,59 @@ public final class IeeeOuiAssignments {
 					+ " rowOverlap=" + (size - map24BitHash.size())
 					+ "]";
 		}
-
-		/**
-		 * Clear.
-		 */
-		public void clear() {
-			map24BitHash.clear();
-			size = 0;
-		}
 	}
 
 	/** The Constant LOG. */
-	private final static Logger LOG = Logger.getLogger(IeeeOuiAssignments.class.getCanonicalName());
+	private final static Logger LOG = Logger.getLogger(I3eOuiAssignments.class.getCanonicalName());
 
 	/** The Constant OUI_MANUFACTURE_CVS. */
 	private static final String OUI_MANUFACTURE_CVS = "/ieee-oui-manufacturer-assignments.cvs";
+
+	/** The Constant OUI_LOOKUP_ENABLE_PROPERTY. */
+	public static final String OUI_LOOKUP_ENABLE_PROPERTY = "oui.lookup.enable";
+
+	/** Is the manufacturer OUI TABLE lookup enabled. */
+	private static boolean isOuiLookupEnabled = SystemProperties.boolValue(OUI_LOOKUP_ENABLE_PROPERTY,
+			true);
+
+	/**
+	 * Enable manufacturer oui lookup.
+	 *
+	 * @param b the b
+	 */
+	public static void enableOuiLookup(boolean b) {
+		isOuiLookupEnabled = b;
+
+		if (!b && OuiTable.OUI_MANUFACTURER_TABLE.isLoaded())
+			OuiTable.OUI_MANUFACTURER_TABLE.clear();
+	}
+
+	/**
+	 * Format prefix mac with oui name.
+	 *
+	 * @param obj the obj
+	 * @return the string
+	 */
+	public static String formatMacPrefixWithOuiName(Object obj) {
+		if (obj instanceof String str) {
+			var arr = MacAddress.parseOuiMacAddress(str);
+			return MacAddress.toOuiMacAddressString(arr);
+		}
+
+		if (obj instanceof byte[] mac)
+			return MacAddress.toOuiMacAddressString(mac);
+
+		return "";
+	}
+
+	/**
+	 * Checks if is oui lookup enabled.
+	 *
+	 * @return true, if is oui lookup enabled
+	 */
+	public static boolean isOuiLookupEnabled() {
+		return isOuiLookupEnabled;
+	}
 
 	/**
 	 * Loads IEEE assignment tables. If the tables have already been loaded, this
@@ -370,7 +443,7 @@ public final class IeeeOuiAssignments {
 	 *                               to not be loaded
 	 */
 	public static void loadIeeeTables() throws IllegalStateException {
-		if (!isManufacturerOuiLookupEnabled || OuiTable.OUI_MANUFACTURER_TABLE.isLoaded())
+		if (!isOuiLookupEnabled || OuiTable.OUI_MANUFACTURER_TABLE.isLoaded())
 			return;
 
 		try {
@@ -397,7 +470,7 @@ public final class IeeeOuiAssignments {
 	 * be triggered. Therefore the first such lookup, may take significantly longer
 	 * to complete as the tables are rather large. All subsequent lookups will be
 	 * performed quickly with efficiency. It is recommended, that the user call
-	 * {@link IeeeOuiAssignments#loadIeeeTables()} at an appropriate time, before
+	 * {@link I3eOuiAssignments#loadIeeeTables()} at an appropriate time, before
 	 * calling the lookup method.
 	 * </p>
 	 *
@@ -406,88 +479,13 @@ public final class IeeeOuiAssignments {
 	 *         returned instead
 	 */
 	public static Optional<OuiEntry> lookupManufacturerOui(byte[] macAddress) {
-		if (!isManufacturerOuiLookupEnabled)
+		if (!isOuiLookupEnabled)
 			return Optional.empty();
 
 		if (!OuiTable.OUI_MANUFACTURER_TABLE.isLoaded())
 			loadIeeeTables();
 
 		return OuiTable.OUI_MANUFACTURER_TABLE.lookupEntry(macAddress);
-	}
-
-	/** The is manufacturer oui lookup enabled. */
-	public static boolean isManufacturerOuiLookupEnabled = true;
-
-	/**
-	 * Enable manufacturer oui lookup.
-	 *
-	 * @param b the b
-	 */
-	public static void enableManufacturerOuiLookup(boolean b) {
-		isManufacturerOuiLookupEnabled = b;
-
-		if (!b && OuiTable.OUI_MANUFACTURER_TABLE.isLoaded())
-			OuiTable.OUI_MANUFACTURER_TABLE.clear();
-	}
-
-	/**
-	 * Instantiates a new ieee oui assignments.
-	 */
-	private IeeeOuiAssignments() {
-	}
-
-	/**
-	 * Lookup ether type name.
-	 *
-	 * @param type the type
-	 * @return the optional
-	 */
-	public static Optional<String> lookupEtherTypeName(int type) {
-		String name = switch (type) {
-		case 0x0800 -> "IPv4";
-		case 0x0806 -> "ARP";
-		case 0x0842 -> "WAKE-on-LAN";
-		case 0x22F0 -> "AVTP";
-		case 0x8137 -> "IPX";
-		case 0x86DD -> "IPv6";
-		case 0x8847 -> "MPLS";
-		case 0x8848 -> "MPLS";
-		case 0x8863 -> "PPPoE";
-		case 0x8864 -> "PPPoE";
-
-		default -> null;
-		};
-
-		return Optional.ofNullable(name);
-	}
-
-	/**
-	 * Resolve mac oui name.
-	 *
-	 * @param obj the obj
-	 * @return the string
-	 */
-	public static String resolveMacOuiName(Object obj) {
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * Format prefix mac with oui name.
-	 *
-	 * @param obj the obj
-	 * @return the string
-	 */
-	public static String formatPrefixMacWithOuiName(Object obj) {
-		if (obj instanceof byte[] mac) {
-			Optional<OuiEntry> oui = lookupManufacturerOui(mac);
-
-			return oui
-					.map(OuiEntry::getName)
-					.map(n -> HexStrings.toMacString(mac, n, 3))
-					.orElse("");
-		}
-
-		return "";
 	}
 
 	/**
@@ -497,8 +495,8 @@ public final class IeeeOuiAssignments {
 	 * @return the string
 	 */
 	public static String resolveMacOuiDescription(Object obj) {
-		if (obj instanceof byte[] address) {
-			Optional<OuiEntry> oui = lookupManufacturerOui(address);
+		if (obj instanceof byte[] mac) {
+			Optional<OuiEntry> oui = lookupManufacturerOui(mac);
 
 			return oui
 					.map(OuiEntry::getDescriptrion)
@@ -506,5 +504,45 @@ public final class IeeeOuiAssignments {
 		}
 
 		return "";
+	}
+
+	/**
+	 * Resolve mac oui name.
+	 *
+	 * @param obj the obj
+	 * @return the string
+	 */
+	public static String resolveMacOuiName(Object obj) {
+		if (obj instanceof byte[] mac) {
+			Optional<OuiEntry> oui = lookupManufacturerOui(mac);
+
+			return oui
+					.map(OuiEntry::getName)
+					.orElse("");
+		}
+
+		return "";
+	}
+
+	/**
+	 * Reverse lookup oui name.
+	 *
+	 * @param ouiName the oui name
+	 * @return the optional
+	 */
+	public static Optional<OuiEntry> reverseLookupOuiName(String ouiName) {
+		if (!isOuiLookupEnabled)
+			return Optional.empty();
+
+		if (!OuiTable.OUI_MANUFACTURER_TABLE.isLoaded())
+			loadIeeeTables();
+
+		return OuiTable.OUI_MANUFACTURER_TABLE.lookupEntry(ouiName);
+	}
+
+	/**
+	 * Instantiates a new ieee oui assignments.
+	 */
+	private I3eOuiAssignments() {
 	}
 }

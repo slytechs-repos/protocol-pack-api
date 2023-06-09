@@ -21,6 +21,7 @@ import java.util.EnumSet;
 import java.util.Set;
 import java.util.function.IntSupplier;
 
+import com.slytechs.protocol.runtime.internal.util.format.BitFormat;
 import com.slytechs.protocol.runtime.util.Enums;
 
 /**
@@ -87,14 +88,27 @@ public enum TcpFlag implements IntSupplier {
 	/** The Constant Urgent pointer. */
 	public static final int TCP_FLAG_URG = 0x20;
 
+	private static final String FLAGS_FORMAT = "..B WEUA PRSF";
+	private static final BitFormat FLAGS_FORMATTER = new BitFormat(FLAGS_FORMAT);
+
 	/**
 	 * Resolve.
 	 *
-	 * @param type the type
+	 * @param flags the type
 	 * @return the string
 	 */
-	public static String resolve(Object type) {
-		return Enums.resolve(type, TcpFlag.class);
+	public static String resolve(Object flags) {
+		return Enums.resolve(flags, TcpFlag.class);
+	}
+
+	/**
+	 * Resolve bit format.
+	 *
+	 * @param flags the flags
+	 * @return the string
+	 */
+	public static String resolveBitFormat(Object flags) {
+		return FLAGS_FORMATTER.format(flags);
 	}
 
 	/** The bitmask. */

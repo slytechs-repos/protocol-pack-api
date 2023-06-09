@@ -68,7 +68,7 @@ class TestLlcSnapHeader {
 
 	@Test
 	void test_Llc_ssap() throws HeaderNotFound {
-		var packet = CorePackets.IEEE8023_SNAP.toPacket();
+		var packet = CoreTestPackets.IEEE8023_SNAP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -81,7 +81,7 @@ class TestLlcSnapHeader {
 
 	@Test
 	void test_Llc_dsap() throws HeaderNotFound {
-		var packet = CorePackets.IEEE8023_SNAP.toPacket();
+		var packet = CoreTestPackets.IEEE8023_SNAP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -94,7 +94,7 @@ class TestLlcSnapHeader {
 
 	@Test
 	void test_Llc_control() throws HeaderNotFound {
-		var packet = CorePackets.IEEE8023_SNAP.toPacket();
+		var packet = CoreTestPackets.IEEE8023_SNAP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -107,7 +107,7 @@ class TestLlcSnapHeader {
 
 	@Test
 	void test_Snap_oui() throws HeaderNotFound {
-		var packet = CorePackets.IEEE8023_SNAP.toPacket();
+		var packet = CoreTestPackets.IEEE8023_SNAP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -121,7 +121,7 @@ class TestLlcSnapHeader {
 
 	@Test
 	void test_Snap_pid() throws HeaderNotFound {
-		var packet = CorePackets.IEEE8023_SNAP.toPacket();
+		var packet = CoreTestPackets.IEEE8023_SNAP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);

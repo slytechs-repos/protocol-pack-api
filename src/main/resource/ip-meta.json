@@ -2,7 +2,7 @@
 	"IP": "Internet Protocol Version %{version}d, offset=%{offset}d, length=%{length}d",
 	"HIGH,MEDIUM,LOW": {
 		"version;Version": "%{}d",
-		"protocol;Protocol": "%{}d [%{:IP_TYPE}s]",
+		"protocol;Protocol": "%{:IP_TYPE}s (%{}d)",
 		"dst;Destination Address": "%{:F}s",
 		"src;Source Address": "%{:F}s"
 	}

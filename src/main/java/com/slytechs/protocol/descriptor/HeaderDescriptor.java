@@ -26,8 +26,9 @@ import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
  * compact form such as {@code PackId 64-bit RECORD} and a descriptor is an
  * expanded for of the binary header descriptor.
  */
-public class HeaderDescriptor {
+public final class HeaderDescriptor {
 
+	/** An empty header descriptor. */
 	public static final HeaderDescriptor EMPTY = new HeaderDescriptor();
 
 	/** The descriptor type. */
@@ -47,6 +48,64 @@ public class HeaderDescriptor {
 
 	/** The depth. */
 	private int depth;
+
+	/**
+	 * Instantiates a new header descriptor.
+	 */
+	public HeaderDescriptor() {
+		super();
+	}
+
+	/**
+	 * Assign.
+	 *
+	 * @param id             the id
+	 * @param depth          the depth
+	 * @param offset         the offset
+	 * @param length         the length
+	 * @param descriptorType the descriptor type
+	 * @return true, if successful
+	 */
+	public boolean assign(int id, int depth, int offset, int length, PacketDescriptorType descriptorType) {
+		this.descriptorType = descriptorType;
+		this.depth = depth;
+
+		this.effectiveId = id;
+		this.offset = offset;
+		this.length = length;
+
+		return true;
+	}
+
+	/**
+	 * Assign from record.
+	 *
+	 * @param record         the record
+	 * @param depth          the depth
+	 * @param hint           the hint
+	 * @param descriptorType the descriptor type
+	 * @return true, if successful
+	 */
+	public boolean assignFromRecord(long record, int depth, int hint, PacketDescriptorType descriptorType) {
+		this.descriptorType = descriptorType;
+		this.depth = depth;
+		this.meta = hint;
+
+		this.effectiveId = PackId.decodeRecordId(record);
+		this.offset = PackId.decodeRecordOffset(record);
+		this.length = PackId.decodeRecordSize(record);
+
+		return true;
+	}
+
+	/**
+	 * Gets the depth.
+	 *
+	 * @return the depth
+	 */
+	public int getDepth() {
+		return depth;
+	}
 
 	/**
 	 * Gets the descriptor type.
@@ -94,6 +153,15 @@ public class HeaderDescriptor {
 	}
 
 	/**
+	 * Sets the depth.
+	 *
+	 * @param depth the depth to set
+	 */
+	public void setDepth(int depth) {
+		this.depth = depth;
+	}
+
+	/**
 	 * Sets the descriptor type.
 	 *
 	 * @param descriptorType the new descriptor type
@@ -138,46 +206,12 @@ public class HeaderDescriptor {
 		this.offset = offset;
 	}
 
-	public boolean assign(int id, int depth, int offset, int length, PacketDescriptorType descriptorType) {
-		this.descriptorType = descriptorType;
-		this.depth = depth;
-
-		this.effectiveId = id;
-		this.offset = offset;
-		this.length = length;
-
-		return true;
-	}
-
-	public boolean assignFromRecord(long record, int depth, int hint, PacketDescriptorType descriptorType) {
-		this.descriptorType = descriptorType;
-		this.depth = depth;
-		this.meta = hint;
-
-		this.effectiveId = PackId.decodeRecordId(record);
-		this.offset = PackId.decodeRecordOffset(record);
-		this.length = PackId.decodeRecordSize(record);
-
-		return true;
-	}
-
+	/**
+	 * @see java.lang.Object#toString()
+	 */
 	@Override
 	public String toString() {
 		return "HeaderDescriptor [offset=" + offset + ", length=" + length + ", effectiveId=" + effectiveId
 				+ ", descriptorType=" + descriptorType + ", meta=" + meta + "]";
-	}
-
-	/**
-	 * @return the depth
-	 */
-	public int getDepth() {
-		return depth;
-	}
-
-	/**
-	 * @param depth the depth to set
-	 */
-	public void setDepth(int depth) {
-		this.depth = depth;
 	}
 }

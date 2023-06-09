@@ -27,27 +27,65 @@ import java.util.function.IntSupplier;
  */
 public enum L4FrameType implements IntSupplier {
 
+	/** The tcp. */
 	TCP,
+	
+	/** The udp. */
 	UDP,
+	
+	/** The icmp. */
 	ICMP,
+	
+	/** The other. */
 	OTHER,
+	
+	/** The gre. */
 	GRE,
+	
+	/** The sctp. */
 	SCTP,
+	
+	/** The I pv 4. */
 	IPv4,
+	
+	/** The I pv 6. */
 	IPv6,
 
 	;
 
-	/** @formatter:off L4 frame descriptor values */
+	/**
+	 * The Constant L4_FRAME_TYPE_TCP.
+	 */
 	public final static int L4_FRAME_TYPE_TCP = 0;
+	
+	/** The Constant L4_FRAME_TYPE_UDP. */
 	public final static int L4_FRAME_TYPE_UDP = 1;
+	
+	/** The Constant L4_FRAME_TYPE_ICMP. */
 	public final static int L4_FRAME_TYPE_ICMP = 2;
+	
+	/** The Constant L4_FRAME_TYPE_OTHER. */
 	public final static int L4_FRAME_TYPE_OTHER = 3;
+	
+	/** The Constant L4_FRAME_TYPE_GRE. */
 	public final static int L4_FRAME_TYPE_GRE = 4;
+	
+	/** The Constant L4_FRAME_TYPE_SCTP. */
 	public final static int L4_FRAME_TYPE_SCTP = 5;
+	
+	/** The Constant L4_FRAME_TYPE_IPv4. */
 	public final static int L4_FRAME_TYPE_IPv4 = 6;
+	
+	/** The Constant L4_FRAME_TYPE_IPv6. */
 	public final static int L4_FRAME_TYPE_IPv6 = 7;
-	/** @formatter:off */
+	
+	/**
+	 * Value of L 4 frame type.
+	 *
+	 * @param type the type
+	 * @return the l 4 frame type
+	 * @formatter:off 
+	 */
 
 	/**
 	 * Get the value of L4 frame type constant.
@@ -60,6 +98,9 @@ public enum L4FrameType implements IntSupplier {
 	}
 
 	/**
+	 * Gets the as int.
+	 *
+	 * @return the as int
 	 * @see java.util.function.IntSupplier#getAsInt()
 	 */
 	@Override

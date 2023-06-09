@@ -17,66 +17,75 @@
  */
 package com.slytechs.protocol.pack.core;
 
-import com.slytechs.protocol.meta.Display;
 import com.slytechs.protocol.meta.Meta;
-import com.slytechs.protocol.pack.core.Ip.IpOption;
-import com.slytechs.protocol.pack.core.constants.Ip4OptionInfo;
+import com.slytechs.protocol.meta.MetaResource;
+import com.slytechs.protocol.pack.core.constants.Ip4IdOptions;
 
 /**
- * The Class Ip4Option.
+ * Base header class for all IPv4 options.
  */
-public abstract class Ip4Option extends IpOption {
+@MetaResource("ip4-opt-meta.json")
+public sealed class Ip4Option extends IpOption
+		permits Ip4OptRouterAlert, Ip4SecurityDefunct, Ip4RecordRoute, Ip4MtuProbe, Ip4MtuReply, Ip4QuickStart,
+		Ip4Timestamp, Ip4Traceroute {
+
+	/** The base IPv4 option ID constant. */
+	public static final int ID = Ip4IdOptions.IPv4_ID_OPT_HEADER;
 
 	/**
-	 * The Class Ip4OptRouter.
+	 * Instantiates a new IPv4 option header.
 	 */
-	@Meta(name = "IPv4+Router Alert")
-	@Display("offset=%{offset}d length=%{length}d")
-	public static class Ip4RouterOption extends Ip4Option {
-
-		/** The Constant ID. */
-		public static final int ID = Ip4OptionInfo.IPv4_OPT_ID_RTRALT;
-
-		/**
-		 * Instantiates a new ip 4 opt router.
-		 */
-		public Ip4RouterOption() {
-			super(ID);
-		}
-
-		/**
-		 * Examine packet.
-		 *
-		 * @return true, if successful
-		 */
-		public boolean examinePacket() {
-			return buffer().getShort(2) == 0;
-		}
-
-		@Meta(ordinal = 10)
-		public int type() {
-			return Byte.toUnsignedInt(buffer().get(0));
-		}
-
-		@Meta(ordinal = 20)
-		@Display("%{}d bytes")
-		public int len() {
-			return Byte.toUnsignedInt(buffer().get(1));
-		}
-
-		@Meta(name = "Router Alert", ordinal = 30)
-		public int routerAlert() {
-			return Short.toUnsignedInt(buffer().getShort(2));
-		}
+	public Ip4Option() {
+		super(ID);
 	}
 
 	/**
-	 * Instantiates a new ip 4 option.
+	 * Instantiates a new IPv4 sub-classed option header.
 	 *
-	 * @param id the id
+	 * @param id the IPv4 sub-classed option ID constant
 	 */
 	protected Ip4Option(int id) {
 		super(id);
 	}
 
+	/**
+	 * Gets the IPv4 option type field value.
+	 * <p>
+	 * The IPv4 option type field is a 1-byte field that identifies the type of
+	 * option. The option type field is located at the beginning of each IPv4
+	 * option.
+	 * </p>
+	 * <p>
+	 * The option type field is used by the IPv4 router to determine how to process
+	 * the option. The router will look up the option type in a table to determine
+	 * the appropriate processing instructions.
+	 * </p>
+	 * 
+	 * @return the unsigned 8-bit option type field
+	 */
+	@Meta
+	public int type() {
+		return Byte.toUnsignedInt(buffer().get(0));
+	}
+
+	/**
+	 * Gets the IPv4 option length field value.
+	 * <p>
+	 * The IPv4 option length field is a 1-byte field that specifies the length of
+	 * the option in bytes. The option length field is located immediately after the
+	 * option type field in each IPv4 option.
+	 * </p>
+	 * <p>
+	 * The option length field is used by the IPv4 router to determine how much of
+	 * the option to process. The router will read the option length field and then
+	 * process the next option length bytes of the option.
+	 * </p>
+	 * 
+	 * @return the unsigned 8-bit option header length
+	 */
+	@Override
+	@Meta
+	public int optionDataLength() {
+		return Byte.toUnsignedInt(buffer().get(1));
+	}
 }

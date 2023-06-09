@@ -63,4 +63,13 @@ public interface HeaderInfo extends HeaderSupplier {
 	 *         defining protocol pack
 	 */
 	int ordinal();
+
+	/**
+	 * Abbr.
+	 *
+	 * @return the string
+	 */
+	default String abbr() {
+		return name();
+	}
 }

@@ -17,8 +17,11 @@
  */
 package com.slytechs.protocol.pack.core;
 
+import java.util.Iterator;
 import java.util.Set;
 
+import com.slytechs.protocol.HasExtension;
+import com.slytechs.protocol.HeaderNotFound;
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
@@ -56,7 +59,9 @@ import com.slytechs.protocol.runtime.internal.util.format.BitFormat;
  * @author repos@slytechs.com
  */
 @MetaResource("ip4-meta.json")
-public final class Ip4 extends Ip<Ip4Option> {
+public final class Ip4
+		extends Ip
+		implements HasExtension<Ip4Option>, Iterable<Ip4Option> {
 
 	/** The Constant ID. */
 	public static final int ID = CoreId.CORE_ID_IPv4;
@@ -166,7 +171,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	@Meta
 	@Override
 	public byte[] dst() {
-		return dst(new byte[CoreConstants.IPv4_ADDRESS_SIZE], 0);
+		return dst(new byte[IpAddress.IPv4_ADDRESS_SIZE], 0);
 	}
 
 	/**
@@ -175,6 +180,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 * @param dst the dst
 	 * @return the byte[]
 	 */
+	@Override
 	public byte[] dst(byte[] dst) {
 		return dst(dst, 0);
 	}
@@ -186,6 +192,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 * @param offset the offset
 	 * @return the byte[]
 	 */
+	@Override
 	public byte[] dst(byte[] dst, int offset) {
 		buffer().get(CoreConstants.IPv4_FIELD_DST, dst, offset, CoreConstants.IPv4_FIELD_DST_LEN);
 
@@ -344,6 +351,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 *
 	 * @return the int
 	 */
+	@Override
 	@Meta
 	public int protocol() {
 		return Ip4Struct.PROTO.getInt(buffer());
@@ -367,7 +375,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	@Override
 	@Meta
 	public byte[] src() {
-		return src(new byte[CoreConstants.IPv4_ADDRESS_SIZE], 0);
+		return src(new byte[IpAddress.IPv4_ADDRESS_SIZE], 0);
 	}
 
 	/**
@@ -376,6 +384,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 * @param dst the dst
 	 * @return the byte[]
 	 */
+	@Override
 	public byte[] src(byte[] dst) {
 		return src(dst, 0);
 	}
@@ -387,6 +396,7 @@ public final class Ip4 extends Ip<Ip4Option> {
 	 * @param offset the offset
 	 * @return the byte[]
 	 */
+	@Override
 	public byte[] src(byte[] dst, int offset) {
 		byte[] debug = new byte[20];
 		buffer().get(0, debug);
@@ -444,6 +454,56 @@ public final class Ip4 extends Ip<Ip4Option> {
 	@Meta
 	public int version() {
 		return Ip4Struct.VERSION.getUnsignedByte(buffer());
+	}
+
+	/**
+	 * @see java.lang.Iterable#iterator()
+	 */
+	@Override
+	public Iterator<Ip4Option> iterator() {
+
+		final int optLen = headerLength();
+
+		return new Iterator<Ip4Option>() {
+			int off = CoreConstants.IPv4_HEADER_LEN;
+
+			@Override
+			public boolean hasNext() {
+				return off < optLen;
+			}
+
+			@Override
+			public Ip4Option next() {
+				throw new UnsupportedOperationException("not implemented yet");
+			}
+
+		};
+	}
+
+	/**
+	 * @see com.slytechs.protocol.HasExtension#getExtension(com.slytechs.protocol.Header,
+	 *      int)
+	 */
+	@Override
+	public <E extends Ip4Option> E getExtension(E extension, int depth) throws HeaderNotFound {
+		return super.getExtensionHeader(extension, depth);
+	}
+
+	/**
+	 * @see com.slytechs.protocol.HasExtension#hasExtension(int, int)
+	 */
+	@Override
+	public boolean hasExtension(int extensionId, int depth) {
+		return super.hasExtensionHeader(extensionId, depth);
+	}
+
+	/**
+	 * @see com.slytechs.protocol.HasExtension#peekExtension(com.slytechs.protocol.Header,
+	 *      int)
+	 */
+	@Override
+	public <E extends Ip4Option> E peekExtension(E extension, int depth) {
+		return super.peekExtensionHeader(extension, depth);
 	}
 
 }

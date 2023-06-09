@@ -22,15 +22,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.slytechs.protocol.Frame;
+import com.slytechs.protocol.HasExtension;
 import com.slytechs.protocol.Header;
-import com.slytechs.protocol.HeaderExtension;
 import com.slytechs.protocol.HeaderFactory;
 import com.slytechs.protocol.HeaderNotFound;
 import com.slytechs.protocol.Packet;
-import com.slytechs.protocol.Payload;
 import com.slytechs.protocol.meta.MetaContext.MetaMapped;
 import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.ProtocolPackTable;
@@ -46,6 +47,8 @@ import com.slytechs.protocol.runtime.util.Detail;
 public final class MetaPacket
 		extends MetaElement
 		implements Iterable<MetaHeader>, MetaMapped {
+
+	private static final Logger LOGGER = Logger.getLogger(MetaPacket.class.getPackageName());
 
 	@Meta(name = "*** Exception")
 	private static class InternarErrorHeaderStub extends Header {
@@ -108,21 +111,26 @@ public final class MetaPacket
 		super(ctx, Global.compute(Packet.class, ReflectedClass::parse));
 		this.packet = packet;
 
+		String lastHeaderName = "";
 		try {
 			headers.add(new MetaHeader(ctx, this, packet.getHeader(new Frame(), 0)));
 
-			String lastHeaderName = "";
 			int lastId = 0;
-			HeaderExtension<? super Header> lastHeaderExt = null;
+			HasExtension<? super Header> lastHeaderExt = null;
 			long[] compactArray = packet.descriptor().listHeaders();
 			for (long cp : compactArray) {
 				try {
 					int id = PackId.decodeRecordId(cp);
 					int packId = PackId.decodePackId(id);
 					boolean isOption = (packId == ProtocolPackTable.PACK_ID_OPTIONS);
+					if (isOption && lastHeaderExt == null) {
+						throw new IllegalStateException(
+								"Options header id[0x%X] error: parent %s header must implement HeaderExtension class"
+										.formatted(id, lastHeaderName));
+					}
 
 					final Header header;
-					if (isOption && lastHeaderExt != null) {
+					if (isOption) {
 						header = headerFactory.getExtension(lastId, id);
 						lastHeaderName = header.headerName();
 
@@ -133,8 +141,8 @@ public final class MetaPacket
 						lastHeaderName = header.headerName();
 						lastId = id;
 
-						if (header instanceof HeaderExtension<?> ext)
-							lastHeaderExt = (HeaderExtension<? super Header>) ext;
+						if (header instanceof HasExtension<?> ext)
+							lastHeaderExt = (HasExtension<? super Header>) ext;
 						else
 							lastHeaderExt = null;
 
@@ -153,16 +161,17 @@ public final class MetaPacket
 							new InternarErrorHeaderStub(lastHeaderName, e.getMessage(), e.getCause()));
 					headers.add(errorHeaders);
 
-					e.printStackTrace();
+					LOGGER.log(Level.FINER, "runtime error", e);
 				}
 			}
 
 			this.lastHeader = headers.get(headers.size() - 1);
 
-			if (packet.hasPayload())
-				headers.add(new MetaHeader(ctx, this, packet.getHeader(new Payload(), 0)));
+//			if (packet.hasPayload())
+//				headers.add(new MetaHeader(ctx, this, packet.getHeader(new Payload(), 0)));
 		} catch (HeaderNotFound e) {
-			throw new IllegalStateException(e);
+			LOGGER.fine(e::getMessage);
+			throw new IllegalStateException(lastHeaderName, e);
 		}
 	}
 
@@ -306,8 +315,9 @@ public final class MetaPacket
 	 */
 	@Override
 	public <K, V> Optional<V> findKey(K key) {
+		String m = key.toString();
 		return listHeaders().stream()
-				.filter(h -> h.name().equals(key))
+				.filter(h -> h.name().matches(m))
 				.map(h -> (V) h)
 				.findAny();
 	}
@@ -322,7 +332,7 @@ public final class MetaPacket
 	@Override
 	public MetaDomain findDomain(String name) {
 		return listHeaders().stream()
-				.filter(h -> h.name().equals(name))
+				.filter(h -> h.name().matches(name))
 				.findAny()
 				.orElse(null);
 	}

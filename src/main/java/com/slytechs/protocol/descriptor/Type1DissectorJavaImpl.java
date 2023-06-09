@@ -22,13 +22,18 @@ import java.nio.ByteBuffer;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 
 /**
+ * The Class Type1DissectorJavaImpl.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- *
  */
 public class Type1DissectorJavaImpl extends PacketL3DissectorJava {
 
 	/**
+	 * Write descriptor.
+	 *
+	 * @param desc the desc
+	 * @return the int
 	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#writeDescriptor(java.nio.ByteBuffer)
 	 */
 	@Override
@@ -65,10 +70,15 @@ public class Type1DissectorJavaImpl extends PacketL3DissectorJava {
 		return CoreConstants.DESC_TYPE1_BYTE_SIZE;
 	}
 
+	/**
+	 * Instantiates a new type 1 dissector java impl.
+	 */
 	public Type1DissectorJavaImpl() {
 	}
 
 	/**
+	 * Destroy dissector.
+	 *
 	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#destroyDissector()
 	 */
 	@Override
@@ -76,6 +86,8 @@ public class Type1DissectorJavaImpl extends PacketL3DissectorJava {
 	}
 
 	/**
+	 * Reset.
+	 *
 	 * @see com.slytechs.protocol.descriptor.PacketDissector#reset()
 	 */
 	@Override
@@ -83,6 +95,12 @@ public class Type1DissectorJavaImpl extends PacketL3DissectorJava {
 	}
 
 	/**
+	 * Dissect extension type.
+	 *
+	 * @param buf        the buf
+	 * @param offset     the offset
+	 * @param id         the id
+	 * @param nextHeader the next header
 	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectExtensionType(java.nio.ByteBuffer,
 	 *      int, int, int)
 	 */
@@ -91,6 +109,11 @@ public class Type1DissectorJavaImpl extends PacketL3DissectorJava {
 	}
 
 	/**
+	 * Dissect ip 4 options.
+	 *
+	 * @param offset     the offset
+	 * @param hlen       the hlen
+	 * @param nextHeader the next header
 	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectIp4Options(int,
 	 *      int, int)
 	 */
@@ -99,6 +122,10 @@ public class Type1DissectorJavaImpl extends PacketL3DissectorJava {
 	}
 
 	/**
+	 * Dissect ip 6 options.
+	 *
+	 * @param offset     the offset
+	 * @param nextHeader the next header
 	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectIp6Options(int,
 	 *      int)
 	 */
@@ -107,8 +134,14 @@ public class Type1DissectorJavaImpl extends PacketL3DissectorJava {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#addRecord(int, int,
-	 *      int)
+	 * Adds the record.
+	 *
+	 * @param id     the id
+	 * @param offset the offset
+	 * @param length the length
+	 * @return true, if successful
+	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#addRecord(int,
+	 *      int, int)
 	 */
 	@Override
 	protected boolean addRecord(int id, int offset, int length) {
@@ -116,6 +149,9 @@ public class Type1DissectorJavaImpl extends PacketL3DissectorJava {
 	}
 
 	/**
+	 * Dissect udp.
+	 *
+	 * @param offset the offset
 	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectUdp(int)
 	 */
 	@Override
@@ -123,6 +159,9 @@ public class Type1DissectorJavaImpl extends PacketL3DissectorJava {
 	}
 
 	/**
+	 * Dissect gre.
+	 *
+	 * @param offset the offset
 	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectGre(int)
 	 */
 	@Override
@@ -130,6 +169,9 @@ public class Type1DissectorJavaImpl extends PacketL3DissectorJava {
 	}
 
 	/**
+	 * Dissect icmp 6.
+	 *
+	 * @param offset the offset
 	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectIcmp6(int)
 	 */
 	@Override
@@ -137,6 +179,9 @@ public class Type1DissectorJavaImpl extends PacketL3DissectorJava {
 	}
 
 	/**
+	 * Dissect icmp 4.
+	 *
+	 * @param offset the offset
 	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectIcmp4(int)
 	 */
 	@Override
@@ -144,6 +189,9 @@ public class Type1DissectorJavaImpl extends PacketL3DissectorJava {
 	}
 
 	/**
+	 * Dissect sctp.
+	 *
+	 * @param offset the offset
 	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectSctp(int)
 	 */
 	@Override
@@ -151,6 +199,13 @@ public class Type1DissectorJavaImpl extends PacketL3DissectorJava {
 	}
 
 	/**
+	 * Dissect extension ports.
+	 *
+	 * @param buf    the buf
+	 * @param offset the offset
+	 * @param id     the id
+	 * @param src    the src
+	 * @param dst    the dst
 	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectExtensionPorts(java.nio.ByteBuffer,
 	 *      int, int, int, int)
 	 */
@@ -159,6 +214,10 @@ public class Type1DissectorJavaImpl extends PacketL3DissectorJava {
 	}
 
 	/**
+	 * Dissect tcp options.
+	 *
+	 * @param offset         the offset
+	 * @param tcpHeaderLenth the tcp header lenth
 	 * @see com.slytechs.protocol.descriptor.PacketL3DissectorJava#dissectTcpOptions(int,
 	 *      int)
 	 */

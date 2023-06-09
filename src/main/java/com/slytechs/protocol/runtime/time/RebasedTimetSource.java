@@ -20,27 +20,48 @@ package com.slytechs.protocol.runtime.time;
 import java.util.concurrent.TimeUnit;
 
 /**
+ * The Class RebasedTimetSource.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  */
 public class RebasedTimetSource implements TimeSource.Updatable {
 
+	/** The unit. */
 	private final TimeUnit unit;
+	
+	/** The base. */
 	private final long base;
+	
+	/** The last. */
 	private long last;
+	
+	/** The delta. */
 	private long delta;
 
+	/**
+	 * Instantiates a new rebased timet source.
+	 *
+	 * @param base the base
+	 * @param unit the unit
+	 */
 	public RebasedTimetSource(long base, TimeUnit unit) {
 		this.base = base;
 		this.unit = unit;
 	}
 
+	/**
+	 * @see com.slytechs.protocol.runtime.time.TimeSource.Updatable#initialize(long)
+	 */
 	@Override
 	public final void initialize(long initTimestamp) {
 		this.last = initTimestamp;
 		this.delta = (base - initTimestamp);
 	}
 
+	/**
+	 * @see com.slytechs.protocol.runtime.time.TimeSource.Updatable#update(long)
+	 */
 	@Override
 	public final void update(long newTimestamp) {
 		if ((last == 0) && (newTimestamp != 0))
@@ -52,11 +73,20 @@ public class RebasedTimetSource implements TimeSource.Updatable {
 		onUpdate(last, diff);
 	}
 
+	/**
+	 * On update.
+	 *
+	 * @param timestamp the timestamp
+	 * @param delta     the delta
+	 */
 	protected void onUpdate(long timestamp, long delta) {
 
 	}
 
 	/**
+	 * Timestamp.
+	 *
+	 * @return the long
 	 * @see com.slytechs.protocol.runtime.time.TimeSource#timestamp()
 	 */
 	@Override
@@ -64,6 +94,9 @@ public class RebasedTimetSource implements TimeSource.Updatable {
 		return last;
 	}
 
+	/**
+	 * @see com.slytechs.protocol.runtime.time.TimeSource#timeUnit()
+	 */
 	@Override
 	public final TimeUnit timeUnit() {
 		return unit;

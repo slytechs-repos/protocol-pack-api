@@ -253,7 +253,7 @@ public final class Packet
 	 * Descriptor.
 	 *
 	 * @param <D>            the generic type
-	 * @param descriptorType the descriptor type
+	 * @param type the descriptor type
 	 * @return the d
 	 */
 	@SuppressWarnings("unchecked")

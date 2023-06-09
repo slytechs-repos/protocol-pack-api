@@ -19,12 +19,13 @@ package com.slytechs.protocol.pack.core;
 
 import java.util.Set;
 
+import com.slytechs.protocol.HasExtension;
 import com.slytechs.protocol.HeaderExtension;
+import com.slytechs.protocol.HeaderNotFound;
 import com.slytechs.protocol.Packet;
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
-import com.slytechs.protocol.pack.core.TcpOption.TcpWindowScaleOption;
 import com.slytechs.protocol.pack.core.constants.CoreId;
 import com.slytechs.protocol.pack.core.constants.TcpFlag;
 import com.slytechs.protocol.runtime.internal.util.format.BitFormat;
@@ -63,7 +64,7 @@ import com.slytechs.protocol.runtime.internal.util.format.BitFormat;
  * the data. This ensures that all of the data is eventually delivered to the
  * receiver.</li>
  * </ul>
- * </p>
+ * <p>
  * TCP is a complex protocol, but it is essential for reliable communication
  * over the internet.
  * </p>
@@ -72,13 +73,14 @@ import com.slytechs.protocol.runtime.internal.util.format.BitFormat;
  * @author repos@slytechs.com
  */
 @MetaResource("tcp-meta.json")
-public final class Tcp extends HeaderExtension<TcpOption> {
+public final class Tcp
+		extends HeaderExtension
+		implements HasExtension<TcpOption> {
 
 	/** Numerical TCP protocol ID constant. */
 	public static final int ID = CoreId.CORE_ID_TCP;
 
 	/** The Constant FLAGS_FORMAT. */
-	@SuppressWarnings("unused")
 	private static final String FLAGS_FORMAT = "..B WEUA PRSF";
 	private static final BitFormat FLAGS_FORMATTER = new BitFormat(FLAGS_FORMAT);
 
@@ -87,7 +89,8 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 * will be needed again during the next header binding. The option is unbound
 	 * when the main TCP header is unbound.
 	 */
-	private TcpWindowScaleOption wscaleOption;
+	private TcpWindowScale wscaleOption;
+	private BitFormat flagsFormatter = FLAGS_FORMATTER;
 
 	/**
 	 * Instantiates a new tcp header instance.
@@ -97,30 +100,107 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	}
 
 	/**
-	 * Formats all the TCP flag bits as string.
+	 * Formats all the TCP flag bits as string using an internal {@code BitFormat}
+	 * class.
 	 *
 	 * @return the string representing all of the flag bits
 	 */
-	public String flagsFormatted() {
-		return FLAGS_FORMATTER.format(flags());
+	public String flagsGetFormatted() {
+		return flagsFormatter.format(flags());
 	}
 
 	/**
-	 * Tcp Flags as string.
+	 * Sets a new bit format string for formatting bits within the flag field.
+	 * <p>
+	 * The bit field format string uses the following structure to define how bits
+	 * within a bit field are formatted and represented:
+	 * </p>
+	 * <ul>
+	 * <li>Bits are formatted from left to right where left most bit is the most
+	 * significant bit.</li>
+	 * <li>Whitespace is copied as is from source format string, to output
+	 * string.</li>
+	 * <li>A '.' dot character is used to indicate a bit that should not be
+	 * formatted.</li>
+	 * <li>Any character, with the exception of an 'offChar', will placed in the
+	 * output formatted string when a bit is set or has a value of 1.</li>
+	 * <li>When a bit is not set, or with a value of 0, the 'offChar' (default is
+	 * '.' character) will be placed in the output formatted string.</li>
+	 * </ul>
+	 * <p>
+	 * For example this is the default format string used to format the flags field
+	 * <b>{@code "..B WEUA PRSF"}</b>. For TCP flags field value of {@code 0x002},
+	 * would generate the following output <b>{@code "... .... ..S."}.</b>
+	 * </p>
 	 *
-	 * @return the string
+	 * @param bitFormatString the bit format string or null to reset back to the
+	 *                        default formatter
+	 * @return this tcp header instance
+	 */
+	public synchronized Tcp flagsSetFormatString(String bitFormatString) {
+		if (bitFormatString == null)
+			flagsFormatter = FLAGS_FORMATTER;
+		else
+			flagsFormatter = new BitFormat(bitFormatString);
+
+		return this;
+	}
+
+	/**
+	 * Sets a new bit format string for formatting bits within the flag field.
+	 * <p>
+	 * The bit field format string uses the following structure to define how bits
+	 * within a bit field are formatted and represented:
+	 * </p>
+	 * <ul>
+	 * <li>Bits are formatted from left to right where left most bit is the most
+	 * significant bit.</li>
+	 * <li>Whitespace is copied as is from source format string, to output
+	 * string.</li>
+	 * <li>A '.' dot character is used to indicate a bit that has should not be
+	 * formatted.</li>
+	 * <li>Any character, with the exception of an 'offChar', will placed in the
+	 * output formatted string when a bit is set or has a value of 1.</li>
+	 * <li>When a bit is not set, or with a value of 0, the 'offChar' will be placed
+	 * in the output formatted string.</li>
+	 * </ul>
+	 * <p>
+	 * For example this is the default format string used to format the flags field
+	 * <b>{@code "..B WEUA PRSF"}</b>. For TCP flags field value of {@code 0x002},
+	 * would generate the following output <b>{@code "... .... ..S."}.</b>
+	 * </p>
+	 *
+	 * @param bitFormatString the bit format string or null to reset back to the
+	 *                        default formatter
+	 * @param offChar         the off char to be used when a bit set to 0 is
+	 *                        encountered
+	 * @return this tcp header instance
+	 */
+	synchronized Tcp flagsSetFormatString(String bitFormatString, char offChar) {
+		if (bitFormatString == null)
+			flagsFormatter = FLAGS_FORMATTER;
+		else
+			flagsFormatter = new BitFormat(bitFormatString, offChar);
+
+		return this;
+	}
+
+	/**
+	 * Gets Tcp Flags field bits as a descriptive string.
+	 *
+	 * @return the formatted set of of TCP flags as a string
 	 */
 	public String flagsAsString() {
-		return flagsEnum().toString();
+		return flagsAsEnumSet().toString();
 	}
 
 	/**
-	 * Flags enum set.
+	 * Gets TCP Flags field bits as an enum set.
 	 *
-	 * @return the sets the
+	 * @return The set of all of the flag as constants
 	 */
 	@Meta(MetaType.ATTRIBUTE)
-	public Set<TcpFlag> flagsEnum() {
+	public Set<TcpFlag> flagsAsEnumSet() {
 		return TcpFlag.valueOfInt(flags());
 	}
 
@@ -151,8 +231,8 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 * The ACK field is an important part of the TCP protocol and is essential for
 	 * reliable communication over the internet.
 	 * </p>
-	 * 
-	 * @param ack the new ack value in header
+	 *
+	 * @return the unsigned 32-bit field value
 	 */
 	@Meta
 	public long ack() {
@@ -423,21 +503,17 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 * Here are some examples of common TCP destination ports:
 	 * </p>
 	 * <ul>
-	 * <li>HTTP: 80
-	 * </p>
-	 * <li>HTTPS: 443
-	 * </p>
-	 * <li>FTP: 21
-	 * </p>
-	 * <li>SMTP: 25
-	 * </p>
-	 * <li>POP3: 110
-	 * </p>
-	 * <li>IMAP: 143
-	 * </p>
+	 * <li>HTTP: 80</li>
+	 * <li>HTTPS: 443</li>
+	 * <li>FTP: 21</li>
+	 * <li>SMTP: 25</li>
+	 * <li>POP3: 110</li>
+	 * <li>IMAP: 143</li>
 	 * </ul>
+	 * <p>
 	 * These are just a few examples of the many TCP destination ports that are used
-	 * on the internet. *
+	 * on the internet.
+	 * </p>
 	 * 
 	 * @return the 16-bit TCP destination port value
 	 */
@@ -474,21 +550,17 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 * Here are some examples of common TCP destination ports:
 	 * </p>
 	 * <ul>
-	 * <li>HTTP: 80
-	 * </p>
-	 * <li>HTTPS: 443
-	 * </p>
-	 * <li>FTP: 21
-	 * </p>
-	 * <li>SMTP: 25
-	 * </p>
-	 * <li>POP3: 110
-	 * </p>
-	 * <li>IMAP: 143
-	 * </p>
+	 * <li>HTTP: 80</li>
+	 * <li>HTTPS: 443</li>
+	 * <li>FTP: 21</li>
+	 * <li>SMTP: 25</li>
+	 * <li>POP3: 110</li>
+	 * <li>IMAP: 143</li>
 	 * </ul>
+	 * <p>
 	 * These are just a few examples of the many TCP destination ports that are used
-	 * on the internet. *
+	 * on the internet.
+	 * </p>
 	 *
 	 * @param newPort a new TCP destination port number
 	 * @return this tcp header instance
@@ -543,7 +615,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 * the FIN flag set. The server responds with a TCP segment with the ACK flag
 	 * set. This closes the connection.</li>
 	 * </ul>
-	 * </p>
+	 * <p>
 	 * The TCP flags are an important part of the TCP protocol and are essential for
 	 * reliable communication over the internet.
 	 * </p>
@@ -599,7 +671,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 * the FIN flag set. The server responds with a TCP segment with the ACK flag
 	 * set. This closes the connection.</li>
 	 * </ul>
-	 * </p>
+	 * <p>
 	 * The TCP flags are an important part of the TCP protocol and are essential for
 	 * reliable communication over the internet.
 	 * </p>
@@ -823,7 +895,8 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 * <li>The end hosts receive the packets with the ECN bit set and reduce their
 	 * sending rates.</li>
 	 * <li>The router experiences less congestion, which helps to ensure that data
-	 * is delivered reliably.</li></li>
+	 * is delivered reliably.</li>
+	 * </ul>
 	 * <p>
 	 * The ECE flag is an important part of the ECN congestion control mechanism and
 	 * helps to ensure that data is delivered reliably. * * @return true, if the
@@ -865,7 +938,8 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 * <li>The end hosts receive the packets with the ECN bit set and reduce their
 	 * sending rates.</li>
 	 * <li>The router experiences less congestion, which helps to ensure that data
-	 * is delivered reliably.</li></li>
+	 * is delivered reliably.</li>
+	 * </ul>
 	 * <p>
 	 * The ECE flag is an important part of the ECN congestion control mechanism and
 	 * helps to ensure that data is delivered reliably. * * @return true, if the
@@ -992,7 +1066,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 * </ul>
 	 * <p>
 	 * The PUSH flag is an important part of the TCP protocol and helps to ensure
-	 * that data is delivered to applications as quickly as possible. * </pL
+	 * that data is delivered to applications as quickly as possible.
 	 * </p>
 	 * 
 	 * @return true, if the flag bit is set, otherwise false
@@ -1030,7 +1104,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 * </ul>
 	 * <p>
 	 * The PUSH flag is an important part of the TCP protocol and helps to ensure
-	 * that data is delivered to applications as quickly as possible. * </pL
+	 * that data is delivered to applications as quickly as possible.
 	 * </p>
 	 * 
 	 * @param b if true, sets the flag bit to on (1), otherwise the bit is turned
@@ -1073,7 +1147,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 * server may send a TCP segment with the RST flag set to prevent the attack
 	 * from succeeding.</li>
 	 * </ul>
-	 * </p>
+	 * <p>
 	 * The RST flag is an important part of the TCP protocol and helps to ensure
 	 * that connections are closed gracefully and that attacks are prevented.
 	 * </p>
@@ -1116,7 +1190,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 * server may send a TCP segment with the RST flag set to prevent the attack
 	 * from succeeding.</li>
 	 * </ul>
-	 * </p>
+	 * <p>
 	 * The RST flag is an important part of the TCP protocol and helps to ensure
 	 * that connections are closed gracefully and that attacks are prevented.
 	 * </p>
@@ -1438,7 +1512,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 * the data bytes.</li>
 	 * <li>The receiver will not accept data bytes that are out of order.</li>
 	 * <li>The sequence number is also used to detect lost or corrupted data.</li>
-	 * The TCP sequence number is an important part of the TCP protocol.</li>
+	 * <li>The TCP sequence number is an important part of the TCP protocol.</li>
 	 * </ul>
 	 * <p>
 	 * The sequence number a dual role:
@@ -1500,7 +1574,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	 * the data bytes.</li>
 	 * <li>The receiver will not accept data bytes that are out of order.</li>
 	 * <li>The sequence number is also used to detect lost or corrupted data.</li>
-	 * The TCP sequence number is an important part of the TCP protocol.</li>
+	 * <li>The TCP sequence number is an important part of the TCP protocol.</li>
 	 * </ul>
 	 * <p>
 	 * The sequence number a dual role:
@@ -1851,7 +1925,7 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	public int windowScaled() {
 
 		if (wscaleOption == null)
-			wscaleOption = new TcpWindowScaleOption();
+			wscaleOption = new TcpWindowScale();
 
 		int shiftCount = 0;
 		if (hasExtension(wscaleOption))
@@ -1908,4 +1982,31 @@ public final class Tcp extends HeaderExtension<TcpOption> {
 	public int windowScaled(int scale) {
 		return window() << scale;
 	}
+
+	/**
+	 * @see com.slytechs.protocol.HasExtension#getExtension(com.slytechs.protocol.Header,
+	 *      int)
+	 */
+	@Override
+	public <E extends TcpOption> E getExtension(E extension, int depth) throws HeaderNotFound {
+		return super.getExtensionHeader(extension, depth);
+	}
+
+	/**
+	 * @see com.slytechs.protocol.HasExtension#hasExtension(int, int)
+	 */
+	@Override
+	public boolean hasExtension(int extensionId, int depth) {
+		return super.hasExtensionHeader(extensionId, depth);
+	}
+
+	/**
+	 * @see com.slytechs.protocol.HasExtension#peekExtension(com.slytechs.protocol.Header,
+	 *      int)
+	 */
+	@Override
+	public <E extends TcpOption> E peekExtension(E extension, int depth) {
+		return super.peekExtensionHeader(extension, depth);
+	}
+
 }

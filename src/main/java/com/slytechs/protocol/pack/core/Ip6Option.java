@@ -17,311 +17,85 @@
  */
 package com.slytechs.protocol.pack.core;
 
-import com.slytechs.protocol.pack.core.Ip.IpOption;
-import com.slytechs.protocol.pack.core.constants.Ip6OptionInfo;
+import com.slytechs.protocol.meta.Meta;
+import com.slytechs.protocol.meta.Meta.MetaType;
+import com.slytechs.protocol.meta.MetaResource;
+import com.slytechs.protocol.pack.core.constants.Ip6IdOption;
 
 /**
- * The Class Ip6Option.
- *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
-public class Ip6Option extends IpOption {
+@MetaResource("ip6-option-meta.json")
+public sealed class Ip6Option extends IpOption
+		permits Ip6OptRouterAlert, Ip6OptJumboPayload, Ip6OptPad1, Ip6OptPadN {
+
+	public static final int ID = Ip6IdOption.IPv6_ID_OPT_HEADER;
 
 	/**
-	 * The Class Ip6AuthenticationOption.
+	 * Instantiates a new IPv4 option header.
 	 */
-	public static class Ip6AuthenticationOption extends Ip6Option {
-
-		/** The id. */
-		public static int ID = Ip6OptionInfo.IPv6_OPTION_ID_AUTHENTICATION;
-
-		/**
-		 * Instantiates a new ip 6 authentication option.
-		 */
-		public Ip6AuthenticationOption() {
-			super(ID);
-		}
+	public Ip6Option() {
+		super(ID);
 	}
 
 	/**
-	 * The Class Ip6DestinationOption.
-	 */
-	public static class Ip6DestinationOption extends Ip6Option {
-
-		/** The id. */
-		public static int ID = Ip6OptionInfo.IPv6_OPTION_ID_DESTINATION;
-
-		/**
-		 * Instantiates a new ip 6 destination option.
-		 */
-		public Ip6DestinationOption() {
-			super(ID);
-		}
-	}
-
-	/**
-	 * The Class Ip6FragmentOption.
-	 */
-	public static class Ip6FragmentOption extends Ip6Option {
-
-		/** The id. */
-		public static int ID = Ip6OptionInfo.IPv6_OPTION_ID_FRAGMENT;
-
-		/**
-		 * Instantiates a new ip 6 fragment option.
-		 */
-		public Ip6FragmentOption() {
-			super(ID, Ip6OptionInfo.IPv6_OPTION_TYPE_FRAGMENT_LEN);
-		}
-
-		/**
-		 * Fragment offset.
-		 *
-		 * @return the int
-		 */
-		public int fragmentOffset() {
-			return Short.toUnsignedInt(buffer().getShort(2)) & 0x1FF;
-		}
-
-		/**
-		 * Fragment byte offset.
-		 *
-		 * @return the int
-		 */
-		public int fragmentByteOffset() {
-			return fragmentOffset() << 3;
-		}
-	}
-
-	/**
-	 * The Class Ip6HopByHopOption.
-	 */
-	public static class Ip6HopByHopOption extends Ip6Option {
-
-		/** The id. */
-		public static int ID = Ip6OptionInfo.IPv6_OPTION_ID_HOP_BY_HOP;
-
-		/**
-		 * Instantiates a new ip 6 hop by hop option.
-		 */
-		public Ip6HopByHopOption() {
-			super(ID);
-		}
-	}
-
-	/**
-	 * The Class Ip6IdentityOption.
-	 */
-	public static class Ip6IdentityOption extends Ip6Option {
-
-		/** The id. */
-		public static int ID = Ip6OptionInfo.IPv6_OPTION_ID_IDENTITY;
-
-		/**
-		 * Instantiates a new ip 6 identity option.
-		 */
-		public Ip6IdentityOption() {
-			super(ID);
-		}
-	}
-
-	/**
-	 * The Class Ip6MobilityOption.
-	 */
-	public static class Ip6MobilityOption extends Ip6Option {
-
-		/** The id. */
-		public static int ID = Ip6OptionInfo.IPv6_OPTION_ID_MOBILITY;
-
-		/**
-		 * Instantiates a new ip 6 mobility option.
-		 */
-		public Ip6MobilityOption() {
-			super(ID);
-		}
-	}
-
-	/**
-	 * The Class Ip6RoutingOption.
-	 */
-	public static class Ip6RoutingOption extends Ip6Option {
-
-		/**
-		 * The Enum RoutingType.
-		 */
-		public enum RoutingType {
-
-			/** The type0. */
-			TYPE0(0),
-
-			/** The type1. */
-			TYPE1(1),
-
-			/** The type2. */
-			TYPE2(2),
-
-			/** The type3. */
-			TYPE3(3),
-
-			/** The type4. */
-			TYPE4(4),
-
-			/** The type253. */
-			TYPE253(253),
-
-			/** The type254. */
-			TYPE254(254),
-
-			;
-
-			/** The type. */
-			private final int type;
-
-			/**
-			 * Instantiates a new routing type.
-			 *
-			 * @param type the type
-			 */
-			RoutingType(int type) {
-				this.type = type;
-			}
-
-			/**
-			 * Value of.
-			 *
-			 * @param type the type
-			 * @return the routing type
-			 */
-			public static RoutingType valueOf(int type) {
-				for (RoutingType t : values()) {
-					if (t.type == type)
-						return t;
-				}
-
-				return null;
-			}
-
-			/**
-			 * Type.
-			 *
-			 * @return the int
-			 */
-			public int type() {
-				return type;
-			}
-		}
-
-		/** The id. */
-		public static int ID = Ip6OptionInfo.IPv6_OPTION_ID_ROUTING;
-
-		/**
-		 * Instantiates a new ip 6 routing option.
-		 */
-		public Ip6RoutingOption() {
-			super(ID);
-		}
-
-		/**
-		 * Type.
-		 *
-		 * @return the int
-		 */
-		public int type() {
-			return Byte.toUnsignedInt(buffer().get(2));
-		}
-
-		/**
-		 * Segments left.
-		 *
-		 * @return the int
-		 */
-		public int segmentsLeft() {
-			return Byte.toUnsignedInt(buffer().get(3));
-		}
-	}
-
-	/**
-	 * The Class Ip6SecurityOption.
-	 */
-	public static class Ip6SecurityOption extends Ip6Option {
-
-		/** The id. */
-		public static int ID = Ip6OptionInfo.IPv6_OPTION_ID_SECURITY;
-
-		/**
-		 * Instantiates a new ip 6 security option.
-		 */
-		public Ip6SecurityOption() {
-			super(ID);
-		}
-	}
-
-	/**
-	 * The Class Ip6Shim6Option.
-	 */
-	public static class Ip6Shim6Option extends Ip6Option {
-
-		/** The id. */
-		public static int ID = Ip6OptionInfo.IPv6_OPTION_ID_SHIMv6;
-
-		/**
-		 * Instantiates a new ip 6 shim 6 option.
-		 */
-		public Ip6Shim6Option() {
-			super(ID);
-		}
-	}
-
-	/** The constant length. */
-	private final int constantLength;
-
-	/**
-	 * Instantiates a new ip 6 option.
+	 * Instantiates a new IPv4 sub-classed option header.
 	 *
-	 * @param id the id
+	 * @param id the IPv4 sub-classed option ID constant
 	 */
 	protected Ip6Option(int id) {
 		super(id);
-		this.constantLength = -1;
 	}
 
 	/**
-	 * Instantiates a new ip 6 option.
-	 *
-	 * @param id             the id
-	 * @param constantLength the constant length
+	 * Gets the IPv4 option type field value.
+	 * <p>
+	 * The IPv4 option type field is a 1-byte field that identifies the type of
+	 * option. The option type field is located at the beginning of each IPv4
+	 * option.
+	 * </p>
+	 * <p>
+	 * The option type field is used by the IPv4 router to determine how to process
+	 * the option. The router will look up the option type in a table to determine
+	 * the appropriate processing instructions.
+	 * </p>
+	 * 
+	 * @return the unsigned 8-bit option type field
 	 */
-	protected Ip6Option(int id, int constantLength) {
-		super(id);
-		this.constantLength = constantLength;
-	}
-
-	/**
-	 * Next header.
-	 *
-	 * @return the int
-	 */
-	public int nextHeader() {
+	@Meta
+	public int type() {
 		return Byte.toUnsignedInt(buffer().get(0));
 	}
 
 	/**
-	 * Extension length.
-	 *
-	 * @return the int
+	 * Gets the IPv4 option length field value.
+	 * <p>
+	 * The IPv4 option length field is a 1-byte field that specifies the length of
+	 * the option in bytes. The option length field is located immediately after the
+	 * option type field in each IPv4 option.
+	 * </p>
+	 * <p>
+	 * The option length field is used by the IPv4 router to determine how much of
+	 * the option to process. The router will read the option length field and then
+	 * process the next option length bytes of the option.
+	 * </p>
+	 * 
+	 * @return the unsigned 8-bit option header length
 	 */
-	public int extensionLength() {
+	@Override
+	@Meta
+	public int optionDataLength() {
 		return Byte.toUnsignedInt(buffer().get(1));
 	}
 
 	/**
-	 * Length.
+	 * Extension length bytes.
 	 *
 	 * @return the int
 	 */
-	public int length() {
-		return (constantLength != -1) ? constantLength : (extensionLength() << 3);
+	@Meta(MetaType.ATTRIBUTE)
+	public int extensionLengthBytes() {
+		return optionDataLength() + 2;
 	}
 }

@@ -79,9 +79,6 @@ final class DisplayUtil {
 	 */
 	public static String rewriteDisplayFormat(String fmt) {
 		String str = rewriteDisplayFormat0(fmt);
-
-//		System.out.printf("%n>>> before='%s'%n>>>  after='%s'%n", fmt, str);
-
 		return str;
 	}
 

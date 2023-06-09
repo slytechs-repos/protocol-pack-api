@@ -74,9 +74,9 @@ public interface HeaderLookup {
 	/**
 	 * Lookup a header extension and at specific inner tunnel depth.
 	 *
-	 * @param headerId        the primary header id
+	 * @param id              the primary header id
 	 * @param extId           the header extension id
-	 * @param depth           the tunnel inner depth
+	 * @param extDepth        the extension/option depth
 	 * @param recordIndexHint the record index hint, this information is typically
 	 *                        index of where info about this header resides within a
 	 *                        descriptor, if repeated call and available
@@ -84,6 +84,7 @@ public interface HeaderLookup {
 	 *                        extension information will be stored
 	 * @return if true, the header extension was found, otherwise false
 	 */
-	boolean lookupHeaderExtension(int headerId, int extId, int depth, int recordIndexHint, HeaderDescriptor descriptor);
+	boolean lookupHeaderExtension(int id, int extId, int extDepth, int recordIndexHint, HeaderDescriptor descriptor);
 
+//	boolean lookupHeaderExtensionAt(int index, int recordIndexHint, HeaderDescriptor descriptor);
 }

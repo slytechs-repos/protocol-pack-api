@@ -15,15 +15,41 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.slytechs.protocol.pack.core;
+package com.slytechs.protocol;
 
-import com.slytechs.protocol.HeaderExtensionInfo;
+import java.util.function.IntSupplier;
 
 /**
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
- *
+ * A constant network address type.
  */
-interface Icmp4TypeInfo extends HeaderExtensionInfo {
+public enum NetAddressType implements IntSupplier {
 
+	/** The ip4. */
+	IPv4,
+
+	/** The ip6. */
+	IPv6,
+
+	/** The mac. */
+	MAC,
+
+	/** The mac64. */
+	MAC64,
+
+	/** The ipx. */
+	IPX,
+
+	/** The appletalk. */
+	APPLETALK,;
+
+	/**
+	 * Gets the as int.
+	 *
+	 * @return the as int
+	 * @see java.util.function.IntSupplier#getAsInt()
+	 */
+	@Override
+	public int getAsInt() {
+		return ordinal();
+	}
 }

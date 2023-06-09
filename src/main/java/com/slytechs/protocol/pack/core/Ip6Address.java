@@ -17,64 +17,39 @@
  */
 package com.slytechs.protocol.pack.core;
 
-import com.slytechs.protocol.AddressType;
-import com.slytechs.protocol.runtime.internal.ArrayUtils;
-import com.slytechs.protocol.runtime.util.HexStrings;
+import java.nio.ByteBuffer;
+
+import com.slytechs.protocol.NetAddressType;
 
 /**
- * The Class Ip6Address.
- *
+ * IP version 6 address.
+ * <p>
+ * IPv6 (Internet Protocol version 6) addresses are the next generation of IP
+ * addresses designed to replace IPv4 addresses. IPv6 addresses are 128 bits
+ * long and are represented in hexadecimal format. *
+ * </p>
+ * 
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author mark
  */
 public final class Ip6Address extends IpAddress {
 
-	/** The Constant IP6_ADDRESS_SIZE. */
-	public static final int IP6_ADDRESS_SIZE = 16;
+	public static Ip6Address get(int index, ByteBuffer buffer) {
+		byte[] addr = new byte[IpAddress.IPv6_ADDRESS_SIZE];
 
-	/**
-	 * To ip 6 address array.
-	 *
-	 * @param high the high
-	 * @param low  the low
-	 * @return the byte[]
-	 */
-	public static byte[] toIp6AddressArray(long high, long low) {
+		buffer.get(index, addr);
 
-		// 16 bytes in length
-		return new byte[] {
-				(byte) ((high >> 56) & 0xFF),
-				(byte) ((high >> 48) & 0xFF),
-				(byte) ((high >> 40) & 0xFF),
-				(byte) ((high >> 32) & 0xFF),
-				(byte) ((high >> 24) & 0xFF),
-				(byte) ((high >> 16) & 0xFF),
-				(byte) ((high >> 8) & 0xFF),
-				(byte) ((high >> 0) & 0xFF),
-
-				(byte) ((low >> 56) & 0xFF),
-				(byte) ((low >> 48) & 0xFF),
-				(byte) ((low >> 40) & 0xFF),
-				(byte) ((low >> 32) & 0xFF),
-				(byte) ((low >> 24) & 0xFF),
-				(byte) ((low >> 16) & 0xFF),
-				(byte) ((low >> 8) & 0xFF),
-				(byte) ((low >> 0) & 0xFF),
-		};
+		return new Ip6Address(addr);
 	}
-
-	/** The high. */
-	private final long high;
-
-	/** The low. */
-	private final long low;
 
 	/** The bytes. */
 	private final byte[] bytes;
 
+	/**
+	 * Instantiates a new ip 6 address.
+	 */
 	public Ip6Address() {
-		this(new byte[IP6_ADDRESS_SIZE]);
+		this(new byte[IPv6_ADDRESS_SIZE]);
 	}
 
 	/**
@@ -83,11 +58,8 @@ public final class Ip6Address extends IpAddress {
 	 * @param address the address
 	 */
 	public Ip6Address(byte[] address) {
-		super(AddressType.IPv6);
+		super(IPv6_ADDRESS_SIZE, NetAddressType.IPv6);
 		bytes = address;
-
-		this.high = ArrayUtils.getLong(address, 0, true);
-		this.low = ArrayUtils.getLong(address, 8, true);
 	}
 
 	/**
@@ -96,54 +68,42 @@ public final class Ip6Address extends IpAddress {
 	 * @return the byte[]
 	 */
 	@Override
-	public byte[] asArray() {
+	public byte[] toArray() {
 		return bytes;
 	}
 
 	/**
-	 * To int.
+	 * To compressed IPv6 address string.
+	 * <p>
+	 * For example the IPv6 address {@code 2001:1234:0000:0000:1A12:0000:0000:1A13}
+	 * in compressed form looks like this {@code 2001:1234::1A12:0:0:1A13}.
+	 * According to IPv6 address spec, both of these addresses representations
+	 * encapsulate the same address. The compressed form is easier to read and
+	 * remember if neccessary for humans.
+	 * </p>
 	 *
-	 * @return the int
-	 */
-	public int toInt() {
-		return (int) ((low ^ (high >> 32)) & 0xFFFFFFFF);
-	}
-
-	/**
-	 * To long.
-	 *
-	 * @return the long
-	 */
-	public long toLong() {
-		return (low ^ high);
-	}
-
-	/**
-	 * To long high.
-	 *
-	 * @return the long
-	 */
-	public long toLongHigh() {
-		return high;
-	}
-
-	/**
-	 * To long low.
-	 *
-	 * @return the long
-	 */
-	public long toLongLow() {
-		return low;
-	}
-
-	/**
-	 * To string.
-	 *
-	 * @return the string
-	 * @see java.lang.Object#toString()
+	 * @return The IPv6 textual address representation (in compressed format).
 	 */
 	@Override
 	public String toString() {
-		return HexStrings.toIp6String(bytes);
+		return toIp6AddressString(bytes);
 	}
+
+	/**
+	 * To uncompressed IPv6 address string.
+	 * <p>
+	 * For example this is the IPv6 uncompressed address
+	 * {@code 2001:1234:0000:0000:1A12:0000:0000:1A13} consisting of 8 groups of 2
+	 * bytes sets of addresses for a total of 16 bytes or 128 bits. When a group is
+	 * all zeros then a single zero will be used. In the case where the number
+	 * within a group is led with zeros, those leading zeros may be dropped, such as
+	 * {@code 2001:1234:0:0:1A12:0:0:1A13}. In either case, there will be 8 groups
+	 * separated by the ':' character.
+	 * </p>
+	 * * @return The IPv6 textual address representation (in uncompressed format).
+	 */
+	public String toUncompressedString() {
+		return toUncompressedIp6AddressString(bytes);
+	}
+
 }

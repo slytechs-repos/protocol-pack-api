@@ -27,14 +27,48 @@ package com.slytechs.protocol.runtime.util;
  */
 public interface IntSegment {
 
+	/**
+	 * The Interface IntDisjointOp.
+	 *
+	 * @param <T> the generic type
+	 */
 	public interface IntDisjointOp<T extends IntSegment> {
+
+		/**
+		 * Record.
+		 *
+		 * @param offset the offset
+		 * @param space  the space
+		 * @param t      the t
+		 */
 		void record(int offset, int space, T t);
 	}
 
+	/**
+	 * The Interface IntOp.
+	 *
+	 * @param <T> the generic type
+	 */
 	public interface IntOp<T extends IntSegment> {
+
+		/**
+		 * Record.
+		 *
+		 * @param t0    the t 0
+		 * @param t1    the t 1
+		 * @param value the value
+		 */
 		void record(T t0, T t1, int value);
 	}
 
+	/**
+	 * Disjoint.
+	 *
+	 * @param <T>     the generic type
+	 * @param offset  the offset
+	 * @param segment the segment
+	 * @return the int
+	 */
 	public static <T extends IntSegment> int disjoint(int offset, T segment) {
 		int start = segment.start();
 		return (offset >= start)
@@ -42,14 +76,38 @@ public interface IntSegment {
 				: start - offset;
 	}
 
+	/**
+	 * Disjoint.
+	 *
+	 * @param <T>      the generic type
+	 * @param segment1 the segment 1
+	 * @param segment2 the segment 2
+	 * @return the int
+	 */
 	public static <T extends IntSegment> int disjoint(T segment1, T segment2) {
 		return disjoint(segment1.end(), segment2);
 	}
 
+	/**
+	 * Disjoint.
+	 *
+	 * @param <T>      the generic type
+	 * @param segments the segments
+	 * @return the int
+	 */
 	public static <T extends IntSegment> int disjoint(T[] segments) {
 		return disjoint(segments, 0, segments.length);
 	}
 
+	/**
+	 * Disjoint.
+	 *
+	 * @param <T>      the generic type
+	 * @param segments the segments
+	 * @param offset   the offset
+	 * @param length   the length
+	 * @return the int
+	 */
 	public static <T extends IntSegment> int disjoint(T[] segments, int offset, int length) {
 		int total = 0;
 		int pos = 0;
@@ -66,6 +124,16 @@ public interface IntSegment {
 		return total;
 	}
 
+	/**
+	 * Disjoint.
+	 *
+	 * @param <T>        the generic type
+	 * @param segments   the segments
+	 * @param offset     the offset
+	 * @param length     the length
+	 * @param perSegment the per segment
+	 * @return the int
+	 */
 	public static <T extends IntSegment> int disjoint(T[] segments, int offset, int length,
 			IntDisjointOp<T> perSegment) {
 
@@ -86,6 +154,14 @@ public interface IntSegment {
 		return total;
 	}
 
+	/**
+	 * Disjoint.
+	 *
+	 * @param <T>        the generic type
+	 * @param segments   the segments
+	 * @param perSegment the per segment
+	 * @return the int
+	 */
 	public static <T extends IntSegment> int disjoint(T[] segments, IntDisjointOp<T> perSegment) {
 		return disjoint(segments, 0, segments.length, perSegment);
 	}
@@ -122,10 +198,26 @@ public interface IntSegment {
 		return (end - start) + 1;
 	}
 
+	/**
+	 * Intersection.
+	 *
+	 * @param <T>      the generic type
+	 * @param segments the segments
+	 * @return the int
+	 */
 	public static <T extends IntSegment> int intersection(T[] segments) {
 		return intersection(segments, 0, segments.length);
 	}
 
+	/**
+	 * Intersection.
+	 *
+	 * @param <T>      the generic type
+	 * @param segments the segments
+	 * @param offset   the offset
+	 * @param length   the length
+	 * @return the int
+	 */
 	public static <T extends IntSegment> int intersection(T[] segments, int offset, int length) {
 		int total = 0;
 		int limit = offset + length;
@@ -149,6 +241,16 @@ public interface IntSegment {
 		return total;
 	}
 
+	/**
+	 * Intersection.
+	 *
+	 * @param <T>        the generic type
+	 * @param segments   the segments
+	 * @param offset     the offset
+	 * @param length     the length
+	 * @param perSegment the per segment
+	 * @return the int
+	 */
 	public static <T extends IntSegment> int intersection(T[] segments, int offset, int length,
 			IntOp<T> perSegment) {
 
@@ -175,19 +277,47 @@ public interface IntSegment {
 		return total;
 	}
 
+	/**
+	 * Intersection.
+	 *
+	 * @param <T>        the generic type
+	 * @param segments   the segments
+	 * @param perSegment the per segment
+	 * @return the int
+	 */
 	public static <T extends IntSegment> int intersection(T[] segments, IntOp<T> perSegment) {
 		return intersection(segments, 0, segments.length, perSegment);
 	}
 
+	/**
+	 * End.
+	 *
+	 * @return the int
+	 */
 	default int end() {
 		return start() + length() - 1;
 	}
 
+	/**
+	 * End exclusive.
+	 *
+	 * @return the int
+	 */
 	default int endExclusive() {
 		return start() + length();
 	}
 
+	/**
+	 * Length.
+	 *
+	 * @return the int
+	 */
 	int length();
 
+	/**
+	 * Start.
+	 *
+	 * @return the int
+	 */
 	int start();
 }

@@ -282,14 +282,13 @@ public class Type2Descriptor extends PacketDescriptor {
 
 		for (int i = start; i < recordCount; i++) {
 			final long record = record(i);
-			final int id = PackId.decodeRecordId(record);
 			final int pack = PackId.decodeRecordPackId(record);
 
 			/* Scan until we no longer see OPTIONS records */
 			if (pack != ProtocolPackTable.PACK_ID_OPTIONS)
 				break;
 
-			if (id == extId)
+			if (PackId.recordEqualsId(record, extId))
 				return descriptor.assignFromRecord(record, 0, i, type());
 		}
 
@@ -512,6 +511,7 @@ public class Type2Descriptor extends PacketDescriptor {
 
 				long record = record(i);
 				int pack = PackId.decodeRecordPackId(record);
+				String packName = ProtocolPackTable.valueOfPackId(pack).name();
 				int id = PackId.decodeRecordId(record);
 				int classMask = PackId.decodeRecordClassBitmask(record);
 				int offset = PackId.decodeRecordOffset(record);
@@ -519,11 +519,12 @@ public class Type2Descriptor extends PacketDescriptor {
 
 				if (pack != ProtocolPackTable.PACK_ID_OPTIONS) {
 					lastId = id;
-					b.append("    [%d]=0x%016X (id=0x%06X [%-20s], off=%2d, len=%2d, classMask=0x%X/%s[%s])%n"
+					b.append("    [%d]=0x%016X (id=0x%06X [%4s:%-20s], off=%2d, len=%2d, classMask=0x%03X/%s[%s])%n"
 							.formatted(
 									i,
 									record,
 									id,
+									packName,
 									Pack.toString(id),
 									offset,
 									length,
@@ -533,11 +534,12 @@ public class Type2Descriptor extends PacketDescriptor {
 
 				} else {
 					// Protocol specific extensions/options
-					b.append("    [%d]=0x%016X (id=0x%06X [%-20s], off=%2d, len=%2d, classMask=0x%X/%s[%s])%n"
+					b.append("    [%d]=0x%016X (id=0x%06X [%4s:%-20s], off=%2d, len=%2d, classMask=0x%03X/%s[%s])%n"
 							.formatted(
 									i,
 									record,
 									id,
+									packName,
 									Pack.toString(lastId, id),
 									offset,
 									length,

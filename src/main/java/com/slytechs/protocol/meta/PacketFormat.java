@@ -19,6 +19,8 @@ package com.slytechs.protocol.meta;
 
 import java.util.Arrays;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.Packet;
@@ -30,12 +32,10 @@ import com.slytechs.protocol.runtime.util.HexStrings;
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
 public final class PacketFormat extends MetaFormat {
 
-	/** The Constant HEADER_LINE_FORMAT_ATTRIBUTE. */
-	private static final String HEADER_LINE_FORMAT_ATTRIBUTE = "headerLineFormat";
+	private static final Logger LOGGER = Logger.getLogger(MetaPacket.class.getPackageName());
 
 	/** The Constant DEFAULT_LINE_FORMAT. */
 	private static final String DEFAULT_LINE_FORMAT = "%20s = %-30s";
@@ -107,7 +107,7 @@ public final class PacketFormat extends MetaFormat {
 		var display = field.getMeta(DisplaysInfo.class).select(detail);
 		if (display == null) // Not visible
 			return toAppendTo;
-		
+
 		String fieldName = field.name();
 
 		var meta = field.getMeta(MetaInfo.class);
@@ -137,7 +137,7 @@ public final class PacketFormat extends MetaFormat {
 
 			return toAppendTo;
 		} catch (Throwable e) {
-//			throw e;
+			LOGGER.log(Level.FINE, "Meta (resource) error", e);
 			throw new IllegalStateException("Field '%s.%s': %s [fmt=%s, args=%s]"
 					.formatted(field.getParentHeader().name(), field.name(), e
 							.getMessage(), displayFormat, Arrays.asList(valueArgs)));
@@ -146,6 +146,14 @@ public final class PacketFormat extends MetaFormat {
 
 	public StringBuilder formatHeader(Header header, StringBuilder toAppendTo, Detail detail) {
 		return formatHeader(new MetaHeader(this, header), toAppendTo, detail);
+	}
+
+	private static boolean arrayContains(String[] array, String value) {
+		for (int i = 0; i < array.length; i++)
+			if (array[i].equals(value))
+				return true;
+
+		return false;
 	}
 
 	/**
@@ -165,19 +173,21 @@ public final class PacketFormat extends MetaFormat {
 		var fields = header.listFields();
 		var label = display.label(meta);
 
+		var hide = display.hide();
+
 		if (!display.value().isBlank()) {
 			formatLeft(label, toAppendTo)
-					.append("  ");
+					.append("  + ");
 
 			formatSummary(header, toAppendTo, detail);
 		}
 
-		formatLeft(label, toAppendTo).append("\n");
+//		formatLeft(label, toAppendTo).append("\n");
 
 		for (MetaField field : fields) {
-			if (!field.isDisplayable(detail))
+			if (!field.isDisplayable(detail) || arrayContains(hide, field.name()))
 				continue;
-			
+
 			formatLeft(label, toAppendTo);
 
 			formatField(field, toAppendTo, detail);
@@ -403,20 +413,25 @@ public final class PacketFormat extends MetaFormat {
 			var summaryLine = displayFormat.formatted(args);
 
 			toAppendTo
-//				.append(" ****** ")
-//				.append(" + ")
 					.append(summaryLine)
-//				.append(" ******")
 					.append("\n");
 
 			return toAppendTo;
 		} catch (Throwable e) {
-			toAppendTo
-					.append("ERROR: %s".formatted(e.getMessage()));
+			String message = "%s [\"%s\"]".formatted(element.name(), e.getMessage());
+			String warning = ("%s%n"
+					+ "display.original =[%s]%n"
+					+ "display.rewritten=[%s]%n"
+					+ "display.arguments=%s")
+					.formatted(message, display.value(), displayFormat, Arrays.asList(args));
 
-//			return toAppendTo;
+			toAppendTo.append(">>>%s<<<%n".formatted(message));
 
-			throw new IllegalStateException(display.label(), e);
+			LOGGER.log(Level.WARNING, warning);
+			LOGGER.log(Level.FINE, "format conversion error for meta element summary [%s]"
+					.formatted(element.name()), e);
+
+			return toAppendTo;
 		}
 	}
 

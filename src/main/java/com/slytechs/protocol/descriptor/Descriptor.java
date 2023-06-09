@@ -226,6 +226,12 @@ public abstract class Descriptor
 		return toString(Detail.LOW);
 	}
 
+	/**
+	 * To string.
+	 *
+	 * @param detail the detail
+	 * @return the string
+	 */
 	public final String toString(Detail detail) {
 		return buildString(new StringBuilder(), detail).toString();
 	}

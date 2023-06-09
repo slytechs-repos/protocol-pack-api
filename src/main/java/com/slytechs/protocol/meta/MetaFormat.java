@@ -160,7 +160,7 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 
 	/** The Constant DISPLAY_ATTRIBUTE_PATTERN. */
 	private static final Pattern DISPLAY_ATTRIBUTE_PATTERN = Pattern.compile(""
-			+ "%\\{([\\w.]*):?([VFRO]?[12345]*)\\}" // F=Formatted, R=Resolved
+			+ "%\\{([\\w.?/\\\\]*):?([VFRO]?[12345]*)\\}" // F=Formatted, R=Resolved
 			+ "");
 
 	/**
@@ -184,14 +184,10 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 	protected Object[] buildDisplayArgs(MetaDomain domain, MetaElement element, String summaryFormat) {
 		Matcher matcher = DISPLAY_ATTRIBUTE_PATTERN.matcher(summaryFormat);
 		var list = new ArrayList<>();
-//		System.out.printf("buildDisplayArgs(%s):: summaryFormat=\"%s\"%n",
-//				field.name(),
-//				summaryFormat);
 
 		while (matcher.find()) {
 			var fieldName = matcher.group(1);
 			var valueFormat = matcher.group(2);
-//			System.out.printf("fieldName=%-15s valueFormat=%-15s%n", fieldName, valueFormat);
 
 			MetaField selected = null;
 			if (element instanceof MetaField field)

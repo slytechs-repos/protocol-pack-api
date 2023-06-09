@@ -88,6 +88,9 @@ public interface PackId {
 	/** The pack id not found. */
 	int ID_NOT_FOUND = -1;
 	
+	/** The id class ordinal. */
+	int ID_ORDINAL_CLASS = 0xFF;
+	
 	/** The pack mask ordinal. */
 	int PACK_MASK_ORDINAL  = 0x000000FF;  // 07:00 - 8 bits, protocol number
 	
@@ -210,9 +213,12 @@ public interface PackId {
 	 * @return true, if successful
 	 */
 	static boolean classmaskCheck(int classBitmask, int id) {
-		int mask = (classBitmask & PACK_MASK_CLASSBITMASK);
+		int classbits = (classBitmask & PACK_MASK_CLASSBITMASK);
+		int ordinalbits = (classBitmask & PACK_MASK_ORDINAL);
 
-		return (mask != 0) && (id & mask) == mask;
+		return (ordinalbits == ID_ORDINAL_CLASS)
+				&& (classbits != 0)
+				&& (id & classbits) == classbits;
 	}
 
 	/**
@@ -339,8 +345,9 @@ public interface PackId {
 	/**
 	 * Encode id.
 	 *
-	 * @param packOrdinal the pack ordinal
-	 * @param ordinal     the ordinal
+	 * @param packOrdinal  the pack ordinal
+	 * @param ordinal      the ordinal
+	 * @param classBitmask the class bitmask
 	 * @return the int
 	 */
 	static int encodeId(int packOrdinal, int ordinal, int classBitmask) {

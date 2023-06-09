@@ -66,7 +66,7 @@ class TestUdpHeader {
 
 	@Test
 	void test_Udp_checksum() throws HeaderNotFound {
-		var packet = CorePackets.ETH_IPv4_UDP_SNMP.toPacket();
+		var packet = CoreTestPackets.ETH_IPv4_UDP_SNMP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -79,7 +79,7 @@ class TestUdpHeader {
 
 	@Test
 	void test_Udp_srcPort() throws HeaderNotFound {
-		var packet = CorePackets.ETH_IPv4_UDP_SNMP.toPacket();
+		var packet = CoreTestPackets.ETH_IPv4_UDP_SNMP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -92,7 +92,7 @@ class TestUdpHeader {
 
 	@Test
 	void test_Udp_dstPort() throws HeaderNotFound {
-		var packet = CorePackets.ETH_IPv4_UDP_SNMP.toPacket();
+		var packet = CoreTestPackets.ETH_IPv4_UDP_SNMP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -106,7 +106,7 @@ class TestUdpHeader {
 
 	@Test
 	void test_Udp_length() throws HeaderNotFound {
-		var packet = CorePackets.ETH_IPv4_UDP_SNMP.toPacket();
+		var packet = CoreTestPackets.ETH_IPv4_UDP_SNMP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);

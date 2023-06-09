@@ -20,6 +20,7 @@ package com.slytechs.protocol.descriptor;
 import static com.slytechs.protocol.pack.core.constants.CoreConstants.*;
 import static com.slytechs.protocol.runtime.internal.layout.BinaryLayout.*;
 
+import com.slytechs.protocol.pack.core.IpAddress;
 import com.slytechs.protocol.runtime.internal.layout.ArrayField;
 import com.slytechs.protocol.runtime.internal.layout.BinaryLayout;
 import com.slytechs.protocol.runtime.internal.layout.BitField;
@@ -88,11 +89,11 @@ enum IpfFragmentLayout implements BitField.Proxy {
 								Int16.BITS_16.withName("next_header"),
 								unionLayout(
 										structLayout(
-												sequenceLayout(IPv4_ADDRESS_SIZE, Int8.BITS_08).withName("ip4_src"),
-												sequenceLayout(IPv4_ADDRESS_SIZE, Int8.BITS_08).withName("ip4_dst")),
+												sequenceLayout(IpAddress.IPv4_ADDRESS_SIZE, Int8.BITS_08).withName("ip4_src"),
+												sequenceLayout(IpAddress.IPv4_ADDRESS_SIZE, Int8.BITS_08).withName("ip4_dst")),
 										structLayout(
-												sequenceLayout(IPv6_ADDRESS_SIZE, Int8.BITS_08).withName("ip6_src"),
-												sequenceLayout(IPv6_ADDRESS_SIZE, Int8.BITS_08).withName("ip6_dst"))
+												sequenceLayout(IpAddress.IPv6_ADDRESS_SIZE, Int8.BITS_08).withName("ip6_src"),
+												sequenceLayout(IpAddress.IPv6_ADDRESS_SIZE, Int8.BITS_08).withName("ip6_dst"))
 
 								))),
 				sequenceLayout(DESC_IPF_FRAG_IPv6_KEY_BYTE_SIZE, Int8.BITS_08).withName("key_bytes")

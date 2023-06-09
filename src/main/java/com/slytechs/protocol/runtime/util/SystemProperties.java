@@ -17,6 +17,7 @@
  */
 package com.slytechs.protocol.runtime.util;
 
+import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 /**
@@ -78,6 +79,14 @@ public final class SystemProperties {
 		return numberValue(property, Double::parseDouble, defaultValue, CountUnit.COUNT).doubleValue();
 	}
 
+	/**
+	 * Double value.
+	 *
+	 * @param property     the property
+	 * @param defaultValue the default value
+	 * @param unit         the unit
+	 * @return the double
+	 */
 	public static double doubleValue(String property, double defaultValue, Unit unit) {
 		return numberValue(property, Double::parseDouble, defaultValue, unit).doubleValue();
 	}
@@ -169,6 +178,39 @@ public final class SystemProperties {
 	 */
 	public static String stringValue(String property, String defaultValue) {
 		return guarded(property, String::valueOf, defaultValue);
+	}
+
+	/**
+	 * String value.
+	 *
+	 * @param property   the property
+	 * @param onProperty the on property
+	 * @return the string
+	 */
+	public static String stringValue(String property, BiConsumer<String, String> onProperty) {
+		String value = System.getProperty(property);
+		if (value != null)
+			onProperty.accept(property, value);
+
+		return value;
+	}
+
+	/**
+	 * String value.
+	 *
+	 * @param property     the property
+	 * @param defaultValue the default value
+	 * @param onProperty   the on property
+	 * @return the string
+	 */
+	public static String stringValue(String property, String defaultValue, BiConsumer<String, String> onProperty) {
+		String value = System.getProperty(property);
+		if (value != null)
+			onProperty.accept(property, value);
+		else
+			onProperty.accept(property, defaultValue);
+
+		return value;
 	}
 
 	/**

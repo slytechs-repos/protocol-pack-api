@@ -50,14 +50,26 @@ public final class CoreConstants {
 	/** The Constant DESC_TYPE2_RECORD_MAX_COUNT. */
 	public static final int DESC_TYPE2_RECORD_MAX_COUNT = 16;
 	
+	/** The Constant DESC_IPF_FRAG_KEY. */
 	public static final int DESC_IPF_FRAG_KEY = 12;
+	
+	/** The Constant DESC_IPF_FRAG_IPv4_KEY_BYTE_SIZE. */
 	public static final int DESC_IPF_FRAG_IPv4_KEY_BYTE_SIZE = 12;
+	
+	/** The Constant DESC_IPF_FRAG_IPv6_KEY_BYTE_SIZE. */
 	public static final int DESC_IPF_FRAG_IPv6_KEY_BYTE_SIZE = 36;
+	
+	/** The Constant DESC_IPF_FRAG_BYTE_SIZE. */
 	public static final int DESC_IPF_FRAG_BYTE_SIZE = 0 
 			+ DESC_IPF_FRAG_KEY + DESC_IPF_FRAG_IPv6_KEY_BYTE_SIZE;
 	
+	/** The Constant DESC_IPF_REASSEMBLY_BYTE_MIN_SIZE. */
 	public static final int DESC_IPF_REASSEMBLY_BYTE_MIN_SIZE = 20 ;
+	
+	/** The Constant DESC_IPF_REASSEMBLY_RECORD_SIZE. */
 	public static final int DESC_IPF_REASSEMBLY_RECORD_SIZE = 16 ;
+	
+	/** The Constant DESC_IPF_REASSEMBLY_BYTE_SIZE. */
 	public static final int DESC_IPF_REASSEMBLY_BYTE_SIZE = 0 
 			+ DESC_IPF_REASSEMBLY_BYTE_MIN_SIZE + DESC_IPF_REASSEMBLY_RECORD_SIZE * 32;
 	
@@ -225,16 +237,32 @@ public final class CoreConstants {
 	/** The Constant ICMPv4_HEADER_LEN. */
 	/* Descriptor ICMP constants */
 	public static final int ICMPv4_HEADER_LEN = 4;
+	
+	/** The Constant ICMPv4_FIELD_TYPE. */
 	public static final int ICMPv4_FIELD_TYPE = 0;
+	
+	/** The Constant ICMPv4_FIELD_CODE. */
 	public static final int ICMPv4_FIELD_CODE = 1;
+	
+	/** The Constant ICMPv4_FIELD_CHECKSUM. */
 	public static final int ICMPv4_FIELD_CHECKSUM = 2;
+	
+	/** The Constant ICMPv4_TYPE_ECHO_REQUEST. */
 	public static final int ICMPv4_TYPE_ECHO_REQUEST = 8;
+	
+	/** The Constant ICMPv4_TYPE_ECHO_REPLY. */
 	public static final int ICMPv4_TYPE_ECHO_REPLY = 0;
 
+	/** The Constant ICMPv4_ECHO_HEADER_LEN. */
 	public static final int ICMPv4_ECHO_HEADER_LEN = 8;
+	
+	/** The Constant ICMPv4_ECHO_FIELD_IDENTIFIER. */
 	public static final int ICMPv4_ECHO_FIELD_IDENTIFIER = 4;
+	
+	/** The Constant ICMPv4_ECHO_FIELD_SEQUENCE. */
 	public static final int ICMPv4_ECHO_FIELD_SEQUENCE = 6;
 
+	/** The Constant ICMPv6_HEADER_LEN. */
 	public static final int ICMPv6_HEADER_LEN = 4;
 
 	/** The Constant ICMPv6_TYPE_RESERVED. */
@@ -296,6 +324,9 @@ public final class CoreConstants {
 
 	/** The Constant ICMPv6_TYPE_INVERSE_NEIGHBOR_ADVERTISEMENT. */
 	public static final int ICMPv6_TYPE_INVERSE_NEIGHBOR_ADVERTISEMENT = 142;
+	
+	/** The Constant ICMPv6_TYPE_MULTICAST_LISTENER_REPORTv2. */
+	public static final int ICMPv6_TYPE_MULTICAST_LISTENER_REPORTv2 = 143 ;
 
 	/** The Constant ICMPv6_TYPE_HOME_AGENT_REQUEST. */
 	public static final int ICMPv6_TYPE_HOME_AGENT_REQUEST = 144;
@@ -369,7 +400,11 @@ public final class CoreConstants {
 
 	/** The Constant IPv4_FIELD_FLAGS. */
 	public static final int IPv4_FIELD_FLAGS = 6;
+	
+	/** The Constant IPv4_FIELD_IDENT. */
 	public static final int IPv4_FIELD_IDENT = 4;
+	
+	/** The Constant IPv4_FIELD_TOTAL_LEN. */
 	public static final int IPv4_FIELD_TOTAL_LEN = 2;
 
 	/** The Constant IPv4_MASK16_FRAGOFF. */
@@ -381,26 +416,28 @@ public final class CoreConstants {
 	/** The Constant IPv4_FLAG16_MF. */
 	public static final int IPv4_FLAG16_MF = 0x2000;
 
-	/** The Constant IPv4_ADDRESS_SIZE. */
-	public static final int IPv4_ADDRESS_SIZE = 4;
-
-	/** The Constant IPv6_ADDRESS_SIZE. */
-	public static final int IPv6_ADDRESS_SIZE = 16;
-
-	/** The Constant IPv6_ADDRESS_STRING_SIZE. */
-	public static final int IPv6_ADDRESS_STRING_SIZE = 39;
-
+	/** The Constant IPv6_FIELD_FRAG_OFFSET. */
 	public static final int IPv6_FIELD_FRAG_OFFSET = 2;
+	
+	/** The Constant IPv6_FIELD_IDENTIFICATION. */
 	public static final int IPv6_FIELD_IDENTIFICATION = 4;
+	
+	/** The Constant IPv6_FLAG16_MF. */
 	public static final int IPv6_FLAG16_MF = 0x8000;
+	
+	/** The Constant IPv6_MASK16_FRAGOFF. */
 	public static final int IPv6_MASK16_FRAGOFF = 0x1FFF;
 
 	/** The Constant IPv4_FIELD_SRC. */
 	public static final int IPv6_FIELD_SRC = 8;
+	
+	/** The Constant IPv6_FIELD_SRC_LEN. */
 	public static final int IPv6_FIELD_SRC_LEN = 16;
 
 	/** The Constant IPv4_FIELD_DST. */
 	public static final int IPv6_FIELD_DST = 24;
+	
+	/** The Constant IPv6_FIELD_DST_LEN. */
 	public static final int IPv6_FIELD_DST_LEN = 16;
 
 	/** The Constant IP_TYPE_ICMPv4. */

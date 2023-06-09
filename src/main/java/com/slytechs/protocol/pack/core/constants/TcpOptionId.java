@@ -24,15 +24,15 @@ import com.slytechs.protocol.HeaderExtensionInfo;
 import com.slytechs.protocol.HeaderSupplier;
 import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.ProtocolPackTable;
+import com.slytechs.protocol.pack.core.TcpEol;
+import com.slytechs.protocol.pack.core.TcpFastOpen;
+import com.slytechs.protocol.pack.core.TcpMss;
+import com.slytechs.protocol.pack.core.TcpNop;
 import com.slytechs.protocol.pack.core.TcpOption;
-import com.slytechs.protocol.pack.core.TcpOption.TcpEndOfListOption;
-import com.slytechs.protocol.pack.core.TcpOption.TcpFastOpenOption;
-import com.slytechs.protocol.pack.core.TcpOption.TcpMSSOption;
-import com.slytechs.protocol.pack.core.TcpOption.TcpNoOption;
-import com.slytechs.protocol.pack.core.TcpOption.TcpSackOption;
-import com.slytechs.protocol.pack.core.TcpOption.TcpSackPermOption;
-import com.slytechs.protocol.pack.core.TcpOption.TcpTimestampOption;
-import com.slytechs.protocol.pack.core.TcpOption.TcpWindowScaleOption;
+import com.slytechs.protocol.pack.core.TcpSack;
+import com.slytechs.protocol.pack.core.TcpSackPermitted;
+import com.slytechs.protocol.pack.core.TcpTimestamp;
+import com.slytechs.protocol.pack.core.TcpWindowScale;
 
 /**
  * TCP header option ID constants.
@@ -43,28 +43,28 @@ public enum TcpOptionId implements HeaderExtensionInfo, PackId {
 	OPTION(254, "OPT", TcpOption::new),
 
 	/** The eol. */
-	EOL(CoreConstants.TCP_OPTION_KIND_EOL, "EOL", TcpEndOfListOption::new),
+	EOL(CoreConstants.TCP_OPTION_KIND_EOL, "EOL", TcpEol::new),
 
 	/** The nop. */
-	NOP(CoreConstants.TCP_OPTION_KIND_NOP, "NOP", TcpNoOption::new),
+	NOP(CoreConstants.TCP_OPTION_KIND_NOP, "NOP", TcpNop::new),
 
 	/** The mss. */
-	MSS(CoreConstants.TCP_OPTION_KIND_MSS, "MSS", TcpMSSOption::new),
+	MSS(CoreConstants.TCP_OPTION_KIND_MSS, "MSS", TcpMss::new),
 
 	/** The win scale. */
-	WIN_SCALE(CoreConstants.TCP_OPTION_KIND_WIN_SCALE, "WIN", TcpWindowScaleOption::new),
+	WIN_SCALE(CoreConstants.TCP_OPTION_KIND_WIN_SCALE, "WIN", TcpWindowScale::new),
 
 	/** The sack. */
-	SACK_PERMITTED(CoreConstants.TCP_OPTION_KIND_SACK_PERMITTED, "SACK_PERM", TcpSackPermOption::new),
+	SACK_PERMITTED(CoreConstants.TCP_OPTION_KIND_SACK_PERMITTED, "SACK_PERM", TcpSackPermitted::new),
 
 	/** The sack. */
-	SACK(CoreConstants.TCP_OPTION_KIND_SACK, "SACK", TcpSackOption::new),
+	SACK(CoreConstants.TCP_OPTION_KIND_SACK, "SACK", TcpSack::new),
 
 	/** The timestamp. */
-	TIMESTAMP(CoreConstants.TCP_OPTION_KIND_TIMESTAMP, "TS", TcpTimestampOption::new),
+	TIMESTAMP(CoreConstants.TCP_OPTION_KIND_TIMESTAMP, "TS", TcpTimestamp::new),
 
 	/** The fastopen. */
-	FASTOPEN(CoreConstants.TCP_OPTION_KIND_FASTOPEN, "FAST", TcpFastOpenOption::new),
+	FASTOPEN(CoreConstants.TCP_OPTION_KIND_FASTOPEN, "FAST", TcpFastOpen::new),
 
 	;
 
@@ -163,7 +163,7 @@ public enum TcpOptionId implements HeaderExtensionInfo, PackId {
 	 * Gets the parent header id.
 	 *
 	 * @return the parent header id
-	 * @see com.slytechs.protocol.pack.core.IpOptionInfo#getParentHeaderId()
+	 * @see com.slytechs.protocol.pack.core.IpExtensionId#getParentHeaderId()
 	 */
 	@Override
 	public int getParentHeaderId() {
@@ -174,7 +174,7 @@ public enum TcpOptionId implements HeaderExtensionInfo, PackId {
 	 * Gets the extension abbr.
 	 *
 	 * @return the extension abbr
-	 * @see com.slytechs.protocol.pack.core.IpOptionInfo#getExtensionAbbr()
+	 * @see com.slytechs.protocol.pack.core.IpExtensionId#getExtensionAbbr()
 	 */
 	@Override
 	public String getExtensionAbbr() {

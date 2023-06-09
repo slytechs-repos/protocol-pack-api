@@ -98,10 +98,6 @@ public abstract class Header extends MemoryBinding implements DetailedString, To
 		// Do nothing by default
 	}
 
-	void bindExtensionsToPacket(ByteBuffer packet, PacketDescriptor descriptor, int meta) {
-		// Do nothing by default
-	}
-
 	/**
 	 * Gets the usable packet descriptor.
 	 *

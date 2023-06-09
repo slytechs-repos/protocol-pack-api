@@ -32,13 +32,13 @@ import org.junit.jupiter.api.TestInfo;
 import com.slytechs.protocol.Packet;
 import com.slytechs.protocol.pack.core.Ethernet;
 import com.slytechs.protocol.pack.core.Ip4;
-import com.slytechs.protocol.pack.core.Ip4Option.Ip4RouterOption;
 import com.slytechs.protocol.pack.core.Ip6;
-import com.slytechs.protocol.pack.core.Ip6Option.Ip6FragmentOption;
+import com.slytechs.protocol.pack.core.Ip6ExtFragment;
+import com.slytechs.protocol.pack.core.Ip4OptRouterAlert;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.CoreId;
 import com.slytechs.protocol.pack.core.constants.HashType;
-import com.slytechs.protocol.pack.core.constants.Ip4OptionInfo;
+import com.slytechs.protocol.pack.core.constants.Ip4IdOptions;
 import com.slytechs.protocol.pack.core.constants.L2FrameType;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 import com.slytechs.protocol.runtime.internal.Benchmark;
@@ -198,7 +198,7 @@ class TestDissectorType2 {
 		;
 
 		log("%s%n", type2);
-		
+
 		System.out.println(type2.toString(Detail.HIGH));
 
 		assertEquals(TIMESTAMP, type2.timestamp(), "timestamp");
@@ -214,8 +214,8 @@ class TestDissectorType2 {
 			Ethernet eth = new Ethernet();
 			Ip4 ip4 = new Ip4();
 			Ip6 ip6 = new Ip6();
-			Ip4RouterOption router4 = new Ip4RouterOption();
-			Ip6FragmentOption frag6 = new Ip6FragmentOption();
+			Ip4OptRouterAlert router4 = new Ip4OptRouterAlert();
+			Ip6ExtFragment frag6 = new Ip6ExtFragment();
 
 			if (packet.hasHeader(eth)) {
 				log("ETH.type=0x%04X%n", eth.type());
@@ -225,7 +225,7 @@ class TestDissectorType2 {
 				log("IPv4.protocol=%d examinePacket=%s%n", ip4.protocol(), router4.examinePacket());
 			}
 
-			if (packet.hasHeader(ip6) && ip6.hasExtension(frag6)) {
+			if (packet.hasHeader(frag6)) {
 				log("IPv6.next=%d%n", ip6.nextHeader());
 			}
 		}
@@ -249,8 +249,8 @@ class TestDissectorType2 {
 //				.disableExtensionRecordingForAll()
 				.disableExtensionRecordingFor(CoreId.IPv4,
 //						Ip4OptionId.ROUTER_ALERT,
-						Ip4OptionInfo.NO_OPERATION,
-						Ip4OptionInfo.END_OF_OPTIONS)
+						Ip4IdOptions.NO_OPERATION,
+						Ip4IdOptions.END_OF_OPTIONS)
 
 		;
 
@@ -276,8 +276,8 @@ class TestDissectorType2 {
 			Ethernet eth = new Ethernet();
 			Ip4 ip4 = new Ip4();
 			Ip6 ip6 = new Ip6();
-			Ip4RouterOption router4 = new Ip4RouterOption();
-			Ip6FragmentOption frag6 = new Ip6FragmentOption();
+			Ip4OptRouterAlert ra4 = new Ip4OptRouterAlert();
+			Ip6ExtFragment frag6 = new Ip6ExtFragment();
 
 //		final long COUNT = 3_000_000_000l;
 //		final long COUNT = 300_000_000;
@@ -301,11 +301,11 @@ class TestDissectorType2 {
 					System.out.println(ip4);
 				}
 
-				if (packet.hasHeader(ip4) && ip4.hasExtension(router4)) {
-					System.out.println(router4);
+				if (packet.hasHeader(ip4) && ip4.hasExtension(ra4)) {
+					System.out.println(ra4);
 				}
 
-				if (packet.hasHeader(ip6) && ip6.hasExtension(frag6)) {
+				if (packet.hasHeader(frag6)) {
 				}
 			}
 

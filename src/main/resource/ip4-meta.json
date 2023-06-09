@@ -11,7 +11,7 @@
 		"flags;Flags": "%{}x %{flagsEnum}s",
 		"fragOffset;Fragment Offset": "%{}d [%{}d*8 = %{fragOffsetBytes}d]",
 		"ttl;Time to Live": "%{}d",
-		"protocol;Protocol": "%{}d [%{:IP_TYPE}s]",
+		"protocol;Protocol": "%{:IP_TYPE}s (%{}d)",
 		"src;Source Address": "%{:F}s",
 		"dst;Destination Address": "%{:F}s"
 	},

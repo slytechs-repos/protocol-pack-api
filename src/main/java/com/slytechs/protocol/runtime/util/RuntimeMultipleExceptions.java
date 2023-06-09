@@ -29,35 +29,45 @@ import java.util.Collection;
  */
 public class RuntimeMultipleExceptions extends RuntimeException {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 910550746521088540L;
 
+	/** The causes. */
 	private final Collection<? extends Throwable> causes;
 
 	/**
-	 * @param cause
+	 * Instantiates a new runtime multiple exceptions.
+	 *
+	 * @param causes the causes
 	 */
 	public RuntimeMultipleExceptions(Throwable... causes) {
 		this(Arrays.asList(causes));
 	}
 
 	/**
-	 * @param cause
+	 * Instantiates a new runtime multiple exceptions.
+	 *
+	 * @param causes the causes
 	 */
 	public RuntimeMultipleExceptions(Collection<? extends Throwable> causes) {
 		this.causes = causes;
 	}
 
 	/**
-	 * @param message
-	 * @param cause
+	 * Instantiates a new runtime multiple exceptions.
+	 *
+	 * @param message the message
+	 * @param causes  the causes
 	 */
 	public RuntimeMultipleExceptions(String message, Throwable... causes) {
 		this(message, Arrays.asList(causes));
 	}
 
 	/**
-	 * @param message
-	 * @param cause
+	 * Instantiates a new runtime multiple exceptions.
+	 *
+	 * @param message the message
+	 * @param causes  the causes
 	 */
 	public RuntimeMultipleExceptions(String message, Collection<? extends Throwable> causes) {
 		super(message);
@@ -65,12 +75,17 @@ public class RuntimeMultipleExceptions extends RuntimeException {
 	}
 
 	/**
+	 * Gets the causes.
+	 *
 	 * @return the causes
 	 */
 	public Collection<? extends Throwable> getCauses() {
 		return causes;
 	}
 
+	/**
+	 * @see java.lang.Throwable#toString()
+	 */
 	@Override
 	public String toString() {
 		var b = new StringBuilder();
@@ -94,6 +109,9 @@ public class RuntimeMultipleExceptions extends RuntimeException {
 		return b.toString();
 	}
 
+	/**
+	 * @see java.lang.Throwable#printStackTrace(java.io.PrintStream)
+	 */
 	@Override
 	public void printStackTrace(PrintStream s) {
 		super.printStackTrace(s);

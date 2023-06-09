@@ -29,9 +29,12 @@ import com.slytechs.protocol.meta.MetaValue.ValueResolverTuple2;
 import com.slytechs.protocol.pack.core.constants.ArpHardwareType;
 import com.slytechs.protocol.pack.core.constants.ArpOp;
 import com.slytechs.protocol.pack.core.constants.EtherType;
+import com.slytechs.protocol.pack.core.constants.I3eOuiAssignments;
 import com.slytechs.protocol.pack.core.constants.Icmp4Code;
 import com.slytechs.protocol.pack.core.constants.Icmp4Type;
-import com.slytechs.protocol.pack.core.constants.IeeeOuiAssignments;
+import com.slytechs.protocol.pack.core.constants.Icmp6Mlr2RecordType;
+import com.slytechs.protocol.pack.core.constants.Ip4IdOptions;
+import com.slytechs.protocol.pack.core.constants.Ip6IdOption;
 import com.slytechs.protocol.pack.core.constants.IpType;
 import com.slytechs.protocol.pack.core.constants.TcpFlag;
 import com.slytechs.protocol.runtime.time.Timestamp;
@@ -76,7 +79,13 @@ public @interface Resolver {
 		ETHER_TYPE(EtherType::resolve),
 
 		/** The ip type. */
-		IP_TYPE(IpType::resolve),
+		IP_TYPE(IpType::resolve), // 48E3R20
+
+		/** The ip option. */
+		IPv4_OPT_TYPE(Ip4IdOptions::resolve),
+
+		/** The I pv 6 OP T TYPE. */
+		IPv6_OPT_TYPE(Ip6IdOption::resolve),
 
 		/** The ip type. */
 		ARP_OP(ArpOp::resolve),
@@ -85,13 +94,13 @@ public @interface Resolver {
 		ARP_HWTYPE(ArpHardwareType::resolve),
 
 		/** The ether mac oui name. */
-		ETHER_MAC_OUI_NAME(IeeeOuiAssignments::resolveMacOuiName),
+		ETHER_MAC_OUI_NAME(I3eOuiAssignments::resolveMacOuiName),
 
 		/** The ether mac oui name prefixed. */
-		ETHER_MAC_OUI_NAME_PREFIXED(IeeeOuiAssignments::formatPrefixMacWithOuiName),
+		ETHER_MAC_OUI_NAME_PREFIXED(I3eOuiAssignments::formatMacPrefixWithOuiName),
 
 		/** The ether mac oui description. */
-		ETHER_MAC_OUI_DESCRIPTION(IeeeOuiAssignments::resolveMacOuiDescription),
+		ETHER_MAC_OUI_DESCRIPTION(I3eOuiAssignments::resolveMacOuiDescription),
 
 		/** The bitshift 1. */
 		BITSHIFT_1(v -> DisplayUtil.bitshiftIntLeft(v, 1)),
@@ -123,8 +132,17 @@ public @interface Resolver {
 		/** The ICM pv 4 CODE. */
 		ICMPv4_CODE(Icmp4Code::resolve),
 
+		/** The tcp flags. */
 		TCP_FLAGS(TcpFlag::resolve),
+
+		/** The tcp flags bits. */
+		TCP_BITS(TcpFlag::resolveBitFormat),
+
+		/** The port lookup. */
 		PORT_LOOKUP(o -> "UNKNOWN"),
+
+		/** The MLRv2 record type. */
+		MLRv2_TYPE(Icmp6Mlr2RecordType::resolve),
 
 		;
 
@@ -140,6 +158,11 @@ public @interface Resolver {
 			this.resolver = resolver;
 		}
 
+		/**
+		 * Instantiates a new resolver type.
+		 *
+		 * @param resolver the resolver
+		 */
 		ResolverType(ValueResolverTuple2 resolver) {
 			this.resolver = new ValueResolver() {
 

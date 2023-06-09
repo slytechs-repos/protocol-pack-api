@@ -69,7 +69,7 @@ class TestIp6Header {
 
 	@Test
 	void test_Ip6_src() throws HeaderNotFound {
-		var packet = CorePackets.ETH_IPv6_TCP.toPacket();
+		var packet = CoreTestPackets.ETH_IPv6_TCP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -83,7 +83,7 @@ class TestIp6Header {
 
 	@Test
 	void test_Ip6_dst() throws HeaderNotFound {
-		var packet = CorePackets.ETH_IPv6_TCP.toPacket();
+		var packet = CoreTestPackets.ETH_IPv6_TCP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -97,7 +97,7 @@ class TestIp6Header {
 
 	@Test
 	void test_Ip6_dsfield() throws HeaderNotFound {
-		var packet = CorePackets.ETH_IPv6_TCP.toPacket();
+		var packet = CoreTestPackets.ETH_IPv6_TCP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -110,7 +110,7 @@ class TestIp6Header {
 
 	@Test
 	void test_Ip6_flowLabel() throws HeaderNotFound {
-		var packet = CorePackets.ETH_IPv6_TCP.toPacket();
+		var packet = CoreTestPackets.ETH_IPv6_TCP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -123,7 +123,7 @@ class TestIp6Header {
 
 	@Test
 	void test_Ip6_hopLimit() throws HeaderNotFound {
-		var packet = CorePackets.ETH_IPv6_TCP.toPacket();
+		var packet = CoreTestPackets.ETH_IPv6_TCP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -136,7 +136,7 @@ class TestIp6Header {
 
 	@Test
 	void test_Ip6_payloadLength() throws HeaderNotFound {
-		var packet = CorePackets.ETH_IPv6_TCP.toPacket();
+		var packet = CoreTestPackets.ETH_IPv6_TCP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -149,7 +149,7 @@ class TestIp6Header {
 
 	@Test
 	void test_Ip6_nextHeader() throws HeaderNotFound {
-		var packet = CorePackets.ETH_IPv6_TCP.toPacket();
+		var packet = CoreTestPackets.ETH_IPv6_TCP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -162,7 +162,7 @@ class TestIp6Header {
 
 	@Test
 	void test_Ip6_version() throws HeaderNotFound {
-		var packet = CorePackets.ETH_IPv6_TCP.toPacket();
+		var packet = CoreTestPackets.ETH_IPv6_TCP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -175,7 +175,7 @@ class TestIp6Header {
 
 	@Test
 	void test_Ip6_containsTcpHeader() throws HeaderNotFound {
-		var packet = CorePackets.ETH_IPv6_TCP.toPacket();
+		var packet = CoreTestPackets.ETH_IPv6_TCP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);

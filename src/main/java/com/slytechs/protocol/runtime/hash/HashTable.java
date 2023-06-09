@@ -125,6 +125,9 @@ public class HashTable<T> implements KeyedTable<T> {
 		}
 
 		/**
+		 * Data.
+		 *
+		 * @return the t
 		 * @see com.slytechs.protocol.runtime.hash.KeyedTable.Entry#data()
 		 */
 		@Override
@@ -182,6 +185,9 @@ public class HashTable<T> implements KeyedTable<T> {
 			this.isEmpty = b;
 		}
 
+		/**
+		 * Clear key.
+		 */
 		public void clearKey() {
 			this.key.putLong(0, 0);
 			this.key.putLong(1, 0);
@@ -242,6 +248,7 @@ public class HashTable<T> implements KeyedTable<T> {
 	/** The table mask. */
 	private final int tableMask;
 
+	/** The sticky data. */
 	private boolean stickyData;
 
 	/**
@@ -270,7 +277,6 @@ public class HashTable<T> implements KeyedTable<T> {
 	 * @param key  the key
 	 * @param data the data
 	 * @return the int
-	 * @see com.slytechs.protocol.runtime.hash.KeyedTable#add(java.nio.ByteBuffer)
 	 */
 	@Override
 	public final int add(ByteBuffer key, T data) {
@@ -317,6 +323,7 @@ public class HashTable<T> implements KeyedTable<T> {
 	 *
 	 * @param b if true, data will be sticky, otherwise it will be cleared when no
 	 *          longer used
+	 * @return the hash table
 	 */
 	public HashTable<T> enableStickyData(boolean b) {
 		this.stickyData = b;
@@ -336,6 +343,11 @@ public class HashTable<T> implements KeyedTable<T> {
 		return this.table[index];
 	}
 
+	/**
+	 * Gets the unused entries count.
+	 *
+	 * @return the unused entries count
+	 */
 	public long getUnusedEntriesCount() {
 		return Arrays.stream(table)
 				.filter(e -> e.isEmpty)
@@ -441,6 +453,7 @@ public class HashTable<T> implements KeyedTable<T> {
 	 * @param index the index
 	 * @param key   the key
 	 * @param data  the data
+	 * @return the int
 	 */
 	protected final int set(int index, ByteBuffer key, T data) {
 		HashEntry<T> hashEntry = table[index];
@@ -458,6 +471,7 @@ public class HashTable<T> implements KeyedTable<T> {
 	 * Sets the hash algorithm.
 	 *
 	 * @param newAlgorithm the new hash algorithm
+	 * @return the hash table
 	 */
 	public final HashTable<T> setHashAlgorithm(HashAlgorithm newAlgorithm) {
 		this.hashAlgorithm = Objects.requireNonNull(newAlgorithm, "newAlgorithm");
@@ -465,6 +479,11 @@ public class HashTable<T> implements KeyedTable<T> {
 		return this;
 	}
 
+	/**
+	 * Size.
+	 *
+	 * @return the int
+	 */
 	public int size() {
 		return tableSize;
 	}
@@ -476,6 +495,7 @@ public class HashTable<T> implements KeyedTable<T> {
 	 *
 	 * @param factory the factory supplying data objects based on entry's index
 	 *                value
+	 * @return the hash table
 	 */
 	public HashTable<T> fill(IntFunction<T> factory) {
 		IntStream
@@ -497,6 +517,9 @@ public class HashTable<T> implements KeyedTable<T> {
 	}
 
 	/**
+	 * To string.
+	 *
+	 * @return the string
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -529,6 +552,9 @@ public class HashTable<T> implements KeyedTable<T> {
 	}
 
 	/**
+	 * Iterator.
+	 *
+	 * @return the iterator
 	 * @see java.lang.Iterable#iterator()
 	 */
 	@Override

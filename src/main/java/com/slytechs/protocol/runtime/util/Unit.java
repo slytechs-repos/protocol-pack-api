@@ -18,9 +18,10 @@
 package com.slytechs.protocol.runtime.util;
 
 /**
+ * The Interface Unit.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- *
  */
 public interface Unit {
 
@@ -55,6 +56,7 @@ public interface Unit {
 	 *
 	 * @param <U>           the generic type of the units
 	 * @param valueAndUnits the value and units in the same string
+	 * @param defaultUnits  the default units
 	 * @return the u
 	 */
 	@SuppressWarnings("unchecked")
@@ -77,6 +79,12 @@ public interface Unit {
 		return UnitUtils.stripUnits(valueAndUnits, this.getClass());
 	}
 
+	/**
+	 * To base.
+	 *
+	 * @param value the value
+	 * @return the long
+	 */
 	long toBase(long value);
 
 	/**

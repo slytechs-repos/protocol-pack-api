@@ -17,15 +17,24 @@
  */
 package com.slytechs.protocol.pack.core;
 
-import com.slytechs.protocol.HeaderExtensionInfo;
+import com.slytechs.protocol.pack.core.constants.CoreId;
 
 /**
- * The Interface IpOptionInfo.
- *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
- * @author Mark Bednarczyk
+ * The IPv6 security header (also known as the Authentication Header or AH) is
+ * an extension header that provides connectionless integrity and data origin
+ * authentication for IPv6 packets. The AH can also provide protection against
+ * packet replays.
+ * 
  */
-public interface IpOptionInfo extends HeaderExtensionInfo {
+public final class Ip6ExtEcapsSecPayload extends Ip6Extension {
 
+	/** The id. */
+	public static int ID = CoreId.CORE_ID_IPv6_EXT_ENCAPS_SEC_PAYLOAD;
+
+	/**
+	 * Instantiates a new ip 6 security option.
+	 */
+	public Ip6ExtEcapsSecPayload() {
+		super(ID);
+	}
 }

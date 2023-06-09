@@ -1,0 +1,7 @@
+{
+	"IPv6;100": "IPv6 Extension Header, offset=%{offset}d, length=%{length}d",
+	"TRACE,DEBUG,HIGH,MEDIUM,LOW": {
+		"nextHeader;Next Header": "%{:IP_TYPE}s (%{}d)",
+		"extensionLength;Length": "%{}d (%{}d*8+8 = %{extensionLengthBytes}d bytes)"
+	}
+}

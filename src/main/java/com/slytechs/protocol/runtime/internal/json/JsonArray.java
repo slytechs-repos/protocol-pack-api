@@ -18,6 +18,7 @@
 package com.slytechs.protocol.runtime.internal.json;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * The Interface JsonArray.
@@ -146,4 +147,17 @@ public interface JsonArray extends JsonStructure, Iterable<JsonValue> {
 	 * @return the int
 	 */
 	int size();
+
+	/**
+	 * To string array.
+	 *
+	 * @return the string[]
+	 */
+	default String[] toStringArray() {
+		return IntStream.range(0, size())
+				.mapToObj(this::getJsonString)
+				.map(JsonString::getString)
+				.toArray(String[]::new);
+
+	}
 }

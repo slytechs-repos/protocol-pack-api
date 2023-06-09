@@ -31,12 +31,12 @@ import com.slytechs.protocol.runtime.util.Detail;
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
 @Repeatable(Displays.class)
 @Retention(RUNTIME)
 @Target({ METHOD,
-		FIELD, TYPE })
+		FIELD,
+		TYPE })
 public @interface Display {
 
 	/**
@@ -76,4 +76,11 @@ public @interface Display {
 	 */
 	Detail detail() default Detail.HIGH;
 
+	/**
+	 * Flag which indicates if this element should display inherited fields from
+	 * super class.
+	 *
+	 * @return true, if it should display, otherwise false
+	 */
+	String[] hide() default {};
 }

@@ -20,19 +20,30 @@ package com.slytechs.protocol.runtime.time;
 import java.time.Instant;
 
 /**
+ * The Class RebasedTimestampSource.
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- *
  */
 public class RebasedTimestampSource implements TimestampSource {
 
+	/** The base. */
 	private long base;
+	
+	/** The last. */
 	private long last;
+	
+	/** The updated. */
 	private long updated;
+	
+	/** The realtime. */
 	private final boolean realtime;
 
 	/**
-	 * 
+	 * Instantiates a new rebased timestamp source.
+	 *
+	 * @param realtime  the realtime
+	 * @param baseNanos the base nanos
 	 */
 	public RebasedTimestampSource(boolean realtime, long baseNanos) {
 		this.realtime = realtime;
@@ -40,6 +51,9 @@ public class RebasedTimestampSource implements TimestampSource {
 	}
 
 	/**
+	 * Instant.
+	 *
+	 * @return the instant
 	 * @see java.time.InstantSource#instant()
 	 */
 	@Override
@@ -48,6 +62,9 @@ public class RebasedTimestampSource implements TimestampSource {
 	}
 
 	/**
+	 * Timestamp.
+	 *
+	 * @return the long
 	 * @see com.slytechs.protocol.runtime.time.TimestampSource#timestamp()
 	 */
 	@Override
@@ -55,12 +72,18 @@ public class RebasedTimestampSource implements TimestampSource {
 		return updated;
 	}
 
+	/**
+	 * @see com.slytechs.protocol.runtime.time.TimestampSource#init(long)
+	 */
 	@Override
 	public void init(long initialTimestamp) {
 		this.last = initialTimestamp;
 		this.updated = base;
 	}
 
+	/**
+	 * @see com.slytechs.protocol.runtime.time.TimestampSource#update(long)
+	 */
 	@Override
 	public void update(long newTimestamp) throws InterruptedException {
 		long delta = (newTimestamp - last);
@@ -72,6 +95,9 @@ public class RebasedTimestampSource implements TimestampSource {
 			timeUnit().sleep(delta);
 	}
 
+	/**
+	 * @see com.slytechs.protocol.runtime.time.TimestampSource#isRealtime()
+	 */
 	@Override
 	public boolean isRealtime() {
 		return realtime;

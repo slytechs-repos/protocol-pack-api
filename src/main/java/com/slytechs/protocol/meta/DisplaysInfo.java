@@ -107,6 +107,9 @@ public record DisplaysInfo(DisplayInfo[] displays) implements MetaInfoType {
 				JsonObject jsonDisplays = (JsonObject) jsonValue;
 
 				for (String key : jsonDisplays.keyOrderedList()) {
+					if (key.equals("HIDE"))
+						continue;
+					
 					if (key.equals("DEFAULT")) {
 						defaultJson = getJsonDisplay(jsonDisplays);
 						continue;

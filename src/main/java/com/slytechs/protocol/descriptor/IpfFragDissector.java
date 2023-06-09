@@ -21,6 +21,7 @@ import static com.slytechs.protocol.pack.core.constants.CoreConstants.*;
 
 import java.nio.ByteBuffer;
 
+import com.slytechs.protocol.pack.core.IpAddress;
 import com.slytechs.protocol.pack.core.constants.L3FrameType;
 import com.slytechs.protocol.runtime.util.Bits;
 
@@ -45,10 +46,10 @@ public class IpfFragDissector extends PacketL2DissectorJava {
 	private int fragDataOffset;
 	private int fragDataLength;
 
-	private final byte[] ip4_src = new byte[IPv4_ADDRESS_SIZE];
-	private final byte[] ip4_dst = new byte[IPv4_ADDRESS_SIZE];
-	private final byte[] ip6_src = new byte[IPv6_ADDRESS_SIZE];
-	private final byte[] ip6_dst = new byte[IPv6_ADDRESS_SIZE];
+	private final byte[] ip4_src = new byte[IpAddress.IPv4_ADDRESS_SIZE];
+	private final byte[] ip4_dst = new byte[IpAddress.IPv4_ADDRESS_SIZE];
+	private final byte[] ip6_src = new byte[IpAddress.IPv6_ADDRESS_SIZE];
+	private final byte[] ip6_dst = new byte[IpAddress.IPv6_ADDRESS_SIZE];
 
 	/**
 	 * @see com.slytechs.protocol.descriptor.PacketDissector#writeDescriptor(java.nio.ByteBuffer)

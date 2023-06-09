@@ -18,20 +18,30 @@
 package com.slytechs.protocol.pack.core;
 
 import java.util.Objects;
+import java.util.function.IntUnaryOperator;
 
-import com.slytechs.protocol.Address;
-import com.slytechs.protocol.AddressType;
-import com.slytechs.protocol.pack.core.constants.CoreConstants;
+import com.slytechs.protocol.NetAddress;
+import com.slytechs.protocol.NetAddressType;
 
 /**
- * The Class IpAddress.
+ * Base class for IPv4 and IPv6 addresses.
+ * <p>
+ * IP address is a unique identifier assigned to every device that is connected
+ * to a network. It is used to route data between devices on the network and to
+ * identify the device on the network.
+ * </p>
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
-public abstract sealed class IpAddress implements Address
+public abstract sealed class IpAddress implements NetAddress
 		permits Ip4Address, Ip6Address {
+
+	public static final int IPv4_ADDRESS_SIZE = 4;
+	public static final int IPv6_ADDRESS_SIZE = 16;
+	public static final int IPv6_ADDRESS_STRING_SIZE = 39;
+	private static final char IP6_ADDR_FIELD_SEPARATOR = ':';
+	private static final char IP4_ADDR_FIELD_SEPARATOR = '.';
 
 	/**
 	 * Converts IPv4 binary address into a string suitable for presentation.
@@ -41,17 +51,34 @@ public abstract sealed class IpAddress implements Address
 	 * @return a String representing the IPv4 address in textual representation
 	 *         format
 	 */
-	private static StringBuilder formatIp4Address(byte[] src, StringBuilder b) {
+	public static String toIp4AddressString(byte[] src) {
+		return toIp4AddressString(src, 0);
+	}
 
-		b.append(src[0] & 0xff)
-				.append(".")
-				.append(src[1] & 0xff)
-				.append(".")
-				.append(src[2] & 0xff)
-				.append(".")
-				.append(src[3] & 0xff);
+	/**
+	 * Converts IPv4 binary address into a string suitable for presentation.
+	 *
+	 * @param src a byte array representing an IPv4 numeric address
+	 * @param b   the b
+	 * @return a String representing the IPv4 address in textual representation
+	 *         format
+	 */
+	private static String toIp4AddressString(byte[] src, int offset) {
+		if ((src.length - offset) < IPv4_ADDRESS_SIZE)
+			throw new IllegalArgumentException("src array [%d] at offset [%d] too small for IPv4 address"
+					.formatted(src.length, offset));
 
-		return b;
+		StringBuilder b = new StringBuilder();
+
+		b.append(src[offset + 0] & 0xff)
+				.append(IP4_ADDR_FIELD_SEPARATOR)
+				.append(src[offset + 1] & 0xff)
+				.append(IP4_ADDR_FIELD_SEPARATOR)
+				.append(src[offset + 2] & 0xff)
+				.append(IP4_ADDR_FIELD_SEPARATOR)
+				.append(src[offset + 3] & 0xff);
+
+		return b.toString();
 	}
 
 	/**
@@ -62,16 +89,89 @@ public abstract sealed class IpAddress implements Address
 	 * @return a String representing an IPv6 address in textual representation
 	 *         format
 	 */
-	private static StringBuilder formatIp6Address(byte[] src, StringBuilder b) {
+	public static String toIp6AddressString(byte[] src) {
+		if (src.length < IPv6_ADDRESS_SIZE)
+			throw new IllegalArgumentException("src array [%d] too small for IPv6 address"
+					.formatted(src.length));
 
-		for (int i = 0; i < (CoreConstants.IPv6_ADDRESS_SIZE / 2); i++) {
-			b.append(Integer.toHexString(((src[i << 1] << 8) & 0xff00) | (src[(i << 1) + 1] & 0xff)));
-			if (i < (CoreConstants.IPv6_ADDRESS_SIZE / 2) - 1) {
-				b.append(":");
+		return toIp6AddressString(src, 0);
+	}
+
+	public static String toUncompressedIp6AddressString(byte[] src) {
+		return toUncompressedIp6AddressString(src, 0);
+	}
+
+	public static String toUncompressedIp6AddressString(byte[] src, int offset) {
+		if ((src.length - offset) < IPv6_ADDRESS_SIZE)
+			throw new IllegalArgumentException("src array [%d] at offset [%d] too small for IPv6 address"
+					.formatted(src.length, offset));
+
+		final IntUnaryOperator USHORT = i -> {
+			return Byte.toUnsignedInt(src[offset + i]) << 8 | Byte.toUnsignedInt(src[offset + i + 1]);
+		};
+		StringBuilder toStringBuffer = new StringBuilder();
+
+		toStringBuffer
+
+				.append(Integer.toHexString(USHORT.applyAsInt(offset + 0)))
+				.append(IP6_ADDR_FIELD_SEPARATOR)
+				.append(Integer.toHexString(USHORT.applyAsInt(offset + 2)))
+				.append(IP6_ADDR_FIELD_SEPARATOR)
+				.append(Integer.toHexString(USHORT.applyAsInt(offset + 4)))
+				.append(IP6_ADDR_FIELD_SEPARATOR)
+				.append(Integer.toHexString(USHORT.applyAsInt(offset + 6)))
+				.append(IP6_ADDR_FIELD_SEPARATOR)
+				.append(Integer.toHexString(USHORT.applyAsInt(offset + 8)))
+				.append(IP6_ADDR_FIELD_SEPARATOR)
+				.append(Integer.toHexString(USHORT.applyAsInt(offset + 10)))
+				.append(IP6_ADDR_FIELD_SEPARATOR)
+				.append(Integer.toHexString(USHORT.applyAsInt(offset + 12)))
+				.append(IP6_ADDR_FIELD_SEPARATOR)
+				.append(Integer.toHexString(USHORT.applyAsInt(offset + 14)))
+
+		;
+
+		return toStringBuffer.toString();
+	}
+
+	public static String toIp6AddressString(byte[] src, int offset) {
+		if ((src.length - offset) < 16)
+			throw new IllegalArgumentException("src array [%d] at offset [%d] too small for IPv6 address"
+					.formatted(src.length, offset));
+
+		final IntUnaryOperator USHORT = i -> {
+			return Byte.toUnsignedInt(src[offset + i]) << 8 | Byte.toUnsignedInt(src[offset + i + 1]);
+		};
+
+		StringBuilder toStringBuffer = new StringBuilder();
+
+		/* Do compression only once on the first series of zeros */
+		int i;
+		for (i = 0; i < 16; i += 2) {
+			int f = USHORT.applyAsInt(i);
+
+			if (i != 0 && toStringBuffer.charAt(toStringBuffer.length() - 2) != ':')
+				toStringBuffer.append(IP6_ADDR_FIELD_SEPARATOR);
+
+			boolean compressed = (i != 0) && (toStringBuffer.charAt(toStringBuffer.length() - 2) == ':');
+
+			if (f != 0)
+				toStringBuffer.append(Integer.toHexString(f));
+
+			if (f != 0 && compressed) {
+				i += 2;
+				break;
 			}
 		}
 
-		return b;
+		/* Finish the remainder with no compression */
+		for (; i < 16; i += 2) {
+			toStringBuffer
+					.append(IP6_ADDR_FIELD_SEPARATOR)
+					.append(Integer.toHexString(USHORT.applyAsInt(i)));
+		}
+
+		return toStringBuffer.toString();
 	}
 
 	/**
@@ -116,6 +216,7 @@ public abstract sealed class IpAddress implements Address
 		 * 64:ff9b::255.255.255.255
 		 * </pre>
 		 */
+		@SuppressWarnings("unused")
 		String[] z = ipAddress.split("::");
 		String[] c = ipAddress.split("[:-]");
 		if (c.length != 4)
@@ -153,7 +254,7 @@ public abstract sealed class IpAddress implements Address
 	 * @return the string
 	 */
 	private static String stripNetmask(String address) {
-		if (address.contains("/"))
+		if (address.indexOf('/') != -1)
 			address = address.replaceFirst("^(.+)/.+$", "$1"); // Strip netmask
 
 		return address;
@@ -162,40 +263,32 @@ public abstract sealed class IpAddress implements Address
 	/**
 	 * To string.
 	 *
-	 * @param ipAddress the ip address
-	 * @return the string
-	 */
-	public static String toString(byte[] ipAddress) {
-		return toString(ipAddress, new StringBuilder(CoreConstants.IPv6_ADDRESS_STRING_SIZE)).toString();
-	}
-
-	/**
-	 * To string.
-	 *
-	 * @param ipAddress the ip address
-	 * @param b         the b
+	 * @param src the ip address
+	 * @param b   the b
 	 * @return the string builder
 	 */
-	public static StringBuilder toString(byte[] ipAddress, StringBuilder b) {
-		if ((ipAddress.length != CoreConstants.IPv4_ADDRESS_SIZE)
-				&& (ipAddress.length != CoreConstants.IPv6_ADDRESS_SIZE))
+	public static String toIpAddressString(byte[] src) {
+		if ((src.length != IPv4_ADDRESS_SIZE)
+				&& (src.length != IPv6_ADDRESS_SIZE))
 			throw new IllegalArgumentException("invalid IP address length, must be either 4 or 16");
 
-		return (ipAddress.length == 4)
-				? formatIp4Address(ipAddress, b)
-				: formatIp6Address(ipAddress, b);
+		return (src.length == 4)
+				? toIp4AddressString(src)
+				: toIp6AddressString(src);
 	}
 
 	/** The type. */
-	private final AddressType type;
+	private final NetAddressType type;
+	private final int byteSize;
 
 	/**
 	 * Instantiates a new ip address.
 	 *
 	 * @param type the type
 	 */
-	protected IpAddress(AddressType type) {
+	protected IpAddress(int byteSize, NetAddressType type) {
 		super();
+		this.byteSize = byteSize;
 		this.type = type;
 	}
 
@@ -203,17 +296,34 @@ public abstract sealed class IpAddress implements Address
 	 * Type.
 	 *
 	 * @return the address type
-	 * @see com.slytechs.protocol.Address#type()
+	 * @see com.slytechs.protocol.NetAddress#type()
 	 */
 	@Override
-	public AddressType type() {
+	public NetAddressType type() {
 		return this.type;
 	}
 
-	public abstract byte[] asArray();
-
+	/**
+	 * Get IP address as an array.
+	 *
+	 * @return the IP address
+	 */
 	@Override
-	public String toString() {
-		return toString(asArray());
+	public abstract byte[] toArray();
+
+	/**
+	 * Gets a string with formatted IP address of either IPv4 and IPv6 type.
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public abstract String toString();
+
+	/**
+	 * @see com.slytechs.protocol.NetAddress#byteSize()
+	 */
+	@Override
+	public final int byteSize() {
+		return byteSize;
 	}
 }

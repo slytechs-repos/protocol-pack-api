@@ -17,6 +17,7 @@
  */
 package com.slytechs.protocol.pack.core;
 
+import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.constants.CoreId;
 
 /**
@@ -52,7 +53,8 @@ import com.slytechs.protocol.pack.core.constants.CoreId;
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
-public final class Ip6 extends Ip<Ip6Option> {
+@MetaResource("ip6-meta.json")
+public final class Ip6 extends Ip {
 
 	/** The Constant ID. */
 	public static final int ID = CoreId.CORE_ID_IPv6;
@@ -199,9 +201,6 @@ public final class Ip6 extends Ip<Ip6Option> {
 	}
 
 	/**
-	 * Payload length.
-	 *
-	 * @return the int
 	 * @see com.slytechs.protocol.pack.core.Ip#payloadLength()
 	 */
 	@Override
@@ -219,9 +218,6 @@ public final class Ip6 extends Ip<Ip6Option> {
 	}
 
 	/**
-	 * Src.
-	 *
-	 * @return the byte[]
 	 * @see com.slytechs.protocol.pack.core.Ip#src()
 	 */
 	@Override
@@ -230,9 +226,6 @@ public final class Ip6 extends Ip<Ip6Option> {
 	}
 
 	/**
-	 * Src get as address.
-	 *
-	 * @return the ip address
 	 * @see com.slytechs.protocol.pack.core.Ip#srcAsAddress()
 	 */
 	@Override

@@ -67,7 +67,7 @@ class TestStpHeader {
 
 	@Test
 	void test_Stp_protocol() throws HeaderNotFound {
-		var packet = CorePackets.STP.toPacket();
+		var packet = CoreTestPackets.STP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -80,7 +80,7 @@ class TestStpHeader {
 
 	@Test
 	void test_Stp_version() throws HeaderNotFound {
-		var packet = CorePackets.STP.toPacket();
+		var packet = CoreTestPackets.STP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -93,7 +93,7 @@ class TestStpHeader {
 
 	@Test
 	void test_Stp_type() throws HeaderNotFound {
-		var packet = CorePackets.STP.toPacket();
+		var packet = CoreTestPackets.STP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -106,7 +106,7 @@ class TestStpHeader {
 
 	@Test
 	void test_Stp_flags() throws HeaderNotFound {
-		var packet = CorePackets.STP.toPacket();
+		var packet = CoreTestPackets.STP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -119,7 +119,7 @@ class TestStpHeader {
 
 	@Test
 	void test_Stp_rootId() throws HeaderNotFound {
-		var packet = CorePackets.STP.toPacket();
+		var packet = CoreTestPackets.STP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -132,7 +132,7 @@ class TestStpHeader {
 
 	@Test
 	void test_Stp_rootCost() throws HeaderNotFound {
-		var packet = CorePackets.STP.toPacket();
+		var packet = CoreTestPackets.STP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -145,7 +145,7 @@ class TestStpHeader {
 
 	@Test
 	void test_Stp_bridgeId() throws HeaderNotFound {
-		var packet = CorePackets.STP.toPacket();
+		var packet = CoreTestPackets.STP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -158,7 +158,7 @@ class TestStpHeader {
 
 	@Test
 	void test_Stp_bridgeId_priority() throws HeaderNotFound {
-		var packet = CorePackets.STP.toPacket();
+		var packet = CoreTestPackets.STP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -171,7 +171,7 @@ class TestStpHeader {
 
 	@Test
 	void test_Stp_systemBridgeId_priority() throws HeaderNotFound {
-		var packet = CorePackets.STP.toPacket();
+		var packet = CoreTestPackets.STP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -184,7 +184,7 @@ class TestStpHeader {
 
 	@Test
 	void test_Stp_bridgeId_Ext() throws HeaderNotFound {
-		var packet = CorePackets.STP.toPacket();
+		var packet = CoreTestPackets.STP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -197,7 +197,7 @@ class TestStpHeader {
 
 	@Test
 	void test_Stp_systemPridgeId_Ext() throws HeaderNotFound {
-		var packet = CorePackets.STP.toPacket();
+		var packet = CoreTestPackets.STP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -210,7 +210,7 @@ class TestStpHeader {
 
 	@Test
 	void test_Stp_rootBridgeId() throws HeaderNotFound {
-		var packet = CorePackets.STP.toPacket();
+		var packet = CoreTestPackets.STP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -224,7 +224,7 @@ class TestStpHeader {
 
 	@Test
 	void test_Stp_systemBridgeId() throws HeaderNotFound {
-		var packet = CorePackets.STP.toPacket();
+		var packet = CoreTestPackets.STP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -238,7 +238,7 @@ class TestStpHeader {
 
 	@Test
 	void test_Stp_portId() throws HeaderNotFound {
-		var packet = CorePackets.STP.toPacket();
+		var packet = CoreTestPackets.STP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -251,7 +251,7 @@ class TestStpHeader {
 
 	@Test
 	void test_Stp_messageAge() throws HeaderNotFound {
-		var packet = CorePackets.STP.toPacket();
+		var packet = CoreTestPackets.STP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -264,7 +264,7 @@ class TestStpHeader {
 
 	@Test
 	void test_Stp_maxTime() throws HeaderNotFound {
-		var packet = CorePackets.STP.toPacket();
+		var packet = CoreTestPackets.STP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -277,7 +277,7 @@ class TestStpHeader {
 
 	@Test
 	void test_Stp_helloTime() throws HeaderNotFound {
-		var packet = CorePackets.STP.toPacket();
+		var packet = CoreTestPackets.STP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -290,7 +290,7 @@ class TestStpHeader {
 
 	@Test
 	void test_Stp_forwardDelay() throws HeaderNotFound {
-		var packet = CorePackets.STP.toPacket();
+		var packet = CoreTestPackets.STP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);

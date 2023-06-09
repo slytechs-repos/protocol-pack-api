@@ -1,0 +1,5 @@
+{
+	"ICMPv6;100": "Internet Control Message Protocol Version 6, offset=%{offset}s, length=%{length}s",
+	"TRACE,DEBUG,HIGH,MEDIUM,LOW": {
+	}
+}

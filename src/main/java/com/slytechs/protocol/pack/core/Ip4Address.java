@@ -17,51 +17,40 @@
  */
 package com.slytechs.protocol.pack.core;
 
-import com.slytechs.protocol.AddressType;
+import com.slytechs.protocol.NetAddressType;
 
 /**
- * The Class Ip4Address.
+ * IP version 4 address.
+ * <p>
+ * IPv4 addresses are used to identify devices on a network. They are 32-bit
+ * numbers that are written in dotted-decimal format, such as 192.168.1.1. The
+ * first two numbers identify the network, and the last two numbers identify the
+ * device on the network.
+ * </p>
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author mark
  */
 public final class Ip4Address extends IpAddress {
-
-	/** The Constant IP4_ADDRESS_SIZE. */
-	public final static int IP4_ADDRESS_SIZE = 4;
-
-	/**
-	 * To ip 4 address array.
-	 *
-	 * @param address the address
-	 * @return the byte[]
-	 */
-	public static byte[] toIp4AddressArray(int address) {
-
-		// 4 bytes in length
-		return new byte[] {
-				(byte) ((address >> 24) & 0xFF),
-				(byte) ((address >> 16) & 0xFF),
-				(byte) ((address >> 8) & 0xFF),
-				(byte) ((address >> 0) & 0xFF),
-		};
-	}
 
 	/** The bytes. */
 	private final byte[] bytes;
 
+	/**
+	 * Instantiates a new IP v4 address with pre-allocated array to store the
+	 * address.
+	 */
 	public Ip4Address() {
-		this(new byte[IP4_ADDRESS_SIZE]);
+		this(new byte[IPv4_ADDRESS_SIZE]);
 	}
 
 	/**
-	 * Instantiates a new ip 4 address.
+	 * Instantiates a new IP v4 address with supplied storage array.
 	 *
 	 * @param address the address
 	 */
 	public Ip4Address(byte[] address) {
-		super(AddressType.IPv4);
+		super(IPv4_ADDRESS_SIZE, NetAddressType.IPv4);
 		this.bytes = address;
 
 		if (address.length != 4)
@@ -70,13 +59,23 @@ public final class Ip4Address extends IpAddress {
 	}
 
 	/**
-	 * To array.
+	 * Get IP address as an array.
 	 *
-	 * @return the byte[]
+	 * @return the IP address
 	 */
 	@Override
-	public byte[] asArray() {
+	public byte[] toArray() {
 		return bytes;
 	}
 
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return toIp4AddressString(bytes);
+	}
 }

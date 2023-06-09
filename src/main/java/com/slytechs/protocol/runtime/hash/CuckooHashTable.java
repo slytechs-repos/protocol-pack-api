@@ -53,18 +53,31 @@ import java.util.stream.IntStream;
  * the algorithm requires a significant amount of memory overhead to maintain
  * the multiple hash tables and can be complex to implement.
  * </p>
- * 
+ *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
+ * @param <T> the generic type
  */
 public final class CuckooHashTable<T> extends HashTable<T> {
 
+	/** The Constant DEFAULT_ENTRIES_PER_BUCKET_COUNT. */
 	public static final int DEFAULT_ENTRIES_PER_BUCKET_COUNT = 16;
 
+	/**
+	 * The Class Bucket.
+	 */
 	private static class Bucket {
 
+		/** The bucket entries. */
 		private final BucketEntry[] bucketEntries;
 
+		/**
+		 * Instantiates a new bucket.
+		 *
+		 * @param indexCount  the index count
+		 * @param bucketIndex the bucket index
+		 * @param hashEntries the hash entries
+		 */
 		private Bucket(int indexCount, int bucketIndex, HashEntry<?>[] hashEntries) {
 			this.bucketEntries = new BucketEntry[indexCount];
 
@@ -76,6 +89,9 @@ public final class CuckooHashTable<T> extends HashTable<T> {
 		}
 
 		/**
+		 * To string.
+		 *
+		 * @return the string
 		 * @see java.lang.Object#toString()
 		 */
 		@Override
@@ -85,21 +101,35 @@ public final class CuckooHashTable<T> extends HashTable<T> {
 
 	}
 
+	/**
+	 * The Class BucketEntry.
+	 */
 	private static class BucketEntry {
 
 		/** The signature of a key. */
 		private int signature;
+
+		/** The key. */
 		private final ByteBuffer key; // Shared reference with hash entry, for convenience
 
-		/** The index into the hash entry table */
+		/** The index into the hash entry table. */
 		private final int index;
 
+		/**
+		 * Instantiates a new bucket entry.
+		 *
+		 * @param index   the index into the hash entry table
+		 * @param entries the entries
+		 */
 		BucketEntry(int index, HashEntry<?>[] entries) {
 			this.index = index;
 			this.key = entries[index].key();
 		}
 
 		/**
+		 * To string.
+		 *
+		 * @return the string
 		 * @see java.lang.Object#toString()
 		 */
 		@Override
@@ -108,22 +138,40 @@ public final class CuckooHashTable<T> extends HashTable<T> {
 		}
 	}
 
+	/** The buckets. */
 	private final Bucket[] buckets;
 
+	/** The bucket count. */
 	private final int bucketCount;
 
+	/** The bucket bitmask. */
 	private final int bucketBitmask;
 
+	/** The indexes per bucket. */
 	private final int indexesPerBucket;
 
+	/**
+	 * Instantiates a new cuckoo hash table.
+	 */
 	public CuckooHashTable() {
 		this(DEFAULT_TABLE_SIZE, DEFAULT_ENTRIES_PER_BUCKET_COUNT);
 	}
 
+	/**
+	 * Instantiates a new cuckoo hash table.
+	 *
+	 * @param tableSize the table size
+	 */
 	public CuckooHashTable(int tableSize) {
 		this(tableSize, DEFAULT_ENTRIES_PER_BUCKET_COUNT);
 	}
 
+	/**
+	 * Instantiates a new cuckoo hash table.
+	 *
+	 * @param tableSize        the table size
+	 * @param indexesPerBucket the indexes per bucket
+	 */
 	public CuckooHashTable(int tableSize, int indexesPerBucket) {
 		super(tableSize);
 
@@ -145,15 +193,19 @@ public final class CuckooHashTable<T> extends HashTable<T> {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.runtime.hash.HashTable#add(java.nio.ByteBuffer,
-	 *      long)
+	 * Adds the.
+	 *
+	 * @param key      the key
+	 * @param data     the data
+	 * @param hashcode the hashcode
+	 * @return the int
 	 */
 	@Override
 	public int add(ByteBuffer key, T data, long hashcode) {
 		int index = lookup(key, hashcode);
 		if (index != -1)
 			return index;
-		
+
 		index = getPrimaryBucketIndex(hashcode);
 
 		BucketEntry empty = findEmptyAndEvictIfNeccessary(index);
@@ -166,6 +218,12 @@ public final class CuckooHashTable<T> extends HashTable<T> {
 		return empty.index;
 	}
 
+	/**
+	 * Find empty and evict if neccessary.
+	 *
+	 * @param bucketIndex1 the bucket index 1
+	 * @return the bucket entry
+	 */
 	private BucketEntry findEmptyAndEvictIfNeccessary(int bucketIndex1) {
 		Bucket bucket1 = buckets[bucketIndex1];
 
@@ -193,6 +251,12 @@ public final class CuckooHashTable<T> extends HashTable<T> {
 		return empty;
 	}
 
+	/**
+	 * Find empty index.
+	 *
+	 * @param bucket the bucket
+	 * @return the int
+	 */
 	private int findEmptyIndex(Bucket bucket) {
 		BucketEntry[] bucketEntries = bucket.bucketEntries;
 		HashEntry<?>[] hashEntries = super.table;
@@ -205,19 +269,43 @@ public final class CuckooHashTable<T> extends HashTable<T> {
 		return -1;
 	}
 
+	/**
+	 * Gets the alternative bucket index.
+	 *
+	 * @param index     the index
+	 * @param signature the signature
+	 * @return the alternative bucket index
+	 */
 	private int getAlternativeBucketIndex(int index, int signature) {
 		return (index ^ signature) & bucketBitmask;
 	}
 
+	/**
+	 * Gets the primary bucket index.
+	 *
+	 * @param hashcode the hashcode
+	 * @return the primary bucket index
+	 */
 	private int getPrimaryBucketIndex(long hashcode) {
 		return (int) (hashcode & bucketBitmask);
 	}
 
+	/**
+	 * Gets the short signature.
+	 *
+	 * @param hashcode the hashcode
+	 * @return the short signature
+	 */
 	private int getShortSignature(long hashcode) {
 		return (int) ((hashcode >> 16) & 0xFFFF);
 	}
 
 	/**
+	 * Lookup.
+	 *
+	 * @param key      the key
+	 * @param hashcode the hashcode
+	 * @return the int
 	 * @see com.slytechs.protocol.runtime.hash.HashTable#lookup(java.nio.ByteBuffer,
 	 *      long)
 	 */
@@ -238,6 +326,14 @@ public final class CuckooHashTable<T> extends HashTable<T> {
 		return -1;
 	}
 
+	/**
+	 * Find entry index.
+	 *
+	 * @param index     the index
+	 * @param key       the key
+	 * @param signature the signature
+	 * @return the int
+	 */
 	private int findEntryIndex(int index, ByteBuffer key, int signature) {
 		Bucket bucket = buckets[index];
 
@@ -252,6 +348,9 @@ public final class CuckooHashTable<T> extends HashTable<T> {
 	}
 
 	/**
+	 * To string extra.
+	 *
+	 * @return the string
 	 * @see com.slytechs.protocol.runtime.hash.HashTable#toStringExtra()
 	 */
 	@Override
