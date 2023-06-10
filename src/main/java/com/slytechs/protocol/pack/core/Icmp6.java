@@ -17,6 +17,7 @@
  */
 package com.slytechs.protocol.pack.core;
 
+import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.constants.CoreId;
 
@@ -43,5 +44,22 @@ public sealed class Icmp6 extends Icmp
 	protected Icmp6(int id) {
 		super(id);
 	}
+	
+	@Meta
+	@Override
+	public int type() {
+		return super.type();
+	}
 
+	@Override
+	@Meta
+	public int code() {
+		return super.code();
+	}
+	
+	@Override
+	@Meta
+	public int checksum() {
+		return super.checksum();
+	}
 }

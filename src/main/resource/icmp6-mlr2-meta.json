@@ -1,8 +1,7 @@
 {
 	"ICMPv6;200": "Internet Control Message Protocol Version 6, offset=%{offset}s, length=%{length}s",
 	"TRACE,DEBUG,HIGH,MEDIUM,LOW": {
-		"reserved": "%{}d",
-		"numberOfRecords;Number of Multicast Address Records": "%{}d",
-		"record": "%{:F}s"
+		"reserved": "%{}04x",
+		"numberOfRecords;Number of Multicast Address Records": "%{}d"
 	}
 }

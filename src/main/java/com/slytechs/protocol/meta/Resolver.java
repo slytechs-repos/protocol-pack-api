@@ -33,6 +33,7 @@ import com.slytechs.protocol.pack.core.constants.I3eOuiAssignments;
 import com.slytechs.protocol.pack.core.constants.Icmp4Code;
 import com.slytechs.protocol.pack.core.constants.Icmp4Type;
 import com.slytechs.protocol.pack.core.constants.Icmp6Mlr2RecordType;
+import com.slytechs.protocol.pack.core.constants.Icmp6Type;
 import com.slytechs.protocol.pack.core.constants.Ip4IdOptions;
 import com.slytechs.protocol.pack.core.constants.Ip6IdOption;
 import com.slytechs.protocol.pack.core.constants.IpType;
@@ -128,6 +129,9 @@ public @interface Resolver {
 
 		/** The ICM pv 4 TYPE. */
 		ICMPv4_TYPE(Icmp4Type::resolve),
+		
+		/** The ICM pv 6 TYPE. */
+		ICMPv6_TYPE(Icmp6Type::resolve),
 
 		/** The ICM pv 4 CODE. */
 		ICMPv4_CODE(Icmp4Code::resolve),

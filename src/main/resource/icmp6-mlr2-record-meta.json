@@ -1,0 +1,9 @@
+{
+	"ICMPv6;300": "Multicast Address Record %{recordType:R}s: %{multicastAddress}s",
+	"TRACE,DEBUG,HIGH,MEDIUM,LOW": {
+		"recordType;Record Type": "%{:MLRv2_TYPE}s (%{}d)",
+		"auxDataLen;Aux Data Len": "%{}d (%{}d*4=%{auxDataLenBytes}d bytes)",
+		"numOfSources;Number of Sources": "%{}d",
+		"multicastAddress;Multicast Address": "%{}s"
+	}
+}

@@ -30,6 +30,7 @@ import com.slytechs.protocol.pack.Pack;
 import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.CoreId;
+import com.slytechs.protocol.pack.core.constants.Icmp6Mlr2RecordType;
 import com.slytechs.protocol.pack.core.constants.Ip4IdOptions;
 import com.slytechs.protocol.pack.core.constants.Ip6ExtType;
 import com.slytechs.protocol.pack.core.constants.Ip6IdOption;
@@ -37,6 +38,7 @@ import com.slytechs.protocol.pack.core.constants.L2FrameType;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 import com.slytechs.protocol.pack.core.constants.TcpOptionId;
 import com.slytechs.protocol.runtime.util.Bits;
+import com.slytechs.protocol.runtime.util.Enums;
 
 /**
  * Descriptor type 2 java based packet dissector.
@@ -416,10 +418,7 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 			break;
 
 		case ICMPv6_TYPE_MULTICAST_LISTENER_REPORTv2:
-			len = 28;
-//			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
-			addRecord(CoreId.CORE_ID_ICMPv6_MULTICAST_LISTENER_REPORTv2, offset, len);
-			// TODO: parse options
+			dissectIcmp6MulticastListenerReportV2(offset);
 			break;
 
 		case ICMPv6_TYPE_PACKET_TOO_BIG:
@@ -440,6 +439,40 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
 			return;
 		}
+	}
+
+	private void dissectIcmp6MulticastListenerReportV2(int offset) {
+		final int noOfRecords = Short.toUnsignedInt(buf.getShort(offset + 6));
+		final int mainRecordIndex = this.recordCount;
+		final int start = offset;
+
+		if (!addRecord(CoreId.CORE_ID_ICMPv6_MULTICAST_LISTENER_REPORTv2, offset, 0))
+			return;
+
+		offset += 8; // Start of 1st record
+		int mainLen = 8;
+		for (int i = 0; i < noOfRecords; i++) {
+			int type = buf.get(offset + 0) & 0xff;
+			var typeEnum = Enums.valueOf(type, Icmp6Mlr2RecordType.class);
+			int auxLen = (buf.get(offset + 1) & 0xff) * 4;
+			int numSrc = (buf.getShort(offset + 2) * 0xffff);
+			int len = auxLen + numSrc * 16 + 16 + 4;
+
+			mainLen += len;
+
+			if (!addRecord(typeEnum.id(), offset, len))
+				return;
+
+			for (int j = 0; j < numSrc; j++) {
+				if (!addRecord(Icmp6Mlr2RecordType.ICMPv6_ID_OPT_MLRv2_ADDRESS, offset + 4, 16))
+					return;
+			}
+		}
+
+		// Now update the entire MLRv2 header with computed length
+		updateRecord(mainRecordIndex,
+				CoreId.CORE_ID_ICMPv6_MULTICAST_LISTENER_REPORTv2,
+				start, mainLen);
 	}
 
 	/**
@@ -486,9 +519,10 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 
 		while (offset < end) {
 			int type = Byte.toUnsignedInt(buf.get(offset));
-			
+
 			switch (type) {
 
+			/* PAD1 is special case, only takes up 1 bytes total */
 			case Ip6IdOption.IPv6_OPTION_PAD1: {
 				if (!addRecord(Ip6IdOption.IPv6_ID_OPT_PAD1, offset, 1))
 					break;
@@ -497,29 +531,26 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 				break;
 			}
 
-			case Ip6IdOption.IPv6_OPTION_PADN: {
+			case Ip6IdOption.IPv6_OPTION_PADN:
+			case Ip6IdOption.IPv6_OPTION_ROUTER_ALERT:
+			case Ip6IdOption.IPv6_OPTION_RPL:
+			case Ip6IdOption.IPv6_OPTION_QUICK_START:
+			case Ip6IdOption.IPv6_OPTION_MTU:
+			case Ip6IdOption.IPv6_OPTION_MPL:
+			case Ip6IdOption.IPv6_OPTION_JUMBO_PAYLOAD:
+			case Ip6IdOption.IPv6_OPTION_TUNNEL_ENCAPS_LIMIT:
+			default: {
 				int len = Byte.toUnsignedInt(buf.get(offset + 1)) + 2;
-				if (!addRecord(Ip6IdOption.IPv6_ID_OPT_PADN, offset, len))
+				int id = Ip6IdOption.mapTypeToId(type);
+				if (!addRecord(id, offset, len))
 					break;
 
 				offset += len;
 				break;
 			}
 
-			case Ip6IdOption.IPv6_OPTION_ROUTER_ALERT: {
-				int len = Byte.toUnsignedInt(buf.get(offset + 1)) + 2;
-				if (!addRecord(Ip6IdOption.IPv6_ID_OPT_ROUTER_ALERT, offset, len))
-					break;
-
-				offset += len;
-				break;
 			}
-			default:
-				break;
-			}
-
 		}
-
 	}
 
 	/**
@@ -554,7 +585,7 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 				addRecord(id, offset, len);
 
 			if (nextHeader == Ip6ExtType.IPv6_EXT_TYPE_HOP_BY_HOP_OPTIONS)
-				dissectIp6OptHopByHop(offset + 2, len -2);
+				dissectIp6OptHopByHop(offset + 2, len - 2);
 
 			nextHeader = Byte.toUnsignedInt(buf.get(offset));
 

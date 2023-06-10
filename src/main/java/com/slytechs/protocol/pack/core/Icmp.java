@@ -19,7 +19,7 @@ package com.slytechs.protocol.pack.core;
 
 import static com.slytechs.protocol.pack.core.constants.CoreConstants.*;
 
-import com.slytechs.protocol.Header;
+import com.slytechs.protocol.HeaderExtension;
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
@@ -78,7 +78,7 @@ import com.slytechs.protocol.pack.core.constants.CoreId;
  * @author repos@slytechs.com
  */
 @MetaResource("icmp-meta.json")
-public sealed class Icmp extends Header
+public sealed class Icmp extends HeaderExtension
 		permits Icmp4, Icmp6 {
 
 	/** The base ICMP header ID constant. */
@@ -132,7 +132,6 @@ public sealed class Icmp extends Header
 	 *
 	 * @return the unsigned 8-bit field value
 	 */
-	@Meta
 	public int type() {
 		return Byte.toUnsignedInt(buffer().get(ICMPv4_FIELD_TYPE));
 	}
@@ -145,7 +144,6 @@ public sealed class Icmp extends Header
 	 * 
 	 * @return the unsigned 8-bit field value
 	 */
-	@Meta
 	public int code() {
 		return Byte.toUnsignedInt(buffer().get(ICMPv4_FIELD_CODE));
 	}
@@ -168,7 +166,6 @@ public sealed class Icmp extends Header
 	 *
 	 * @return the unsigned 16-bit field value
 	 */
-	@Meta
 	public int checksum() {
 		return Short.toUnsignedInt(buffer().get(ICMPv4_FIELD_CHECKSUM));
 	}

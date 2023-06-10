@@ -29,7 +29,6 @@ import org.junit.jupiter.api.TestInfo;
 
 import com.slytechs.protocol.HeaderNotFound;
 import com.slytechs.protocol.descriptor.PacketDissector;
-import com.slytechs.protocol.meta.MetaHeader;
 import com.slytechs.protocol.meta.PacketFormat;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.CoreId;
@@ -74,9 +73,9 @@ class TestIp6HopByHopIcmp6RouterMulticast {
 	}
 
 	@Test
-	void ip6_RouterAlertOption_in_HopByHop() {
+	void IPv6_HOP_BY_HOP_EXTENSION_ROUTER_ALERT_OPTION() {
 
-		var packet = CoreTestPackets.ETH_IPv6_HOP_BY_HOP_ROUTER_ALERT_ICMPv6.toPacket();
+		var packet = CoreTestPackets.ETH_IPv6_HOP_BY_HOP_ROUTER_ALERT_ICMPv6_MLRv2_CHG_IN.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 		packet.setFormatter(new PacketFormat());
 
@@ -85,23 +84,14 @@ class TestIp6HopByHopIcmp6RouterMulticast {
 
 		packet.descriptor().buffer().flip();
 
-		System.out.println(packet.toString(Detail.HIGH));
-		System.out.println(packet.descriptor().toString(Detail.HIGH));
+//		System.out.println(packet.descriptor().toString(Detail.HIGH));
+//		System.out.println(packet.toString(Detail.HIGH));
 
 		assertTrue(packet.hasHeader(CoreId.CORE_ID_IPv6_EXTENSION));
-
-		try {
-			Ip ip = packet.getHeader(new Ip());
-			System.out.println(new MetaHeader(packet, ip));
-		} catch (HeaderNotFound e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 	}
 
 	@Test
-	void ip4_RouterAlert_Option() throws HeaderNotFound {
+	void IPv4_ROUTER_ALERT_OPTION() throws HeaderNotFound {
 		var packet = CoreTestPackets.ETH_IPv4_OPT_RSVP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 		packet.setFormatter(new PacketFormat());
@@ -109,9 +99,43 @@ class TestIp6HopByHopIcmp6RouterMulticast {
 		DISSECTOR.dissectPacket(packet);
 		DISSECTOR.writeDescriptor(packet.descriptor());
 
-		System.out.println(packet.descriptor().toString(Detail.HIGH));
+//		System.out.println(packet.descriptor().toString(Detail.HIGH));
 //		System.out.println(packet.toString(Detail.HIGH));
-
 	}
 
+	@Test
+	void ICMPv6_MLRv2_CHANGE_INCLUDE() {
+
+		var packet = CoreTestPackets.ETH_IPv6_HOP_BY_HOP_ROUTER_ALERT_ICMPv6_MLRv2_CHG_IN.toPacket();
+		packet.descriptor().bind(DESC_BUFFER);
+		packet.setFormatter(new PacketFormat());
+
+		DISSECTOR.dissectPacket(packet);
+		DISSECTOR.writeDescriptor(packet.descriptor());
+
+		packet.descriptor().buffer().flip();
+
+//		System.out.println(packet.descriptor().toString(Detail.HIGH));
+//		System.out.println(packet.toString(Detail.HIGH));
+
+		assertTrue(packet.hasHeader(CoreId.CORE_ID_IPv6_EXTENSION));
+	}
+
+	@Test
+	void ICMPv6_MLRv2_CHANGE_EXCLUDE() {
+
+		var packet = CoreTestPackets.ETH_IPv6_HOP_BY_HOP_ROUTER_ALERT_ICMPv6_MLRv2_CHG_EX.toPacket();
+		packet.descriptor().bind(DESC_BUFFER);
+		packet.setFormatter(new PacketFormat());
+
+		DISSECTOR.dissectPacket(packet);
+		DISSECTOR.writeDescriptor(packet.descriptor());
+
+		packet.descriptor().buffer().flip();
+
+		System.out.println(packet.descriptor().toString(Detail.HIGH));
+		System.out.println(packet.toString(Detail.HIGH));
+
+		assertTrue(packet.hasHeader(CoreId.CORE_ID_IPv6_EXTENSION));
+	}
 }

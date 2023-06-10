@@ -1,8 +1,5 @@
 {
 	"ICMP": "Internet Control Message Protocol Version %{version}s, offset=%{offset}s, length=%{length}s",
 	"TRACE,DEBUG,HIGH,MEDIUM,LOW": {
-		"type;Type": "%{}d (%{:ICMPv4_TYPE}s)",
-		"code;Code": "%{}d (%{:ICMPv4_CODE}s)",
-		"checksum;Checksum": "0x%{}04X"
 	}
 }

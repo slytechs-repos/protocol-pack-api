@@ -152,10 +152,10 @@ public enum Ip6IdOption implements HeaderExtensionInfo, PackId, IntSupplier {
 	Ip6IdOption(int type, String abbr) {
 		this.type = type;
 		this.abbr = abbr;
-		this.id = PackId.encodeId(ProtocolPackTable.OPTS, ordinal(), CORE_CLASS_IPv4_OPTION);
+		this.id = PackId.encodeId(ProtocolPackTable.OPTS, ordinal(), CORE_CLASS_IPv6_OPTION);
 		this.supplier = Other::new;
 
-		Table.MAP_TABLE[type] = id;
+		Table.MAP_TABLE[type] = this.id;
 	}
 
 	/**
@@ -169,7 +169,7 @@ public enum Ip6IdOption implements HeaderExtensionInfo, PackId, IntSupplier {
 		this.type = type;
 		this.abbr = abbr;
 		this.supplier = supplier;
-		this.id = PackId.encodeId(ProtocolPackTable.OPTS, ordinal(), CORE_CLASS_IPv4_OPTION);
+		this.id = PackId.encodeId(ProtocolPackTable.OPTS, ordinal(), CORE_CLASS_IPv6_OPTION);
 
 		Table.MAP_TABLE[type] = id;
 	}

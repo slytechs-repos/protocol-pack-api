@@ -607,11 +607,90 @@ public enum CoreTestPackets {
 	 * 
 	 * </pre>
 	 */
-	ETH_IPv6_HOP_BY_HOP_ROUTER_ALERT_ICMPv6(""
+	ETH_IPv6_HOP_BY_HOP_ROUTER_ALERT_ICMPv6_MLRv2_CHG_IN(""
 			+ "33330000001600123f97920186dd"
 			+ "6000000000240001fe800000000000009c09b4160768ff42ff0200000000000000000000000000163a00050200000100"
 			+ "8f001a3c0000000103000000ff020000000000000000000000010003"
 			+ ";iphttps.cap#41"),
+
+	/**
+	 * fe80::9c09:b416:768:ff42 ff02::16 ICMPv6 90 Multicast Listener Report Message
+	 * v2
+	 * 
+	 * <pre>
+	Frame 10: 90 bytes on wire (720 bits), 90 bytes captured (720 bits)
+	    Encapsulation type: Ethernet (1)
+	    Arrival Time: Feb  9, 2010 21:31:49.645735800 EST
+	    [Time shift for this packet: 0.000000000 seconds]
+	    Epoch Time: 1265769109.645735800 seconds
+	    [Time delta from previous captured frame: 0.000174900 seconds]
+	    [Time delta from previous displayed frame: 0.011357600 seconds]
+	    [Time since reference or first frame: 0.023424900 seconds]
+	    Frame Number: 10
+	    Frame Length: 90 bytes (720 bits)
+	    Capture Length: 90 bytes (720 bits)
+	    [Frame is marked: False]
+	    [Frame is ignored: False]
+	    [Protocols in frame: eth:ethertype:ipv6:ipv6.hopopts:icmpv6]
+	    [Coloring Rule Name: ICMP]
+	    [Coloring Rule String: icmp || icmpv6]
+	Ethernet II, Src: Dell_97:92:01 (00:12:3f:97:92:01), Dst: IPv6mcast_16 (33:33:00:00:00:16)
+	    Destination: IPv6mcast_16 (33:33:00:00:00:16)
+	        Address: IPv6mcast_16 (33:33:00:00:00:16)
+	        .... ..1. .... .... .... .... = LG bit: Locally administered address (this is NOT the factory default)
+	        .... ...1 .... .... .... .... = IG bit: Group address (multicast/broadcast)
+	    Source: Dell_97:92:01 (00:12:3f:97:92:01)
+	        Address: Dell_97:92:01 (00:12:3f:97:92:01)
+	        .... ..0. .... .... .... .... = LG bit: Globally unique address (factory default)
+	        .... ...0 .... .... .... .... = IG bit: Individual address (unicast)
+	    Type: IPv6 (0x86dd)
+	Internet Protocol Version 6, Src: fe80::9c09:b416:768:ff42, Dst: ff02::16
+	    0110 .... = Version: 6
+	    .... 0000 0000 .... .... .... .... .... = Traffic Class: 0x00 (DSCP: CS0, ECN: Not-ECT)
+	    .... 0000 0000 0000 0000 0000 = Flow Label: 0x00000
+	    Payload Length: 36
+	    Next Header: IPv6 Hop-by-Hop Option (0)
+	    Hop Limit: 1
+	    Source Address: fe80::9c09:b416:768:ff42
+	    Destination Address: ff02::16
+	    IPv6 Hop-by-Hop Option
+	        Next Header: ICMPv6 (58)
+	        Length: 0
+	        [Length: 8 bytes]
+	        Router Alert
+	            Type: Router Alert (0x05)
+	                00.. .... = Action: Skip and continue (0)
+	                ..0. .... = May Change: No
+	                ...0 0101 = Low-Order Bits: 0x05
+	            Length: 2
+	            Router Alert: MLD (0)
+	        PadN
+	            Type: PadN (0x01)
+	                00.. .... = Action: Skip and continue (0)
+	                ..0. .... = May Change: No
+	                ...0 0001 = Low-Order Bits: 0x01
+	            Length: 0
+	            PadN: <none>
+	Internet Control Message Protocol v6
+	    Type: Multicast Listener Report Message v2 (143)
+	    Code: 0
+	    Checksum: 0x193c [correct]
+	    [Checksum Status: Good]
+	    Reserved: 0000
+	    Number of Multicast Address Records: 1
+	    Multicast Address Record Changed to exclude: ff02::1:3
+	        Record Type: Changed to exclude (4)
+	        Aux Data Len: 0
+	        Number of Sources: 0
+	        Multicast Address: ff02::1:3
+	 * 
+	 * </pre>
+	 */
+	ETH_IPv6_HOP_BY_HOP_ROUTER_ALERT_ICMPv6_MLRv2_CHG_EX(""
+			+ "33330000001600123f97920186dd"
+			+ "6000000000240001fe800000000000009c09b4160768ff42ff0200000000000000000000000000163a00050200000100"
+			+ "8f00193c0000000104000000ff020000000000000000000000010003"
+			+ ";iphttps.cap#10"),
 
 	;
 

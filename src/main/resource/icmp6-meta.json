@@ -1,5 +1,7 @@
 {
 	"ICMPv6;100": "Internet Control Message Protocol Version 6, offset=%{offset}s, length=%{length}s",
 	"TRACE,DEBUG,HIGH,MEDIUM,LOW": {
-	}
+		"type;Type": "%{:ICMPv6_TYPE}s (%{}d)",
+		"code;Code": "%{}d",
+		"checksum;Checksum": "0x%{}04X"	}
 }
