@@ -27,6 +27,7 @@ import com.slytechs.protocol.descriptor.PacketDescriptor;
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.PacketFormat;
+import com.slytechs.protocol.pack.HasPackId;
 import com.slytechs.protocol.runtime.MemoryBinding;
 import com.slytechs.protocol.runtime.util.Detail;
 import com.slytechs.protocol.runtime.util.DetailedString;
@@ -40,7 +41,7 @@ import com.slytechs.protocol.runtime.util.ToHexdump;
  * @author repos@slytechs.com
  */
 @Meta
-public abstract class Header extends MemoryBinding implements DetailedString, ToHexdump {
+public abstract class Header extends MemoryBinding implements DetailedString, ToHexdump, HasPackId {
 
 	private final HeaderDescriptor headerDescriptor = new HeaderDescriptor();
 
@@ -94,7 +95,7 @@ public abstract class Header extends MemoryBinding implements DetailedString, To
 	 * @param meta       the meta data, such as descriptor/lookup specific data
 	 *                   which aids in extension header lookup
 	 */
-	void bindExtensionsToPacket(ByteBuffer packet, PacketDescriptor descriptor) {
+	void bindOptionsToPacket(ByteBuffer packet, PacketDescriptor descriptor) {
 		// Do nothing by default
 	}
 
