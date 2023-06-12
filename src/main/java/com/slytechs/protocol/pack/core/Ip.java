@@ -19,7 +19,7 @@ package com.slytechs.protocol.pack.core;
 
 import java.nio.ByteBuffer;
 
-import com.slytechs.protocol.HeaderExtension;
+import com.slytechs.protocol.OptionsHeader;
 import com.slytechs.protocol.descriptor.IpfReassembly;
 import com.slytechs.protocol.descriptor.IpfTracking;
 import com.slytechs.protocol.descriptor.PacketDescriptor;
@@ -40,14 +40,13 @@ import com.slytechs.protocol.runtime.internal.util.collection.IntList;
  * assigning identification to each device. IP uses a best effort delivery model
  * and is a connectionless protocol, meaning that neither delivery nor proper
  * sequencing or avoidance of duplicate delivery is guaranteed.
- * 
+ *
  * @author Sly Technologies
  * @author repos@slytechs.com
- * @param <T> the generic type
  */
 @MetaResource("ip-meta.json")
 public sealed class Ip
-		extends HeaderExtension
+		extends OptionsHeader
 		permits Ip4, Ip6 {
 
 	/** The Constant generic IP header ID, classifier only. */
@@ -233,6 +232,8 @@ public sealed class Ip
 	}
 
 	/**
+	 * On bind.
+	 *
 	 * @see com.slytechs.protocol.runtime.MemoryBinding#onBind()
 	 */
 	@Override

@@ -25,7 +25,7 @@ import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.function.IntConsumer;
 
-import com.slytechs.protocol.HeaderExtensionInfo;
+import com.slytechs.protocol.HeaderOptionInfo;
 import com.slytechs.protocol.pack.Pack;
 import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
@@ -258,11 +258,11 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 	 * @return the java dissector type 2
 	 */
 	public Type2DissectorJavaImpl disableExtensionRecordingFor(
-			CoreId protocolId, HeaderExtensionInfo... extentionIds) {
+			CoreId protocolId, HeaderOptionInfo... extentionIds) {
 
 		return disableExtensionRecordingInCoreProtocol(protocolId.id(),
 				Arrays.stream(extentionIds)
-						.mapToInt(HeaderExtensionInfo::id)
+						.mapToInt(HeaderOptionInfo::id)
 						.toArray());
 	}
 
@@ -462,11 +462,6 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 
 			if (!addRecord(typeEnum.id(), offset, len))
 				return;
-
-			for (int j = 0; j < numSrc; j++) {
-				if (!addRecord(Icmp6Mlr2RecordType.ICMPv6_ID_OPT_MLRv2_ADDRESS, offset + 4, 16))
-					return;
-			}
 		}
 
 		// Now update the entire MLRv2 header with computed length

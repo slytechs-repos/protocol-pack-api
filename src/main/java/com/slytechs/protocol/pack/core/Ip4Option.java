@@ -26,8 +26,8 @@ import com.slytechs.protocol.pack.core.constants.Ip4IdOptions;
  */
 @MetaResource("ip4-opt-meta.json")
 public sealed class Ip4Option extends IpOption
-		permits Ip4OptRouterAlert, Ip4SecurityDefunct, Ip4RecordRoute, Ip4MtuProbe, Ip4MtuReply, Ip4QuickStart,
-		Ip4Timestamp, Ip4Traceroute {
+		permits Ip4tRouterAlertOption, Ip4SecurityDefunctOption, Ip4RecordRouteOption, Ip4MtuProbeOption, Ip4MtuReplyOption, Ip4QuickStartOption,
+		Ip4TimestampOption, Ip4TracerouteOption {
 
 	/** The base IPv4 option ID constant. */
 	public static final int ID = Ip4IdOptions.IPv4_ID_OPT_HEADER;

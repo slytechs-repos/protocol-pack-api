@@ -27,7 +27,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.slytechs.protocol.Header;
-import com.slytechs.protocol.HeaderExtensionInfo;
+import com.slytechs.protocol.HeaderOptionInfo;
 import com.slytechs.protocol.HeaderInfo;
 import com.slytechs.protocol.Other;
 import com.slytechs.protocol.descriptor.PacketDissectorExtension;
@@ -229,7 +229,7 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		if (parent.isEmpty())
 			return Optional.empty();
 
-		var extInfos = parent.get().getExtensionInfos();
+		var extInfos = parent.get().getOptionInfos();
 		int extOrdinal = PackId.decodeIdOrdinal(extensionId);
 
 		return Optional.of(extInfos[extOrdinal]);
@@ -308,7 +308,7 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		for (E id : ids) {
 			HeaderInfo i = (HeaderInfo) id;
 
-			HeaderExtensionInfo[] exts = i.getExtensionInfos();
+			HeaderOptionInfo[] exts = i.getOptionInfos();
 			if (exts.length > 0)
 				count += exts.length;
 		}
@@ -329,7 +329,7 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 		for (E id : ids) {
 			HeaderInfo i = (HeaderInfo) id;
 
-			HeaderExtensionInfo[] exts = i.getExtensionInfos();
+			HeaderOptionInfo[] exts = i.getOptionInfos();
 			if (exts.length > 0)
 				count += exts.length;
 		}

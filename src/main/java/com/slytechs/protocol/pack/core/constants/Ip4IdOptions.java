@@ -24,25 +24,25 @@ import java.util.Arrays;
 import java.util.function.IntSupplier;
 
 import com.slytechs.protocol.Header;
-import com.slytechs.protocol.HeaderExtensionInfo;
+import com.slytechs.protocol.HeaderOptionInfo;
 import com.slytechs.protocol.HeaderSupplier;
 import com.slytechs.protocol.Other;
 import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.ProtocolPackTable;
-import com.slytechs.protocol.pack.core.Ip4MtuProbe;
-import com.slytechs.protocol.pack.core.Ip4MtuReply;
-import com.slytechs.protocol.pack.core.Ip4OptRouterAlert;
+import com.slytechs.protocol.pack.core.Ip4MtuProbeOption;
+import com.slytechs.protocol.pack.core.Ip4MtuReplyOption;
+import com.slytechs.protocol.pack.core.Ip4tRouterAlertOption;
 import com.slytechs.protocol.pack.core.Ip4Option;
-import com.slytechs.protocol.pack.core.Ip4QuickStart;
-import com.slytechs.protocol.pack.core.Ip4RecordRoute;
-import com.slytechs.protocol.pack.core.Ip4SecurityDefunct;
-import com.slytechs.protocol.pack.core.Ip4Timestamp;
+import com.slytechs.protocol.pack.core.Ip4QuickStartOption;
+import com.slytechs.protocol.pack.core.Ip4RecordRouteOption;
+import com.slytechs.protocol.pack.core.Ip4SecurityDefunctOption;
+import com.slytechs.protocol.pack.core.Ip4TimestampOption;
 import com.slytechs.protocol.runtime.util.Enums;
 
 /**
  * IPv4 option header ID constants.
  */
-public enum Ip4IdOptions implements HeaderExtensionInfo, PackId, IntSupplier {
+public enum Ip4IdOptions implements HeaderOptionInfo, PackId, IntSupplier {
 
 	/** A generic base IP option. */
 	IP_OPTTION(254, "IP:OPT", Ip4Option::new),
@@ -87,31 +87,31 @@ public enum Ip4IdOptions implements HeaderExtensionInfo, PackId, IntSupplier {
 	 * considered to be insecure.
 	 * </p>
 	 */
-	SECURITY_DEFUNCT(0x02, "SEC_DEF", Ip4SecurityDefunct::new),
+	SECURITY_DEFUNCT(0x02, "SEC_DEF", Ip4SecurityDefunctOption::new),
 
 	/** The record route. */
-	RECORD_ROUTE(0x07, "RR", Ip4RecordRoute::new),
+	RECORD_ROUTE(0x07, "RR", Ip4RecordRouteOption::new),
 
 	/** The exp1 measurement. */
 	EXP1_MEASUREMENT(0x0A, "ZSU"),
 
 	/** The mtu probe. */
-	MTU_PROBE(0x0B, "MTUP", Ip4MtuProbe::new),
+	MTU_PROBE(0x0B, "MTUP", Ip4MtuProbeOption::new),
 
 	/** The mtu reply. */
-	MTU_REPLY(0x0C, "MTUR", Ip4MtuReply::new),
+	MTU_REPLY(0x0C, "MTUR", Ip4MtuReplyOption::new),
 
 	/** The encode. */
 	ENCODE(0x0F, "ENC"),
 
 	/** The quick start. */
-	QUICK_START(0x19, "QS", Ip4QuickStart::new),
+	QUICK_START(0x19, "QS", Ip4QuickStartOption::new),
 
 	/** The exp1 rfc3692. */
 	EXP1_RFC3692(0x1E, "EXP1"),
 
 	/** The timestamp. */
-	TIMESTAMP(0x44, "TS", Ip4Timestamp::new),
+	TIMESTAMP(0x44, "TS", Ip4TimestampOption::new),
 
 	/** The traceroute. */
 	TRACEROUTE(0x52, "RT"),
@@ -150,7 +150,7 @@ public enum Ip4IdOptions implements HeaderExtensionInfo, PackId, IntSupplier {
 	ADDRESS_EXTENSION(0x93, "E-ADDR"),
 
 	/** The router alert. */
-	ROUTER_ALERT(0x94, "RTR_ALT", Ip4OptRouterAlert::new),
+	ROUTER_ALERT(0x94, "RTR_ALT", Ip4tRouterAlertOption::new),
 
 	/** The selective directed broadcast. */
 	SELECTIVE_DIRECTED_BROADCAST(0x95, "SBD"),
@@ -390,10 +390,10 @@ public enum Ip4IdOptions implements HeaderExtensionInfo, PackId, IntSupplier {
 	 * Gets the extension abbr.
 	 *
 	 * @return the extension abbr
-	 * @see com.slytechs.protocol.pack.core.IpExtensionId#getExtensionAbbr()
+	 * @see com.slytechs.protocol.pack.core.IpExtensionId#getOptionAbbr()
 	 */
 	@Override
-	public String getExtensionAbbr() {
+	public String getOptionAbbr() {
 		return abbr;
 	}
 
@@ -412,10 +412,10 @@ public enum Ip4IdOptions implements HeaderExtensionInfo, PackId, IntSupplier {
 	 * Gets the extension infos.
 	 *
 	 * @return the extension infos
-	 * @see com.slytechs.protocol.HeaderInfo#getExtensionInfos()
+	 * @see com.slytechs.protocol.HeaderInfo#getOptionInfos()
 	 */
 	@Override
-	public HeaderExtensionInfo[] getExtensionInfos() {
+	public HeaderOptionInfo[] getOptionInfos() {
 		return values();
 	}
 
@@ -423,7 +423,7 @@ public enum Ip4IdOptions implements HeaderExtensionInfo, PackId, IntSupplier {
 	 * Gets the parent header id.
 	 *
 	 * @return the parent header id
-	 * @see com.slytechs.protocol.HeaderExtensionInfo#getParentHeaderId()
+	 * @see com.slytechs.protocol.HeaderOptionInfo#getParentHeaderId()
 	 */
 	@Override
 	public int getParentHeaderId() {

@@ -155,7 +155,7 @@ public final class Packet
 		ByteBuffer buffer = buffer();
 
 		header.bindHeaderToPacket(buffer, descriptor);
-		header.bindExtensionsToPacket(buffer, descriptor);
+		header.bindOptionsToPacket(buffer, descriptor);
 
 		header.setFormatter(formatter);
 

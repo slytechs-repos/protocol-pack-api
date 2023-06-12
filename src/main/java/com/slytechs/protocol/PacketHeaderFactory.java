@@ -156,7 +156,7 @@ class PackHeaderFactory implements HeaderFactory {
 		/* Initialize entire table even for out of range values for quick lookups */
 		for (int i = 0; i < protocolIds.length; i++) {
 
-			HeaderExtensionInfo[] exts = protocolIds[i].getExtensionInfos();
+			HeaderOptionInfo[] exts = protocolIds[i].getOptionInfos();
 			if (exts.length == 0)
 				continue;
 

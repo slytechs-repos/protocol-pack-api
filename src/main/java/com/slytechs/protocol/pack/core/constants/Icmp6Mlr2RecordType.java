@@ -19,12 +19,12 @@ package com.slytechs.protocol.pack.core.constants;
 
 import java.util.function.IntSupplier;
 
-import com.slytechs.protocol.Header;
-import com.slytechs.protocol.HeaderExtensionInfo;
+import com.slytechs.protocol.HeaderOptionInfo;
 import com.slytechs.protocol.HeaderSupplier;
 import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.ProtocolPackTable;
 import com.slytechs.protocol.pack.core.Icmp6Mlr2;
+import com.slytechs.protocol.pack.core.Icmp6Mlr2.MulticastAddressRecord;
 import com.slytechs.protocol.runtime.util.Enums;
 
 /**
@@ -33,27 +33,25 @@ import com.slytechs.protocol.runtime.util.Enums;
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  */
-public enum Icmp6Mlr2RecordType implements IntSupplier, HeaderExtensionInfo, PackId {
-	ADDRESS(0, "SRCADR", Icmp6Mlr2.Mlr2SourceAddress::new),
-	MODE_IS_INCLUDE(1, "MODEIN", Icmp6Mlr2.Mlr2Record::new),
-	MODE_IS_EXCLUDE(2, "MODEEX", Icmp6Mlr2.Mlr2Record::new),
-	CHANGE_TO_INCLUDE(3, "CHGIN", Icmp6Mlr2.Mlr2ChangeInRecord::new),
-	CHANGE_TO_EXCLUDE(4, "CHGEX", Icmp6Mlr2.Mlr2ChangeExRecord::new),
-	ALLOW_NEW_SOURCES(5, "ALLOW", Icmp6Mlr2.Mlr2Record::new),
-	BLOCK_OLD_SOURCES(6, "BLOCK", Icmp6Mlr2.Mlr2Record::new)
+public enum Icmp6Mlr2RecordType implements IntSupplier, HeaderOptionInfo, PackId {
+	MODE_IS_INCLUDE(1, "MODEIN", Icmp6Mlr2.ModeIncludeRecord::new),
+	MODE_IS_EXCLUDE(2, "MODEEX", Icmp6Mlr2.ModeExcludeRecord::new),
+	CHANGE_TO_INCLUDE(3, "CHGIN", Icmp6Mlr2.ChangeIncludeRecord::new),
+	CHANGE_TO_EXCLUDE(4, "CHGEX", Icmp6Mlr2.ChangeExcludeRecord::new),
+	ALLOW_NEW_SOURCES(5, "ALLOW", Icmp6Mlr2.AllowNewSourcesRecord::new),
+	BLOCK_OLD_SOURCES(6, "BLOCK", Icmp6Mlr2.BlockOldSourcesRecord::new)
 
 	;
 
 	// @formatter:off
 	private static final int CLASS_MLRv2_RECORD                   = 0;
 	public static final int ICMPv6_ID_OPT_MLRv2_RECORD            = ID_ORDINAL_CLASS | ProtocolPackTable.PACK_ID_OPTIONS | CLASS_MLRv2_RECORD;
-	public static final int ICMPv6_ID_OPT_MLRv2_ADDRESS           = 0 | ProtocolPackTable.PACK_ID_OPTIONS | CLASS_MLRv2_RECORD;
-	public static final int ICMPv6_ID_OPT_MLRv2_MODE_IS_INCLUDE   = 1 | ProtocolPackTable.PACK_ID_OPTIONS | CLASS_MLRv2_RECORD;
-	public static final int ICMPv6_ID_OPT_MLRv2_MODE_IS_EXCLUDE   = 2 | ProtocolPackTable.PACK_ID_OPTIONS | CLASS_MLRv2_RECORD;
-	public static final int ICMPv6_ID_OPT_MLRv2_CHANGE_TO_INCLUDE = 3 | ProtocolPackTable.PACK_ID_OPTIONS | CLASS_MLRv2_RECORD;
-	public static final int ICMPv6_ID_OPT_MLRv2_CHANGE_TO_EXCLUDE = 4 | ProtocolPackTable.PACK_ID_OPTIONS | CLASS_MLRv2_RECORD;
-	public static final int ICMPv6_ID_OPT_MLRv2_ALLOW_NEW_SOURCES = 5 | ProtocolPackTable.PACK_ID_OPTIONS | CLASS_MLRv2_RECORD;
-	public static final int ICMPv6_ID_OPT_MLRv2_BLOCK_OLD_SOURCES = 6 | ProtocolPackTable.PACK_ID_OPTIONS | CLASS_MLRv2_RECORD;
+	public static final int ICMPv6_ID_OPT_MLRv2_MODE_IS_INCLUDE   = 0 | ProtocolPackTable.PACK_ID_OPTIONS | CLASS_MLRv2_RECORD;
+	public static final int ICMPv6_ID_OPT_MLRv2_MODE_IS_EXCLUDE   = 1 | ProtocolPackTable.PACK_ID_OPTIONS | CLASS_MLRv2_RECORD;
+	public static final int ICMPv6_ID_OPT_MLRv2_CHANGE_TO_INCLUDE = 2 | ProtocolPackTable.PACK_ID_OPTIONS | CLASS_MLRv2_RECORD;
+	public static final int ICMPv6_ID_OPT_MLRv2_CHANGE_TO_EXCLUDE = 3 | ProtocolPackTable.PACK_ID_OPTIONS | CLASS_MLRv2_RECORD;
+	public static final int ICMPv6_ID_OPT_MLRv2_ALLOW_NEW_SOURCES = 4 | ProtocolPackTable.PACK_ID_OPTIONS | CLASS_MLRv2_RECORD;
+	public static final int ICMPv6_ID_OPT_MLRv2_BLOCK_OLD_SOURCES = 5 | ProtocolPackTable.PACK_ID_OPTIONS | CLASS_MLRv2_RECORD;
 	// @formatter:on
 
 	public static String resolve(Object type) {
@@ -95,15 +93,15 @@ public enum Icmp6Mlr2RecordType implements IntSupplier, HeaderExtensionInfo, Pac
 	 * @see com.slytechs.protocol.HeaderSupplier#newHeaderInstance()
 	 */
 	@Override
-	public Header newHeaderInstance() {
-		return supplier.newHeaderInstance();
+	public Icmp6Mlr2.MulticastAddressRecord newHeaderInstance() {
+		return (MulticastAddressRecord) supplier.newHeaderInstance();
 	}
 
 	/**
-	 * @see com.slytechs.protocol.HeaderExtensionInfo#getExtensionAbbr()
+	 * @see com.slytechs.protocol.HeaderOptionInfo#getOptionAbbr()
 	 */
 	@Override
-	public String getExtensionAbbr() {
+	public String getOptionAbbr() {
 		return abbr;
 	}
 
@@ -113,7 +111,7 @@ public enum Icmp6Mlr2RecordType implements IntSupplier, HeaderExtensionInfo, Pac
 	}
 
 	/**
-	 * @see com.slytechs.protocol.HeaderExtensionInfo#getParentHeaderId()
+	 * @see com.slytechs.protocol.HeaderOptionInfo#getParentHeaderId()
 	 */
 	@Override
 	public int getParentHeaderId() {

@@ -17,7 +17,7 @@
  */
 package com.slytechs.protocol.pack.core;
 
-import com.slytechs.protocol.HeaderExtensionInfo;
+import com.slytechs.protocol.HeaderOptionInfo;
 
 /**
  * IP option ID, information and header factory interface API.
@@ -25,6 +25,6 @@ import com.slytechs.protocol.HeaderExtensionInfo;
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  */
-public interface IpExtensionId extends HeaderExtensionInfo {
+public interface IpExtensionId extends HeaderOptionInfo {
 
 }

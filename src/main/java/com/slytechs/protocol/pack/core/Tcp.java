@@ -19,8 +19,8 @@ package com.slytechs.protocol.pack.core;
 
 import java.util.Set;
 
-import com.slytechs.protocol.HasExtension;
-import com.slytechs.protocol.HeaderExtension;
+import com.slytechs.protocol.HasOption;
+import com.slytechs.protocol.OptionsHeader;
 import com.slytechs.protocol.HeaderNotFound;
 import com.slytechs.protocol.Packet;
 import com.slytechs.protocol.meta.Meta;
@@ -74,8 +74,8 @@ import com.slytechs.protocol.runtime.internal.util.format.BitFormat;
  */
 @MetaResource("tcp-meta.json")
 public final class Tcp
-		extends HeaderExtension
-		implements HasExtension<TcpOption> {
+		extends OptionsHeader
+		implements HasOption<TcpOption> {
 
 	/** Numerical TCP protocol ID constant. */
 	public static final int ID = CoreId.CORE_ID_TCP;
@@ -89,7 +89,7 @@ public final class Tcp
 	 * will be needed again during the next header binding. The option is unbound
 	 * when the main TCP header is unbound.
 	 */
-	private TcpWindowScale wscaleOption;
+	private TcpWindowScaleOption wscaleOption;
 	private BitFormat flagsFormatter = FLAGS_FORMATTER;
 
 	/**
@@ -1428,7 +1428,7 @@ public final class Tcp
 	/**
 	 * On unbind.
 	 *
-	 * @see com.slytechs.protocol.HeaderExtension#onUnbind()
+	 * @see com.slytechs.protocol.OptionsHeader#onUnbind()
 	 */
 	@Override
 	protected void onUnbind() {
@@ -1925,10 +1925,10 @@ public final class Tcp
 	public int windowScaled() {
 
 		if (wscaleOption == null)
-			wscaleOption = new TcpWindowScale();
+			wscaleOption = new TcpWindowScaleOption();
 
 		int shiftCount = 0;
-		if (hasExtension(wscaleOption))
+		if (hasOption(wscaleOption))
 			shiftCount = wscaleOption.shiftCount();
 
 		return windowScaled(shiftCount);
@@ -1984,29 +1984,29 @@ public final class Tcp
 	}
 
 	/**
-	 * @see com.slytechs.protocol.HasExtension#getExtension(com.slytechs.protocol.Header,
+	 * @see com.slytechs.protocol.HasOption#getOption(com.slytechs.protocol.Header,
 	 *      int)
 	 */
 	@Override
-	public <E extends TcpOption> E getExtension(E extension, int depth) throws HeaderNotFound {
-		return super.getExtensionHeader(extension, depth);
+	public <E extends TcpOption> E getOption(E extension, int depth) throws HeaderNotFound {
+		return super.getOptionHeader(extension, depth);
 	}
 
 	/**
-	 * @see com.slytechs.protocol.HasExtension#hasExtension(int, int)
+	 * @see com.slytechs.protocol.HasOption#hasOption(int, int)
 	 */
 	@Override
-	public boolean hasExtension(int extensionId, int depth) {
-		return super.hasExtensionHeader(extensionId, depth);
+	public boolean hasOption(int extensionId, int depth) {
+		return super.hasOptionHeader(extensionId, depth);
 	}
 
 	/**
-	 * @see com.slytechs.protocol.HasExtension#peekExtension(com.slytechs.protocol.Header,
+	 * @see com.slytechs.protocol.HasOption#peekOption(com.slytechs.protocol.Header,
 	 *      int)
 	 */
 	@Override
-	public <E extends TcpOption> E peekExtension(E extension, int depth) {
-		return super.peekExtensionHeader(extension, depth);
+	public <E extends TcpOption> E peekOption(E extension, int depth) {
+		return super.peekOptionHeader(extension, depth);
 	}
 
 }

@@ -1,0 +1,5 @@
+{
+	"ICMPv6;300": "Multicast Address Record mode exclude: %{multicastAddress}s",
+	"TRACE,DEBUG,HIGH,MEDIUM,LOW": {
+	}
+}

@@ -65,7 +65,7 @@ class TestTcpHeader {
 			DESC_BUFFER.put((byte) 0);
 
 		DESC_BUFFER.clear();
-		
+
 		System.out.println("---- " + info.getDisplayName() + " ----");
 	}
 
@@ -105,7 +105,7 @@ class TestTcpHeader {
 		DISSECTOR.writeDescriptor(packet.descriptor());
 
 		var tcp = packet.getHeader(new Tcp());
-		var wscale = tcp.getExtension(new TcpWindowScale());
+		var wscale = tcp.getOption(new TcpWindowScaleOption());
 
 		assertEquals(5840 << 7, tcp.windowScaled(wscale.shiftCount()));
 	}
@@ -119,7 +119,7 @@ class TestTcpHeader {
 		DISSECTOR.writeDescriptor(packet.descriptor());
 
 		var tcp = packet.getHeader(new Tcp());
-		
+
 		assertEquals(5840 << 7, tcp.windowScaled());
 	}
 

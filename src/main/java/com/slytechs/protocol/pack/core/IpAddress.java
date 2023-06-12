@@ -37,17 +37,25 @@ import com.slytechs.protocol.NetAddressType;
 public abstract sealed class IpAddress implements NetAddress
 		permits Ip4Address, Ip6Address {
 
+	/** The Constant IPv4_ADDRESS_SIZE. */
 	public static final int IPv4_ADDRESS_SIZE = 4;
+	
+	/** The Constant IPv6_ADDRESS_SIZE. */
 	public static final int IPv6_ADDRESS_SIZE = 16;
+	
+	/** The Constant IPv6_ADDRESS_STRING_SIZE. */
 	public static final int IPv6_ADDRESS_STRING_SIZE = 39;
+	
+	/** The Constant IP6_ADDR_FIELD_SEPARATOR. */
 	private static final char IP6_ADDR_FIELD_SEPARATOR = ':';
+	
+	/** The Constant IP4_ADDR_FIELD_SEPARATOR. */
 	private static final char IP4_ADDR_FIELD_SEPARATOR = '.';
 
 	/**
 	 * Converts IPv4 binary address into a string suitable for presentation.
 	 *
 	 * @param src a byte array representing an IPv4 numeric address
-	 * @param b   the b
 	 * @return a String representing the IPv4 address in textual representation
 	 *         format
 	 */
@@ -58,8 +66,8 @@ public abstract sealed class IpAddress implements NetAddress
 	/**
 	 * Converts IPv4 binary address into a string suitable for presentation.
 	 *
-	 * @param src a byte array representing an IPv4 numeric address
-	 * @param b   the b
+	 * @param src    a byte array representing an IPv4 numeric address
+	 * @param offset the offset
 	 * @return a String representing the IPv4 address in textual representation
 	 *         format
 	 */
@@ -85,7 +93,6 @@ public abstract sealed class IpAddress implements NetAddress
 	 * Convert IPv6 binary address into presentation (printable) format.
 	 *
 	 * @param src a byte array representing the IPv6 numeric address
-	 * @param b   the b
 	 * @return a String representing an IPv6 address in textual representation
 	 *         format
 	 */
@@ -97,10 +104,23 @@ public abstract sealed class IpAddress implements NetAddress
 		return toIp6AddressString(src, 0);
 	}
 
+	/**
+	 * To uncompressed ip 6 address string.
+	 *
+	 * @param src the src
+	 * @return the string
+	 */
 	public static String toUncompressedIp6AddressString(byte[] src) {
 		return toUncompressedIp6AddressString(src, 0);
 	}
 
+	/**
+	 * To uncompressed ip 6 address string.
+	 *
+	 * @param src    the src
+	 * @param offset the offset
+	 * @return the string
+	 */
 	public static String toUncompressedIp6AddressString(byte[] src, int offset) {
 		if ((src.length - offset) < IPv6_ADDRESS_SIZE)
 			throw new IllegalArgumentException("src array [%d] at offset [%d] too small for IPv6 address"
@@ -134,6 +154,13 @@ public abstract sealed class IpAddress implements NetAddress
 		return toStringBuffer.toString();
 	}
 
+	/**
+	 * To ip 6 address string.
+	 *
+	 * @param src    the src
+	 * @param offset the offset
+	 * @return the string
+	 */
 	public static String toIp6AddressString(byte[] src, int offset) {
 		if ((src.length - offset) < 16)
 			throw new IllegalArgumentException("src array [%d] at offset [%d] too small for IPv6 address"
@@ -264,7 +291,6 @@ public abstract sealed class IpAddress implements NetAddress
 	 * To string.
 	 *
 	 * @param src the ip address
-	 * @param b   the b
 	 * @return the string builder
 	 */
 	public static String toIpAddressString(byte[] src) {
@@ -279,12 +305,15 @@ public abstract sealed class IpAddress implements NetAddress
 
 	/** The type. */
 	private final NetAddressType type;
+	
+	/** The byte size. */
 	private final int byteSize;
 
 	/**
 	 * Instantiates a new ip address.
 	 *
-	 * @param type the type
+	 * @param byteSize the byte size
+	 * @param type     the type
 	 */
 	protected IpAddress(int byteSize, NetAddressType type) {
 		super();
@@ -313,13 +342,17 @@ public abstract sealed class IpAddress implements NetAddress
 
 	/**
 	 * Gets a string with formatted IP address of either IPv4 and IPv6 type.
-	 * 
+	 *
+	 * @return the string
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public abstract String toString();
 
 	/**
+	 * Byte size.
+	 *
+	 * @return the int
 	 * @see com.slytechs.protocol.NetAddress#byteSize()
 	 */
 	@Override

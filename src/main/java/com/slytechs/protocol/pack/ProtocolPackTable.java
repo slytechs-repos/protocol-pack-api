@@ -135,13 +135,13 @@ public enum ProtocolPackTable implements PackId {
 	private static final String CORE_MODULE = "com.slytechs.protocol.pack.core";
 	
 	/** The Constant CORE_PACK. */
-	private static final String CORE_PACK   = "com.slytechs.protocol.pack.core.CoreProtocolPack";
+	private static final String CORE_PACK   = "com.slytechs.protocol.pack.core.CorePackDefinition";
 	
 	/** The Constant WEB_MODULE. */
 	private static final String WEB_MODULE = "com.slytechs.protocol.pack.web";
 	
 	/** The Constant WEB_PACK. */
-	private static final String WEB_PACK   = "com.slytechs.protocol.pack.web.WebProtocolPack";
+	private static final String WEB_PACK   = "com.slytechs.protocol.pack.web.WebPackDefinition";
 	// @formatter:on
 
 	/** The id. */

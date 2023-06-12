@@ -17,80 +17,63 @@
  */
 package com.slytechs.protocol.pack.core;
 
-import com.slytechs.protocol.Header;
-import com.slytechs.protocol.meta.Meta;
-import com.slytechs.protocol.pack.core.constants.CoreId;
-
 /**
- * Base class for all IPv6 extension headers.
+ * Interface for all IPv6 extension headers to access extension length and next
+ * header type fields.
  * <p>
- * IPv6 extended headers are a set of optional headers that can be used to
- * provide additional information about an IPv6 packet. Extended headers are not
- * always present in an IPv6 packet, and they are only processed by the nodes
- * that need the information they contain.
+ * IPv6 extension headers are a set of optional headers that can be used to
+ * carry additional information with an IPv6 packet. They are placed between the
+ * fixed IPv6 header and the upper-layer protocol header. Extension headers form
+ * a chain, using the Next Header field. The Next Header field in the fixed
+ * header indicates the type of the first extension header; the Next Header
+ * field of the last extension header indicates the type of the upper-layer
+ * protocol header in the payload of the packet. All extension headers are a
+ * multiple of 8 octets in size; some extension headers require internal padding
+ * to meet this requirement.
  * </p>
- * <h2>Extension Header Order (from RFC 2460)</h2>
  * <p>
- * When more than one extension header is used in the same packet, it is
- * recommended that those headers appear in the following order:
+ * There are several different types of IPv6 extension headers, each with its
+ * own purpose. Some of the most common extension headers include:
  * </p>
+ * 
  * <ul>
- * <li>IPv6 header</li>
- * <li>Hop-by-Hop Options header</li>
- * <li>Destination Options header</li>
- * <li>Routing header</li>
- * <li>Fragment header</li>
- * <li>Authentication header</li>
- * <li>Encapsulating Security Payload header</li>
- * <li>Destination Options header</li>
- * <li><i>upper-layer</i> header</li>
+ * <li><b>Routing header:</b> This header is used to specify a list of one or
+ * more intermediate nodes that the packet must pass through before reaching its
+ * destination.</li>
+ * <li><b>Fragmentation header:</b> This header is used to fragment a large
+ * packet into smaller packets that can be forwarded through smaller network
+ * links.</li>
+ * <li><b>Authentication header:</b> This header is used to provide
+ * authentication and integrity for an IPv6 packet.</li>
+ * <li><b>Encapsulation header:</b> This header is used to encapsulate an IPv6
+ * packet within another protocol, such as IPsec.</li>
+ * <li><b>Destination options header:</b> This header is used to carry optional
+ * information that is only intended for the destination node.</li>
  * </ul>
  * 
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  */
-@Meta
-public sealed class Ip6Extension extends Header
-		permits Ip6ExtAuthHeader, Ip6ExtDestOptions, Ip6ExtFragment, Ip6ExtHostIdentity,
-		Ip6Mobility, Ip6ExtRouting, Ip6ExtEcapsSecPayload, Ip6Shim6 {
-
-	public static final int ID = CoreId.CORE_ID_IPv6_EXTENSION;
+public interface Ip6Extension {
 
 	/**
-	 * Instantiates a new ip 6 option.
-	 */
-	public Ip6Extension() {
-		super(ID);
-	}
-
-	/**
-	 * Instantiates a new IP v6 option.
-	 *
-	 * @param id the id
-	 */
-	protected Ip6Extension(int id) {
-		super(id);
-	}
-
-	/**
-	 * Gets the IPv6 extension header length field value.
+	 * Gets the IPv6 extension header length field value (in 8-byte units).
 	 * <p>
 	 * The IPv6 extension header length field is a 8-bit field that specifies the
 	 * length of the extension header in 8-byte units. The extension header length
 	 * field is located at the beginning of each extension header.
 	 * </p>
 	 * 
-	 * @return the unsigned 8-bit header length field value
-	 *
-	 * @return the int
+	 * @return the unsigned 8-bit header length field value (in 8-byte units)
 	 */
-	public int extensionLength() {
-		return Byte.toUnsignedInt(buffer().get(1));
-	}
+	int extensionLength();
 
-	public int extensionLengthBytes() {
-		return (Byte.toUnsignedInt(buffer().get(1)) << 3) + 8;
-	}
+	/**
+	 * Gets the IPv6 extension header length field value (in 1-byte units).
+	 *
+	 * @return the unsigned 8-bit header length field value (in 1-byte units)
+	 */
+	int extensionLengthBytes();
 
 	/**
 	 * Gets the IPv6 extension next header field value.
@@ -102,7 +85,6 @@ public sealed class Ip6Extension extends Header
 	 *
 	 * @return the unsigned 8-bit next header field value
 	 */
-	public int nextHeader() {
-		return Byte.toUnsignedInt(buffer().get(0));
-	}
+	int nextHeader();
+
 }

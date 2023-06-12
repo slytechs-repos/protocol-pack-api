@@ -22,7 +22,7 @@ import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.constants.CoreId;
 
 /**
- * The Class Icmp6.
+ * The Internet Control Message Protocol (ICMP) version 6 header.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
@@ -44,7 +44,7 @@ public sealed class Icmp6 extends Icmp
 	protected Icmp6(int id) {
 		super(id);
 	}
-	
+
 	@Meta
 	@Override
 	public int type() {
@@ -56,7 +56,7 @@ public sealed class Icmp6 extends Icmp
 	public int code() {
 		return super.code();
 	}
-	
+
 	@Override
 	@Meta
 	public int checksum() {

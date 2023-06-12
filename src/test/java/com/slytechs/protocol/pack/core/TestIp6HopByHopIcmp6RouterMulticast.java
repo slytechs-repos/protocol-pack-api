@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.logging.Level;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,6 +35,7 @@ import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.CoreId;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 import com.slytechs.protocol.runtime.util.Detail;
+import com.slytechs.test.Tests;
 
 /**
  * @author Sly Technologies Inc
@@ -123,6 +125,8 @@ class TestIp6HopByHopIcmp6RouterMulticast {
 
 	@Test
 	void ICMPv6_MLRv2_CHANGE_EXCLUDE() {
+		
+		Tests.enableConsoleLogging(Level.ALL);
 
 		var packet = CoreTestPackets.ETH_IPv6_HOP_BY_HOP_ROUTER_ALERT_ICMPv6_MLRv2_CHG_EX.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);

@@ -1,0 +1,5 @@
+{
+	"ICMPv6;300": "Multicast Address Record Allow new sources: %{multicastAddress}s",
+	"TRACE,DEBUG,HIGH,MEDIUM,LOW": {
+	}
+}

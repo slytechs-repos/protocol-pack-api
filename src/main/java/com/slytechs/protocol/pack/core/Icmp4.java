@@ -21,11 +21,14 @@ import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.constants.CoreId;
 
 /**
+ * The Internet Control Message Protocol (ICMP) version 4 header.
+ * <p>
  * The Internet Control Message Protocol (ICMP) is a network layer protocol used
  * by network devices to communicate error messages and operational information
  * indicating success or failure when communicating with another IP address. For
  * example, an error is indicated when a requested service is not available or
  * that a host or router could not be reached.
+ * </p>
  * <p>
  * Technical details. ICMP is part of the Internet protocol suite as defined in
  * RFC 792. ICMP messages are typically used for diagnostic or control purposes

@@ -24,15 +24,15 @@ import java.util.Arrays;
 import java.util.function.IntSupplier;
 
 import com.slytechs.protocol.Header;
-import com.slytechs.protocol.HeaderExtensionInfo;
+import com.slytechs.protocol.HeaderOptionInfo;
 import com.slytechs.protocol.HeaderSupplier;
 import com.slytechs.protocol.Other;
 import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.ProtocolPackTable;
 import com.slytechs.protocol.pack.core.Ip4Option;
-import com.slytechs.protocol.pack.core.Ip6OptJumboPayload;
-import com.slytechs.protocol.pack.core.Ip6OptPad1;
-import com.slytechs.protocol.pack.core.Ip6OptPadN;
+import com.slytechs.protocol.pack.core.Ip6JumboPayloadOption;
+import com.slytechs.protocol.pack.core.Ip6Pad1Option;
+import com.slytechs.protocol.pack.core.Ip6PadnOptioin;
 import com.slytechs.protocol.pack.core.Ip6OptRouterAlert;
 import com.slytechs.protocol.pack.core.Ip6Option;
 import com.slytechs.protocol.runtime.util.Enums;
@@ -40,7 +40,7 @@ import com.slytechs.protocol.runtime.util.Enums;
 /**
  * IPv4 option header ID constants.
  */
-public enum Ip6IdOption implements HeaderExtensionInfo, PackId, IntSupplier {
+public enum Ip6IdOption implements HeaderOptionInfo, PackId, IntSupplier {
 
 	/** A generic base IP option. */
 	IP_OPTTION(254, "IP:OPT", Ip4Option::new),
@@ -48,15 +48,15 @@ public enum Ip6IdOption implements HeaderExtensionInfo, PackId, IntSupplier {
 	/** The base IPv4 option. */
 	IPv6_OPTION(253, "IPv6:OPT", Ip4Option::new),
 
-	PAD1(0x00, "PAD1", Ip6OptPad1::new),
-	PADN(0x01, "PADN", Ip6OptPadN::new),
+	PAD1(0x00, "PAD1", Ip6Pad1Option::new),
+	PADN(0x01, "PADN", Ip6PadnOptioin::new),
 	TUNNEL_ENCAPS_LIMIT(0x04, "TL", Ip6Option::new),
 	ROUTER_ALERT(0x05, "RA", Ip6OptRouterAlert::new),
 	RPL(0x23, "RPL", Ip6Option::new),
 	QUICK_START(0x26, "QS", Ip6Option::new),
 	MTU(0x30, "MTU", Ip6Option::new),
 	MPL(0x6D, "MPL", Ip6Option::new),
-	JUMBO_PAYLOAD(0xC2, "JUMBO", Ip6OptJumboPayload::new),
+	JUMBO_PAYLOAD(0xC2, "JUMBO", Ip6JumboPayloadOption::new),
 
 	;
 
@@ -178,10 +178,10 @@ public enum Ip6IdOption implements HeaderExtensionInfo, PackId, IntSupplier {
 	 * Gets the extension abbr.
 	 *
 	 * @return the extension abbr
-	 * @see com.slytechs.protocol.pack.core.IpExtensionId#getExtensionAbbr()
+	 * @see com.slytechs.protocol.pack.core.IpExtensionId#getOptionAbbr()
 	 */
 	@Override
-	public String getExtensionAbbr() {
+	public String getOptionAbbr() {
 		return abbr;
 	}
 
@@ -205,10 +205,10 @@ public enum Ip6IdOption implements HeaderExtensionInfo, PackId, IntSupplier {
 	 * Gets the extension infos.
 	 *
 	 * @return the extension infos
-	 * @see com.slytechs.protocol.HeaderInfo#getExtensionInfos()
+	 * @see com.slytechs.protocol.HeaderInfo#getOptionInfos()
 	 */
 	@Override
-	public HeaderExtensionInfo[] getExtensionInfos() {
+	public HeaderOptionInfo[] getOptionInfos() {
 		return values();
 	}
 
@@ -216,7 +216,7 @@ public enum Ip6IdOption implements HeaderExtensionInfo, PackId, IntSupplier {
 	 * Gets the parent header id.
 	 *
 	 * @return the parent header id
-	 * @see com.slytechs.protocol.HeaderExtensionInfo#getParentHeaderId()
+	 * @see com.slytechs.protocol.HeaderOptionInfo#getParentHeaderId()
 	 */
 	@Override
 	public int getParentHeaderId() {

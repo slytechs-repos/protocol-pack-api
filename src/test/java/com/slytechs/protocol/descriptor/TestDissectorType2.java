@@ -33,8 +33,8 @@ import com.slytechs.protocol.Packet;
 import com.slytechs.protocol.pack.core.Ethernet;
 import com.slytechs.protocol.pack.core.Ip4;
 import com.slytechs.protocol.pack.core.Ip6;
-import com.slytechs.protocol.pack.core.Ip6ExtFragment;
-import com.slytechs.protocol.pack.core.Ip4OptRouterAlert;
+import com.slytechs.protocol.pack.core.Ip6FragmentExtension;
+import com.slytechs.protocol.pack.core.Ip4tRouterAlertOption;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.CoreId;
 import com.slytechs.protocol.pack.core.constants.HashType;
@@ -214,14 +214,14 @@ class TestDissectorType2 {
 			Ethernet eth = new Ethernet();
 			Ip4 ip4 = new Ip4();
 			Ip6 ip6 = new Ip6();
-			Ip4OptRouterAlert router4 = new Ip4OptRouterAlert();
-			Ip6ExtFragment frag6 = new Ip6ExtFragment();
+			Ip4tRouterAlertOption router4 = new Ip4tRouterAlertOption();
+			Ip6FragmentExtension frag6 = new Ip6FragmentExtension();
 
 			if (packet.hasHeader(eth)) {
 				log("ETH.type=0x%04X%n", eth.type());
 			}
 
-			if (packet.hasHeader(ip4) && ip4.hasExtension(router4)) {
+			if (packet.hasHeader(ip4) && ip4.hasOption(router4)) {
 				log("IPv4.protocol=%d examinePacket=%s%n", ip4.protocol(), router4.examinePacket());
 			}
 
@@ -276,8 +276,8 @@ class TestDissectorType2 {
 			Ethernet eth = new Ethernet();
 			Ip4 ip4 = new Ip4();
 			Ip6 ip6 = new Ip6();
-			Ip4OptRouterAlert ra4 = new Ip4OptRouterAlert();
-			Ip6ExtFragment frag6 = new Ip6ExtFragment();
+			Ip4tRouterAlertOption ra4 = new Ip4tRouterAlertOption();
+			Ip6FragmentExtension frag6 = new Ip6FragmentExtension();
 
 //		final long COUNT = 3_000_000_000l;
 //		final long COUNT = 300_000_000;
@@ -301,7 +301,7 @@ class TestDissectorType2 {
 					System.out.println(ip4);
 				}
 
-				if (packet.hasHeader(ip4) && ip4.hasExtension(ra4)) {
+				if (packet.hasHeader(ip4) && ip4.hasOption(ra4)) {
 					System.out.println(ra4);
 				}
 

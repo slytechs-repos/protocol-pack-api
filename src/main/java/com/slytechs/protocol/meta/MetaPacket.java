@@ -27,7 +27,8 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.slytechs.protocol.Frame;
-import com.slytechs.protocol.HasExtension;
+import com.slytechs.protocol.HasIndexedRecord;
+import com.slytechs.protocol.HasOption;
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.HeaderFactory;
 import com.slytechs.protocol.HeaderNotFound;
@@ -116,35 +117,47 @@ public final class MetaPacket
 			headers.add(new MetaHeader(ctx, this, packet.getHeader(new Frame(), 0)));
 
 			int lastId = 0;
-			HasExtension<? super Header> lastHeaderExt = null;
+			HasIndexedRecord<? extends Header> lastHeaderRecord = null;
+			int recordIndex = 0;
+			HasOption<? super Header> lastHeaderOption = null;
+
 			long[] compactArray = packet.descriptor().listHeaders();
 			for (long cp : compactArray) {
 				try {
 					int id = PackId.decodeRecordId(cp);
 					int packId = PackId.decodePackId(id);
 					boolean isOption = (packId == ProtocolPackTable.PACK_ID_OPTIONS);
-					if (isOption && lastHeaderExt == null) {
+					if (isOption && (lastHeaderOption == null) && (lastHeaderRecord == null)) {
 						throw new IllegalStateException(
-								"Options header id[0x%X] error: parent %s header must implement HeaderExtension class"
+								"Option header id[0x%X] error: parent %s header must implement OptionsHeader class"
 										.formatted(id, lastHeaderName));
 					}
 
 					final Header header;
 					if (isOption) {
-						header = headerFactory.getExtension(lastId, id);
-						lastHeaderName = header.headerName();
+						
+						if (lastHeaderOption != null) {
+							header = headerFactory.getExtension(lastId, id);
+							lastHeaderOption.getOption(header, 0);
 
-						lastHeaderExt.getExtension(header, 0);
+						} else {
+							header = lastHeaderRecord.getRecord(recordIndex++);
+						}
+
+						lastHeaderName = header.headerName();
 
 					} else {
 						header = headerFactory.get(id);
 						lastHeaderName = header.headerName();
 						lastId = id;
+						recordIndex = 0;
+						lastHeaderOption = null;
+						lastHeaderRecord = null;
+						if (header instanceof HasOption<?> ext)
+							lastHeaderOption = (HasOption<? super Header>) ext;
 
-						if (header instanceof HasExtension<?> ext)
-							lastHeaderExt = (HasExtension<? super Header>) ext;
-						else
-							lastHeaderExt = null;
+						else if (header instanceof HasIndexedRecord<?> ext)
+							lastHeaderRecord = ext;
 
 						packet.getHeader(header, 0);
 					}

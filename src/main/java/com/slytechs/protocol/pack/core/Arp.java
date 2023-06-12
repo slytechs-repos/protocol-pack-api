@@ -27,7 +27,7 @@ import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.CoreId;
 
 /**
- * Address Resolution Protocol (ARP).
+ * Address Resolution Protocol (ARP) header.
  * 
  * @author Sly Technologies Inc
  * @author repos@slytechs.com

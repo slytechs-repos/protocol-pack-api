@@ -20,7 +20,7 @@ package com.slytechs.protocol.pack.core;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.slytechs.protocol.HasExtension;
+import com.slytechs.protocol.HasOption;
 import com.slytechs.protocol.HeaderNotFound;
 import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.Meta.MetaType;
@@ -61,7 +61,7 @@ import com.slytechs.protocol.runtime.internal.util.format.BitFormat;
 @MetaResource("ip4-meta.json")
 public final class Ip4
 		extends Ip
-		implements HasExtension<Ip4Option>, Iterable<Ip4Option> {
+		implements HasOption<Ip4Option>, Iterable<Ip4Option> {
 
 	/** The Constant ID. */
 	public static final int ID = CoreId.CORE_ID_IPv4;
@@ -481,29 +481,29 @@ public final class Ip4
 	}
 
 	/**
-	 * @see com.slytechs.protocol.HasExtension#getExtension(com.slytechs.protocol.Header,
+	 * @see com.slytechs.protocol.HasOption#getOption(com.slytechs.protocol.Header,
 	 *      int)
 	 */
 	@Override
-	public <E extends Ip4Option> E getExtension(E extension, int depth) throws HeaderNotFound {
-		return super.getExtensionHeader(extension, depth);
+	public <E extends Ip4Option> E getOption(E extension, int depth) throws HeaderNotFound {
+		return super.getOptionHeader(extension, depth);
 	}
 
 	/**
-	 * @see com.slytechs.protocol.HasExtension#hasExtension(int, int)
+	 * @see com.slytechs.protocol.HasOption#hasOption(int, int)
 	 */
 	@Override
-	public boolean hasExtension(int extensionId, int depth) {
-		return super.hasExtensionHeader(extensionId, depth);
+	public boolean hasOption(int extensionId, int depth) {
+		return super.hasOptionHeader(extensionId, depth);
 	}
 
 	/**
-	 * @see com.slytechs.protocol.HasExtension#peekExtension(com.slytechs.protocol.Header,
+	 * @see com.slytechs.protocol.HasOption#peekOption(com.slytechs.protocol.Header,
 	 *      int)
 	 */
 	@Override
-	public <E extends Ip4Option> E peekExtension(E extension, int depth) {
-		return super.peekExtensionHeader(extension, depth);
+	public <E extends Ip4Option> E peekOption(E extension, int depth) {
+		return super.peekOptionHeader(extension, depth);
 	}
 
 }

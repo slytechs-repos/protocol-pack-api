@@ -26,7 +26,7 @@ import java.util.function.Supplier;
 
 import com.slytechs.protocol.Frame;
 import com.slytechs.protocol.Header;
-import com.slytechs.protocol.HeaderExtensionInfo;
+import com.slytechs.protocol.HeaderOptionInfo;
 import com.slytechs.protocol.HeaderInfo;
 import com.slytechs.protocol.HeaderSupplier;
 import com.slytechs.protocol.Other;
@@ -43,15 +43,15 @@ import com.slytechs.protocol.pack.core.Icmp6Echo;
 import com.slytechs.protocol.pack.core.Icmp6Mlr2;
 import com.slytechs.protocol.pack.core.Ip4;
 import com.slytechs.protocol.pack.core.Ip6;
-import com.slytechs.protocol.pack.core.Ip6ExtAuthHeader;
-import com.slytechs.protocol.pack.core.Ip6ExtDestOptions;
-import com.slytechs.protocol.pack.core.Ip6ExtEcapsSecPayload;
-import com.slytechs.protocol.pack.core.Ip6ExtFragment;
-import com.slytechs.protocol.pack.core.Ip6ExtHopOptions;
-import com.slytechs.protocol.pack.core.Ip6ExtHostIdentity;
-import com.slytechs.protocol.pack.core.Ip6ExtRouting;
-import com.slytechs.protocol.pack.core.Ip6Extension;
-import com.slytechs.protocol.pack.core.Ip6Shim6;
+import com.slytechs.protocol.pack.core.Ip6AuthHeaderExtension;
+import com.slytechs.protocol.pack.core.Ip6DestinationExtension;
+import com.slytechs.protocol.pack.core.Ip6EcapsSecPayloadExtension;
+import com.slytechs.protocol.pack.core.Ip6FragmentExtension;
+import com.slytechs.protocol.pack.core.Ip6HopByHopExtension;
+import com.slytechs.protocol.pack.core.Ip6HostIdentityExtension;
+import com.slytechs.protocol.pack.core.Ip6RoutingExtension;
+import com.slytechs.protocol.pack.core.Ip6ExtensionHeader;
+import com.slytechs.protocol.pack.core.Ip6Shim6Extension;
 import com.slytechs.protocol.pack.core.Tcp;
 import com.slytechs.protocol.pack.core.Udp;
 import com.slytechs.protocol.runtime.internal.util.format.BitFormat;
@@ -190,16 +190,16 @@ public enum CoreId implements HeaderInfo, PackId {
 	ICMPv6_EXTENDED_ECHO_REQUEST("ICMPv6:EXTECHO:REQ", Icmp6::new),
 	ICMPv6_EXTENDED_ECHO_REPLY("ICMPv6:EXTECHO:REP", Icmp6::new),
 
-	IPv6_EXTENSION(Ip6Extension::new),
-	IPv6_EXT_HOP_BY_HOP_OPTIONS("IPv6:HOP", Ip6ExtHopOptions::new, Ip6IdOption::values),
-	IPv6_EXT_ROUTING("IPv6:ROUTING", Ip6ExtRouting::new),
-	IPv6_EXT_FRAGMENT("IPv6:FRAGMENT", Ip6ExtFragment::new),
-	IPv6_EXT_AUTH_HEADER("IPv6:AH", Ip6ExtAuthHeader::new),
-	IPv6_EXT_ECAPS_SEC_PAYLOAD("IPv6:ESP", Ip6ExtEcapsSecPayload::new),
-	IPv6_EXT_DEST_OPTIONS("IPv6:DEST", Ip6ExtDestOptions::new),
-	IPv6_EXT_MOBILITY("IPv6:MOBILITY", Ip6ExtDestOptions::new),
-	IPv6_EXT_HOST_IDENTITY("IPv6:HID", Ip6ExtHostIdentity::new),
-	IPv6_EXT_SHIMv6("IPv6:SHIMv6", Ip6Shim6::new),
+	IPv6_EXTENSION(Ip6ExtensionHeader::new),
+	IPv6_EXT_HOP_BY_HOP_OPTIONS("IPv6:HOP", Ip6HopByHopExtension::new, Ip6IdOption::values),
+	IPv6_EXT_ROUTING("IPv6:ROUTING", Ip6RoutingExtension::new),
+	IPv6_EXT_FRAGMENT("IPv6:FRAGMENT", Ip6FragmentExtension::new),
+	IPv6_EXT_AUTH_HEADER("IPv6:AH", Ip6AuthHeaderExtension::new),
+	IPv6_EXT_ECAPS_SEC_PAYLOAD("IPv6:ESP", Ip6EcapsSecPayloadExtension::new),
+	IPv6_EXT_DEST_OPTIONS("IPv6:DEST", Ip6DestinationExtension::new),
+	IPv6_EXT_MOBILITY("IPv6:MOBILITY", Ip6DestinationExtension::new),
+	IPv6_EXT_HOST_IDENTITY("IPv6:HID", Ip6HostIdentityExtension::new),
+	IPv6_EXT_SHIMv6("IPv6:SHIMv6", Ip6Shim6Extension::new),
 	;
 
 	/** The Constant CORE_CLASS_BIT_FORMAT. */
@@ -456,7 +456,7 @@ public enum CoreId implements HeaderInfo, PackId {
 	private final HeaderSupplier supplier;
 
 	/** The extensions supplier. */
-	private final Supplier<HeaderExtensionInfo[]> extensionsSupplier;
+	private final Supplier<HeaderOptionInfo[]> extensionsSupplier;
 
 	/** The abbr. */
 	private final String abbr;
@@ -467,7 +467,7 @@ public enum CoreId implements HeaderInfo, PackId {
 	CoreId() {
 		this.id = PackId.encodeId(ProtocolPackTable.CORE, ordinal());
 		this.supplier = Other::new;
-		this.extensionsSupplier = () -> HeaderExtensionInfo.EMPTY_ARRAY;
+		this.extensionsSupplier = () -> HeaderOptionInfo.EMPTY_ARRAY;
 		this.abbr = null;
 	}
 
@@ -479,7 +479,7 @@ public enum CoreId implements HeaderInfo, PackId {
 	CoreId(HeaderSupplier supplier) {
 		this.id = PackId.encodeId(ProtocolPackTable.CORE, ordinal());
 		this.supplier = supplier;
-		this.extensionsSupplier = () -> HeaderExtensionInfo.EMPTY_ARRAY;
+		this.extensionsSupplier = () -> HeaderOptionInfo.EMPTY_ARRAY;
 		this.abbr = null;
 	}
 
@@ -491,7 +491,7 @@ public enum CoreId implements HeaderInfo, PackId {
 	CoreId(String abbr, HeaderSupplier supplier) {
 		this.id = PackId.encodeId(ProtocolPackTable.CORE, ordinal());
 		this.supplier = supplier;
-		this.extensionsSupplier = () -> HeaderExtensionInfo.EMPTY_ARRAY;
+		this.extensionsSupplier = () -> HeaderOptionInfo.EMPTY_ARRAY;
 		this.abbr = abbr;
 	}
 
@@ -501,7 +501,7 @@ public enum CoreId implements HeaderInfo, PackId {
 	 * @param supplier           the supplier
 	 * @param extensionsSupplier the extensions supplier
 	 */
-	CoreId(String abbr, HeaderSupplier supplier, Supplier<HeaderExtensionInfo[]> extensionsSupplier) {
+	CoreId(String abbr, HeaderSupplier supplier, Supplier<HeaderOptionInfo[]> extensionsSupplier) {
 		this.id = PackId.encodeId(ProtocolPackTable.CORE, ordinal());
 		this.supplier = supplier;
 		this.extensionsSupplier = extensionsSupplier;
@@ -512,10 +512,10 @@ public enum CoreId implements HeaderInfo, PackId {
 	 * Gets the extension infos.
 	 *
 	 * @return the extension infos
-	 * @see com.slytechs.protocol.HeaderInfo#getExtensionInfos()
+	 * @see com.slytechs.protocol.HeaderInfo#getOptionInfos()
 	 */
 	@Override
-	public HeaderExtensionInfo[] getExtensionInfos() {
+	public HeaderOptionInfo[] getOptionInfos() {
 		return extensionsSupplier.get();
 	}
 

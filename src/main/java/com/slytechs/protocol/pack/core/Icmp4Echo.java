@@ -23,12 +23,15 @@ import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.constants.CoreId;
-import com.slytechs.protocol.pack.core.constants.Icmp4Type;
+import com.slytechs.protocol.pack.core.constants.IcmpEchoMessageType;
 
 /**
+ * The ICMP version 4 echo message header.
+ * <p>
  * The ICMP echo message is a type of ICMP message that is used to test the
  * reachability of a network device. The ICMP echo message is also known as a
  * ping request.
+ * </p>
  * <p>
  * The ICMP echo message has the following format:
  * </p>
@@ -61,23 +64,13 @@ import com.slytechs.protocol.pack.core.constants.Icmp4Type;
  * </p>
  */
 @MetaResource("icmp4-echo-meta.json")
-public sealed class Icmp4Echo extends Icmp4
+public sealed class Icmp4Echo
+		extends Icmp4
+		implements IcmpEchoMessage
 		permits Icmp4Echo.Request, Icmp4Echo.Reply {
 
 	/**
-	 * The Enum EchoType.
-	 */
-	public enum EchoType {
-
-		/** The request. */
-		REQUEST,
-
-		/** The reply. */
-		REPLY
-	}
-
-	/**
-	 * ICMP echo request.
+	 * ICMPv4 echo request header.
 	 * <p>
 	 * An ICMP echo request is a type of Internet Control Message Protocol (ICMP)
 	 * packet that is used to test the reachability of a remote host. It is also
@@ -102,7 +95,7 @@ public sealed class Icmp4Echo extends Icmp4
 	}
 
 	/**
-	 * ICMP echo reply.
+	 * ICMPv4 echo reply header.
 	 * <p>
 	 * An ICMP echo reply is a type of Internet Control Message Protocol (ICMP)
 	 * packet that is used to respond to an ICMP echo request. It is also known as a
@@ -129,19 +122,6 @@ public sealed class Icmp4Echo extends Icmp4
 	/** The ICMP echo header ID constant. */
 	public static final int ID = CoreId.CORE_ID_ICMPv4_ECHO;
 
-	/** The is request. */
-	private boolean isRequest;
-
-	/**
-	 * Checks if is request from type.
-	 *
-	 * @param type the type
-	 * @return true, if is request from type
-	 */
-	private static boolean isRequestFromType(int type) {
-		return type == Icmp4Type.ICMPv4_TYPE_ECHO_REQUEST;
-	}
-
 	/**
 	 * Instantiates a new ICMP echo header.
 	 */
@@ -159,62 +139,30 @@ public sealed class Icmp4Echo extends Icmp4
 	}
 
 	/**
-	 * On bind.
-	 *
-	 * @see com.slytechs.protocol.pack.core.Icmp#onBind()
+	 * @see com.slytechs.protocol.pack.core.IcmpEchoMessage#identifier()
 	 */
 	@Override
-	protected void onBind() {
-		super.onBind();
-
-		this.isRequest = isRequestFromType(type());
-	}
-
-	/**
-	 * Identifier.
-	 *
-	 * @return the int
-	 */
 	@Meta
 	public int identifier() {
 		return Short.toUnsignedInt(buffer().getShort(ICMPv4_ECHO_FIELD_IDENTIFIER));
 	}
 
 	/**
-	 * Sequence.
-	 *
-	 * @return the int
+	 * @see com.slytechs.protocol.pack.core.IcmpEchoMessage#sequence()
 	 */
+	@Override
 	@Meta
 	public int sequence() {
 		return Short.toUnsignedInt(buffer().getShort(ICMPv4_ECHO_FIELD_SEQUENCE));
 	}
 
 	/**
-	 * Checks if is request.
-	 *
-	 * @return true, if is request
+	 * @see com.slytechs.protocol.pack.core.IcmpEchoMessage#messageType()
 	 */
-	public boolean isRequest() {
-		return isRequest;
-	}
-
-	/**
-	 * Checks if is reply.
-	 *
-	 * @return true, if is reply
-	 */
-	public boolean isReply() {
-		return !isRequest;
-	}
-
-	/**
-	 * Echo type as enum.
-	 *
-	 * @return the echo type
-	 */
+	@Override
 	@Meta(MetaType.ATTRIBUTE)
-	public EchoType echoTypeAsEnum() {
-		return isRequest ? EchoType.REQUEST : EchoType.REPLY;
+	public IcmpEchoMessageType messageType() {
+		return isRequest() ? IcmpEchoMessageType.REQUEST : IcmpEchoMessageType.REPLY;
 	}
+
 }

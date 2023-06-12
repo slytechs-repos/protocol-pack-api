@@ -20,13 +20,18 @@ package com.slytechs.protocol.pack.core;
 import static com.slytechs.protocol.pack.core.constants.CoreConstants.*;
 
 import com.slytechs.protocol.meta.Meta;
+import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.constants.CoreId;
+import com.slytechs.protocol.pack.core.constants.IcmpEchoMessageType;
 
 /**
+ * The ICMP echo message version 6 header.
+ * <p>
  * The ICMP echo message is a type of ICMP message that is used to test the
  * reachability of a network device. The ICMP echo message is also known as a
  * ping request.
+ * </p>
  * <p>
  * The ICMP echo message has the following format:
  * </p>
@@ -59,11 +64,13 @@ import com.slytechs.protocol.pack.core.constants.CoreId;
  * </p>
  */
 @MetaResource("icmp-echo-meta.json")
-public sealed class Icmp6Echo extends Icmp6
+public sealed class Icmp6Echo
+		extends Icmp6
+		implements IcmpEchoMessage
 		permits Icmp6Echo.Request, Icmp6Echo.Reply {
 
 	/**
-	 * ICMP echo request.
+	 * ICMPv6 echo request header.
 	 * <p>
 	 * An ICMP echo request is a type of Internet Control Message Protocol (ICMP)
 	 * packet that is used to test the reachability of a remote host. It is also
@@ -87,7 +94,7 @@ public sealed class Icmp6Echo extends Icmp6
 	}
 
 	/**
-	 * ICMP echo reply.
+	 * ICMPv6 echo reply header.
 	 * <p>
 	 * An ICMP echo reply is a type of Internet Control Message Protocol (ICMP)
 	 * packet that is used to respond to an ICMP echo request. It is also known as a
@@ -114,14 +121,14 @@ public sealed class Icmp6Echo extends Icmp6
 	public static final int ID = CoreId.CORE_ID_ICMPv6_ECHO;
 
 	/**
-	 * Instantiates a new echo header.
+	 * Instantiates a new ICMPv6 echo common header.
 	 */
 	public Icmp6Echo() {
 		super(ID);
 	}
 
 	/**
-	 * Instantiates a new icmp 6 echo.
+	 * Instantiates a new ICMPv6 echo header with a subclass type.
 	 *
 	 * @param id the id
 	 */
@@ -134,6 +141,7 @@ public sealed class Icmp6Echo extends Icmp6
 	 *
 	 * @return the int
 	 */
+	@Override
 	@Meta
 	public int identifier() {
 		return Short.toUnsignedInt(buffer().getShort(ICMPv4_ECHO_FIELD_IDENTIFIER));
@@ -144,8 +152,18 @@ public sealed class Icmp6Echo extends Icmp6
 	 *
 	 * @return the int
 	 */
+	@Override
 	@Meta
 	public int sequence() {
 		return Short.toUnsignedInt(buffer().getShort(ICMPv4_ECHO_FIELD_SEQUENCE));
+	}
+
+	/**
+	 * @see com.slytechs.protocol.pack.core.IcmpEchoMessage#messageType()
+	 */
+	@Override
+	@Meta(MetaType.ATTRIBUTE)
+	public IcmpEchoMessageType messageType() {
+		return isRequest() ? IcmpEchoMessageType.REQUEST : IcmpEchoMessageType.REPLY;
 	}
 }
