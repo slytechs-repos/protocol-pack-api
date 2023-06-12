@@ -21,17 +21,17 @@ package com.slytechs.protocol;
  * Provides important information about a header extension in addition to
  * {@link HeaderInfo} information.
  */
-public interface HeaderExtensionInfo extends HeaderInfo {
+public interface HeaderOptionInfo extends HeaderInfo {
 
 	/** The empty array for efficient initialization. */
-	HeaderExtensionInfo[] EMPTY_ARRAY = new HeaderExtensionInfo[0];
+	HeaderOptionInfo[] EMPTY_ARRAY = new HeaderOptionInfo[0];
 
 	/**
-	 * Gets the extension abbreviation.
+	 * Gets the option abbreviation.
 	 *
 	 * @return the extension abbreviation
 	 */
-	String getExtensionAbbr();
+	String getOptionAbbr();
 
 	/**
 	 * Gets the parent header id for which this extension belong to.

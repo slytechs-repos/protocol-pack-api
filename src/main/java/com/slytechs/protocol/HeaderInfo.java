@@ -27,8 +27,8 @@ public interface HeaderInfo extends HeaderSupplier {
 	 *
 	 * @return the extension infos
 	 */
-	default HeaderExtensionInfo[] getExtensionInfos() {
-		return HeaderExtensionInfo.EMPTY_ARRAY;
+	default HeaderOptionInfo[] getOptionInfos() {
+		return HeaderOptionInfo.EMPTY_ARRAY;
 	}
 
 	/**

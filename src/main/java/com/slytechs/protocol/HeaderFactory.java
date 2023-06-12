@@ -69,7 +69,7 @@ public interface HeaderFactory {
 	 * @return the exension
 	 */
 	@SuppressWarnings("unchecked")
-	default <H extends Header> H getExension(HeaderInfo primary, HeaderExtensionInfo extension) {
+	default <H extends Header> H getExension(HeaderInfo primary, HeaderOptionInfo extension) {
 		return (H) getExtension(primary.id(), extension.id());
 	}
 
