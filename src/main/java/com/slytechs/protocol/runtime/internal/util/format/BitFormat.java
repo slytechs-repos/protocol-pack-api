@@ -17,8 +17,8 @@
  */
 package com.slytechs.protocol.runtime.internal.util.format;
 
-import static java.lang.Character.isWhitespace;
-import static java.util.Objects.checkIndex;
+import static java.lang.Character.*;
+import static java.util.Objects.*;
 
 import java.text.FieldPosition;
 import java.text.Format;
@@ -32,25 +32,25 @@ public class BitFormat extends Format {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -4051297746712793825L;
-	
+
 	/** The Constant DEFAULT_BITPATTERN_IGNORE_CHAR. */
 	public static final char DEFAULT_BITPATTERN_IGNORE_CHAR = '.';
 
 	/** The bit pattern. */
 	protected final String bitPattern;
-	
+
 	/** The mask long. */
 	protected long maskLong;
-	
+
 	/** The mask array. */
 	protected byte[] maskArray;
-	
+
 	/** The bit len. */
 	protected final int bitLen;
-	
+
 	/** The off char. */
 	private char offChar;
-	
+
 	/** The sparse mode. */
 	private boolean sparseMode;
 
@@ -124,21 +124,13 @@ public class BitFormat extends Format {
 	 * @return the long
 	 */
 	private long bitPatternToLongMask(String bitPattern) {
-		bitPattern = bitPattern.replaceAll("\s", ""); // Remove all whitespace
 
-		final int bitPadding = ((64 - (bitLen & 0x3F)) & 0x3F); // 0-63 bits inclusive
+		bitPattern = bitPattern
+				.replaceAll("\s", "") // Remove whitespace
+				.replaceAll("[^\\" + offChar + "]", "1") // Anything but 'offChar' with '1'
+				.replace(offChar, '0'); // Replace offChar with '0'
 
-		long mask = 0;
-
-		// i = bit index, k = pattern index
-		for (int i = bitPadding, k = 0; i < 64; i++, k++) {
-			char ch = bitPattern.charAt(k);
-
-			if (ch != offChar)
-				mask |= (1 << (7 - (i & 0x7)));
-		}
-
-		return mask;
+		return Long.parseLong(bitPattern, 2); // Simply parse the binary string to get a mask
 	}
 
 	/**
