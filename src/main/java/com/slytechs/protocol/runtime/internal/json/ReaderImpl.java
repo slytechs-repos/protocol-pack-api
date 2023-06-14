@@ -83,11 +83,12 @@ class ReaderImpl implements JsonReader {
 			skipChar();
 			skipWhitespace();
 
-			JsonValue value = readValue();
+			JsonValue value = (peekChar() == ']') ? null : readValue();
 
 			skipWhitespace();
 
-			array.add(value);
+			if (value != null)
+				array.add(value);
 
 		} while (peekChar() == ',');
 
