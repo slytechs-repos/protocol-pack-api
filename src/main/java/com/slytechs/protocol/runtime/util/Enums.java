@@ -17,7 +17,9 @@
  */
 package com.slytechs.protocol.runtime.util;
 
+import java.util.EnumSet;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.IntSupplier;
 import java.util.function.Supplier;
@@ -171,6 +173,38 @@ public final class Enums {
 				return e;
 
 		return null;
+	}
+
+	/**
+	 * Sets the of.
+	 *
+	 * @param <E>   the element type
+	 * @param value the value
+	 * @param cl    the cl
+	 * @return the sets the
+	 */
+	public static <E extends Enum<E> & IsIntFlag> Set<E> setOf(int value, Class<E> cl) {
+		E[] constants = cl.getEnumConstants();
+
+		var set = EnumSet.noneOf(cl);
+
+		for (E e : constants)
+			if (e.isSet(value))
+				set.add(e);
+
+		return set;
+	}
+
+	/**
+	 * Sets the of.
+	 *
+	 * @param <E>   the element type
+	 * @param flags the flags
+	 * @param cl    the cl
+	 * @return the sets the
+	 */
+	public static <E extends Enum<E> & IsIntFlag> Set<E> setOf(Object flags, Class<E> cl) {
+		return setOf(((Number) flags).intValue(), cl);
 	}
 
 	/**
