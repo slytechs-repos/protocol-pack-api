@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.slytechs.protocol.runtime.internal.util.format.BitFormat;
 import com.slytechs.protocol.runtime.util.Detail;
 
 /**
@@ -37,10 +38,10 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -4307770938567017464L;
-	
+
 	/** The context. */
 	private final MetaDomain context;
-	
+
 	/** The detail. */
 	private final Detail detail;
 
@@ -160,7 +161,7 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 
 	/** The Constant DISPLAY_ATTRIBUTE_PATTERN. */
 	private static final Pattern DISPLAY_ATTRIBUTE_PATTERN = Pattern.compile(""
-			+ "%\\{([\\w.?/\\\\]*):?([VFRO]?[12345]*)\\}" // F=Formatted, R=Resolved
+			+ "%\\{([\\w.?/\\\\]*):?([VFRO]?[12345]*)(\\$([\\w\\s\\.]+))?(\\[(.*)\\])?\\}"
 			+ "");
 
 	/**
@@ -188,6 +189,8 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 		while (matcher.find()) {
 			var fieldName = matcher.group(1);
 			var valueFormat = matcher.group(2);
+			var bitsFormat = matcher.group(4);
+			var switchFormat = matcher.group(6);
 
 			MetaField selected = null;
 			if (element instanceof MetaField field)
@@ -195,7 +198,7 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 
 			if (fieldName != null && !fieldName.isBlank())
 				selected = new MetaPath(fieldName)
-				.searchForField(domain)
+						.searchForField(domain)
 						.orElse(null);
 			else if (element instanceof MetaField field) {
 				fieldName = field.name();
@@ -204,6 +207,16 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 
 			if (fieldName == null || fieldName.isBlank())
 				continue;
+
+			if (bitsFormat != null) {
+				list.add(formatBitsValue(selected.get(), bitsFormat));
+				continue;
+			}
+
+			if (switchFormat != null) {
+				list.add(formatSwitchValue(selected.get(), switchFormat));
+				continue;
+			}
 
 			if (valueFormat != null)
 				valueFormat.toUpperCase();
@@ -236,4 +249,29 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 		return list.toArray();
 	}
 
+	private String formatBitsValue(Number num, String bitsFormat) {
+		return new BitFormat(bitsFormat)
+				.format(Integer.toUnsignedLong(num.intValue()));
+	}
+
+	private String formatSwitchValue(Object value, String sw) {
+		String[] split = sw.split(",");
+
+		for (String c : split) {
+			int index = c.indexOf('=');
+			if (index == -1) // Default case (without assisgnment)
+				return c;
+
+			String key = c.substring(0, index);
+			String label = c.substring(index + 1);
+
+			if (key.startsWith("0x"))
+				key = Integer.toString(Integer.parseInt(key.substring(2), 16));
+
+			if (key.equals(value.toString()))
+				return label;
+		}
+
+		return "";
+	}
 }

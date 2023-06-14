@@ -83,4 +83,20 @@ public @interface Display {
 	 * @return true, if it should display, otherwise false
 	 */
 	String[] hide() default {};
+
+	/**
+	 * Multiline display. Each line is formatted and displayed below the main
+	 * display. Typically used for displaying bitmaps and bit-fields. such as
+	 * 
+	 * <pre>
+	 * Flags: 0xc0000000, Router, Solicited
+	 *    1... .... .... .... .... .... .... .... = Router: Set
+	 *    .1.. .... .... .... .... .... .... .... = Solicited: Set
+	 *    ..0. .... .... .... .... .... .... .... = Override: Not set
+	 *    ...0 0000 0000 0000 0000 0000 0000 0000 = Reserved: 0
+	 * </pre>
+	 *
+	 * @return the string[]
+	 */
+	String[] multiline() default {};
 }

@@ -32,7 +32,7 @@ import com.slytechs.protocol.runtime.util.Detail;
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  */
-public record DisplayInfo(String value, String label, Detail detail, String[] hide) implements MetaInfoType {
+public record DisplayInfo(String value, String label, Detail detail, String[] hide, String[] multiline) implements MetaInfoType {
 
 	/** The Constant EMPTY_HEADER_DEFAULT_DISPLAY. */
 	@Display(label = "", value = "")
@@ -72,10 +72,12 @@ public record DisplayInfo(String value, String label, Detail detail, String[] hi
 			return defaultDisplay.apply(detail);
 
 		var jsHide = jsonDisplay.getJsonArray("HIDE");
-		var hideArr = jsHide == null ? new String[0] : jsHide.toStringArray();
+		var jsMulti = jsonDisplay.getJsonArray("multiline");
+		var hideArr = (jsHide == null) ? new String[0] : jsHide.toStringArray();
+		var multiArr = (jsMulti == null) ? new String[0] : jsMulti.toStringArray();
 
 		if (jsonDisplay.get("DEFAULT") instanceof JsonString jsonValue) {
-			return new DisplayInfo(jsonValue.getString(), "", detail, hideArr);
+			return new DisplayInfo(jsonValue.getString(), "", detail, hideArr, multiArr);
 		}
 
 		if (jsonDisplay.get("DEFAULT") instanceof JsonObject jsonDef) {
@@ -85,7 +87,7 @@ public record DisplayInfo(String value, String label, Detail detail, String[] hi
 		String value = jsonDisplay.getString("value", null);
 		String label = jsonDisplay.getString("label", "");
 
-		return new DisplayInfo(value, label, detail, hideArr);
+		return new DisplayInfo(value, label, detail, hideArr, multiArr);
 	}
 
 	/**
@@ -120,7 +122,8 @@ public record DisplayInfo(String value, String label, Detail detail, String[] hi
 				displayAnnotation.value(),
 				displayAnnotation.label(),
 				detail,
-				displayAnnotation.hide());
+				displayAnnotation.hide(),
+				displayAnnotation.multiline());
 	}
 
 	/**

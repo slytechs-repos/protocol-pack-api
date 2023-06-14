@@ -113,16 +113,35 @@ public class MetaResourceShortformReader extends MetaResourceReader {
 		}
 
 		for (String key : jsDetailGroup.keyOrderedList()) {
-			inflateFieldDeclaration(fieldsBuilder, detail, key, jsDetailGroup.getString(key));
+			JsonValue jsValue = jsDetailGroup.get(key);
+			inflateFieldDeclaration(fieldsBuilder, detail, key, parseDisplayString(key, jsValue), jsValue);
 		}
 
+	}
+	
+	private String parseDisplayString(String field, JsonValue jsValue) {
+		if (jsValue instanceof JsonString jsString)
+			return jsString.getString();
+
+		if (jsValue instanceof JsonObject jsObj) {
+			List<String> keys = jsObj.keyOrderedList();
+			if (keys.size() != 1)
+				throw new IllegalArgumentException("%s: Unsupported display string Json type %s, missing display string"
+						.formatted(field, jsValue.getValueType()));
+
+			return keys.get(0);
+		}
+
+		throw new IllegalArgumentException("%s: Unsupported display string Json type %s"
+				.formatted(field, jsValue.getValueType()));
 	}
 
 	private void inflateFieldDeclaration(
 			JsonObjectBuilder fieldsBuilder,
 			Detail detail,
 			String metaString,
-			String displayString) {
+			String displayString,
+			JsonValue fieldDisplay) {
 
 		String fieldName = stripName(metaString);
 		JsonObjectBuilder jsFieldBuilder = JsonObjectBuilder
@@ -139,8 +158,16 @@ public class MetaResourceShortformReader extends MetaResourceReader {
 		JsonObjectBuilder jsDisplayBuilder = JsonObjectBuilder
 				.wrapOrElseNewInstance(jsFieldBuilder.getJsonObject("display"));
 
+		
+		JsonArray jsMultiArr = null;
+		if (fieldDisplay instanceof JsonObject jsObj) {
+			List<String> keys = jsObj.keyOrderedList();
+			jsMultiArr = (JsonArray) jsObj.get(keys.get(0));
+		}
+
+		
 		String label = stripLabel(metaString);
-		inflateDisplay(jsDisplayBuilder, detail, label, displayString, resolverList);
+		inflateDisplay(jsDisplayBuilder, detail, label, displayString, resolverList, jsMultiArr);
 		jsFieldBuilder.add("display", jsDisplayBuilder.build());
 
 		fieldsBuilder.add(fieldName, jsFieldBuilder.build());
@@ -218,7 +245,7 @@ public class MetaResourceShortformReader extends MetaResourceReader {
 		if (jsHeader instanceof JsonString jsStringHeader) {
 
 			String displayValue = jsStringHeader.getString();
-			inflateDisplay(displayBuilder, null, label, displayValue, Collections.emptyList());
+			inflateDisplay(displayBuilder, null, label, displayValue, Collections.emptyList(), null);
 
 		} else if (jsHeader instanceof JsonObject jsObjHeader) {
 
@@ -238,7 +265,7 @@ public class MetaResourceShortformReader extends MetaResourceReader {
 				String displayValue = jsObjHeader.getString(key);
 
 				for (Detail detail : detailArray)
-					inflateDisplay(displayBuilder, detail, label, displayValue, Collections.emptyList());
+					inflateDisplay(displayBuilder, detail, label, displayValue, Collections.emptyList(), null);
 			}
 
 		} else
@@ -251,17 +278,19 @@ public class MetaResourceShortformReader extends MetaResourceReader {
 	 * @param displayBuilder
 	 * @param detail
 	 * @param displayValue
+	 * @param jsMultiArr 
 	 */
 	private void inflateDisplay(JsonObjectBuilder displayBuilder, Detail detail, String label,
 			String displayValue,
-			List<ResolverType> resolverList) {
+			List<ResolverType> resolverList, 
+			JsonArray jsMultiArr) {
 
 		if (detail == null) {
 			for (Detail d : Detail.values()) {
 				if (d == Detail.OFF)
 					continue;
 
-				inflateDisplay(displayBuilder, d, label, displayValue, resolverList);
+				inflateDisplay(displayBuilder, d, label, displayValue, resolverList, jsMultiArr);
 			}
 
 			return;
@@ -274,6 +303,7 @@ public class MetaResourceShortformReader extends MetaResourceReader {
 		detailBuilder.add("label", label);
 		detailBuilder.add("detail", detail.name());
 		detailBuilder.add("value", inflateDisplayFormat(displayValue, resolverList));
+		detailBuilder.add("multiline", jsMultiArr);
 
 		displayBuilder.add(detail.name(), detailBuilder.build());
 	}

@@ -39,12 +39,14 @@ public final class PacketFormat extends MetaFormat {
 
 	/** The Constant DEFAULT_LINE_FORMAT. */
 	private static final String DEFAULT_LINE_FORMAT = "%20s = %-30s";
+	private static final String DEFAULT_MULTILINE_FORMAT = "%20s   %-30s";
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -729988509291767979L;
 
 	/** The field line. */
-	private final String fieldLine;
+	private final String fieldLineFormatString;
+	private final String fieldMultilineFormatString;
 
 	/**
 	 * Instantiates a new packet format.
@@ -71,7 +73,8 @@ public final class PacketFormat extends MetaFormat {
 	public PacketFormat(MetaDomain domain, Detail detail) {
 		super(domain, detail);
 
-		this.fieldLine = DEFAULT_LINE_FORMAT;
+		this.fieldLineFormatString = DEFAULT_LINE_FORMAT;
+		this.fieldMultilineFormatString = DEFAULT_MULTILINE_FORMAT;
 
 //		this.fieldLine = domain.searchFor(null, HEADER_LINE_FORMAT_ATTRIBUTE, String.class)
 //				.orElse(DEFAULT_LINE_FORMAT);
@@ -131,9 +134,11 @@ public final class PacketFormat extends MetaFormat {
 
 			var labelComponent = label;
 			var valueComponent = displayFormat.formatted(valueArgs);
-			var line = fieldLine.formatted(labelComponent, valueComponent);
+			var line = fieldLineFormatString.formatted(labelComponent, valueComponent);
 
 			toAppendTo.append(line);
+
+//			formatFieldMultiline(display.multiline(), toAppendTo);
 
 			return toAppendTo;
 		} catch (Throwable e) {
@@ -142,6 +147,27 @@ public final class PacketFormat extends MetaFormat {
 					.formatted(field.getParentHeader().name(), field.name(), e
 							.getMessage(), displayFormat, Arrays.asList(valueArgs)));
 		}
+	}
+
+	private StringBuilder formatFieldMultiline(String label, MetaField field, String[] multiline,
+			StringBuilder toAppendTo) {
+
+		for (String displayFormat : multiline) {
+
+			toAppendTo.append("\n");
+
+			var valueArgs = buildDisplayArgs(field.getParentHeader(), field, displayFormat);
+			displayFormat = super.rewriteDisplayArgs(displayFormat);
+
+			var valueComponent = displayFormat.formatted(valueArgs);
+			var line = fieldMultilineFormatString.formatted("", valueComponent);
+
+			formatLeft(label, toAppendTo);
+			toAppendTo.append(line);
+
+		}
+
+		return toAppendTo;
 	}
 
 	public StringBuilder formatHeader(Header header, StringBuilder toAppendTo, Detail detail) {
@@ -191,6 +217,9 @@ public final class PacketFormat extends MetaFormat {
 			formatLeft(label, toAppendTo);
 
 			formatField(field, toAppendTo, detail);
+
+			var fieldDisplay = field.getMeta(DisplaysInfo.class).select(detail);
+			formatFieldMultiline(label, field, fieldDisplay.multiline(), toAppendTo);
 
 			toAppendTo
 					.append("\n");
