@@ -17,10 +17,19 @@
  */
 package com.slytechs.protocol.meta;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.IntSupplier;
 import java.util.regex.Pattern;
 
+import com.slytechs.protocol.runtime.internal.json.Json;
+import com.slytechs.protocol.runtime.internal.json.JsonException;
+import com.slytechs.protocol.runtime.internal.json.JsonObject;
+import com.slytechs.protocol.runtime.internal.util.Reflections;
 import com.slytechs.protocol.runtime.util.Detail;
+import com.slytechs.protocol.runtime.util.IsAbbr;
+import com.slytechs.protocol.runtime.util.IsDescription;
 
 /**
  * The Class DisplayUtil.
@@ -35,7 +44,7 @@ final class DisplayUtil {
 	 * The Replacing.
 	 */
 	private record Replacing(Pattern pattern, String replacement) {
-		
+
 		/**
 		 * Instantiates a new replacing.
 		 *
@@ -158,5 +167,88 @@ final class DisplayUtil {
 		long l = (n.longValue() << shift);
 
 		return Long.toString(l);
+	}
+
+	/**
+	 * Load enum table.
+	 *
+	 * @param enumClassName the enum class name
+	 * @return the map
+	 */
+	public static Map<String, String> loadEnumTable(String enumClassName) {
+		String[] split = enumClassName.split(":");
+
+		Module module = (split.length == 2) ? Reflections.loadModule(split[0]) : MetaFormat.class.getModule();
+		String className = (split.length == 2) ? split[1] : split[0];
+
+		className = className.replaceFirst("\\.class", "");
+
+		if (className.indexOf('.') == -1)
+			className = "com.slytechs.protocol.pack.core.constants." + className;
+
+		try {
+			Class<?> cl = Reflections.loadClass(module, className);
+			if (!cl.isEnum())
+				throw new MetaException("Class with table must by Enum type [%s]"
+						.formatted(enumClassName));
+
+			if (!IntSupplier.class.isAssignableFrom(cl))
+				throw new MetaException("Class with table must implement IntSupplier interface [%s]"
+						.formatted(enumClassName));
+
+			Enum<?>[] constants = (Enum<?>[]) cl.getEnumConstants();
+			Map<String, String> map = new HashMap<>();
+
+			for (Enum<?> e : constants) {
+				String key;
+				if (e instanceof IntSupplier intSup)
+					key = "" + intSup.getAsInt();
+				else
+					key = "" + e.ordinal();
+
+				String value;
+				if (e instanceof IsDescription isDesc)
+					value = isDesc.description();
+				else if (e instanceof IsAbbr isAbbr)
+					value = isAbbr.abbr();
+				else
+					value = e.name();
+
+				map.put(key, value);
+			}
+
+			return map;
+
+		} catch (ClassNotFoundException e) {
+			throw new MetaException("Class with table not found [%s]"
+					.formatted(enumClassName));
+		}
+	}
+
+	/**
+	 * Load resource table.
+	 *
+	 * @param jsonResourceName the json resource name
+	 * @return the map
+	 */
+	public static Map<String, String> loadResourceTable(String jsonResourceName) {
+		var ins = DisplayUtil.class.getResourceAsStream("/" + jsonResourceName);
+		if (ins == null)
+			throw new MetaException("Resource file with table not found [%s]"
+					.formatted(jsonResourceName));
+
+		JsonObject obj;
+		try (var reader = Json.createReader(ins)) {
+			obj = reader.readObject();
+		} catch (JsonException e) {
+			throw new IllegalStateException("unexpected error while reading resource " + jsonResourceName, e);
+		}
+
+		Map<String, String> map = new HashMap<>();
+		obj.keyOrderedList()
+				.stream()
+				.forEach(k -> map.put(k, obj.getString(k)));
+
+		return map;
 	}
 }
