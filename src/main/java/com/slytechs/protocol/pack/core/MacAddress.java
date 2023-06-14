@@ -17,12 +17,13 @@
  */
 package com.slytechs.protocol.pack.core;
 
+import java.nio.ByteBuffer;
 import java.util.Optional;
 
 import com.slytechs.protocol.NetAddress;
 import com.slytechs.protocol.NetAddressType;
-import com.slytechs.protocol.pack.core.constants.I3eOuiAssignments;
-import com.slytechs.protocol.pack.core.constants.I3eOuiAssignments.OuiEntry;
+import com.slytechs.protocol.pack.core.constants.MacOuiAssignments;
+import com.slytechs.protocol.pack.core.constants.MacOuiAssignments.OuiEntry;
 
 /**
  * A MAC address.
@@ -41,6 +42,14 @@ import com.slytechs.protocol.pack.core.constants.I3eOuiAssignments.OuiEntry;
  * @author repos@slytechs.com
  */
 public class MacAddress implements NetAddress {
+	
+	public static MacAddress get(int index, ByteBuffer buffer) {
+		byte[] addr = new byte[MacAddress.MAC_ADDRESS_SIZE];
+
+		buffer.get(index, addr);
+
+		return new MacAddress(addr);
+	}
 
 	/** The Constant MAC_ADDRESS_SIZE. */
 	public static final int MAC_ADDRESS_SIZE = 6;
@@ -66,7 +75,7 @@ public class MacAddress implements NetAddress {
 
 		String ouiName = src.substring(0, indx);
 
-		Optional<OuiEntry> ouiOptional = I3eOuiAssignments.reverseLookupOuiName(ouiName);
+		Optional<OuiEntry> ouiOptional = MacOuiAssignments.reverseLookupOuiName(ouiName);
 		if (ouiOptional.isEmpty())
 			return 0;
 
@@ -92,7 +101,7 @@ public class MacAddress implements NetAddress {
 		if (offset != 0)
 			throw new UnsupportedOperationException("only offset of 0 is currently supported");
 
-		Optional<OuiEntry> ouiOptional = I3eOuiAssignments.lookupManufacturerOui(src);
+		Optional<OuiEntry> ouiOptional = MacOuiAssignments.lookupManufacturerOui(src);
 		if (ouiOptional.isEmpty())
 			return 0;
 
