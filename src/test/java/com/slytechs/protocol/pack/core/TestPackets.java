@@ -21,6 +21,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
 import com.slytechs.protocol.Packet;
+import com.slytechs.protocol.runtime.time.TimestampUnit;
 import com.slytechs.protocol.runtime.util.HexStrings;
 
 /**
@@ -31,7 +32,7 @@ import com.slytechs.protocol.runtime.util.HexStrings;
  * @author Mark Bednarczyk
  *
  */
-public enum CoreTestPackets {
+public enum TestPackets {
 
 	/**
 	 * Cisco251_af:f4:54 Broadcast ARP 60 Who has 24.166.173.159? Tell 24.166.172.1
@@ -692,6 +693,67 @@ public enum CoreTestPackets {
 			+ "8f00193c0000000104000000ff020000000000000000000000010003"
 			+ ";iphttps.cap#10"),
 
+	/**
+	 * fe80::200:86ff:fe05:80da fe80::260:97ff:fe07:69ea ICMPv6 86 Neighbor
+	 * Solicitation for fe80::260:97ff:fe07:69ea from 00:00:86:05:80:da
+	 * 
+	 * <pre>
+	Frame 3: 86 bytes on wire (688 bits), 86 bytes captured (688 bits)
+	    Encapsulation type: Ethernet (1)
+	    Arrival Time: Mar 11, 1999 08:45:07.494265000 EST
+	    [Time shift for this packet: 0.000000000 seconds]
+	    Epoch Time: 921159907.494265000 seconds
+	    [Time delta from previous captured frame: 5.278993000 seconds]
+	    [Time delta from previous displayed frame: 0.000000000 seconds]
+	    [Time since reference or first frame: 5.352508000 seconds]
+	    Frame Number: 3
+	    Frame Length: 86 bytes (688 bits)
+	    Capture Length: 86 bytes (688 bits)
+	    [Frame is marked: False]
+	    [Frame is ignored: False]
+	    [Protocols in frame: eth:ethertype:ipv6:icmpv6]
+	    [Coloring Rule Name: ICMP]
+	    [Coloring Rule String: icmp || icmpv6]
+	Ethernet II, Src: Megahert_05:80:da (00:00:86:05:80:da), Dst: 3Com_07:69:ea (00:60:97:07:69:ea)
+	    Destination: 3Com_07:69:ea (00:60:97:07:69:ea)
+	    Source: Megahert_05:80:da (00:00:86:05:80:da)
+	    Type: IPv6 (0x86dd)
+	Internet Protocol Version 6, Src: fe80::200:86ff:fe05:80da, Dst: fe80::260:97ff:fe07:69ea
+	    0110 .... = Version: 6
+	    .... 0000 0000 .... .... .... .... .... = Traffic Class: 0x00 (DSCP: CS0, ECN: Not-ECT)
+	    .... 0000 0000 0000 0000 0000 = Flow Label: 0x00000
+	    Payload Length: 32
+	    Next Header: ICMPv6 (58)
+	    Hop Limit: 255
+	    Source Address: fe80::200:86ff:fe05:80da
+	    Destination Address: fe80::260:97ff:fe07:69ea
+	    [Source SLAAC MAC: Megahert_05:80:da (00:00:86:05:80:da)]
+	    [Destination SLAAC MAC: 3Com_07:69:ea (00:60:97:07:69:ea)]
+	Internet Control Message Protocol v6
+	    Type: Neighbor Solicitation (135)
+	    Code: 0
+	    Checksum: 0x68bd [correct]
+	    [Checksum Status: Good]
+	    Reserved: 00000000
+	    Target Address: fe80::260:97ff:fe07:69ea
+	    ICMPv6 Option (Source link-layer address : 00:00:86:05:80:da)
+	        Type: Source link-layer address (1)
+	        Length: 1 (8 bytes)
+	        Link-layer address: Megahert_05:80:da (00:00:86:05:80:da)
+	 * </pre>
+	 */
+	ETH_IPv6_ICMPv6_NEIGHBOR_SOLICITATION(""
+			+ "0060970769ea0000860580da86dd"
+			+ "6000000000203afffe80000000000000020086fffe0580dafe80000000000000026097fffe0769ea"
+			+ "870068bd00000000fe80000000000000026097fffe0769ea01010000860580da"
+			+ ";v6.pcap#3"),
+	
+	ETH_IPv6_ICMPv6_NEIGHBOR_ADVERTISEMENT(""
+			+ "0000860580da0060970769ea86dd"
+			+ "6000000000183afffe80000000000000026097fffe0769eafe80000000000000020086fffe0580da"
+			+ "8800afa5c0000000fe80000000000000026097fffe0769ea"
+			+ ";v6.pcap#4"),
+	
 	;
 
 	/** The array. */
@@ -702,7 +764,7 @@ public enum CoreTestPackets {
 	 *
 	 * @param hexbytes the hexbytes
 	 */
-	CoreTestPackets(String hexbytes) {
+	TestPackets(String hexbytes) {
 		this.array = HexStrings.parseHexString(hexbytes);
 	}
 
@@ -731,6 +793,7 @@ public enum CoreTestPackets {
 	 */
 	public Packet toPacket() {
 		var packet = new Packet(toByteBuffer());
+		packet.descriptor().timestampUnit(TimestampUnit.EPOCH_MILLI);
 
 		return packet;
 	}
