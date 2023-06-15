@@ -24,6 +24,8 @@ import com.slytechs.protocol.meta.Meta;
 import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.constants.CoreId;
+import com.slytechs.protocol.runtime.time.Timestamp;
+import com.slytechs.protocol.runtime.time.TimestampUnit;
 
 /**
  * Frames are small parts of a message in the network.
@@ -232,9 +234,29 @@ public final class Frame extends Header {
 	 *
 	 * @return 64-bit timestamp in capture ports encoding and timestamp units
 	 */
-	@Meta
-	public long timestamp() {
+	@Meta(MetaType.ATTRIBUTE)
+	public long timestampAsLong() {
 		return descriptor.timestamp();
+	}
+
+	/**
+	 * Timestamp unit.
+	 *
+	 * @return the timestamp unit
+	 */
+	@Meta(MetaType.ATTRIBUTE)
+	public TimestampUnit timestampUnit() {
+		return descriptor.timestampUnit();
+	}
+
+	/**
+	 * The timestamp when this packet was captured.
+	 *
+	 * @return a {@code Timestamp} object for current timestamp and timestamp-unit
+	 */
+	@Meta
+	public Timestamp timestamp() {
+		return new Timestamp(timestampAsLong(), timestampUnit());
 	}
 
 	/**
