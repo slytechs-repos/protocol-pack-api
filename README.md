@@ -8,10 +8,10 @@ This module, **core-protocols** is an extension module which provides protocol l
 The **core-protocols** module provides support for the following services:
 - Runtime support for all of the modules using combination of public and private APIs
   - Private APIs are exported to other modules and provide common implementation features across all modules
-  - A small public API is also exported for things like capture `Timestamp` and `TimestampUnit` classes, etc...
+  - A small public API is also exported for things like capture [`Timestamp`][timestamp-src] and [`TimestampUnit`][timestamp-unit-src] classes, etc...
 - Raw packet dissection
   - Advanced packet descriptors store the results of the dissection process after packet capture
-  - Information about the presence of each protocol header is recorded in `PacketDescriptorType.TYPE2`
+  - Information about the presence of each protocol header is recorded in [`PacketDescriptorType.TYPE2`][packet-descriptor-type-src]
 - IP Fragmentation processing
   - IP fragment reassembly into full IP datagrams
   - IP fragment tracking regardless if reassembly is enabled
@@ -52,6 +52,9 @@ Here is a table of all of the protocol definitions provided by this **core-proto
 [phase2]: https://github.com/slytechs-repos/core-protocols/pull/5
 [jnetpcap]: https://github.com/slytechs-repos/jnetpcap
 [jnetpcap-pro]: https://github.com/slytechs-repos/jnetpcap-pro
+[timestamp-src]: https://github.com/slytechs-repos/core-protocols/blob/feature-ipf-processing/src/main/java/com/slytechs/protocol/runtime/time/Timestamp.java
+[timestamp-unit-src]: https://github.com/slytechs-repos/core-protocols/blob/feature-ipf-processing/src/main/java/com/slytechs/protocol/runtime/time/TimestampUnit.java
+[packet-descriptor-type-src]: https://github.com/slytechs-repos/core-protocols/blob/feature-ipf-processing/src/main/java/com/slytechs/protocol/pack/core/constants/PacketDescriptorType.java
 
 ## Status and Updates
 * May 5th, 2023 - Currently working IP fragmentation and reassembly. Check this [pull request #11](https://github.com/slytechs-repos/core-protocols/pull/11) for the latest on IPF support, including some examples!
