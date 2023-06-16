@@ -15,7 +15,7 @@ The **core-protocols** module provides support for the following services:
 - IP Fragmentation processing
   - IP fragment reassembly into full IP datagrams
   - IP fragment tracking regardless if reassembly is enabled
-- A very efficient packet implementation using the `Packet` class
+- A very efficient packet implementation using the [`Packet`][packet-src] class
   - Instrumentation using `MetaPacket` class, similar to java beans
 - Packet formatters, various packet formatters for displaying packet state and fields
   - A pretty print formatter which dumps easy to read details about a packet and its headers
@@ -55,6 +55,7 @@ Here is a table of all of the protocol definitions provided by this **core-proto
 [timestamp-src]: https://github.com/slytechs-repos/core-protocols/blob/feature-ipf-processing/src/main/java/com/slytechs/protocol/runtime/time/Timestamp.java
 [timestamp-unit-src]: https://github.com/slytechs-repos/core-protocols/blob/feature-ipf-processing/src/main/java/com/slytechs/protocol/runtime/time/TimestampUnit.java
 [packet-descriptor-type-src]: https://github.com/slytechs-repos/core-protocols/blob/feature-ipf-processing/src/main/java/com/slytechs/protocol/pack/core/constants/PacketDescriptorType.java
+[packet-src]: https://github.com/slytechs-repos/core-protocols/blob/feature-ipf-processing/src/main/java/com/slytechs/protocol/Packet.java
 
 ## Status and Updates
 * May 5th, 2023 - Currently working IP fragmentation and reassembly. Check this [pull request #11](https://github.com/slytechs-repos/core-protocols/pull/11) for the latest on IPF support, including some examples!
