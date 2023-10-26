@@ -20,6 +20,8 @@ package com.slytechs.protocol.runtime;
 import java.lang.foreign.MemorySegment;
 import java.nio.ByteBuffer;
 
+import com.slytechs.protocol.runtime.internal.foreign.ForeignUtils;
+
 /**
  * Host memory binding base class. This class is designed to be sbuclassed and
  * manages a data binding (a reference) to a data buffer allowing the same
@@ -259,8 +261,8 @@ public abstract class MemoryBinding implements Cloneable, Binding {
 			return false;
 
 		/* If we already know the buffer's memory session, use it */
-		if (address != null)
-			return address.session().isAlive();
+		if (!ForeignUtils.isNullAddress(address))
+			return address.scope().isAlive();
 
 		/*
 		 * Avoid creating a MemorySegment for a direct buffer to just find out the

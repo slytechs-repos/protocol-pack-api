@@ -63,7 +63,10 @@ public interface IntList extends IntCollection {
 	 * @return true, if successful
 	 * @see com.slytechs.protocol.runtime.internal.util.collection.IntCollection#removeInt(int)
 	 */
+	@Override
 	boolean removeInt(int index);
+	
+	int getInt(int index);
 	
 	/**
 	 * Sets the.

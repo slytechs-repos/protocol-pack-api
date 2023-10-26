@@ -32,7 +32,8 @@ import com.slytechs.protocol.runtime.util.Detail;
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
  */
-public record DisplayInfo(String value, String label, Detail detail, String[] hide, String[] multiline) implements MetaInfoType {
+public record DisplayInfo(String value, String label, Detail detail, String[] hide, String[] multiline) implements
+		MetaInfoType {
 
 	/** The Constant EMPTY_HEADER_DEFAULT_DISPLAY. */
 	@Display(label = "", value = "")
@@ -138,5 +139,14 @@ public record DisplayInfo(String value, String label, Detail detail, String[] hi
 			return metaInfo.name();
 
 		return label;
+	}
+
+	/**
+	 * Checks if is multiline.
+	 *
+	 * @return true, if is multiline
+	 */
+	public boolean isMultiline() {
+		return multiline.length > 0;
 	}
 }

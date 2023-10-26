@@ -22,6 +22,7 @@ import java.nio.ByteBuffer;
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.descriptor.PacketDescriptor;
 import com.slytechs.protocol.meta.Meta;
+import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.CoreId;
@@ -46,7 +47,7 @@ import com.slytechs.protocol.runtime.util.HexStrings;
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
-@MetaResource("ethernet-meta.json")
+@MetaResource("ethernet-experimental-meta.json")
 public final class Ethernet extends Header {
 
 	/** Core protocol pack assigned header ID. */
@@ -128,8 +129,8 @@ public final class Ethernet extends Header {
 	}
 
 	/**
-	 * Computes the frame's CRC value based on {@link #destination()},
-	 * {@link #source()}, {@link #type()} and {@code Payload} data fields.
+	 * Computes the frame's CRC value based on {@link #dst()}, {@link #src()},
+	 * {@link #type()} and {@code Payload} data fields.
 	 *
 	 * @return the long
 	 */
@@ -168,9 +169,9 @@ public final class Ethernet extends Header {
 	 * @return MAC address
 	 * @see HexStrings#toMacString(byte[])
 	 */
-	@Meta
-	public byte[] destination() {
-		return destination(new byte[CoreConstants.ETHER_FIELD_DST_LEN], 0);
+	@Meta(offset = 0, length = 6)
+	public byte[] dst() {
+		return dst(new byte[CoreConstants.ETHER_FIELD_DST_LEN], 0);
 	}
 
 	/**
@@ -181,8 +182,8 @@ public final class Ethernet extends Header {
 	 * @return MAC address
 	 * @see HexStrings#toMacString(byte[])
 	 */
-	public byte[] destination(byte[] dst) {
-		return destination(dst, 0);
+	public byte[] dst(byte[] dst) {
+		return dst(dst, 0);
 	}
 
 	/**
@@ -195,10 +196,15 @@ public final class Ethernet extends Header {
 	 * @return MAC address
 	 * @see HexStrings#toMacString(byte[])
 	 */
-	public byte[] destination(byte[] dst, int offset) {
+	public byte[] dst(byte[] dst, int offset) {
 		buffer().get(CoreConstants.ETHER_FIELD_DST, dst, offset, CoreConstants.ETHER_FIELD_DST_LEN);
 
 		return dst;
+	}
+
+	@Meta(MetaType.ATTRIBUTE)
+	public long dstAsLong() {
+		return MacAddress.getAsLong(0, buffer());
 	}
 
 	/**
@@ -208,7 +214,7 @@ public final class Ethernet extends Header {
 	 * @return MAC address model
 	 */
 	public MacAddress dstGetAsAddress() {
-		return new MacAddress(destination());
+		return new MacAddress(dst());
 	}
 
 	/**
@@ -217,8 +223,18 @@ public final class Ethernet extends Header {
 	 *
 	 * @return MAC address stored in the first 6 LSB bytes of the long primitive
 	 */
-	public long dstGetAsLong() {
-		return buffer().getLong(CoreConstants.ETHER_FIELD_DST) & ETHER_FIELD_DST_MASK64;
+	public int dstGetAsLong() {
+		return buffer().getInt(CoreConstants.ETHER_FIELD_DST);
+	}
+
+	@Meta(value = MetaType.ATTRIBUTE, abbr = "g")
+	public int dstGloballyUniqueAddress() {
+		return buffer().get(0) >> 1;
+	}
+
+	@Meta(value = MetaType.ATTRIBUTE, abbr = "u")
+	public int dstIndividualAddress() {
+		return buffer().get(0) >> 0;
 	}
 
 	/**
@@ -228,6 +244,16 @@ public final class Ethernet extends Header {
 	 */
 	public boolean isCrcPresent() {
 		return crcFlag;
+	}
+
+	@Meta(MetaType.ATTRIBUTE)
+	public boolean isDstGBitSet() {
+		return dstGloballyUniqueAddress() != 0;
+	}
+
+	@Meta(MetaType.ATTRIBUTE)
+	public boolean isDstUBitSet() {
+		return dstIndividualAddress() != 0;
 	}
 
 	/**
@@ -297,9 +323,9 @@ public final class Ethernet extends Header {
 	 *
 	 * @return MAC address
 	 */
-	@Meta
-	public byte[] source() {
-		return source(new byte[CoreConstants.ETHER_FIELD_SRC_LEN], 0);
+	@Meta(offset = 6, length = 6)
+	public byte[] src() {
+		return src(new byte[CoreConstants.ETHER_FIELD_SRC_LEN], 0);
 	}
 
 	/**
@@ -310,8 +336,8 @@ public final class Ethernet extends Header {
 	 * @param dst the destination array where the MAC address will to written to
 	 * @return MAC address
 	 */
-	public byte[] source(byte[] dst) {
-		return source(dst, 0);
+	public byte[] src(byte[] dst) {
+		return src(dst, 0);
 	}
 
 	/**
@@ -324,10 +350,15 @@ public final class Ethernet extends Header {
 	 *               address
 	 * @return MAC address
 	 */
-	public byte[] source(byte[] dst, int offset) {
+	public byte[] src(byte[] dst, int offset) {
 		buffer().get(CoreConstants.ETHER_FIELD_SRC, dst, offset, CoreConstants.ETHER_FIELD_SRC_LEN);
 
 		return dst;
+	}
+
+	@Meta(MetaType.ATTRIBUTE)
+	public long srcAsLong() {
+		return MacAddress.getAsLong(6, buffer());
 	}
 
 	/**
@@ -349,7 +380,7 @@ public final class Ethernet extends Header {
 	 * @return MAC address model
 	 */
 	public MacAddress srcGetAsMacAddress() {
-		return new MacAddress(source());
+		return new MacAddress(src());
 	}
 
 	/**
@@ -360,7 +391,7 @@ public final class Ethernet extends Header {
 	 *
 	 * @return ether type constant
 	 */
-	@Meta
+	@Meta(formatter = Meta.Formatter.HEX_LOWERCASE_0x, offset = 12, length = 2)
 	public int type() {
 		return Short.toUnsignedInt(buffer().getShort(CoreConstants.ETHER_FIELD_TYPE));
 	}

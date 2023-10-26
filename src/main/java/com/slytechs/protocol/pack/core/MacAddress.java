@@ -43,6 +43,10 @@ import com.slytechs.protocol.pack.core.constants.MacOuiAssignments.OuiEntry;
  */
 public class MacAddress implements NetAddress {
 	
+	public static long getAsLong(int index, ByteBuffer buffer) {
+		return (buffer.getLong(index) >> 16) & 0x0000_FFFF_FFFF_FFFFL;
+	}
+	
 	public static MacAddress get(int index, ByteBuffer buffer) {
 		byte[] addr = new byte[MacAddress.MAC_ADDRESS_SIZE];
 

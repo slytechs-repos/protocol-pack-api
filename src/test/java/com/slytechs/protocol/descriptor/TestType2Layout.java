@@ -26,7 +26,6 @@ import java.util.Random;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 
@@ -52,7 +51,7 @@ class TestType2Layout {
 		RANDOM.nextBytes(buf2.array());
 	}
 
-	@Test
+	//@Test
 	@RepeatedTest(value = REPEAT_TIMESTAMP)
 	void test_timestamp() {
 		final long VALUE = RANDOM.nextLong();
@@ -65,7 +64,7 @@ class TestType2Layout {
 		assertEquals(VALUE, LAYOUT.getLong(buf2));
 	}
 
-	@Test
+	//@Test
 	@RepeatedTest(value = REPEAT)
 	void test_CAPLEN() {
 		final int VALUE = RANDOM.nextInt(0, KILOBYTES.toBytesAsInt(64));
@@ -78,7 +77,7 @@ class TestType2Layout {
 		assertEquals(VALUE, LAYOUT.getUnsignedInt(buf2));
 	}
 
-	@Test
+	//@Test
 	@RepeatedTest(value = REPEAT)
 	void test_RX_PORT() {
 		final Type2DescriptorLayout LAYOUT = RX_PORT;
@@ -91,7 +90,7 @@ class TestType2Layout {
 		assertEquals(VALUE, LAYOUT.getUnsignedInt(buf2));
 	}
 
-	@Test
+	//@Test
 	@RepeatedTest(value = REPEAT)
 	void test_TX_PORT() {
 		final Type2DescriptorLayout LAYOUT = TX_PORT;
@@ -104,7 +103,7 @@ class TestType2Layout {
 		assertEquals(VALUE, LAYOUT.getUnsignedInt(buf2));
 	}
 
-	@Test
+	//@Test
 	@RepeatedTest(value = REPEAT)
 	void test_WIRELEN() {
 		final Type2DescriptorLayout LAYOUT = WIRELEN;
@@ -117,7 +116,7 @@ class TestType2Layout {
 		assertEquals(VALUE, LAYOUT.getUnsignedInt(buf2));
 	}
 
-	@Test
+	//@Test
 	@RepeatedTest(value = REPEAT)
 	void test_TX_NOW() {
 		final Type2DescriptorLayout LAYOUT = TX_NOW;
@@ -130,7 +129,7 @@ class TestType2Layout {
 		assertEquals(VALUE, LAYOUT.getUnsignedInt(buf2));
 	}
 
-	@Test
+	//@Test
 	@RepeatedTest(value = REPEAT)
 	void test_TX_IGNORE() {
 		final Type2DescriptorLayout LAYOUT = TX_IGNORE;
@@ -143,7 +142,7 @@ class TestType2Layout {
 		assertEquals(VALUE, LAYOUT.getUnsignedInt(buf2));
 	}
 
-	@Test
+	//@Test
 	@RepeatedTest(value = REPEAT)
 	void test_TX_CRC_OVERRIDE() {
 		final Type2DescriptorLayout LAYOUT = TX_CRC_OVERRIDE;
@@ -156,7 +155,7 @@ class TestType2Layout {
 		assertEquals(VALUE, LAYOUT.getUnsignedInt(buf2));
 	}
 
-	@Test
+	//@Test
 	@RepeatedTest(value = REPEAT)
 	void test_TX_SET_CLOCK() {
 		final Type2DescriptorLayout LAYOUT = TX_SET_CLOCK;
@@ -169,7 +168,7 @@ class TestType2Layout {
 		assertEquals(VALUE, LAYOUT.getUnsignedInt(buf2));
 	}
 
-	@Test
+	//@Test
 	@RepeatedTest(value = REPEAT)
 	void test_L2_TYPE() {
 		final Type2DescriptorLayout LAYOUT = L2_TYPE;
@@ -182,7 +181,7 @@ class TestType2Layout {
 		assertEquals(VALUE, LAYOUT.getUnsignedInt(buf2));
 	}
 
-	@Test
+	//@Test
 	@RepeatedTest(value = REPEAT)
 	void test_HASH_TYPE() {
 		final Type2DescriptorLayout LAYOUT = HASH_TYPE;
@@ -195,7 +194,7 @@ class TestType2Layout {
 		assertEquals(VALUE, LAYOUT.getUnsignedInt(buf2));
 	}
 
-	@Test
+	//@Test
 	@RepeatedTest(value = REPEAT)
 	void test_RECORD_COUNT() {
 		final Type2DescriptorLayout LAYOUT = RECORD_COUNT;
@@ -208,7 +207,7 @@ class TestType2Layout {
 		assertEquals(VALUE, LAYOUT.getUnsignedInt(buf2));
 	}
 
-	@Test
+	//@Test
 	@RepeatedTest(value = REPEAT)
 	void test_L3_IS_FRAG() {
 		final Type2DescriptorLayout LAYOUT = L3_IS_FRAG;
@@ -221,7 +220,7 @@ class TestType2Layout {
 		assertEquals(VALUE, LAYOUT.getUnsignedInt(buf2));
 	}
 
-	@Test
+	//@Test
 	@RepeatedTest(value = REPEAT)
 	void test_L3_LAST_FRAG() {
 		final Type2DescriptorLayout LAYOUT = RECORD_COUNT;
@@ -234,7 +233,7 @@ class TestType2Layout {
 		assertEquals(VALUE, LAYOUT.getUnsignedInt(buf2));
 	}
 
-	@Test
+	//@Test
 	@RepeatedTest(value = REPEAT)
 	void test_L3_HASH24() {
 		final Type2DescriptorLayout LAYOUT = RECORD_COUNT;
@@ -247,7 +246,7 @@ class TestType2Layout {
 		assertEquals(VALUE, LAYOUT.getUnsignedInt(buf2));
 	}
 
-	@Test
+	//@Test
 	@RepeatedTest(value = REPEAT)
 	void test_BITMASK() {
 		final Type2DescriptorLayout LAYOUT = RECORD_COUNT;

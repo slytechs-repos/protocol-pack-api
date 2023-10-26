@@ -70,9 +70,9 @@ public final class Vlan extends Header {
 	 *
 	 * @return 3-bit pri value
 	 */
-	@Meta
+	@Meta(offset = 0, length = 1)
 	public int priority() {
-		return VlanLayout.PRI.getInt(buffer());
+		return VlanLayout.PRI.getUnsignedShort(buffer());
 	}
 
 	/**
@@ -89,9 +89,9 @@ public final class Vlan extends Header {
 	 *
 	 * @return the 1-bit cfi value
 	 */
-	@Meta
+	@Meta(offset = 0, length = 1)
 	public int formatIdentifier() {
-		return VlanLayout.CFI.getInt(buffer());
+		return VlanLayout.CFI.getUnsignedShort(buffer());
 	}
 
 	/**
@@ -104,9 +104,13 @@ public final class Vlan extends Header {
 	 *
 	 * @return the 12-bit VID value.
 	 */
-	@Meta
+	@Meta(offset = 0, length = 2)
 	public int vlanId() {
-		return VlanLayout.VID.getInt(buffer());
+		return VlanLayout.VID.getUnsignedShort(buffer());
 	}
 
+	@Meta(offset = 2, length = 2)
+	public int type() {
+		return VlanLayout.TYPE.getUnsignedShort(buffer());
+	}
 }

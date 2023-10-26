@@ -47,6 +47,7 @@ public abstract class PacketDescriptor
 	private int flags;
 
 	/** The timestamp unit. */
+	@Meta(MetaType.ATTRIBUTE)
 	private TimestampUnit timestampUnit = TimestampUnit.PCAP_MICRO;
 
 	/**

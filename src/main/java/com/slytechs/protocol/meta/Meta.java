@@ -50,6 +50,7 @@ public @interface Meta {
 		 * any field from any meta element.
 		 */
 		ATTRIBUTE,
+
 	}
 
 	/**
@@ -156,4 +157,11 @@ public @interface Meta {
 	 */
 	MetaType value() default MetaType.FIELD;
 
+	int offset() default -1;
+
+	String offsetRef() default "offset";
+
+	int length() default -1;
+
+	String lengthRef() default "length";
 }

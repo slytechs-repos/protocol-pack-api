@@ -24,6 +24,7 @@ import java.util.logging.Logger;
 
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.Packet;
+import com.slytechs.protocol.runtime.internal.util.collection.IntArrayList;
 import com.slytechs.protocol.runtime.util.Detail;
 import com.slytechs.protocol.runtime.util.HexStrings;
 
@@ -44,8 +45,17 @@ public final class PacketFormat extends MetaFormat {
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -729988509291767979L;
 
+	private static boolean arrayContains(String[] array, String value) {
+		for (int i = 0; i < array.length; i++)
+			if (array[i].equals(value))
+				return true;
+
+		return false;
+	}
+
 	/** The field line. */
 	private final String fieldLineFormatString;
+
 	private final String fieldMultilineFormatString;
 
 	/**
@@ -99,6 +109,32 @@ public final class PacketFormat extends MetaFormat {
 	}
 
 	/**
+	 * Find domain.
+	 *
+	 * @param name the name
+	 * @return the meta domain
+	 * @see com.slytechs.protocol.meta.MetaDomain#findDomain(java.lang.String)
+	 */
+	@Override
+	public MetaDomain findDomain(String name) {
+		return null;
+	}
+
+	/**
+	 * Find key.
+	 *
+	 * @param <K> the key type
+	 * @param <V> the value type
+	 * @param key the key
+	 * @return the optional
+	 * @see com.slytechs.protocol.meta.MetaDomain#findKey(java.lang.Object)
+	 */
+	@Override
+	public <K, V> Optional<V> findKey(K key) {
+		return Optional.empty();
+	}
+
+	/**
 	 * Format field.
 	 *
 	 * @param field      the field
@@ -117,6 +153,7 @@ public final class PacketFormat extends MetaFormat {
 		var label = display.label(meta);
 		var displayFormat = display.value();
 		var valueArgs = buildDisplayArgs(field.getParentHeader(), field, displayFormat);
+		var argLengths = new IntArrayList();
 
 		try {
 			if (label.equals("HEXDUMP")) {
@@ -124,7 +161,7 @@ public final class PacketFormat extends MetaFormat {
 				return formatHexdump(field, toAppendTo);
 			}
 
-			displayFormat = super.rewriteDisplayArgs(displayFormat);
+			displayFormat = super.rewriteFormatString(displayFormat, argLengths);
 
 //		System.out.printf("formatField::%s displayFormat=%s, args=%s%n", 
 //				field.name(), 
@@ -143,43 +180,50 @@ public final class PacketFormat extends MetaFormat {
 			return toAppendTo;
 		} catch (Throwable e) {
 			LOGGER.log(Level.FINE, "Meta (resource) error", e);
-			throw new IllegalStateException("Field '%s.%s': %s [fmt=%s, args=%s]"
+			throw new IllegalStateException("Field '%s.%s': %s [printf=%s, args=%s]"
 					.formatted(field.getParentHeader().name(), field.name(), e
 							.getMessage(), displayFormat, Arrays.asList(valueArgs)));
 		}
 	}
 
-	private StringBuilder formatFieldMultiline(String label, MetaField field, String[] multiline,
+	private StringBuilder formatFieldMultiline(
+			String label,
+			MetaField field,
+			String[] multiline,
 			StringBuilder toAppendTo) {
 
-		for (String displayFormat : multiline) {
+		for (int i = 1; i < multiline.length; i++) {
+			String displayFormat = multiline[i];
+			Object[] valueArgs = null;
+			var argLengths = new IntArrayList();
 
-			toAppendTo.append("\n");
+			try {
 
-			var valueArgs = buildDisplayArgs(field.getParentHeader(), field, displayFormat);
-			displayFormat = super.rewriteDisplayArgs(displayFormat);
+				valueArgs = buildDisplayArgs(field.getParentHeader(), field, displayFormat);
+				displayFormat = super.rewriteFormatString(displayFormat, argLengths);
 
-			var valueComponent = displayFormat.formatted(valueArgs);
-			var line = fieldMultilineFormatString.formatted("", valueComponent);
+				var valueComponent = displayFormat.formatted(valueArgs);
+				var line = fieldMultilineFormatString.formatted("", valueComponent);
 
-			formatLeft(label, toAppendTo);
-			toAppendTo.append(line);
+				formatLeft(label, toAppendTo);
+				toAppendTo.append(line);
 
+				toAppendTo.append("\n");
+			} catch (Throwable e) {
+				LOGGER.log(Level.FINE, "Meta (resource) error", e);
+				e.printStackTrace();
+				throw new IllegalStateException("Field '%s.%s': %s [fmt=%s, args=%s]"
+						.formatted(field.getParentHeader().name(), field.name(), e
+								.getMessage(), displayFormat, Arrays.asList(valueArgs)));
+			}
 		}
 
 		return toAppendTo;
+
 	}
 
 	public StringBuilder formatHeader(Header header, StringBuilder toAppendTo, Detail detail) {
 		return formatHeader(new MetaHeader(this, header), toAppendTo, detail);
-	}
-
-	private static boolean arrayContains(String[] array, String value) {
-		for (int i = 0; i < array.length; i++)
-			if (array[i].equals(value))
-				return true;
-
-		return false;
 	}
 
 	/**
@@ -191,21 +235,25 @@ public final class PacketFormat extends MetaFormat {
 	 * @return the string builder
 	 */
 	public StringBuilder formatHeader(MetaHeader header, StringBuilder toAppendTo, Detail detail) {
-		var display = header.getMeta(DisplaysInfo.class).select(detail);
-		if (display == null) // Not visible
+		var headerDisplay = header.getMeta(DisplaysInfo.class).select(detail);
+		if (headerDisplay == null) // Not visible
 			return toAppendTo;
 
 		var meta = header.getMeta(MetaInfo.class);
 		var fields = header.listFields();
-		var label = display.label(meta);
+		var label = headerDisplay.label(meta);
 
-		var hide = display.hide();
+		var hide = headerDisplay.hide();
 
-		if (!display.value().isBlank()) {
+		if (!headerDisplay.value().isBlank()) {
 			formatLeft(label, toAppendTo)
 					.append("  + ");
 
 			formatSummary(header, toAppendTo, detail);
+
+			if (headerDisplay.isMultiline()) {
+				formatHeaderMultiline(label, "  ", header, headerDisplay.multiline(), toAppendTo);
+			}
 		}
 
 //		formatLeft(label, toAppendTo).append("\n");
@@ -214,19 +262,63 @@ public final class PacketFormat extends MetaFormat {
 			if (!field.isDisplayable(detail) || arrayContains(hide, field.name()))
 				continue;
 
-			formatLeft(label, toAppendTo);
-
-			formatField(field, toAppendTo, detail);
-
 			var fieldDisplay = field.getMeta(DisplaysInfo.class).select(detail);
-			formatFieldMultiline(label, field, fieldDisplay.multiline(), toAppendTo);
 
-			toAppendTo
-					.append("\n");
+			if (!fieldDisplay.value().isEmpty()) {
+				formatLeft(label, toAppendTo);
+				formatField(field, toAppendTo, detail);
+				toAppendTo.append("\n");
+			}
+
+			if (fieldDisplay.isMultiline()) {
+				formatFieldMultiline(label, field, fieldDisplay.multiline(), toAppendTo);
+			}
+
 		}
 		formatLeft(label, toAppendTo).append("\n");
 
 		return toAppendTo;
+	}
+
+	private StringBuilder formatHeaderMultiline(
+			String label,
+			String prefix,
+			MetaHeader header,
+			String[] multiline,
+			StringBuilder toAppendTo) {
+
+		int i;
+		for (i = 1; i < multiline.length; i++) {
+			String displayFormat = multiline[i];
+			Object[] valueArgs = null;
+			var argLengths = new IntArrayList();
+
+			try {
+
+				valueArgs = buildDisplayArgs(header, header, displayFormat);
+				displayFormat = super.rewriteFormatString(displayFormat, argLengths);
+
+				valueArgs = rewriteArgsCenterAlign(valueArgs, argLengths);
+
+				var valueComponent = displayFormat.formatted(valueArgs);
+
+				formatLeft(label, toAppendTo);
+				toAppendTo
+						.append(prefix)
+						.append(valueComponent);
+
+				toAppendTo.append("\n");
+			} catch (Throwable e) {
+				LOGGER.log(Level.FINE, "Meta (resource) error", e);
+				e.printStackTrace();
+				throw new IllegalStateException("Field '%s::meta[%d]': %s [fmt=%s, args=%s]"
+						.formatted(header.name(), i, e
+								.getMessage(), displayFormat, Arrays.asList(valueArgs)));
+			}
+		}
+
+		return toAppendTo;
+
 	}
 
 	/**
@@ -242,6 +334,17 @@ public final class PacketFormat extends MetaFormat {
 				toAppendTo,
 				array,
 				HexStrings.DEFAULT_HEXDUMP_PREFIX);
+	}
+
+	/**
+	 * Format hexdump.
+	 *
+	 * @param header the header
+	 * @return the string
+	 */
+	public String formatHexdump(Header header) {
+		return formatHexdump(new MetaHeader(this, header));
+
 	}
 
 	/**
@@ -276,17 +379,6 @@ public final class PacketFormat extends MetaFormat {
 	 * @param header the header
 	 * @return the string
 	 */
-	public String formatHexdump(Header header) {
-		return formatHexdump(new MetaHeader(this, header));
-
-	}
-
-	/**
-	 * Format hexdump.
-	 *
-	 * @param header the header
-	 * @return the string
-	 */
 	public String formatHexdump(MetaHeader header) {
 		return formatHexdump(header, new StringBuilder()).toString();
 	}
@@ -312,16 +404,6 @@ public final class PacketFormat extends MetaFormat {
 	 * @param packet the packet
 	 * @return the string
 	 */
-	public String formatHexdump(Packet packet) {
-		return formatHexdump(new MetaPacket(this, packet));
-	}
-
-	/**
-	 * Format hexdump.
-	 *
-	 * @param packet the packet
-	 * @return the string
-	 */
 	public String formatHexdump(MetaPacket packet) {
 		return formatHexdump(packet, new StringBuilder()).toString();
 	}
@@ -339,6 +421,16 @@ public final class PacketFormat extends MetaFormat {
 		packet.buffer().get(0, array);
 
 		return formatHexdump(array, offset, toAppendTo);
+	}
+
+	/**
+	 * Format hexdump.
+	 *
+	 * @param packet the packet
+	 * @return the string
+	 */
+	public String formatHexdump(Packet packet) {
+		return formatHexdump(new MetaPacket(this, packet));
 	}
 
 	/**
@@ -387,18 +479,6 @@ public final class PacketFormat extends MetaFormat {
 	 * @param detail     the detail
 	 * @return the string builder
 	 */
-	public StringBuilder formatPacket(Packet packet, StringBuilder toAppendTo, Detail detail) {
-		return formatPacket(new MetaPacket(this, packet), toAppendTo, detail);
-	}
-
-	/**
-	 * Format packet.
-	 *
-	 * @param packet     the packet
-	 * @param toAppendTo the to append to
-	 * @param detail     the detail
-	 * @return the string builder
-	 */
 	public StringBuilder formatPacket(MetaPacket packet, StringBuilder toAppendTo, Detail detail) {
 		var display = packet.getMeta(DisplaysInfo.class).select(detail);
 		if (display == null) // Not visible
@@ -419,6 +499,18 @@ public final class PacketFormat extends MetaFormat {
 	}
 
 	/**
+	 * Format packet.
+	 *
+	 * @param packet     the packet
+	 * @param toAppendTo the to append to
+	 * @param detail     the detail
+	 * @return the string builder
+	 */
+	public StringBuilder formatPacket(Packet packet, StringBuilder toAppendTo, Detail detail) {
+		return formatPacket(new MetaPacket(this, packet), toAppendTo, detail);
+	}
+
+	/**
 	 * Format summary.
 	 *
 	 * @param element    the element
@@ -436,7 +528,8 @@ public final class PacketFormat extends MetaFormat {
 			return toAppendTo;
 
 		var args = super.buildDisplayArgs(element, element, displayFormat);
-		displayFormat = super.rewriteDisplayArgs(displayFormat);
+		var argLengths = new IntArrayList();
+		displayFormat = super.rewriteFormatString(displayFormat, argLengths);
 
 		try {
 			var summaryLine = displayFormat.formatted(args);
@@ -484,32 +577,6 @@ public final class PacketFormat extends MetaFormat {
 	@Override
 	public MetaDomain parent() {
 		return Global.get();
-	}
-
-	/**
-	 * Find key.
-	 *
-	 * @param <K> the key type
-	 * @param <V> the value type
-	 * @param key the key
-	 * @return the optional
-	 * @see com.slytechs.protocol.meta.MetaDomain#findKey(java.lang.Object)
-	 */
-	@Override
-	public <K, V> Optional<V> findKey(K key) {
-		return Optional.empty();
-	}
-
-	/**
-	 * Find domain.
-	 *
-	 * @param name the name
-	 * @return the meta domain
-	 * @see com.slytechs.protocol.meta.MetaDomain#findDomain(java.lang.String)
-	 */
-	@Override
-	public MetaDomain findDomain(String name) {
-		return null;
 	}
 
 }

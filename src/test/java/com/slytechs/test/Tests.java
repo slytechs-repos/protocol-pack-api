@@ -17,9 +17,12 @@
  */
 package com.slytechs.test;
 
+import java.io.PrintStream;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import org.junit.jupiter.api.TestInfo;
 
 /**
  * Utility jUnit test methods.
@@ -28,6 +31,15 @@ import java.util.logging.Logger;
  * @author repos@slytechs.com
  */
 public final class Tests {
+
+	public static final boolean VERBOSE = false;
+	public static final PrintStream out = VERBOSE
+			? System.out
+			: new PrintStream(PrintStream.nullOutputStream());
+
+	public static final PrintStream err = VERBOSE
+			? System.err
+			: new PrintStream(PrintStream.nullOutputStream());
 
 	/**
 	 * Enable console logging at specified level.
@@ -43,6 +55,10 @@ public final class Tests {
 		anonymouslogger.addHandler(consolehandler);
 		anonymouslogger.setUseParentHandlers(false);
 		anonymouslogger.setLevel(level);
+	}
+
+	public static void displayTestName(TestInfo info) {
+		Tests.out.printf("---- %s ----%n", info.getDisplayName());
 	}
 
 	/**

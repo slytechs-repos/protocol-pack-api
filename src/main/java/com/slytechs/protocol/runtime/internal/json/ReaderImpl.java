@@ -78,7 +78,7 @@ class ReaderImpl implements JsonReader {
 	@Override
 	public JsonArray readArray() throws JsonException {
 
-		ArrayImpl array = new ArrayImpl();
+		JsonArrayImpl array = new JsonArrayImpl();
 		do {
 			skipChar();
 			skipWhitespace();

@@ -1,0 +1,41 @@
+{
+	"Ethernet": {
+		"HIGH,MEDIUM,LOW": "Ethernet II, src: %{src:R1}s dst: %{dst:R1}s offset=%{offset},d length=%{length},d",
+		"DEBUG": [
+			"Ethernet II, src: %{source:R1}s dst: %{destination:R1}s offset=%{offset},d length=%{length},d",
+			" 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|           |G|U|                                               |",
+			"+    Destination MAC Address    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|                               |           |G|U|               |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+     Source MAC Address        +",
+			"|                                                               |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|             Type              |  Data ...                      ",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                "
+		],
+		"TRACE": [
+			"Ethernet II, src: %{src:R1}s dst: %{dst:R1}s offset=%{offset},d length=%{length},d",
+			" 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|           |$1g|$1u|                $47-                       |",
+			"+             $dst              +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|                               |           |$1g|$1u|    $15-   |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+              $src             +",
+			"|                                                               |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|            $type              |  Data ...                      ",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                "
+		]
+	},
+	"DEBUG,HIGH,MEDIUM,LOW": {
+		"dst;Destination Address": "%{:ETHER_MAC_OUI_NAME_PREFIXED}s (%{:F}s)",
+		"src;Source Address": "%{:ETHER_MAC_OUI_NAME_PREFIXED}s (%{:F}s)",
+		"type;Type": "%{:ETHER_TYPE}s (0x%{}04X)"
+	},
+	"TRACE": {
+		"dst;Destination Address": "%{:ETHER_MAC_OUI_NAME_PREFIXED}s (%{:F}s)",
+		"src;Source Address": "%{:ETHER_MAC_OUI_NAME_PREFIXED}s (%{:F}s)",
+		"type;Type": "%{:ETHER_TYPE}s (0x%{}04X)"
+	}
+}

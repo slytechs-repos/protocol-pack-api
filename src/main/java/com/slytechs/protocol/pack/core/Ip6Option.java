@@ -28,7 +28,7 @@ import com.slytechs.protocol.pack.core.constants.Ip6IdOption;
  */
 @MetaResource("ip6-option-meta.json")
 public sealed class Ip6Option extends IpOption
-		permits Ip6OptRouterAlert, Ip6JumboPayloadOption, Ip6Pad1Option, Ip6PadnOptioin {
+		permits Ip6RouterAlertOption, Ip6JumboPayloadOption, Ip6Pad1Option, Ip6PadnOptioin {
 
 	public static final int ID = Ip6IdOption.IPv6_ID_OPT_HEADER;
 

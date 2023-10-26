@@ -51,9 +51,9 @@ class ReflectedField extends ReflectedMember {
 	/**
 	 * Parses the fields recursively.
 	 *
-	 * @param cl         the cl
-	 * @param list       the list
-	 * @param jsonFields the json fields
+	 * @param cl          the cl
+	 * @param list        the list
+	 * @param jsonFields  the json fields
 	 */
 	public static void parseFieldsRecursively(Class<?> cl, List<ReflectedField> list, JsonObject jsonFields) {
 		if (cl.getSuperclass() == Object.class)
@@ -71,8 +71,8 @@ class ReflectedField extends ReflectedMember {
 	/**
 	 * Parses the field.
 	 *
-	 * @param field      the field
-	 * @param jsonFields the json fields
+	 * @param field       the field
+	 * @param jsonFields  the json fields
 	 * @return the reflected field
 	 */
 	private static ReflectedField parseField(Field field, JsonObject jsonFields) {

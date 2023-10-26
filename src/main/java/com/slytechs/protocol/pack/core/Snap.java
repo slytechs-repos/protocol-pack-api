@@ -66,7 +66,7 @@ public final class Snap extends Header {
 	 * 
 	 * @return 3-byte vendor code
 	 */
-	@Meta
+	@Meta(offset = 0, length = 3)
 	public byte[] oui() {
 		return SnapLayout.OUI.getByteArray(buffer());
 	}
@@ -76,7 +76,7 @@ public final class Snap extends Header {
 	 *
 	 * @return the 2-byte local code
 	 */
-	@Meta
+	@Meta(offset = 3, length = 2)
 	public int pid() {
 		return SnapLayout.PID.getUnsignedShort(buffer());
 	}

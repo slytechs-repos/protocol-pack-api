@@ -21,6 +21,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.slytechs.test.Tests;
+
 /**
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
@@ -45,7 +47,7 @@ class TestPacks {
 
 	@Test
 	void listAllDeclaredPacks() {
-		Pack.listAllDeclaredPacks().forEach(System.out::println);
+		Pack.listAllDeclaredPacks().forEach(Tests.out::println);
 	}
 
 }

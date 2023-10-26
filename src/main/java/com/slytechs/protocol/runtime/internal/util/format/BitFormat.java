@@ -127,7 +127,8 @@ public class BitFormat extends Format {
 
 		bitPattern = bitPattern
 				.replaceAll("\s", "") // Remove whitespace
-				.replaceAll("[^\\" + offChar + "]", "1") // Anything but 'offChar' with '1'
+				
+				.replaceAll("[^" + offChar + "0]", "1") // Anything but 'offChar' with '1'
 				.replace(offChar, '0'); // Replace offChar with '0'
 
 		return Long.parseLong(bitPattern, 2); // Simply parse the binary string to get a mask
@@ -268,8 +269,10 @@ public class BitFormat extends Format {
 
 			if (ch == '1')
 				b.append(bit ? ch : '0');
-			else
+			else if (ch != '.')
 				b.append(bit ? ch : offChar);
+			else
+				b.append('.');
 
 		}
 

@@ -1,0 +1,81 @@
+{
+	"IPv4;200": {
+		"LOW": "%{src:F}s -> %{dst:F}s > %{protocol:R1}s",
+		"MEDIUM": "Internet Protocol Version 4",
+		"HIGH": "Internet Protocol Version 4, offset=%{offset}d, length=%{length}d",
+		"DEBUG": [
+			"Internet Protocol Version 4, offset=%{offset}d, length=%{length}d",
+			" 0                   1                   2                   3   ",
+			" 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 ",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|Version|  IHL  |Type of Service|          Total Length         |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|         Identification        |Flags|      Fragment Offset    |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|  Time to Live |    Protocol   |         Header Checksum       |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|                       Source Address                          |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|                    Destination Address                        |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
+		],
+		"TRACE": [
+			"Internet Protocol Version 4, offset=%{offset}d, length=%{length}d",
+			" 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 ",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"| $ver  | $ihl  |     $tos      |              $len             |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|            $ident             |$flg |        $off             |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|    $ttl       |    $proto     |              $crc             |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|                             $src                              |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|                             $dst                              |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
+		]
+	},
+	"TRACE,DEBUG,HIGH": {
+		"version;Version": [
+			"%{}d",
+			"%{header[0]:$1111 ....}s = Version: %{}d"
+		],
+		"hdrLen;Header Length": [
+			"%{hdrLen}d [%{header[0]}d*4 = %{hdrLenBytes}d bytes]",
+			"%{header[0]:$.... 1111}s = Header Length: %{hdrLenBytes}d bytes (%{header[0]}d)"
+		],
+		"trafficClass;Traffic class": [
+			"0x%{}02x [DSCP: %{trafficDscpName}s, ECN: %{trafficDscpAbbr}s]",
+			"%{:$1111 11..}s = Differentiated Services Codepoint: %{trafficDscp:[@DiffServDscp.class]}s (%{trafficDscp}d)",
+			"%{:$.... ..11}s = Explicit Congestion Notification: %{trafficEcn:[@DiffServEcn.class]}s (%{trafficEcn}d)"
+		],
+		"totalLength;Total Length": "%{}d bytes",
+		"identification;Identification": "0x%{}04X (%{}d)",
+		"flags;Flags": [
+			"0x%{}x %{flagsEnum}s",
+			"%{header[6:2]:$111. .... .... ....}s = Flags: 0x%{}x (%{flags:$RDM$•}s)"
+		],
+		"fragOffset;Fragment Offset": [
+			"%{}d [%{}d*8 = %{fragOffsetBytes}d bytes]]",
+			"%{:$...1 1111 1111 1111}s = Fragment Offset: %{fragOffset}d"
+		],
+		"ttl;Time to Live": "%{}d",
+		"protocol;Protocol": "%{:IP_TYPE}s (%{}d)",
+		"checksum;Header Checkusm": "0x%{}04x",
+		"src;Source Address": "%{:F}s",
+		"dst;Destination Address": "%{:F}s"
+	},
+	"LOW": {
+		"totalLength;Total Length": "%{}d bytes",
+		"protocol;Protocol": "%{}d (%{:IP_TYPE}s)",
+		"src;Source Address": "%{:F}s",
+		"dst;Destination Address": "%{:F}s"
+	},
+	"MEDIUM": {
+		"trafficClass;Traffic class": [
+			"0x%{}02x (DSCP: %{trafficDscpName}s, ECN: %{trafficDscpAbbr}s)",
+			"%{:$1111 11..}s = Differentiated Services Codepoint: %{trafficDscp:[@DiffServDscp.class]}s (%{trafficDscp}d)",
+			"%{:$.... ..11}s = Explicit Congestion Notification: %{trafficEcn:[@DiffServEcn.class]}s (%{trafficEcn}d)"
+		]
+	}
+}

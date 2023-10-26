@@ -38,13 +38,13 @@ public class IntArrayList extends AbstractList<Integer> implements IntList {
 
 	/** The offset. */
 	private int offset;
-	
+
 	/** The capacity. */
 	private int capacity;
-	
+
 	/** The heap. */
 	private int[] heap;
-	
+
 	/** The limit. */
 	private int limit;
 
@@ -366,7 +366,8 @@ public class IntArrayList extends AbstractList<Integer> implements IntList {
 	 *
 	 * @param index the index
 	 * @param e     the e
-	 * @see com.slytechs.protocol.runtime.internal.util.collection.IntList#addInt(int, int)
+	 * @see com.slytechs.protocol.runtime.internal.util.collection.IntList#addInt(int,
+	 *      int)
 	 */
 	@Override
 	public void addInt(int index, int e) {
@@ -448,7 +449,8 @@ public class IntArrayList extends AbstractList<Integer> implements IntList {
 	 * @param index the index
 	 * @param e     the e
 	 * @return the int
-	 * @see com.slytechs.protocol.runtime.internal.util.collection.IntList#set(int, int)
+	 * @see com.slytechs.protocol.runtime.internal.util.collection.IntList#set(int,
+	 *      int)
 	 */
 	@Override
 	public int set(int index, int e) {
@@ -457,6 +459,24 @@ public class IntArrayList extends AbstractList<Integer> implements IntList {
 		int r0 = heap[index];
 		heap[index] = e;
 		return r0;
+	}
+
+	/**
+	 * @see java.util.List#addAll(java.util.Collection)
+	 */
+	@Override
+	public boolean addAll(Collection<? extends Integer> c) {
+		throw new UnsupportedOperationException("not implemented yet");
+	}
+
+	/**
+	 * @see com.slytechs.protocol.runtime.internal.util.collection.IntList#getInt(int)
+	 */
+	@Override
+	public int getInt(int index) {
+		index += offset;
+
+		return heap[index];
 	}
 
 }

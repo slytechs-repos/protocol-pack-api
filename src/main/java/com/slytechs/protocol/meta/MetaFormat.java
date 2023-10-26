@@ -21,23 +21,33 @@ import java.text.FieldPosition;
 import java.text.Format;
 import java.text.ParsePosition;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.slytechs.protocol.runtime.internal.util.WeakNamedCache;
+import com.slytechs.protocol.runtime.internal.util.collection.IntList;
 import com.slytechs.protocol.runtime.internal.util.format.BitFormat;
 import com.slytechs.protocol.runtime.util.Detail;
 
 /**
- * The Class MetaFormat.
+ * Base class for all meta object formats.
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
 public abstract class MetaFormat extends Format implements MetaDomain {
 
 	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = -4307770938567017464L;
+
+	/**
+	 * Cache the JSON resource table so we don't have to read in the resource file
+	 * for every packet. Use a WEAK reference cache so that when not in-recent-use
+	 * the table entries expire and get garbage collected.
+	 */
+	private static final WeakNamedCache<String, String> WEAK_DISPLAY_SWITCH_CACHE = new WeakNamedCache<>();
 
 	/** The context. */
 	private final MetaDomain context;
@@ -160,8 +170,22 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 	}
 
 	/** The Constant DISPLAY_ATTRIBUTE_PATTERN. */
-	private static final Pattern DISPLAY_ATTRIBUTE_PATTERN = Pattern.compile(""
-			+ "%\\{([\\w.?/\\\\]*):?([VFRO]?[12345]*)(\\$([\\w\\s\\.]+))?(\\[(.*)\\])?\\}"
+	private static final Pattern DISPLAY_ATTRIBUTE_PATTERN = Pattern.compile("%\\{"
+			+ "(header\\[[\\d:]+\\]|[\\w.?/\\\\]*)"
+			+ ":?([VFRO]?[12345]*)"
+			+ "(\\$([\\w\\s\\.]+))?"
+			+ "(\\$(.))?"
+			+ "(\\[(.*)\\])?"
+			+ "\\}");
+
+	/** The Constant DISPLAY_ATTRIBUTE_PATTERN. */
+	private static final Pattern VAR_PATTERN = Pattern.compile(""
+			+ "[\\s\\|](\\$(\\d*)([\\w\\-][\\d\\w]*))"
+			+ "");
+	private static final Pattern VAR_REPLACEMENT_PATTERN = Pattern.compile(""
+			+ "(\\s*\\$(\\d*)[\\w\\-][\\d\\w]*\\s*)"
+			+ "|"
+			+ DISPLAY_ATTRIBUTE_PATTERN
 			+ "");
 
 	/**
@@ -170,33 +194,104 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 	 * @param summaryFormat the summary format
 	 * @return the string
 	 */
-	protected String rewriteDisplayArgs(String summaryFormat) {
-		return DISPLAY_ATTRIBUTE_PATTERN.matcher(summaryFormat).replaceAll("%");
+	protected String rewriteFormatString(String summaryFormat, IntList argLengths) {
+
+		return VAR_REPLACEMENT_PATTERN
+				.matcher(summaryFormat)
+				.replaceAll(r ->
+				{
+					if (r.group(1) != null) {
+						int argLen = (r.group(2) == null) || r.group(2).isBlank()
+								? r.group(1).length()
+								: Integer.parseInt(r.group(2));
+						argLengths.addInt(argLen);
+
+						return "%%%ds".formatted(argLen);
+
+					} else {
+						argLengths.addInt(-1);
+
+						return "%";
+					}
+				});
 	}
+
+	protected Object[] rewriteArgsCenterAlign(Object[] src, IntList argLengths) {
+		Object[] dst = src;
+
+		for (int i = 0; i < src.length; i++) {
+			int fmtLen = argLengths.getInt(i);
+			if (fmtLen == -1)
+				continue;
+
+			String arg = ((String) src[i]);
+			int argLen = arg.length();
+			int pad = (fmtLen - argLen) / 2;
+
+			Object centered; // format with padding
+			if (pad == 0)
+				centered = arg;
+			else {
+				String fmt = "%%%ds%%s%%%ds".formatted(pad, pad);
+				centered = fmt.formatted("", arg, "");
+			}
+
+			dst[i] = centered;
+		}
+
+		return dst;
+	}
+	
+	private final static String VAR_CENTER_CHAR = "-";
 
 	/**
 	 * Builds the display args.
 	 *
-	 * @param domain        the domain
-	 * @param element       the element
-	 * @param summaryFormat the summary format
+	 * @param domain     the domain
+	 * @param element    the element
+	 * @param formatLine the summary format
 	 * @return the object[]
 	 */
-	protected Object[] buildDisplayArgs(MetaDomain domain, MetaElement element, String summaryFormat) {
-		Matcher matcher = DISPLAY_ATTRIBUTE_PATTERN.matcher(summaryFormat);
+	protected Object[] buildDisplayArgs(MetaDomain domain, MetaElement element, String formatLine) {
+		Matcher varMatcher = VAR_PATTERN.matcher(formatLine);
+		Matcher matcher = DISPLAY_ATTRIBUTE_PATTERN.matcher(formatLine);
+
 		var list = new ArrayList<>();
 
-		while (matcher.find()) {
+		String name = element.name();
+
+		while (true) {
+
+			if (varMatcher.find() && element instanceof MetaHeader hdr) {
+				String varName = varMatcher.group(3);
+				Optional<String> varValue;
+				if (varName.equals(VAR_CENTER_CHAR))
+					varValue = Optional.of(" ");
+				else
+					varValue = hdr.findVariable(varName);
+
+				list.add(varValue.orElse(varName));
+
+				continue;
+			}
+
+			if (!matcher.find())
+				break;
+
 			var fieldName = matcher.group(1);
 			var valueFormat = matcher.group(2);
 			var bitsFormat = matcher.group(4);
-			var switchFormat = matcher.group(6);
+			var bitsOffChar = matcher.group(6);
+			var switchFormat = matcher.group(8);
 
 			MetaField selected = null;
 			if (element instanceof MetaField field)
 				selected = field;
 
-			if (fieldName != null && !fieldName.isBlank())
+			if (fieldName != null && fieldName.startsWith("header")) {
+				selected = (MetaField) element;
+
+			} else if (fieldName != null && !fieldName.isBlank())
 				selected = new MetaPath(fieldName)
 						.searchForField(domain)
 						.orElse(null);
@@ -209,12 +304,16 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 				continue;
 
 			if (bitsFormat != null) {
-				list.add(formatBitsValue(selected.get(), bitsFormat));
+				Number num = readValue(selected, fieldName);
+
+				list.add(formatBitsValue(num, bitsFormat, bitsOffChar));
 				continue;
 			}
 
 			if (switchFormat != null) {
-				list.add(formatSwitchValue(selected.get(), switchFormat));
+				Object val = readValue(selected, fieldName);
+
+				list.add(formatSwitchValue(val, switchFormat));
 				continue;
 			}
 
@@ -249,29 +348,127 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 		return list.toArray();
 	}
 
-	private String formatBitsValue(Number num, String bitsFormat) {
-		return new BitFormat(bitsFormat)
-				.format(Integer.toUnsignedLong(num.intValue()));
+	private static final Pattern RANGE_PATTERN = Pattern.compile(""
+			+ "^(packet|header|field)\\[(\\d+)(:(\\d+)?|(byte|short|int|long)?)?\\]"
+			+ "");
+
+	@SuppressWarnings("unchecked")
+	private <T> T readValue(MetaField selected, String fieldName) {
+
+		Matcher matcher = RANGE_PATTERN.matcher(fieldName);
+
+		if (matcher.find()) {
+			int index = Integer.parseInt(matcher.group(2));
+			int len = 1;
+
+			if (matcher.group(4) != null) {
+				len = Integer.parseInt(matcher.group(4));
+
+			} else if (matcher.group(5) != null) {
+				String type = null;
+
+				return (T) switch (type) {
+				case "byte" -> selected.readNumberFromHeader(byte.class, index);
+				case "short" -> selected.readNumberFromHeader(short.class, index);
+				case "int" -> selected.readNumberFromHeader(int.class, index);
+				case "long" -> selected.readNumberFromHeader(long.class, index);
+
+				default -> selected.get();
+				};
+			}
+
+			return (T) switch (len) {
+			case 1 -> selected.readNumberFromHeader(byte.class, index);
+			case 2 -> selected.readNumberFromHeader(short.class, index);
+			case 4 -> selected.readNumberFromHeader(int.class, index);
+			case 8 -> selected.readNumberFromHeader(long.class, index);
+
+			default -> selected.get();
+			};
+		}
+
+		return selected.get();
+	}
+
+	private String formatBitsValue(Number num, String bitsFormat, String bitsOffChar) {
+		if (bitsOffChar == null)
+			return new BitFormat(bitsFormat)
+					.format(num.longValue());
+		else
+			return new BitFormat(bitsFormat, bitsOffChar.charAt(0))
+					.format(num.longValue());
+
 	}
 
 	private String formatSwitchValue(Object value, String sw) {
 		String[] split = sw.split(",");
+		String defValue = "";
 
 		for (String c : split) {
+			c = c.strip();
+
+			/*
+			 * Check for default case or @include table syntax where the table is imported
+			 * from resource or Enum table class.
+			 */
 			int index = c.indexOf('=');
-			if (index == -1) // Default case (without assisgnment)
-				return c;
+			if (index == -1) {
+
+				/* Include table operator */
+				if (c.startsWith("@")) {
+					String m = matchSwitchValueFromFile(value, c.substring(1));
+					if (m == null)
+						continue;
+
+					return m;
+				}
+
+				/* Use single value with no assign, as default case */
+				defValue = c;
+				continue;
+			}
 
 			String key = c.substring(0, index);
 			String label = c.substring(index + 1);
 
-			if (key.startsWith("0x"))
-				key = Integer.toString(Integer.parseInt(key.substring(2), 16));
+			/* Allow '_' chars in numerical values */
+			if (Character.isDigit(key.charAt(0))) {
+				key = key.replaceAll("_", "");
+
+				/*
+				 * Normalize numerical values based on RADIX, a single digit is always a decimal
+				 */
+				if (key.length() > 1 && key.charAt(0) == '0') {
+					key = switch (key.charAt(1)) {
+					case 'x' -> Long.toString(Long.parseLong(key.substring(2), 16)); // ie. 0x12349FDSD
+					case 'b' -> Long.toString(Long.parseLong(key.substring(2), 2)); // ie. 0b011010101
+					default -> {
+						if (key.charAt(0) == '0') // Check for Octal ie. 01234567
+							yield Long.toString(Long.parseLong(key.substring(1), 8));
+
+						yield key;
+					}
+					};
+				}
+			}
 
 			if (key.equals(value.toString()))
 				return label;
 		}
 
-		return "";
+		return defValue;
+	}
+
+	private String matchSwitchValueFromFile(Object value, String name) {
+		Map<String, String> table;
+		if (name.endsWith(".class"))
+			table = WEAK_DISPLAY_SWITCH_CACHE.computeIfAbsent(name, DisplayUtil::loadEnumTable);
+
+		else if (name.endsWith(".json"))
+			table = WEAK_DISPLAY_SWITCH_CACHE.computeIfAbsent(name, DisplayUtil::loadResourceTable);
+		else
+			return null;
+
+		return table.get(value.toString());
 	}
 }

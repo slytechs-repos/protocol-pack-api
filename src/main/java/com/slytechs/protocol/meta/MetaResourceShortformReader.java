@@ -18,6 +18,7 @@
 package com.slytechs.protocol.meta;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -118,12 +119,15 @@ public class MetaResourceShortformReader extends MetaResourceReader {
 		}
 
 	}
-	
+
 	private String parseDisplayString(String field, JsonValue jsValue) {
 		if (jsValue instanceof JsonString jsString)
 			return jsString.getString();
 
-		if (jsValue instanceof JsonObject jsObj) {
+		if (jsValue instanceof JsonArray jsArray) {
+			return jsArray.getString(0);
+
+		} else if (jsValue instanceof JsonObject jsObj) {
 			List<String> keys = jsObj.keyOrderedList();
 			if (keys.size() != 1)
 				throw new IllegalArgumentException("%s: Unsupported display string Json type %s, missing display string"
@@ -158,14 +162,17 @@ public class MetaResourceShortformReader extends MetaResourceReader {
 		JsonObjectBuilder jsDisplayBuilder = JsonObjectBuilder
 				.wrapOrElseNewInstance(jsFieldBuilder.getJsonObject("display"));
 
-		
 		JsonArray jsMultiArr = null;
-		if (fieldDisplay instanceof JsonObject jsObj) {
+
+		if (fieldDisplay instanceof JsonArray jsArray) {
+			jsMultiArr = jsArray;
+			displayString = jsArray.getString(0);
+
+		} else if (fieldDisplay instanceof JsonObject jsObj) {
 			List<String> keys = jsObj.keyOrderedList();
 			jsMultiArr = (JsonArray) jsObj.get(keys.get(0));
 		}
 
-		
 		String label = stripLabel(metaString);
 		inflateDisplay(jsDisplayBuilder, detail, label, displayString, resolverList, jsMultiArr);
 		jsFieldBuilder.add("display", jsDisplayBuilder.build());
@@ -262,10 +269,27 @@ public class MetaResourceShortformReader extends MetaResourceReader {
 				if (detailArray == null)
 					continue;
 
-				String displayValue = jsObjHeader.getString(key);
+				final String displayValue;
+				JsonArray jsArray = null;
+				if (jsObjHeader.isArray(key)) {
+					String[] array = jsObjHeader.getJsonArray(key).toStringArray();
+					if (array.length > 0) {
+						displayValue = array[0];
+						array = Arrays.copyOfRange(array, 1, array.length);
 
-				for (Detail detail : detailArray)
-					inflateDisplay(displayBuilder, detail, label, displayValue, Collections.emptyList(), null);
+					} else {
+						displayValue = "";
+					}
+
+					jsArray = jsObjHeader.getJsonArray(key);
+
+				} else {
+					displayValue = jsObjHeader.getString(key);
+				}
+
+				for (Detail detail : detailArray) {
+					inflateDisplay(displayBuilder, detail, label, displayValue, Collections.emptyList(), jsArray);
+				}
 			}
 
 		} else
@@ -278,11 +302,11 @@ public class MetaResourceShortformReader extends MetaResourceReader {
 	 * @param displayBuilder
 	 * @param detail
 	 * @param displayValue
-	 * @param jsMultiArr 
+	 * @param jsMultiArr
 	 */
 	private void inflateDisplay(JsonObjectBuilder displayBuilder, Detail detail, String label,
 			String displayValue,
-			List<ResolverType> resolverList, 
+			List<ResolverType> resolverList,
 			JsonArray jsMultiArr) {
 
 		if (detail == null) {

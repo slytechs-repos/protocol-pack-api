@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.logging.Level;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,7 +63,7 @@ class TestIp6HopByHopIcmp6RouterMulticast {
 
 		DESC_BUFFER.clear();
 
-		System.out.printf("---- %s ----%n", info.getDisplayName());
+		Tests.out.printf("---- %s ----%n", info.getDisplayName());
 	}
 
 	/**
@@ -77,7 +76,7 @@ class TestIp6HopByHopIcmp6RouterMulticast {
 	@Test
 	void IPv6_HOP_BY_HOP_EXTENSION_ROUTER_ALERT_OPTION() {
 
-		var packet = CoreTestPackets.ETH_IPv6_HOP_BY_HOP_ROUTER_ALERT_ICMPv6_MLRv2_CHG_IN.toPacket();
+		var packet = TestPackets.ETH_IPv6_HOP_BY_HOP_ROUTER_ALERT_ICMPv6_MLRv2_CHG_IN.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 		packet.setFormatter(new PacketFormat());
 
@@ -86,29 +85,29 @@ class TestIp6HopByHopIcmp6RouterMulticast {
 
 		packet.descriptor().buffer().flip();
 
-//		System.out.println(packet.descriptor().toString(Detail.HIGH));
-//		System.out.println(packet.toString(Detail.HIGH));
+//		Tests.out.println(packet.descriptor().toString(Detail.HIGH));
+//		Tests.out.println(packet.toString(Detail.HIGH));
 
 		assertTrue(packet.hasHeader(CoreId.CORE_ID_IPv6_EXTENSION));
 	}
 
 	@Test
 	void IPv4_ROUTER_ALERT_OPTION() throws HeaderNotFound {
-		var packet = CoreTestPackets.ETH_IPv4_OPT_RSVP.toPacket();
+		var packet = TestPackets.ETH_IPv4_OPT_RSVP.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 		packet.setFormatter(new PacketFormat());
 
 		DISSECTOR.dissectPacket(packet);
 		DISSECTOR.writeDescriptor(packet.descriptor());
 
-//		System.out.println(packet.descriptor().toString(Detail.HIGH));
-//		System.out.println(packet.toString(Detail.HIGH));
+//		Tests.out.println(packet.descriptor().toString(Detail.HIGH));
+//		Tests.out.println(packet.toString(Detail.HIGH));
 	}
 
 	@Test
 	void ICMPv6_MLRv2_CHANGE_INCLUDE() {
 
-		var packet = CoreTestPackets.ETH_IPv6_HOP_BY_HOP_ROUTER_ALERT_ICMPv6_MLRv2_CHG_IN.toPacket();
+		var packet = TestPackets.ETH_IPv6_HOP_BY_HOP_ROUTER_ALERT_ICMPv6_MLRv2_CHG_IN.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 		packet.setFormatter(new PacketFormat());
 
@@ -117,8 +116,8 @@ class TestIp6HopByHopIcmp6RouterMulticast {
 
 		packet.descriptor().buffer().flip();
 
-//		System.out.println(packet.descriptor().toString(Detail.HIGH));
-//		System.out.println(packet.toString(Detail.HIGH));
+//		Tests.out.println(packet.descriptor().toString(Detail.HIGH));
+//		Tests.out.println(packet.toString(Detail.HIGH));
 
 		assertTrue(packet.hasHeader(CoreId.CORE_ID_IPv6_EXTENSION));
 	}
@@ -126,9 +125,9 @@ class TestIp6HopByHopIcmp6RouterMulticast {
 	@Test
 	void ICMPv6_MLRv2_CHANGE_EXCLUDE() {
 		
-		Tests.enableConsoleLogging(Level.ALL);
+//		Tests.enableConsoleLogging(Level.ALL);
 
-		var packet = CoreTestPackets.ETH_IPv6_HOP_BY_HOP_ROUTER_ALERT_ICMPv6_MLRv2_CHG_EX.toPacket();
+		var packet = TestPackets.ETH_IPv6_HOP_BY_HOP_ROUTER_ALERT_ICMPv6_MLRv2_CHG_EX.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 		packet.setFormatter(new PacketFormat());
 
@@ -137,8 +136,8 @@ class TestIp6HopByHopIcmp6RouterMulticast {
 
 		packet.descriptor().buffer().flip();
 
-		System.out.println(packet.descriptor().toString(Detail.HIGH));
-		System.out.println(packet.toString(Detail.HIGH));
+		Tests.out.println(packet.descriptor().toString(Detail.HIGH));
+		Tests.out.println(packet.toString(Detail.HIGH));
 
 		assertTrue(packet.hasHeader(CoreId.CORE_ID_IPv6_EXTENSION));
 	}

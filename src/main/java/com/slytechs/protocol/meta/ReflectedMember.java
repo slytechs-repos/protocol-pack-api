@@ -28,6 +28,7 @@ import java.lang.reflect.Member;
  */
 public abstract class ReflectedMember extends ReflectedComponent {
 
+
 	/**
 	 * Instantiates a new reflected member.
 	 *
@@ -85,4 +86,5 @@ public abstract class ReflectedMember extends ReflectedComponent {
 	public String toString() {
 		return getMember().toString();
 	}
+
 }

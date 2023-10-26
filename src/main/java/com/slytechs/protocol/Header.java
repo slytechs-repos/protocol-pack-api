@@ -171,6 +171,7 @@ public abstract class Header extends MemoryBinding implements DetailedString, To
 	 *
 	 * @return the id
 	 */
+	@Override
 	@Meta(MetaType.ATTRIBUTE)
 	public final int id() {
 		return id;

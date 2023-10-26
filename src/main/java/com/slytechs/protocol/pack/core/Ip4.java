@@ -27,6 +27,8 @@ import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.CoreId;
+import com.slytechs.protocol.pack.core.constants.DiffServDscp;
+import com.slytechs.protocol.pack.core.constants.DiffServEcn;
 import com.slytechs.protocol.pack.core.constants.Ip4Flag;
 import com.slytechs.protocol.pack.core.constants.IpType;
 import com.slytechs.protocol.runtime.internal.util.format.BitFormat;
@@ -58,10 +60,10 @@ import com.slytechs.protocol.runtime.internal.util.format.BitFormat;
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
-@MetaResource("ip4-meta.json")
+@MetaResource("ip4-experimental-meta.json")
 public final class Ip4
 		extends Ip
-		implements HasOption<Ip4Option>, Iterable<Ip4Option> {
+		implements DiffServ, HasOption<Ip4Option>, Iterable<Ip4Option> {
 
 	/** The Constant ID. */
 	public static final int ID = CoreId.CORE_ID_IPv4;
@@ -69,15 +71,59 @@ public final class Ip4
 	private static final BitFormat FLAGS_FORMATTER = new BitFormat(FLAGS_FORMAT);
 
 	/**
-	 * Instantiates a new ip 4.
+	 * Instantiates a new IPv4 header object.
 	 */
 	public Ip4() {
 		super(ID);
 	}
 
+	public int diffServ() {
+		return trafficClass();
+	}
+
+	@Meta(abbr = "crc", formatter = Meta.Formatter.HEX_LOWERCASE_0x)
+	public int checksum() {
+		return Ip4Struct.CHECKSUM.getUnsignedShort(buffer());
+	}
+
 	/**
-	 * Dsfield.
-	 *
+	 * The Differentiated Services Code Point (DSCP) field.
+	 * <p>
+	 * The Differentiated Services Code Point (DSCP) field is a 6-bit field in the
+	 * IPv4 header that is used to classify IP packets for Quality of Service (QoS)
+	 * treatment. The DSCP field is part of the Differentiated Services (DiffServ)
+	 * architecture, which is a way of classifying and managing IP traffic in a
+	 * network.
+	 * </p>
+	 * <p>
+	 * The DSCP field can be used to mark packets with different levels of
+	 * importance, such as voice traffic, video traffic, or bulk data traffic.
+	 * Routers can then use the DSCP markings to decide how to handle the packets,
+	 * such as giving priority to voice traffic or dropping bulk data traffic during
+	 * periods of congestion.
+	 * </p>
+	 * <p>
+	 * The DSCP field is divided into two parts: the first 3 bits are used for IP
+	 * Precedence, and the last 3 bits are used for Differentiated Services
+	 * (DiffServ). IP Precedence is an older way of classifying IP traffic, and it
+	 * is not widely used anymore. DiffServ is the newer way of classifying IP
+	 * traffic, and it is used by most networks today.
+	 * </p>
+	 * <p>
+	 * The DiffServ bits in the DSCP field can be used to mark packets with one of
+	 * 64 different values. These values are called DSCP codepoints, and they are
+	 * defined by the Internet Assigned Numbers Authority (IANA). The IANA has
+	 * assigned specific meanings to some of the DSCP codepoints, such as Expedited
+	 * Forwarding (EF) for voice traffic and Assured Forwarding (AF) for video
+	 * traffic.
+	 * </p>
+	 * <p>
+	 * Network operators can also define their own DSCP codepoints to meet the
+	 * specific needs of their network. For example, a network operator might define
+	 * a DSCP codepoint for bulk data traffic that is guaranteed to be delivered
+	 * within a certain amount of time. *
+	 * </p>
+	 * 
 	 * @return the int
 	 */
 	public int dsfield() {
@@ -110,13 +156,14 @@ public final class Ip4
 	String dsfieldDscpInfo() {
 		StringBuilder b = new StringBuilder();
 
-		if (dsfieldDscp() == 0)
+		if (dsfieldDscp() == 0) {
 			b.append("Default (")
 					.append(dsfieldDscp())
 					.append(")");
 
-		else
+		} else {
 			b.append(dsfieldDscp());
+		}
 
 		return b.toString();
 	}
@@ -224,7 +271,7 @@ public final class Ip4
 	 *
 	 * @return the int
 	 */
-	@Meta
+	@Meta(abbr = "flg")
 	public int flags() {
 		return Ip4Struct.FLAGS.getInt(buffer());
 	}
@@ -236,30 +283,6 @@ public final class Ip4
 	 */
 	public int flags_DF() {
 		return Ip4Struct.FLAGS_DF.getInt(buffer());
-	}
-
-	/**
-	 * Flags info.
-	 *
-	 * @return the string
-	 */
-	@Meta(MetaType.ATTRIBUTE)
-	public String flagsInfo() {
-		if (flags_DF() != 0)
-			return "Don't fragment";
-
-		if (flags_MF() != 0)
-			return "More fragments";
-
-		return "No flags";
-	}
-
-	public String flagsFormatted() {
-		return FLAGS_FORMATTER.format(flags());
-	}
-
-	public String flagsAsString() {
-		return flagsEnum().toString();
 	}
 
 	/**
@@ -280,14 +303,38 @@ public final class Ip4
 		return Ip4Struct.FLAGS_RB.getInt(buffer());
 	}
 
+	public String flagsAsString() {
+		return flagsEnum().toString();
+	}
+
 	/**
 	 * Flags set.
 	 *
 	 * @return the sets the
 	 */
-	@Meta(MetaType.ATTRIBUTE)
+	@Meta(value = MetaType.ATTRIBUTE, abbr = "flagsEnum")
 	public Set<Ip4Flag> flagsEnum() {
 		return Ip4Flag.valueOfInt03(flags());
+	}
+
+	public String flagsFormatted() {
+		return FLAGS_FORMATTER.format(flags());
+	}
+
+	/**
+	 * Flags info.
+	 *
+	 * @return the string
+	 */
+	@Meta(value = MetaType.ATTRIBUTE)
+	public String flagsInfo() {
+		if (flags_DF() != 0)
+			return "Don't fragment";
+
+		if (flags_MF() != 0)
+			return "More fragments";
+
+		return "No flags";
 	}
 
 	/**
@@ -295,14 +342,31 @@ public final class Ip4
 	 *
 	 * @return the int
 	 */
-	@Meta
+	@Meta(abbr = "off")
 	public int fragOffset() {
 		return Ip4Struct.FRAG_OFFSET.getInt(buffer());
 	}
 
-	@Meta(value = MetaType.ATTRIBUTE)
+	@Meta(value = MetaType.ATTRIBUTE, abbr = "offBytes")
 	public int fragOffsetBytes() {
 		return fragOffset() << 3;
+	}
+
+	/**
+	 * @see com.slytechs.protocol.HasOption#getOption(com.slytechs.protocol.Header,
+	 *      int)
+	 */
+	@Override
+	public <E extends Ip4Option> E getOption(E extension, int depth) throws HeaderNotFound {
+		return super.getOptionHeader(extension, depth);
+	}
+
+	/**
+	 * @see com.slytechs.protocol.HasOption#hasOption(int, int)
+	 */
+	@Override
+	public boolean hasOption(int extensionId, int depth) {
+		return super.hasOptionHeader(extensionId, depth);
 	}
 
 	/**
@@ -310,7 +374,7 @@ public final class Ip4
 	 *
 	 * @return the int
 	 */
-	@Meta
+	@Meta(abbr = "ihl")
 	public int hdrLen() {
 		return Ip4Struct.HDR_LEN.getInt(buffer());
 	}
@@ -320,7 +384,7 @@ public final class Ip4
 	 *
 	 * @return the int
 	 */
-	@Meta(MetaType.ATTRIBUTE)
+	@Meta(value = MetaType.ATTRIBUTE, abbr = "ihlBytes")
 	public int hdrLenBytes() {
 		return hdrLen() * 4;
 	}
@@ -330,9 +394,33 @@ public final class Ip4
 	 *
 	 * @return the int
 	 */
-	@Meta
+	@Meta(abbr = "ident", formatter = Meta.Formatter.HEX_LOWERCASE_0x)
 	public int identification() {
 		return Ip4Struct.ID.getUnsignedShort(buffer());
+	}
+
+	/**
+	 * @see java.lang.Iterable#iterator()
+	 */
+	@Override
+	public Iterator<Ip4Option> iterator() {
+
+		final int optLen = headerLength();
+
+		return new Iterator<Ip4Option>() {
+			int off = CoreConstants.IPv4_HEADER_LEN;
+
+			@Override
+			public boolean hasNext() {
+				return off < optLen;
+			}
+
+			@Override
+			public Ip4Option next() {
+				throw new UnsupportedOperationException("not implemented yet");
+			}
+
+		};
 	}
 
 	/**
@@ -347,12 +435,21 @@ public final class Ip4
 	}
 
 	/**
+	 * @see com.slytechs.protocol.HasOption#peekOption(com.slytechs.protocol.Header,
+	 *      int)
+	 */
+	@Override
+	public <E extends Ip4Option> E peekOption(E extension, int depth) {
+		return super.peekOptionHeader(extension, depth);
+	}
+
+	/**
 	 * Protocol.
 	 *
 	 * @return the int
 	 */
+	@Meta(abbr = "proto")
 	@Override
-	@Meta
 	public int protocol() {
 		return Ip4Struct.PROTO.getInt(buffer());
 	}
@@ -430,9 +527,63 @@ public final class Ip4
 	 *
 	 * @return the int
 	 */
-	@Meta
+	@Meta(abbr = "len")
 	public int totalLength() {
 		return Ip4Struct.TOTAL_LENGTH.getUnsignedShort(buffer());
+	}
+
+	/**
+	 * @see com.slytechs.protocol.pack.core.DiffServ#trafficClass()
+	 */
+	@Meta(abbr = "tos")
+	@Override
+	public int trafficClass() {
+		return buffer().get(1) & DiffServ.TRAFFIC_CLASS;
+	}
+
+	/**
+	 * @see com.slytechs.protocol.pack.core.DiffServ#trafficDscp()
+	 */
+	@Meta(value = MetaType.ATTRIBUTE, abbr = "dscp")
+	@Override
+	public int trafficDscp() {
+		return (trafficClass() & DiffServ.DIFF_SERV_DSCP) >> 2;
+	}
+
+	/**
+	 * @see com.slytechs.protocol.pack.core.DiffServ#trafficDscpAbbr()
+	 */
+	@Meta(value = MetaType.ATTRIBUTE, abbr = "dscpAbbr")
+	@Override
+	public String trafficDscpAbbr() {
+		return DiffServEcn.resolveAbbr(trafficDscp());
+	}
+
+	/**
+	 * @see com.slytechs.protocol.pack.core.DiffServ#trafficDscpDescription()
+	 */
+	@Meta(value = MetaType.ATTRIBUTE, abbr = "dscpDesc")
+	@Override
+	public String trafficDscpDescription() {
+		return DiffServDscp.resolveDescription(trafficDscp());
+	}
+
+	/**
+	 * @see com.slytechs.protocol.pack.core.DiffServ#trafficDscpName()
+	 */
+	@Meta(value = MetaType.ATTRIBUTE, abbr = "dscpName")
+	@Override
+	public String trafficDscpName() {
+		return DiffServDscp.resolveName(trafficDscp());
+	}
+
+	/**
+	 * @see com.slytechs.protocol.pack.core.DiffServ#trafficEcn()
+	 */
+	@Meta(value = MetaType.ATTRIBUTE, abbr = "ecn")
+	@Override
+	public int trafficEcn() {
+		return (trafficClass() & DiffServ.DIFF_SERV_ECN);
 	}
 
 	/**
@@ -450,60 +601,10 @@ public final class Ip4
 	 *
 	 * @return the int
 	 */
+	@Meta(abbr = "ver")
 	@Override
-	@Meta
 	public int version() {
 		return Ip4Struct.VERSION.getUnsignedByte(buffer());
-	}
-
-	/**
-	 * @see java.lang.Iterable#iterator()
-	 */
-	@Override
-	public Iterator<Ip4Option> iterator() {
-
-		final int optLen = headerLength();
-
-		return new Iterator<Ip4Option>() {
-			int off = CoreConstants.IPv4_HEADER_LEN;
-
-			@Override
-			public boolean hasNext() {
-				return off < optLen;
-			}
-
-			@Override
-			public Ip4Option next() {
-				throw new UnsupportedOperationException("not implemented yet");
-			}
-
-		};
-	}
-
-	/**
-	 * @see com.slytechs.protocol.HasOption#getOption(com.slytechs.protocol.Header,
-	 *      int)
-	 */
-	@Override
-	public <E extends Ip4Option> E getOption(E extension, int depth) throws HeaderNotFound {
-		return super.getOptionHeader(extension, depth);
-	}
-
-	/**
-	 * @see com.slytechs.protocol.HasOption#hasOption(int, int)
-	 */
-	@Override
-	public boolean hasOption(int extensionId, int depth) {
-		return super.hasOptionHeader(extensionId, depth);
-	}
-
-	/**
-	 * @see com.slytechs.protocol.HasOption#peekOption(com.slytechs.protocol.Header,
-	 *      int)
-	 */
-	@Override
-	public <E extends Ip4Option> E peekOption(E extension, int depth) {
-		return super.peekOptionHeader(extension, depth);
 	}
 
 }

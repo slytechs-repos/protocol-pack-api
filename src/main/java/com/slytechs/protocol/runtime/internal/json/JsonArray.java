@@ -101,6 +101,24 @@ public interface JsonArray extends JsonStructure, Iterable<JsonValue> {
 	JsonString getJsonString(int index);
 
 	/**
+	 * Gets the value type.
+	 *
+	 * @param index the index
+	 * @return the value type
+	 */
+	ValueType getValueType(int index);
+
+	/**
+	 * Checks if is string.
+	 *
+	 * @param index the index
+	 * @return true, if is string
+	 */
+	default boolean isString(int index) {
+		return getValueType(index) == ValueType.STRING;
+	}
+
+	/**
 	 * Gets the string.
 	 *
 	 * @param index the index
@@ -149,12 +167,15 @@ public interface JsonArray extends JsonStructure, Iterable<JsonValue> {
 	int size();
 
 	/**
-	 * To string array.
+	 * To string array. Json array can contain any type of value object, and only
+	 * string object types are filtered out and returned as array by this method.
 	 *
-	 * @return the string[]
+	 * @return an array of Java string objects converted from {@code JsonString}
+	 *         object types
 	 */
 	default String[] toStringArray() {
 		return IntStream.range(0, size())
+				.filter(this::isString)
 				.mapToObj(this::getJsonString)
 				.map(JsonString::getString)
 				.toArray(String[]::new);

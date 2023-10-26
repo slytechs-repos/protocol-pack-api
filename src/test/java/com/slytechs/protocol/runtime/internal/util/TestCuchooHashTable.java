@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
 
 import com.slytechs.protocol.runtime.hash.CuckooHashTable;
 import com.slytechs.protocol.runtime.hash.HashTable;
+import com.slytechs.test.Tests;
 
 /**
  * @author Sly Technologies Inc
@@ -114,7 +115,7 @@ class TestCuchooHashTable {
 			assertNotEquals(-1, index, "at index %d".formatted(i));
 			assertEquals(VALUE, table.get(index).data());
 		}
-		System.out.println(table);
+		Tests.out.println(table);
 	}
 
 }

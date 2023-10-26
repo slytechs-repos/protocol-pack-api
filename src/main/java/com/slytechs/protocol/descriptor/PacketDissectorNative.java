@@ -17,7 +17,6 @@
  */
 package com.slytechs.protocol.descriptor;
 
-import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.net.ProtocolException;
 import java.nio.ByteBuffer;
@@ -85,7 +84,7 @@ class PacketDissectorNative extends AbstractPacketDissector {
 		}
 	}
 
-	private final MemoryAddress address;
+	private final MemorySegment address;
 
 	/**
 	 * Instantiates a new native dissector.

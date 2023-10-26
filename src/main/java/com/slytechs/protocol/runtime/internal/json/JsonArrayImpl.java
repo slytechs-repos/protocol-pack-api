@@ -28,24 +28,24 @@ import java.util.List;
  * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
-class ArrayImpl implements JsonArray {
+class JsonArrayImpl implements JsonArray {
 
 	/** The list. */
-	private final List<JsonValue> list ;
-	
+	private final List<JsonValue> list;
+
 	/**
 	 * Instantiates a new array impl.
 	 */
-	public ArrayImpl() {
+	public JsonArrayImpl() {
 		this.list = new ArrayList<>();
 	}
-	
+
 	/**
 	 * Instantiates a new array impl.
 	 *
 	 * @param list the list
 	 */
-	public ArrayImpl(List<JsonValue> list) {
+	public JsonArrayImpl(List<JsonValue> list) {
 		this.list = list;
 	}
 
@@ -316,6 +316,14 @@ class ArrayImpl implements JsonArray {
 		List l = this.list;
 
 		return l;
+	}
+
+	/**
+	 * @see com.slytechs.protocol.runtime.internal.json.JsonArray#getValueType(int)
+	 */
+	@Override
+	public ValueType getValueType(int index) {
+		return list.get(index).getValueType();
 	}
 
 }

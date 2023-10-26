@@ -17,8 +17,12 @@
  */
 package com.slytechs.protocol.pack.core;
 
+import com.slytechs.protocol.meta.Meta;
+import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.constants.CoreId;
+import com.slytechs.protocol.pack.core.constants.DiffServDscp;
+import com.slytechs.protocol.pack.core.constants.DiffServEcn;
 
 /**
  * Internet Protocol Version 6 (IPv6).
@@ -53,11 +57,19 @@ import com.slytechs.protocol.pack.core.constants.CoreId;
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
-@MetaResource("ip6-meta.json")
-public final class Ip6 extends Ip {
+@MetaResource("ip6-experimental-meta.json")
+public final class Ip6 extends Ip implements DiffServ  {
 
 	/** The Constant ID. */
 	public static final int ID = CoreId.CORE_ID_IPv6;
+
+	public static final int FLOW_LABEL_MASK = 0x0FFF_FFFF;
+
+	public static final int TRAFFIC_CLASS_MASK = 0b0000_1111_1111_0000_0000_0000_0000_0000;
+
+	public static final int TRAFFIC_DSCP_MASK = 0b0000_1111_1100_0000_0000_0000_0000_0000;
+
+	public static final int TRAFFIC_ECN_MASK = 0b0000_0000_0011_0000_0000_0000_0000_0000;
 
 	/**
 	 * Instantiates a new ip 6.
@@ -67,30 +79,13 @@ public final class Ip6 extends Ip {
 	}
 
 	/**
-	 * Dsfield.
-	 *
-	 * @return the int
-	 */
-	public int dsfield() {
-		return Ip6Layout.DSFIELD.getInt(buffer());
-	}
-
-	/**
-	 * Dsfield.
-	 *
-	 * @param dsfield the dsfield
-	 */
-	public void dsfield(int dsfield) {
-		Ip6Layout.DSFIELD.setInt(dsfield, buffer());
-	}
-
-	/**
 	 * Dst.
 	 *
 	 * @return the byte[]
 	 * @see com.slytechs.protocol.pack.core.Ip#dst()
 	 */
 	@Override
+	@Meta
 	public byte[] dst() {
 		return Ip6Layout.DST_BYTES.getByteArray(buffer());
 	}
@@ -151,8 +146,9 @@ public final class Ip6 extends Ip {
 	 *
 	 * @return the int
 	 */
+	@Meta(abbr = "flow")
 	public int flowLabel() {
-		return Ip6Layout.FLOW.getInt(buffer());
+		return Ip6Layout.FLOW.getInt(buffer()) & FLOW_LABEL_MASK;
 	}
 
 	/**
@@ -169,8 +165,9 @@ public final class Ip6 extends Ip {
 	 *
 	 * @return the int
 	 */
+	@Meta(abbr = "limit")
 	public int hopLimit() {
-		return Ip6Layout.HOP_LIMIT.getInt(buffer());
+		return Ip6Layout.HOP_LIMIT.getInt(buffer()) & 0xFF;
 	}
 
 	/**
@@ -187,6 +184,7 @@ public final class Ip6 extends Ip {
 	 *
 	 * @return the int
 	 */
+	@Meta(abbr = "proto")
 	public int nextHeader() {
 		return Ip6Layout.NEXT.getInt(buffer());
 	}
@@ -204,6 +202,7 @@ public final class Ip6 extends Ip {
 	 * @see com.slytechs.protocol.pack.core.Ip#payloadLength()
 	 */
 	@Override
+	@Meta(abbr = "len")
 	public int payloadLength() {
 		return Ip6Layout.PAYLOAD_LENGTH.getInt(buffer());
 	}
@@ -217,10 +216,16 @@ public final class Ip6 extends Ip {
 		Ip6Layout.PAYLOAD_LENGTH.setInt(payloadLength, buffer());
 	}
 
+	@Override
+	public int protocol() {
+		return super.protocol();
+	}
+
 	/**
 	 * @see com.slytechs.protocol.pack.core.Ip#src()
 	 */
 	@Override
+	@Meta
 	public byte[] src() {
 		return Ip6Layout.SRC_BYTES.getByteArray(buffer());
 	}
@@ -274,12 +279,72 @@ public final class Ip6 extends Ip {
 	}
 
 	/**
+	 * @see com.slytechs.protocol.pack.core.DiffServ#trafficClass()
+	 */
+	@Override
+	@Meta
+	public int trafficClass() {
+		return flowLabel() & TRAFFIC_CLASS_MASK;
+	}
+
+	/**
+	 * @see com.slytechs.protocol.pack.core.DiffServ#trafficDscp()
+	 */
+	@Override
+	@Meta(value = MetaType.ATTRIBUTE, abbr = "dscp")
+	public int trafficDscp() {
+		return flowLabel() & TRAFFIC_DSCP_MASK;
+	}
+
+	/**
+	 * @see com.slytechs.protocol.pack.core.DiffServ#trafficDscpAbbr()
+	 */
+	@Override
+	@Meta(MetaType.ATTRIBUTE)
+	public String trafficDscpAbbr() {
+		return DiffServEcn.resolveAbbr(trafficEcn() >> 20);
+	}
+
+	/**
+	 * @see com.slytechs.protocol.pack.core.DiffServ#trafficDscpDescription()
+	 */
+	@Override
+	@Meta(MetaType.ATTRIBUTE)
+	public String trafficDscpDescription() {
+		return DiffServDscp.resolveDescription(trafficDscp() >> 22);
+	}
+
+	/**
+	 * @see com.slytechs.protocol.pack.core.DiffServ#trafficDscpName()
+	 */
+	@Override
+	@Meta(MetaType.ATTRIBUTE)
+	public String trafficDscpName() {
+		return DiffServDscp.resolveName(trafficDscp() >> 22);
+	}
+
+	/**
+	 * @see com.slytechs.protocol.pack.core.DiffServ#trafficEcn()
+	 */
+	@Override
+	@Meta(MetaType.ATTRIBUTE)
+	public int trafficEcn() {
+		return flowLabel() & TRAFFIC_ECN_MASK;
+	}
+
+	/**
 	 * Version.
 	 *
 	 * @return the int
 	 */
 	@Override
+	@Meta(abbr = "ver")
 	public int version() {
 		return Ip6Layout.VERSION.getInt(buffer());
+	}
+
+	@Meta(MetaType.ATTRIBUTE)
+	public int word0() {
+		return buffer().getInt(0);
 	}
 }

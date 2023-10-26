@@ -23,7 +23,7 @@ package com.slytechs.protocol;
  * @author Sly Technologies
  * @author repos@slytechs.com
  */
-public sealed interface HasHeader permits Packet {
+public sealed interface HasHeader permits Packet { 
 
 	/**
 	 * Gets a protocol header. A header with numerical id {@link Header#id()} is

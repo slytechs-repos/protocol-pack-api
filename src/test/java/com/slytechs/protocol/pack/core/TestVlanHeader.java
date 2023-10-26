@@ -67,7 +67,7 @@ class TestVlanHeader {
 
 	@Test
 	void test_Vlan_priority() throws HeaderNotFound {
-		var packet = CoreTestPackets.VLAN.toPacket();
+		var packet = TestPackets.VLAN.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -80,7 +80,7 @@ class TestVlanHeader {
 
 	@Test
 	void test_Vlan_formatIdentifier() throws HeaderNotFound {
-		var packet = CoreTestPackets.VLAN.toPacket();
+		var packet = TestPackets.VLAN.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -93,7 +93,7 @@ class TestVlanHeader {
 
 	@Test
 	void test_Vlan_vlanId() throws HeaderNotFound {
-		var packet = CoreTestPackets.VLAN.toPacket();
+		var packet = TestPackets.VLAN.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);

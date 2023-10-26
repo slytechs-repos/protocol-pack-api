@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 
 import com.slytechs.protocol.Header;
 import com.slytechs.protocol.Packet;
+import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaContext.MetaMapped;
 
 /**
@@ -47,15 +48,16 @@ public final class MetaHeader
 
 	/** The fields. */
 	private final List<MetaField> fields;
-	
+
 	/** The attributes. */
 	private final List<MetaField> attributes;
-	
+
 	/** The elements. */
 	private final List<MetaField> elements;
-	
+
 	/** The element map. */
 	private volatile Map<String, MetaField> elementMap;
+	private volatile Map<String, Object> variableMap;
 
 	/**
 	 * Instantiates a new meta header.
@@ -74,9 +76,52 @@ public final class MetaHeader
 		this.fields = elements.stream().filter(MetaField::isField).toList();
 		this.attributes = elements.stream().filter(MetaField::isAttribute).toList();
 		this.elementMap = new HashMap<>();
+		this.variableMap = new HashMap<>();
 
 		fields.forEach(e -> elementMap.put(e.name(), e));
 		attributes.forEach(e -> elementMap.put(e.name(), e));
+
+		fields.forEach(this::addVariablesFromFields);
+		attributes.forEach(this::addVariablesFromFields);
+
+		linkReferencesToFields(fields);
+	}
+
+	private void linkReferencesToFields(List<MetaField> fields) {
+
+		super.setIntReferenceResolver(this::getIntValueByReference);
+
+		for (MetaField m : fields) {
+			if (m.getMeta(MetaInfo.class).metaType() == MetaType.FIELD)
+				m.setIntReferenceResolver(this::getIntValueByReference);
+		}
+	}
+
+	private int getIntValueByReference(String refName) {
+		MetaField intValue = get(refName);
+		if (intValue == null) {
+			elementMap.keySet().forEach(System.out::println);
+
+			throw new IllegalStateException("Meta header [%s] has unresolved meta field reference [%s]"
+					.formatted(header.headerName(), refName));
+		}
+
+		return intValue.get();
+	}
+
+	private void addVariablesFromFields(MetaField field) {
+		MetaInfo info = field.getMeta(MetaInfo.class);
+		String abbr = info.abbr();
+		String name = field.name();
+
+		String formatted = field.getFormatted();
+
+		if (variableMap.containsKey(name) || variableMap.containsKey(abbr))
+			throw new IllegalStateException("variable already defined [%s]"
+					.formatted(name + "/" + abbr));
+
+		variableMap.put(name, formatted);
+		variableMap.put(abbr, formatted);
 	}
 
 	/**
@@ -292,5 +337,17 @@ public final class MetaHeader
 	@Override
 	public MetaDomain findDomain(String name) {
 		return (MetaDomain) findKey(name).orElse(null);
+	}
+
+	/**
+	 * Find a variable. Variables are in the format of {@code $variable_name}.
+	 *
+	 * @param <V>  variable value type
+	 * @param name the name of the variable
+	 * @return the variable value if present otherwise empty is returned
+	 */
+	@SuppressWarnings("unchecked")
+	public <V> Optional<V> findVariable(String name) {
+		return (Optional<V>) Optional.ofNullable(variableMap.get(name));
 	}
 }

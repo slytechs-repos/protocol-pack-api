@@ -41,7 +41,7 @@ import java.util.Set;
 public enum Ip4Flag {
 
 	/** Reserved; must be zero. */
-	RESERVED,
+	RES,
 
 	/** Don't Fragment. */
 	DF,
@@ -77,6 +77,9 @@ public enum Ip4Flag {
 	 */
 	public static Set<Ip4Flag> valueOfInt03(int flags03) {
 		Set<Ip4Flag> set = EnumSet.noneOf(Ip4Flag.class);
+
+		if ((flags03 & IPv4_FLAG_RESERVED) > 0)
+			set.add(RES);
 
 		if ((flags03 & IPv4_FLAG03_DF) > 0)
 			set.add(DF);

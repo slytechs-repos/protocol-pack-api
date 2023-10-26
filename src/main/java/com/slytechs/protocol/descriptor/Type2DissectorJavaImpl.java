@@ -28,8 +28,11 @@ import java.util.function.IntConsumer;
 import com.slytechs.protocol.HeaderOptionInfo;
 import com.slytechs.protocol.pack.Pack;
 import com.slytechs.protocol.pack.PackId;
+import com.slytechs.protocol.pack.core.Icmp6NeighborAdvertisement;
+import com.slytechs.protocol.pack.core.Icmp6NeighborSolicitation;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.CoreId;
+import com.slytechs.protocol.pack.core.constants.Icmp6IdNsOptions;
 import com.slytechs.protocol.pack.core.constants.Icmp6Mlr2RecordType;
 import com.slytechs.protocol.pack.core.constants.Ip4IdOptions;
 import com.slytechs.protocol.pack.core.constants.Ip6ExtType;
@@ -382,39 +385,39 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 
 		case ICMPv6_TYPE_ECHO_REQUEST:
 			len = 8;
-//			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
 			addRecord(CoreId.CORE_ID_ICMPv6_ECHO_REQUEST, offset, len);
 			return;
 
 		case ICMPv6_TYPE_ECHO_REPLY:
 			len = 8;
-//			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
 			addRecord(CoreId.CORE_ID_ICMPv6_ECHO_REPLY, offset, len);
 			return;
 
 		case ICMPv6_TYPE_ROUTER_SOLICITATION:
 			len = 8;
 			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
-			// TODO: parse options
 			break;
 
 		case ICMPv6_TYPE_ROUTER_ADVERTISEMENT:
 			len = 16;
 			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
-			// TODO: parse options
 			break;
 
 		case ICMPv6_TYPE_NEIGHBOR_SOLICITATION:
+			len = Icmp6NeighborSolicitation.HEADER_LEN;
+			addRecord(CoreId.CORE_ID_ICMPv6_NEIGHBOR_SOLICITATION, offset, len);
+
+			dissectIcmp6NsOptions(offset + len);
+			break;
+
 		case ICMPv6_TYPE_NEIGHBOR_ADVERTISEMENT:
-			len = 24;
-			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
-			// TODO: parse options
+			len = Icmp6NeighborAdvertisement.HEADER_LEN;
+			addRecord(CoreId.CORE_ID_ICMPv6_NEIGHBOR_ADVERTISEMENT, offset, len);
 			break;
 
 		case ICMPv6_TYPE_REDIRECT:
 			len = 40;
 			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
-			// TODO: parse options
 			break;
 
 		case ICMPv6_TYPE_MULTICAST_LISTENER_REPORTv2:
@@ -439,6 +442,14 @@ class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDiss
 			addRecord(CoreId.CORE_ID_ICMPv6, offset, len);
 			return;
 		}
+	}
+
+	private void dissectIcmp6NsOptions(int offset) {
+		int type = (buf.get(offset + 0) & 0xFF);
+		int len = (buf.get(offset + 1) & 0xFF) * 8;
+
+		if (type == Icmp6IdNsOptions.ICMPv6_OPTION_TYPE_SOURCE_LINK_ADDRESS)
+			addRecord(Icmp6IdNsOptions.ICMPv6_ID_OPT_SOURCE_LINK_ADDRESS, offset, len);
 	}
 
 	private void dissectIcmp6MulticastListenerReportV2(int offset) {

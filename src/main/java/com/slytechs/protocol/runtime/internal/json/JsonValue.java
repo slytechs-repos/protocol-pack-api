@@ -22,7 +22,6 @@ package com.slytechs.protocol.runtime.internal.json;
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
 public interface JsonValue {
 
@@ -30,35 +29,35 @@ public interface JsonValue {
 	 * The Enum ValueType.
 	 */
 	public enum ValueType {
-		
+
 		/** The array. */
 		ARRAY,
-		
+
 		/** The false. */
 		FALSE,
-		
+
 		/** The null. */
 		NULL,
-		
+
 		/** The number. */
 		NUMBER,
-		
+
 		/** The object. */
 		OBJECT,
-		
+
 		/** The string. */
 		STRING,
-		
+
 		/** The true. */
 		TRUE
 	}
 
 	/** The null. */
 	JsonValue NULL = new JsonNullImpl();
-	
+
 	/** The false. */
 	JsonValue FALSE = new JsonBooleanImpl("false");
-	
+
 	/** The true. */
 	JsonValue TRUE = new JsonBooleanImpl("true");
 
@@ -68,4 +67,59 @@ public interface JsonValue {
 	 * @return the value type
 	 */
 	ValueType getValueType();
+
+	/**
+	 * Checks if is array.
+	 *
+	 * @return true, if is array
+	 */
+	default boolean isArray() {
+		return getValueType() == ValueType.ARRAY;
+	}
+
+	/**
+	 * Checks if is false.
+	 *
+	 * @return true, if is false
+	 */
+	default boolean isFalse() {
+		return getValueType() == ValueType.FALSE;
+	}
+
+	/**
+	 * Checks if is number.
+	 *
+	 * @return true, if is number
+	 */
+	default boolean isNumber() {
+		return getValueType() == ValueType.NUMBER;
+	}
+
+	/**
+	 * Checks if is object.
+	 *
+	 * @return true, if is object
+	 */
+	default boolean isObject() {
+		return getValueType() == ValueType.OBJECT;
+	}
+
+	/**
+	 * Checks if is string.
+	 *
+	 * @return true, if is string
+	 */
+	default boolean isString() {
+		return getValueType() == ValueType.STRING;
+	}
+
+	/**
+	 * Checks if is true.
+	 *
+	 * @return true, if is true
+	 */
+	default boolean isTrue() {
+		return getValueType() == ValueType.TRUE;
+	}
+
 }

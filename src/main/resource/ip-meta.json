@@ -1,5 +1,5 @@
 {
-	"IP": "Internet Protocol Version %{version}d, offset=%{offset}d, length=%{length}d",
+	"IP;200": "Internet Protocol Version %{version}d, offset=%{offset}d, length=%{length}d",
 	"HIGH,MEDIUM,LOW": {
 		"version;Version": "%{}d",
 		"protocol;Protocol": "%{:IP_TYPE}s (%{}d)",

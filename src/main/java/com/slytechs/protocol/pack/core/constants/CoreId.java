@@ -26,8 +26,8 @@ import java.util.function.Supplier;
 
 import com.slytechs.protocol.Frame;
 import com.slytechs.protocol.Header;
-import com.slytechs.protocol.HeaderOptionInfo;
 import com.slytechs.protocol.HeaderInfo;
+import com.slytechs.protocol.HeaderOptionInfo;
 import com.slytechs.protocol.HeaderSupplier;
 import com.slytechs.protocol.Other;
 import com.slytechs.protocol.Payload;
@@ -41,16 +41,18 @@ import com.slytechs.protocol.pack.core.Icmp4Echo;
 import com.slytechs.protocol.pack.core.Icmp6;
 import com.slytechs.protocol.pack.core.Icmp6Echo;
 import com.slytechs.protocol.pack.core.Icmp6Mlr2;
+import com.slytechs.protocol.pack.core.Icmp6NeighborAdvertisement;
+import com.slytechs.protocol.pack.core.Icmp6NeighborSolicitation;
 import com.slytechs.protocol.pack.core.Ip4;
 import com.slytechs.protocol.pack.core.Ip6;
 import com.slytechs.protocol.pack.core.Ip6AuthHeaderExtension;
 import com.slytechs.protocol.pack.core.Ip6DestinationExtension;
 import com.slytechs.protocol.pack.core.Ip6EcapsSecPayloadExtension;
+import com.slytechs.protocol.pack.core.Ip6ExtensionHeader;
 import com.slytechs.protocol.pack.core.Ip6FragmentExtension;
 import com.slytechs.protocol.pack.core.Ip6HopByHopExtension;
 import com.slytechs.protocol.pack.core.Ip6HostIdentityExtension;
 import com.slytechs.protocol.pack.core.Ip6RoutingExtension;
-import com.slytechs.protocol.pack.core.Ip6ExtensionHeader;
 import com.slytechs.protocol.pack.core.Ip6Shim6Extension;
 import com.slytechs.protocol.pack.core.Tcp;
 import com.slytechs.protocol.pack.core.Udp;
@@ -169,8 +171,8 @@ public enum CoreId implements HeaderInfo, PackId {
 	ICMPv6_MULTICAST_LISTENER_DONE("ICMPv6:MLD", Icmp6::new),
 	ICMPv6_ROUTER_SOLICITATION("ICMPv6:RS", Icmp6::new),
 	ICMPv6_ROUTER_ADVERTISEMENT("ICMPv6:RA", Icmp6::new),
-	ICMPv6_NEIGHBOR_SOLICITATION("ICMPv6:NS", Icmp6::new),
-	ICMPv6_NEIGHBOR_ADVERTISEMENT("ICMPv6:NA", Icmp6::new),
+	ICMPv6_NEIGHBOR_SOLICITATION("ICMPv6:NS", Icmp6NeighborSolicitation::new, Icmp6IdNsOptions::values),
+	ICMPv6_NEIGHBOR_ADVERTISEMENT("ICMPv6:NA", Icmp6NeighborAdvertisement::new),
 	ICMPv6_REDIRECT("ICMPv6:REDIRECT", Icmp6::new),
 	ICMPv6_ROUTER_NUMBER("ICMPv6:RN", Icmp6::new),
 	ICMPv6_NODE_INFO_QUERY("ICMPv6:NIQ", Icmp6::new),
@@ -203,7 +205,7 @@ public enum CoreId implements HeaderInfo, PackId {
 	;
 
 	/** The Constant CORE_CLASS_BIT_FORMAT. */
-	public static final BitFormat CORE_CLASS_BIT_FORMAT = new BitFormat("tDhCxiI64", '.');
+	public static final BitFormat CORE_CLASS_BIT_FORMAT = new BitFormat("tDhcCxiI64", '.');
 
 	/** The Constant CORE_CLASS_BIT_STRING. */
 	public static final IntFunction<String> CORE_CLASS_BIT_STRING = v -> "0b%5s"
@@ -229,14 +231,17 @@ public enum CoreId implements HeaderInfo, PackId {
 	/** The Constant CORE_CLASS_ICMP. */
 	public static final int CORE_CLASS_ICMP   = 1 << (5 + PACK_SHIFT_CLASSBITMASK);
 	
+	/** The Constant CORE_CLASS_ICMP_OPT. */
+	public static final int CORE_CLASS_ICMP_OPT = 1 << (6 + PACK_SHIFT_CLASSBITMASK);
+
 	/** The Constant CORE_CLASS_ICMP_ECHO. */
-	public static final int CORE_CLASS_ICMP_ECHO   = 1 << (6 + PACK_SHIFT_CLASSBITMASK);
+	public static final int CORE_CLASS_ICMP_ECHO   = 1 << (7 + PACK_SHIFT_CLASSBITMASK);
 	
 	/** The Constant CORE_CLASS_DHCP. */
-	public static final int CORE_CLASS_DHCP   = 1 << (7 + PACK_SHIFT_CLASSBITMASK);
+	public static final int CORE_CLASS_DHCP   = 1 << (8 + PACK_SHIFT_CLASSBITMASK);
 	
 	/** The Constant CORE_CLASS_TCP_OPT. */
-	public static final int CORE_CLASS_TCP_OPT = 1 << (8 + PACK_SHIFT_CLASSBITMASK);
+	public static final int CORE_CLASS_TCP_OPT = 1 << (9 + PACK_SHIFT_CLASSBITMASK);
 	
 	/** The Constant CORE_CLASS_IPv4. */
 	public static final int CORE_CLASS_IPv4   = CORE_CLASS_IP | CORE_CLASS_V4;

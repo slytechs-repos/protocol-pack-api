@@ -17,9 +17,8 @@
  */
 package com.slytechs.protocol.descriptor;
 
-import java.lang.foreign.Addressable;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
+import java.lang.foreign.SegmentScope;
 import java.nio.ByteBuffer;
 
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
@@ -46,7 +45,7 @@ public final class PcapDescriptor extends PacketDescriptor {
 	 * @param scope  the scope
 	 * @return the pcap descriptor
 	 */
-	public static PcapDescriptor ofAddress(Addressable header, MemorySession scope) {
+	public static PcapDescriptor ofAddress(MemorySegment header, SegmentScope scope) {
 		return ofMemorySegment(MemorySegment.ofAddress(header.address(), PCAP_DESCRIPTOR_LENGTH, scope));
 	}
 
@@ -152,7 +151,8 @@ public final class PcapDescriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.HeaderLookup#lookupHeaderExtension(int, int, int, int, com.slytechs.protocol.descriptor.HeaderDescriptor)
+	 * @see com.slytechs.protocol.HeaderLookup#lookupHeaderExtension(int, int, int,
+	 *      int, com.slytechs.protocol.descriptor.HeaderDescriptor)
 	 */
 	@Override
 	public boolean lookupHeaderExtension(int headerId, int extId, int depth, int recordIndexHint,
@@ -161,7 +161,8 @@ public final class PcapDescriptor extends PacketDescriptor {
 	}
 
 	/**
-	 * @see com.slytechs.protocol.HeaderLookup#lookupHeader(int, int, com.slytechs.protocol.descriptor.HeaderDescriptor)
+	 * @see com.slytechs.protocol.HeaderLookup#lookupHeader(int, int,
+	 *      com.slytechs.protocol.descriptor.HeaderDescriptor)
 	 */
 	@Override
 	public boolean lookupHeader(int id, int depth, HeaderDescriptor descriptor) {

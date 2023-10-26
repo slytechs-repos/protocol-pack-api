@@ -33,7 +33,7 @@ import com.slytechs.protocol.pack.core.Ip4Option;
 import com.slytechs.protocol.pack.core.Ip6JumboPayloadOption;
 import com.slytechs.protocol.pack.core.Ip6Pad1Option;
 import com.slytechs.protocol.pack.core.Ip6PadnOptioin;
-import com.slytechs.protocol.pack.core.Ip6OptRouterAlert;
+import com.slytechs.protocol.pack.core.Ip6RouterAlertOption;
 import com.slytechs.protocol.pack.core.Ip6Option;
 import com.slytechs.protocol.runtime.util.Enums;
 
@@ -51,7 +51,7 @@ public enum Ip6IdOption implements HeaderOptionInfo, PackId, IntSupplier {
 	PAD1(0x00, "PAD1", Ip6Pad1Option::new),
 	PADN(0x01, "PADN", Ip6PadnOptioin::new),
 	TUNNEL_ENCAPS_LIMIT(0x04, "TL", Ip6Option::new),
-	ROUTER_ALERT(0x05, "RA", Ip6OptRouterAlert::new),
+	ROUTER_ALERT(0x05, "RA", Ip6RouterAlertOption::new),
 	RPL(0x23, "RPL", Ip6Option::new),
 	QUICK_START(0x26, "QS", Ip6Option::new),
 	MTU(0x30, "MTU", Ip6Option::new),

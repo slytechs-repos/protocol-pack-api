@@ -1,8 +1,8 @@
 {
-	"Ethernet": "Ethernet II, src: %{source:R1}s dst=%{destination:R1}s offset=%{offset},d length=%{length},d",
+	"Ethernet": "Ethernet II, src: %{src:R1}s dst=%{dst:R1}s offset=%{offset},d length=%{length},d",
 	"HIGH,MEDIUM,LOW": {
-		"destination;Destination": "%{:ETHER_MAC_OUI_NAME_PREFIXED}s (%{:F}s)",
-		"source;Source": "%{:ETHER_MAC_OUI_NAME_PREFIXED}s (%{:F}s)",
+		"dst;Destination": "%{:ETHER_MAC_OUI_NAME_PREFIXED}s (%{:F}s)",
+		"src;Source": "%{:ETHER_MAC_OUI_NAME_PREFIXED}s (%{:F}s)",
 		"type;Type": "%{:ETHER_TYPE}s (0x%{}04X)"
 	}
 }

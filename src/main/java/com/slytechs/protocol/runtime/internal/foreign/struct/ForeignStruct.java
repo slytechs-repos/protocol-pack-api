@@ -17,12 +17,12 @@
  */
 package com.slytechs.protocol.runtime.internal.foreign.struct;
 
-import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 
+import com.slytechs.protocol.runtime.internal.foreign.ForeignUtils;
 import com.slytechs.protocol.runtime.util.Detail;
 
 /**
@@ -162,8 +162,8 @@ public class ForeignStruct {
 	 *
 	 * @return the memory address
 	 */
-	public MemoryAddress address() {
-		return (segment == null) ? null : segment.address();
+	public MemorySegment address() {
+		return ForeignUtils.isNullAddress(segment) ? null : segment;
 	}
 
 	/**
@@ -172,7 +172,7 @@ public class ForeignStruct {
 	 * @param member the member
 	 * @return the address
 	 */
-	public MemoryAddress getAddress(String member) {
+	public MemorySegment getAddress(String member) {
 		StructValue value = getMember(member);
 
 		return value.getAddress(segment);

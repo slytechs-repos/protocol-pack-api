@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.slytechs.jnet</groupId>
 	<artifactId>core-protocols</artifactId>
-	<version>0.9-SNAPSHOT</version>
+	<version>1.0.0-rc.1</version>
 	<name>Core Protocol Pack</name>
 	<description>Protocol and runtime support for common protocols</description>
 	<url>https://www.slytechs.com</url>
 	<properties>
-		<jdk.version>19</jdk.version>
+		<jdk.version>21</jdk.version>
 		<java.encoding>UTF-8</java.encoding>
 		<project.build.sourceEncoding>${java.encoding}</project.build.sourceEncoding>
 		<maven.compiler.source>${jdk.version}</maven.compiler.source>

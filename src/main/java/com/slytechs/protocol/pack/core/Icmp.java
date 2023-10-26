@@ -170,7 +170,7 @@ public sealed class Icmp extends OptionsHeader
 	 * @return the unsigned 16-bit field value
 	 */
 	public int checksum() {
-		return Short.toUnsignedInt(buffer().get(ICMPv4_FIELD_CHECKSUM));
+		return Short.toUnsignedInt(buffer().getShort(ICMPv4_FIELD_CHECKSUM));
 	}
 
 	/**

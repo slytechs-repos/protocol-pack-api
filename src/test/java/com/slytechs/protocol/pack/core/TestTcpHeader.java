@@ -33,6 +33,7 @@ import com.slytechs.protocol.meta.PacketFormat;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 import com.slytechs.protocol.runtime.util.Detail;
+import com.slytechs.test.Tests;
 
 /**
  * VLAN header tests
@@ -66,12 +67,12 @@ class TestTcpHeader {
 
 		DESC_BUFFER.clear();
 
-		System.out.println("---- " + info.getDisplayName() + " ----");
+		Tests.out.println("---- " + info.getDisplayName() + " ----");
 	}
 
 	@Test
 	void test_Tcp_dstPort() throws HeaderNotFound {
-		var packet = CoreTestPackets.ETH_IPv4_TCP_WCALEOPT.toPacket();
+		var packet = TestPackets.ETH_IPv4_TCP_WCALEOPT.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -84,21 +85,21 @@ class TestTcpHeader {
 
 	@Test
 	void test_Tcp_windowSizeScaledShiftCount7() throws HeaderNotFound {
-		var packet = CoreTestPackets.ETH_IPv4_TCP_WCALEOPT.toPacket();
+		var packet = TestPackets.ETH_IPv4_TCP_WCALEOPT.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
 		DISSECTOR.writeDescriptor(packet.descriptor());
 
 		var tcp = packet.getHeader(new Tcp());
-		System.out.println(tcp.toString(Detail.HIGH, new PacketFormat()));
+		Tests.out.println(tcp.toString(Detail.HIGH, new PacketFormat()));
 
 		assertEquals(5840 << 7, tcp.windowScaled(7));
 	}
 
 	@Test
 	void test_Tcp_windowSizeScaledWithWScaleOptionManual() throws HeaderNotFound {
-		var packet = CoreTestPackets.ETH_IPv4_TCP_WCALEOPT.toPacket();
+		var packet = TestPackets.ETH_IPv4_TCP_WCALEOPT.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -112,7 +113,7 @@ class TestTcpHeader {
 
 	@Test
 	void test_Tcp_windowSizeScaledWithWScaleOptionAuto() throws HeaderNotFound {
-		var packet = CoreTestPackets.ETH_IPv4_TCP_WCALEOPT.toPacket();
+		var packet = TestPackets.ETH_IPv4_TCP_WCALEOPT.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);

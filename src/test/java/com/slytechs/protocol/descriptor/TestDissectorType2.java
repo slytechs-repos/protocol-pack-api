@@ -30,11 +30,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
 import com.slytechs.protocol.Packet;
+import com.slytechs.protocol.pack.core.DiffServ;
 import com.slytechs.protocol.pack.core.Ethernet;
 import com.slytechs.protocol.pack.core.Ip4;
+import com.slytechs.protocol.pack.core.Ip4tRouterAlertOption;
 import com.slytechs.protocol.pack.core.Ip6;
 import com.slytechs.protocol.pack.core.Ip6FragmentExtension;
-import com.slytechs.protocol.pack.core.Ip4tRouterAlertOption;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.CoreId;
 import com.slytechs.protocol.pack.core.constants.HashType;
@@ -44,6 +45,7 @@ import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 import com.slytechs.protocol.runtime.internal.Benchmark;
 import com.slytechs.protocol.runtime.util.Detail;
 import com.slytechs.protocol.runtime.util.HexStrings;
+import com.slytechs.test.Tests;
 
 /**
  * @author Sly Technologies Inc
@@ -129,7 +131,7 @@ class TestDissectorType2 {
 
 	private void log(Level level, String fmt, Object... args) {
 		if (level.intValue() >= displayLevel.intValue())
-			System.out.printf("> %s", fmt.formatted(args));
+			Tests.out.printf("> %s", fmt.formatted(args));
 	}
 
 	private void log(Object obj) {
@@ -160,7 +162,7 @@ class TestDissectorType2 {
 		dissector = PacketDissector.javaDissector(PacketDescriptorType.TYPE2);
 
 		if (defaultLevel.intValue() >= displayLevel.intValue())
-			System.out.printf("> --- %s() ---%n", testName);
+			Tests.out.printf("> --- %s() ---%n", testName);
 	}
 
 	/**
@@ -171,7 +173,7 @@ class TestDissectorType2 {
 		dissector = null;
 
 		if (defaultLevel.intValue() >= displayLevel.intValue())
-			System.out.println();
+			Tests.out.println();
 	}
 
 	@Test
@@ -199,7 +201,7 @@ class TestDissectorType2 {
 
 		log("%s%n", type2);
 
-		System.out.println(type2.toString(Detail.HIGH));
+		Tests.out.println(type2.toString(Detail.HIGH));
 
 		assertEquals(TIMESTAMP, type2.timestamp(), "timestamp");
 		assertEquals(PACKET.length, type2.captureLength(), "captureLength");
@@ -259,8 +261,8 @@ class TestDissectorType2 {
 
 		diss2.writeDescriptorUsingLayout(desc2);
 
-//		System.out.printf("desc1=%s%n", HexStrings.toHexString(desc1.array(), 0, 24));
-//		System.out.printf("desc2=%s%n", HexStrings.toHexString(desc2.array(), 0, 24));
+//		Tests.out.printf("desc1=%s%n", HexStrings.toHexString(desc1.array(), 0, 24));
+//		Tests.out.printf("desc2=%s%n", HexStrings.toHexString(desc2.array(), 0, 24));
 
 		Type2Descriptor type2 = new Type2Descriptor()
 				.withBinding(desc2)
@@ -268,14 +270,14 @@ class TestDissectorType2 {
 				.rxPort(10)
 				.txPort(15)
 				.txIgnore(1);
-		System.out.printf("type2=%s%n", type2.buildString(Detail.HIGH));
+		Tests.out.printf("type2=%s%n", type2.buildString(Detail.HIGH));
 
 		try (Packet packet = new Packet(type2)) {
 			packet.bind(PACKET);
 
 			Ethernet eth = new Ethernet();
 			Ip4 ip4 = new Ip4();
-			Ip6 ip6 = new Ip6();
+			DiffServ ip6 = new Ip6();
 			Ip4tRouterAlertOption ra4 = new Ip4tRouterAlertOption();
 			Ip6FragmentExtension frag6 = new Ip6FragmentExtension();
 
@@ -294,15 +296,15 @@ class TestDissectorType2 {
 				dissector.writeDescriptor(desc1.clear());
 
 				if (packet.hasHeader(eth)) {
-					System.out.println(eth);
+					Tests.out.println(eth);
 				}
 
 				if (packet.hasHeader(ip4)) {
-					System.out.println(ip4);
+					Tests.out.println(ip4);
 				}
 
 				if (packet.hasHeader(ip4) && ip4.hasOption(ra4)) {
-					System.out.println(ra4);
+					Tests.out.println(ra4);
 				}
 
 				if (packet.hasHeader(frag6)) {

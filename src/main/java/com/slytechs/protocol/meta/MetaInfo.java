@@ -18,6 +18,8 @@
 package com.slytechs.protocol.meta;
 
 import java.lang.reflect.AnnotatedElement;
+import java.util.OptionalInt;
+import java.util.function.IntSupplier;
 
 import com.slytechs.protocol.meta.Meta.Formatter;
 import com.slytechs.protocol.meta.Meta.MetaType;
@@ -31,7 +33,6 @@ import com.slytechs.protocol.runtime.internal.json.JsonValue.ValueType;
  *
  * @author Sly Technologies Inc
  * @author repos@slytechs.com
- * @author Mark Bednarczyk
  */
 public class MetaInfo implements Comparable<MetaInfo>, MetaInfoType {
 
@@ -43,7 +44,7 @@ public class MetaInfo implements Comparable<MetaInfo>, MetaInfoType {
 	 * @param jsonDefaults the json defaults
 	 * @return the meta info
 	 */
-	public static MetaInfo parse(AnnotatedElement element, String name, JsonObject jsonDefaults) {
+	static MetaInfo parse(AnnotatedElement element, String name, JsonObject jsonDefaults) {
 
 		if (!element.isAnnotationPresent(Meta.class) && jsonDefaults == null)
 			throw new IllegalArgumentException("Meta resource or direct annotation not found [%s]"
@@ -53,7 +54,9 @@ public class MetaInfo implements Comparable<MetaInfo>, MetaInfoType {
 		if (jsonDefaults != null)
 			jsonMeta = jsonDefaults.get("meta");
 
-		MetaInfo meta = new MetaInfo();
+		Meta metaAnnotation = element.getAnnotation(Meta.class);
+
+		MetaInfo meta = new MetaInfo(metaAnnotation);
 
 		if (jsonMeta != null)
 			parseJsonMeta(meta, jsonMeta);
@@ -117,7 +120,10 @@ public class MetaInfo implements Comparable<MetaInfo>, MetaInfoType {
 	 * @param element the element
 	 * @param name    the name
 	 */
-	private static void parseMetaAnnotation(MetaInfo meta, AnnotatedElement element, String name) {
+	private static void parseMetaAnnotation(
+			MetaInfo meta,
+			AnnotatedElement element,
+			String name) {
 		Meta ma = element.getAnnotation(Meta.class);
 		if (ma == null)
 			return;
@@ -151,29 +157,38 @@ public class MetaInfo implements Comparable<MetaInfo>, MetaInfoType {
 
 	/** The abbr. */
 	private String abbr;
-	
+
 	/** The note. */
 	private String note = "";
-	
+
 	/** The ordinal. */
 	private int ordinal = -1;
-	
+
 	/** The formatter. */
 	private Formatter formatter;
-	
+
 	/** The displays info. */
 	private DisplaysInfo displaysInfo;
-	
+
 	/** The resolvers info. */
 	private ResolversInfo resolversInfo;
-	
+
 	/** The meta type. */
 	private MetaType metaType;
-	
+
+	/** The byte offset. */
+	private IntSupplier byteOffset;
+
+	/** The byte length. */
+	private IntSupplier byteLength;
+
+	private final Meta metaAnnotation;
+
 	/**
 	 * Instantiates a new meta info.
 	 */
-	private MetaInfo() {
+	private MetaInfo(Meta meta) {
+		this.metaAnnotation = meta;
 	}
 
 	/**
@@ -264,6 +279,28 @@ public class MetaInfo implements Comparable<MetaInfo>, MetaInfoType {
 	}
 
 	/**
+	 * Offset.
+	 *
+	 * @return the int
+	 */
+	public OptionalInt offset() {
+		return byteOffset == null
+				? OptionalInt.empty()
+				: OptionalInt.of(byteOffset.getAsInt());
+	}
+
+	/**
+	 * Length.
+	 *
+	 * @return the int
+	 */
+	public OptionalInt length() {
+		return byteLength == null
+				? OptionalInt.empty()
+				: OptionalInt.of(byteLength.getAsInt());
+	}
+
+	/**
 	 * To string.
 	 *
 	 * @return the string
@@ -273,5 +310,22 @@ public class MetaInfo implements Comparable<MetaInfo>, MetaInfoType {
 	public String toString() {
 		return "MetaInfo [name=" + name + ", abbr=" + abbr + ", note=" + note + ", ordinal=" + ordinal + ", type="
 				+ formatter + ", displaysInfo=" + displaysInfo + ", resolversInfo=" + resolversInfo + "]";
+	}
+
+	/**
+	 * @param intRefResolver
+	 */
+	void linkIntReferenceResolver(IntMetaResolver intRefResolver) {
+		if (metaAnnotation != null) {
+			if (metaAnnotation.offset() == -1)
+				this.byteOffset = intRefResolver.toIntSuplier(metaAnnotation.offsetRef());
+			else
+				this.byteOffset = metaAnnotation::offset;
+
+			if (metaAnnotation.length() == -1)
+				this.byteLength = intRefResolver.toIntSuplier(metaAnnotation.lengthRef());
+			else
+				this.byteLength = metaAnnotation::length;
+		}
 	}
 }

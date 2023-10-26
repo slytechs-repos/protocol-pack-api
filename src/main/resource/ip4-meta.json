@@ -1,15 +1,38 @@
 {
-	"IPv4": {
+	"IPv4;200": {
 		"HIGH,MEDIUM": "Internet Protocol Version 4, offset=%{offset}d, length=%{length}d",
 		"LOW": "%{src:F}s -> %{dst:F}s > %{protocol:R1}s"
 	},
 	"HIGH": {
-		"version;Version": "%{}d",
-		"hdrLen;Header Length": "%{}d [%{}d*4 = %{hdrLenBytes}d bytes]",
+		"version;Version": {
+			"%{}d": [
+				"%{header[0]:$1111 ....}s = Version: %{}d"
+			]
+		},
+		"hdrLen;Header Length": {
+			"%{hdrLenBytes}d bytes": [
+				"%{header[0]:$.... 1111}s = Header Length: %{hdrLenBytes}d bytes (%{header[0]}d)",
+				"[Header Length Function: %{header[0]}d*4 = %{hdrLenBytes}d bytes]"
+			]
+		},
+		"trafficClass;Traffic class": {
+			"0x%{}02x (DSCP: %{trafficDscpName}s, ECN: %{trafficDscpAbbr}s)": [
+				"%{:$1111 11..}s = Differentiated Services Codepoint: %{trafficDscp:[@DiffServDscp.class]}s (%{trafficDscp}d)",
+				"%{:$.... ..11}s = Explicit Congestion Notification: %{trafficEcn:[@DiffServEcn.class]}s (%{trafficEcn}d)"
+			]
+		},
 		"totalLength;Total Length": "%{}d bytes",
 		"identification;Identification": "0x%{}04X [%{}d]",
-		"flags;Flags": "%{}x %{flagsEnum}s",
-		"fragOffset;Fragment Offset": "%{}d [%{}d*8 = %{fragOffsetBytes}d]",
+		"flags;Flags": {
+			"0x%{}x %{flagsEnum}s": [
+				"%{header[6:2]:$111. .... .... ....}s = Flags: 0x%{}x [%{flags:$RDM$•}s]"
+			]
+		},
+		"fragOffset;Fragment Offset": {
+			"%{}d [%{}d*8 = %{fragOffsetBytes}d]": [
+				"%{:$...1 1111 1111 1111}s = Fragment Offset: %{fragOffset}d"
+			]
+		},
 		"ttl;Time to Live": "%{}d",
 		"protocol;Protocol": "%{:IP_TYPE}s (%{}d)",
 		"src;Source Address": "%{:F}s",
@@ -20,5 +43,13 @@
 		"protocol;Protocol": "%{}d [%{:IP_TYPE}s]",
 		"src;Source Address": "%{:F}s",
 		"dst;Destination Address": "%{:F}s"
+	},
+	"MEDIUM": {
+			"trafficClass;Traffic class": {
+			"0x%{}02x (DSCP: %{trafficDscpName}s, ECN: %{trafficDscpAbbr}s)": [
+				"%{:$1111 11..}s = Differentiated Services Codepoint: %{trafficDscp:[@DiffServDscp.class]}s (%{trafficDscp}d)",
+				"%{:$.... ..11}s = Explicit Congestion Notification: %{trafficEcn:[@DiffServEcn.class]}s (%{trafficEcn}d)"
+			]
+		}
 	}
 }

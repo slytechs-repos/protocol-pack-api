@@ -70,6 +70,6 @@ public final class JsonArrayBuilder {
 	 * @return the json array
 	 */
 	public JsonArray build() {
-		return new ArrayImpl(list);
+		return new JsonArrayImpl(list);
 	}
 }

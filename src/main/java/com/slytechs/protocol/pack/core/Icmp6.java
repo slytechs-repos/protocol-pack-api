@@ -28,8 +28,9 @@ import com.slytechs.protocol.pack.core.constants.CoreId;
  * @author repos@slytechs.com
  */
 @MetaResource("icmp6-meta.json")
-public sealed class Icmp6 extends Icmp
-		permits Icmp6Echo, Icmp6Mlr2 {
+public sealed class Icmp6
+		extends Icmp
+		permits Icmp6Echo, Icmp6Mlr2, Icmp6OptionsHeader, Icmp6NeighborAdvertisement {
 
 	/** The Constant ID. */
 	public static final int ID = CoreId.CORE_ID_ICMPv6;
@@ -58,7 +59,7 @@ public sealed class Icmp6 extends Icmp
 	}
 
 	@Override
-	@Meta
+	@Meta(formatter = Meta.Formatter.HEX_LOWERCASE_0x)
 	public int checksum() {
 		return super.checksum();
 	}

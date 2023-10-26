@@ -67,7 +67,7 @@ class TestRarpReplyHeader {
 
 	@Test
 	void test_RarpReply_hardwareType() throws HeaderNotFound {
-		var packet = CoreTestPackets.RARP1_REPLY.toPacket();
+		var packet = TestPackets.RARP1_REPLY.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -81,7 +81,7 @@ class TestRarpReplyHeader {
 
 	@Test
 	void test_RarpReply_protocolType() throws HeaderNotFound {
-		var packet = CoreTestPackets.RARP1_REPLY.toPacket();
+		var packet = TestPackets.RARP1_REPLY.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -95,7 +95,7 @@ class TestRarpReplyHeader {
 
 	@Test
 	void test_RarpReply_hardwareSize() throws HeaderNotFound {
-		var packet = CoreTestPackets.RARP1_REPLY.toPacket();
+		var packet = TestPackets.RARP1_REPLY.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -109,7 +109,7 @@ class TestRarpReplyHeader {
 
 	@Test
 	void test_RarpReply_protocolSize() throws HeaderNotFound {
-		var packet = CoreTestPackets.RARP1_REPLY.toPacket();
+		var packet = TestPackets.RARP1_REPLY.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -123,7 +123,7 @@ class TestRarpReplyHeader {
 
 	@Test
 	void test_RarpReply_operation() throws HeaderNotFound {
-		var packet = CoreTestPackets.RARP1_REPLY.toPacket();
+		var packet = TestPackets.RARP1_REPLY.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -137,7 +137,7 @@ class TestRarpReplyHeader {
 
 	@Test
 	void test_RarpReply_senderMacAddress() throws HeaderNotFound {
-		var packet = CoreTestPackets.RARP1_REPLY.toPacket();
+		var packet = TestPackets.RARP1_REPLY.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -153,7 +153,7 @@ class TestRarpReplyHeader {
 
 	@Test
 	void test_RarpReply_senderProtocolAddress() throws HeaderNotFound {
-		var packet = CoreTestPackets.RARP1_REPLY.toPacket();
+		var packet = TestPackets.RARP1_REPLY.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -169,7 +169,7 @@ class TestRarpReplyHeader {
 
 	@Test
 	void test_RarpReply_targetMacAddress() throws HeaderNotFound {
-		var packet = CoreTestPackets.RARP1_REPLY.toPacket();
+		var packet = TestPackets.RARP1_REPLY.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 
@@ -185,7 +185,7 @@ class TestRarpReplyHeader {
 
 	@Test
 	void test_RarpReply_targetProtocolAddress() throws HeaderNotFound {
-		var packet = CoreTestPackets.RARP1_REPLY.toPacket();
+		var packet = TestPackets.RARP1_REPLY.toPacket();
 		packet.setFormatter(new PacketFormat());
 		packet.descriptor().bind(DESC_BUFFER);
 

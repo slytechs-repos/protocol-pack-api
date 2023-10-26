@@ -24,6 +24,7 @@ import com.slytechs.protocol.descriptor.IpfReassembly;
 import com.slytechs.protocol.descriptor.IpfTracking;
 import com.slytechs.protocol.descriptor.PacketDescriptor;
 import com.slytechs.protocol.meta.Meta;
+import com.slytechs.protocol.meta.Meta.MetaType;
 import com.slytechs.protocol.meta.MetaResource;
 import com.slytechs.protocol.pack.core.constants.CoreConstants;
 import com.slytechs.protocol.pack.core.constants.CoreId;
@@ -72,24 +73,6 @@ public sealed class Ip
 	}
 
 	/**
-	 * Gets the IP protocol field value.
-	 * <p>
-	 * The IP protocol field is a field in the IPv4 header that identifies the
-	 * upper-layer protocol that is encapsulated in the IP packet. The IP protocol
-	 * field is 8 bits wide and can take on a value of 0 to 255.
-	 * </p>
-	 *
-	 * @return the unsigned 8-bit field value.
-	 */
-	@Meta
-	public int protocol() {
-		if (version == 4)
-			return Ip4Struct.PROTO.getInt(buffer());
-		else
-			return Ip6Layout.NEXT.getInt(buffer());
-	}
-
-	/**
 	 * Gets the IP destination field value.
 	 * <p>
 	 * The IP destination field is a field in the IPv4 header that specifies the IP
@@ -104,7 +87,7 @@ public sealed class Ip
 	 *
 	 * @return an array containing the field value, either IPv4 and IPv6 address
 	 */
-	@Meta
+	@Meta(MetaType.ATTRIBUTE)
 	public byte[] dst() {
 		if (version == 4) {
 			return dst(new byte[CoreConstants.IPv4_FIELD_SRC_LEN], 0);
@@ -260,6 +243,24 @@ public sealed class Ip
 	}
 
 	/**
+	 * Gets the IP protocol field value.
+	 * <p>
+	 * The IP protocol field is a field in the IPv4 header that identifies the
+	 * upper-layer protocol that is encapsulated in the IP packet. The IP protocol
+	 * field is 8 bits wide and can take on a value of 0 to 255.
+	 * </p>
+	 *
+	 * @return the unsigned 8-bit field value.
+	 */
+	@Meta(MetaType.ATTRIBUTE)
+	public int protocol() {
+		if (version == 4)
+			return Ip4Struct.PROTO.getInt(buffer());
+		else
+			return Ip6Layout.NEXT.getInt(buffer());
+	}
+
+	/**
 	 * Gets the IP source address field value.
 	 * <p>
 	 * The IP source field is a field in the IPv4 header that specifies the IP
@@ -275,7 +276,7 @@ public sealed class Ip
 	 * 
 	 * @return an array containing the field value, either IPv4 and IPv6 address
 	 */
-	@Meta
+	@Meta(MetaType.ATTRIBUTE)
 	public byte[] src() {
 		if (version == 4)
 			return src(new byte[CoreConstants.IPv4_FIELD_SRC_LEN], 0);

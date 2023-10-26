@@ -519,7 +519,7 @@ public class Type2Descriptor extends PacketDescriptor {
 
 				if (pack != ProtocolPackTable.PACK_ID_OPTIONS) {
 					lastId = id;
-					b.append("    [%d]=0x%016X (id=0x%06X [%4s:%-20s], off=%2d, len=%2d, classMask=0x%03X/%s[%s])%n"
+					b.append("    [%d]=0x%016X (id=0x%08X [%4s:%-20s], off=%2d, len=%2d, classMask=0x%03X/%s[%s])%n"
 							.formatted(
 									i,
 									record,
@@ -534,7 +534,7 @@ public class Type2Descriptor extends PacketDescriptor {
 
 				} else {
 					// Protocol specific extensions/options
-					b.append("    [%d]=0x%016X (id=0x%06X [%4s:%-20s], off=%2d, len=%2d, classMask=0x%03X/%s[%s])%n"
+					b.append("    [%d]=0x%016X (id=0x%08X [%4s:%-20s], off=%2d, len=%2d, classMask=0x%03X/%s[%s])%n"
 							.formatted(
 									i,
 									record,

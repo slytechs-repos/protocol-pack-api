@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
 import com.slytechs.protocol.Packet;
+import com.slytechs.protocol.pack.core.DiffServ;
 import com.slytechs.protocol.pack.core.Ethernet;
 import com.slytechs.protocol.pack.core.Ip4;
 import com.slytechs.protocol.pack.core.Ip4tRouterAlertOption;
@@ -41,6 +42,7 @@ import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 import com.slytechs.protocol.runtime.internal.Benchmark;
 import com.slytechs.protocol.runtime.util.Detail;
 import com.slytechs.protocol.runtime.util.HexStrings;
+import com.slytechs.test.Tests;
 
 /**
  * @author Sly Technologies Inc
@@ -126,7 +128,7 @@ class TestDissectorType1 {
 
 	private void log(Level level, String fmt, Object... args) {
 		if (level.intValue() >= displayLevel.intValue())
-			System.out.printf("> %s", fmt.formatted(args));
+			Tests.out.printf("> %s", fmt.formatted(args));
 	}
 
 	private void log(Object obj) {
@@ -157,7 +159,7 @@ class TestDissectorType1 {
 		dissector = PacketDissector.javaDissector(PacketDescriptorType.TYPE1);
 
 		if (defaultLevel.intValue() >= displayLevel.intValue())
-			System.out.printf("> --- %s() ---%n", testName);
+			Tests.out.printf("> --- %s() ---%n", testName);
 	}
 
 	/**
@@ -168,7 +170,7 @@ class TestDissectorType1 {
 		dissector = null;
 
 		if (defaultLevel.intValue() >= displayLevel.intValue())
-			System.out.println();
+			Tests.out.println();
 	}
 
 	@Test
@@ -245,19 +247,19 @@ class TestDissectorType1 {
 		diss1.writeDescriptor(desc2);
 		desc2.flip();
 
-//		System.out.printf("desc1=%s%n", HexStrings.toHexString(desc1.array(), 0, 24));
-//		System.out.printf("desc2=%s%n", HexStrings.toHexString(desc2.array(), 0, 24));
+//		Tests.out.printf("desc1=%s%n", HexStrings.toHexString(desc1.array(), 0, 24));
+//		Tests.out.printf("desc2=%s%n", HexStrings.toHexString(desc2.array(), 0, 24));
 
 		Type1Descriptor type1 = new Type1Descriptor()
 				.withBinding(desc2);
-		System.out.printf("type1=%s%n", type1.buildString(Detail.HIGH));
+		Tests.out.printf("type1=%s%n", type1.buildString(Detail.HIGH));
 
 		try (Packet packet = new Packet(type1)) {
 			packet.bind(PACKET);
 
 			Ethernet eth = new Ethernet();
 			Ip4 ip4 = new Ip4();
-			Ip6 ip6 = new Ip6();
+			DiffServ ip6 = new Ip6();
 			Ip4tRouterAlertOption router4 = new Ip4tRouterAlertOption();
 			Ip6FragmentExtension frag6 = new Ip6FragmentExtension();
 
@@ -276,15 +278,15 @@ class TestDissectorType1 {
 				dissector.writeDescriptor(desc1.clear());
 
 				if (packet.hasHeader(eth)) {
-					System.out.println(eth);
+					Tests.out.println(eth);
 				}
 
 				if (packet.hasHeader(ip4)) {
-					System.out.println(ip4);
+					Tests.out.println(ip4);
 				}
 
 				if (packet.hasHeader(ip4) && ip4.hasOption(router4)) {
-					System.out.println(router4);
+					Tests.out.println(router4);
 				}
 
 				if (packet.hasHeader(frag6)) {

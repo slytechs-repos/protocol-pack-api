@@ -67,7 +67,7 @@ class TestEthernetHeader {
 
 	@Test
 	void test_Ethernet_destination() throws HeaderNotFound {
-		var packet = CoreTestPackets.VLAN.toPacket();
+		var packet = TestPackets.VLAN.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -77,12 +77,12 @@ class TestEthernetHeader {
 		
 		var EXPECTED_MAC = HexStrings.parseHexString("0060089fb1f3");
 
-		assertArrayEquals(EXPECTED_MAC, ethernet.destination());
+		assertArrayEquals(EXPECTED_MAC, ethernet.dst());
 	}
 
 	@Test
 	void test_Ethernet_source() throws HeaderNotFound {
-		var packet = CoreTestPackets.VLAN.toPacket();
+		var packet = TestPackets.VLAN.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);
@@ -92,12 +92,12 @@ class TestEthernetHeader {
 		
 		var EXPECTED_MAC = HexStrings.parseHexString("00400540ef24");
 
-		assertArrayEquals(EXPECTED_MAC, ethernet.source());
+		assertArrayEquals(EXPECTED_MAC, ethernet.src());
 	}
 
 	@Test
 	void test_Ethernet_type() throws HeaderNotFound {
-		var packet = CoreTestPackets.VLAN.toPacket();
+		var packet = TestPackets.VLAN.toPacket();
 		packet.descriptor().bind(DESC_BUFFER);
 
 		DISSECTOR.dissectPacket(packet);

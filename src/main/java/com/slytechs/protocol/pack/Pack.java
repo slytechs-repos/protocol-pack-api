@@ -27,12 +27,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.slytechs.protocol.Header;
-import com.slytechs.protocol.HeaderOptionInfo;
 import com.slytechs.protocol.HeaderInfo;
+import com.slytechs.protocol.HeaderOptionInfo;
 import com.slytechs.protocol.Other;
 import com.slytechs.protocol.descriptor.PacketDissectorExtension;
 import com.slytechs.protocol.descriptor.PacketDissectorExtension.DissectorExtensionFactory;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
+import com.slytechs.protocol.runtime.internal.util.Reflections;
 
 /**
  * A protocol pack information and instance.
@@ -264,7 +265,7 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 				.map(HeaderInfo::abbr)
 				.orElse("N/A(%d.%d)".formatted(id, extId));
 
-		return "%s:%s".formatted(parent, ext);
+		return "%s+%s".formatted(parent, ext);
 	}
 
 	/**
@@ -521,7 +522,6 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 	 * @param className  the class name
 	 * @return the pack
 	 */
-	@SuppressWarnings("unchecked")
 	private static Pack<?> loadPackClass(String moduleName, String className) {
 		try {
 
@@ -533,15 +533,7 @@ public abstract class Pack<E extends Enum<? extends HeaderInfo>> {
 				module = ModuleLayer.boot()
 						.findModule(moduleName);
 
-			Class<Pack<?>> clazz;
-			if (module.isPresent())
-				clazz = (Class<Pack<?>>) Class
-						.forName(module.get(), className);
-			else
-				clazz = (Class<Pack<?>>) Class
-						.forName(className);
-			if (clazz == null)
-				return null;
+			Class<Pack<?>> clazz = Reflections.loadClass(moduleName, className);
 
 			Method singletonMethod = clazz.getDeclaredMethod("singleton");
 

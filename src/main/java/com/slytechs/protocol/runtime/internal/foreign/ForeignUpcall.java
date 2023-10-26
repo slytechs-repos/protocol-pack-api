@@ -20,7 +20,7 @@ package com.slytechs.protocol.runtime.internal.foreign;
 import java.lang.foreign.FunctionDescriptor;
 import java.lang.foreign.Linker;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.MemorySession;
+import java.lang.foreign.SegmentScope;
 import java.lang.invoke.MethodHandle;
 
 /**
@@ -33,27 +33,13 @@ import java.lang.invoke.MethodHandle;
  */
 public class ForeignUpcall<T> {
 
-	/** The Constant C_LINKER. */
 	private static final Linker C_LINKER = Linker.nativeLinker();
 
-	/** The message. */
 	private final String message; // Stub error handler
-	
-	/** The cause. */
 	private final Throwable cause; // Stub error handler
-	
-	/** The handle. */
 	private final MethodHandle handle;
-	
-	/** The descriptor. */
 	private final FunctionDescriptor descriptor;
 
-	/**
-	 * Instantiates a new foreign upcall.
-	 *
-	 * @param handle     the handle
-	 * @param descriptor the descriptor
-	 */
 	ForeignUpcall(MethodHandle handle, FunctionDescriptor descriptor) {
 		this.handle = handle;
 		this.descriptor = descriptor;
@@ -61,12 +47,6 @@ public class ForeignUpcall<T> {
 		this.cause = null;
 	}
 
-	/**
-	 * Instantiates a new foreign upcall.
-	 *
-	 * @param message the message
-	 * @param cause   the cause
-	 */
 	ForeignUpcall(String message, Throwable cause) {
 		this.message = message;
 		this.cause = cause;
@@ -74,9 +54,6 @@ public class ForeignUpcall<T> {
 		this.descriptor = null;
 	}
 
-	/**
-	 * Throw if errors.
-	 */
 	private void throwIfErrors() {
 		if (cause != null)
 			throw (cause instanceof RuntimeException e)
@@ -84,24 +61,11 @@ public class ForeignUpcall<T> {
 					: new RuntimeException(message, cause);
 	}
 
-	/**
-	 * Virtual stub pointer.
-	 *
-	 * @param target the target
-	 * @return the memory segment
-	 */
 	public MemorySegment virtualStubPointer(T target) {
-		return virtualStubPointer(target, MemorySession.openImplicit());
+		return virtualStubPointer(target, SegmentScope.auto());
 	}
 
-	/**
-	 * Virtual stub pointer.
-	 *
-	 * @param target the target
-	 * @param scope  the scope
-	 * @return the memory segment
-	 */
-	public MemorySegment virtualStubPointer(T target, MemorySession scope) {
+	public MemorySegment virtualStubPointer(T target, SegmentScope scope) {
 		throwIfErrors();
 
 		MethodHandle handle = this.handle.bindTo(target);
@@ -111,22 +75,11 @@ public class ForeignUpcall<T> {
 
 	}
 
-	/**
-	 * Static stub pointer.
-	 *
-	 * @return the memory segment
-	 */
 	public MemorySegment staticStubPointer() {
-		return staticStubPointer(MemorySession.openImplicit());
+		return staticStubPointer(SegmentScope.auto());
 	}
 
-	/**
-	 * Static stub pointer.
-	 *
-	 * @param scope the scope
-	 * @return the memory segment
-	 */
-	public MemorySegment staticStubPointer(MemorySession scope) {
+	public MemorySegment staticStubPointer(SegmentScope scope) {
 		throwIfErrors();
 
 		return C_LINKER.upcallStub(handle, descriptor, scope);

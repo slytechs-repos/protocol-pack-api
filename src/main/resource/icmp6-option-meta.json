@@ -1,0 +1,7 @@
+{
+	"ICMPv6;100": "Option, offset=%{offset}s, length=%{length}s",
+	"TRACE,DEBUG,HIGH,MEDIUM,LOW": {
+		"type": "%{:[1=Source link-layer address]}s (%{}d)",
+		"optionLength;Length": "%{}d [%{}d*8=%{optionLengthBytes}d bytes]"
+	}
+}

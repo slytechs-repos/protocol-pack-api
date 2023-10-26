@@ -40,6 +40,7 @@ import com.slytechs.protocol.runtime.NotFound;
 import com.slytechs.protocol.runtime.internal.json.JsonException;
 import com.slytechs.protocol.runtime.util.Detail;
 import com.slytechs.protocol.runtime.util.HexStrings;
+import com.slytechs.test.Tests;
 
 /**
  * @author Sly Technologies Inc
@@ -171,21 +172,21 @@ class TestMetaHeader {
 		Ip4 ip4 = new Ip4();
 		Payload payload = new Payload();
 
-		if (packet.hasHeader(eth))
-			System.out.println(pf.format(eth));
+//		if (packet.hasHeader(eth))
+//			Tests.out.println(pf.format(eth));
 
 		if (packet.hasHeader(ip4))
-			System.out.println(pf.format(ip4));
+			Tests.out.println(pf.format(ip4, Detail.TRACE));
 
-		if (packet.hasHeader(payload))
-			System.out.println(pf.format(payload));
+//		if (packet.hasHeader(payload))
+//			Tests.out.println(pf.format(payload));
 	}
 
 	@Test
 	void testPacketFormatter() throws NotFound, JsonException {
 		PacketFormat format = new PacketFormat(Detail.LOW);
 
-		System.out.println(format.format(packet));
+		Tests.out.println(format.format(packet));
 	}
 
 	@Test
@@ -195,14 +196,14 @@ class TestMetaHeader {
 //		Ethernet eth = packet.getHeader(new Ethernet());
 //		Payload payload = packet.getHeader(new Payload());
 
-		System.out.println("Dump entire packet:");
-		System.out.println(format.formatHexdump(packet));
+		Tests.out.println("Dump entire packet:");
+		Tests.out.println(format.formatHexdump(packet));
 //
-//		System.out.println("Dump Ethernet header only:");
-//		System.out.println(format.formatHexdump(eth));
+//		Tests.out.println("Dump Ethernet header only:");
+//		Tests.out.println(format.formatHexdump(eth));
 //
-//		System.out.println("Dump Payload.data field:");
-//		System.out.println(format.formatHexdump(new MetaHeader(format, payload).getField("data")));
+//		Tests.out.println("Dump Payload.data field:");
+//		Tests.out.println(format.formatHexdump(new MetaHeader(format, payload).getField("data")));
 
 	}
 }

@@ -62,7 +62,7 @@ public final class Llc extends Header {
 	 *
 	 * @return 1-byte control field
 	 */
-	@Meta
+	@Meta(offset = 2, length = 1)
 	public int control() {
 		return LlcLayout.CONTROL.getUnsignedByte(buffer());
 	}
@@ -79,7 +79,7 @@ public final class Llc extends Header {
 	 *
 	 * @return 1-byte dsap field
 	 */
-	@Meta
+	@Meta(offset = 0, length = 1)
 	public int dsap() {
 		return LlcLayout.DSAP.getUnsignedByte(buffer());
 	}
@@ -94,7 +94,7 @@ public final class Llc extends Header {
 	 *
 	 * @return 1-byte ssap field
 	 */
-	@Meta
+	@Meta(offset = 1, length = 1)
 	public int ssap() {
 		return LlcLayout.SSAP.getUnsignedByte(buffer());
 	}

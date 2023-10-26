@@ -31,7 +31,7 @@ import com.slytechs.protocol.pack.core.constants.Ip6IdOption;
  * </p>
  */
 @MetaResource("ip6-opt-router-alert-meta.json")
-public final class Ip6OptRouterAlert extends Ip6Option {
+public final class Ip6RouterAlertOption extends Ip6Option {
 
 	/** The IPv4 Router Alert option ID constant. */
 	public static final int ID = Ip6IdOption.IPv6_ID_OPT_ROUTER_ALERT;
@@ -39,7 +39,7 @@ public final class Ip6OptRouterAlert extends Ip6Option {
 	/**
 	 * Instantiates a new ip 4 opt router.
 	 */
-	public Ip6OptRouterAlert() {
+	public Ip6RouterAlertOption() {
 		super(ID);
 	}
 

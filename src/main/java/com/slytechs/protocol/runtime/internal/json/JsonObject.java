@@ -158,6 +158,42 @@ public interface JsonObject extends JsonStructure {
 	boolean isPresent(String name);
 
 	/**
+	 * Checks if is array.
+	 *
+	 * @param name the name
+	 * @return true, if is array
+	 */
+	default boolean isArray(String name) {
+		JsonValue val = get(name);
+
+		return val != null && val.isArray();
+	}
+
+	/**
+	 * Checks if is string.
+	 *
+	 * @param name the name
+	 * @return true, if is string
+	 */
+	default boolean isString(String name) {
+		JsonValue val = get(name);
+
+		return val != null && val.isString();
+	}
+
+	/**
+	 * Checks if is number.
+	 *
+	 * @param name the name
+	 * @return true, if is number
+	 */
+	default boolean isNumber(String name) {
+		JsonValue val = get(name);
+
+		return val != null && val.isNumber();
+	}
+
+	/**
 	 * Key set.
 	 *
 	 * @return the sets the

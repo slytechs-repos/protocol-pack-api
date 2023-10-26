@@ -29,7 +29,7 @@ import com.slytechs.protocol.meta.MetaValue.ValueResolverTuple2;
 import com.slytechs.protocol.pack.core.constants.ArpHardwareType;
 import com.slytechs.protocol.pack.core.constants.ArpOp;
 import com.slytechs.protocol.pack.core.constants.EtherType;
-import com.slytechs.protocol.pack.core.constants.I3eOuiAssignments;
+import com.slytechs.protocol.pack.core.constants.MacOuiAssignments;
 import com.slytechs.protocol.pack.core.constants.Icmp4Code;
 import com.slytechs.protocol.pack.core.constants.Icmp4Type;
 import com.slytechs.protocol.pack.core.constants.Icmp6Mlr2RecordType;
@@ -95,13 +95,13 @@ public @interface Resolver {
 		ARP_HWTYPE(ArpHardwareType::resolve),
 
 		/** The ether mac oui name. */
-		ETHER_MAC_OUI_NAME(I3eOuiAssignments::resolveMacOuiName),
+		ETHER_MAC_OUI_NAME(MacOuiAssignments::resolveMacOuiName),
 
 		/** The ether mac oui name prefixed. */
-		ETHER_MAC_OUI_NAME_PREFIXED(I3eOuiAssignments::formatMacPrefixWithOuiName),
+		ETHER_MAC_OUI_NAME_PREFIXED(MacOuiAssignments::formatMacPrefixWithOuiName),
 
 		/** The ether mac oui description. */
-		ETHER_MAC_OUI_DESCRIPTION(I3eOuiAssignments::resolveMacOuiDescription),
+		ETHER_MAC_OUI_DESCRIPTION(MacOuiAssignments::resolveMacOuiDescription),
 
 		/** The bitshift 1. */
 		BITSHIFT_1(v -> DisplayUtil.bitshiftIntLeft(v, 1)),

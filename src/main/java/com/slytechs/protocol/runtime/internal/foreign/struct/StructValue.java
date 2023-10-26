@@ -17,7 +17,6 @@
  */
 package com.slytechs.protocol.runtime.internal.foreign.struct;
 
-import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 import java.lang.invoke.VarHandle;
 import java.util.function.Function;
@@ -87,8 +86,8 @@ public final class StructValue extends StructMember {
 	 * @param segment the segment
 	 * @return the address
 	 */
-	public MemoryAddress getAddress(MemorySegment segment) {
-		return (MemoryAddress) get(segment);
+	public MemorySegment getAddress(MemorySegment segment) {
+		return (MemorySegment) get(segment);
 	}
 
 	/**

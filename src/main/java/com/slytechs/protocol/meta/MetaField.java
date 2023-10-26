@@ -182,4 +182,28 @@ public final class MetaField extends MetaElement {
 		return displays != null && displays.select(detail) != null;
 	}
 
+	/**
+	 * Read number from header.
+	 *
+	 * @param type  the type
+	 * @param index the index
+	 * @return the number
+	 */
+	public Number readNumberFromHeader(Class<?> type, int index) {
+		var buf = getParentHeader().buffer();
+
+		if (type == byte.class)
+			return Byte.toUnsignedInt(buf.get(index));
+
+		if (type == short.class)
+			return Short.toUnsignedInt(buf.getShort(index));
+
+		if (type == int.class)
+			return Integer.toUnsignedLong(buf.getInt(index));
+
+		if (type == long.class)
+			return buf.getLong(index);
+
+		return get();
+	}
 }
