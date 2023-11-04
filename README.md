@@ -1,6 +1,15 @@
 # Core Protocol Pack
 Core Protocol pack consisting of many common protocols and runtime support for other modules.
 
+## Optional additional modules
+* [Web protocol pack][web-protocols] - TLS/SSL, Quic, etc...
+* (several others under development) - Coming soon!
+  - Telco/Carrier protocol pack
+  - Voice/Video protocol pack - with various codecs and streaming protocols
+  - Database protocol pack - database monitoring and quality assurance
+  - System tables - auxilary module with support for ARP, ROUTING and other system tables
+
+
 ## How to use this module
 This module, **core-protocols** is an extension module which provides protocol level support for one of the main public APIs. You need to setup your application using either [**jnetpcap-pro**][jnetpcap-pro] or **jNetWorks** (_Coming Soon!_) modules which provide the main APIs for building applications using any of the protocol packs.
 
@@ -56,6 +65,7 @@ Here is a table of all of the protocol definitions provided by this **core-proto
 [timestamp-unit-src]: https://github.com/slytechs-repos/core-protocols/blob/feature-ipf-processing/src/main/java/com/slytechs/protocol/runtime/time/TimestampUnit.java
 [packet-descriptor-type-src]: https://github.com/slytechs-repos/core-protocols/blob/feature-ipf-processing/src/main/java/com/slytechs/protocol/pack/core/constants/PacketDescriptorType.java
 [packet-src]: https://github.com/slytechs-repos/core-protocols/blob/feature-ipf-processing/src/main/java/com/slytechs/protocol/Packet.java
+[web-protocols]: https://github.com/slytechs-repos/web-protocols
 
 ## Status and Updates
 * May 5th, 2023 - Currently working IP fragmentation and reassembly. Check this [pull request #11](https://github.com/slytechs-repos/core-protocols/pull/11) for the latest on IPF support, including some examples!
