@@ -130,8 +130,8 @@ public final class StructMembers {
 		if (!(layout.select(p) instanceof SequenceLayout sequence))
 			throw new IllegalArgumentException("only sequence layouts are mappable %s".formatted(path));
 
-		long bitOffset = layout.bitOffset(p);
-		long bitSize = sequence.elementLayout().bitSize();
+		long bitOffset = layout.byteOffset(p) * 8;
+		long bitSize = sequence.elementLayout().byteSize() * 8;
 		int count = (int) sequence.elementCount();
 
 		var handle = new StructArray<>(name, this, bitOffset, bitSize, t -> count, mapper);
@@ -180,8 +180,8 @@ public final class StructMembers {
 		if (!(layout.select(p) instanceof SequenceLayout sequence))
 			throw new IllegalArgumentException("only sequence layouts are mappable %s".formatted(path));
 
-		long bitOffset = layout.bitOffset(p);
-		long bitSize = sequence.elementLayout().bitSize();
+		long bitOffset = layout.byteOffset(p) * 8;
+		long bitSize = sequence.elementLayout().byteSize() * 8;
 
 		var handle = new StructArray<>(name, this, bitOffset, bitSize, count, mapper);
 
@@ -217,8 +217,8 @@ public final class StructMembers {
 		if (!(layout.select(p) instanceof GroupLayout group))
 			throw new IllegalArgumentException("only group layouts are allowed %s".formatted(path));
 
-		long bitOffset = layout.bitOffset(p);
-		long bitSize = group.bitSize();
+		long bitOffset = layout.byteOffset(p) * 8;
+		long bitSize = group.byteSize() * 8;
 
 		var handle = new StructGroup<>(name, this, bitOffset, bitSize, null);
 
@@ -259,8 +259,8 @@ public final class StructMembers {
 		if (!(layout.select(p) instanceof GroupLayout group))
 			throw new IllegalArgumentException("only group layouts are allowed %s".formatted(path));
 
-		long bitOffset = layout.bitOffset(p);
-		long bitSize = group.bitSize();
+		long bitOffset = layout.byteOffset(p) *8;
+		long bitSize = group.byteSize() *8;
 
 		var handle = new StructGroup<>(name, this, bitOffset, bitSize, mapper);
 
@@ -347,8 +347,8 @@ public final class StructMembers {
 			throw new IllegalArgumentException("only value layouts are allowed %s".formatted(path));
 
 		VarHandle varHandle = layout.varHandle(p);
-		long bitOffset = layout.bitOffset(p);
-		long bitSize = value.bitSize();
+		long bitOffset = layout.byteOffset(p) * 8;
+		long bitSize = value.byteSize() * 8;
 
 		var handle = new StructValue(name, this, varHandle, bitOffset, bitSize, bitOperator);
 
@@ -376,8 +376,8 @@ public final class StructMembers {
 			throw new IllegalArgumentException("only value layouts are allowed %s".formatted(path));
 
 		VarHandle varHandle = layout.varHandle(p);
-		long bitOffset = layout.bitOffset(p);
-		long bitSize = value.bitSize();
+		long bitOffset = layout.byteOffset(p) * 8;
+		long bitSize = value.byteSize() * 8;
 
 		var handle = new StructValue(name, this, varHandle, bitOffset, bitSize, null);
 
@@ -414,8 +414,8 @@ public final class StructMembers {
 
 		if (selected instanceof SequenceLayout seq && seq.elementLayout().equals(JAVA_BYTE)) {
 
-			long bitOffset = layout.bitOffset(p);
-			long bitSize = seq.bitSize();
+			long bitOffset = layout.byteOffset(p) * 8;
+			long bitSize = seq.byteOffset() * 8;
 
 			var handle = new StructUtf8String(name, this, bitOffset, bitSize, StructUtf8String::readByteSequence);
 
@@ -424,7 +424,7 @@ public final class StructMembers {
 			return handle;
 
 		} else if (selected.equals(ADDRESS)) {
-			long bitOffset = layout.bitOffset(p);
+			long bitOffset = layout.byteOffset(p) * 8;
 			long bitSize = -1;
 
 			var handle = new StructUtf8String(name, this, bitOffset, bitSize, StructUtf8String::readUtf8StringPointer);
@@ -500,7 +500,7 @@ public final class StructMembers {
 	 * @return the long
 	 */
 	public long bitSize() {
-		return layout.bitSize();
+		return layout.byteSize() * 8;
 	}
 
 	/**

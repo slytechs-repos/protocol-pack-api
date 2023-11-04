@@ -17,10 +17,10 @@
  */
 package com.slytechs.protocol.runtime.internal.foreign;
 
+import java.lang.foreign.Arena;
 import java.lang.foreign.FunctionDescriptor;
 import java.lang.foreign.Linker;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentScope;
 import java.lang.invoke.MethodHandle;
 
 /**
@@ -62,10 +62,10 @@ public class ForeignUpcall<T> {
 	}
 
 	public MemorySegment virtualStubPointer(T target) {
-		return virtualStubPointer(target, SegmentScope.auto());
+		return virtualStubPointer(target, Arena.ofAuto());
 	}
 
-	public MemorySegment virtualStubPointer(T target, SegmentScope scope) {
+	public MemorySegment virtualStubPointer(T target, Arena scope) {
 		throwIfErrors();
 
 		MethodHandle handle = this.handle.bindTo(target);
@@ -76,10 +76,10 @@ public class ForeignUpcall<T> {
 	}
 
 	public MemorySegment staticStubPointer() {
-		return staticStubPointer(SegmentScope.auto());
+		return staticStubPointer(Arena.ofAuto());
 	}
 
-	public MemorySegment staticStubPointer(SegmentScope scope) {
+	public MemorySegment staticStubPointer(Arena scope) {
 		throwIfErrors();
 
 		return C_LINKER.upcallStub(handle, descriptor, scope);

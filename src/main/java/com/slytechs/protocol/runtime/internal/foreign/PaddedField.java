@@ -52,7 +52,7 @@ public interface PaddedField {
 		 */
 		@Override
 		public long bitSize() {
-			return layout.bitSize();
+			return layout.byteSize() * 8;
 		}
 
 		/**
@@ -74,7 +74,7 @@ public interface PaddedField {
 		 */
 		@Override
 		public long bitAlignment() {
-			return layout.bitAlignment();
+			return layout.byteSize() * 8;
 		}
 
 		/**

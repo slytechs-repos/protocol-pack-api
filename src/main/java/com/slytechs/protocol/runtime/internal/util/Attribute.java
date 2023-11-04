@@ -17,8 +17,8 @@
  */
 package com.slytechs.protocol.runtime.internal.util;
 
+import java.lang.foreign.Arena;
 import java.lang.foreign.MemorySegment;
-import java.lang.foreign.SegmentScope;
 import java.nio.ByteBuffer;
 
 import com.slytechs.protocol.runtime.MemoryBinding;
@@ -116,7 +116,7 @@ public interface Attribute  {
 		 * @return the memory segment
 		 */
 		default MemorySegment getMemorySegment() {
-			return getMemorySegment(SegmentScope.auto());
+			return getMemorySegment(Arena.ofAuto());
 		}
 
 		/**
@@ -125,7 +125,7 @@ public interface Attribute  {
 		 * @param scope the scope
 		 * @return the memory segment
 		 */
-		MemorySegment getMemorySegment(SegmentScope scope);
+		MemorySegment getMemorySegment(Arena scope);
 
 		/**
 		 * Gets the object.
@@ -135,7 +135,7 @@ public interface Attribute  {
 		 * @return the object
 		 */
 		default <T extends MemoryBinding> T getObject(T obj) {
-			return getObject(obj, SegmentScope.auto());
+			return getObject(obj, Arena.ofAuto());
 		}
 
 		/**
@@ -146,7 +146,7 @@ public interface Attribute  {
 		 * @param session the session
 		 * @return the object
 		 */
-		default <T extends MemoryBinding> T getObject(T obj, SegmentScope session) {
+		default <T extends MemoryBinding> T getObject(T obj, Arena session) {
 			MemorySegment mseg = getMemorySegment(session);
 			ByteBuffer b = mseg.asByteBuffer();
 

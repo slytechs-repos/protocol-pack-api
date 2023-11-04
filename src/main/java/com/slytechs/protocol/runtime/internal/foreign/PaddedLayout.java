@@ -480,7 +480,7 @@ public class PaddedLayout implements PaddedField {
 		case VALUE -> array[0];
 		};
 
-		return layout.withBitAlignment(bitAlignment);
+		return layout.withByteAlignment(bitAlignment / 8);
 	}
 
 	/**

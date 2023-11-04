@@ -44,7 +44,7 @@ public class Type2Descriptor extends PacketDescriptor {
 
 	/** The mask. */
 	/* Lazy cache some common values, cleared on unbind() */
-	private int mask;
+	private long mask;
 
 	/** The hash type. */
 	private int hashType;
@@ -67,9 +67,10 @@ public class Type2Descriptor extends PacketDescriptor {
 	 *
 	 * @return the int
 	 */
-	public int bitmask() {
+	public long bitmask() {
 		if (mask == -1)
-			mask = BITMASK.getInt(buffer());
+			mask = BITMASK.proxyBitField()
+					.getLong(buffer());
 
 		return mask;
 	}
@@ -300,7 +301,7 @@ public class Type2Descriptor extends PacketDescriptor {
 		if (headerId == CoreId.CORE_ID_PAYLOAD)
 			return false;
 
-		final int mask = bitmask();
+		final long mask = bitmask();
 		if (!PackId.bitmaskCheck(mask, headerId) && PackId.classBitmaskIsEmpty(headerId))
 			return false;
 
@@ -328,7 +329,7 @@ public class Type2Descriptor extends PacketDescriptor {
 		if (recordIndexHint > 0)
 			return lookupExtension(extId, recordIndexHint + 1, recordCount(), descriptor);
 
-		final int mask = bitmask();
+		final long mask = bitmask();
 		if (!PackId.bitmaskCheck(mask, headerId) && PackId.classBitmaskIsEmpty(headerId))
 			return false;
 
@@ -499,7 +500,7 @@ public class Type2Descriptor extends PacketDescriptor {
 			if (detail.isHigh())
 				b.append("  bitmask=0x%016X (0b%s) %s%n".formatted(
 						bitmask(),
-						Integer.toBinaryString(bitmask()),
+						Long.toBinaryString(bitmask()),
 						CoreId.toSetFromBitmask(bitmask())));
 		}
 
@@ -691,7 +692,8 @@ public class Type2Descriptor extends PacketDescriptor {
 	@Override
 	protected void onUnbind() {
 		super.onUnbind();
-		hash24 = hash32 = hashType = mask = -1;
+		hash24 = hash32 = hashType = -1;
+		mask = -1;
 	}
 
 }

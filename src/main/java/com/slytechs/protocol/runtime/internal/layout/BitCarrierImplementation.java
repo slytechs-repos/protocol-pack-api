@@ -93,22 +93,22 @@ class BitCarrierImplementation implements BitCarrier {
 
 	/** The Constant JAVA_SHORT_BIG. */
 	// @formatter:off
-	private final static ValueLayout.OfShort JAVA_SHORT_BIG    = ValueLayout.JAVA_SHORT.withOrder(ByteOrder.BIG_ENDIAN).withBitAlignment(8);
+	private final static ValueLayout.OfShort JAVA_SHORT_BIG    = ValueLayout.JAVA_SHORT.withOrder(ByteOrder.BIG_ENDIAN).withByteAlignment(1);
 	
 	/** The Constant JAVA_INT_BIG. */
-	private final static ValueLayout.OfInt   JAVA_INT_BIG      = ValueLayout.JAVA_INT.withOrder(ByteOrder.BIG_ENDIAN).withBitAlignment(8);
+	private final static ValueLayout.OfInt   JAVA_INT_BIG      = ValueLayout.JAVA_INT.withOrder(ByteOrder.BIG_ENDIAN).withByteAlignment(1);
 	
 	/** The Constant JAVA_LONG_BIG. */
-	private final static ValueLayout.OfLong  JAVA_LONG_BIG     = ValueLayout.JAVA_LONG.withOrder(ByteOrder.BIG_ENDIAN).withBitAlignment(8);
+	private final static ValueLayout.OfLong  JAVA_LONG_BIG     = ValueLayout.JAVA_LONG.withOrder(ByteOrder.BIG_ENDIAN).withByteAlignment(1);
 	
 	/** The Constant JAVA_SHORT_LITTLE. */
-	private final static ValueLayout.OfShort JAVA_SHORT_LITTLE = ValueLayout.JAVA_SHORT.withOrder(ByteOrder.LITTLE_ENDIAN).withBitAlignment(8);
+	private final static ValueLayout.OfShort JAVA_SHORT_LITTLE = ValueLayout.JAVA_SHORT.withOrder(ByteOrder.LITTLE_ENDIAN).withByteAlignment(1);
 	
 	/** The Constant JAVA_INT_LITTLE. */
-	private final static ValueLayout.OfInt   JAVA_INT_LITTLE   = ValueLayout.JAVA_INT.withOrder(ByteOrder.LITTLE_ENDIAN).withBitAlignment(8);
+	private final static ValueLayout.OfInt   JAVA_INT_LITTLE   = ValueLayout.JAVA_INT.withOrder(ByteOrder.LITTLE_ENDIAN).withByteAlignment(1);
 	
 	/** The Constant JAVA_LONG_LITTLE. */
-	private final static ValueLayout.OfLong  JAVA_LONG_LITTLE  = ValueLayout.JAVA_LONG.withOrder(ByteOrder.LITTLE_ENDIAN).withBitAlignment(8);
+	private final static ValueLayout.OfLong  JAVA_LONG_LITTLE  = ValueLayout.JAVA_LONG.withOrder(ByteOrder.LITTLE_ENDIAN).withByteAlignment(1);
 
 	/**
 	 * Java byte.
