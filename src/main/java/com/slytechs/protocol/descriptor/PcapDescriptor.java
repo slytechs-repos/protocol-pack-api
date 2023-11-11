@@ -17,8 +17,6 @@
  */
 package com.slytechs.protocol.descriptor;
 
-import java.lang.foreign.Arena;
-import java.lang.foreign.MemorySegment;
 import java.nio.ByteBuffer;
 
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
@@ -37,31 +35,6 @@ public final class PcapDescriptor extends PacketDescriptor {
 
 	/** The Constant PCAP_DESCRIPTOR_LENGTH. */
 	public final static int PCAP_DESCRIPTOR_LENGTH = 24;
-
-	/**
-	 * Of address.
-	 *
-	 * @param header the header
-	 * @param scope  the scope
-	 * @return the pcap descriptor
-	 */
-	public static PcapDescriptor ofAddress(MemorySegment header, Arena scope) {
-		return ofMemorySegment(header.reinterpret(PCAP_DESCRIPTOR_LENGTH, scope, __ -> {}));
-	}
-
-	/**
-	 * Of memory segment.
-	 *
-	 * @param headerSegment the header segment
-	 * @return the pcap descriptor
-	 */
-	public static PcapDescriptor ofMemorySegment(MemorySegment headerSegment) {
-		PcapDescriptor descriptor = new PcapDescriptor();
-		ByteBuffer buffer = headerSegment.asByteBuffer();
-		descriptor.bind(buffer, headerSegment);
-
-		return descriptor;
-	}
 
 	/** The Constant EMPTY_HEADER_ARRAY. */
 	private static final long[] EMPTY_HEADER_ARRAY = new long[0];

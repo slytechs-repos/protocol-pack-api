@@ -17,6 +17,7 @@ package com.slytechs.protocol.runtime.internal.foreign;
 
 import java.lang.foreign.MemorySegment;
 import java.lang.invoke.VarHandle;
+import java.util.function.Consumer;
 
 /**
  * The Class ForeignUtils.
@@ -25,6 +26,13 @@ import java.lang.invoke.VarHandle;
  * @author repos@slytechs.com
  */
 public final class ForeignUtils {
+	
+	public static final Consumer<MemorySegment> EMPTY_CLEANUP = new Consumer<MemorySegment>() {
+		@Override
+		public void accept(MemorySegment t) {
+			
+		}
+	};
 
 	/** The Constant DEFAULT_MAX_STRING_LEN. */
 	private final static long DEFAULT_MAX_STRING_LEN = 64 * 1024;

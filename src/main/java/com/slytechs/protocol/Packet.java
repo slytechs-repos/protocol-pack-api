@@ -35,6 +35,7 @@ import com.slytechs.protocol.pack.PackId;
 import com.slytechs.protocol.pack.core.constants.CoreId;
 import com.slytechs.protocol.pack.core.constants.PacketDescriptorType;
 import com.slytechs.protocol.runtime.MemoryBinding;
+import com.slytechs.protocol.runtime.time.HasTimestamp;
 import com.slytechs.protocol.runtime.time.Timestamp;
 import com.slytechs.protocol.runtime.time.TimestampUnit;
 import com.slytechs.protocol.runtime.util.Detail;
@@ -62,7 +63,7 @@ import com.slytechs.protocol.runtime.util.ToHexdump;
 @MetaResource("packet-meta.json")
 public final class Packet
 		extends MemoryBinding
-		implements HasHeader, Cloneable, AutoCloseable, DetailedString, ToHexdump {
+		implements HasHeader, Cloneable, AutoCloseable, DetailedString, ToHexdump, HasTimestamp {
 
 	/** The Constant MAX_PACKET_LENGTH. */
 	public static final int MAX_PACKET_LENGTH = 1538;
@@ -252,7 +253,7 @@ public final class Packet
 	/**
 	 * Descriptor.
 	 *
-	 * @param <D>            the generic type
+	 * @param <D>  the generic type
 	 * @param type the descriptor type
 	 * @return the d
 	 */
@@ -420,6 +421,7 @@ public final class Packet
 	 *
 	 * @return the long
 	 */
+	@Override
 	public final long timestamp() {
 		return descriptor.timestamp();
 	}
@@ -429,6 +431,7 @@ public final class Packet
 	 *
 	 * @return the timestamp unit
 	 */
+	@Override
 	public final TimestampUnit timestampUnit() {
 		return descriptor.timestampUnit();
 	}

@@ -1,19 +1,17 @@
 /*
- * Sly Technologies Free License
- * 
- * Copyright 2023 Sly Technologies Inc.
+ * Copyright 2023 Sly Technologies Inc
  *
- * Licensed under the Sly Technologies Free License (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * 
- * http://www.slytechs.com/free-license-text
- * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package com.slytechs.protocol.runtime.time;
 
@@ -42,7 +40,7 @@ public class Timestamp extends Date implements TimestampPrecisionInfo, StringBui
 
 	/** The Constant TS_MICROS_PER_SECOND. */
 	static final long TS_MICROS_PER_SECOND = 1000_000l;
-	
+
 	/** The Constant TS_MILLIS_PER_SECOND. */
 	static final long TS_MILLIS_PER_SECOND = 1000l;
 
@@ -141,6 +139,15 @@ public class Timestamp extends Date implements TimestampPrecisionInfo, StringBui
 	 */
 	public Timestamp(long timestampInMillis) {
 		this(timestampInMillis, TimestampUnit.EPOCH_MILLI);
+	}
+
+	/**
+	 * Instantiates a new timestamp.
+	 *
+	 * @param timestampSource the timestamp source
+	 */
+	public Timestamp(HasTimestamp timestampSource) {
+		this(timestampSource.timestamp(), timestampSource.timestampUnit());
 	}
 
 	/**
