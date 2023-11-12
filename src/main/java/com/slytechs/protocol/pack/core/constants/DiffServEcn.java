@@ -46,16 +46,34 @@ public enum DiffServEcn implements IntSupplier, IsDescription, IsAbbr {
 
 	;
 
+	public static final int ECN_MASK = 0x3;
+
 	public static String resolveName(Object dscp) {
-		return Enums.valueOf(((Number) dscp).intValue(), DiffServEcn.class).name();
+		try {
+			int ecn = ((Number) dscp).intValue() & ECN_MASK;
+			return Enums.valueOf(ecn, DiffServEcn.class).name();
+		} catch (Throwable e) {
+			return String.valueOf(dscp);
+		}
 	}
 
 	public static String resolveDescription(Object dscp) {
-		return Enums.valueOf(((Number) dscp).intValue(), DiffServEcn.class).description();
+		try {
+			int ecn = ((Number) dscp).intValue() & ECN_MASK;
+			return Enums.valueOf(ecn, DiffServEcn.class).description();
+		} catch (Throwable e) {
+			return String.valueOf(dscp);
+		}
 	}
 
 	public static String resolveAbbr(Object dscp) {
-		return Enums.valueOf(((Number) dscp).intValue(), DiffServEcn.class).abbr();
+		int ecn = ((Number) dscp).intValue() & ECN_MASK;
+		try {
+			return Enums.valueOf(ecn, DiffServEcn.class).abbr();
+		} catch (Throwable e) {
+			return String.valueOf(dscp);
+		}
+
 	}
 
 	private final int dscp;
@@ -85,6 +103,7 @@ public enum DiffServEcn implements IntSupplier, IsDescription, IsAbbr {
 	 *
 	 * @return the string
 	 */
+	@Override
 	public String description() {
 		return description;
 	}
@@ -94,6 +113,7 @@ public enum DiffServEcn implements IntSupplier, IsDescription, IsAbbr {
 	 *
 	 * @return the string
 	 */
+	@Override
 	public String abbr() {
 		return abbr;
 	}

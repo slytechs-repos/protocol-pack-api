@@ -50,11 +50,21 @@ public enum DiffServDscp implements IntSupplier, IsDescription {
 	;
 
 	public static String resolveName(Object dscp) {
-		return Enums.valueOf(((Number) dscp).intValue(), DiffServDscp.class).name();
+		try {
+			int dscpInt = ((Number) dscp).intValue();
+			return Enums.valueOf(dscpInt, DiffServDscp.class).name();
+		} catch (Throwable e) {
+			return String.valueOf(dscp);
+		}
 	}
 
 	public static String resolveDescription(Object dscp) {
-		return Enums.valueOf(((Number) dscp).intValue(), DiffServDscp.class).description();
+		try {
+			int dscpInt = ((Number) dscp).intValue();
+			return Enums.valueOf(dscpInt, DiffServDscp.class).description();
+		} catch (Throwable e) {
+			return String.valueOf(dscp);
+		}
 	}
 
 	private final int dscp;
@@ -82,6 +92,7 @@ public enum DiffServDscp implements IntSupplier, IsDescription {
 	 *
 	 * @return the string
 	 */
+	@Override
 	public String description() {
 		return description;
 	}
