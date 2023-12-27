@@ -2,11 +2,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.slytechs.jnet</groupId>
-	<artifactId>core-protocols</artifactId>
+	<groupId>com.slytechs.jnet.protocol</groupId>
+	<artifactId>protocol-pack-core</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>Core Protocol Pack</name>
-	<description>Protocol and runtime support for common protocols</description>
+	<name>Protocol Pack Core</name>
+	<description>Core protocol pack, consisting of common protocols and protocol primitives</description>
 	<url>https://www.slytechs.com</url>
 	<properties>
 		<jdk.version>21</jdk.version>
