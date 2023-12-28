@@ -39,16 +39,6 @@
  */
 module com.slytechs.jnet.protocol.core {
 
-	/* Private API */
-	exports com.slytechs.jnet.jnetruntime.internal;
-	exports com.slytechs.jnet.jnetruntime.internal.layout;
-	exports com.slytechs.jnet.jnetruntime.internal.foreign;
-	exports com.slytechs.jnet.jnetruntime.internal.concurrent;
-	exports com.slytechs.jnet.jnetruntime.internal.util to
-			com.slytechs.jnetpcap.pro;
-
-	exports com.slytechs.jnet.jnetruntime.internal.json to
-			com.slytechs.protocol.pack.web;
 
 	/* Public API */
 	exports com.slytechs.jnet.protocol;
@@ -57,12 +47,8 @@ module com.slytechs.jnet.protocol.core {
 	exports com.slytechs.jnet.protocol.core.constants;
 	exports com.slytechs.jnet.protocol.descriptor;
 	exports com.slytechs.jnet.protocol.meta;
-	exports com.slytechs.jnet.jnetruntime;
-	exports com.slytechs.jnet.jnetruntime.hash;
-	exports com.slytechs.jnet.jnetruntime.time;
-	exports com.slytechs.jnet.jnetruntime.util;
-	exports com.slytechs.jnet.jnetruntime.internal.util.function;
-	exports com.slytechs.jnet.jnetruntime.internal.util.format;
+	
+	requires com.slytechs.jnet.jnetruntime;
 
 	requires java.logging;
 }
