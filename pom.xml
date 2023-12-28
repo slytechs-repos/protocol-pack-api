@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.slytechs.jnet.protocol</groupId>
 	<artifactId>protocol-pack-core</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 	<name>Protocol Pack Core</name>
 	<description>Core protocol pack, consisting of common protocols and protocol primitives</description>
 	<url>https://www.slytechs.com</url>
