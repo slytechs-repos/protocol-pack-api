@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.slytechs.jnet.protocol</groupId>
     <artifactId>protocol-pack-sdk-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.10.0-SNAPSHOT</version>
   </parent>
   <artifactId>protocol-pack-core</artifactId>
   <name>Protocol Pack Core</name>
