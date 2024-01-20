@@ -1,0 +1,7 @@
+{
+	"IPv4:OPT": "IPv4 option (%{length}d bytes)",
+	"HIGH,MEDIUM,LOW": {
+		"type;Type": "%{:IPv4_OPT_TYPE}s (%{}d)",
+		"extensionLength;Length": "%{}d"
+	}
+}

@@ -1,0 +1,7 @@
+{
+	"ICMPv4;200": "Internet Control Message Protocol Echo (Ping), offset=%{offset}d, length=%{length}d",
+	"TRACE,DEBUG,HIGH,MEDIUM,LOW": {
+		"identifier;Identifier": "%{}d (0x%{}04X)",
+		"sequence;Sequence Number": "%{}d"
+	}
+}

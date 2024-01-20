@@ -1,0 +1,6 @@
+{
+	"IPv6:HOP:JUMBO;200": "Jumbo Payload option",
+	"HIGH,MEDIUM,LOW": {
+		"jumboPayloadLength;Jumbo payload length": "%{}d"
+	}
+}

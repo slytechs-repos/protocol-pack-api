@@ -1,0 +1,7 @@
+{
+	"IPv6": "IPv6 Options header",
+	"HIGH,MEDIUM,LOW": {
+		"type;Type": "%{:IPv6_OPT_TYPE}s (%{}d)",
+		"optionDataLength;Length": "%{}d"
+	}
+}

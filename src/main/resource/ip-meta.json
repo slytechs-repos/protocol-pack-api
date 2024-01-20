@@ -1,31 +1,9 @@
 {
-	"display": "Internet Protocol Version 4, offset=%{offset}d, length=%{length}d",
-	"meta": {
-		"name": "IP",
-		"abbr": "IP"
-	},
-	"field": {
-		"version": {
-			"meta": 10,
-			"display": "%{}d"
-		},
-		"hdrLen": {
-			"meta": 20,
-			"display": "%{}d [%{}d*4 = %{hdrLenBytes}d bytes]",
-			"resolver": "BITSHIFT_2"
-		},
-		"protocol": {
-			"display": {
-				"LOW": "%{}d",
-				"HIGH": "%{}d (%{:R}s)",
-				"DEBUG": "%{}d (%{:R}s)"
-			},
-			"resolver": "IP_TYPE"
-		},
-		"dst": {
-			"display": "%{:F}s"
-		},
-		"src": {
-		}
+	"IP;200": "Internet Protocol Version %{version}d, offset=%{offset}d, length=%{length}d",
+	"HIGH,MEDIUM,LOW": {
+		"version;Version": "%{}d",
+		"protocol;Protocol": "%{:IP_TYPE}s (%{}d)",
+		"dst;Destination Address": "%{:F}s",
+		"src;Source Address": "%{:F}s"
 	}
 }

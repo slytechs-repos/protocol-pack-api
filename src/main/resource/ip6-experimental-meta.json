@@ -1,0 +1,87 @@
+{
+	"IPv6;200": {
+		"LOW": "%{src:F}s -> %{dst:F}s > %{protocol:R1}s",
+		"MEDIUM": "Internet Protocol Version 6, offset=%{offset}d, length=%{length}d",
+		"HIGH":	"Internet Protocol Version 6, offset=%{offset}d, length=%{length}d",
+		"DEBUG": [
+			"Internet Protocol Version 6, offset=%{offset}d, length=%{length}d",
+			" 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 ",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|Version| Traffic Class |          Flow Label                   |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|           Total Length        |   Next Header |   Hop Limit   |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|                                                               |",
+			"+                                                               +",
+			"|                                                               |",
+			"+                       Source Address                          +",
+			"|                                                               |",
+			"+                                                               +",
+			"|                                                               |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|                                                               |",
+			"+                                                               +",
+			"|                                                               |",
+			"+                    Destination Address                        +",
+			"|                                                               |",
+			"+                                                               +",
+			"|                                                               |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
+		],
+		"TRACE": [
+			"Internet Protocol Version 6, offset=%{offset}d, length=%{length}d",
+			" 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 ",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"| $ver  |      $dscp    |               $flow                   |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|                $len           |      $proto   |    $limit     |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|                                                               |",
+			"+                                                               +",
+			"|                                                               |",
+			"+                              $src                             +",
+			"|                                                               |",
+			"+                                                               +",
+			"|                                                               |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|                                                               |",
+			"+                                                               +",
+			"|                                                               |",
+			"+                              $dst                             +",
+			"|                                                               |",
+			"+                                                               +",
+			"|                                                               |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
+		],
+	},
+	"TRACE,DEBUG,HIGH": {
+		"version;Version": { 
+			"%{}d": [
+				"%{word0:$1111 .... .... .... .... .... .... ....}s = Version: %{version}d"
+			]
+		},
+		"trafficClass;Traffic Class": {
+			"0x%{}02x (DSCP: %{trafficDscpName}s, ECN: %{trafficDscpAbbr}s)": [
+				"%{:$1111 11..}s = Differentiated Services Codepoint: %{trafficDscp:[@DiffServDscp.class]}s (%{trafficDscp}d)",
+				"%{:$.... ..11}s = Explicit Congestion Notification: %{trafficEcn:[@DiffServEcn.class]}s (%{trafficEcn}d)"
+			]
+		},
+		"flowLabel;Flow Label": "0x%{}04X (%{}d)",
+		"payloadLength;Total Length": "%{payloadLength}d",
+		"nextHeader;Next Header": "%{:IP_TYPE}s (0x04%{}x)",
+		"hopLimit;Hop Limit": "%{}d",
+		"src;Source Address": "%{:F}s",
+		"dst;Destination Address": "%{:F}s"
+	},
+	"MEDIUM": {
+		"payloadLength;Payload Length": "%{payloadLength}d",
+		"nextHeader;Next Header": "%{:IP_TYPE}s (0x04%{}x)",
+		"src;Source Address": "%{:F}s",
+		"dst;Destination Address": "%{:F}s"
+	},
+	"LOW": {
+		"nextHeader;Next Header": "%{:IP_TYPE}s (0x04%{}x)",
+		"src;Source Address": "%{:F}s",
+		"dst;Destination Address": "%{:F}s"
+	}
+}

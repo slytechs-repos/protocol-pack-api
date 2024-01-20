@@ -1,0 +1,6 @@
+{
+	"TCP:WS;200": "Window Scale Option (bitshift)",
+	"HIGH,MEDIUM,LOW": {
+		"shiftCount;Window scale": "%{}d (multiply by %{multiplier}d)"
+	}
+}

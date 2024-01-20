@@ -2,19 +2,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.slytechs.jnet</groupId>
-	<artifactId>core-protocols</artifactId>
-	<version>0.9</version>
-	<name>Core Protocol Pack</name>
-	<description>Protocol and runtime support for common protocols</description>
-	<url>https://www.slytechs.com</url>
-	<properties>
-		<jdk.version>19</jdk.version>
-		<java.encoding>UTF-8</java.encoding>
-		<project.build.sourceEncoding>${java.encoding}</project.build.sourceEncoding>
-		<maven.compiler.source>${jdk.version}</maven.compiler.source>
-		<maven.compiler.target>${jdk.version}</maven.compiler.target>
-	</properties>
+	<parent>
+		<groupId>com.slytechs.jnet.protocol</groupId>
+		<artifactId>protocol-pack-sdk-parent</artifactId>
+		<version>0.10.0</version>
+	</parent>
+	<artifactId>protocol-pack-api</artifactId>
+	<name>Protocol Pack API</name>
+	<description>Core prototocols and API for all protocol packs</description>
 
 	<build>
 		<resources>
@@ -25,125 +20,5 @@
 				</excludes>
 			</resource>
 		</resources>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.11.0</version>
-					<configuration>
-						<source>${jdk.version}</source>
-						<target>${jdk.version}</target>
-						<release>${jdk.version}</release>
-						<compilerArgs>
-							<arg>--enable-preview</arg>
-						</compilerArgs>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<version>3.5.0</version>
-					<configuration>
-						<sourcepath>${basedir}/src/main/java</sourcepath>
-						<show>public</show>
-						<additionalJOption>--enable-preview</additionalJOption>
-						<excludePackageNames>
-							*.internal:*.internal.*</excludePackageNames>
-					</configuration>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-surefire-plugin</artifactId>
-					<version>3.0.0-M7</version>
-					<configuration>
-						<skipTests>true</skipTests>
-						<trimStackTrace>true</trimStackTrace>
-						<encoding>${java.encoding}</encoding>
-						<skipAfterFailureCount>1</skipAfterFailureCount>
-						<reuseForks>true</reuseForks>
-						<groups>${groups}</groups>
-						<excludedGroups>${excludeGroups}</excludedGroups>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 	</build>
-
-	<developers>
-		<developer>
-			<id>markb</id>
-			<name>Mark Bednarczyk</name>
-			<email>mark@slytechs.com</email>
-			<organization>Sly Technlogies</organization>
-			<organizationUrl>http://slytechs.com</organizationUrl>
-		</developer>
-	</developers>
-
-	<dependencies>
-		<!--
-		https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
-		<dependency>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-compiler-plugin</artifactId>
-			<version>3.10.1</version>
-		</dependency>
-		<!--
-		https://mvnrepository.com/artifact/org.junit.platform/junit-platform-suite-api -->
-		<dependency>
-			<groupId>org.junit.platform</groupId>
-			<artifactId>junit-platform-suite-api</artifactId>
-			<version>1.9.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.9.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.jnetpcap</groupId>
-			<artifactId>jnetpcap</artifactId>
-			<version>2.0.0-alpha.1</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.json</groupId>
-			<artifactId>javax.json-api</artifactId>
-			<version>1.1.4</version>
-		</dependency>
-	</dependencies>
-
-	<licenses>
-		<license>
-			<name>Sly Technologies Free License</name>
-			<url>http://www.slytechs.com/free-license-text</url>
-		</license>
-	</licenses>
-
-	<organization>
-		<name>Sly Technologies Inc</name>
-		<url>http://slytechs.com</url>
-	</organization>
-
-	<issueManagement>
-		<system>Github Issue Tracking</system>
-		<url>https://github.com/slytechs-repos/core-protocols/issues</url>
-	</issueManagement>
-
-	<scm>
-		<connection>
-			scm:git:git://github.com/slytechs-repos/core-protocols.git</connection>
-		<developerConnection>
-			scm:git:ssh:git://github.com/slytechs-repos/core-protocols.git</developerConnection>
-		<url>https://github.com/slytechs-repos/core-protocols</url>
-	</scm>
-
-	<distributionManagement>
-		<!-- mvn clean site site:stage scm-publish:publish-scm -->
-		<site>
-			<id>github</id>
-			<url>scm:git:git@github.com:slytechs-repos/core-protocols.git</url>
-		</site>
-	</distributionManagement>
 </project>

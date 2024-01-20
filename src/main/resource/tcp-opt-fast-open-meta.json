@@ -1,0 +1,6 @@
+{
+	"TCP:TFO;200": "TCP Fast Open Option",
+	"HIGH,MEDIUM,LOW": {
+		"cookie;Cookie": "%{:F}s"
+	}
+}

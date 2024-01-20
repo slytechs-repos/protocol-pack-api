@@ -1,0 +1,6 @@
+{
+	"IPv4:RA;200": "Router Alert (%{length}d bytes): %{routerAlertDescription}s",
+	"HIGH,MEDIUM,LOW": {
+		"routerAlert;Router Alert": "%{}d - %{routerAlertDescription}s"
+	}
+}

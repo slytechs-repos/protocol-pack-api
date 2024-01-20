@@ -1,0 +1,56 @@
+{
+	"ICMPv6;200": {
+		"HIGH,MEDIA,LOW": "Internet Control Message Protocol Version 6, offset=%{offset}s, length=%{length}s",
+		"DEBUG": [
+			"Internet Control Message Protocol Version 6, offset=%{offset}s, length=%{length}s",
+			" 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|     Type      |     Code      |          Checksum             |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|R|S|O|                     Reserved                            |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|                                                               |",
+			"+                                                               +",
+			"|                                                               |",
+			"+                         Target Address                        +",
+			"|                                                               |",
+			"+                                                               +",
+			"|                                                               |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|  Options ...",
+			"+-+-+-+-+-+-+-+-+-+-+-"
+		],
+		"TRACE": [
+			"Internet Control Message Protocol Version 6, offset=%{offset}s, length=%{length}s",
+			" 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|     $type     |     $code     |          $checksum            |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|$1r|$1s|$1o|                     $57reserved                   |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+",
+			"|                                                               |",
+			"+                                                               +",
+			"|                                                               |",
+			"+                       $targetAddress                          +",
+			"|                                                               |",
+			"+                                                               +",
+			"|                                                               |",
+			"+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
+		]
+	},
+	"TRACE,DEBUG,HIGH": {
+		"flags;Flags": {
+			"0x%{}x %{flagsSet}s": [
+				"%{:$1... .... .... .... .... .... .... ....}s = Router: %{isRouterFlag:[false=Not Set,true=Set]}s",
+				"%{:$.1.. .... .... .... .... .... .... ....}s = Solicited: %{isSolicitedFlag:[false=Not set,true=Set]}s",
+				"%{:$..1. .... .... .... .... .... .... ....}s = Override: %{isOverrideFlag:[false=Not set,true=Set]}s",
+				"%{:$...1 1111 1111 1111 1111 1111 1111 1111}s = Reserved: 0x%{reserved}08X"
+			]
+		},
+		"targetAddress;Target Address": "%{:F}s"
+	},
+	"MEDIUM,LOW": {
+		"flags;Flags":  "0x%{}x %{flagsSet}s",
+		"targetAddress;Target Address": "%{:F}s"	
+	}
+}

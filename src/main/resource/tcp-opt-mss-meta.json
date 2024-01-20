@@ -1,0 +1,6 @@
+{
+	"TCP:MSS;200": "Maximum Segment Size Option",
+	"HIGH,MEDIUM,LOW": {
+		"mss;Max segment size": "%{}d"
+	}
+}

@@ -1,0 +1,6 @@
+{
+	"ICMPv6;300": "",
+	"TRACE,DEBUG,HIGH,MEDIUM,LOW": {
+		"sourceAddress;Source Address": "%{}s"
+	}
+}

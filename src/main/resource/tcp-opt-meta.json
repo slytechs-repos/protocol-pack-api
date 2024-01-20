@@ -1,0 +1,7 @@
+{
+	"TCP::OPT": "Tcp Option",
+	"HIGH,MEDIUM,LOW": {
+		"kind;Kind": "%{}d",
+		"length;Length": "%{}d"
+	}
+}
