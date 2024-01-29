@@ -24,7 +24,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.slytechs.jnet.jnetruntime.util.HexStrings;
-import com.slytechs.jnet.protocol.core.IpAddress;
 
 /**
  * @author Sly Technologies Inc

@@ -29,7 +29,6 @@ import org.junit.jupiter.api.TestInfo;
 
 import com.slytechs.jnet.jnetruntime.util.Detail;
 import com.slytechs.jnet.protocol.HeaderNotFound;
-import com.slytechs.jnet.protocol.core.Ethernet;
 import com.slytechs.jnet.protocol.core.constants.CoreConstants;
 import com.slytechs.jnet.protocol.core.constants.CoreId;
 import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;

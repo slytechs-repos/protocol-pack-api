@@ -42,9 +42,6 @@ import com.slytechs.jnet.protocol.core.Ip6FragmentExtension;
 import com.slytechs.jnet.protocol.core.constants.CoreConstants;
 import com.slytechs.jnet.protocol.core.constants.L2FrameType;
 import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
-import com.slytechs.jnet.protocol.descriptor.PacketDissector;
-import com.slytechs.jnet.protocol.descriptor.Type1Descriptor;
-import com.slytechs.jnet.protocol.descriptor.Type1DissectorJavaImpl;
 import com.slytechs.test.Tests;
 
 /**

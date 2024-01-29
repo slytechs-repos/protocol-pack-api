@@ -28,8 +28,6 @@ import org.junit.jupiter.api.Test;
 
 import com.slytechs.jnet.jnetruntime.util.HexStrings;
 import com.slytechs.jnet.protocol.HeaderNotFound;
-import com.slytechs.jnet.protocol.core.DiffServ;
-import com.slytechs.jnet.protocol.core.Ip6;
 import com.slytechs.jnet.protocol.core.constants.CoreConstants;
 import com.slytechs.jnet.protocol.core.constants.CoreId;
 import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;

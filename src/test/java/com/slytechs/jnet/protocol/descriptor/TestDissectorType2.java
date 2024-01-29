@@ -45,9 +45,6 @@ import com.slytechs.jnet.protocol.core.constants.HashType;
 import com.slytechs.jnet.protocol.core.constants.Ip4IdOptions;
 import com.slytechs.jnet.protocol.core.constants.L2FrameType;
 import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
-import com.slytechs.jnet.protocol.descriptor.PacketDissector;
-import com.slytechs.jnet.protocol.descriptor.Type2Descriptor;
-import com.slytechs.jnet.protocol.descriptor.Type2DissectorJavaImpl;
 import com.slytechs.test.Tests;
 
 /**

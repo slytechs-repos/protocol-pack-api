@@ -28,7 +28,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.slytechs.jnet.protocol.core.constants.CoreConstants;
-import com.slytechs.jnet.protocol.descriptor.Type1DescriptorLayout;
 
 /**
  * @author Sly Technologies Inc
