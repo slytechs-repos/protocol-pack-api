@@ -241,7 +241,7 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 
 		return dst;
 	}
-	
+
 	private final static String VAR_CENTER_CHAR = "-";
 
 	/**
@@ -355,39 +355,43 @@ public abstract class MetaFormat extends Format implements MetaDomain {
 	@SuppressWarnings("unchecked")
 	private <T> T readValue(MetaField selected, String fieldName) {
 
-		Matcher matcher = RANGE_PATTERN.matcher(fieldName);
+		try {
+			Matcher matcher = RANGE_PATTERN.matcher(fieldName);
 
-		if (matcher.find()) {
-			int index = Integer.parseInt(matcher.group(2));
-			int len = 1;
+			if (matcher.find()) {
+				int index = Integer.parseInt(matcher.group(2));
+				int len = 1;
 
-			if (matcher.group(4) != null) {
-				len = Integer.parseInt(matcher.group(4));
+				if (matcher.group(4) != null) {
+					len = Integer.parseInt(matcher.group(4));
 
-			} else if (matcher.group(5) != null) {
-				String type = null;
+				} else if (matcher.group(5) != null) {
+					String type = null;
 
-				return (T) switch (type) {
-				case "byte" -> selected.readNumberFromHeader(byte.class, index);
-				case "short" -> selected.readNumberFromHeader(short.class, index);
-				case "int" -> selected.readNumberFromHeader(int.class, index);
-				case "long" -> selected.readNumberFromHeader(long.class, index);
+					return (T) switch (type) {
+					case "byte" -> selected.readNumberFromHeader(byte.class, index);
+					case "short" -> selected.readNumberFromHeader(short.class, index);
+					case "int" -> selected.readNumberFromHeader(int.class, index);
+					case "long" -> selected.readNumberFromHeader(long.class, index);
+
+					default -> selected.get();
+					};
+				}
+
+				return (T) switch (len) {
+				case 1 -> selected.readNumberFromHeader(byte.class, index);
+				case 2 -> selected.readNumberFromHeader(short.class, index);
+				case 4 -> selected.readNumberFromHeader(int.class, index);
+				case 8 -> selected.readNumberFromHeader(long.class, index);
 
 				default -> selected.get();
 				};
 			}
 
-			return (T) switch (len) {
-			case 1 -> selected.readNumberFromHeader(byte.class, index);
-			case 2 -> selected.readNumberFromHeader(short.class, index);
-			case 4 -> selected.readNumberFromHeader(int.class, index);
-			case 8 -> selected.readNumberFromHeader(long.class, index);
-
-			default -> selected.get();
-			};
+			return selected.get();
+		} catch (IllegalArgumentException | Error  e2) {
+			throw e2;
 		}
-
-		return selected.get();
 	}
 
 	private String formatBitsValue(Number num, String bitsFormat, String bitsOffChar) {
