@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
 import com.slytechs.jnet.jnetruntime.internal.Benchmark;
+import com.slytechs.jnet.jnetruntime.test.Tests;
 import com.slytechs.jnet.jnetruntime.util.Detail;
 import com.slytechs.jnet.jnetruntime.util.HexStrings;
 import com.slytechs.jnet.protocol.Packet;
@@ -42,7 +43,6 @@ import com.slytechs.jnet.protocol.core.Ip6FragmentExtension;
 import com.slytechs.jnet.protocol.core.constants.CoreConstants;
 import com.slytechs.jnet.protocol.core.constants.L2FrameType;
 import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
-import com.slytechs.test.Tests;
 
 /**
  * @author Sly Technologies Inc
@@ -155,7 +155,7 @@ class TestDissectorType1 {
 
 	@BeforeEach
 	void setUp(TestInfo info) throws Exception {
-		testName = info.getTestMethod().get().getName();
+		testName = info.getTestMethod().inputData().getName();
 		dissector = PacketDissector.javaDissector(PacketDescriptorType.TYPE1);
 
 		if (defaultLevel.intValue() >= displayLevel.intValue())
@@ -218,7 +218,7 @@ class TestDissectorType1 {
 				log("IPv4.protocol=%d examinePacket=%s%n", ip4.protocol(), router4.examinePacket());
 			}
 
-			if (packet.hasHeader(frag6) ) {
+			if (packet.hasHeader(frag6)) {
 				log("IPv6.next=%d%n", ip6.nextHeader());
 			}
 		}

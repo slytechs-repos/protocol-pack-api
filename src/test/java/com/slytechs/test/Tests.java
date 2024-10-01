@@ -24,6 +24,8 @@ import java.util.logging.Logger;
 
 import org.junit.jupiter.api.TestInfo;
 
+import com.slytechs.jnet.jnetruntime.test.Tests;
+
 /**
  * Utility jUnit test methods.
  * 

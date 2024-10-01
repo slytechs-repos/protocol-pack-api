@@ -30,6 +30,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
 import com.slytechs.jnet.jnetruntime.internal.Benchmark;
+import com.slytechs.jnet.jnetruntime.test.Tests;
 import com.slytechs.jnet.jnetruntime.util.Detail;
 import com.slytechs.jnet.jnetruntime.util.HexStrings;
 import com.slytechs.jnet.protocol.Packet;
@@ -45,7 +46,6 @@ import com.slytechs.jnet.protocol.core.constants.HashType;
 import com.slytechs.jnet.protocol.core.constants.Ip4IdOptions;
 import com.slytechs.jnet.protocol.core.constants.L2FrameType;
 import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
-import com.slytechs.test.Tests;
 
 /**
  * @author Sly Technologies Inc
@@ -158,7 +158,7 @@ class TestDissectorType2 {
 
 	@BeforeEach
 	void setUp(TestInfo info) throws Exception {
-		testName = info.getTestMethod().get().getName();
+		testName = info.getTestMethod().inputData().getName();
 		dissector = PacketDissector.javaDissector(PacketDescriptorType.TYPE2);
 
 		if (defaultLevel.intValue() >= displayLevel.intValue())

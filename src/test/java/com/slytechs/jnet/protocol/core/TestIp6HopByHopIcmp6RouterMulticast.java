@@ -27,6 +27,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
+import com.slytechs.jnet.jnetruntime.test.Tests;
 import com.slytechs.jnet.jnetruntime.util.Detail;
 import com.slytechs.jnet.protocol.HeaderNotFound;
 import com.slytechs.jnet.protocol.core.constants.CoreConstants;
@@ -34,7 +35,6 @@ import com.slytechs.jnet.protocol.core.constants.CoreId;
 import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
 import com.slytechs.jnet.protocol.descriptor.PacketDissector;
 import com.slytechs.jnet.protocol.meta.PacketFormat;
-import com.slytechs.test.Tests;
 
 /**
  * @author Sly Technologies Inc

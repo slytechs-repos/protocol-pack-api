@@ -21,7 +21,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.slytechs.test.Tests;
+import com.slytechs.jnet.jnetruntime.test.Tests;
 
 /**
  * @author Sly Technologies Inc

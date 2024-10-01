@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
 
 import com.slytechs.jnet.jnetruntime.NotFound;
 import com.slytechs.jnet.jnetruntime.internal.json.JsonException;
+import com.slytechs.jnet.jnetruntime.test.Tests;
 import com.slytechs.jnet.jnetruntime.util.Detail;
 import com.slytechs.jnet.jnetruntime.util.HexStrings;
 import com.slytechs.jnet.protocol.Packet;
@@ -40,7 +41,6 @@ import com.slytechs.jnet.protocol.core.constants.HashType;
 import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
 import com.slytechs.jnet.protocol.descriptor.PacketDissector;
 import com.slytechs.jnet.protocol.descriptor.Type2Descriptor;
-import com.slytechs.test.Tests;
 
 /**
  * @author Sly Technologies Inc
