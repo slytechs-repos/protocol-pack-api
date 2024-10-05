@@ -20,8 +20,6 @@ package com.slytechs.jnet.protocol.descriptor;
 /**
  * Abstract class for all packet dissectors.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public abstract class AbstractPacketDissector implements PacketDissector {
 

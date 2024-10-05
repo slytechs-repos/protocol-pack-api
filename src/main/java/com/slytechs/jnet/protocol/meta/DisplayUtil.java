@@ -34,8 +34,6 @@ import com.slytechs.jnet.jnetruntime.util.IsDescription;
 /**
  * The Class DisplayUtil.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 final class DisplayUtil {

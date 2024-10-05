@@ -26,8 +26,6 @@ import com.slytechs.jnet.protocol.meta.Meta;
 /**
  * The sub-network access protocol (SNAP).
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 @Meta
 public final class Snap extends Header {

@@ -31,8 +31,6 @@ import com.slytechs.jnet.protocol.meta.Meta.MetaType;
 /**
  * The Class MetaInfo.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public class MetaInfo implements Comparable<MetaInfo>, MetaInfoType {
 

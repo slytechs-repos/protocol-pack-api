@@ -30,8 +30,6 @@ import com.slytechs.jnet.jnetruntime.internal.layout.PredefinedLayout.Int8;
 /**
  * The Enum IpfLayout structure for a IpfDescriptor type.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public enum IpfReassemblyLayout implements BitField.Proxy {

@@ -23,7 +23,6 @@ import java.util.function.IntSupplier;
  * The Enum HashType.
  *
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 public enum HashType implements IntSupplier {
 	

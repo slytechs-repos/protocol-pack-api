@@ -21,7 +21,6 @@ package com.slytechs.jnet.protocol;
  * Defines methods for checking and accessing indexed record headers.
  *
  * @author Sly Technologies
- * @author repos@slytechs.com
  * @param <T> the generic type
  */
 public interface HasIndexedRecord<T extends Header> {

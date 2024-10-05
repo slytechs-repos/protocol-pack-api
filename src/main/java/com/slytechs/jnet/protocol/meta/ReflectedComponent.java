@@ -23,8 +23,6 @@ import java.lang.reflect.Modifier;
 /**
  * The Class ReflectedComponent.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public abstract class ReflectedComponent implements Comparable<ReflectedComponent> {

@@ -52,8 +52,6 @@ package com.slytechs.jnet.protocol.core;
  * contained an invalid IP header field.</li>
  * </ul>
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public interface IcmpMessage {
 

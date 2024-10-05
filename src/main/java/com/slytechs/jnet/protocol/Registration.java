@@ -28,7 +28,6 @@ import java.io.IOException;
  * the previously added listener.
  *
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 public interface Registration {
 

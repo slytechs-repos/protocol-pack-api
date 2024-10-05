@@ -20,8 +20,6 @@ package com.slytechs.jnet.protocol.core.constants;
 /**
  * Various core protocol pack constants.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public final class CoreConstants {
 	/* @formatter:off - Descriptor type2 constants */

@@ -31,8 +31,6 @@ import com.slytechs.jnet.protocol.core.constants.Ip4IdOptions;
  * probing for.
  * </p>
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public final class Ip4MtuProbeOption extends Ip4Option {
 

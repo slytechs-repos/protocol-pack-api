@@ -29,8 +29,6 @@ import com.slytechs.jnet.protocol.pack.PackId;
 /**
  * The Class TestCoreIds.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 class TestCoreIds {
 

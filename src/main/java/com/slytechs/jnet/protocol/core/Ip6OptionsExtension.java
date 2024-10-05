@@ -48,8 +48,6 @@ import com.slytechs.jnet.protocol.meta.Meta.MetaType;
  * <li><i>upper-layer</i> header</li>
  * </ul>
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 @MetaResource("ip6-ext-opt-meta.json")
 public sealed class Ip6OptionsExtension

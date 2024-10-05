@@ -28,8 +28,6 @@ import com.slytechs.jnet.jnetruntime.internal.layout.PredefinedLayout.Padding;
 /**
  * The Enum PcapLayout.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public enum PcapDescriptorLayout implements BitField.Proxy {

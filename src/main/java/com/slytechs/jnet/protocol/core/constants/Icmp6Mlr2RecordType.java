@@ -30,8 +30,6 @@ import com.slytechs.jnet.protocol.pack.ProtocolPackTable;
 /**
  * MLDv2 record type (defined in RFC 3810).
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public enum Icmp6Mlr2RecordType implements IntSupplier, HeaderOptionInfo, PackId {
 	MODE_IS_INCLUDE(1, "MODEIN", Icmp6Mlr2.ModeIncludeRecord::new),

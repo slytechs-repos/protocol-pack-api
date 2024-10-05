@@ -21,7 +21,6 @@ package com.slytechs.jnet.protocol;
  * Defines methods for checking and accessing protocol header options.
  *
  * @author Sly Technologies
- * @author repos@slytechs.com
  * @param <T> the generic type
  */
 public interface HasOption<T extends Header> {

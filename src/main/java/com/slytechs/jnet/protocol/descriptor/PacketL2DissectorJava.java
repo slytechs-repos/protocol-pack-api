@@ -28,8 +28,6 @@ import com.slytechs.jnet.protocol.core.constants.CoreId;
 import com.slytechs.jnet.protocol.core.constants.L2FrameType;
 
 /**
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  *
  */
 public abstract class PacketL2DissectorJava extends AbstractPacketDissector {

@@ -35,8 +35,6 @@ import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
 /**
  * The Class Type1Descriptor.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public class Type1Descriptor extends PacketDescriptor {

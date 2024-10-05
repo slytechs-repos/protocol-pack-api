@@ -31,8 +31,6 @@ import com.slytechs.jnet.protocol.NetAddressType;
  * identify the device on the network.
  * </p>
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public abstract sealed class IpAddress implements NetAddress
 		permits Ip4Address, Ip6Address {

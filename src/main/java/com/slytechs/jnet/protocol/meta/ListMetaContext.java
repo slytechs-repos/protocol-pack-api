@@ -26,8 +26,6 @@ import com.slytechs.jnet.protocol.meta.MetaContext.MetaIndexed;
 /**
  * The Class ListMetaContext.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public class ListMetaContext extends AbstractMetaContext implements MetaIndexed {

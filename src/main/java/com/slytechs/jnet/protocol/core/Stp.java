@@ -26,8 +26,6 @@ import com.slytechs.jnet.protocol.meta.Meta;
 /**
  * The Spanning Tree Protocol (STP).
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 @Meta

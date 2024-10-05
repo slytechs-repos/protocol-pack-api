@@ -36,8 +36,6 @@ import com.slytechs.jnet.protocol.pack.ProtocolPackTable;
 /**
  * The Class Type2Descriptor.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public class Type2Descriptor extends PacketDescriptor {

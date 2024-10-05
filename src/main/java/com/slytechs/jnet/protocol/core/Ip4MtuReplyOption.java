@@ -38,8 +38,6 @@ import com.slytechs.jnet.protocol.core.constants.Ip4IdOptions;
  * the path between the sender and the receiver.
  * </p>
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public final class Ip4MtuReplyOption extends Ip4Option {
 

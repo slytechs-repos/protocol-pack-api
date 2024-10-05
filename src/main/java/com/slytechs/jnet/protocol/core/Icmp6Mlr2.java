@@ -79,8 +79,6 @@ import com.slytechs.jnet.protocol.meta.Meta.MetaType;
  * particular multicast address.
  * </p>
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 @MetaResource("icmp6-mlr2-meta.json")
 public final class Icmp6Mlr2

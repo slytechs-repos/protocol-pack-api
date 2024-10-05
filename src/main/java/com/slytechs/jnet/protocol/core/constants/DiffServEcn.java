@@ -35,8 +35,6 @@ import com.slytechs.jnet.jnetruntime.util.IsDescription;
  * to non-critical services such as web traffic or file transfers.
  * </p>
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public enum DiffServEcn implements IntSupplier, IsDescription, IsAbbr {
 	NOT_ECT(0b00, "Not-ECT", "Not ECN-Capable Transport"),

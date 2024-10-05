@@ -27,8 +27,6 @@ import com.slytechs.jnet.jnetruntime.util.Enums;
 /**
  * TCP flag which act as control bits.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public enum TcpFlag implements IntSupplier {
 

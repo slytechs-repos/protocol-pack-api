@@ -41,8 +41,6 @@ import com.slytechs.jnet.protocol.pack.ProtocolPackTable;
 /**
  * The Class MetaPacket.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public final class MetaPacket

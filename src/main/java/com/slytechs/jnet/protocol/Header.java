@@ -38,7 +38,6 @@ import com.slytechs.jnet.protocol.pack.HasPackId;
  * A "reusable" protocol header that can be bound and unbound to data in memory.
  *
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 @Meta
 public abstract class Header extends MemoryBinding implements DetailedString, ToHexdump, HasPackId {

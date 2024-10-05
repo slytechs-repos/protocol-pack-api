@@ -34,8 +34,6 @@ import com.slytechs.jnet.jnetruntime.util.IsDescription;
  * to non-critical services such as web traffic or file transfers.
  * </p>
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public enum DiffServDscp implements IntSupplier, IsDescription {
 	CS0(0, "Default"),

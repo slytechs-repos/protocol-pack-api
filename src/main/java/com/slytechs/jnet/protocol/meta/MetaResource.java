@@ -26,8 +26,6 @@ import java.lang.annotation.Target;
 /**
  * The Interface MetaResource.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 @Retention(RUNTIME)
 @Target(TYPE)

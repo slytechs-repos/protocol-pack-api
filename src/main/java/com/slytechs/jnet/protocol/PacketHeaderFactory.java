@@ -27,16 +27,12 @@ import com.slytechs.jnet.protocol.pack.ProtocolPackTable;
 /**
  * Packet header implementation.
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 class PackHeaderFactory implements HeaderFactory {
 
 	/**
 	 * Private header supplier
 	 * 
-	 * @author Sly Technologies Inc
-	 * @author repos@slytechs.com
 	 */
 	private interface HeaderSupplier extends Supplier<Header> {
 		HeaderSupplier EMPTY = () -> null;

@@ -20,8 +20,6 @@ package com.slytechs.jnet.protocol.meta;
 /**
  * The Interface LookupField.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public interface LookupField {

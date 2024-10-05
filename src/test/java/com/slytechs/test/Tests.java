@@ -29,8 +29,6 @@ import com.slytechs.jnet.jnetruntime.test.Tests;
 /**
  * Utility jUnit test methods.
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public final class Tests {
 

@@ -30,8 +30,6 @@ import com.slytechs.jnet.protocol.core.IpAddress;
 /**
  * The Enum IpfLayout structure for a IpfDescriptor type.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 enum IpfFragmentLayout implements BitField.Proxy {

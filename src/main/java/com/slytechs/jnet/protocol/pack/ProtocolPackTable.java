@@ -66,8 +66,6 @@ import com.slytechs.jnet.protocol.core.constants.CoreId;
  * {@code ProtocolPack.encode(CoreProtocolPack.IP4_ID, 14, 20)}.
  * </p>
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public enum ProtocolPackTable implements PackId {

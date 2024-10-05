@@ -28,8 +28,6 @@ import com.slytechs.jnet.protocol.descriptor.Type2Descriptor;
 /**
  * A constant table of packet descriptor types supported by jNet modules.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public enum PacketDescriptorType implements DescriptorType<PacketDescriptor> {
 

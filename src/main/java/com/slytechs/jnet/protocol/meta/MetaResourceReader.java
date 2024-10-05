@@ -27,8 +27,6 @@ import com.slytechs.jnet.jnetruntime.internal.json.JsonReader;
 /**
  * The Class MetaResourceReader.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public class MetaResourceReader {

@@ -24,8 +24,6 @@ import com.slytechs.jnet.protocol.descriptor.HeaderDescriptor;
  * Interface which defines specific lookup operations within a descriptor for
  * different protocol headers.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public interface HeaderLookup {

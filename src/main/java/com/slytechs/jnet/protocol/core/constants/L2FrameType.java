@@ -31,7 +31,6 @@ import com.slytechs.jnet.protocol.core.Snap;
  * The Enum L2FrameType.
  *
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 public enum L2FrameType implements HeaderInfo, IntSupplier {
 

@@ -29,8 +29,6 @@ import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
 /**
  * Native dissector implementation.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 class PacketDissectorNative extends AbstractPacketDissector {

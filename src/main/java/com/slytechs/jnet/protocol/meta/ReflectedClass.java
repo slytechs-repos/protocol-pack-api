@@ -36,8 +36,6 @@ import com.slytechs.jnet.jnetruntime.internal.json.JsonObject;
 /**
  * The Class ReflectedClass.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 class ReflectedClass extends ReflectedComponent {

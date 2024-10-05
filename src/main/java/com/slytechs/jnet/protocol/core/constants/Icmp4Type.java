@@ -24,8 +24,6 @@ import com.slytechs.jnet.jnetruntime.util.Enums;
 /**
  * The Enum Icmp4Type.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public enum Icmp4Type implements IntSupplier {
 

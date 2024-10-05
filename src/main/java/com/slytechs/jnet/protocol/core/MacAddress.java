@@ -38,8 +38,6 @@ import com.slytechs.jnet.protocol.core.constants.MacOuiAssignments.OuiEntry;
  * hexadecimal digits, separated by hyphens, colons, or without a separator.
  * </p>
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public class MacAddress implements NetAddress {
 	

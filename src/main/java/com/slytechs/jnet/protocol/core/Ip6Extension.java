@@ -51,8 +51,6 @@ package com.slytechs.jnet.protocol.core;
  * information that is only intended for the destination node.</li>
  * </ul>
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public interface Ip6Extension {
 

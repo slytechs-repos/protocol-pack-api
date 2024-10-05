@@ -34,8 +34,6 @@ import com.slytechs.jnet.protocol.core.constants.IcmpEchoMessageType;
  * messages.
  * </p>
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public interface IcmpEchoMessage {
 

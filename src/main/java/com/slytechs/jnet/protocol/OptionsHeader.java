@@ -26,8 +26,6 @@ import com.slytechs.jnet.protocol.meta.Meta;
 /**
  * A specialized header subclass implemented by all header options.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 @Meta
 public abstract class OptionsHeader

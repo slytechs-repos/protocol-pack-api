@@ -23,7 +23,6 @@ import java.util.function.IntSupplier;
  * Layer 4 frame type.
  * 
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 public enum L4FrameType implements IntSupplier {
 

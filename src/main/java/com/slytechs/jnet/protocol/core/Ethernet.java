@@ -45,7 +45,6 @@ import com.slytechs.jnet.protocol.meta.Meta.MetaType;
  * </p>
  *
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 @MetaResource("ethernet-experimental-meta.json")
 public final class Ethernet extends Header {

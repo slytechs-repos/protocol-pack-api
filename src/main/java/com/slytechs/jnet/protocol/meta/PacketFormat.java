@@ -31,8 +31,6 @@ import com.slytechs.jnet.protocol.Packet;
 /**
  * The Class PacketFormat.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public final class PacketFormat extends MetaFormat {
 

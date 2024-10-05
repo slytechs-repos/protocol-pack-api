@@ -27,8 +27,6 @@ import com.slytechs.jnet.protocol.core.constants.CoreId;
 /**
  * A factory for creating PackHeader objects.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public final class PackHeaderFactory implements HeaderFactory {

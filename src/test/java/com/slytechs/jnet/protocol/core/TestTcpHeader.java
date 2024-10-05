@@ -38,8 +38,6 @@ import com.slytechs.jnet.protocol.meta.PacketFormat;
 /**
  * VLAN header tests
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  *
  */

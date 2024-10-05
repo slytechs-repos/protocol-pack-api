@@ -35,8 +35,6 @@ import java.util.Set;
  * packet.
  * </p>
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public enum Ip4Flag {
 

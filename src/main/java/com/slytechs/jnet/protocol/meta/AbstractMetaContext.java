@@ -22,8 +22,6 @@ import java.util.Objects;
 /**
  * The Class AbstractMetaContext.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public abstract class AbstractMetaContext implements MetaDomain, MetaContext {

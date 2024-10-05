@@ -22,8 +22,6 @@ package com.slytechs.jnet.protocol.pack;
  * pack ID is unique ID across all protocol packs and identifies specific
  * headers and protocol packs.
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public interface HasPackId {
 

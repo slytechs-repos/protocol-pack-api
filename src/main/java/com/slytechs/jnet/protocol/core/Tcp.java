@@ -70,7 +70,6 @@ import com.slytechs.jnet.protocol.meta.Meta.MetaType;
  * </p>
  *
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 @MetaResource("tcp-meta.json")
 public final class Tcp

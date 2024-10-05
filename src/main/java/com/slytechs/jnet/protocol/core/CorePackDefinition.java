@@ -28,8 +28,6 @@ import com.slytechs.jnet.protocol.pack.ProtocolPackTable;
 /**
  * Core protocol pack definition.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public final class CorePackDefinition extends Pack<CoreId> {

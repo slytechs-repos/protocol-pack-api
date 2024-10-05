@@ -28,8 +28,6 @@ import com.slytechs.jnet.protocol.descriptor.Ipfdescriptor;
 /**
  * The Enum IpfDescriptorType.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public enum IpfDescriptorType implements DescriptorType<Ipfdescriptor> {

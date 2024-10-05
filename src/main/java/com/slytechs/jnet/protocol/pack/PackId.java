@@ -73,8 +73,6 @@ import com.slytechs.jnet.protocol.descriptor.CompactDescriptor;
  * For an ID, offset and size fields are both set to 0.
  * </p>
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  *
  */
 public interface PackId {

@@ -28,8 +28,6 @@ import com.slytechs.jnet.protocol.meta.Meta.MetaType;
 /**
  * Base class for all packet descriptors.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public abstract class PacketDescriptor

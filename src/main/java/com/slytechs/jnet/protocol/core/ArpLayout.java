@@ -30,7 +30,6 @@ import com.slytechs.jnet.jnetruntime.internal.layout.PredefinedLayout.Padding;
  * ARP header format layout.
  *
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 enum ArpLayout implements BitField.Proxy {
 

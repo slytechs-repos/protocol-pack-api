@@ -23,8 +23,6 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * The Class ReflectedHeaderSupplier.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 class ReflectedHeaderSupplier implements HeaderSupplier {

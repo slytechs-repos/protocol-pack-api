@@ -55,7 +55,6 @@ import com.slytechs.jnet.protocol.meta.Meta.MetaType;
  * </p>
  * 
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 @MetaResource("ip6-experimental-meta.json")
 public final class Ip6 extends Ip implements DiffServ  {

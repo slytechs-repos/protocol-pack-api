@@ -39,8 +39,6 @@ import com.slytechs.jnet.protocol.core.constants.Ip4IdOptions;
  * supported.
  * </p>
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public final class Ip4TracerouteOption extends Ip4Option {
 

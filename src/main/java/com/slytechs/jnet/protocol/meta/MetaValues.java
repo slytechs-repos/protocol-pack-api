@@ -22,8 +22,6 @@ import com.slytechs.jnet.jnetruntime.util.HexStrings;
 /**
  * The Class MetaValues.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 class MetaValues {

@@ -26,8 +26,6 @@ import com.slytechs.jnet.protocol.descriptor.PacketDissector.RecordRecorder;
 /**
  * Dissector extension point for protocol packs.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public interface PacketDissectorExtension {

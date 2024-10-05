@@ -30,8 +30,6 @@ import org.junit.jupiter.api.Test;
 import com.slytechs.jnet.protocol.core.constants.CoreConstants;
 
 /**
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  *
  */
 class TestType1Layout {

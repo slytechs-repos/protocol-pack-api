@@ -33,8 +33,6 @@ import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
  * descriptor buffer which for the specific descriptor type that was specified
  * at the time the dissector was allocated.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public interface PacketDissector {
 

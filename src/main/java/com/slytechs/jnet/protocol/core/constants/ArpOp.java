@@ -22,8 +22,6 @@ import java.util.function.IntSupplier;
 /**
  * Address Resolution Protocol (ARP) operation field values.
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public enum ArpOp implements IntSupplier {
 

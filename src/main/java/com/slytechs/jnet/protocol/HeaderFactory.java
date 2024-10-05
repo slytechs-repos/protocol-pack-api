@@ -20,8 +20,6 @@ package com.slytechs.jnet.protocol;
 /**
  * A factory for creating Header objects based on numerical IDs.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public interface HeaderFactory {

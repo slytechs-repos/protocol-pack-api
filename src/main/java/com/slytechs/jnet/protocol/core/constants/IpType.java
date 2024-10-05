@@ -24,8 +24,6 @@ import com.slytechs.jnet.jnetruntime.util.Enums;
 /**
  * IEEE Ethernet type field values table.
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  *
  */

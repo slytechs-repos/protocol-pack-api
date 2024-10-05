@@ -27,8 +27,6 @@ import java.lang.annotation.Target;
 /**
  * The Interface Resolvers.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 @Documented

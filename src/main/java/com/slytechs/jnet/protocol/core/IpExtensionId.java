@@ -22,8 +22,6 @@ import com.slytechs.jnet.protocol.HeaderOptionInfo;
 /**
  * IP option ID, information and header factory interface API.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public interface IpExtensionId extends HeaderOptionInfo {
 

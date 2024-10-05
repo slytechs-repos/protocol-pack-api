@@ -30,8 +30,6 @@ import com.slytechs.jnet.protocol.meta.MetaValue.ValueResolver;
  * The ResolversInfo.
  *
  * @param resolvers a list of value resolvers
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public record ResolversInfo(ValueResolver... resolvers) implements MetaInfoType {
 

@@ -22,8 +22,6 @@ import java.lang.reflect.Member;
 /**
  * The Class ReflectedMember.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public abstract class ReflectedMember extends ReflectedComponent {

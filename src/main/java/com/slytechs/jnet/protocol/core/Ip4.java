@@ -58,7 +58,6 @@ import com.slytechs.jnet.protocol.meta.Meta.MetaType;
  * </p>
  * 
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 @MetaResource("ip4-experimental-meta.json")
 public final class Ip4

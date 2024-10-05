@@ -28,8 +28,6 @@ import com.slytechs.jnet.protocol.meta.MetaValue.ValueFormatter;
 /**
  * The Interface Meta.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 @Retention(RUNTIME)
 @Target({ TYPE,

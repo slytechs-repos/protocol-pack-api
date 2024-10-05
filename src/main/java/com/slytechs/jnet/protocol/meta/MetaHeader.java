@@ -35,8 +35,6 @@ import com.slytechs.jnet.protocol.meta.MetaContext.MetaMapped;
 /**
  * The Class MetaHeader.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public final class MetaHeader

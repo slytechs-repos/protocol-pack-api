@@ -28,8 +28,6 @@ import com.slytechs.jnet.jnetruntime.util.Enums;
  * processed. The same field is also used to indicate the size of some Ethernet
  * frames.
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  *
  */

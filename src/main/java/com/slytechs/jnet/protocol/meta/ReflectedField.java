@@ -27,8 +27,6 @@ import com.slytechs.jnet.jnetruntime.internal.json.JsonObject;
 /**
  * The Class ReflectedField.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 class ReflectedField extends ReflectedMember {

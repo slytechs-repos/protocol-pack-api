@@ -47,8 +47,6 @@ package com.slytechs.jnet.protocol.core;
  * PHBs.
  * </p>
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public interface DiffServ {
 

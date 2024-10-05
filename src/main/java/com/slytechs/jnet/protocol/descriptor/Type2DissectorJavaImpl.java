@@ -46,8 +46,6 @@ import com.slytechs.jnet.protocol.pack.PackId;
 /**
  * Descriptor type 2 java based packet dissector.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 class Type2DissectorJavaImpl extends PacketL3DissectorJava implements PacketDissectorExtension {
 

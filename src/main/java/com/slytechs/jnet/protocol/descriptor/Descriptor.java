@@ -28,8 +28,6 @@ import com.slytechs.jnet.jnetruntime.util.Detail;
 /**
  * Common base class for all descriptors.
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public abstract class Descriptor
 		extends MemoryBinding

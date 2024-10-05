@@ -20,8 +20,6 @@ package com.slytechs.jnet.protocol.core.constants;
 import com.slytechs.jnet.protocol.meta.MetaField;
 
 /**
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  *
  */
 public enum Icmp4Code {

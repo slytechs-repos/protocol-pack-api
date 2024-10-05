@@ -24,8 +24,6 @@ import com.slytechs.jnet.protocol.core.constants.IpfDescriptorType;
  * Ip fragmentation descriptor. A fragmentation descriptor provides information
  * about tracking and reassembly of IP fragments.
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public class IpfTracking extends Ipfdescriptor {
 

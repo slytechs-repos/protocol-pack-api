@@ -24,8 +24,6 @@ import com.slytechs.jnet.protocol.meta.MetaResource;
 /**
  * The Internet Control Message Protocol (ICMP) version 6 header.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 @MetaResource("icmp6-meta.json")
 public sealed class Icmp6

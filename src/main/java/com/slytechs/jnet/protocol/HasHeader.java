@@ -21,7 +21,6 @@ package com.slytechs.jnet.protocol;
  * Defines methods for checking and accessing protocol headers.
  *
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 public sealed interface HasHeader permits Packet { 
 

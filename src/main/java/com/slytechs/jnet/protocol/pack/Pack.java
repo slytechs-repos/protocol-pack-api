@@ -38,8 +38,6 @@ import com.slytechs.jnet.protocol.descriptor.PacketDissectorExtension.DissectorE
 /**
  * A protocol pack information and instance.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  * @param <E> the element type
  */

@@ -24,8 +24,6 @@ import com.slytechs.jnet.protocol.meta.MetaResource;
 import com.slytechs.jnet.protocol.meta.Meta.MetaType;
 
 /**
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  *
  */
 @MetaResource("icmp6-option-meta.json")

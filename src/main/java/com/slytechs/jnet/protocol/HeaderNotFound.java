@@ -22,8 +22,6 @@ import com.slytechs.jnet.jnetruntime.NotFound;
 /**
  * Indicates that a requested header was not found or available.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public class HeaderNotFound extends NotFound {

@@ -34,8 +34,6 @@ import com.slytechs.jnet.protocol.pack.ProtocolPackTable;
 /**
  * The ICMPv6 Neighbor Solicitation (NS) message option IDs and types.
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public enum Icmp6IdNsOptions implements HeaderOptionInfo, PackId, IntSupplier {
 

@@ -31,7 +31,6 @@ import com.slytechs.jnet.protocol.meta.Meta.MetaType;
  * Frames are small parts of a message in the network.
  *
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 @MetaResource("frame-meta.json") // in src/main/resource
 public final class Frame extends Header {

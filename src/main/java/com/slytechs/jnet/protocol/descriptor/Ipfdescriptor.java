@@ -20,8 +20,6 @@ package com.slytechs.jnet.protocol.descriptor;
 /**
  * The Class Ipfdescriptor.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public abstract class Ipfdescriptor extends Descriptor {
 

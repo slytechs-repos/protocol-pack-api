@@ -31,7 +31,6 @@ import com.slytechs.jnet.jnetruntime.internal.layout.PredefinedLayout.Int8;
  * The Enum Ip6Layout.
  *
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 enum Ip6Layout implements BitField.Proxy {
 	

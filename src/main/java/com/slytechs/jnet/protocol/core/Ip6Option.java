@@ -23,8 +23,6 @@ import com.slytechs.jnet.protocol.meta.MetaResource;
 import com.slytechs.jnet.protocol.meta.Meta.MetaType;
 
 /**
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 @MetaResource("ip6-option-meta.json")
 public sealed class Ip6Option extends IpOption

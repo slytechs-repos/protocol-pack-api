@@ -28,8 +28,6 @@ import com.slytechs.jnet.protocol.meta.MetaValue.ValueResolver;
 /**
  * The Class MetaField.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public final class MetaField extends MetaElement {

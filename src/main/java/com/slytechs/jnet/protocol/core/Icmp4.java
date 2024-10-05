@@ -71,8 +71,6 @@ import com.slytechs.jnet.protocol.meta.MetaResource;
  * attacks by flooding a network with ICMP packets.</li>
  * </ul>
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 @MetaResource("icmp4-meta.json")
 public sealed class Icmp4 extends Icmp

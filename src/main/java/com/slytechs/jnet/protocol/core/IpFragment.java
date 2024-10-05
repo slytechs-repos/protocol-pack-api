@@ -26,8 +26,6 @@ package com.slytechs.jnet.protocol.core;
  * two different IP header versions.
  * </p>
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public interface IpFragment {
 

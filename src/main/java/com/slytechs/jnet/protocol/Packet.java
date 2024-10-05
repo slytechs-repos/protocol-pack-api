@@ -58,7 +58,6 @@ import com.slytechs.jnet.protocol.pack.PackId;
  * </p>
  *
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 @MetaResource("packet-meta.json")
 public final class Packet

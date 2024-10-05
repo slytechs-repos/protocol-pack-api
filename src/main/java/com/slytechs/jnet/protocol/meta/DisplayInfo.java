@@ -29,8 +29,6 @@ import com.slytechs.jnet.jnetruntime.util.Detail;
  * @param value  display format value
  * @param label  display label
  * @param detail display detail level
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public record DisplayInfo(String value, String label, Detail detail, String[] hide, String[] multiline) implements
 		MetaInfoType {

@@ -43,7 +43,6 @@ import com.slytechs.jnet.protocol.meta.Meta.MetaType;
  * sequencing or avoidance of duplicate delivery is guaranteed.
  *
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 @MetaResource("ip-meta.json")
 public sealed class Ip

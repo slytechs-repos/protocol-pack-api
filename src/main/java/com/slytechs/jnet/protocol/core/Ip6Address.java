@@ -29,8 +29,6 @@ import com.slytechs.jnet.protocol.NetAddressType;
  * long and are represented in hexadecimal format. *
  * </p>
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public final class Ip6Address extends IpAddress {
 

@@ -37,8 +37,6 @@ import com.slytechs.jnet.protocol.descriptor.PacketDissector;
 import com.slytechs.jnet.protocol.meta.PacketFormat;
 
 /**
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  *
  */
 class TestIcmp6Messages {

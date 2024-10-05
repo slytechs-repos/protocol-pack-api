@@ -24,8 +24,6 @@ import com.slytechs.jnet.protocol.core.constants.CoreConstants;
 /**
  * The Class Type1DissectorJavaImpl.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public class Type1DissectorJavaImpl extends PacketL3DissectorJava {
 

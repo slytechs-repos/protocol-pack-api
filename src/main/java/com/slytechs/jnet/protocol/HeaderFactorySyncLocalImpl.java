@@ -24,8 +24,6 @@ import com.slytechs.jnet.protocol.pack.PackId;
 /**
  * The Class HeaderFactorySyncLocalImpl.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 class HeaderFactorySyncLocalImpl implements HeaderFactory {

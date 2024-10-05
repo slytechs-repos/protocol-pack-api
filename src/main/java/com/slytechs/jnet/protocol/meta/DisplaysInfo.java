@@ -34,8 +34,6 @@ import com.slytechs.jnet.jnetruntime.util.Enums;
  * The DisplaysInfo.
  *
  * @param displays a array of displays, one per detail level
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public record DisplaysInfo(DisplayInfo[] displays) implements MetaInfoType {
 

@@ -23,8 +23,6 @@ import com.slytechs.jnet.protocol.HeaderNotFound;
 import com.slytechs.jnet.protocol.meta.Meta;
 
 /**
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  *
  */
 @Meta

@@ -44,8 +44,6 @@ import com.slytechs.jnet.protocol.meta.MetaValue.ValueResolverTuple2;
  * Resolves field values to human readable representations. For example IP
  * addresses are can be resolved to host names, etc..
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  *
  */

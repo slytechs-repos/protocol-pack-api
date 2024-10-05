@@ -34,8 +34,6 @@ import com.slytechs.jnet.jnetruntime.util.Detail;
 /**
  * Base class for all meta object formats.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public abstract class MetaFormat extends Format implements MetaDomain {
 

@@ -25,7 +25,6 @@ import com.slytechs.jnet.protocol.meta.Meta;
  * User Datagram Protocol (UDP).
  *
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 @Meta
 public final class Udp extends Header {

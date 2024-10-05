@@ -29,8 +29,6 @@ import com.slytechs.jnet.protocol.core.constants.L4FrameType;
 /**
  * The Class JavaDissector.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 abstract class PacketL3DissectorJava extends PacketL2DissectorJava {

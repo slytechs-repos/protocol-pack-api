@@ -25,8 +25,6 @@ import com.slytechs.jnet.protocol.meta.MetaValue.ValueResolver;
 /**
  * The Class ResolverInfo.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public class ResolverInfo implements MetaInfoType {

@@ -22,8 +22,6 @@ import com.slytechs.jnet.jnetruntime.util.IsIntBitmask;
 import com.slytechs.jnet.jnetruntime.util.IsIntFlag;
 
 /**
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public enum Icmp6NeighborAdvertisementFlag implements IsIntFlag, IsIntBitmask {
 

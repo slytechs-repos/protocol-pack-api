@@ -35,7 +35,6 @@
  * </dl>
  * 
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 module com.slytechs.jnet.protocol {
 

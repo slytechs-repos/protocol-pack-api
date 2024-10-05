@@ -28,8 +28,6 @@ import com.slytechs.jnet.protocol.NetAddressType;
  * device on the network.
  * </p>
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public final class Ip4Address extends IpAddress {
 

@@ -29,8 +29,6 @@ import com.slytechs.jnet.protocol.meta.MetaResource;
 /**
  * Address Resolution Protocol (ARP) header.
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 @MetaResource("arp-meta.json")
 public final class Arp extends Header {

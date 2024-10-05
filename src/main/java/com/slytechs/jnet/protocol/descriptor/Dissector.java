@@ -22,8 +22,6 @@ import java.nio.ByteBuffer;
 /**
  * The Interface Dissector.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public interface Dissector {
 

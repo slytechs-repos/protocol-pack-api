@@ -29,8 +29,6 @@ import com.slytechs.jnet.jnetruntime.util.Detail;
 /**
  * The Interface Display.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 @Repeatable(Displays.class)
 @Retention(RUNTIME)

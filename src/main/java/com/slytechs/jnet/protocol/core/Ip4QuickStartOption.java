@@ -36,8 +36,6 @@ import com.slytechs.jnet.protocol.core.constants.Ip4IdOptions;
  * routers that will be used to ensure that the Quick Start option is supported.
  * </p>
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public final class Ip4QuickStartOption extends Ip4Option {
 

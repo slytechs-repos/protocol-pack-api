@@ -39,8 +39,6 @@ import com.slytechs.jnet.protocol.meta.Meta.MetaType;
  * formed by appending the FF02::1 suffix to the target address.
  * </p>
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 @MetaResource("icmp6-neighbor-advertisement-meta.json")
 public final class Icmp6NeighborAdvertisement

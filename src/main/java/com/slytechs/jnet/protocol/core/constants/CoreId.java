@@ -62,8 +62,6 @@ import com.slytechs.jnet.protocol.pack.ProtocolPackTable;
  * Core protocol pack. Table of all protocols included in the core protocol
  * pack.
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  *
  */

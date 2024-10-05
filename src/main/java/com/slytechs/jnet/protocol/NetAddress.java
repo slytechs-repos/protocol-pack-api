@@ -21,8 +21,6 @@ package com.slytechs.jnet.protocol;
  * An address interface implemented by all defined core-protocol-pack network
  * addresses.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public interface NetAddress {
 

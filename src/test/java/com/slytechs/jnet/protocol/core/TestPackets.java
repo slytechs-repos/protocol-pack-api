@@ -28,8 +28,6 @@ import com.slytechs.jnet.protocol.meta.PacketFormat;
 /**
  * Various hex packets used in testing.
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  *
  */

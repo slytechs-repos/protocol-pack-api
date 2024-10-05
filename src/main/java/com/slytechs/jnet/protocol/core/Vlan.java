@@ -33,8 +33,6 @@ import com.slytechs.jnet.protocol.meta.Meta;
  * which specifies the VLAN to which the frame belongs.
  * </p>
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author IEEE 802.1Q Frame Format
  */
 @Meta

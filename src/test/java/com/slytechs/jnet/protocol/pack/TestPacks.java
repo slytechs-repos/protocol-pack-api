@@ -24,8 +24,6 @@ import org.junit.jupiter.api.Test;
 import com.slytechs.jnet.jnetruntime.test.Tests;
 
 /**
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  *
  */

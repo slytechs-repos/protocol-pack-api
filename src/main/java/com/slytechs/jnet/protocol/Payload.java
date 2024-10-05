@@ -39,7 +39,6 @@ import com.slytechs.jnet.protocol.meta.MetaResource;
  * </p>
  *
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 @MetaResource("payload-meta.json")
 public sealed class Payload extends Header permits Other {

@@ -29,8 +29,6 @@ import com.slytechs.jnet.protocol.core.constants.L3FrameType;
  * An IP fragment dissector which generates a IpfFragment descriptor for further
  * IPF reassembly and tracking.
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public class IpfFragDissector extends PacketL2DissectorJava {
 

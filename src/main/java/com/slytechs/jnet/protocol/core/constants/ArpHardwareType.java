@@ -22,8 +22,6 @@ import java.util.function.IntSupplier;
 import com.slytechs.jnet.jnetruntime.util.Enums;
 
 /**
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  *
  */
 public enum ArpHardwareType implements IntSupplier {

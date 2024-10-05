@@ -26,8 +26,6 @@ import org.junit.jupiter.api.Test;
 import com.slytechs.jnet.jnetruntime.util.HexStrings;
 
 /**
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  *
  */
 class TestMacAddresses {

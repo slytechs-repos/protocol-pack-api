@@ -29,8 +29,6 @@ import com.slytechs.jnet.jnetruntime.internal.json.JsonObject;
 /**
  * The Class ReflectedMethod.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 class ReflectedMethod extends ReflectedMember {

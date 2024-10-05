@@ -25,8 +25,6 @@ import com.slytechs.jnet.protocol.meta.Meta;
  * identical to {@link Payload} but has more specific nomenclature for "Other"
  * or otherwise undefined, protocol header type.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 @Meta
 public final class Other extends Payload {

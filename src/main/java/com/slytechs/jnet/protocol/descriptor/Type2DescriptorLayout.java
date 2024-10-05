@@ -29,8 +29,6 @@ import com.slytechs.jnet.jnetruntime.internal.layout.PredefinedLayout.Int64;
 /**
  * Type2 struct/layout definition.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 enum Type2DescriptorLayout implements BitField.Proxy {
 

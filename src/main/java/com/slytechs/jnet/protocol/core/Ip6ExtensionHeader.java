@@ -46,8 +46,6 @@ import com.slytechs.jnet.protocol.meta.Meta;
  * <li><i>upper-layer</i> header</li>
  * </ul>
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 @Meta
 public sealed class Ip6ExtensionHeader

@@ -29,7 +29,6 @@ import com.slytechs.jnet.protocol.core.Ip4;
  * Layer3 frame type table, used by common descriptor types.
  * 
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 public enum L3FrameType implements HeaderInfo, IntSupplier {
 	IPv4(CoreId.CORE_ID_IPv4, Ip4::new),

@@ -42,8 +42,6 @@ import com.slytechs.jnet.jnetruntime.internal.layout.PredefinedLayout.Int8;
  * handler, the IP fragment packets are retained.
  * </p>
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  */
 public enum IpfTrackingLayout implements BitField.Proxy {
 

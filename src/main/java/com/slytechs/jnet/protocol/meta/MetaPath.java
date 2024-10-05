@@ -23,8 +23,6 @@ import java.util.Optional;
 /**
  * The Class MetaPath.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public final class MetaPath implements Iterable<String> {

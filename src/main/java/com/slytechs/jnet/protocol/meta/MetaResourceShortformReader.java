@@ -36,8 +36,6 @@ import com.slytechs.jnet.protocol.meta.Resolver.ResolverType;
 /**
  * The Class MetaResourceShortformReader.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 public class MetaResourceShortformReader extends MetaResourceReader {

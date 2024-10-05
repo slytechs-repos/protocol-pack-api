@@ -27,8 +27,6 @@ import com.slytechs.jnet.protocol.pack.ProtocolPackTable;
 /**
  * The Class HeaderFactoryAllocator.
  *
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  */
 class HeaderFactoryAllocator implements HeaderFactory {

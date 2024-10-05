@@ -28,7 +28,6 @@ import com.slytechs.jnet.jnetruntime.internal.layout.PredefinedLayout.Padding;
  * VLAN header format layout.
  *
  * @author Sly Technologies
- * @author repos@slytechs.com
  */
 enum LlcLayout implements BitField.Proxy {
 

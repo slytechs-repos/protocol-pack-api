@@ -35,8 +35,6 @@ import com.slytechs.jnet.protocol.descriptor.PacketDissector;
 /**
  * VLAN header tests
  * 
- * @author Sly Technologies Inc
- * @author repos@slytechs.com
  * @author Mark Bednarczyk
  *
  */
