@@ -30,8 +30,8 @@ import com.slytechs.jnet.jnetruntime.util.ToHexdump;
 import com.slytechs.jnet.protocol.descriptor.HeaderDescriptor;
 import com.slytechs.jnet.protocol.descriptor.PacketDescriptor;
 import com.slytechs.jnet.protocol.meta.Meta;
-import com.slytechs.jnet.protocol.meta.PacketFormat;
 import com.slytechs.jnet.protocol.meta.Meta.MetaType;
+import com.slytechs.jnet.protocol.meta.PacketFormat;
 import com.slytechs.jnet.protocol.pack.HasPackId;
 
 /**
@@ -248,7 +248,7 @@ public abstract class Header extends MemoryBinding implements DetailedString, To
 	 *
 	 * @param formatter the new formatter
 	 */
-	void setFormatter(PacketFormat formatter) {
+	public void setFormatter(PacketFormat formatter) {
 		this.formatter = formatter;
 	}
 

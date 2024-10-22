@@ -44,6 +44,14 @@ module com.slytechs.jnet.protocol {
 	exports com.slytechs.jnet.protocol;
 	exports com.slytechs.jnet.protocol.pack;
 	exports com.slytechs.jnet.protocol.core;
+	exports com.slytechs.jnet.protocol.core.link;
+	exports com.slytechs.jnet.protocol.core.spanning;
+	exports com.slytechs.jnet.protocol.core.network;
+	exports com.slytechs.jnet.protocol.core.transport;
+	exports com.slytechs.jnet.protocol.core.discovery;
+	exports com.slytechs.jnet.protocol.core.routing;
+	exports com.slytechs.jnet.protocol.core.redundancy;
+	exports com.slytechs.jnet.protocol.core.datacenter;
 	exports com.slytechs.jnet.protocol.core.constants;
 	exports com.slytechs.jnet.protocol.descriptor;
 	exports com.slytechs.jnet.protocol.meta;

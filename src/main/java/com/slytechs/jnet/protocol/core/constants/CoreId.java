@@ -34,6 +34,7 @@ import com.slytechs.jnet.protocol.Other;
 import com.slytechs.jnet.protocol.Payload;
 import com.slytechs.jnet.protocol.core.link.Arp;
 import com.slytechs.jnet.protocol.core.link.Ethernet;
+import com.slytechs.jnet.protocol.core.link.Ppp;
 import com.slytechs.jnet.protocol.core.network.Icmp;
 import com.slytechs.jnet.protocol.core.network.Icmp4;
 import com.slytechs.jnet.protocol.core.network.Icmp4Echo;
@@ -118,7 +119,7 @@ public enum CoreId implements HeaderInfo, PackId {
 	GRE,
 
 	/** The ppp. */
-	PPP,
+	PPP(Ppp::new),
 
 	/** The fddi. */
 	FDDI,

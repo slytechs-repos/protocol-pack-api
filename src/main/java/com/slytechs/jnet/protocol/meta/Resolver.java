@@ -37,6 +37,7 @@ import com.slytechs.jnet.protocol.core.constants.Ip6IdOption;
 import com.slytechs.jnet.protocol.core.constants.IpType;
 import com.slytechs.jnet.protocol.core.constants.MacOuiAssignments;
 import com.slytechs.jnet.protocol.core.constants.TcpFlag;
+import com.slytechs.jnet.protocol.core.link.PppProtocol;
 import com.slytechs.jnet.protocol.meta.MetaValue.ValueResolver;
 import com.slytechs.jnet.protocol.meta.MetaValue.ValueResolverTuple2;
 
@@ -53,7 +54,8 @@ import com.slytechs.jnet.protocol.meta.MetaValue.ValueResolverTuple2;
 @Retention(RUNTIME)
 @Target({
 		METHOD,
-		FIELD })
+		FIELD
+})
 public @interface Resolver {
 
 	/**
@@ -129,7 +131,7 @@ public @interface Resolver {
 
 		/** The ICM pv 4 TYPE. */
 		ICMPv4_TYPE(Icmp4Type::resolve),
-		
+
 		/** The ICM pv 6 TYPE. */
 		ICMPv6_TYPE(Icmp6Type::resolve),
 
@@ -147,6 +149,9 @@ public @interface Resolver {
 
 		/** The MLRv2 record type. */
 		MLRv2_TYPE(Icmp6Mlr2RecordType::resolve),
+
+		/** PPP protocol type */
+		PPP_PROTOCOL(PppProtocol::resolveProtocol),
 
 		;
 

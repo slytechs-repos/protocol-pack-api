@@ -31,7 +31,7 @@ import com.slytechs.jnet.protocol.meta.Meta.MetaType;
  * </p>
  */
 @MetaResource("ip4-opt-router-meta.json")
-public final class Ip4tRouterAlertOption extends Ip4Option {
+public final class Ip4RouterAlertOption extends Ip4Option {
 
 	/** The IPv4 Router Alert option ID constant. */
 	public static final int ID = Ip4IdOptions.IPv4_ID_OPT_RTRALT;
@@ -39,7 +39,7 @@ public final class Ip4tRouterAlertOption extends Ip4Option {
 	/**
 	 * Instantiates a new ip 4 opt router.
 	 */
-	public Ip4tRouterAlertOption() {
+	public Ip4RouterAlertOption() {
 		super(ID);
 	}
 
