@@ -22,8 +22,8 @@ import static com.slytechs.jnet.protocol.core.constants.CoreConstants.*;
 import java.nio.ByteBuffer;
 
 import com.slytechs.jnet.jnetruntime.util.Bits;
-import com.slytechs.jnet.protocol.core.IpAddress;
 import com.slytechs.jnet.protocol.core.constants.L3FrameType;
+import com.slytechs.jnet.protocol.core.network.IpAddress;
 
 /**
  * An IP fragment dissector which generates a IpfFragment descriptor for further

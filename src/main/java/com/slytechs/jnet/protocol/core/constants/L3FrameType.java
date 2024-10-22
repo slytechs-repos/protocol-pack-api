@@ -23,7 +23,7 @@ import com.slytechs.jnet.protocol.Header;
 import com.slytechs.jnet.protocol.HeaderInfo;
 import com.slytechs.jnet.protocol.HeaderSupplier;
 import com.slytechs.jnet.protocol.Other;
-import com.slytechs.jnet.protocol.core.Ip4;
+import com.slytechs.jnet.protocol.core.network.Ip4;
 
 /**
  * Layer3 frame type table, used by common descriptor types.

@@ -25,7 +25,7 @@ import com.slytechs.jnet.jnetruntime.internal.layout.BinaryLayout;
 import com.slytechs.jnet.jnetruntime.internal.layout.BitField;
 import com.slytechs.jnet.jnetruntime.internal.layout.PredefinedLayout.Int16;
 import com.slytechs.jnet.jnetruntime.internal.layout.PredefinedLayout.Int8;
-import com.slytechs.jnet.protocol.core.IpAddress;
+import com.slytechs.jnet.protocol.core.network.IpAddress;
 
 /**
  * The Enum IpfLayout structure for a IpfDescriptor type.

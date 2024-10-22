@@ -23,9 +23,9 @@ import com.slytechs.jnet.protocol.Header;
 import com.slytechs.jnet.protocol.HeaderInfo;
 import com.slytechs.jnet.protocol.HeaderSupplier;
 import com.slytechs.jnet.protocol.Other;
-import com.slytechs.jnet.protocol.core.Ethernet;
-import com.slytechs.jnet.protocol.core.Llc;
-import com.slytechs.jnet.protocol.core.Snap;
+import com.slytechs.jnet.protocol.core.link.Ethernet;
+import com.slytechs.jnet.protocol.core.link.Llc;
+import com.slytechs.jnet.protocol.core.link.Snap;
 
 /**
  * The Enum L2FrameType.

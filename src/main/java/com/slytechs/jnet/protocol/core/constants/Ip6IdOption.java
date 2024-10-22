@@ -28,12 +28,12 @@ import com.slytechs.jnet.protocol.Header;
 import com.slytechs.jnet.protocol.HeaderOptionInfo;
 import com.slytechs.jnet.protocol.HeaderSupplier;
 import com.slytechs.jnet.protocol.Other;
-import com.slytechs.jnet.protocol.core.Ip4Option;
-import com.slytechs.jnet.protocol.core.Ip6JumboPayloadOption;
-import com.slytechs.jnet.protocol.core.Ip6Option;
-import com.slytechs.jnet.protocol.core.Ip6Pad1Option;
-import com.slytechs.jnet.protocol.core.Ip6PadnOptioin;
-import com.slytechs.jnet.protocol.core.Ip6RouterAlertOption;
+import com.slytechs.jnet.protocol.core.network.Ip4Option;
+import com.slytechs.jnet.protocol.core.network.Ip6JumboPayloadOption;
+import com.slytechs.jnet.protocol.core.network.Ip6Option;
+import com.slytechs.jnet.protocol.core.network.Ip6Pad1Option;
+import com.slytechs.jnet.protocol.core.network.Ip6PadnOptioin;
+import com.slytechs.jnet.protocol.core.network.Ip6RouterAlertOption;
 import com.slytechs.jnet.protocol.pack.PackId;
 import com.slytechs.jnet.protocol.pack.ProtocolPackTable;
 
@@ -178,7 +178,7 @@ public enum Ip6IdOption implements HeaderOptionInfo, PackId, IntSupplier {
 	 * Gets the extension abbr.
 	 *
 	 * @return the extension abbr
-	 * @see com.slytechs.jnet.protocol.core.IpExtensionId#getOptionAbbr()
+	 * @see com.slytechs.jnet.protocol.core.network.IpExtensionId#getOptionAbbr()
 	 */
 	@Override
 	public String getOptionAbbr() {
@@ -189,7 +189,7 @@ public enum Ip6IdOption implements HeaderOptionInfo, PackId, IntSupplier {
 	 * Gets the header id.
 	 *
 	 * @return the header id
-	 * @see com.slytechs.jnet.protocol.core.IpExtensionId#id()
+	 * @see com.slytechs.jnet.protocol.core.network.IpExtensionId#id()
 	 */
 	@Override
 	public int id() {

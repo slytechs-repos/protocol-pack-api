@@ -22,15 +22,15 @@ import static com.slytechs.jnet.protocol.pack.ProtocolPackTable.*;
 import com.slytechs.jnet.protocol.Header;
 import com.slytechs.jnet.protocol.HeaderOptionInfo;
 import com.slytechs.jnet.protocol.HeaderSupplier;
-import com.slytechs.jnet.protocol.core.TcpEolOption;
-import com.slytechs.jnet.protocol.core.TcpFastOpenOption;
-import com.slytechs.jnet.protocol.core.TcpMssOption;
-import com.slytechs.jnet.protocol.core.TcpNopOption;
-import com.slytechs.jnet.protocol.core.TcpOption;
-import com.slytechs.jnet.protocol.core.TcpSackOption;
-import com.slytechs.jnet.protocol.core.TcpSackPermittedOption;
-import com.slytechs.jnet.protocol.core.TcpTimestampOption;
-import com.slytechs.jnet.protocol.core.TcpWindowScaleOption;
+import com.slytechs.jnet.protocol.core.transport.TcpEolOption;
+import com.slytechs.jnet.protocol.core.transport.TcpFastOpenOption;
+import com.slytechs.jnet.protocol.core.transport.TcpMssOption;
+import com.slytechs.jnet.protocol.core.transport.TcpNopOption;
+import com.slytechs.jnet.protocol.core.transport.TcpOption;
+import com.slytechs.jnet.protocol.core.transport.TcpSackOption;
+import com.slytechs.jnet.protocol.core.transport.TcpSackPermittedOption;
+import com.slytechs.jnet.protocol.core.transport.TcpTimestampOption;
+import com.slytechs.jnet.protocol.core.transport.TcpWindowScaleOption;
 import com.slytechs.jnet.protocol.pack.PackId;
 import com.slytechs.jnet.protocol.pack.ProtocolPackTable;
 
@@ -163,7 +163,7 @@ public enum TcpOptionId implements HeaderOptionInfo, PackId {
 	 * Gets the parent header id.
 	 *
 	 * @return the parent header id
-	 * @see com.slytechs.jnet.protocol.core.IpExtensionId#getParentHeaderId()
+	 * @see com.slytechs.jnet.protocol.core.network.IpExtensionId#getParentHeaderId()
 	 */
 	@Override
 	public int getParentHeaderId() {
@@ -174,7 +174,7 @@ public enum TcpOptionId implements HeaderOptionInfo, PackId {
 	 * Gets the extension abbr.
 	 *
 	 * @return the extension abbr
-	 * @see com.slytechs.jnet.protocol.core.IpExtensionId#getOptionAbbr()
+	 * @see com.slytechs.jnet.protocol.core.network.IpExtensionId#getOptionAbbr()
 	 */
 	@Override
 	public String getOptionAbbr() {

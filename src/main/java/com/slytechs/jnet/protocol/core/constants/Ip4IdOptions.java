@@ -28,14 +28,14 @@ import com.slytechs.jnet.protocol.Header;
 import com.slytechs.jnet.protocol.HeaderOptionInfo;
 import com.slytechs.jnet.protocol.HeaderSupplier;
 import com.slytechs.jnet.protocol.Other;
-import com.slytechs.jnet.protocol.core.Ip4MtuProbeOption;
-import com.slytechs.jnet.protocol.core.Ip4MtuReplyOption;
-import com.slytechs.jnet.protocol.core.Ip4Option;
-import com.slytechs.jnet.protocol.core.Ip4QuickStartOption;
-import com.slytechs.jnet.protocol.core.Ip4RecordRouteOption;
-import com.slytechs.jnet.protocol.core.Ip4SecurityDefunctOption;
-import com.slytechs.jnet.protocol.core.Ip4TimestampOption;
-import com.slytechs.jnet.protocol.core.Ip4tRouterAlertOption;
+import com.slytechs.jnet.protocol.core.network.Ip4MtuProbeOption;
+import com.slytechs.jnet.protocol.core.network.Ip4MtuReplyOption;
+import com.slytechs.jnet.protocol.core.network.Ip4Option;
+import com.slytechs.jnet.protocol.core.network.Ip4QuickStartOption;
+import com.slytechs.jnet.protocol.core.network.Ip4RecordRouteOption;
+import com.slytechs.jnet.protocol.core.network.Ip4SecurityDefunctOption;
+import com.slytechs.jnet.protocol.core.network.Ip4TimestampOption;
+import com.slytechs.jnet.protocol.core.network.Ip4tRouterAlertOption;
 import com.slytechs.jnet.protocol.pack.PackId;
 import com.slytechs.jnet.protocol.pack.ProtocolPackTable;
 
@@ -390,7 +390,7 @@ public enum Ip4IdOptions implements HeaderOptionInfo, PackId, IntSupplier {
 	 * Gets the extension abbr.
 	 *
 	 * @return the extension abbr
-	 * @see com.slytechs.jnet.protocol.core.IpExtensionId#getOptionAbbr()
+	 * @see com.slytechs.jnet.protocol.core.network.IpExtensionId#getOptionAbbr()
 	 */
 	@Override
 	public String getOptionAbbr() {
@@ -401,7 +401,7 @@ public enum Ip4IdOptions implements HeaderOptionInfo, PackId, IntSupplier {
 	 * Gets the header id.
 	 *
 	 * @return the header id
-	 * @see com.slytechs.jnet.protocol.core.IpExtensionId#id()
+	 * @see com.slytechs.jnet.protocol.core.network.IpExtensionId#id()
 	 */
 	@Override
 	public int id() {

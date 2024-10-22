@@ -28,8 +28,6 @@ import java.util.function.IntConsumer;
 import com.slytechs.jnet.jnetruntime.util.Bits;
 import com.slytechs.jnet.jnetruntime.util.Enums;
 import com.slytechs.jnet.protocol.HeaderOptionInfo;
-import com.slytechs.jnet.protocol.core.Icmp6NeighborAdvertisement;
-import com.slytechs.jnet.protocol.core.Icmp6NeighborSolicitation;
 import com.slytechs.jnet.protocol.core.constants.CoreConstants;
 import com.slytechs.jnet.protocol.core.constants.CoreId;
 import com.slytechs.jnet.protocol.core.constants.Icmp6IdNsOptions;
@@ -40,6 +38,8 @@ import com.slytechs.jnet.protocol.core.constants.Ip6IdOption;
 import com.slytechs.jnet.protocol.core.constants.L2FrameType;
 import com.slytechs.jnet.protocol.core.constants.PacketDescriptorType;
 import com.slytechs.jnet.protocol.core.constants.TcpOptionId;
+import com.slytechs.jnet.protocol.core.network.Icmp6NeighborAdvertisement;
+import com.slytechs.jnet.protocol.core.network.Icmp6NeighborSolicitation;
 import com.slytechs.jnet.protocol.pack.Pack;
 import com.slytechs.jnet.protocol.pack.PackId;
 

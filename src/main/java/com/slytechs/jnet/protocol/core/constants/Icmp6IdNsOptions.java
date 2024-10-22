@@ -26,8 +26,8 @@ import java.util.function.IntSupplier;
 import com.slytechs.jnet.protocol.Header;
 import com.slytechs.jnet.protocol.HeaderOptionInfo;
 import com.slytechs.jnet.protocol.HeaderSupplier;
-import com.slytechs.jnet.protocol.core.Icmp6Option;
-import com.slytechs.jnet.protocol.core.Icmp6Option.SourceLinkAddress;
+import com.slytechs.jnet.protocol.core.network.Icmp6Option;
+import com.slytechs.jnet.protocol.core.network.Icmp6Option.SourceLinkAddress;
 import com.slytechs.jnet.protocol.pack.PackId;
 import com.slytechs.jnet.protocol.pack.ProtocolPackTable;
 
