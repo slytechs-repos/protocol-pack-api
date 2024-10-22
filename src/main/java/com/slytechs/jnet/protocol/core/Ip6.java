@@ -21,8 +21,8 @@ import com.slytechs.jnet.protocol.core.constants.CoreId;
 import com.slytechs.jnet.protocol.core.constants.DiffServDscp;
 import com.slytechs.jnet.protocol.core.constants.DiffServEcn;
 import com.slytechs.jnet.protocol.meta.Meta;
-import com.slytechs.jnet.protocol.meta.MetaResource;
 import com.slytechs.jnet.protocol.meta.Meta.MetaType;
+import com.slytechs.jnet.protocol.meta.MetaResource;
 
 /**
  * Internet Protocol Version 6 (IPv6).

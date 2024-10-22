@@ -96,6 +96,15 @@ public enum ProtocolPackTable implements PackId {
 
 	/** The aaa. */
 	AAA("authentication"),
+	
+	IOT("IoT"),
+	
+	VOIP("VoIP"),
+	
+	TELCO_3G("3G"),
+	
+	IM("Realtime IM")
+	
 
 	;
 

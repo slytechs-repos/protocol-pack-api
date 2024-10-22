@@ -35,7 +35,7 @@ import com.slytechs.jnet.protocol.core.Ip4QuickStartOption;
 import com.slytechs.jnet.protocol.core.Ip4RecordRouteOption;
 import com.slytechs.jnet.protocol.core.Ip4SecurityDefunctOption;
 import com.slytechs.jnet.protocol.core.Ip4TimestampOption;
-import com.slytechs.jnet.protocol.core.Ip4tRouterAlertOption;
+import com.slytechs.jnet.protocol.core.Ip4RouterAlertOption;
 import com.slytechs.jnet.protocol.pack.PackId;
 import com.slytechs.jnet.protocol.pack.ProtocolPackTable;
 
@@ -150,7 +150,7 @@ public enum Ip4IdOptions implements HeaderOptionInfo, PackId, IntSupplier {
 	ADDRESS_EXTENSION(0x93, "E-ADDR"),
 
 	/** The router alert. */
-	ROUTER_ALERT(0x94, "RTR_ALT", Ip4tRouterAlertOption::new),
+	ROUTER_ALERT(0x94, "RTR_ALT", Ip4RouterAlertOption::new),
 
 	/** The selective directed broadcast. */
 	SELECTIVE_DIRECTED_BROADCAST(0x95, "SBD"),

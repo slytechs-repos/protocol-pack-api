@@ -40,7 +40,7 @@ public final class PackHeaderFactory implements HeaderFactory {
 		private static final LazySupplier EMPTY = new LazySupplier(null) {
 
 			/**
-			 * @see com.slytechs.protocol.pack.jnet.protocol.packet.PackHeaderFactory.LazySupplier#inputData()
+			 * @see com.slytechs.protocol.pack.jnet.protocol.packet.PackHeaderFactory.LazySupplier#data()
 			 */
 			@Override
 			Header get() {

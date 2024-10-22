@@ -342,13 +342,13 @@ public final class Ip4
 	 * @return the int
 	 */
 	@Meta(abbr = "off")
-	public int fragOffset() {
+	public int fragmentOffset() {
 		return Ip4Struct.FRAG_OFFSET.getInt(buffer());
 	}
 
 	@Meta(value = MetaType.ATTRIBUTE, abbr = "offBytes")
 	public int fragOffsetBytes() {
-		return fragOffset() << 3;
+		return fragmentOffset() << 3;
 	}
 
 	/**
@@ -430,7 +430,7 @@ public final class Ip4
 	 */
 	@Override
 	public int payloadLength() {
-		return totalLength() - hdrLenBytes();
+		return length() - hdrLenBytes();
 	}
 
 	/**
@@ -527,7 +527,7 @@ public final class Ip4
 	 * @return the int
 	 */
 	@Meta(abbr = "len")
-	public int totalLength() {
+	public int length() {
 		return Ip4Struct.TOTAL_LENGTH.getUnsignedShort(buffer());
 	}
 
